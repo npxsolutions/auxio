@@ -1,0 +1,5 @@
+[phases.build]
+cmds = []
+
+[start]
+cmd = "cd Railway && npx ts-node workers/nightlyWorker.ts"
