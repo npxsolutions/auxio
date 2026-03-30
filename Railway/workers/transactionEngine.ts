@@ -762,12 +762,12 @@ export class ValueMultiplier {
       .eq('id', userId)
       .single()
 
-    const subscriptionCost: Record<string, number> = {
+    const subscriptionCost = ({
       starter: 79.99,
       growth: 199,
       scale: 599,
       enterprise: 1500,
-    } as Record<string, number>)[(userData?.plan as string) || 'growth'] || 199
+    } as Record<string, number>)[(user?.plan as string) || 'growth'] || 199
 
     const leverageRatio = totalValueCreated / subscriptionCost
 
