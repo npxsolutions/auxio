@@ -767,7 +767,7 @@ export class ValueMultiplier {
       growth: 199,
       scale: 599,
       enterprise: 1500,
-    }[user?.plan || 'growth'] || 199
+    } as Record<string, number>)[(userData?.plan as string) || 'growth'] || 199
 
     const leverageRatio = totalValueCreated / subscriptionCost
 
@@ -1360,3 +1360,4 @@ export interface AgentRunResult {
   estimatedMonthlyImpact: number
   runAt: string
 }
+
