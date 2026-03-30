@@ -199,7 +199,7 @@ export default function DashboardPage() {
             <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '7px 8px', borderRadius: '5px', cursor: 'pointer', color: '#787774', fontSize: '13px', fontWeight: 500, marginBottom: '1px' }}>
               <span style={{ fontSize: '15px', width: '20px', textAlign: 'center' }}>{item.icon}</span>
               <span style={{ flex: 1 }}>{item.label}</span>
-              {(item.badge ?? 0) > 0 && <span style={{ background: '#c9372c', color: 'white', fontSize: '10px', fontWeight: 600, padding: '1px 5px', borderRadius: '8px' }}>{item.badge}</span>}
+              {item.badge > 0 && <span style={{ background: '#c9372c', color: 'white', fontSize: '10px', fontWeight: 600, padding: '1px 5px', borderRadius: '8px' }}>{item.badge}</span>}
             </div>
           ))}
         </nav>
