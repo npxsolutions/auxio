@@ -452,7 +452,7 @@ export class TransactionIntelligenceEngine {
 
       if (pricePoints.length >= 2) {
         // Simple elasticity calculation
-        const sorted = pricePoints.sort((a: number, b: number) => a - b)
+        const sorted = pricePoints.map((p: any) => Number(p)).sort((a: number, b: number) => a - b)
         const lowPriceVelocity = txs.filter((t: any) => t.sale_price === sorted[0]).length
         const highPriceVelocity = txs.filter((t: any) => t.sale_price === sorted[sorted.length - 1]).length
         const priceChange = (sorted[sorted.length - 1] - sorted[0]) / sorted[0]
