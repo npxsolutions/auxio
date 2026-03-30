@@ -443,7 +443,7 @@ export class TransactionIntelligenceEngine {
         ? competitorPrices.reduce((s: number, p: number) => s + p, 0) / competitorPrices.length
         : currentPrice
       const lowestCompetitorPrice = competitorPrices.length ? Math.min(...competitorPrices) : currentPrice
-      const pricePosition = currentPrice <= lowestCompetitorPrice ? 'lowest' :
+      const pricePosition: 'lowest' | 'competitive' | 'premium' = currentPrice <= lowestCompetitorPrice ? 'lowest' :
         currentPrice <= avgCompetitorPrice ? 'competitive' : 'premium'
 
       // Price elasticity: did price changes affect sales velocity?
