@@ -1,0 +1,1 @@
+{"name":"auxio-workers","version":"1.0.0","scripts":{"build":"echo No build needed","start":"npx ts-node workers/nightlyWorker.ts"},"dependencies":{"@anthropic-ai/sdk":"^0.20.0","@supabase/supabase-js":"^2.39.0","ts-node":"^10.9.2","typescript":"^5.3.3","@types/node":"^20.11.0"}}

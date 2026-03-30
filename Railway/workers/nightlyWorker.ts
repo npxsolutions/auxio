@@ -19,7 +19,7 @@ import {
   ClaudeIntelligenceLayer,
   AuxioAgent,
   captureTransaction,
-} from './transactionEngine'
+} from '../../lib/intelligence/transactionEngine'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

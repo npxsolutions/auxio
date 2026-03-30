@@ -1,0 +1,5 @@
+app/
+lib/
+public/
+.next/
+node_modules/
