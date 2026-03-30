@@ -762,7 +762,7 @@ export class ValueMultiplier {
       .eq('id', userId)
       .single()
 
-    const subscriptionCost = {
+    const subscriptionCost: Record<string, number> = {
       starter: 79.99,
       growth: 199,
       scale: 599,
