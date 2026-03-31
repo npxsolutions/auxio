@@ -5,7 +5,7 @@ import Stripe from 'stripe'
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 
 // Service-role client — webhooks run outside user session
-const supabase = createClient(
+const getSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         const plan    = session.metadata?.plan
         if (!userId) break
 
-        await supabase.from('users').upsert({
+        await getSupabase().from('users').upsert({
           id: userId,
           plan,
           stripe_customer_id: session.customer as string,
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
         const priceId = sub.items.data[0]?.price.id
         const plan    = PLAN_BY_PRICE[priceId] || 'growth'
 
-        await supabase.from('users').upsert({
+        await getSupabase().from('users').upsert({
           id: userId,
           plan,
           subscription_status: sub.status,
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
         const userId = sub.metadata?.supabase_user_id
         if (!userId) break
 
-        await supabase.from('users').upsert({
+        await getSupabase().from('users').upsert({
           id: userId,
           plan: 'free',
           subscription_status: 'cancelled',
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
           : subRef as Stripe.Subscription | null
         const userId = sub?.metadata?.supabase_user_id
         if (userId) {
-          await supabase.from('users').upsert({
+          await getSupabase().from('users').upsert({
             id: userId,
             subscription_status: 'past_due',
             updated_at: new Date().toISOString(),
