@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 
 const PRICE_IDS: Record<string, string> = {
   starter:    process.env.STRIPE_PRICE_STARTER    || '',
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     let customerId = userData?.stripe_customer_id as string | undefined
 
     if (!customerId) {
-      const customer = await stripe.customers.create({
+      const customer = await getStripe().customers.create({
         email: user.email,
         metadata: { supabase_user_id: user.id },
       })
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
       payment_method_types: ['card'],

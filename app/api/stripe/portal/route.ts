@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 
 export async function POST(request: Request) {
   try {
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
 
-    const session = await stripe.billingPortal.sessions.create({
+    const session = await getStripe().billingPortal.sessions.create({
       customer: userData.stripe_customer_id,
       return_url: `${origin}/billing`,
     })

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '../../lib/supabase-server'
 import Anthropic from '@anthropic-ai/sdk'
 
-const anthropic = new Anthropic({
+const getAnthropic = () => new Anthropic({
   apiKey: process.env.NEXT_ANTHROPIC_API_KEY!
 })
 
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
     }
 
     // Generate agent summary with Claude
-    const summary = await anthropic.messages.create({
+    const summary = await getAnthropic().messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 300,
       messages: [{

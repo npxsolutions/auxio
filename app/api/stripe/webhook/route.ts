@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 
 // Service-role client — webhooks run outside user session
 const supabase = createClient(
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (err: any) {
     console.error('Webhook signature failed:', err.message)
     return NextResponse.json({ error: `Webhook error: ${err.message}` }, { status: 400 })
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
         const invoice = event.data.object as Stripe.Invoice
         const subRef = invoice.parent?.subscription_details?.subscription
         const sub = typeof subRef === 'string'
-          ? await stripe.subscriptions.retrieve(subRef)
+          ? await getStripe().subscriptions.retrieve(subRef)
           : subRef as Stripe.Subscription | null
         const userId = sub?.metadata?.supabase_user_id
         if (userId) {
