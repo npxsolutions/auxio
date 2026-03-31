@@ -24,8 +24,8 @@ const CHANNEL_META: Record<string, { icon: string; color: string; name: string }
 
 const AVAILABLE_CHANNELS = [
   { id: 'shopify', oauth: true },
-  { id: 'amazon',  oauth: false },
-  { id: 'ebay',    oauth: false },
+  { id: 'amazon',  oauth: true },
+  { id: 'ebay',    oauth: true },
 ]
 
 export default function ChannelsPage() {
@@ -35,11 +35,6 @@ export default function ChannelsPage() {
   const [syncing, setSyncing] = useState<string | null>(null)
   const [adding, setAdding] = useState<string | null>(null)
   const [shopDomain, setShopDomain] = useState('')
-  const [amazonClientId, setAmazonClientId] = useState('')
-  const [amazonClientSecret, setAmazonClientSecret] = useState('')
-  const [amazonRefreshToken, setAmazonRefreshToken] = useState('')
-  const [ebayToken, setEbayToken] = useState('')
-  const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [toast, setToast] = useState('')
   const supabase = createClient()
@@ -88,42 +83,6 @@ export default function ChannelsPage() {
     await supabase.from('channels').update({ active: false }).eq('id', channelId)
     setChannels(prev => prev.filter(c => c.id !== channelId))
     showToast('Channel disconnected')
-  }
-
-  async function saveAmazon() {
-    if (!amazonClientId || !amazonClientSecret || !amazonRefreshToken) {
-      setError('Please fill in all fields'); return
-    }
-    setSaving(true); setError('')
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-    await supabase.from('channels').upsert({
-      user_id: user.id, type: 'amazon', active: true,
-      ads_access_token: amazonClientId,
-      access_token: amazonRefreshToken,
-      shop_name: 'Amazon',
-      connected_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,type' })
-    setSaving(false); setAdding(null)
-    setAmazonClientId(''); setAmazonClientSecret(''); setAmazonRefreshToken('')
-    showToast('Amazon connected')
-    load()
-  }
-
-  async function saveEbay() {
-    if (!ebayToken.trim()) { setError('Please enter your token'); return }
-    setSaving(true); setError('')
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-    await supabase.from('channels').upsert({
-      user_id: user.id, type: 'ebay', active: true,
-      access_token: ebayToken,
-      shop_name: 'eBay Store',
-      connected_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,type' })
-    setSaving(false); setAdding(null); setEbayToken('')
-    showToast('eBay connected')
-    load()
   }
 
   const connectedTypes = new Set(channels.map(c => c.type))
@@ -232,32 +191,24 @@ export default function ChannelsPage() {
 
                         {ch.id === 'amazon' && (
                           <div style={{ paddingTop: '16px' }}>
-                            {[
-                              { label: 'Client ID', value: amazonClientId, set: setAmazonClientId, ph: 'amzn1.application-oa2-client.xxx' },
-                              { label: 'Client Secret', value: amazonClientSecret, set: setAmazonClientSecret, ph: 'LWA client secret' },
-                              { label: 'Refresh Token', value: amazonRefreshToken, set: setAmazonRefreshToken, ph: 'Artz|xxx...' },
-                            ].map(f => (
-                              <div key={f.label} style={{ marginBottom: '10px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '4px' }}>{f.label}</label>
-                                <input value={f.value} onChange={e => f.set(e.target.value)} placeholder={f.ph}
-                                  style={{ width: '100%', padding: '9px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '12px', fontFamily: 'monospace', color: '#191919', outline: 'none', boxSizing: 'border-box' }} />
-                              </div>
-                            ))}
-                            <button onClick={saveAmazon} disabled={saving}
-                              style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.7 : 1, fontFamily: 'Inter, sans-serif' }}>
-                              {saving ? 'Saving...' : 'Save credentials'}
+                            <p style={{ fontSize: '13px', color: '#787774', margin: '0 0 14px', lineHeight: 1.6 }}>
+                              Connect via Amazon Login with Amazon (LWA) OAuth. You'll be redirected to Amazon to authorise Auxio.
+                            </p>
+                            <button onClick={() => router.push('/api/amazon/connect')}
+                              style={{ background: '#FF9900', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                              Connect with Amazon →
                             </button>
                           </div>
                         )}
 
                         {ch.id === 'ebay' && (
                           <div style={{ paddingTop: '16px' }}>
-                            <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '6px' }}>User Access Token</label>
-                            <textarea value={ebayToken} onChange={e => setEbayToken(e.target.value)} placeholder="v^1.1#i^1#f^0#r^0#t^H4sIAA..." rows={3}
-                              style={{ width: '100%', padding: '10px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '12px', fontFamily: 'monospace', color: '#191919', outline: 'none', resize: 'none', boxSizing: 'border-box', marginBottom: '12px' }} />
-                            <button onClick={saveEbay} disabled={saving}
-                              style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.7 : 1, fontFamily: 'Inter, sans-serif' }}>
-                              {saving ? 'Saving...' : 'Save token'}
+                            <p style={{ fontSize: '13px', color: '#787774', margin: '0 0 14px', lineHeight: 1.6 }}>
+                              Connect via eBay OAuth. You'll be redirected to eBay to authorise Auxio to access your seller account.
+                            </p>
+                            <button onClick={() => router.push('/api/ebay/connect')}
+                              style={{ background: '#E53238', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                              Connect with eBay →
                             </button>
                           </div>
                         )}
