@@ -54,9 +54,10 @@ export default function AppSidebar() {
   const navGroups = [
     {
       items: [
-        { href: '/dashboard', icon: '⚡', label: 'Command Centre' },
-        { href: '/channels', icon: '🔗', label: 'Channels' },
-        { href: '/inventory', icon: '📦', label: 'Inventory' },
+        { href: '/dashboard',  icon: '⚡', label: 'Command Centre' },
+        { href: '/listings',   icon: '🏷️', label: 'Listings' },
+        { href: '/channels',   icon: '🔗', label: 'Channels' },
+        { href: '/inventory',  icon: '📦', label: 'Inventory' },
       ],
     },
     {

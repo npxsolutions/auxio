@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const PROTECTED_PATHS = ['/dashboard', '/agent', '/channels', '/inventory', '/settings', '/billing', '/onboarding']
+const PROTECTED_PATHS = ['/dashboard', '/agent', '/channels', '/inventory', '/settings', '/billing', '/onboarding', '/listings']
 const AUTH_PATHS      = ['/login', '/signup']
 
 // Paths that skip the onboarding check (users can access without a connected channel)
@@ -68,6 +68,7 @@ export const config = {
     '/settings/:path*',
     '/billing/:path*',
     '/onboarding/:path*',
+    '/listings/:path*',
     '/login',
     '/signup',
   ],
