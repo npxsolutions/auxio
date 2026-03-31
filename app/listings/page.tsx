@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import AppSidebar from '../components/AppSidebar'
 
 type ChannelStatus = { channel_type: string; status: string; channel_url?: string; error_message?: string }
 type Listing = {
@@ -151,7 +152,8 @@ export default function ListingsPage() {
   })
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+      <AppSidebar />
 
       {toast && (
         <div style={{ position: 'fixed', bottom: '24px', right: '24px', background: '#191919', color: 'white', padding: '12px 18px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, zIndex: 200 }}>
@@ -159,7 +161,8 @@ export default function ListingsPage() {
         </div>
       )}
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px' }}>
+      <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
+      <div style={{ maxWidth: '1100px' }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
@@ -354,6 +357,7 @@ export default function ListingsPage() {
           </div>
         )}
       </div>
+      </main>
     </div>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
+import AppSidebar from '../../components/AppSidebar'
 
 type ChannelStatus = {
   channel_type: string
@@ -320,10 +321,16 @@ export default function ListingDetailPage() {
   }
 
   if (loading) return (
-    <div style={{ fontFamily: 'Inter, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: '#9b9b98' }}>Loading...</div>
+    <div style={{ fontFamily: 'Inter, sans-serif', display: 'flex', minHeight: '100vh' }}>
+      <AppSidebar />
+      <div style={{ marginLeft: '220px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9b9b98' }}>Loading...</div>
+    </div>
   )
   if (!listing) return (
-    <div style={{ fontFamily: 'Inter, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: '#c9372c' }}>Listing not found</div>
+    <div style={{ fontFamily: 'Inter, sans-serif', display: 'flex', minHeight: '100vh' }}>
+      <AppSidebar />
+      <div style={{ marginLeft: '220px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c9372c' }}>Listing not found</div>
+    </div>
   )
 
   const tabStyle = (t: typeof activeTab) => ({
@@ -336,8 +343,10 @@ export default function ListingDetailPage() {
   })
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
-      <div style={{ maxWidth: '960px', margin: '0 auto', padding: '40px 24px' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+      <AppSidebar />
+      <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
+      <div style={{ maxWidth: '960px' }}>
 
         <button onClick={() => router.push('/listings')} style={{ background: 'none', border: 'none', color: '#787774', fontSize: '13px', cursor: 'pointer', padding: 0, fontFamily: 'Inter, sans-serif', marginBottom: '24px' }}>
           ← Back to listings
@@ -641,6 +650,7 @@ export default function ListingDetailPage() {
           </div>
         </div>
       </div>
+      </main>
     </div>
   )
 }
