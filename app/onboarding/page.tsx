@@ -43,6 +43,13 @@ function OnboardingContent() {
     if (user.user_metadata?.onboarding_complete) { router.push('/dashboard') }
   }
 
+  async function skipOnboarding() {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    await supabase.auth.updateUser({ data: { onboarding_complete: true } })
+    router.push('/dashboard')
+  }
+
   async function connectShopify() {
     if (!shopDomain.trim()) { setError('Please enter your Shopify store domain'); return }
     const domain = shopDomain.replace(/^https?:\/\//, '').replace(/\/$/, '')
@@ -163,6 +170,11 @@ function OnboardingContent() {
             >
               Continue →
             </button>
+            <div style={{ textAlign: 'center', marginTop: '16px' }}>
+              <button onClick={skipOnboarding} style={{ background: 'none', border: 'none', color: '#9b9b98', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                Skip for now → go to dashboard
+              </button>
+            </div>
           </div>
         )}
 

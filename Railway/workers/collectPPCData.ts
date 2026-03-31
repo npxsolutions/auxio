@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
+const getSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -43,7 +43,7 @@ async function storePPCPerformance(userId: string, keywords: any[]) {
     month: new Date().getMonth() + 1,
   }))
 
-  const { error } = await supabase
+  const { error } = await getSupabase()
     .from('ppc_keyword_performance')
     .upsert(rows, { onConflict: 'user_id,keyword_id,recorded_at' })
 
@@ -54,7 +54,7 @@ async function storePPCPerformance(userId: string, keywords: any[]) {
 // ── STEP 3: Record outcomes (did bid change improve things?) ──
 async function recordOutcome(userId: string, keywordId: string, newAcos: number) {
   // Find the last bid change for this keyword
-  const { data: lastAction } = await supabase
+  const { data: lastAction } = await getSupabase()
     .from('ppc_actions')
     .select('*')
     .eq('user_id', userId)
@@ -69,7 +69,7 @@ async function recordOutcome(userId: string, keywordId: string, newAcos: number)
   const improved = newAcos < lastAction.acos_before
   const delta = lastAction.acos_before - newAcos
 
-  await supabase
+  await getSupabase()
     .from('ppc_outcomes')
     .insert({
       user_id: userId,
@@ -88,7 +88,7 @@ async function recordOutcome(userId: string, keywordId: string, newAcos: number)
 
 // ── MAIN: Run daily at 6am via Railway cron ──
 export async function collectDailyPPCData() {
-  const { data: users } = await supabase
+  const { data: users } = await getSupabase()
     .from('channels')
     .select('user_id, access_token')
     .eq('type', 'amazon')

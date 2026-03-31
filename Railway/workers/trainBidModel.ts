@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
+const getSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -131,7 +131,7 @@ function normalise(X: number[][]): { normalised: number[][], means: number[], st
 // ── TRAIN MODEL PER USER ──
 async function trainModelForUser(userId: string) {
   // Get last 90 days of performance data
-  const { data: performanceData } = await supabase
+  const { data: performanceData } = await getSupabase()
     .from('ppc_keyword_performance')
     .select('*')
     .eq('user_id', userId)
@@ -144,7 +144,7 @@ async function trainModelForUser(userId: string) {
   }
 
   // Get outcomes (did actions improve ACOS?)
-  const { data: outcomes } = await supabase
+  const { data: outcomes } = await getSupabase()
     .from('ppc_outcomes')
     .select('*')
     .eq('user_id', userId)
@@ -179,7 +179,7 @@ async function trainModelForUser(userId: string) {
   console.log(`Model trained for user ${userId} — R² score: ${r2.toFixed(3)} — ${X.length} samples`)
 
   // Save model to Supabase
-  await supabase
+  await getSupabase()
     .from('ppc_models')
     .upsert({
       user_id: userId,
@@ -209,7 +209,7 @@ export async function predictOptimalBid(
 ): Promise<{ optimalBid: number; predictedAcos: number; confidence: string }> {
 
   // Load saved model
-  const { data: modelData } = await supabase
+  const { data: modelData } = await getSupabase()
     .from('ppc_models')
     .select('*')
     .eq('user_id', userId)
@@ -298,7 +298,7 @@ function rulesBasedBid(keyword: {
 export async function weeklyModelTraining() {
   console.log('Starting weekly PPC model training...')
 
-  const { data: users } = await supabase
+  const { data: users } = await getSupabase()
     .from('channels')
     .select('user_id')
     .eq('type', 'amazon')
