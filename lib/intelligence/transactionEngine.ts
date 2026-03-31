@@ -443,7 +443,7 @@ export class TransactionIntelligenceEngine {
         ? competitorPrices.reduce((s: number, p: number) => s + p, 0) / competitorPrices.length
         : currentPrice
       const lowestCompetitorPrice = competitorPrices.length ? Math.min(...competitorPrices) : currentPrice
-      const pricePosition = currentPrice <= lowestCompetitorPrice ? 'lowest' :
+      const pricePosition: 'lowest' | 'competitive' | 'premium' = currentPrice <= lowestCompetitorPrice ? 'lowest' :
         currentPrice <= avgCompetitorPrice ? 'competitive' : 'premium'
 
       // Price elasticity: did price changes affect sales velocity?
@@ -452,7 +452,7 @@ export class TransactionIntelligenceEngine {
 
       if (pricePoints.length >= 2) {
         // Simple elasticity calculation
-        const sorted = pricePoints.sort((a: number, b: number) => a - b)
+        const sorted = (pricePoints as number[]).sort((a, b) => a - b)
         const lowPriceVelocity = txs.filter((t: any) => t.sale_price === sorted[0]).length
         const highPriceVelocity = txs.filter((t: any) => t.sale_price === sorted[sorted.length - 1]).length
         const priceChange = (sorted[sorted.length - 1] - sorted[0]) / sorted[0]
@@ -762,12 +762,12 @@ export class ValueMultiplier {
       .eq('id', userId)
       .single()
 
-    const subscriptionCost = {
+    const subscriptionCost = ({
       starter: 79.99,
       growth: 199,
       scale: 599,
       enterprise: 1500,
-    }[user?.plan || 'growth'] || 199
+    } as Record<string, number>)[user?.plan || 'growth'] || 199
 
     const leverageRatio = totalValueCreated / subscriptionCost
 

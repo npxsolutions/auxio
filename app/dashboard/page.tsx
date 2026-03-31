@@ -67,7 +67,7 @@ function buildChannelStats(txns: any[]): ChannelStat[] {
         spend:   Math.round(s.adSpend * 100) / 100,
         roas:    s.adSpend > 0 ? Math.round(s.revenue / s.adSpend * 10) / 10 : 0,
         orders:  s.orders,
-        status:  margin > 0.2 ? 'performing' : margin > 0.1 ? 'monitoring' : 'needs_attention',
+        status:  (margin > 0.2 ? 'performing' : margin > 0.1 ? 'monitoring' : 'needs_attention') as ChannelStat['status'],
       }
     })
     .sort((a, b) => b.revenue - a.revenue)
