@@ -40,12 +40,26 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body = await request.json()
+
+    // If patching attributes, merge with existing rather than overwriting
+    let patch = body
+    if (body.attributes && Object.keys(body).length === 1) {
+      const { data: existing } = await supabase
+        .from('listings').select('attributes').eq('id', id).eq('user_id', user.id).single()
+      patch = { attributes: { ...(existing?.attributes || {}), ...body.attributes } }
+    }
+
+    // images field: accept comma-separated string and convert to array
+    if (typeof patch.images === 'string') {
+      patch.images = patch.images.split(',').map((s: string) => s.trim()).filter(Boolean)
+    }
+
     const { data, error } = await supabase
       .from('listings')
-      .update(body)
+      .update(patch)
       .eq('id', id)
       .eq('user_id', user.id)
-      .select()
+      .select(`*, listing_channels(*)`)
       .single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
