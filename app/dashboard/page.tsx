@@ -54,9 +54,10 @@ function buildChannelStats(txns: any[]): ChannelStat[] {
     map[ch].orders++
   }
   return Object.entries(map)
-    .map(([channel, s]) => {
+    .map(([channel, s]): ChannelStat => {
       const margin = s.revenue > 0 ? s.profit / s.revenue : 0
       const meta = CHANNEL_META[channel] || { icon: '🏪', color: '#f1f1ef', name: channel }
+      const status: ChannelStat['status'] = margin > 0.2 ? 'performing' : margin > 0.1 ? 'monitoring' : 'needs_attention'
       return {
         id: channel,
         icon: meta.icon,
@@ -67,7 +68,7 @@ function buildChannelStats(txns: any[]): ChannelStat[] {
         spend:   Math.round(s.adSpend * 100) / 100,
         roas:    s.adSpend > 0 ? Math.round(s.revenue / s.adSpend * 10) / 10 : 0,
         orders:  s.orders,
-        status:  (margin > 0.2 ? 'performing' : margin > 0.1 ? 'monitoring' : 'needs_attention') as ChannelStat['status'],
+        status,
       }
     })
     .sort((a, b) => b.revenue - a.revenue)
