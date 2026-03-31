@@ -47,12 +47,20 @@ export default function ListingsPage() {
             <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', margin: 0, letterSpacing: '-0.02em' }}>Listings</h1>
             <p style={{ fontSize: '13px', color: '#787774', margin: '4px 0 0' }}>Create once, publish everywhere</p>
           </div>
-          <button
-            onClick={() => router.push('/listings/new')}
-            style={{ padding: '10px 18px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
-          >
-            + New listing
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={() => router.push('/listings/import')}
+              style={{ padding: '10px 16px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+            >
+              Import CSV
+            </button>
+            <button
+              onClick={() => router.push('/listings/new')}
+              style={{ padding: '10px 18px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+            >
+              + New listing
+            </button>
+          </div>
         </div>
 
         {/* Content */}
