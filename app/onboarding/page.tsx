@@ -22,11 +22,6 @@ function OnboardingContent() {
   const [category, setCategory] = useState('')
   const [selectedChannel, setSelectedChannel] = useState('')
   const [shopDomain, setShopDomain] = useState('')
-  const [amazonClientId, setAmazonClientId] = useState('')
-  const [amazonClientSecret, setAmazonClientSecret] = useState('')
-  const [amazonRefreshToken, setAmazonRefreshToken] = useState('')
-  const [amazonMarketplace, setAmazonMarketplace] = useState('A1F83G8C2ARO7P')
-  const [ebayToken, setEbayToken] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const supabase = createClient()
@@ -56,61 +51,12 @@ function OnboardingContent() {
     router.push(`/api/shopify/connect?shop=${domain}`)
   }
 
-  async function connectAmazon() {
-    if (!amazonClientId || !amazonClientSecret || !amazonRefreshToken) {
-      setError('Please fill in all Amazon credentials'); return
-    }
-    setSaving(true)
-    setError('')
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      await supabase.from('channels').upsert({
-        user_id: user.id,
-        type: 'amazon',
-        active: true,
-        ads_access_token: amazonClientId,
-        access_token: amazonRefreshToken,
-        shop_name: `Amazon (${amazonMarketplace})`,
-        marketplace_id: amazonMarketplace,
-        client_secret: amazonClientSecret,
-        connected_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,type' })
-
-      await supabase.auth.updateUser({ data: { onboarding_complete: true } })
-      setStep(3)
-    } catch (err: any) {
-      setError(err.message || 'Failed to save credentials')
-    } finally {
-      setSaving(false)
-    }
+  function connectAmazon() {
+    router.push('/api/amazon/connect')
   }
 
-  async function connectEbay() {
-    if (!ebayToken.trim()) { setError('Please enter your eBay API token'); return }
-    setSaving(true)
-    setError('')
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      await supabase.from('channels').upsert({
-        user_id: user.id,
-        type: 'ebay',
-        active: true,
-        access_token: ebayToken,
-        shop_name: 'eBay Store',
-        connected_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,type' })
-
-      await supabase.auth.updateUser({ data: { onboarding_complete: true } })
-      setStep(3)
-    } catch (err: any) {
-      setError(err.message || 'Failed to save credentials')
-    } finally {
-      setSaving(false)
-    }
+  function connectEbay() {
+    router.push('/api/ebay/connect')
   }
 
   function goToDashboard() {
@@ -245,41 +191,10 @@ function OnboardingContent() {
                 {/* Amazon */}
                 {selectedChannel === 'amazon' && (
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>📦 Connect Amazon SP-API</div>
-                    <p style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>Enter your Amazon Selling Partner API credentials from Seller Central.</p>
-
-                    {[
-                      { label: 'Client ID (LWA App ID)', value: amazonClientId, set: setAmazonClientId, ph: 'amzn1.application-oa2-client.xxx' },
-                      { label: 'Client Secret', value: amazonClientSecret, set: setAmazonClientSecret, ph: 'Your LWA client secret' },
-                      { label: 'Refresh Token', value: amazonRefreshToken, set: setAmazonRefreshToken, ph: 'Artz|xxx...' },
-                    ].map(f => (
-                      <div key={f.label} style={{ marginBottom: '12px' }}>
-                        <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '5px' }}>{f.label}</label>
-                        <input
-                          value={f.value}
-                          onChange={e => f.set(e.target.value)}
-                          placeholder={f.ph}
-                          style={{ width: '100%', padding: '10px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '12px', fontFamily: 'monospace', color: '#191919', outline: 'none', boxSizing: 'border-box' }}
-                        />
-                      </div>
-                    ))}
-
-                    <div style={{ marginBottom: '16px' }}>
-                      <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '5px' }}>Marketplace</label>
-                      <select
-                        value={amazonMarketplace}
-                        onChange={e => setAmazonMarketplace(e.target.value)}
-                        style={{ width: '100%', padding: '10px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', background: 'white' }}
-                      >
-                        <option value="A1F83G8C2ARO7P">Amazon UK</option>
-                        <option value="A1PA6795UKMFR9">Amazon DE</option>
-                        <option value="A13V1IB3VIYZZH">Amazon FR</option>
-                        <option value="ATVPDKIKX0DER">Amazon US</option>
-                      </select>
-                    </div>
-
-                    <button onClick={connectAmazon} disabled={saving} style={{ width: '100%', padding: '12px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.7 : 1, fontFamily: 'Inter, sans-serif' }}>
-                      {saving ? 'Saving...' : 'Save credentials →'}
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>📦 Connect Amazon Ads</div>
+                    <p style={{ fontSize: '13px', color: '#787774', marginBottom: '24px' }}>You'll be redirected to Amazon to authorise access to your Advertising account.</p>
+                    <button onClick={connectAmazon} style={{ width: '100%', padding: '12px', background: '#FF9900', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                      Continue with Amazon →
                     </button>
                   </div>
                 )}
@@ -288,17 +203,9 @@ function OnboardingContent() {
                 {selectedChannel === 'ebay' && (
                   <div>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>🛒 Connect eBay</div>
-                    <p style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>Enter your eBay User Token from the Developers Program.</p>
-                    <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '5px' }}>User Access Token</label>
-                    <textarea
-                      value={ebayToken}
-                      onChange={e => setEbayToken(e.target.value)}
-                      placeholder="v^1.1#i^1#f^0#r^0#t^H4sIAA..."
-                      rows={4}
-                      style={{ width: '100%', padding: '10px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '12px', fontFamily: 'monospace', color: '#191919', outline: 'none', resize: 'none', boxSizing: 'border-box', marginBottom: '16px' }}
-                    />
-                    <button onClick={connectEbay} disabled={saving} style={{ width: '100%', padding: '12px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.7 : 1, fontFamily: 'Inter, sans-serif' }}>
-                      {saving ? 'Saving...' : 'Save token →'}
+                    <p style={{ fontSize: '13px', color: '#787774', marginBottom: '24px' }}>You'll be redirected to eBay to authorise access to your seller account.</p>
+                    <button onClick={connectEbay} style={{ width: '100%', padding: '12px', background: '#E53238', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                      Continue with eBay →
                     </button>
                   </div>
                 )}

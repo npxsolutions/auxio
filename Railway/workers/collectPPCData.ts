@@ -5,6 +5,24 @@ const getSupabase = () => createClient(
   process.env.SUPABASE_SERVICE_KEY!
 )
 
+// ── TOKEN REFRESH ──
+async function getAmazonAccessToken(userId: string, refreshToken: string): Promise<string> {
+  const res = await fetch('https://api.amazon.com/auth/o2/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type:    'refresh_token',
+      refresh_token: refreshToken,
+      client_id:     process.env.AMAZON_ADS_CLIENT_ID!,
+      client_secret: process.env.AMAZON_ADS_CLIENT_SECRET!,
+    }),
+  })
+  const data = await res.json()
+  if (!data.access_token) throw new Error(`Token refresh failed: ${JSON.stringify(data)}`)
+  await getSupabase().from('channels').update({ access_token: data.access_token }).eq('user_id', userId).eq('type', 'amazon')
+  return data.access_token
+}
+
 // ── STEP 1: Collect raw PPC data from Amazon Ads API ──
 async function fetchAmazonPPCData(userId: string, accessToken: string) {
   const response = await fetch(
@@ -90,7 +108,7 @@ async function recordOutcome(userId: string, keywordId: string, newAcos: number)
 export async function collectDailyPPCData() {
   const { data: users } = await getSupabase()
     .from('channels')
-    .select('user_id, access_token')
+    .select('user_id, refresh_token')
     .eq('type', 'amazon')
     .eq('active', true)
 
@@ -98,7 +116,8 @@ export async function collectDailyPPCData() {
 
   for (const user of users) {
     try {
-      const keywords = await fetchAmazonPPCData(user.user_id, user.access_token)
+      const accessToken = await getAmazonAccessToken(user.user_id, user.refresh_token)
+      const keywords = await fetchAmazonPPCData(user.user_id, accessToken)
       await storePPCPerformance(user.user_id, keywords)
 
       // Record outcomes for any actions taken 7 days ago
