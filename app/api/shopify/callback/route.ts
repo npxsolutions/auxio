@@ -63,6 +63,22 @@ export async function GET(request: Request) {
       connected_at: new Date().toISOString(),
     }, { onConflict: 'user_id,type' })
 
+    // Register mandatory webhooks (fire-and-forget, don't block redirect)
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
+    const webhooks = [
+      { topic: 'app/uninstalled',        address: `${appUrl}/api/shopify/webhooks/app-uninstalled` },
+      { topic: 'customers/data_request', address: `${appUrl}/api/shopify/webhooks/customers-data-request` },
+      { topic: 'customers/redact',       address: `${appUrl}/api/shopify/webhooks/customers-redact` },
+      { topic: 'shop/redact',            address: `${appUrl}/api/shopify/webhooks/shop-redact` },
+    ]
+    Promise.all(webhooks.map(wh =>
+      fetch(`https://${shop}/admin/api/2024-01/webhooks.json`, {
+        method: 'POST',
+        headers: { 'X-Shopify-Access-Token': access_token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ webhook: { topic: wh.topic, address: wh.address, format: 'json' } }),
+      }).catch(() => {})
+    )).catch(() => {})
+
     // Mark onboarding complete
     await supabase.auth.updateUser({ data: { onboarding_complete: true } })
 
