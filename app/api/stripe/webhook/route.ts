@@ -83,9 +83,10 @@ export async function POST(request: Request) {
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
-        const sub = typeof invoice.subscription === 'string'
-          ? await stripe.subscriptions.retrieve(invoice.subscription)
-          : invoice.subscription as Stripe.Subscription | null
+        const subRef = invoice.parent?.subscription_details?.subscription
+        const sub = typeof subRef === 'string'
+          ? await stripe.subscriptions.retrieve(subRef)
+          : subRef as Stripe.Subscription | null
         const userId = sub?.metadata?.supabase_user_id
         if (userId) {
           await supabase.from('users').upsert({
