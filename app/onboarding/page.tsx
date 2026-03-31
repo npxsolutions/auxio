@@ -174,17 +174,21 @@ function OnboardingContent() {
                 {selectedChannel === 'shopify' && (
                   <div>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>🛍️ Connect Shopify</div>
-                    <p style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>Enter your Shopify store domain to start the OAuth connection.</p>
+                    <p style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>Enter your store domain and we'll connect via Shopify OAuth.</p>
                     <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '6px' }}>Store domain</label>
                     <input
                       value={shopDomain}
                       onChange={e => setShopDomain(e.target.value)}
                       placeholder="mystore.myshopify.com"
-                      style={{ width: '100%', padding: '10px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none', boxSizing: 'border-box', marginBottom: '16px' }}
+                      onKeyDown={e => e.key === 'Enter' && connectShopify()}
+                      style={{ width: '100%', padding: '10px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none', boxSizing: 'border-box', marginBottom: '12px' }}
                     />
-                    <button onClick={connectShopify} style={{ width: '100%', padding: '12px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                    <button onClick={connectShopify} style={{ width: '100%', padding: '12px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif', marginBottom: '12px' }}>
                       Connect with Shopify →
                     </button>
+                    <p style={{ fontSize: '11px', color: '#9b9b98', textAlign: 'center', margin: 0 }}>
+                      No Auxio account needed — we'll create one automatically using your Shopify store email.
+                    </p>
                   </div>
                 )}
 

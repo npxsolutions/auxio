@@ -1,6 +1,13 @@
 import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+
+const getAdminSupabase = () => createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_KEY!,
+  { auth: { autoRefreshToken: false, persistSession: false } }
+)
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -37,33 +44,78 @@ export async function GET(request: Request) {
 
     const { access_token } = await tokenRes.json()
 
-    // Get shop details
+    // Get shop details (includes owner email)
     const shopRes = await fetch(`https://${shop}/admin/api/2024-01/shop.json`, {
       headers: { 'X-Shopify-Access-Token': access_token },
     })
     const shopData = shopRes.ok ? await shopRes.json() : { shop: { name: shop } }
+    const shopEmail = shopData.shop?.email
+    const shopName  = shopData.shop?.name || shop
 
-    // Store in Supabase
+    const adminSupabase = getAdminSupabase()
+
+    // Check if user is already logged in
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
     )
+    const { data: { user: existingUser } } = await supabase.auth.getUser()
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.redirect(new URL('/login', request.url))
+    let userId: string
+    let sessionToken: string | null = null
 
-    await supabase.from('channels').upsert({
-      user_id:      user.id,
+    if (existingUser) {
+      // Already logged in — use their account
+      userId = existingUser.id
+    } else if (shopEmail) {
+      // Not logged in — find or create account from shop email
+      const { data: found } = await adminSupabase.auth.admin.listUsers()
+      const match = found?.users?.find(u => u.email === shopEmail)
+
+      if (match) {
+        userId = match.id
+      } else {
+        // Create new account — no password, they'll use magic link later
+        const { data: created, error: createErr } = await adminSupabase.auth.admin.createUser({
+          email: shopEmail,
+          email_confirm: true,
+          user_metadata: { shop_name: shopName, onboarding_complete: false },
+        })
+        if (createErr || !created.user) {
+          return NextResponse.redirect(new URL('/onboarding?error=account_creation_failed', request.url))
+        }
+        userId = created.user.id
+      }
+
+      // Generate a magic link to auto-sign them in
+      const { data: linkData } = await adminSupabase.auth.admin.generateLink({
+        type: 'magiclink',
+        email: shopEmail,
+      })
+      sessionToken = linkData?.properties?.hashed_token ?? null
+    } else {
+      // No email from Shopify and not logged in — send to login
+      return NextResponse.redirect(new URL('/login?hint=shopify', request.url))
+    }
+
+    // Store channel
+    await adminSupabase.from('channels').upsert({
+      user_id:      userId,
       type:         'shopify',
       active:       true,
       access_token,
-      shop_name:    shopData.shop?.name || shop,
+      shop_name:    shopName,
       shop_domain:  shop,
       connected_at: new Date().toISOString(),
     }, { onConflict: 'user_id,type' })
 
-    // Register mandatory webhooks (fire-and-forget, don't block redirect)
+    // Mark onboarding complete
+    await adminSupabase.auth.admin.updateUserById(userId, {
+      user_metadata: { onboarding_complete: true },
+    })
+
+    // Register mandatory webhooks (fire-and-forget)
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
     const webhooks = [
       { topic: 'app/uninstalled',        address: `${appUrl}/api/shopify/webhooks/app-uninstalled` },
@@ -79,18 +131,22 @@ export async function GET(request: Request) {
       }).catch(() => {})
     )).catch(() => {})
 
-    // Mark onboarding complete
-    await supabase.auth.updateUser({ data: { onboarding_complete: true } })
-
-    // Kick off initial sync in the background
-    fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'}/api/shopify/sync`, {
+    // Kick off initial sync
+    fetch(`${appUrl}/api/shopify/sync`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user.id }),
-    }).catch(() => {}) // fire-and-forget
+      body: JSON.stringify({ userId }),
+    }).catch(() => {})
 
     const response = NextResponse.redirect(new URL('/onboarding?step=3', request.url))
     response.cookies.delete('shopify_oauth_nonce')
+
+    // If we created/found a user via Shopify, redirect through magic link to auto-sign them in
+    if (!existingUser && sessionToken) {
+      const magicUrl = `${appUrl}/api/auth/confirm?token_hash=${sessionToken}&type=magiclink&next=/onboarding?step=3`
+      return NextResponse.redirect(new URL(magicUrl, request.url))
+    }
+
     return response
 
   } catch (error: any) {

@@ -1,0 +1,23 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "0e17c1f8cd98ae071d13fa0003e6d2e1"
+name = "auxio_v2"
+application_url = "https://auxio-lkqv.vercel.app"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2024-01"
+
+  [[webhooks.subscriptions]]
+  topics = ["app/uninstalled"]
+  uri = "/api/shopify/webhooks/app-uninstalled"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_orders,read_products,read_inventory,write_products"
+
+[auth]
+redirect_urls = [ "https://auxio-lkqv.vercel.app/api/shopify/callback" ]
