@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-const supabaseAdmin = createClient(
+const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     if (!action) return NextResponse.json({ error: 'Action not found' }, { status: 404 })
 
     // Safety rail check: validate action against user's thresholds
-    const { data: userSettings } = await supabaseAdmin
+    const { data: userSettings } = await getAdmin()
       .from('users')
       .select('min_margin, max_acos, agent_mode')
       .eq('id', user.id)

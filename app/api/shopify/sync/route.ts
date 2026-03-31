@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-const supabaseAdmin = createClient(
+const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     // Get Shopify channel credentials
-    const { data: channel } = await supabaseAdmin
+    const { data: channel } = await getAdmin()
       .from('channels')
       .select('access_token, shop_domain')
       .eq('user_id', user.id)
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
         const channelFee = salePrice * 0.03 // Shopify transaction fee ~3%
         const shippingCost = 3.95
 
-        await supabaseAdmin.from('transactions').upsert({
+        await getAdmin().from('transactions').upsert({
           user_id:          user.id,
           channel:          'shopify',
           external_id:      `${order.id}-${item.id}`,
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     }
 
     // Log the sync
-    await supabaseAdmin.from('sync_jobs').insert({
+    await getAdmin().from('sync_jobs').insert({
       user_id:       user.id,
       job_type:      'shopify_manual_sync',
       status:        'completed',

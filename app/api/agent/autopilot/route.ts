@@ -9,7 +9,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
-const supabaseAdmin = createClient(
+const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   try {
     // Find all users in autopilot mode
-    const { data: autopilotUsers } = await supabaseAdmin
+    const { data: autopilotUsers } = await getAdmin()
       .from('users')
       .select('id, min_margin, max_acos, safety_stock_days')
       .eq('agent_mode', 'autopilot')
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     }
 
     for (const user of autopilotUsers) {
-      const { data: pendingActions } = await supabaseAdmin
+      const { data: pendingActions } = await getAdmin()
         .from('agent_pending_actions')
         .select('*')
         .eq('user_id', user.id)
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
         const violation = checkSafetyRails(action, user)
         if (violation) {
           // Block and log the violation
-          await supabaseAdmin
+          await getAdmin()
             .from('agent_pending_actions')
             .update({ status: 'blocked', actioned_at: new Date().toISOString(), block_reason: violation })
             .eq('id', action.id)
@@ -60,12 +60,12 @@ export async function POST(request: Request) {
         }
 
         // Execute: mark approved and log
-        await supabaseAdmin
+        await getAdmin()
           .from('agent_pending_actions')
           .update({ status: 'approved', actioned_at: new Date().toISOString() })
           .eq('id', action.id)
 
-        await supabaseAdmin.from('agent_action_log').insert({
+        await getAdmin().from('agent_action_log').insert({
           user_id:       user.id,
           action_type:   action.action_type,
           title:         action.title,

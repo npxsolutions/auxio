@@ -4,9 +4,9 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const getResend = () => new Resend(process.env.RESEND_API_KEY)
 
-const supabaseAdmin = createClient(
+const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const { type, data: payload } = await request.json()
 
     // Check user has email alerts enabled
-    const { data: userData } = await supabaseAdmin
+    const { data: userData } = await getAdmin()
       .from('users')
       .select('email_alerts')
       .eq('id', user.id)
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unknown notification type' }, { status: 400 })
     }
 
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
       from: 'Auxio <alerts@auxio.app>',
       to: email,
       subject,

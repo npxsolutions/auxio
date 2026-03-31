@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-const supabaseAdmin = createClient(
+const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
@@ -23,7 +23,7 @@ export async function GET() {
   const user = await getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getAdmin()
     .from('inventory')
     .select('*')
     .eq('user_id', user.id)
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     updated_at:        new Date().toISOString(),
   }))
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getAdmin()
     .from('inventory')
     .upsert(rows, { onConflict: 'user_id,sku' })
     .select()
@@ -68,7 +68,7 @@ export async function PATCH(request: Request) {
   const { id, ...updates } = await request.json()
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
-  const { error } = await supabaseAdmin
+  const { error } = await getAdmin()
     .from('inventory')
     .update({ ...updates, updated_at: new Date().toISOString() })
     .eq('id', id)
