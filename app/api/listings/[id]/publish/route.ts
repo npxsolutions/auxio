@@ -53,40 +53,82 @@ async function publishToShopify(listing: any, channel: any): Promise<{ id: strin
   }
 }
 
-// ── EBAY PUBLISHER ──
-async function publishToEbay(listing: any, channel: any): Promise<{ id: string; url: string }> {
-  // Refresh eBay token if needed
+// ── EBAY HELPERS ──
+async function getEbayAccessToken(refreshToken: string): Promise<string> {
   const credentials = Buffer.from(
     `${process.env.EBAY_CLIENT_ID!}:${process.env.EBAY_CLIENT_SECRET!}`
   ).toString('base64')
-
-  const tokenRes = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
+  const res = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
     method: 'POST',
-    headers: {
-      'Content-Type':  'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${credentials}`,
-    },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Basic ${credentials}` },
     body: new URLSearchParams({
       grant_type:    'refresh_token',
-      refresh_token: channel.refresh_token,
-      scope:         'https://api.ebay.com/oauth/api_scope/sell.inventory',
+      refresh_token: refreshToken,
+      scope: [
+        'https://api.ebay.com/oauth/api_scope/sell.inventory',
+        'https://api.ebay.com/oauth/api_scope/sell.account',
+      ].join(' '),
     }),
   })
+  if (!res.ok) throw new Error(`eBay token refresh failed: ${await res.text()}`)
+  const { access_token } = await res.json()
+  return access_token
+}
 
-  if (!tokenRes.ok) throw new Error('eBay token refresh failed')
-  const { access_token } = await tokenRes.json()
+async function getEbayPolicies(accessToken: string) {
+  const h = { Authorization: `Bearer ${accessToken}` }
+  const [fp, pp, rp] = await Promise.all([
+    fetch('https://api.ebay.com/sell/account/v1/fulfillment_policy?marketplace_id=EBAY_GB', { headers: h }).then(r => r.json()),
+    fetch('https://api.ebay.com/sell/account/v1/payment_policy?marketplace_id=EBAY_GB',     { headers: h }).then(r => r.json()),
+    fetch('https://api.ebay.com/sell/account/v1/return_policy?marketplace_id=EBAY_GB',      { headers: h }).then(r => r.json()),
+  ])
+  const fulfillmentPolicyId = fp.fulfillmentPolicies?.[0]?.fulfillmentPolicyId
+  const paymentPolicyId     = pp.paymentPolicies?.[0]?.paymentPolicyId
+  const returnPolicyId      = rp.returnPolicies?.[0]?.returnPolicyId
+  if (!fulfillmentPolicyId || !paymentPolicyId || !returnPolicyId) {
+    throw new Error('eBay business policies not set up. Go to My eBay → Account → Business Policies and create Postage, Payment, and Returns policies.')
+  }
+  return { fulfillmentPolicyId, paymentPolicyId, returnPolicyId }
+}
+
+async function getOrCreateEbayLocation(accessToken: string): Promise<string> {
+  const h = { Authorization: `Bearer ${accessToken}` }
+  const res  = await fetch('https://api.ebay.com/sell/inventory/v1/location', { headers: h })
+  const data = await res.json()
+  if (data.locations?.length) return data.locations[0].merchantLocationKey
+
+  // Create a minimal default location
+  const key = 'AUXIO_DEFAULT'
+  await fetch(`https://api.ebay.com/sell/inventory/v1/location/${key}`, {
+    method: 'POST',
+    headers: { ...h, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      location: { address: { country: 'GB' } },
+      locationTypes: ['WAREHOUSE'],
+      merchantLocationStatus: 'ENABLED',
+      name: 'Default',
+    }),
+  })
+  return key
+}
+
+// ── EBAY PUBLISHER ──
+async function publishToEbay(listing: any, channel: any): Promise<{ id: string; url: string }> {
+  const access_token = await getEbayAccessToken(channel.refresh_token)
+
+  const [policies, locationKey] = await Promise.all([
+    getEbayPolicies(access_token),
+    getOrCreateEbayLocation(access_token),
+  ])
 
   const sku = listing.sku || listing.id
 
-  // Create inventory item
+  // Create / update inventory item
   const inventoryRes = await fetch(`https://api.ebay.com/sell/inventory/v1/inventory_item/${encodeURIComponent(sku)}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type':  'application/json',
-      'Authorization': `Bearer ${access_token}`,
-    },
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${access_token}` },
     body: JSON.stringify({
-      availability: { shipToLocationAvailability: { quantity: listing.quantity } },
+      availability: { shipToLocationAvailability: { quantity: listing.quantity ?? 1 } },
       condition: listing.condition === 'new' ? 'NEW' : listing.condition === 'used' ? 'USED_EXCELLENT' : 'LIKE_NEW',
       product: {
         title:       listing.title,
@@ -96,29 +138,29 @@ async function publishToEbay(listing: any, channel: any): Promise<{ id: string; 
       },
     }),
   })
-
   if (!inventoryRes.ok) throw new Error(`eBay inventory error: ${await inventoryRes.text()}`)
 
   // Create offer
   const offerRes = await fetch('https://api.ebay.com/sell/inventory/v1/offer', {
     method: 'POST',
-    headers: {
-      'Content-Type':  'application/json',
-      'Authorization': `Bearer ${access_token}`,
-    },
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${access_token}` },
     body: JSON.stringify({
       sku,
-      marketplaceId:    'EBAY_GB',
-      format:           'FIXED_PRICE',
-      availableQuantity: listing.quantity,
+      marketplaceId:      'EBAY_GB',
+      format:             'FIXED_PRICE',
+      availableQuantity:  listing.quantity ?? 1,
       pricingSummary: {
         price: { value: listing.price.toString(), currency: 'GBP' },
       },
-      listingDescription: listing.description || listing.title,
-      merchantLocationKey: 'default',
+      listingDescription:  listing.description || listing.title,
+      merchantLocationKey: locationKey,
+      listingPolicies: {
+        fulfillmentPolicyId: policies.fulfillmentPolicyId,
+        paymentPolicyId:     policies.paymentPolicyId,
+        returnPolicyId:      policies.returnPolicyId,
+      },
     }),
   })
-
   if (!offerRes.ok) throw new Error(`eBay offer error: ${await offerRes.text()}`)
   const offer = await offerRes.json()
 
@@ -127,7 +169,6 @@ async function publishToEbay(listing: any, channel: any): Promise<{ id: string; 
     method: 'POST',
     headers: { 'Authorization': `Bearer ${access_token}` },
   })
-
   if (!publishRes.ok) throw new Error(`eBay publish error: ${await publishRes.text()}`)
   const published = await publishRes.json()
 

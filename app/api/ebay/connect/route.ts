@@ -2,7 +2,11 @@ import { NextResponse } from 'next/server'
 
 const SCOPES = [
   'https://api.ebay.com/oauth/api_scope',
+  'https://api.ebay.com/oauth/api_scope/sell.inventory',
   'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
+  'https://api.ebay.com/oauth/api_scope/sell.account',
+  'https://api.ebay.com/oauth/api_scope/sell.account.readonly',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment',
   'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
 ].join(' ')
 
