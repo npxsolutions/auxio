@@ -1,3 +1,4 @@
+import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -10,6 +11,11 @@ const getSupabase = async () => {
     { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
   )
 }
+
+const getAdminSupabase = () => createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_KEY!
+)
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -54,6 +60,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       patch.images = patch.images.split(',').map((s: string) => s.trim()).filter(Boolean)
     }
 
+    // Snapshot current state before update (for version history)
+    const { data: before } = await supabase
+      .from('listings').select('*').eq('id', id).eq('user_id', user.id).single()
+
     const { data, error } = await supabase
       .from('listings')
       .update(patch)
@@ -63,6 +73,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       .single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Record version if meaningful fields changed
+    if (before) {
+      const tracked = ['title', 'description', 'price', 'quantity', 'images', 'attributes', 'condition']
+      const changedFields = tracked.filter(f => JSON.stringify(before[f]) !== JSON.stringify((data as any)[f]))
+      if (changedFields.length) {
+        getAdminSupabase().from('listing_versions').insert({
+          listing_id:     id,
+          user_id:        user.id,
+          changed_fields: changedFields,
+          snapshot:       before,
+        }).then(() => {}).catch(() => {}) // fire-and-forget
+      }
+    }
+
     return NextResponse.json({ listing: data })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })
