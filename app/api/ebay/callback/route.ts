@@ -55,7 +55,23 @@ export async function GET(request: Request) {
     }
 
     const { access_token, refresh_token } = await tokenRes.json()
-    console.log('eBay connected successfully')
+
+    // Fetch eBay user identity to get username and userId for shop_domain
+    let shopName = 'eBay Store'
+    let shopDomain = ''
+    try {
+      const identityRes = await fetch('https://apiz.ebay.com/commerce/identity/v1/user/', {
+        headers: { Authorization: `Bearer ${access_token}` },
+      })
+      if (identityRes.ok) {
+        const identity = await identityRes.json()
+        shopName   = identity.username  || shopName
+        shopDomain = identity.userId    || ''
+      }
+    } catch {
+      // non-fatal — proceed without identity
+    }
+    console.log(`eBay connected — user: ${shopName}`)
 
     const { error: upsertErr } = await supabase.from('channels').upsert({
       user_id:       user.id,
@@ -63,7 +79,8 @@ export async function GET(request: Request) {
       active:        true,
       access_token,
       refresh_token,
-      shop_name:     'eBay Store',
+      shop_name:     shopName,
+      shop_domain:   shopDomain,
       connected_at:  new Date().toISOString(),
     }, { onConflict: 'user_id,type' })
 

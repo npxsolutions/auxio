@@ -20,6 +20,6 @@ export async function GET() {
   const authUrl = `https://auth.ebay.com/oauth2/authorize?${params.toString()}`
 
   const response = NextResponse.redirect(authUrl)
-  response.cookies.set('ebay_oauth_state', state, { httpOnly: true, maxAge: 600, sameSite: 'lax' })
+  response.cookies.set('ebay_oauth_state', state, { httpOnly: true, maxAge: 600, sameSite: 'lax', secure: true, path: '/' })
   return response
 }
