@@ -10,8 +10,8 @@ export async function GET(request: Request) {
     version:        'beta', // use 'live' once approved for production
   })
 
-  // EU marketplace (amazon.co.uk / amazon.de etc)
-  const authUrl = `https://sellercentral.amazon.co.uk/apps/authorize/consent?${params.toString()}`
+  // Use global Seller Central endpoint (works for all marketplaces)
+  const authUrl = `https://sellercentral.amazon.com/apps/authorize/consent?${params.toString()}`
 
   const response = NextResponse.redirect(authUrl)
   response.cookies.set('amazon_oauth_state', state, {
