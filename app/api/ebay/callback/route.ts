@@ -38,6 +38,9 @@ export async function GET(request: Request) {
       `${process.env.EBAY_CLIENT_ID!}:${process.env.EBAY_CLIENT_SECRET!}`
     ).toString('base64')
 
+    const redirectUri = process.env.EBAY_REDIRECT_URI!
+    console.log('eBay token exchange — redirect_uri:', JSON.stringify(redirectUri), 'length:', redirectUri.length)
+
     const tokenRes = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
       method: 'POST',
       headers: {
