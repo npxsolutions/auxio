@@ -8,8 +8,10 @@ export async function GET(request: Request) {
   const state = searchParams.get('state')
   const error = searchParams.get('error')
 
+  console.log('eBay callback params:', { code: !!code, state, error, allParams: Object.fromEntries(searchParams) })
+
   if (error || !code) {
-    console.error('eBay callback error:', error)
+    console.error('eBay callback error:', error, 'all params:', Object.fromEntries(searchParams))
     return NextResponse.redirect(new URL('/channels?error=ebay_auth_failed', request.url))
   }
 
