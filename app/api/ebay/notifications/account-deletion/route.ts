@@ -54,44 +54,32 @@ export async function GET(request: Request) {
 
 // POST — eBay notifies us of account deletion/closure
 export async function POST(request: Request) {
+  // Acknowledge immediately — eBay requires a fast 200 response
   const rawBody = await request.text()
+  console.log(`eBay account deletion notification received`)
 
-  try {
-    const payload = JSON.parse(rawBody)
-    const userId = payload?.notification?.data?.userId
+  // Process deletion in background (fire-and-forget)
+  ;(async () => {
+    try {
+      const payload = JSON.parse(rawBody)
+      const userId = payload?.notification?.data?.userId
+      if (!userId) return
 
-    console.log(`eBay account deletion — userId: ${userId}`)
-
-    if (userId) {
       const supabase = getSupabase()
-
-      // Find the channel for this eBay user
       const { data: channel } = await supabase
-        .from('channels')
-        .select('id, user_id')
-        .eq('type', 'ebay')
-        .eq('shop_domain', userId)
-        .single()
+        .from('channels').select('id, user_id')
+        .eq('type', 'ebay').eq('shop_domain', userId).single()
 
       if (channel) {
-        // Delete eBay transactions
-        await supabase
-          .from('transactions')
-          .delete()
-          .eq('user_id', channel.user_id)
-          .eq('channel', 'ebay')
-
-        // Delete the channel
-        await supabase
-          .from('channels')
-          .delete()
-          .eq('id', channel.id)
+        await supabase.from('transactions').delete()
+          .eq('user_id', channel.user_id).eq('channel', 'ebay')
+        await supabase.from('channels').delete().eq('id', channel.id)
+        console.log(`eBay account deleted — userId: ${userId}`)
       }
+    } catch (err: any) {
+      console.error('eBay account deletion error:', err)
     }
+  })()
 
-    return NextResponse.json({ ok: true })
-  } catch (err: any) {
-    console.error('eBay account deletion error:', err)
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
-  }
+  return NextResponse.json({ ok: true })
 }
