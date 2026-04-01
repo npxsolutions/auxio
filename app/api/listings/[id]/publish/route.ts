@@ -194,7 +194,7 @@ async function publishToEbay(listing: any, channel: any): Promise<{ id: string; 
     `https://api.ebay.com/sell/inventory/v1/inventory_item/${encodeURIComponent(sku)}`,
     {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${access_token}` },
+      headers: { 'Content-Type': 'application/json', 'Content-Language': 'en-GB', 'Accept-Language': 'en-GB', 'Authorization': `Bearer ${access_token}` },
       body: JSON.stringify({
         availability: { shipToLocationAvailability: { quantity: listing.quantity ?? 1 } },
         condition: listing.condition === 'new' ? 'NEW' : listing.condition === 'used' ? 'USED_EXCELLENT' : 'LIKE_NEW',
