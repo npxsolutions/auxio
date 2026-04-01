@@ -14,29 +14,29 @@ export async function GET(request: Request) {
   const code  = searchParams.get('code')
   const shop  = searchParams.get('shop')
   const state = searchParams.get('state')
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
 
   if (!code || !shop) {
     return NextResponse.redirect(new URL('/onboarding?error=missing_params', request.url))
   }
 
-  // CSRF: validate nonce
   const cookieStore = await cookies()
+
+  // Check if user is already logged in
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  )
+  const { data: { user: existingUser } } = await supabase.auth.getUser()
+
+  // CSRF: validate nonce — skip if user is already logged in (custom app install flow)
   const nonce = cookieStore.get('shopify_oauth_nonce')?.value
-  console.log(`Shopify callback — shop: ${shop}, nonce: ${nonce ? 'present' : 'MISSING'}, state_match: ${nonce === state}`)
-  if (!nonce || nonce !== state) {
-    console.warn(`Shopify CSRF mismatch — nonce: ${nonce}, state: ${state}`)
-    // If user is already logged in, skip CSRF and proceed anyway (custom app install)
-    const cookieStore2 = await cookies()
-    const anonSupabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore2.getAll(), setAll: () => {} } }
-    )
-    const { data: { user: precheck } } = await anonSupabase.auth.getUser()
-    if (!precheck) {
-      return NextResponse.redirect(new URL('/onboarding?error=invalid_state', request.url))
-    }
-    console.log(`Shopify CSRF skipped — user already logged in: ${precheck.id}`)
+  const csrfValid = nonce && nonce === state
+  console.log(`Shopify callback — shop: ${shop}, csrf: ${csrfValid ? 'ok' : 'SKIP'}, loggedIn: ${!!existingUser}`)
+
+  if (!csrfValid && !existingUser) {
+    return NextResponse.redirect(new URL('/onboarding?error=invalid_state', request.url))
   }
 
   try {
@@ -52,12 +52,15 @@ export async function GET(request: Request) {
     })
 
     if (!tokenRes.ok) {
+      const err = await tokenRes.text()
+      console.error('Shopify token exchange failed:', err)
       return NextResponse.redirect(new URL('/onboarding?error=token_exchange_failed', request.url))
     }
 
     const { access_token } = await tokenRes.json()
+    console.log(`Shopify token obtained for ${shop}`)
 
-    // Get shop details (includes owner email)
+    // Get shop details
     const shopRes = await fetch(`https://${shop}/admin/api/2024-01/shop.json`, {
       headers: { 'X-Shopify-Access-Token': access_token },
     })
@@ -65,71 +68,84 @@ export async function GET(request: Request) {
     const shopEmail = shopData.shop?.email
     const shopName  = shopData.shop?.name || shop
 
-    const adminSupabase = getAdminSupabase()
-
-    // Check if user is already logged in
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
-    const { data: { user: existingUser } } = await supabase.auth.getUser()
-
     let userId: string
-    let sessionToken: string | null = null
 
     if (existingUser) {
-      // Already logged in — use their account
+      // Already logged in — save channel using their session
       userId = existingUser.id
+
+      const { error: upsertErr } = await supabase.from('channels').upsert({
+        user_id:      userId,
+        type:         'shopify',
+        active:       true,
+        access_token,
+        shop_name:    shopName,
+        shop_domain:  shop,
+        connected_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,type' })
+
+      if (upsertErr) {
+        console.error('Channel upsert error:', upsertErr)
+        return NextResponse.redirect(new URL('/onboarding?error=save_failed', request.url))
+      }
+
+      console.log(`Channel saved for user ${userId}`)
+
+      // Mark onboarding complete
+      await supabase.auth.updateUser({ data: { onboarding_complete: true } })
+
     } else if (shopEmail) {
-      // Not logged in — find or create account from shop email
+      // Not logged in — find or create account
+      const adminSupabase = getAdminSupabase()
       const { data: found } = await adminSupabase.auth.admin.listUsers()
       const match = found?.users?.find(u => u.email === shopEmail)
 
       if (match) {
         userId = match.id
       } else {
-        // Create new account — no password, they'll use magic link later
         const { data: created, error: createErr } = await adminSupabase.auth.admin.createUser({
           email: shopEmail,
           email_confirm: true,
           user_metadata: { shop_name: shopName, onboarding_complete: false },
         })
         if (createErr || !created.user) {
+          console.error('Account creation error:', createErr)
           return NextResponse.redirect(new URL('/onboarding?error=account_creation_failed', request.url))
         }
         userId = created.user.id
       }
 
-      // Generate a magic link to auto-sign them in
+      const { error: upsertErr } = await adminSupabase.from('channels').upsert({
+        user_id:      userId,
+        type:         'shopify',
+        active:       true,
+        access_token,
+        shop_name:    shopName,
+        shop_domain:  shop,
+        connected_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,type' })
+
+      if (upsertErr) console.error('Channel upsert error (admin):', upsertErr)
+
+      await adminSupabase.auth.admin.updateUserById(userId, {
+        user_metadata: { onboarding_complete: true },
+      })
+
+      // Auto sign-in via magic link
       const { data: linkData } = await adminSupabase.auth.admin.generateLink({
         type: 'magiclink',
         email: shopEmail,
       })
-      sessionToken = linkData?.properties?.hashed_token ?? null
+      const sessionToken = linkData?.properties?.hashed_token
+      if (sessionToken) {
+        const magicUrl = `${appUrl}/api/auth/confirm?token_hash=${sessionToken}&type=magiclink&next=/onboarding?step=3`
+        return NextResponse.redirect(new URL(magicUrl, request.url))
+      }
     } else {
-      // No email from Shopify and not logged in — send to login
       return NextResponse.redirect(new URL('/login?hint=shopify', request.url))
     }
 
-    // Store channel
-    await adminSupabase.from('channels').upsert({
-      user_id:      userId,
-      type:         'shopify',
-      active:       true,
-      access_token,
-      shop_name:    shopName,
-      shop_domain:  shop,
-      connected_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,type' })
-
-    // Mark onboarding complete
-    await adminSupabase.auth.admin.updateUserById(userId, {
-      user_metadata: { onboarding_complete: true },
-    })
-
-    // Register mandatory webhooks (fire-and-forget)
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
+    // Register webhooks (fire-and-forget)
     const webhooks = [
       { topic: 'app/uninstalled',        address: `${appUrl}/api/shopify/webhooks/app-uninstalled` },
       { topic: 'customers/data_request', address: `${appUrl}/api/shopify/webhooks/customers-data-request` },
@@ -153,13 +169,6 @@ export async function GET(request: Request) {
 
     const response = NextResponse.redirect(new URL('/onboarding?step=3', request.url))
     response.cookies.delete('shopify_oauth_nonce')
-
-    // If we created/found a user via Shopify, redirect through magic link to auto-sign them in
-    if (!existingUser && sessionToken) {
-      const magicUrl = `${appUrl}/api/auth/confirm?token_hash=${sessionToken}&type=magiclink&next=/onboarding?step=3`
-      return NextResponse.redirect(new URL(magicUrl, request.url))
-    }
-
     return response
 
   } catch (error: any) {
