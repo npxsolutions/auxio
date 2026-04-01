@@ -114,7 +114,7 @@ export default function HomePage() {
         </p>
 
         {/* Flow diagram */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0', marginBottom: '64px', flexWrap: 'wrap', gap: '0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0', marginBottom: '64px', flexWrap: 'wrap' }}>
           {[
             { label: 'Your products', sub: 'CSV, Shopify, manual', bg: '#f7f7f5', border: '#e8e8e5' },
             null,
