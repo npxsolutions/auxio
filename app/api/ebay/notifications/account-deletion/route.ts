@@ -56,10 +56,6 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const rawBody = await request.text()
 
-  if (!verifyEbaySignature(request, rawBody)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
     const payload = JSON.parse(rawBody)
     const userId = payload?.notification?.data?.userId
