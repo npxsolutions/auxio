@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const state = crypto.randomUUID()
 
   const params = new URLSearchParams({
-    application_id: process.env.AMAZON_CLIENT_ID!,
+    application_id: process.env.AMAZON_APP_ID!,
     state,
     version:        'beta', // use 'live' once approved for production
   })
