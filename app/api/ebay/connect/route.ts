@@ -22,6 +22,7 @@ export async function GET() {
   })
 
   const authUrl = `https://auth.ebay.com/oauth2/authorize?${params.toString()}`
+  console.log('eBay connect — client_id:', process.env.EBAY_CLIENT_ID?.slice(0, 20), 'redirect_uri:', JSON.stringify(process.env.EBAY_REDIRECT_URI), 'redirect_uri_length:', process.env.EBAY_REDIRECT_URI?.length)
 
   const response = NextResponse.redirect(authUrl)
   response.cookies.set('ebay_oauth_state', state, { httpOnly: true, maxAge: 600, sameSite: 'lax', secure: true, path: '/' })
