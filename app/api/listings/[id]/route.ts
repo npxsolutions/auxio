@@ -79,12 +79,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       const tracked = ['title', 'description', 'price', 'quantity', 'images', 'attributes', 'condition']
       const changedFields = tracked.filter(f => JSON.stringify(before[f]) !== JSON.stringify((data as any)[f]))
       if (changedFields.length) {
-        getAdminSupabase().from('listing_versions').insert({
+        void Promise.resolve(getAdminSupabase().from('listing_versions').insert({
           listing_id:     id,
           user_id:        user.id,
           changed_fields: changedFields,
           snapshot:       before,
-        }).then(() => {}).catch(() => {}) // fire-and-forget
+        })).catch(() => {}) // fire-and-forget
       }
     }
 
