@@ -38,11 +38,25 @@ type Listing = {
   listing_channels: ChannelStatus[]
 }
 
+type TemplateField = {
+  key: string
+  label: string
+  required?: boolean
+  recommended?: boolean
+  attribute?: boolean
+  max_length?: number
+  hint?: string
+  values?: string[]
+  type?: string
+}
+
 const CHANNELS = [
   { id: 'shopify', icon: '🛍️', name: 'Shopify', colour: '#96BF48' },
   { id: 'ebay',   icon: '🛒', name: 'eBay',    colour: '#E53238' },
   { id: 'amazon', icon: '📦', name: 'Amazon',  colour: '#FF9900', stub: true },
 ]
+
+const CHANNEL_ICONS: Record<string, string> = { shopify: '🛍️', amazon: '📦', ebay: '🛒' }
 
 const STATUS_COLOUR: Record<string, string> = {
   published: '#0f7b6c',
@@ -50,10 +64,7 @@ const STATUS_COLOUR: Record<string, string> = {
   pending:   '#9b9b98',
 }
 
-const CHANNEL_ICONS: Record<string, string> = { shopify: '🛍️', amazon: '📦', ebay: '🛒' }
-
-// Maps field name → human label + which top-level key or attribute key it writes to
-const FIELD_META: Record<string, { label: string; type?: string; isAttribute?: boolean }> = {
+const FIELD_META: Record<string, { label: string; type?: string }> = {
   title:        { label: 'Title' },
   description:  { label: 'Description', type: 'textarea' },
   brand:        { label: 'Brand' },
@@ -86,123 +97,83 @@ function ScoreRing({ score }: { score: number }) {
   )
 }
 
-// Inline field editor — renders a small "Fill in" button that expands to an input
-function InlineField({
-  fieldKey, currentValue, isAttribute, listingId, onSaved,
-}: {
-  fieldKey: string
-  currentValue: any
-  isAttribute: boolean
-  listingId: string
-  onSaved: (updated: Listing) => void
+// ── INLINE FIELD (used on health tab) ──
+function InlineField({ fieldKey, currentValue, isAttribute, listingId, onSaved }: {
+  fieldKey: string; currentValue: any; isAttribute: boolean; listingId: string; onSaved: (l: Listing) => void
 }) {
   const [open, setOpen]     = useState(false)
   const [value, setValue]   = useState(String(currentValue ?? ''))
   const [saving, setSaving] = useState(false)
-
-  const meta = FIELD_META[fieldKey] || { label: fieldKey, isAttribute: true }
+  const meta = FIELD_META[fieldKey] || { label: fieldKey }
 
   async function save() {
     setSaving(true)
     try {
-      // Build the patch body — attribute fields nest under `attributes`
       const body = isAttribute
         ? { attributes: { [fieldKey]: value } }
         : { [fieldKey]: meta.type === 'number' ? parseFloat(value) || 0 : value }
-
-      const res = await fetch(`/api/listings/${listingId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
+      const res  = await fetch(`/api/listings/${listingId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       const data = await res.json()
-      if (res.ok) {
-        onSaved(data.listing)
-        setOpen(false)
-      }
-    } finally {
-      setSaving(false)
-    }
+      if (res.ok) { onSaved(data.listing); setOpen(false) }
+    } finally { setSaving(false) }
   }
 
-  if (!open) {
-    return (
-      <button
-        onClick={() => setOpen(true)}
-        style={{ fontSize: '12px', color: '#0f7b6c', background: '#e8f5f3', border: 'none', borderRadius: '5px', padding: '3px 9px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}
-      >
-        Fill in →
-      </button>
-    )
-  }
+  if (!open) return (
+    <button onClick={() => setOpen(true)} style={{ fontSize: '12px', color: '#0f7b6c', background: '#e8f5f3', border: 'none', borderRadius: '5px', padding: '3px 9px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>
+      Fill in →
+    </button>
+  )
 
   return (
     <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', marginTop: '4px' }}>
       {meta.type === 'textarea' ? (
-        <textarea
-          autoFocus
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          rows={3}
-          style={{ flex: 1, fontSize: '12px', padding: '6px 8px', border: '1px solid #191919', borderRadius: '6px', fontFamily: 'Inter, sans-serif', resize: 'vertical', outline: 'none' }}
-        />
+        <textarea autoFocus value={value} onChange={e => setValue(e.target.value)} rows={3}
+          style={{ flex: 1, fontSize: '12px', padding: '6px 8px', border: '1px solid #191919', borderRadius: '6px', fontFamily: 'Inter, sans-serif', resize: 'vertical', outline: 'none' }} />
       ) : (
-        <input
-          autoFocus
-          type={meta.type || 'text'}
-          value={value}
-          onChange={e => setValue(e.target.value)}
+        <input autoFocus type={meta.type || 'text'} value={value} onChange={e => setValue(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') save(); if (e.key === 'Escape') setOpen(false) }}
           placeholder={meta.label}
-          style={{ flex: 1, fontSize: '12px', padding: '6px 8px', border: '1px solid #191919', borderRadius: '6px', fontFamily: 'Inter, sans-serif', outline: 'none' }}
-        />
+          style={{ flex: 1, fontSize: '12px', padding: '6px 8px', border: '1px solid #191919', borderRadius: '6px', fontFamily: 'Inter, sans-serif', outline: 'none' }} />
       )}
       <button onClick={save} disabled={saving} style={{ fontSize: '12px', padding: '6px 10px', background: '#191919', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 600, whiteSpace: 'nowrap' }}>
         {saving ? '...' : 'Save'}
       </button>
-      <button onClick={() => setOpen(false)} style={{ fontSize: '12px', padding: '6px 8px', background: 'none', color: '#787774', border: '1px solid #e8e8e5', borderRadius: '6px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-        ×
-      </button>
+      <button onClick={() => setOpen(false)} style={{ fontSize: '12px', padding: '6px 8px', background: 'none', color: '#787774', border: '1px solid #e8e8e5', borderRadius: '6px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>×</button>
     </div>
   )
 }
 
-// Editable text field in the details panel
-function EditableField({
-  label, value, fieldKey, listingId, type, onSaved,
-}: {
-  label: string
-  value: any
-  fieldKey: string
-  listingId: string
-  type?: string
-  onSaved: (l: Listing) => void
+// ── EDITABLE FIELD (used on details tab) ──
+function EditableField({ label, value, fieldKey, listingId, type, isAttribute, hint, onSaved }: {
+  label: string; value: any; fieldKey: string; listingId: string;
+  type?: string; isAttribute?: boolean; hint?: string; onSaved: (l: Listing) => void
 }) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft]     = useState(String(value ?? ''))
   const [saving, setSaving]   = useState(false)
 
+  // Keep draft in sync when value changes externally
+  useEffect(() => { if (!editing) setDraft(String(value ?? '')) }, [value, editing])
+
   async function save() {
     setSaving(true)
     try {
       const parsed = type === 'number' ? (parseFloat(draft) || 0) : draft
-      const res = await fetch(`/api/listings/${listingId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [fieldKey]: parsed }),
-      })
-      const data = await res.json()
+      const body   = isAttribute ? { attributes: { [fieldKey]: parsed } } : { [fieldKey]: parsed }
+      const res    = await fetch(`/api/listings/${listingId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      const data   = await res.json()
       if (res.ok) { onSaved(data.listing); setEditing(false) }
-    } finally {
-      setSaving(false)
-    }
+    } finally { setSaving(false) }
   }
 
   const display = value !== null && value !== undefined && value !== '' ? String(value) : '—'
 
   return (
     <div style={{ borderBottom: '1px solid #f1f1ef', padding: '10px 0' }}>
-      <div style={{ fontSize: '11px', color: '#9b9b98', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>{label}</div>
+      <div style={{ fontSize: '11px', color: '#9b9b98', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>
+        {label}
+        {hint && <span style={{ fontWeight: 400, textTransform: 'none', marginLeft: '6px', color: '#b0b0ac' }}>{hint}</span>}
+      </div>
       {editing ? (
         <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-start' }}>
           {type === 'textarea' ? (
@@ -220,7 +191,7 @@ function EditableField({
         </div>
       ) : (
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', cursor: 'pointer' }} onClick={() => { setDraft(String(value ?? '')); setEditing(true) }}>
-          <span style={{ fontSize: '13px', color: display === '—' ? '#d0d0cc' : '#191919', fontWeight: display === '—' ? 400 : 600, flex: 1 }}>{display}</span>
+          <span style={{ fontSize: '13px', color: display === '—' ? '#d0d0cc' : '#191919', fontWeight: display === '—' ? 400 : 600, flex: 1, whiteSpace: 'pre-wrap' }}>{display}</span>
           <span style={{ fontSize: '11px', color: '#c8c8c4', flexShrink: 0 }}>edit</span>
         </div>
       )}
@@ -231,6 +202,7 @@ function EditableField({
 export default function ListingDetailPage() {
   const router = useRouter()
   const { id } = useParams<{ id: string }>()
+
   const [listing, setListing]             = useState<Listing | null>(null)
   const [loading, setLoading]             = useState(true)
   const [selected, setSelected]           = useState<string[]>([])
@@ -241,43 +213,65 @@ export default function ListingDetailPage() {
   const [healthLoading, setHealthLoading] = useState(false)
   const [optimising, setOptimising]       = useState(false)
   const [optimised, setOptimised]         = useState<Record<string, { title: string; description: string }> | null>(null)
+  const [applyingOpt, setApplyingOpt]     = useState<string | null>(null)
+  const [appliedOpt, setAppliedOpt]       = useState<Set<string>>(new Set())
   const [activeTab, setActiveTab]         = useState<'details' | 'health' | 'optimise'>('details')
+  const [templates, setTemplates]         = useState<Record<string, TemplateField[]>>({})
 
   const refreshListing = useCallback(() =>
     fetch(`/api/listings/${id}`).then(r => r.json()).then(d => { if (d.listing) setListing(d.listing) }), [id])
 
+  // Load listing and immediately score health
   useEffect(() => {
-    fetch(`/api/listings/${id}`).then(r => r.json()).then(d => { setListing(d.listing); setLoading(false) })
+    fetch(`/api/listings/${id}`).then(r => r.json()).then(d => {
+      setListing(d.listing)
+      setLoading(false)
+    })
   }, [id])
 
+  // Load channel templates whenever category changes
+  useEffect(() => {
+    if (!listing?.category && listing !== null) return
+    const category = listing?.category || 'general'
+    Promise.all(
+      ['ebay', 'amazon', 'shopify'].map(ch =>
+        fetch(`/api/templates?channel_type=${ch}&category=${encodeURIComponent(category)}`)
+          .then(r => r.json())
+          .then(d => ({ ch, fields: (d.template?.fields as TemplateField[] ?? []).filter(f => f.attribute) }))
+          .catch(() => ({ ch, fields: [] as TemplateField[] }))
+      )
+    ).then(results => {
+      const t: Record<string, TemplateField[]> = {}
+      results.forEach(({ ch, fields }) => { if (fields.length) t[ch] = fields })
+      setTemplates(t)
+    })
+  }, [listing?.category])
+
+  // Load health scores when switching to health tab
   async function loadHealth() {
     setHealthLoading(true)
     try {
-      const res = await fetch(`/api/listings/${id}/health`)
+      const res  = await fetch(`/api/listings/${id}/health`)
       const data = await res.json()
       if (res.ok) setHealth(data.health)
-    } finally {
-      setHealthLoading(false)
-    }
-  }
-
-  // When user saves a field from the health tab, refresh scores automatically
-  async function onFieldSaved(updated: Listing) {
-    setListing(updated)
-    // Merge new attribute values into listing state then re-score
-    setHealthLoading(true)
-    try {
-      const res = await fetch(`/api/listings/${id}/health`)
-      const data = await res.json()
-      if (res.ok) setHealth(data.health)
-    } finally {
-      setHealthLoading(false)
-    }
+    } finally { setHealthLoading(false) }
   }
 
   useEffect(() => {
     if (activeTab === 'health' && !health) loadHealth()
   }, [activeTab])
+
+  async function onFieldSaved(updated: Listing) {
+    setListing(updated)
+    if (activeTab === 'health') {
+      setHealthLoading(true)
+      try {
+        const res  = await fetch(`/api/listings/${id}/health`)
+        const data = await res.json()
+        if (res.ok) setHealth(data.health)
+      } finally { setHealthLoading(false) }
+    }
+  }
 
   function toggleChannel(ch: string) {
     setSelected(s => s.includes(ch) ? s.filter(c => c !== ch) : [...s, ch])
@@ -289,9 +283,8 @@ export default function ListingDetailPage() {
     setPublishError('')
     setPublishResult(null)
     try {
-      const res = await fetch(`/api/listings/${id}/publish`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res  = await fetch(`/api/listings/${id}/publish`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ channels: selected }),
       })
       const data = await res.json()
@@ -300,24 +293,37 @@ export default function ListingDetailPage() {
       refreshListing()
     } catch (err: any) {
       setPublishError(err.message)
-    } finally {
-      setPublishing(false)
-    }
+    } finally { setPublishing(false) }
   }
 
   async function optimise() {
     setOptimising(true)
+    setOptimised(null)
     try {
-      const res = await fetch(`/api/listings/${id}/optimize`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res  = await fetch(`/api/listings/${id}/optimize`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ channels: ['shopify', 'ebay', 'amazon'] }),
       })
       const data = await res.json()
       if (res.ok) setOptimised(data.optimised)
-    } finally {
-      setOptimising(false)
-    }
+    } finally { setOptimising(false) }
+  }
+
+  async function applyOptimisation(channelId: string) {
+    if (!optimised?.[channelId]) return
+    setApplyingOpt(channelId)
+    try {
+      const { title, description } = optimised[channelId]
+      const res = await fetch(`/api/listings/${id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setListing(data.listing)
+        setAppliedOpt(prev => new Set([...prev, channelId]))
+      }
+    } finally { setApplyingOpt(null) }
   }
 
   if (loading) return (
@@ -342,314 +348,372 @@ export default function ListingDetailPage() {
     boxShadow: activeTab === t ? '0 1px 4px #0001' : 'none',
   })
 
+  // Merge template attribute fields with existing attributes
+  const allTemplateFields = Object.entries(templates)
+  const existingAttributeKeys = new Set(Object.keys(listing.attributes || {}))
+
   return (
     <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
-      <div style={{ maxWidth: '960px' }}>
+        <div style={{ maxWidth: '960px' }}>
 
-        <button onClick={() => router.push('/listings')} style={{ background: 'none', border: 'none', color: '#787774', fontSize: '13px', cursor: 'pointer', padding: 0, fontFamily: 'Inter, sans-serif', marginBottom: '24px' }}>
-          ← Back to listings
-        </button>
+          <button onClick={() => router.push('/listings')} style={{ background: 'none', border: 'none', color: '#787774', fontSize: '13px', cursor: 'pointer', padding: 0, fontFamily: 'Inter, sans-serif', marginBottom: '24px' }}>
+            ← Back to listings
+          </button>
 
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#191919', margin: 0, letterSpacing: '-0.02em', flex: 1 }}>{listing.title}</h1>
-          <span style={{ fontSize: '11px', background: listing.status === 'published' ? '#e8f5f3' : '#f1f1ef', color: listing.status === 'published' ? '#0f7b6c' : '#787774', padding: '4px 10px', borderRadius: '5px', fontWeight: 600, marginLeft: '12px' }}>
-            {listing.status.toUpperCase()}
-          </span>
-        </div>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#191919', margin: 0, letterSpacing: '-0.02em', flex: 1 }}>{listing.title}</h1>
+            <span style={{ fontSize: '11px', background: listing.status === 'published' ? '#e8f5f3' : listing.status === 'partially_published' ? '#fff3e6' : '#f1f1ef', color: listing.status === 'published' ? '#0f7b6c' : listing.status === 'partially_published' ? '#d9730d' : '#787774', padding: '4px 10px', borderRadius: '5px', fontWeight: 600, marginLeft: '12px' }}>
+              {listing.status.replace('_', ' ').toUpperCase()}
+            </span>
+          </div>
 
-        <div style={{ display: 'inline-flex', gap: '4px', background: '#f1f1ef', padding: '4px', borderRadius: '10px', marginBottom: '20px' }}>
-          <button style={tabStyle('details')}  onClick={() => setActiveTab('details')}>Details</button>
-          <button style={tabStyle('health')}   onClick={() => setActiveTab('health')}>Feed health</button>
-          <button style={tabStyle('optimise')} onClick={() => setActiveTab('optimise')}>AI optimise</button>
-        </div>
+          <div style={{ display: 'inline-flex', gap: '4px', background: '#f1f1ef', padding: '4px', borderRadius: '10px', marginBottom: '20px' }}>
+            <button style={tabStyle('details')}  onClick={() => setActiveTab('details')}>Details</button>
+            <button style={tabStyle('health')}   onClick={() => setActiveTab('health')}>Feed health</button>
+            <button style={tabStyle('optimise')} onClick={() => setActiveTab('optimise')}>AI optimise</button>
+          </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '20px', alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '20px', alignItems: 'start' }}>
 
-          {/* ── LEFT ── */}
-          <div>
+            {/* ── LEFT ── */}
+            <div>
 
-            {/* DETAILS TAB — all fields editable inline */}
-            {activeTab === 'details' && <>
-              {listing.images?.length > 0 && (
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-                  {listing.images.map((img, i) => (
-                    <img key={i} src={img} alt="" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e8e8e5' }} />
-                  ))}
+              {/* ── DETAILS TAB ── */}
+              {activeTab === 'details' && <>
+
+                {listing.images?.length > 0 && (
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                    {listing.images.map((img, i) => (
+                      <img key={i} src={img} alt="" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e8e8e5' }} />
+                    ))}
+                  </div>
+                )}
+
+                <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Product details</div>
+                  <EditableField label="Title"       value={listing.title}       fieldKey="title"       listingId={id} onSaved={onFieldSaved} />
+                  <EditableField label="Description" value={listing.description} fieldKey="description" listingId={id} type="textarea" onSaved={onFieldSaved} />
+                  <EditableField label="Brand"       value={listing.brand}       fieldKey="brand"       listingId={id} onSaved={onFieldSaved} />
+                  <EditableField label="Category"    value={listing.category}    fieldKey="category"    listingId={id} onSaved={onFieldSaved} />
+                  <EditableField label="Condition"   value={listing.condition}   fieldKey="condition"   listingId={id} onSaved={onFieldSaved} />
                 </div>
-              )}
 
-              <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Product details</div>
-                <EditableField label="Title"       value={listing.title}       fieldKey="title"       listingId={id} onSaved={setListing} />
-                <EditableField label="Description" value={listing.description} fieldKey="description" listingId={id} type="textarea" onSaved={setListing} />
-                <EditableField label="Brand"       value={listing.brand}       fieldKey="brand"       listingId={id} onSaved={setListing} />
-                <EditableField label="Category"    value={listing.category}    fieldKey="category"    listingId={id} onSaved={setListing} />
-                <EditableField label="Condition"   value={listing.condition}   fieldKey="condition"   listingId={id} onSaved={setListing} />
-              </div>
-
-              <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Pricing & inventory</div>
-                <EditableField label="Price (£)"          value={listing.price}         fieldKey="price"         listingId={id} type="number" onSaved={setListing} />
-                <EditableField label="Compare at price (£)" value={listing.compare_price} fieldKey="compare_price" listingId={id} type="number" onSaved={setListing} />
-                <EditableField label="Stock quantity"     value={listing.quantity}      fieldKey="quantity"      listingId={id} type="number" onSaved={setListing} />
-                <EditableField label="SKU"                value={listing.sku}           fieldKey="sku"           listingId={id} onSaved={setListing} />
-                <EditableField label="Barcode / EAN"      value={listing.barcode}       fieldKey="barcode"       listingId={id} onSaved={setListing} />
-                <EditableField label="Weight (grams)"     value={listing.weight_grams}  fieldKey="weight_grams"  listingId={id} type="number" onSaved={setListing} />
-              </div>
-
-              <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Images</div>
-                <EditableField label="Image URLs (comma-separated)" value={Array.isArray(listing.images) ? listing.images.join(', ') : ''} fieldKey="images" listingId={id} onSaved={setListing} />
-              </div>
-
-              {Object.keys(listing.attributes || {}).length > 0 && (
-                <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px' }}>
-                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Attributes</div>
-                  {Object.entries(listing.attributes).map(([k, v]) => (
-                    <EditableField key={k} label={k} value={v} fieldKey={k} listingId={id} onSaved={setListing} />
-                  ))}
+                <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Pricing & inventory</div>
+                  <EditableField label="Price (£)"              value={listing.price}         fieldKey="price"         listingId={id} type="number" onSaved={onFieldSaved} />
+                  <EditableField label="Compare at price (£)"   value={listing.compare_price} fieldKey="compare_price" listingId={id} type="number" onSaved={onFieldSaved} />
+                  <EditableField label="Stock quantity"         value={listing.quantity}      fieldKey="quantity"      listingId={id} type="number" onSaved={onFieldSaved} />
+                  <EditableField label="SKU"                    value={listing.sku}           fieldKey="sku"           listingId={id} onSaved={onFieldSaved} />
+                  <EditableField label="Barcode / EAN"          value={listing.barcode}       fieldKey="barcode"       listingId={id} onSaved={onFieldSaved} />
+                  <EditableField label="Weight (grams)"         value={listing.weight_grams}  fieldKey="weight_grams"  listingId={id} type="number" onSaved={onFieldSaved} />
                 </div>
-              )}
 
-              {/* Channel status */}
-              <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginTop: '16px' }}>
-                <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '16px' }}>Channel status</div>
-                {CHANNELS.map(ch => {
-                  const cs = listing.listing_channels?.find(lc => lc.channel_type === ch.id)
-                  return (
-                    <div key={ch.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: '1px solid #f1f1ef' }}>
-                      <span style={{ fontSize: '20px' }}>{ch.icon}</span>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>
-                          {ch.name}
-                          {ch.stub && <span style={{ fontSize: '10px', color: '#9b9b98', background: '#f1f1ef', padding: '1px 6px', borderRadius: '4px', marginLeft: '6px', fontWeight: 600 }}>COMING SOON</span>}
+                <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Images</div>
+                  <EditableField label="Image URLs (comma-separated)" value={Array.isArray(listing.images) ? listing.images.join(', ') : ''} fieldKey="images" listingId={id} onSaved={onFieldSaved} />
+                </div>
+
+                {/* Channel-specific attributes from templates */}
+                {allTemplateFields.length > 0 && (
+                  <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '16px' }}>Channel attributes</div>
+                    {allTemplateFields.map(([channelType, fields]) => (
+                      <div key={channelType} style={{ marginBottom: '20px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', paddingBottom: '6px', borderBottom: '1px solid #f1f1ef' }}>
+                          <span style={{ fontSize: '14px' }}>{CHANNEL_ICONS[channelType]}</span>
+                          <span style={{ fontSize: '12px', fontWeight: 600, color: '#787774' }}>
+                            {channelType.charAt(0).toUpperCase() + channelType.slice(1)}
+                          </span>
                         </div>
-                        {cs?.error_message && <div style={{ fontSize: '11px', color: '#c9372c', marginTop: '2px' }}>{cs.error_message}</div>}
-                        {cs?.channel_url && <a href={cs.channel_url} target="_blank" rel="noreferrer" style={{ fontSize: '11px', color: '#0f7b6c' }}>View listing →</a>}
+                        {fields.map(f => (
+                          <EditableField
+                            key={f.key}
+                            label={`${f.label}${f.required ? ' *' : ''}`}
+                            value={listing.attributes?.[f.key] ?? ''}
+                            fieldKey={f.key}
+                            listingId={id}
+                            isAttribute={true}
+                            hint={f.hint}
+                            onSaved={onFieldSaved}
+                          />
+                        ))}
                       </div>
-                      <div style={{ fontSize: '11px', fontWeight: 600, color: cs ? STATUS_COLOUR[cs.status] : '#9b9b98', background: (cs ? STATUS_COLOUR[cs.status] : '#9b9b98') + '15', padding: '3px 8px', borderRadius: '4px' }}>
-                        {cs ? cs.status.toUpperCase() : 'NOT PUBLISHED'}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </>}
+                    ))}
+                  </div>
+                )}
 
-            {/* HEALTH TAB — missing fields with inline fill-in */}
-            {activeTab === 'health' && (
-              <div>
-                {healthLoading ? (
-                  <div style={{ color: '#9b9b98', fontSize: '13px', padding: '24px 0' }}>Scoring listing...</div>
-                ) : health ? (
-                  <>
-                    {/* Summary row */}
-                    <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                {/* Freeform attributes that aren't in templates */}
+                {Object.entries(listing.attributes || {}).filter(([k]) =>
+                  !allTemplateFields.some(([, fields]) => fields.some(f => f.key === k))
+                ).length > 0 && (
+                  <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Other attributes</div>
+                    {Object.entries(listing.attributes).filter(([k]) =>
+                      !allTemplateFields.some(([, fields]) => fields.some(f => f.key === k))
+                    ).map(([k, v]) => (
+                      <EditableField key={k} label={k} value={v} fieldKey={k} listingId={id} isAttribute={true} onSaved={onFieldSaved} />
+                    ))}
+                  </div>
+                )}
+
+                {/* Channel status */}
+                <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px' }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '16px' }}>Channel status</div>
+                  {CHANNELS.map(ch => {
+                    const cs = listing.listing_channels?.find(lc => lc.channel_type === ch.id)
+                    return (
+                      <div key={ch.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: '1px solid #f1f1ef' }}>
+                        <span style={{ fontSize: '20px' }}>{ch.icon}</span>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>
+                            {ch.name}
+                            {ch.stub && <span style={{ fontSize: '10px', color: '#9b9b98', background: '#f1f1ef', padding: '1px 6px', borderRadius: '4px', marginLeft: '6px', fontWeight: 600 }}>SOON</span>}
+                          </div>
+                          {cs?.error_message && <div style={{ fontSize: '11px', color: '#c9372c', marginTop: '2px' }}>{cs.error_message}</div>}
+                          {cs?.channel_url && <a href={cs.channel_url} target="_blank" rel="noreferrer" style={{ fontSize: '11px', color: '#0f7b6c' }}>View listing →</a>}
+                          {cs?.published_at && <div style={{ fontSize: '11px', color: '#9b9b98', marginTop: '2px' }}>Published {new Date(cs.published_at).toLocaleDateString('en-GB')}</div>}
+                        </div>
+                        <div style={{ fontSize: '11px', fontWeight: 600, color: cs ? STATUS_COLOUR[cs.status] : '#9b9b98', background: (cs ? STATUS_COLOUR[cs.status] : '#9b9b98') + '18', padding: '3px 8px', borderRadius: '4px' }}>
+                          {cs ? cs.status.replace('_', ' ').toUpperCase() : 'NOT PUBLISHED'}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>}
+
+              {/* ── HEALTH TAB ── */}
+              {activeTab === 'health' && (
+                <div>
+                  {healthLoading ? (
+                    <div style={{ color: '#9b9b98', fontSize: '13px', padding: '24px 0' }}>Scoring listing...</div>
+                  ) : health ? (
+                    <>
+                      <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                        {CHANNELS.map(ch => {
+                          const h = health[ch.id]
+                          if (!h) return null
+                          return (
+                            <div key={ch.id} style={{ flex: 1, background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '16px', textAlign: 'center' }}>
+                              <div style={{ fontSize: '13px', marginBottom: '8px' }}>{ch.icon} {ch.name}</div>
+                              <ScoreRing score={h.score} />
+                            </div>
+                          )
+                        })}
+                      </div>
+
                       {CHANNELS.map(ch => {
                         const h = health[ch.id]
                         if (!h) return null
+                        const allClear = h.missing_required.length === 0 && h.missing_optional.length === 0 && h.warnings.length === 0
                         return (
-                          <div key={ch.id} style={{ flex: 1, background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '16px', textAlign: 'center' }}>
-                            <div style={{ fontSize: '13px', marginBottom: '8px' }}>{ch.icon} {ch.name}</div>
-                            <ScoreRing score={h.score} />
+                          <div key={ch.id} style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '12px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: allClear ? 0 : '16px' }}>
+                              <span style={{ fontSize: '20px' }}>{ch.icon}</span>
+                              <span style={{ fontSize: '14px', fontWeight: 700, color: '#191919', flex: 1 }}>{ch.name}</span>
+                              <ScoreRing score={h.score} />
+                            </div>
+
+                            {allClear && <div style={{ fontSize: '13px', color: '#0f7b6c' }}>✓ All fields complete — ready to publish</div>}
+
+                            {h.missing_required.length > 0 && (
+                              <div style={{ marginBottom: '16px' }}>
+                                <div style={{ fontSize: '11px', fontWeight: 700, color: '#c9372c', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Required — listing will fail without these</div>
+                                {h.missing_required.map(f => {
+                                  const isAttr = f.startsWith('attributes.')
+                                  const key = isAttr ? f.replace('attributes.', '') : f
+                                  const current = isAttr ? listing.attributes?.[key] : (listing as any)[key]
+                                  return (
+                                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #fce8e6', gap: '12px' }}>
+                                      <div>
+                                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{FIELD_META[key]?.label || key}</div>
+                                        {isAttr && <div style={{ fontSize: '11px', color: '#9b9b98' }}>Channel attribute</div>}
+                                      </div>
+                                      <InlineField fieldKey={key} currentValue={current} isAttribute={isAttr} listingId={id} onSaved={onFieldSaved} />
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )}
+
+                            {h.missing_optional.length > 0 && (
+                              <div style={{ marginBottom: h.warnings.length ? '16px' : 0 }}>
+                                <div style={{ fontSize: '11px', fontWeight: 700, color: '#b45309', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Recommended — improves ranking & conversions</div>
+                                {h.missing_optional.map(f => {
+                                  const isAttr = f.startsWith('attributes.')
+                                  const key = isAttr ? f.replace('attributes.', '') : f
+                                  const current = isAttr ? listing.attributes?.[key] : (listing as any)[key]
+                                  return (
+                                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #fef3e2', gap: '12px' }}>
+                                      <div>
+                                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{FIELD_META[key]?.label || key}</div>
+                                        {isAttr && <div style={{ fontSize: '11px', color: '#9b9b98' }}>Channel attribute</div>}
+                                      </div>
+                                      <InlineField fieldKey={key} currentValue={current} isAttribute={isAttr} listingId={id} onSaved={onFieldSaved} />
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )}
+
+                            {h.warnings.length > 0 && (
+                              <div>
+                                <div style={{ fontSize: '11px', fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '6px' }}>Warnings</div>
+                                {h.warnings.map((w, i) => <div key={i} style={{ fontSize: '12px', color: '#787774', padding: '3px 0' }}>· {w}</div>)}
+                              </div>
+                            )}
                           </div>
                         )
                       })}
-                    </div>
 
-                    {/* Per-channel detail */}
-                    {CHANNELS.map(ch => {
-                      const h = health[ch.id]
-                      if (!h) return null
-                      const allClear = h.missing_required.length === 0 && h.missing_optional.length === 0 && h.warnings.length === 0
-                      return (
-                        <div key={ch.id} style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '12px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: allClear ? 0 : '16px' }}>
-                            <span style={{ fontSize: '20px' }}>{ch.icon}</span>
-                            <span style={{ fontSize: '14px', fontWeight: 700, color: '#191919', flex: 1 }}>{ch.name}</span>
-                            <ScoreRing score={h.score} />
-                          </div>
+                      <button onClick={loadHealth} style={{ fontSize: '12px', color: '#787774', background: 'none', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '8px 14px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                        ↻ Refresh scores
+                      </button>
+                    </>
+                  ) : (
+                    <button onClick={loadHealth} style={{ padding: '12px 20px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                      Score this listing
+                    </button>
+                  )}
+                </div>
+              )}
 
-                          {allClear && (
-                            <div style={{ fontSize: '13px', color: '#0f7b6c' }}>All fields complete — ready to publish</div>
-                          )}
+              {/* ── OPTIMISE TAB ── */}
+              {activeTab === 'optimise' && (
+                <div>
+                  <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>AI-optimised titles & descriptions</div>
+                    <p style={{ fontSize: '12px', color: '#787774', margin: '0 0 16px', lineHeight: 1.6 }}>
+                      Claude rewrites your listing per channel — keyword-rich for eBay Cassini, benefit-led for Amazon A9, brand-forward for Shopify. Apply to save directly to this listing.
+                    </p>
+                    <button onClick={optimise} disabled={optimising}
+                      style={{ padding: '10px 18px', background: optimising ? '#e8e8e5' : '#191919', color: optimising ? '#9b9b98' : 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: optimising ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}>
+                      {optimising ? 'Optimising with Claude...' : 'Optimise for all channels →'}
+                    </button>
+                  </div>
 
-                          {h.missing_required.length > 0 && (
-                            <div style={{ marginBottom: '16px' }}>
-                              <div style={{ fontSize: '11px', fontWeight: 700, color: '#c9372c', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Required — listing won't perform without these</div>
-                              {h.missing_required.map(f => {
-                                const isAttr = f.startsWith('attributes.')
-                                const key = isAttr ? f.replace('attributes.', '') : f
-                                const current = isAttr ? listing.attributes?.[key] : (listing as any)[key]
-                                return (
-                                  <div key={f} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #fce8e6', gap: '12px' }}>
-                                    <div>
-                                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{FIELD_META[key]?.label || key}</div>
-                                      {isAttr && <div style={{ fontSize: '11px', color: '#9b9b98' }}>Channel attribute</div>}
-                                    </div>
-                                    <InlineField
-                                      fieldKey={key}
-                                      currentValue={current}
-                                      isAttribute={isAttr}
-                                      listingId={id}
-                                      onSaved={onFieldSaved}
-                                    />
-                                  </div>
-                                )
-                              })}
-                            </div>
-                          )}
-
-                          {h.missing_optional.length > 0 && (
-                            <div style={{ marginBottom: h.warnings.length ? '16px' : 0 }}>
-                              <div style={{ fontSize: '11px', fontWeight: 700, color: '#b45309', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Recommended — improves ranking & conversions</div>
-                              {h.missing_optional.map(f => {
-                                const isAttr = f.startsWith('attributes.')
-                                const key = isAttr ? f.replace('attributes.', '') : f
-                                const current = isAttr ? listing.attributes?.[key] : (listing as any)[key]
-                                return (
-                                  <div key={f} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #fef3e2', gap: '12px' }}>
-                                    <div>
-                                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{FIELD_META[key]?.label || key}</div>
-                                      {isAttr && <div style={{ fontSize: '11px', color: '#9b9b98' }}>Channel attribute</div>}
-                                    </div>
-                                    <InlineField
-                                      fieldKey={key}
-                                      currentValue={current}
-                                      isAttribute={isAttr}
-                                      listingId={id}
-                                      onSaved={onFieldSaved}
-                                    />
-                                  </div>
-                                )
-                              })}
-                            </div>
-                          )}
-
-                          {h.warnings.length > 0 && (
-                            <div>
-                              <div style={{ fontSize: '11px', fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '6px' }}>Warnings</div>
-                              {h.warnings.map((w, i) => (
-                                <div key={i} style={{ fontSize: '12px', color: '#787774', padding: '3px 0' }}>· {w}</div>
-                              ))}
-                            </div>
+                  {optimised && CHANNELS.map(ch => {
+                    const o = optimised[ch.id]
+                    if (!o) return null
+                    const applied = appliedOpt.has(ch.id)
+                    return (
+                      <div key={ch.id} style={{ background: 'white', borderRadius: '12px', border: `1px solid ${applied ? '#b7e4d8' : '#e8e8e5'}`, padding: '24px', marginBottom: '12px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                          <span style={{ fontSize: '18px' }}>{ch.icon}</span>
+                          <span style={{ fontSize: '13px', fontWeight: 700, color: '#191919', flex: 1 }}>{ch.name}</span>
+                          {applied ? (
+                            <span style={{ fontSize: '12px', color: '#0f7b6c', fontWeight: 600 }}>✓ Applied</span>
+                          ) : (
+                            <button
+                              onClick={() => applyOptimisation(ch.id)}
+                              disabled={applyingOpt === ch.id}
+                              style={{ fontSize: '12px', padding: '6px 14px', background: '#191919', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>
+                              {applyingOpt === ch.id ? 'Applying...' : 'Apply to listing'}
+                            </button>
                           )}
                         </div>
-                      )
-                    })}
 
-                    <button onClick={loadHealth} style={{ fontSize: '12px', color: '#787774', background: 'none', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '8px 14px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                      Refresh scores
-                    </button>
-                  </>
-                ) : null}
-              </div>
-            )}
-
-            {/* OPTIMISE TAB */}
-            {activeTab === 'optimise' && (
-              <div>
-                <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>AI-optimised titles & descriptions</div>
-                  <p style={{ fontSize: '12px', color: '#787774', margin: '0 0 16px', lineHeight: 1.6 }}>
-                    Claude rewrites your listing for each channel — keyword-rich for eBay Cassini, benefit-led for Amazon A9, and brand-forward for Shopify.
-                  </p>
-                  <button onClick={optimise} disabled={optimising}
-                    style={{ padding: '10px 18px', background: optimising ? '#e8e8e5' : '#191919', color: optimising ? '#9b9b98' : 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: optimising ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                    {optimising ? 'Optimising with Claude...' : 'Optimise for all channels'}
-                  </button>
+                        <div style={{ marginBottom: '12px' }}>
+                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>Title</div>
+                          <div style={{ fontSize: '13px', color: '#191919', fontWeight: 600, lineHeight: 1.5 }}>{o.title}</div>
+                          <div style={{ fontSize: '11px', color: o.title.length > 80 && ch.id === 'ebay' ? '#c9372c' : '#9b9b98', marginTop: '2px' }}>
+                            {o.title.length} chars
+                            {o.title.length > 80 && ch.id === 'ebay' && ' — over eBay 80 char limit'}
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>Description</div>
+                          <div style={{ fontSize: '12px', color: '#3d3d3a', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{o.description}</div>
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
-
-                {optimised && CHANNELS.map(ch => {
-                  const o = optimised[ch.id]
-                  if (!o) return null
-                  return (
-                    <div key={ch.id} style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '12px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                        <span style={{ fontSize: '18px' }}>{ch.icon}</span>
-                        <span style={{ fontSize: '13px', fontWeight: 700, color: '#191919', flex: 1 }}>{ch.name}</span>
-                      </div>
-                      <div style={{ marginBottom: '12px' }}>
-                        <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>Title</div>
-                        <div style={{ fontSize: '13px', color: '#191919', fontWeight: 600 }}>{o.title}</div>
-                        <div style={{ fontSize: '11px', color: '#9b9b98', marginTop: '2px' }}>{o.title.length} chars</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>Description</div>
-                        <div style={{ fontSize: '12px', color: '#3d3d3a', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{o.description}</div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* ── RIGHT — publish panel ── */}
-          <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', position: 'sticky', top: '24px' }}>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Publish to channels</div>
-            <p style={{ fontSize: '12px', color: '#787774', margin: '0 0 16px' }}>Select where to publish this listing</p>
-
-            {publishError && (
-              <div style={{ background: '#fce8e6', color: '#c9372c', padding: '10px 12px', borderRadius: '7px', fontSize: '12px', marginBottom: '12px' }}>{publishError}</div>
-            )}
-            {publishResult && (
-              <div style={{ background: '#e8f5f3', color: '#0f7b6c', padding: '10px 12px', borderRadius: '7px', fontSize: '12px', marginBottom: '12px' }}>
-                {Object.entries(publishResult).map(([ch, r]: any) => (
-                  <div key={ch}>{CHANNEL_ICONS[ch]} {ch}: {r.status}{r.error ? ` — ${r.error}` : ''}</div>
-                ))}
-              </div>
-            )}
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-              {CHANNELS.map(ch => {
-                const cs = listing.listing_channels?.find(lc => lc.channel_type === ch.id)
-                const isPublished = cs?.status === 'published'
-                const isChecked   = selected.includes(ch.id)
-                return (
-                  <label key={ch.id}
-                    style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${isChecked ? '#191919' : '#e8e8e5'}`, cursor: ch.stub ? 'default' : 'pointer', opacity: ch.stub ? 0.5 : 1 }}>
-                    <input type="checkbox" checked={isChecked} disabled={!!ch.stub}
-                      onChange={() => !ch.stub && toggleChannel(ch.id)} style={{ accentColor: '#191919' }} />
-                    <span style={{ fontSize: '16px' }}>{ch.icon}</span>
-                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919', flex: 1 }}>{ch.name}</span>
-                    {isPublished && <span style={{ fontSize: '10px', color: '#0f7b6c', fontWeight: 700 }}>✓ LIVE</span>}
-                    {ch.stub && <span style={{ fontSize: '10px', color: '#9b9b98', fontWeight: 600 }}>SOON</span>}
-                  </label>
-                )
-              })}
+              )}
             </div>
 
-            <button onClick={publish} disabled={publishing || selected.length === 0}
-              style={{ width: '100%', padding: '12px', background: selected.length && !publishing ? '#191919' : '#e8e8e5', color: selected.length && !publishing ? 'white' : '#9b9b98', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: selected.length && !publishing ? 'pointer' : 'default', fontFamily: 'Inter, sans-serif' }}>
-              {publishing ? 'Publishing...' : `Publish to ${selected.length || 0} channel${selected.length !== 1 ? 's' : ''}`}
-            </button>
+            {/* ── RIGHT — publish panel ── */}
+            <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', position: 'sticky', top: '24px' }}>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Publish to channels</div>
+              <p style={{ fontSize: '12px', color: '#787774', margin: '0 0 16px' }}>Select where to publish this listing</p>
 
-            {/* Quick health summary in sidebar */}
-            {health && (
-              <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #f1f1ef' }}>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Feed health</div>
-                {CHANNELS.map(ch => {
-                  const h = health[ch.id]
-                  if (!h) return null
-                  const c = scoreColour(h.score)
-                  return (
-                    <div key={ch.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                      <span style={{ fontSize: '14px' }}>{ch.icon}</span>
-                      <div style={{ flex: 1, height: '4px', background: '#f1f1ef', borderRadius: '2px' }}>
-                        <div style={{ width: `${h.score}%`, height: '4px', background: c, borderRadius: '2px' }} />
+              {publishError && (
+                <div style={{ background: '#fce8e6', color: '#c9372c', padding: '10px 12px', borderRadius: '7px', fontSize: '12px', marginBottom: '12px' }}>{publishError}</div>
+              )}
+
+              {publishResult && (
+                <div style={{ background: '#f7f7f5', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '12px', marginBottom: '12px' }}>
+                  {Object.entries(publishResult).map(([ch, r]: any) => (
+                    <div key={ch} style={{ marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: r.status === 'published' ? '#0f7b6c' : '#c9372c' }}>
+                        <span>{CHANNEL_ICONS[ch]}</span>
+                        <span>{ch}</span>
+                        <span style={{ fontWeight: 400 }}>— {r.status}</span>
                       </div>
-                      <span style={{ fontSize: '11px', fontWeight: 700, color: c, minWidth: '26px', textAlign: 'right' }}>{h.score}</span>
+                      {r.validation_errors?.length > 0 && (
+                        <ul style={{ margin: '4px 0 0 20px', padding: 0, listStyle: 'disc' }}>
+                          {r.validation_errors.map((e: string, i: number) => (
+                            <li key={i} style={{ fontSize: '11px', color: '#c9372c', marginBottom: '2px' }}>{e}</li>
+                          ))}
+                        </ul>
+                      )}
+                      {r.error && !r.validation_errors?.length && (
+                        <div style={{ fontSize: '11px', color: '#c9372c', marginTop: '2px', marginLeft: '20px' }}>{r.error}</div>
+                      )}
+                      {r.url && <a href={r.url} target="_blank" rel="noreferrer" style={{ fontSize: '11px', color: '#0f7b6c', marginLeft: '20px' }}>View listing →</a>}
                     </div>
+                  ))}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+                {CHANNELS.map(ch => {
+                  const cs        = listing.listing_channels?.find(lc => lc.channel_type === ch.id)
+                  const isPublished = cs?.status === 'published'
+                  const isChecked   = selected.includes(ch.id)
+                  return (
+                    <label key={ch.id}
+                      style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${isChecked ? '#191919' : '#e8e8e5'}`, cursor: ch.stub ? 'default' : 'pointer', opacity: ch.stub ? 0.5 : 1 }}>
+                      <input type="checkbox" checked={isChecked} disabled={!!ch.stub} onChange={() => !ch.stub && toggleChannel(ch.id)} style={{ accentColor: '#191919' }} />
+                      <span style={{ fontSize: '16px' }}>{ch.icon}</span>
+                      <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919', flex: 1 }}>{ch.name}</span>
+                      {isPublished && <span style={{ fontSize: '10px', color: '#0f7b6c', fontWeight: 700 }}>✓ LIVE</span>}
+                      {ch.stub && <span style={{ fontSize: '10px', color: '#9b9b98', fontWeight: 600 }}>SOON</span>}
+                    </label>
                   )
                 })}
               </div>
-            )}
+
+              <button onClick={publish} disabled={publishing || selected.length === 0}
+                style={{ width: '100%', padding: '12px', background: selected.length && !publishing ? '#191919' : '#e8e8e5', color: selected.length && !publishing ? 'white' : '#9b9b98', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: selected.length && !publishing ? 'pointer' : 'default', fontFamily: 'Inter, sans-serif' }}>
+                {publishing ? 'Publishing...' : `Publish to ${selected.length || 0} channel${selected.length !== 1 ? 's' : ''}`}
+              </button>
+
+              {/* Health summary */}
+              {health && (
+                <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #f1f1ef' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Feed health</div>
+                  {CHANNELS.map(ch => {
+                    const h = health[ch.id]
+                    if (!h) return null
+                    const c = scoreColour(h.score)
+                    return (
+                      <div key={ch.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                        <span style={{ fontSize: '14px' }}>{ch.icon}</span>
+                        <div style={{ flex: 1, height: '4px', background: '#f1f1ef', borderRadius: '2px' }}>
+                          <div style={{ width: `${h.score}%`, height: '4px', background: c, borderRadius: '2px' }} />
+                        </div>
+                        <span style={{ fontSize: '11px', fontWeight: 700, color: c, minWidth: '26px', textAlign: 'right' }}>{h.score}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
       </main>
     </div>
   )
