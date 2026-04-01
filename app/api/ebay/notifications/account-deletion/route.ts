@@ -34,13 +34,20 @@ export async function GET(request: Request) {
   }
 
   // eBay expects: SHA256(challengeCode + verificationToken + endpointUrl)
-  const endpointUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'}/api/ebay/notifications/account-deletion`
-  const verificationToken = process.env.EBAY_VERIFICATION_TOKEN!
+  const endpointUrl = 'https://auxio-lkqv.vercel.app/api/ebay/notifications/account-deletion'
+  const verificationToken = process.env.EBAY_VERIFICATION_TOKEN
+
+  if (!verificationToken) {
+    console.error('EBAY_VERIFICATION_TOKEN is not set')
+    return NextResponse.json({ error: 'Misconfigured' }, { status: 500 })
+  }
 
   const { createHash } = await import('crypto')
   const hash = createHash('sha256')
     .update(challengeCode + verificationToken + endpointUrl)
     .digest('hex')
+
+  console.log(`eBay challenge — code: ${challengeCode}, token_length: ${verificationToken.length}, endpoint: ${endpointUrl}, hash: ${hash}`)
 
   return NextResponse.json({ challengeResponse: hash })
 }
