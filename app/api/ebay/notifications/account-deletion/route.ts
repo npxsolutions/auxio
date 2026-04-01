@@ -33,10 +33,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Missing challenge_code' }, { status: 400 })
   }
 
-  // eBay expects: SHA256(challenge_code + client_secret + endpoint_url)
+  // eBay expects: SHA256(challengeCode + verificationToken + endpointUrl)
   const endpointUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'}/api/ebay/notifications/account-deletion`
-  const hash = createHmac('sha256', process.env.EBAY_CLIENT_SECRET!)
-    .update(challengeCode + process.env.EBAY_CLIENT_SECRET! + endpointUrl)
+  const verificationToken = process.env.EBAY_VERIFICATION_TOKEN!
+
+  const { createHash } = await import('crypto')
+  const hash = createHash('sha256')
+    .update(challengeCode + verificationToken + endpointUrl)
     .digest('hex')
 
   return NextResponse.json({ challengeResponse: hash })
