@@ -29,6 +29,12 @@ export async function GET(request: Request) {
 
   const response = NextResponse.redirect(authUrl)
   // Store nonce in cookie for CSRF validation in callback
-  response.cookies.set('shopify_oauth_nonce', nonce, { httpOnly: true, maxAge: 300, sameSite: 'lax' })
+  response.cookies.set('shopify_oauth_nonce', nonce, {
+    httpOnly: true,
+    maxAge: 300,
+    sameSite: 'lax',
+    secure: true,
+    path: '/',
+  })
   return response
 }

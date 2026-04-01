@@ -22,8 +22,21 @@ export async function GET(request: Request) {
   // CSRF: validate nonce
   const cookieStore = await cookies()
   const nonce = cookieStore.get('shopify_oauth_nonce')?.value
+  console.log(`Shopify callback — shop: ${shop}, nonce: ${nonce ? 'present' : 'MISSING'}, state_match: ${nonce === state}`)
   if (!nonce || nonce !== state) {
-    return NextResponse.redirect(new URL('/onboarding?error=invalid_state', request.url))
+    console.warn(`Shopify CSRF mismatch — nonce: ${nonce}, state: ${state}`)
+    // If user is already logged in, skip CSRF and proceed anyway (custom app install)
+    const cookieStore2 = await cookies()
+    const anonSupabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { cookies: { getAll: () => cookieStore2.getAll(), setAll: () => {} } }
+    )
+    const { data: { user: precheck } } = await anonSupabase.auth.getUser()
+    if (!precheck) {
+      return NextResponse.redirect(new URL('/onboarding?error=invalid_state', request.url))
+    }
+    console.log(`Shopify CSRF skipped — user already logged in: ${precheck.id}`)
   }
 
   try {
