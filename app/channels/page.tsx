@@ -68,11 +68,16 @@ export default function ChannelsPage() {
         const res = await fetch('/api/shopify/sync', { method: 'POST' })
         const json = await res.json()
         showToast(json.message || 'Sync complete')
+      } else if (channelType === 'ebay') {
+        const res = await fetch('/api/ebay/sync', { method: 'POST' })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || 'Sync failed')
+        showToast(json.message || 'eBay sync complete')
       } else {
-        showToast('Manual sync triggered — data will update overnight')
+        showToast('Sync not yet supported for this channel')
       }
-    } catch {
-      showToast('Sync failed — please try again')
+    } catch (err: any) {
+      showToast(err.message || 'Sync failed — please try again')
     } finally {
       setSyncing(null)
     }
