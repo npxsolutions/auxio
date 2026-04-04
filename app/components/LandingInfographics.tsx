@@ -117,7 +117,7 @@ export function TrueProfitWaterfall() {
         const isResult = step.type === 'result'
         return (
           <div key={step.label} style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '100px', fontSize: '12px', color: '#787774', textAlign: 'right', flexShrink: 0, fontWeight: isResult ? 700 : 400, color: isResult ? '#0f7b6c' : '#787774' }}>
+            <div style={{ width: '100px', fontSize: '12px', textAlign: 'right', flexShrink: 0, fontWeight: isResult ? 700 : 400, color: isResult ? '#0f7b6c' : '#787774' }}>
               {step.label}
             </div>
             <div style={{ flex: 1, position: 'relative', height: `${barHeight}px`, background: '#f7f7f5', borderRadius: '6px', overflow: 'hidden' }}>
