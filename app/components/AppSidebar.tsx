@@ -56,8 +56,10 @@ export default function AppSidebar() {
       items: [
         { href: '/dashboard',  icon: '⚡', label: 'Command Centre' },
         { href: '/listings',   icon: '🏷️', label: 'Listings' },
+        { href: '/orders',     icon: '📋', label: 'Orders' },
         { href: '/channels',   icon: '🔗', label: 'Channels' },
         { href: '/inventory',  icon: '📦', label: 'Inventory' },
+        { href: '/rules',      icon: '⚙️', label: 'Feed Rules' },
       ],
     },
     {
@@ -70,7 +72,7 @@ export default function AppSidebar() {
       label: 'Account',
       items: [
         { href: '/settings', icon: '⚙️', label: 'Settings' },
-        { href: '/billing', icon: '💳', label: 'Billing' },
+        { href: '/billing',  icon: '💳', label: 'Billing' },
       ],
     },
   ]

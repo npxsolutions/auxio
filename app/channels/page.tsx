@@ -65,14 +65,21 @@ export default function ChannelsPage() {
     setSyncing(channelId)
     try {
       if (channelType === 'shopify') {
-        const res = await fetch('/api/shopify/sync', { method: 'POST' })
-        const json = await res.json()
-        showToast(json.message || 'Sync complete')
+        // Sync orders AND products in parallel
+        const [ordersRes, productsRes] = await Promise.all([
+          fetch('/api/shopify/sync',          { method: 'POST' }).then(r => r.json()),
+          fetch('/api/shopify/products/sync', { method: 'POST' }).then(r => r.json()),
+        ])
+        const msgs = [ordersRes.message, productsRes.message].filter(Boolean).join(' · ')
+        showToast(msgs || 'Shopify sync complete')
       } else if (channelType === 'ebay') {
-        const res = await fetch('/api/ebay/sync', { method: 'POST' })
-        const json = await res.json()
-        if (!res.ok) throw new Error(json.error || 'Sync failed')
-        showToast(json.message || 'eBay sync complete')
+        // Sync listings AND orders in parallel
+        const [listingsRes, ordersRes] = await Promise.all([
+          fetch('/api/ebay/sync',        { method: 'POST' }).then(r => r.json()),
+          fetch('/api/ebay/orders/sync', { method: 'POST' }).then(r => r.json()),
+        ])
+        const msgs = [listingsRes.message, ordersRes.message].filter(Boolean).join(' · ')
+        showToast(msgs || 'eBay sync complete')
       } else {
         showToast('Sync not yet supported for this channel')
       }
