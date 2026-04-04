@@ -143,6 +143,62 @@ function InlineField({ fieldKey, currentValue, isAttribute, listingId, onSaved }
   )
 }
 
+// ── EBAY CATEGORY PICKER ──
+function EbayCategoryPicker({ value, onChange }: {
+  value: { id: string; name: string } | null
+  onChange: (v: { id: string; name: string } | null) => void
+}) {
+  const [query, setQuery]       = useState('')
+  const [results, setResults]   = useState<{ id: string; name: string; path: string }[]>([])
+  const [open, setOpen]         = useState(false)
+  const [searching, setSearching] = useState(false)
+
+  useEffect(() => {
+    if (query.length < 2) { setResults([]); return }
+    const t = setTimeout(async () => {
+      setSearching(true)
+      try {
+        const res  = await fetch(`/api/ebay/categories?q=${encodeURIComponent(query)}`)
+        const data = await res.json()
+        setResults(data.categories || [])
+      } finally { setSearching(false) }
+    }, 400)
+    return () => clearTimeout(t)
+  }, [query])
+
+  if (value) return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <span style={{ fontSize: '11px', color: '#0f7b6c', background: '#e8f5f3', padding: '3px 8px', borderRadius: '4px', fontWeight: 600, flex: 1 }}>{value.name}</span>
+      <button onClick={() => onChange(null)} style={{ fontSize: '11px', color: '#787774', background: 'none', border: '1px solid #e8e8e5', borderRadius: '4px', padding: '3px 7px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>×</button>
+    </div>
+  )
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        placeholder="Search eBay categories..."
+        value={query}
+        onChange={e => { setQuery(e.target.value); setOpen(true) }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 200)}
+        style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '6px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box' }}
+      />
+      {open && (searching || results.length > 0) && (
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'white', border: '1px solid #e8e8e5', borderRadius: '6px', boxShadow: '0 4px 16px #0002', zIndex: 100, maxHeight: '200px', overflowY: 'auto', marginTop: '2px' }}>
+          {searching && <div style={{ fontSize: '11px', color: '#9b9b98', padding: '8px 12px' }}>Searching...</div>}
+          {results.map(r => (
+            <button key={r.id} onMouseDown={() => { onChange({ id: r.id, name: r.name }); setQuery(''); setOpen(false) }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', border: 'none', borderBottom: '1px solid #f1f1ef', background: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#191919' }}>{r.name}</div>
+              <div style={{ fontSize: '10px', color: '#9b9b98', marginTop: '1px' }}>{r.path}</div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── EDITABLE FIELD (used on details tab) ──
 function EditableField({ label, value, fieldKey, listingId, type, isAttribute, hint, onSaved }: {
   label: string; value: any; fieldKey: string; listingId: string;
@@ -217,6 +273,12 @@ export default function ListingDetailPage() {
   const [appliedOpt, setAppliedOpt]       = useState<Set<string>>(new Set())
   const [activeTab, setActiveTab]         = useState<'details' | 'health' | 'optimise'>('details')
   const [templates, setTemplates]         = useState<Record<string, TemplateField[]>>({})
+  const [categorySelections, setCategorySelections] = useState<Record<string, { id: string; name: string } | null>>({})
+  const [ebayAspects, setEbayAspects]               = useState<Array<{ name: string; required: boolean; values: string[] }>>([])
+  const [ebayAspectsLoading, setEbayAspectsLoading] = useState(false)
+  const [aspectValues, setAspectValues]             = useState<Record<string, string>>({})
+  const [catalogLooking, setCatalogLooking]         = useState(false)
+  const [catalogMsg, setCatalogMsg]                 = useState('')
 
   const refreshListing = useCallback(() =>
     fetch(`/api/listings/${id}`).then(r => r.json()).then(d => { if (d.listing) setListing(d.listing) }), [id])
@@ -246,6 +308,50 @@ export default function ListingDetailPage() {
       setTemplates(t)
     })
   }, [listing?.category])
+
+  // Load eBay item aspects when category is selected
+  const ebayCategoryId = categorySelections['ebay']?.id
+  useEffect(() => {
+    if (!ebayCategoryId) { setEbayAspects([]); setAspectValues({}); return }
+    setEbayAspectsLoading(true)
+    setAspectValues({})
+    fetch(`/api/ebay/aspects?categoryId=${ebayCategoryId}`)
+      .then(r => r.json())
+      .then(d => setEbayAspects(d.aspects || []))
+      .catch(() => setEbayAspects([]))
+      .finally(() => setEbayAspectsLoading(false))
+  }, [ebayCategoryId])
+
+  // Auto-fill listing from eBay catalog by barcode
+  async function lookupEbayCatalog() {
+    if (!listing?.barcode) return
+    setCatalogLooking(true)
+    setCatalogMsg('')
+    try {
+      const res  = await fetch(`/api/ebay/catalog?barcode=${encodeURIComponent(listing.barcode)}`)
+      const data = await res.json()
+      if (!data.product) { setCatalogMsg('No match found on eBay for this barcode'); return }
+      const { title, description, images, category, condition, brand } = data.product
+      const patch: Record<string, any> = {}
+      if (title       && !listing.title)           patch.title = title
+      if (description && !listing.description)     patch.description = description
+      if (images?.length) patch.images = images
+      if (condition   && !listing.condition)       patch.condition = condition
+      if (brand       && !listing.brand)           patch.brand = brand
+      if (Object.keys(patch).length === 0) {
+        setCatalogMsg('eBay match found — all fields already filled')
+        if (category?.id && !categorySelections['ebay']) setCategorySelections(p => ({ ...p, ebay: category }))
+        return
+      }
+      const pRes  = await fetch(`/api/listings/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch) })
+      const pData = await pRes.json()
+      if (pRes.ok) {
+        setListing(pData.listing)
+        if (category?.id && !categorySelections['ebay']) setCategorySelections(p => ({ ...p, ebay: category }))
+        setCatalogMsg(`Auto-filled: ${Object.keys(patch).join(', ')}`)
+      }
+    } finally { setCatalogLooking(false) }
+  }
 
   // Load health scores when switching to health tab
   async function loadHealth() {
@@ -285,7 +391,7 @@ export default function ListingDetailPage() {
     try {
       const res  = await fetch(`/api/listings/${id}/publish`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ channels: selected }),
+        body: JSON.stringify({ channels: selected, categorySelections, aspectValues }),
       })
       const data = await res.json()
       if (!res.ok) { setPublishError(data.error); return }
@@ -382,6 +488,21 @@ export default function ListingDetailPage() {
 
               {/* ── DETAILS TAB ── */}
               {activeTab === 'details' && <>
+
+                {/* eBay catalog auto-fill */}
+                {listing.barcode && (
+                  <div style={{ background: '#f0f9ff', border: '1px solid #bae0fd', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: '#0369a1' }}>Auto-fill from eBay catalog</div>
+                      <div style={{ fontSize: '11px', color: '#0369a1', marginTop: '2px', opacity: 0.8 }}>Barcode detected — look up on eBay to auto-fill title, images, description and more</div>
+                      {catalogMsg && <div style={{ fontSize: '11px', color: catalogMsg.startsWith('No') ? '#c9372c' : '#0f7b6c', marginTop: '4px', fontWeight: 600 }}>{catalogMsg}</div>}
+                    </div>
+                    <button onClick={lookupEbayCatalog} disabled={catalogLooking}
+                      style={{ padding: '8px 14px', background: catalogLooking ? '#e8e8e5' : '#0369a1', color: catalogLooking ? '#9b9b98' : 'white', border: 'none', borderRadius: '7px', fontSize: '12px', fontWeight: 600, cursor: catalogLooking ? 'default' : 'pointer', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap' }}>
+                      {catalogLooking ? 'Looking up...' : '🔍 Auto-fill'}
+                    </button>
+                  </div>
+                )}
 
                 {listing.images?.length > 0 && (
                   <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
@@ -685,6 +806,68 @@ export default function ListingDetailPage() {
                   )
                 })}
               </div>
+
+              {/* Per-channel category pickers */}
+              {selected.length > 0 && (
+                <div style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {selected.includes('ebay') && (
+                    <div>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>🛒 eBay category</div>
+                      <EbayCategoryPicker
+                        value={categorySelections['ebay'] || null}
+                        onChange={v => setCategorySelections(p => ({ ...p, ebay: v }))}
+                      />
+
+                      {/* Dynamic item specifics for selected category */}
+                      {categorySelections['ebay'] && (
+                        <div style={{ marginTop: '10px' }}>
+                          {ebayAspectsLoading ? (
+                            <div style={{ fontSize: '11px', color: '#9b9b98', padding: '4px 0' }}>Loading category fields...</div>
+                          ) : ebayAspects.length > 0 ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                              <div style={{ fontSize: '10px', fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Item specifics</div>
+                              {ebayAspects.map(a => (
+                                <div key={a.name}>
+                                  <div style={{ fontSize: '10px', fontWeight: 600, color: a.required ? '#c9372c' : '#9b9b98', marginBottom: '2px' }}>
+                                    {a.name}{a.required ? ' *' : ''}
+                                  </div>
+                                  {a.values.length > 0 ? (
+                                    <select
+                                      value={aspectValues[a.name] || ''}
+                                      onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
+                                      style={{ width: '100%', fontSize: '12px', padding: '5px 7px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', background: 'white', color: '#191919' }}>
+                                      <option value="">Select...</option>
+                                      {a.values.map(v => <option key={v} value={v}>{v}</option>)}
+                                    </select>
+                                  ) : (
+                                    <input
+                                      value={aspectValues[a.name] || ''}
+                                      onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
+                                      placeholder={`Enter ${a.name}...`}
+                                      style={{ width: '100%', fontSize: '12px', padding: '5px 7px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box' }}
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {selected.includes('shopify') && (
+                    <div>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>🛍️ Shopify product type</div>
+                      <input
+                        placeholder="e.g. Electronics, Clothing..."
+                        value={categorySelections['shopify']?.name || ''}
+                        onChange={e => setCategorySelections(p => ({ ...p, shopify: e.target.value ? { id: e.target.value, name: e.target.value } : null }))}
+                        style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '6px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box' }}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
 
               <button onClick={publish} disabled={publishing || selected.length === 0}
                 style={{ width: '100%', padding: '12px', background: selected.length && !publishing ? '#191919' : '#e8e8e5', color: selected.length && !publishing ? 'white' : '#9b9b98', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: selected.length && !publishing ? 'pointer' : 'default', fontFamily: 'Inter, sans-serif' }}>

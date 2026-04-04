@@ -8,10 +8,8 @@ export async function GET(request: Request) {
   const state = searchParams.get('state')
   const error = searchParams.get('error')
 
-  console.log('eBay callback params:', { code: !!code, state, error, allParams: Object.fromEntries(searchParams) })
-
   if (error || !code) {
-    console.error('eBay callback error:', error, 'all params:', Object.fromEntries(searchParams))
+    console.error('eBay callback error:', error)
     return NextResponse.redirect(new URL('/channels?error=ebay_auth_failed', request.url))
   }
 
@@ -38,9 +36,6 @@ export async function GET(request: Request) {
       `${process.env.EBAY_CLIENT_ID!}:${process.env.EBAY_CLIENT_SECRET!}`
     ).toString('base64')
 
-    const redirectUri = process.env.EBAY_REDIRECT_URI!
-    console.log('eBay token exchange — redirect_uri:', JSON.stringify(redirectUri), 'length:', redirectUri.length)
-
     const tokenRes = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
       method: 'POST',
       headers: {
@@ -48,9 +43,9 @@ export async function GET(request: Request) {
         'Authorization': `Basic ${credentials}`,
       },
       body: new URLSearchParams({
-        grant_type:   'authorization_code',
+        grant_type:    'authorization_code',
         code,
-        redirect_uri: process.env.EBAY_REDIRECT_URI!,
+        redirect_uri:  process.env.EBAY_REDIRECT_URI!,
       }),
     })
 

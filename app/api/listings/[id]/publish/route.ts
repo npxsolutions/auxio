@@ -53,6 +53,7 @@ function validateForChannel(listing: any, channelType: string): string[] {
       errors.push(`eBay title must be ≤80 characters (currently ${listing.title.length})`)
     if (!listing.description?.trim())  errors.push('eBay requires a description')
     if (!listing.condition)            errors.push('eBay requires a condition')
+    if (!listing.images?.length)       errors.push('eBay requires at least one product image')
   }
 
   if (channelType === 'shopify') {
@@ -145,10 +146,17 @@ async function getEbayAccessToken(refreshToken: string): Promise<string> {
 
 async function getEbayPolicies(accessToken: string) {
   const h = { Authorization: `Bearer ${accessToken}` }
+
+  async function fetchPolicy(url: string) {
+    const res = await fetch(url, { headers: h })
+    if (!res.ok) throw Object.assign(new Error(`eBay policy fetch failed (${res.status}): ${await res.text()}`), { status: res.status })
+    return res.json()
+  }
+
   const [fp, pp, rp] = await Promise.all([
-    fetch('https://api.ebay.com/sell/account/v1/fulfillment_policy?marketplace_id=EBAY_GB', { headers: h }).then(r => r.json()),
-    fetch('https://api.ebay.com/sell/account/v1/payment_policy?marketplace_id=EBAY_GB',     { headers: h }).then(r => r.json()),
-    fetch('https://api.ebay.com/sell/account/v1/return_policy?marketplace_id=EBAY_GB',      { headers: h }).then(r => r.json()),
+    fetchPolicy('https://api.ebay.com/sell/account/v1/fulfillment_policy?marketplace_id=EBAY_GB'),
+    fetchPolicy('https://api.ebay.com/sell/account/v1/payment_policy?marketplace_id=EBAY_GB'),
+    fetchPolicy('https://api.ebay.com/sell/account/v1/return_policy?marketplace_id=EBAY_GB'),
   ])
   const fulfillmentPolicyId = fp.fulfillmentPolicies?.[0]?.fulfillmentPolicyId
   const paymentPolicyId     = pp.paymentPolicies?.[0]?.paymentPolicyId
@@ -165,7 +173,7 @@ async function getOrCreateEbayLocation(accessToken: string): Promise<string> {
   const data = await res.json()
   if (data.locations?.length) return data.locations[0].merchantLocationKey
   const key = 'AUXIO_DEFAULT'
-  await fetch(`https://api.ebay.com/sell/inventory/v1/location/${key}`, {
+  const createRes = await fetch(`https://api.ebay.com/sell/inventory/v1/location/${key}`, {
     method: 'POST',
     headers: { ...h, 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -175,11 +183,16 @@ async function getOrCreateEbayLocation(accessToken: string): Promise<string> {
       name: 'Default',
     }),
   })
+  if (!createRes.ok) {
+    const body = await createRes.text()
+    throw Object.assign(new Error(`eBay location creation failed: ${body}`), { status: createRes.status })
+  }
   return key
 }
 
 // ── EBAY PUBLISHER ──
-async function publishToEbay(listing: any, channel: any): Promise<{ id: string; url: string }> {
+async function publishToEbay(listing: any, channel: any, categoryId?: string, aspectValues?: Record<string, string>): Promise<{ id: string; url: string }> {
+  console.log(`[ebay:publish] listing=${listing.id} sku=${listing.sku || listing.id} categoryId=${categoryId}`)
   const access_token = await getEbayAccessToken(channel.refresh_token)
 
   const [policies, locationKey] = await Promise.all([
@@ -202,7 +215,11 @@ async function publishToEbay(listing: any, channel: any): Promise<{ id: string; 
           title:       listing.title,
           description: listing.description || listing.title,
           imageUrls:   listing.images || [],
-          aspects:     listing.attributes || {},
+          // eBay Inventory API requires aspects as Record<string, string[]>
+          aspects: Object.fromEntries(
+            Object.entries({ ...(listing.attributes || {}), ...(aspectValues || {}) })
+              .map(([k, v]) => [k, Array.isArray(v) ? v : [String(v)]])
+          ),
         },
       }),
     }
@@ -219,11 +236,12 @@ async function publishToEbay(listing: any, channel: any): Promise<{ id: string; 
   const existingOffers = existingOffersRes.ok ? await existingOffersRes.json() : {}
   const existingOffer  = existingOffers.offers?.[0]
 
-  const offerBody = {
+  const offerBody: Record<string, any> = {
     sku,
     marketplaceId:      'EBAY_GB',
     format:             'FIXED_PRICE',
     availableQuantity:  listing.quantity ?? 1,
+    ...(categoryId ? { categoryId } : {}),
     pricingSummary: {
       price: { value: listing.price.toString(), currency: 'GBP' },
     },
@@ -287,7 +305,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { channels: requestedChannels }: { channels: string[] } = await request.json()
+    const body: {
+      channels: string[]
+      categorySelections?: Record<string, { id: string; name: string } | null>
+      aspectValues?: Record<string, string>
+    } = await request.json()
+    const { channels: requestedChannels, categorySelections = {}, aspectValues = {} } = body
     if (!requestedChannels?.length) {
       return NextResponse.json({ error: 'Specify at least one channel' }, { status: 400 })
     }
@@ -339,7 +362,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
               publishToShopify(listing, channel, existingCL?.status === 'published' ? existingCL.channel_listing_id : null)
             )
           } else if (channelType === 'ebay') {
-            published = await withRetry(() => publishToEbay(listing, channel))
+            const ebayCategory = categorySelections['ebay']
+            published = await withRetry(() => publishToEbay(listing, channel, ebayCategory?.id, aspectValues))
           } else if (channelType === 'amazon') {
             published = await withRetry(() => publishToAmazon(listing, channel))
           } else {
@@ -354,6 +378,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
               listing_id: id, user_id: user.id, channel_type: channelType,
               channel_listing_id: published.id, channel_url: published.url,
               status: 'published', published_at: new Date().toISOString(),
+              ...(categorySelections[channelType] ? {
+                category_id:   categorySelections[channelType]!.id,
+                category_name: categorySelections[channelType]!.name,
+              } : {}),
             }, { onConflict: 'listing_id,channel_type' }),
 
             adminSupabase.from('channel_sync_state').upsert({

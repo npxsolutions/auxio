@@ -1,95 +1,100 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "../lib/supabase-client";
-import Link from "next/link";
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { createClient } from '../lib/supabase-client'
 
 export default function SignupPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const router  = useRouter()
+  const [email, setEmail]       = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError]       = useState<string | null>(null)
+  const [success, setSuccess]   = useState(false)
+  const [loading, setLoading]   = useState(false)
 
   async function handleSignup(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const supabase = createClient();
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+    const supabase = createClient()
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
-      },
-    });
-
+      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+    })
     if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
+      setError(error.message)
+      setLoading(false)
+      return
     }
-
-    setSuccess(true);
-    setLoading(false);
+    setSuccess(true)
+    setLoading(false)
   }
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="w-full max-w-md text-center">
-          <div className="text-4xl mb-4">📧</div>
-          <h2 className="text-2xl font-bold text-white mb-2">Check your email</h2>
-          <p className="text-gray-400">We sent a confirmation link to <span className="text-white">{email}</span></p>
-          <Link href="/login" className="inline-block mt-6 text-blue-400 hover:text-blue-300 text-sm">
-            Back to login
+      <div style={{ minHeight: '100vh', background: '#f7f7f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, -apple-system, sans-serif', padding: '24px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '400px' }}>
+          <div style={{ width: '56px', height: '56px', background: '#e8f5f3', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: '24px' }}>📧</div>
+          <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#191919', marginBottom: '10px', letterSpacing: '-0.02em' }}>Check your email</h2>
+          <p style={{ fontSize: '15px', color: '#787774', lineHeight: 1.6, marginBottom: '24px' }}>
+            We sent a confirmation link to <strong style={{ color: '#191919' }}>{email}</strong>
+          </p>
+          <Link href="/login" style={{ fontSize: '14px', color: '#2383e2', textDecoration: 'none', fontWeight: 500 }}>
+            ← Back to sign in
           </Link>
         </div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div style={{ minHeight: '100vh', background: '#f7f7f5', display: 'flex', fontFamily: 'Inter, -apple-system, sans-serif' }}>
 
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Auxio</h1>
-          <p className="text-gray-400 mt-2">Create your free account</p>
-        </div>
+      {/* LEFT PANEL — form */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
+        <div style={{ width: '100%', maxWidth: '400px' }}>
 
-        <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
-          <form onSubmit={handleSignup} className="space-y-5">
+          {/* Logo */}
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none', marginBottom: '40px' }}>
+            <div style={{ width: '28px', height: '28px', background: '#191919', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '14px', fontWeight: 700 }}>A</div>
+            <span style={{ fontSize: '16px', fontWeight: 700, color: '#191919' }}>Auxio</span>
+          </Link>
 
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Email</label>
+          <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#191919', marginBottom: '6px', letterSpacing: '-0.02em' }}>Create your account</h1>
+          <p style={{ fontSize: '14px', color: '#787774', marginBottom: '32px' }}>
+            Start your 7-day free trial. No credit card required.
+          </p>
+
+          <form onSubmit={handleSignup}>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#444', marginBottom: '7px' }}>Email address</label>
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 required
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 placeholder="you@example.com"
+                style={{ width: '100%', background: 'white', border: '1px solid #e8e8e5', borderRadius: '8px', padding: '11px 14px', fontSize: '14px', fontFamily: 'inherit', color: '#191919', outline: 'none', boxSizing: 'border-box' }}
               />
             </div>
 
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Password</label>
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#444', marginBottom: '7px' }}>Password</label>
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 placeholder="Min 8 characters"
+                style={{ width: '100%', background: 'white', border: '1px solid #e8e8e5', borderRadius: '8px', padding: '11px 14px', fontSize: '14px', fontFamily: 'inherit', color: '#191919', outline: 'none', boxSizing: 'border-box' }}
               />
             </div>
 
             {error && (
-              <div className="bg-red-900 border border-red-700 rounded-lg p-3 text-red-400 text-sm">
+              <div style={{ background: '#fce8e6', border: '1px solid #f5c2bb', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#c9372c', marginBottom: '16px' }}>
                 {error}
               </div>
             )}
@@ -97,22 +102,68 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-3 rounded-lg transition-colors"
+              style={{ width: '100%', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', padding: '13px', fontSize: '15px', fontWeight: 600, cursor: loading ? 'wait' : 'pointer', fontFamily: 'inherit', opacity: loading ? 0.7 : 1 }}
             >
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? 'Creating account...' : 'Create free account →'}
             </button>
-
           </form>
 
-          <p className="text-center text-gray-400 text-sm mt-6">
-            Already have an account?{" "}
-            <Link href="/login" className="text-blue-400 hover:text-blue-300">
-              Sign in
-            </Link>
+          <p style={{ textAlign: 'center', fontSize: '13px', color: '#787774', marginTop: '24px' }}>
+            Already have an account?{' '}
+            <Link href="/login" style={{ color: '#2383e2', textDecoration: 'none', fontWeight: 500 }}>Sign in</Link>
+          </p>
+
+          <p style={{ textAlign: 'center', fontSize: '12px', color: '#9b9b98', marginTop: '20px', lineHeight: 1.5 }}>
+            By creating an account, you agree to our{' '}
+            <Link href="/privacy" style={{ color: '#9b9b98', textDecoration: 'underline' }}>Terms & Privacy Policy</Link>
           </p>
         </div>
+      </div>
 
+      {/* RIGHT PANEL — social proof */}
+      <div style={{ width: '440px', background: '#191919', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '64px 48px', flexShrink: 0 }}>
+        <div style={{ marginBottom: '48px' }}>
+          <div style={{ fontSize: '22px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em', lineHeight: 1.3, marginBottom: '16px' }}>
+            "I relisted my entire back catalogue in a weekend."
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2383e2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '13px', fontWeight: 700 }}>ST</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>Sarah T.</div>
+              <div style={{ fontSize: '12px', color: '#555' }}>Clothing reseller · Growth plan</div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
+          {[
+            { icon: '✓', text: '7-day free trial, no credit card needed' },
+            { icon: '✓', text: 'Setup in under 2 minutes' },
+            { icon: '✓', text: 'Shopify, eBay and Amazon from one place' },
+            { icon: '✓', text: 'Cancel any time, listings stay live' },
+          ].map(item => (
+            <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#888' }}>
+              <span style={{ color: '#0f7b6c', fontWeight: 700, fontSize: '16px', flexShrink: 0 }}>{item.icon}</span>
+              {item.text}
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderTop: '1px solid #222', paddingTop: '28px' }}>
+          <div style={{ fontSize: '12px', fontWeight: 700, color: '#444', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '14px' }}>Works with</div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {[
+              { icon: '🛍️', label: 'Shopify' },
+              { icon: '🛒', label: 'eBay' },
+              { icon: '📦', label: 'Amazon' },
+            ].map(ch => (
+              <div key={ch.label} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 12px', background: '#222', border: '1px solid #333', borderRadius: '7px', fontSize: '12px', color: '#888', fontWeight: 500 }}>
+                <span>{ch.icon}</span>{ch.label}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  );
+  )
 }
