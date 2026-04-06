@@ -275,7 +275,8 @@ export default function ListingDetailPage() {
   const [activeTab, setActiveTab]         = useState<'details' | 'health' | 'optimise'>('details')
   const [templates, setTemplates]         = useState<Record<string, TemplateField[]>>({})
   const [categorySelections, setCategorySelections] = useState<Record<string, { id: string; name: string } | null>>({})
-  const [ebayAspects, setEbayAspects]               = useState<Array<{ name: string; required: boolean; values: string[] }>>([])
+  const [ebayAspects, setEbayAspects]               = useState<Array<{ name: string; required: boolean; usage: 'REQUIRED' | 'RECOMMENDED' | 'OPTIONAL'; mode: 'FREE_TEXT' | 'SELECTION_ONLY' | 'FREE_TEXT_AND_SELECTION'; cardinality: 'SINGLE' | 'MULTI'; values: string[]; description: string | null }>>([])
+  const [aspectFreeText, setAspectFreeText]         = useState<Set<string>>(new Set())
   const [ebayAspectsLoading, setEbayAspectsLoading] = useState(false)
   const [aspectValues, setAspectValues]             = useState<Record<string, string>>({})
   const [catalogLooking, setCatalogLooking]         = useState(false)
@@ -313,9 +314,10 @@ export default function ListingDetailPage() {
   // Load eBay item aspects when category is selected
   const ebayCategoryId = categorySelections['ebay']?.id
   useEffect(() => {
-    if (!ebayCategoryId) { setEbayAspects([]); setAspectValues({}); return }
+    if (!ebayCategoryId) { setEbayAspects([]); setAspectValues({}); setAspectFreeText(new Set()); return }
     setEbayAspectsLoading(true)
     setAspectValues({})
+    setAspectFreeText(new Set())
     fetch(`/api/ebay/aspects?categoryId=${ebayCategoryId}`)
       .then(r => r.json())
       .then(d => setEbayAspects(d.aspects || []))
@@ -826,31 +828,71 @@ export default function ListingDetailPage() {
                           {ebayAspectsLoading ? (
                             <div style={{ fontSize: '11px', color: '#9b9b98', padding: '4px 0' }}>Loading category fields...</div>
                           ) : ebayAspects.length > 0 ? (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                               <div style={{ fontSize: '10px', fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Item specifics</div>
-                              {ebayAspects.map(a => (
-                                <div key={a.name}>
-                                  <div style={{ fontSize: '10px', fontWeight: 600, color: a.required ? '#c9372c' : '#9b9b98', marginBottom: '2px' }}>
-                                    {a.name}{a.required ? ' *' : ''}
+                              {ebayAspects.map(a => {
+                                const isFreeTextMode = aspectFreeText.has(a.name)
+                                const showDropdown   = a.values.length > 0 && (a.mode === 'SELECTION_ONLY' || (a.mode === 'FREE_TEXT_AND_SELECTION' && !isFreeTextMode))
+                                const showInput      = a.mode === 'FREE_TEXT' || (a.mode === 'FREE_TEXT_AND_SELECTION' && isFreeTextMode) || a.values.length === 0
+                                return (
+                                  <div key={a.name}>
+                                    {/* Label row */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+                                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#191919' }}>{a.name}</span>
+                                      {a.usage === 'REQUIRED' && (
+                                        <span style={{ fontSize: '9px', fontWeight: 700, color: '#c9372c', background: '#fce8e6', padding: '1px 5px', borderRadius: '3px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Required</span>
+                                      )}
+                                      {a.usage === 'RECOMMENDED' && (
+                                        <span style={{ fontSize: '9px', fontWeight: 700, color: '#6e4f1c', background: '#fff3cd', padding: '1px 5px', borderRadius: '3px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Recommended</span>
+                                      )}
+                                      {a.cardinality === 'MULTI' && (
+                                        <span style={{ fontSize: '9px', color: '#787774', background: '#f1f1ef', padding: '1px 5px', borderRadius: '3px' }}>Multi-value</span>
+                                      )}
+                                    </div>
+
+                                    {/* Description */}
+                                    {a.description && (
+                                      <div style={{ fontSize: '11px', color: '#787774', marginBottom: '4px', lineHeight: 1.4 }}>{a.description}</div>
+                                    )}
+
+                                    {/* Input */}
+                                    {showDropdown ? (
+                                      <div>
+                                        <select
+                                          value={aspectValues[a.name] || ''}
+                                          onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
+                                          style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', background: 'white', color: aspectValues[a.name] ? '#191919' : '#9b9b98' }}>
+                                          <option value="">Select {a.name}...</option>
+                                          {a.values.map(v => <option key={v} value={v}>{v}</option>)}
+                                        </select>
+                                        {a.mode === 'FREE_TEXT_AND_SELECTION' && (
+                                          <button
+                                            onClick={() => setAspectFreeText(p => { const n = new Set(p); n.add(a.name); return n })}
+                                            style={{ background: 'none', border: 'none', fontSize: '11px', color: '#787774', cursor: 'pointer', padding: '2px 0', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>
+                                            Not listed? Type your own
+                                          </button>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        <input
+                                          value={aspectValues[a.name] || ''}
+                                          onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
+                                          placeholder={a.cardinality === 'MULTI' ? `Enter values, comma-separated...` : `Enter ${a.name}...`}
+                                          style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box', color: '#191919' }}
+                                        />
+                                        {a.mode === 'FREE_TEXT_AND_SELECTION' && a.values.length > 0 && (
+                                          <button
+                                            onClick={() => setAspectFreeText(p => { const n = new Set(p); n.delete(a.name); return n })}
+                                            style={{ background: 'none', border: 'none', fontSize: '11px', color: '#787774', cursor: 'pointer', padding: '2px 0', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>
+                                            Pick from list instead
+                                          </button>
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
-                                  {a.values.length > 0 ? (
-                                    <select
-                                      value={aspectValues[a.name] || ''}
-                                      onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
-                                      style={{ width: '100%', fontSize: '12px', padding: '5px 7px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', background: 'white', color: '#191919' }}>
-                                      <option value="">Select...</option>
-                                      {a.values.map(v => <option key={v} value={v}>{v}</option>)}
-                                    </select>
-                                  ) : (
-                                    <input
-                                      value={aspectValues[a.name] || ''}
-                                      onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
-                                      placeholder={`Enter ${a.name}...`}
-                                      style={{ width: '100%', fontSize: '12px', padding: '5px 7px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box' }}
-                                    />
-                                  )}
-                                </div>
-                              ))}
+                                )
+                              })}
                             </div>
                           ) : null}
                         </div>
