@@ -74,6 +74,24 @@ function buildChannelStats(txns: any[]): ChannelStat[] {
     .sort((a, b) => b.revenue - a.revenue)
 }
 
+function buildChannelStatsFromBreakdown(breakdown: Record<string, { revenue: number; profit: number; orders: number }>): ChannelStat[] {
+  return Object.entries(breakdown)
+    .map(([channel, s]): ChannelStat => {
+      const margin = s.revenue > 0 ? s.profit / s.revenue : 0
+      const meta   = CHANNEL_META[channel] || { icon: '🏪', color: '#f1f1ef', name: channel }
+      const status: ChannelStat['status'] = margin > 0.2 ? 'performing' : margin > 0.1 ? 'monitoring' : 'needs_attention'
+      return {
+        id: channel, icon: meta.icon, name: meta.name, color: meta.color,
+        revenue: Math.round(s.revenue * 100) / 100,
+        profit:  Math.round(s.profit  * 100) / 100,
+        spend: 0, roas: 0,
+        orders: s.orders,
+        status,
+      }
+    })
+    .sort((a, b) => b.revenue - a.revenue)
+}
+
 const STATUS_COLOR = { performing: '#0f7b6c', needs_attention: '#c9372c', monitoring: '#d9730d' }
 const STATUS_BG    = { performing: '#e8f5f3', needs_attention: '#fce8e6', monitoring: '#fdf3e8' }
 const STATUS_LABEL = { performing: '● Performing', needs_attention: '● Needs fix', monitoring: '● Monitor' }
@@ -97,36 +115,27 @@ export default function DashboardPage() {
       if (!user) { router.push('/login'); return }
       setUser(user)
 
-      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-
-      const [
-        { data: commandCentre },
-        { data: products },
-        { data: insights },
-        { data: leverage },
-        { data: txns },
-      ] = await Promise.all([
-        supabase.from('command_centre').select('*').eq('user_id', user.id).single(),
-        supabase.from('product_intelligence').select('*').eq('user_id', user.id).order('avg_margin_90d', { ascending: false }).limit(5),
-        supabase.from('ai_insights').select('*').eq('user_id', user.id).eq('actioned', false).order('created_at', { ascending: false }).limit(4),
-        supabase.from('leverage_analysis').select('leverage_ratio').eq('user_id', user.id).order('calculated_at', { ascending: false }).limit(1).single(),
-        supabase.from('transactions').select('channel, sale_price, true_profit, advertising_cost').eq('user_id', user.id).gte('order_date', thirtyDaysAgo),
+      const [statsRes, insightsRes] = await Promise.all([
+        fetch('/api/dashboard/stats').then(r => r.json()),
+        supabase.from('ai_insights').select('*').eq('user_id', user.id).eq('actioned', false)
+          .order('created_at', { ascending: false }).limit(4),
       ])
 
+      const s = statsRes
       setData({
-        profitToday:      commandCentre?.profit_today       || 0,
-        revenueToday:     commandCentre?.revenue_today      || 0,
-        ordersToday:      commandCentre?.orders_today       || 0,
-        profitThisMonth:  commandCentre?.profit_this_month  || 0,
-        revenueThisMonth: commandCentre?.revenue_this_month || 0,
-        avgMargin:        commandCentre?.avg_margin_30d     || 0,
-        blendedRoas:      commandCentre?.blended_roas_30d   || 0,
-        pendingActions:   commandCentre?.pending_actions    || 0,
-        activeAlerts:     commandCentre?.active_alerts      || 0,
-        topProducts:      products  || [],
-        insights:         insights  || [],
-        leverageRatio:    leverage?.leverage_ratio          || 0,
-        channelStats:     buildChannelStats(txns || []),
+        profitToday:      s.profitToday      || 0,
+        revenueToday:     s.revenueToday     || 0,
+        ordersToday:      s.ordersToday      || 0,
+        profitThisMonth:  s.profitMonth      || 0,
+        revenueThisMonth: s.revenueMonth     || 0,
+        avgMargin:        s.avgMargin        || 0,
+        blendedRoas:      s.blendedRoas      || 0,
+        pendingActions:   s.pendingActions   || 0,
+        activeAlerts:     s.activeAlerts     || 0,
+        topProducts:      s.topProducts      || [],
+        insights:         insightsRes.data   || [],
+        leverageRatio:    0,
+        channelStats:     buildChannelStatsFromBreakdown(s.channelBreakdown || {}),
       })
     } catch (error) {
       console.error('Dashboard load error:', error)
@@ -365,14 +374,14 @@ export default function DashboardPage() {
                   </thead>
                   <tbody>
                     {data.topProducts.map((p: any) => (
-                      <tr key={p.sku}>
-                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919' }}>{p.sku}</td>
-                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: p.avg_margin_90d > 20 ? '#0f7b6c' : p.avg_margin_90d > 15 ? '#d9730d' : '#c9372c' }}>
-                          {fp(p.avg_margin_90d || 0)}
+                      <tr key={p.sku || p.title}>
+                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
+                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: (p.margin || p.avg_margin_90d || 0) > 20 ? '#0f7b6c' : (p.margin || p.avg_margin_90d || 0) > 15 ? '#d9730d' : '#c9372c' }}>
+                          {fp(p.margin || p.avg_margin_90d || 0)}
                         </td>
                         <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: p.margin_signal === 'scale' ? '#e8f5f3' : p.margin_signal === 'hold' ? '#e8f1fb' : '#fdf3e8', color: p.margin_signal === 'scale' ? '#0f7b6c' : p.margin_signal === 'hold' ? '#2383e2' : '#d9730d' }}>
-                            {p.margin_signal || 'hold'}
+                          <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: (p.margin||0) > 20 ? '#e8f5f3' : (p.margin||0) > 10 ? '#e8f1fb' : '#fdf3e8', color: (p.margin||0) > 20 ? '#0f7b6c' : (p.margin||0) > 10 ? '#2383e2' : '#d9730d' }}>
+                            {(p.margin||0) > 20 ? 'scale' : (p.margin||0) > 10 ? 'hold' : 'review'}
                           </span>
                         </td>
                       </tr>
