@@ -50,7 +50,7 @@ export async function POST() {
 
     // Paginate through all products using cursor-based pagination
     while (true) {
-      const url = pageInfo
+      const url: string = pageInfo
         ? `https://${shop_domain}/admin/api/2024-01/products.json?limit=250&page_info=${pageInfo}&fields=id,title,body_html,variants,images,product_type,vendor,tags,status`
         : `https://${shop_domain}/admin/api/2024-01/products.json?limit=250&fields=id,title,body_html,variants,images,product_type,vendor,tags,status`
 
