@@ -12,14 +12,57 @@ type ImportResult = {
   errors: { row?: number; batch?: number; error: string }[]
 }
 
+type SyncResult = { channel: string; message: string; error?: string }
+
+const CHANNEL_SYNC_META: Record<string, { icon: string; name: string; color: string; bg: string }> = {
+  shopify: { icon: '🛍️', name: 'Shopify', color: '#96BF48', bg: '#f5faee' },
+  ebay:    { icon: '🛒', name: 'eBay',    color: '#E53238', bg: '#fff5f5' },
+  amazon:  { icon: '📦', name: 'Amazon',  color: '#FF9900', bg: '#fffbf0' },
+}
+
 export default function ImportListingsPage() {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
-  const [file, setFile]       = useState<File | null>(null)
+  const [file, setFile]           = useState<File | null>(null)
   const [importing, setImporting] = useState(false)
-  const [result, setResult]   = useState<ImportResult | null>(null)
-  const [error, setError]     = useState('')
-  const [dragOver, setDragOver] = useState(false)
+  const [result, setResult]       = useState<ImportResult | null>(null)
+  const [error, setError]         = useState('')
+  const [dragOver, setDragOver]   = useState(false)
+  const [syncingChannel, setSyncingChannel] = useState<string | null>(null)
+  const [syncResults, setSyncResults]       = useState<SyncResult[]>([])
+
+  async function syncChannel(channelType: string) {
+    setSyncingChannel(channelType)
+    try {
+      let messages: string[] = []
+
+      if (channelType === 'shopify') {
+        const [products, orders] = await Promise.all([
+          fetch('/api/shopify/products/sync', { method: 'POST' }).then(r => r.json()),
+          fetch('/api/shopify/sync',          { method: 'POST' }).then(r => r.json()),
+        ])
+        messages = [products.message, orders.message].filter(Boolean)
+      } else if (channelType === 'ebay') {
+        const [listings, orders] = await Promise.all([
+          fetch('/api/ebay/sync',        { method: 'POST' }).then(r => r.json()),
+          fetch('/api/ebay/orders/sync', { method: 'POST' }).then(r => r.json()),
+        ])
+        messages = [listings.message, orders.message].filter(Boolean)
+      }
+
+      setSyncResults(prev => [
+        { channel: channelType, message: messages.join(' · ') || 'Sync complete' },
+        ...prev.filter(r => r.channel !== channelType),
+      ])
+    } catch (err: any) {
+      setSyncResults(prev => [
+        { channel: channelType, message: 'Sync failed', error: err.message },
+        ...prev.filter(r => r.channel !== channelType),
+      ])
+    } finally {
+      setSyncingChannel(null)
+    }
+  }
 
   function onFileChange(f: File | null) {
     if (!f) return
@@ -62,7 +105,51 @@ export default function ImportListingsPage() {
         </button>
 
         <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', margin: '0 0 6px', letterSpacing: '-0.02em' }}>Import listings</h1>
-        <p style={{ fontSize: '13px', color: '#787774', margin: '0 0 28px' }}>Upload a CSV from Shopify, eBay, or any spreadsheet. We'll map the columns automatically.</p>
+        <p style={{ fontSize: '13px', color: '#787774', margin: '0 0 28px' }}>Sync from a connected channel or upload a CSV.</p>
+
+        {/* ── Sync from channels ── */}
+        <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '12px', padding: '20px 24px', marginBottom: '24px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Sync from connected channel</div>
+          <div style={{ fontSize: '12px', color: '#787774', marginBottom: '16px' }}>Pulls products and orders from your connected stores. Already-imported items are skipped.</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {Object.entries(CHANNEL_SYNC_META).map(([ch, meta]) => {
+              const result = syncResults.find(r => r.channel === ch)
+              const isSyncing = syncingChannel === ch
+              return (
+                <div key={ch} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', border: '1px solid #e8e8e5', borderRadius: '9px', background: result && !result.error ? meta.bg : 'white' }}>
+                  <span style={{ fontSize: '20px' }}>{meta.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{meta.name}</div>
+                    {result && (
+                      <div style={{ fontSize: '12px', color: result.error ? '#c9372c' : '#0f7b6c', marginTop: '2px' }}>
+                        {result.error ? `✕ ${result.error}` : `✓ ${result.message}`}
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => syncChannel(ch)}
+                    disabled={syncingChannel !== null}
+                    style={{ background: isSyncing ? '#f1f1ef' : '#191919', color: isSyncing ? '#787774' : 'white', border: 'none', borderRadius: '6px', padding: '8px 16px', fontSize: '12px', fontWeight: 600, cursor: syncingChannel !== null ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}
+                  >
+                    {isSyncing ? 'Syncing…' : '↻ Sync now'}
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+          {syncResults.some(r => !r.error) && (
+            <button onClick={() => router.push('/listings')}
+              style={{ marginTop: '14px', background: '#e8f5f3', color: '#0f7b6c', border: 'none', borderRadius: '7px', padding: '9px 18px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+              View imported listings →
+            </button>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+          <div style={{ flex: 1, height: '1px', background: '#e8e8e5' }} />
+          <span style={{ fontSize: '12px', color: '#9b9b98', fontWeight: 500 }}>or import from CSV</span>
+          <div style={{ flex: 1, height: '1px', background: '#e8e8e5' }} />
+        </div>
 
         {/* Drop zone */}
         <div

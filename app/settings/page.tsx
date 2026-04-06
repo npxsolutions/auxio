@@ -50,15 +50,34 @@ const DEFAULT_SETTINGS: Settings = {
   default_shipping_cost: 3.95,
 }
 
+interface CategoryMapping {
+  id: string
+  source_category: string
+  channel_type: string
+  channel_cat_id: string | null
+  channel_cat_name: string | null
+}
+
+const CH_ICON: Record<string, string> = { ebay: '🛒', shopify: '🛍️', amazon: '📦' }
+
 export default function SettingsPage() {
   const router = useRouter()
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [toast, setToast] = useState('')
+  const [settings, setSettings]       = useState<Settings>(DEFAULT_SETTINGS)
+  const [loading, setLoading]         = useState(true)
+  const [saving, setSaving]           = useState(false)
+  const [toast, setToast]             = useState('')
+  const [mappings, setMappings]       = useState<CategoryMapping[]>([])
+  const [mappingsLoading, setMappingsLoading] = useState(true)
   const supabase = createClient()
 
   useEffect(() => { load() }, [])
+  useEffect(() => {
+    fetch('/api/category-mappings')
+      .then(r => r.json())
+      .then(d => setMappings(d.mappings || []))
+      .catch(() => {})
+      .finally(() => setMappingsLoading(false))
+  }, [])
 
   async function load() {
     const { data: { user } } = await supabase.auth.getUser()
@@ -84,6 +103,16 @@ export default function SettingsPage() {
       })
     }
     setLoading(false)
+  }
+
+  async function deleteMapping(id: string) {
+    await fetch('/api/category-mappings', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    setMappings(prev => prev.filter(m => m.id !== id))
+    showToast('Mapping deleted')
   }
 
   function showToast(msg: string) {
@@ -266,6 +295,39 @@ export default function SettingsPage() {
           >
             {saving ? 'Saving...' : 'Save settings'}
           </button>
+
+          {/* Category mappings */}
+          <section style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '24px', marginTop: '32px' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Saved category mappings</div>
+            <div style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>
+              When you pick an eBay/Amazon category on publish, it's saved here and auto-applied next time.
+            </div>
+            {mappingsLoading ? (
+              <div style={{ fontSize: '13px', color: '#787774' }}>Loading…</div>
+            ) : mappings.length === 0 ? (
+              <div style={{ fontSize: '13px', color: '#9b9b98', padding: '16px', background: '#f7f7f5', borderRadius: '8px', textAlign: 'center' }}>
+                No mappings yet — they appear here after your first publish with a category selected.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                {mappings.map(m => (
+                  <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px', border: '1px solid #e8e8e5', borderRadius: '8px' }}>
+                    <span style={{ fontSize: '14px' }}>{CH_ICON[m.channel_type] || '🏪'}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ fontSize: '12px', color: '#787774' }}>{m.source_category}</span>
+                      <span style={{ fontSize: '12px', color: '#9b9b98', margin: '0 6px' }}>→</span>
+                      <span style={{ fontSize: '12px', fontWeight: 600, color: '#191919' }}>{m.channel_cat_name || m.channel_cat_id || '—'}</span>
+                      <span style={{ fontSize: '11px', color: '#9b9b98', marginLeft: '6px' }}>({m.channel_type})</span>
+                    </div>
+                    <button onClick={() => deleteMapping(m.id)}
+                      style={{ background: 'none', border: 'none', color: '#9b9b98', cursor: 'pointer', fontSize: '14px', padding: '2px 6px', fontFamily: 'Inter' }}>
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
         </div>
       </main>
     </div>
