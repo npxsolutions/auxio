@@ -164,7 +164,30 @@ export async function POST() {
     // ── STRATEGY 2: Browse API ───────────────────────────────────────────────
     // Fetches ALL active public listings for the seller (including dashboard-
     // created ones that the Inventory API won't return).
-    const sellerUsername = channel.shop_name
+    // If shop_name was stored as the fallback 'eBay Store' (identity API failed
+    // during OAuth), attempt to resolve the real username now and update the channel.
+    let sellerUsername = channel.shop_name
+    if (!sellerUsername || sellerUsername === 'eBay Store') {
+      try {
+        const identityRes = await fetch('https://apiz.ebay.com/commerce/identity/v1/user/', {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        if (identityRes.ok) {
+          const identity = await identityRes.json()
+          const resolvedName = identity.username
+          if (resolvedName && resolvedName !== 'eBay Store') {
+            sellerUsername = resolvedName
+            await getAdmin().from('channels')
+              .update({ shop_name: resolvedName })
+              .eq('user_id', user.id).eq('type', 'ebay')
+            console.log(`[ebay:sync] Resolved eBay username: ${resolvedName}`)
+          }
+        }
+      } catch {
+        // non-fatal — Browse API will be skipped
+      }
+    }
+
     if (sellerUsername && sellerUsername !== 'eBay Store') {
       try {
         const appToken = await getEbayAppToken()
