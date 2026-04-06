@@ -345,7 +345,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         await adminSupabase.from('category_mappings').upsert({
           user_id: user.id, source_category: listing.category, channel_type: ch,
           channel_cat_id: sel.id, channel_cat_name: sel.name,
-        }, { onConflict: 'user_id,source_category,channel_type' }).catch(() => {})
+        }, { onConflict: 'user_id,source_category,channel_type' }).then(() => {}, () => {})
       }
     }
 
