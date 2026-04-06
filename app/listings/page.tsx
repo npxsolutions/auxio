@@ -39,9 +39,24 @@ export default function ListingsPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [healthFilter, setHealthFilter] = useState<HealthFilter>('all')
   const [search, setSearch]             = useState('')
-  const [bulkPublishing, setBulkPublishing] = useState(false)
-  const [bulkDeleting, setBulkDeleting]     = useState(false)
-  const [toast, setToast]               = useState('')
+  const [bulkPublishing, setBulkPublishing]         = useState(false)
+  const [bulkDeleting, setBulkDeleting]             = useState(false)
+  const [toast, setToast]                           = useState('')
+  const [connectedChannels, setConnectedChannels]   = useState<string[]>([])
+  const [bulkChannels, setBulkChannels]             = useState<Set<string>>(new Set(['shopify', 'ebay']))
+
+  useEffect(() => {
+    fetch('/api/channels/health')
+      .then(r => r.json())
+      .then(d => {
+        const valid = Object.entries(d.health || {})
+          .filter(([, v]: any) => v.valid)
+          .map(([k]) => k)
+        setConnectedChannels(valid)
+        setBulkChannels(new Set(valid))
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     fetch('/api/listings')
@@ -98,7 +113,7 @@ export default function ListingsPage() {
   }
 
   async function bulkPublish() {
-    if (!selected.size) return
+    if (!selected.size || !bulkChannels.size) return
     setBulkPublishing(true)
     let succeeded = 0
     for (const id of selected) {
@@ -106,7 +121,7 @@ export default function ListingsPage() {
         await fetch(`/api/listings/${id}/publish`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ channels: ['shopify', 'ebay'] }),
+          body: JSON.stringify({ channels: Array.from(bulkChannels) }),
         })
         succeeded++
       } catch {}
@@ -220,15 +235,30 @@ export default function ListingsPage() {
 
         {/* Bulk action bar */}
         {someSelected && (
-          <div style={{ background: '#191919', color: 'white', borderRadius: '9px', padding: '12px 16px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ background: '#191919', color: 'white', borderRadius: '9px', padding: '12px 16px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '13px', fontWeight: 600 }}>{selected.size} selected</span>
+            {/* Channel toggles */}
+            {connectedChannels.length > 0 && (
+              <div style={{ display: 'flex', gap: '6px' }}>
+                {connectedChannels.map(ch => {
+                  const icons: Record<string, string> = { shopify: '🛍️', ebay: '🛒', amazon: '📦' }
+                  const on = bulkChannels.has(ch)
+                  return (
+                    <button key={ch} onClick={() => setBulkChannels(prev => { const n = new Set(prev); on ? n.delete(ch) : n.add(ch); return n })}
+                      style={{ padding: '4px 10px', background: on ? 'rgba(255,255,255,0.15)' : 'transparent', color: on ? 'white' : '#888', border: `1px solid ${on ? 'rgba(255,255,255,0.3)' : '#444'}`, borderRadius: '5px', fontSize: '11px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                      {icons[ch] || ch} {ch}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
             <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
               <button
                 onClick={bulkPublish}
-                disabled={bulkPublishing}
-                style={{ padding: '7px 14px', background: '#0f7b6c', color: 'white', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: bulkPublishing ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}
+                disabled={bulkPublishing || bulkChannels.size === 0}
+                style={{ padding: '7px 14px', background: '#0f7b6c', color: 'white', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: (bulkPublishing || bulkChannels.size === 0) ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif', opacity: bulkChannels.size === 0 ? 0.5 : 1 }}
               >
-                {bulkPublishing ? 'Publishing...' : 'Publish to Shopify + eBay'}
+                {bulkPublishing ? 'Publishing...' : `Publish to ${bulkChannels.size ? Array.from(bulkChannels).join(' + ') : '…'}`}
               </button>
               <button
                 onClick={bulkDelete}

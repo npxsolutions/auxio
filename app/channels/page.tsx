@@ -28,18 +28,28 @@ const AVAILABLE_CHANNELS = [
   { id: 'ebay',    oauth: true },
 ]
 
+interface HealthIssue { type: string; issue: string; message: string }
+
 export default function ChannelsPage() {
   const router = useRouter()
-  const [channels, setChannels] = useState<Channel[]>([])
-  const [loading, setLoading] = useState(true)
-  const [syncing, setSyncing] = useState<string | null>(null)
-  const [adding, setAdding] = useState<string | null>(null)
-  const [shopDomain, setShopDomain] = useState('')
-  const [error, setError] = useState('')
-  const [toast, setToast] = useState('')
+  const [channels, setChannels]       = useState<Channel[]>([])
+  const [loading, setLoading]         = useState(true)
+  const [syncing, setSyncing]         = useState<string | null>(null)
+  const [adding, setAdding]           = useState<string | null>(null)
+  const [shopDomain, setShopDomain]   = useState('')
+  const [error, setError]             = useState('')
+  const [toast, setToast]             = useState('')
+  const [healthIssues, setHealthIssues] = useState<HealthIssue[]>([])
   const supabase = createClient()
 
   useEffect(() => { load() }, [])
+
+  useEffect(() => {
+    fetch('/api/channels/health')
+      .then(r => r.json())
+      .then(d => setHealthIssues(d.issues || []))
+      .catch(() => {})
+  }, [])
 
   async function load() {
     const { data: { user } } = await supabase.auth.getUser()
@@ -122,6 +132,23 @@ export default function ChannelsPage() {
             <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', letterSpacing: '-0.02em', marginBottom: '4px' }}>Channels</h1>
             <p style={{ fontSize: '14px', color: '#787774' }}>Connect your selling platforms to start syncing orders.</p>
           </div>
+
+          {/* Health issue banners */}
+          {healthIssues.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+              {healthIssues.map(issue => (
+                <div key={issue.type} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: issue.issue === 'token_expired' ? '#fce8e6' : '#fff3e6', border: `1px solid ${issue.issue === 'token_expired' ? '#f5c2bb' : '#fcd89a'}`, borderRadius: '9px', padding: '12px 16px' }}>
+                  <span style={{ fontSize: '16px' }}>{issue.issue === 'token_expired' ? '🔒' : '⚠️'}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: issue.issue === 'token_expired' ? '#c9372c' : '#c97a2c' }}>{issue.message}</div>
+                    {issue.issue === 'token_expired' && (
+                      <div style={{ fontSize: '12px', color: '#787774', marginTop: '2px' }}>Disconnect and reconnect to restore access.</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Connected channels */}
           {channels.length > 0 && (
