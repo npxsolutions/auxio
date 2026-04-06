@@ -321,11 +321,33 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       .eq('id', id).eq('user_id', user.id).single()
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
 
-    // Load connected channels + existing publish state
-    const [{ data: connectedChannels }, { data: existingChannelListings }] = await Promise.all([
+    // Load connected channels + existing publish state + saved category mappings
+    const [{ data: connectedChannels }, { data: existingChannelListings }, { data: savedMappings }] = await Promise.all([
       supabase.from('channels').select('*').eq('user_id', user.id).eq('active', true).in('type', requestedChannels),
       supabase.from('listing_channels').select('*').eq('listing_id', id),
+      listing.category
+        ? supabase.from('category_mappings').select('*').eq('user_id', user.id).eq('source_category', listing.category)
+        : Promise.resolve({ data: [] }),
     ])
+
+    // Merge caller-supplied category selections with saved mappings (caller wins)
+    const mergedCategorySelections: Record<string, { id: string; name: string } | null> = {}
+    for (const m of savedMappings || []) {
+      if (m.channel_cat_id) {
+        mergedCategorySelections[m.channel_type] = { id: m.channel_cat_id, name: m.channel_cat_name || '' }
+      }
+    }
+    Object.assign(mergedCategorySelections, categorySelections)
+
+    // If caller provided a new category selection, persist it for future publishes
+    for (const [ch, sel] of Object.entries(categorySelections)) {
+      if (sel && listing.category) {
+        await adminSupabase.from('category_mappings').upsert({
+          user_id: user.id, source_category: listing.category, channel_type: ch,
+          channel_cat_id: sel.id, channel_cat_name: sel.name,
+        }, { onConflict: 'user_id,source_category,channel_type' }).catch(() => {})
+      }
+    }
 
     const results: Record<string, { status: string; error?: string; url?: string; validation_errors?: string[] }> = {}
 
@@ -362,7 +384,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
               publishToShopify(listing, channel, existingCL?.status === 'published' ? existingCL.channel_listing_id : null)
             )
           } else if (channelType === 'ebay') {
-            const ebayCategory = categorySelections['ebay']
+            const ebayCategory = mergedCategorySelections['ebay']
             published = await withRetry(() => publishToEbay(listing, channel, ebayCategory?.id, aspectValues))
           } else if (channelType === 'amazon') {
             published = await withRetry(() => publishToAmazon(listing, channel))

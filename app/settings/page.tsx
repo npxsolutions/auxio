@@ -11,6 +11,10 @@ interface Settings {
   max_acos: number
   safety_stock_days: number
   email_alerts: boolean
+  default_cogs_pct: number
+  ebay_fee_pct: number
+  shopify_fee_pct: number
+  default_shipping_cost: number
 }
 
 const AGENT_MODES = [
@@ -40,6 +44,10 @@ const DEFAULT_SETTINGS: Settings = {
   max_acos: 30,
   safety_stock_days: 14,
   email_alerts: true,
+  default_cogs_pct: 50,
+  ebay_fee_pct: 10.75,
+  shopify_fee_pct: 3,
+  default_shipping_cost: 3.95,
 }
 
 export default function SettingsPage() {
@@ -58,17 +66,21 @@ export default function SettingsPage() {
 
     const { data } = await supabase
       .from('users')
-      .select('agent_mode, min_margin, max_acos, safety_stock_days, email_alerts')
+      .select('agent_mode, min_margin, max_acos, safety_stock_days, email_alerts, default_cogs_pct, ebay_fee_pct, shopify_fee_pct, default_shipping_cost')
       .eq('id', user.id)
       .single()
 
     if (data) {
       setSettings({
-        agent_mode: data.agent_mode || DEFAULT_SETTINGS.agent_mode,
-        min_margin: data.min_margin ?? DEFAULT_SETTINGS.min_margin,
-        max_acos: data.max_acos ?? DEFAULT_SETTINGS.max_acos,
-        safety_stock_days: data.safety_stock_days ?? DEFAULT_SETTINGS.safety_stock_days,
-        email_alerts: data.email_alerts ?? DEFAULT_SETTINGS.email_alerts,
+        agent_mode:            data.agent_mode              || DEFAULT_SETTINGS.agent_mode,
+        min_margin:            data.min_margin              ?? DEFAULT_SETTINGS.min_margin,
+        max_acos:              data.max_acos                ?? DEFAULT_SETTINGS.max_acos,
+        safety_stock_days:     data.safety_stock_days       ?? DEFAULT_SETTINGS.safety_stock_days,
+        email_alerts:          data.email_alerts            ?? DEFAULT_SETTINGS.email_alerts,
+        default_cogs_pct:      data.default_cogs_pct       ?? DEFAULT_SETTINGS.default_cogs_pct,
+        ebay_fee_pct:          data.ebay_fee_pct           ?? DEFAULT_SETTINGS.ebay_fee_pct,
+        shopify_fee_pct:       data.shopify_fee_pct        ?? DEFAULT_SETTINGS.shopify_fee_pct,
+        default_shipping_cost: data.default_shipping_cost  ?? DEFAULT_SETTINGS.default_shipping_cost,
       })
     }
     setLoading(false)
@@ -88,11 +100,15 @@ export default function SettingsPage() {
       const { error } = await supabase
         .from('users')
         .update({
-          agent_mode:        settings.agent_mode,
-          min_margin:        settings.min_margin,
-          max_acos:          settings.max_acos,
-          safety_stock_days: settings.safety_stock_days,
-          email_alerts:      settings.email_alerts,
+          agent_mode:            settings.agent_mode,
+          min_margin:            settings.min_margin,
+          max_acos:              settings.max_acos,
+          safety_stock_days:     settings.safety_stock_days,
+          email_alerts:          settings.email_alerts,
+          default_cogs_pct:      settings.default_cogs_pct,
+          ebay_fee_pct:          settings.ebay_fee_pct,
+          shopify_fee_pct:       settings.shopify_fee_pct,
+          default_shipping_cost: settings.default_shipping_cost,
         })
         .eq('id', user.id)
 
@@ -185,6 +201,39 @@ export default function SettingsPage() {
                       value={settings[field.key as keyof Settings] as number}
                       onChange={e => setSettings(s => ({ ...s, [field.key]: Number(e.target.value) }))}
                       style={{ width: '80px', padding: '9px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
+                    />
+                    <span style={{ fontSize: '13px', color: '#787774' }}>{field.suffix}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Profit defaults */}
+          <section style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '24px', marginBottom: '16px' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Profit calculation defaults</div>
+            <div style={{ fontSize: '13px', color: '#787774', marginBottom: '20px' }}>
+              Used when a listing has no cost price set. Override per listing on the listing detail page.
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              {[
+                { label: 'Default COGS %', key: 'default_cogs_pct', suffix: '%', min: 0, max: 100, description: 'Fallback cost of goods when no cost price is set on the listing' },
+                { label: 'Default shipping cost', key: 'default_shipping_cost', suffix: '£', min: 0, max: 100, description: 'Per-order shipping cost estimate' },
+                { label: 'eBay fee rate', key: 'ebay_fee_pct', suffix: '%', min: 0, max: 30, description: 'Final value fee + PayPal (default 10.75%)' },
+                { label: 'Shopify fee rate', key: 'shopify_fee_pct', suffix: '%', min: 0, max: 10, description: 'Transaction fee (default 3%)' },
+              ].map(field => (
+                <div key={field.key}>
+                  <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '4px' }}>{field.label}</label>
+                  <div style={{ fontSize: '11px', color: '#9b9b98', marginBottom: '8px' }}>{field.description}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min={field.min}
+                      max={field.max}
+                      value={settings[field.key as keyof Settings] as number}
+                      onChange={e => setSettings(s => ({ ...s, [field.key]: Number(e.target.value) }))}
+                      style={{ width: '90px', padding: '9px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
                     />
                     <span style={{ fontSize: '13px', color: '#787774' }}>{field.suffix}</span>
                   </div>

@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(grep -E \"README|\\\\.md$|\\\\.env|tsconfig|eslint\")",
+      "Bash(find /c/Users/nrees/auxio -maxdepth 1 -name .env* -type f)",
+      "Bash(ls:*)",
+      "Bash(xargs grep:*)",
+      "Bash(npm install:*)",
+      "mcp__claude_ai_Supabase__list_projects",
+      "mcp__claude_ai_Supabase__list_tables",
+      "mcp__claude_ai_Supabase__apply_migration",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_projects",
+      "mcp__claude_ai_Vercel__get_project",
+      "mcp__claude_ai_Vercel__get_deployment_build_logs",
+      "Bash(cd:*)",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "mcp__claude_ai_Supabase__execute_sql",
+      "WebFetch(domain:developer-docs.amazon.com)",
+      "WebFetch(domain:advertising.amazon.com)",
+      "WebFetch(domain:api.amazon.com)",
+      "mcp__claude_ai_Vercel__get_deployment",
+      "mcp__claude_ai_Vercel__get_runtime_logs",
+      "WebFetch(domain:developer.ebay.com)",
+      "Bash(curl:*)",
+      "Bash(grep -r 'create table' /c/Users/nrees/auxio --include=*.ts --include=*.sql)",
+      "mcp__claude_ai_Vercel__deploy_to_vercel"
+    ]
+  }
+}

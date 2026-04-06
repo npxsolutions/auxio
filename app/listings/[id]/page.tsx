@@ -32,6 +32,7 @@ type Listing = {
   condition: string
   quantity: number
   weight_grams?: number
+  cost_price?: number
   images: string[]
   attributes: Record<string, any>
   status: string
@@ -524,6 +525,7 @@ export default function ListingDetailPage() {
                 <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px', marginBottom: '16px' }}>
                   <div style={{ fontSize: '12px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '12px' }}>Pricing & inventory</div>
                   <EditableField label="Price (£)"              value={listing.price}         fieldKey="price"         listingId={id} type="number" onSaved={onFieldSaved} />
+                  <EditableField label="Cost price (£)"         value={listing.cost_price}    fieldKey="cost_price"    listingId={id} type="number" onSaved={onFieldSaved} />
                   <EditableField label="Compare at price (£)"   value={listing.compare_price} fieldKey="compare_price" listingId={id} type="number" onSaved={onFieldSaved} />
                   <EditableField label="Stock quantity"         value={listing.quantity}      fieldKey="quantity"      listingId={id} type="number" onSaved={onFieldSaved} />
                   <EditableField label="SKU"                    value={listing.sku}           fieldKey="sku"           listingId={id} onSaved={onFieldSaved} />

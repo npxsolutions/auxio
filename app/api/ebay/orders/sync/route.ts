@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { getProfitSettings } from '@/app/lib/profit-settings'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -53,6 +54,21 @@ export async function POST() {
     let synced = 0
     let cursor: string | null = null
 
+    // Load user profit settings
+    const profitSettings = await getProfitSettings(user.id)
+
+    // Pre-load cost_price map from listings table (SKU → cost)
+    const { data: costRows } = await getAdmin()
+      .from('listings')
+      .select('sku, cost_price')
+      .eq('user_id', user.id)
+      .not('sku', 'is', null)
+      .not('cost_price', 'is', null)
+    const costBySku: Record<string, number> = {}
+    for (const r of costRows || []) {
+      if (r.sku) costBySku[r.sku] = r.cost_price
+    }
+
     // Fetch up to 90 days of orders via Fulfillment API
     const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()
 
@@ -85,26 +101,34 @@ export async function POST() {
 
       for (const order of orders) {
         for (const item of order.lineItems || []) {
-          const salePrice   = parseFloat(item.lineItemCost?.value || '0') * (item.quantity || 1)
-          const channelFee  = salePrice * 0.1075  // eBay ~10.75% final value fee
-          const shippingCost = parseFloat(order.fulfillmentStartInstructions?.[0]?.shippingStep?.shippingCarrierCode ? '3.95' : '0')
+          const qty          = item.quantity || 1
+          const salePrice    = parseFloat(item.lineItemCost?.value || '0') * qty
+          const channelFee   = salePrice * (profitSettings.ebay_fee_pct / 100)
+          const shippingCost = order.fulfillmentStartInstructions?.[0]?.shippingStep?.shippingCarrierCode
+            ? profitSettings.default_shipping_cost : 0
+          const sku          = item.sku || item.legacyItemId || ''
+          // Use real cost if known, fall back to user's default COGS %
+          const supplierCost = costBySku[sku] != null
+            ? costBySku[sku] * qty
+            : salePrice * (profitSettings.default_cogs_pct / 100)
+          const trueProfit   = salePrice - supplierCost - channelFee - shippingCost
 
           await getAdmin().from('transactions').upsert({
             user_id:          user.id,
             channel:          'ebay',
             external_id:      `ebay-${order.orderId}-${item.lineItemId}`,
-            sku:              item.sku || item.legacyItemId || '',
+            sku,
             title:            item.title || 'eBay item',
             category:         '',
             sale_price:       salePrice,
-            supplier_cost:    salePrice * 0.5,  // 50% estimate until user sets real costs
+            supplier_cost:    supplierCost,
             channel_fee:      channelFee,
             advertising_cost: 0,
             shipping_cost:    shippingCost,
             return_cost:      0,
             gross_revenue:    salePrice,
-            true_profit:      salePrice - (salePrice * 0.5) - channelFee - shippingCost,
-            true_margin:      ((salePrice - (salePrice * 0.5) - channelFee - shippingCost) / salePrice) * 100,
+            true_profit:      trueProfit,
+            true_margin:      salePrice > 0 ? (trueProfit / salePrice) * 100 : 0,
             order_date:       order.creationDate,
             buyer_location:   order.buyer?.buyerRegistrationAddress?.countryCode || 'GB',
           }, { onConflict: 'user_id,external_id,channel' })
