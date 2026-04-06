@@ -8,9 +8,11 @@ const CONDITIONS = ['new', 'used', 'refurbished'] as const
 
 export default function NewListingPage() {
   const router = useRouter()
-  const [saving, setSaving]   = useState(false)
-  const [error, setError]     = useState('')
-  const [form, setForm]       = useState({
+  const [saving, setSaving]       = useState(false)
+  const [error, setError]         = useState('')
+  const [lookingUp, setLookingUp] = useState(false)
+  const [lookupMsg, setLookupMsg] = useState('')
+  const [form, setForm]           = useState({
     title:        '',
     description:  '',
     price:        '',
@@ -27,6 +29,35 @@ export default function NewListingPage() {
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }))
+
+  async function lookupBarcode(barcode: string) {
+    if (!barcode || barcode.length < 8) return
+    setLookingUp(true)
+    setLookupMsg('')
+    try {
+      const res  = await fetch(`/api/ebay/catalog?barcode=${encodeURIComponent(barcode)}`)
+      const data = await res.json()
+      if (data.product) {
+        const p = data.product
+        setForm(f => ({
+          ...f,
+          title:       f.title       || p.title       || f.title,
+          description: f.description || p.description || f.description,
+          brand:       f.brand       || p.brand       || f.brand,
+          category:    f.category    || p.category?.name || f.category,
+          condition:   p.condition   || f.condition,
+          images:      f.images      || (p.images || []).join(', ') || f.images,
+        }))
+        setLookupMsg(`✓ Found: ${p.title}`)
+      } else {
+        setLookupMsg('No product found for this barcode')
+      }
+    } catch {
+      setLookupMsg('Lookup failed — check your connection')
+    } finally {
+      setLookingUp(false)
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -141,8 +172,28 @@ export default function NewListingPage() {
                 <input value={form.sku} onChange={set('sku')} placeholder="CN5-100ML" style={inputStyle} />
               </div>
               <div>
-                <label style={labelStyle}>Barcode / EAN</label>
-                <input value={form.barcode} onChange={set('barcode')} placeholder="3145891254589" style={inputStyle} />
+                <label style={labelStyle}>Barcode / EAN / UPC</label>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <input
+                    value={form.barcode}
+                    onChange={set('barcode')}
+                    onBlur={e => lookupBarcode(e.target.value)}
+                    placeholder="3145891254589"
+                    style={{ ...inputStyle, flex: 1 }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => lookupBarcode(form.barcode)}
+                    disabled={lookingUp || form.barcode.length < 8}
+                    style={{ padding: '0 12px', background: '#f1f1ef', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '12px', fontWeight: 500, cursor: form.barcode.length >= 8 && !lookingUp ? 'pointer' : 'default', color: '#191919', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap' }}>
+                    {lookingUp ? '…' : '🔍 Lookup'}
+                  </button>
+                </div>
+                {lookupMsg && (
+                  <div style={{ fontSize: '11px', marginTop: '4px', color: lookupMsg.startsWith('✓') ? '#0f7b6c' : '#787774' }}>
+                    {lookupMsg}
+                  </div>
+                )}
               </div>
             </div>
           </div>

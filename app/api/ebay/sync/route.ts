@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { getEbayAppToken } from '@/app/lib/ebay-app-token'
+import { XMLParser } from 'fast-xml-parser'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -161,101 +161,113 @@ export async function POST() {
       }
     }
 
-    // ── STRATEGY 2: Browse API ───────────────────────────────────────────────
-    // Fetches ALL active public listings for the seller (including dashboard-
-    // created ones that the Inventory API won't return).
-    // If shop_name was stored as the fallback 'eBay Store' (identity API failed
-    // during OAuth), attempt to resolve the real username now and update the channel.
-    let sellerUsername = channel.shop_name
-    if (!sellerUsername || sellerUsername === 'eBay Store') {
-      try {
-        const identityRes = await fetch('https://apiz.ebay.com/commerce/identity/v1/user/', {
-          headers: { Authorization: `Bearer ${userToken}` },
+    // ── STRATEGY 2: Trading API GetMyeBaySelling ────────────────────────────
+    // Uses the seller's OAuth token directly — no username needed.
+    // Returns ALL active listings including those created via eBay's website.
+    try {
+      const xmlParser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: '_' })
+      let page = 1
+      let totalPages = 1
+
+      while (page <= totalPages) {
+        const xmlBody = `<?xml version="1.0" encoding="utf-8"?>
+<GetMyeBaySellingRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+  <ActiveList>
+    <Include>true</Include>
+    <Pagination>
+      <EntriesPerPage>200</EntriesPerPage>
+      <PageNumber>${page}</PageNumber>
+    </Pagination>
+  </ActiveList>
+  <DetailLevel>ReturnSummary</DetailLevel>
+</GetMyeBaySellingRequest>`
+
+        const res = await fetch('https://api.ebay.com/ws/api.dll', {
+          method: 'POST',
+          headers: {
+            'Content-Type':                    'text/xml',
+            'X-EBAY-API-CALL-NAME':            'GetMyeBaySelling',
+            'X-EBAY-API-SITEID':               '3',
+            'X-EBAY-API-COMPATIBILITY-LEVEL':  '967',
+            'X-EBAY-API-IAF-TOKEN':            userToken,
+          },
+          body: xmlBody,
         })
-        if (identityRes.ok) {
-          const identity = await identityRes.json()
-          const resolvedName = identity.username
-          if (resolvedName && resolvedName !== 'eBay Store') {
-            sellerUsername = resolvedName
-            await getAdmin().from('channels')
-              .update({ shop_name: resolvedName })
-              .eq('user_id', user.id).eq('type', 'ebay')
-            console.log(`[ebay:sync] Resolved eBay username: ${resolvedName}`)
+
+        if (!res.ok) {
+          console.warn('[ebay:sync] Trading API HTTP error:', res.status)
+          break
+        }
+
+        const xml  = await res.text()
+        const doc  = xmlParser.parse(xml)
+        const root = doc?.GetMyeBaySellingResponse
+
+        if (!root || root.Ack === 'Failure') {
+          console.warn('[ebay:sync] Trading API error:', JSON.stringify(root?.Errors || root?.Ack))
+          break
+        }
+
+        // Update total pages on first call
+        const pagination = root.ActiveList?.PaginationResult
+        if (page === 1 && pagination) {
+          totalPages = parseInt(pagination.TotalNumberOfPages || '1', 10)
+          console.log(`[ebay:sync] Trading API: ${pagination.TotalNumberOfEntries} listings across ${totalPages} pages`)
+        }
+
+        // Items may be a single object or an array
+        const rawItems = root.ActiveList?.ItemArray?.Item
+        const items: any[] = !rawItems ? [] : Array.isArray(rawItems) ? rawItems : [rawItems]
+
+        for (const item of items) {
+          const ebayItemId = String(item.ItemID || '')
+          if (!ebayItemId || existingIds.has(ebayItemId)) { skipped++; continue }
+
+          const price     = parseFloat(item.SellingStatus?.CurrentPrice?.['#text'] ?? item.SellingStatus?.CurrentPrice ?? '0')
+          const gallery   = item.PictureDetails?.GalleryURL || ''
+          const condition = (item.ConditionDisplayName || item.ConditionID || '').toString().toLowerCase()
+
+          const { data: newListing, error: insertErr } = await getAdmin().from('listings').insert({
+            user_id:     user.id,
+            title:       item.Title || 'Untitled',
+            description: '',
+            price:       isNaN(price) ? 0 : price,
+            sku:         item.SKU || '',
+            brand:       '',
+            category:    item.PrimaryCategory?.CategoryName || '',
+            condition:   condition.includes('new') ? 'new' : 'used',
+            quantity:    parseInt(item.QuantityAvailable ?? item.Quantity ?? '1', 10),
+            images:      gallery ? [gallery] : [],
+            attributes:  {},
+            status:      'published',
+          }).select('id').single()
+
+          if (insertErr) {
+            console.warn('[ebay:sync] Insert error for', ebayItemId, insertErr.message)
+            continue
+          }
+
+          if (newListing) {
+            await getAdmin().from('listing_channels').insert({
+              listing_id:         newListing.id,
+              user_id:            user.id,
+              channel_type:       'ebay',
+              channel_listing_id: ebayItemId,
+              channel_url:        item.ListingDetails?.ViewItemURL || `https://www.ebay.co.uk/itm/${ebayItemId}`,
+              status:             'published',
+              category_id:        item.PrimaryCategory?.CategoryID ? String(item.PrimaryCategory.CategoryID) : null,
+              category_name:      item.PrimaryCategory?.CategoryName || null,
+              published_at:       item.ListingDetails?.StartTime || new Date().toISOString(),
+            })
+            existingIds.add(ebayItemId)
+            imported++
           }
         }
-      } catch {
-        // non-fatal — Browse API will be skipped
+
+        page++
       }
-    }
-
-    if (sellerUsername && sellerUsername !== 'eBay Store') {
-      try {
-        const appToken = await getEbayAppToken()
-        let offset = 0
-
-        while (true) {
-          const res = await fetch(
-            `https://api.ebay.com/buy/browse/v1/item_summary/search?filter=sellers:{${encodeURIComponent(sellerUsername)}}&limit=200&offset=${offset}`,
-            {
-              headers: {
-                Authorization:             `Bearer ${appToken}`,
-                'X-EBAY-C-MARKETPLACE-ID': 'EBAY_GB',
-                'Accept-Language':         'en-GB',
-              },
-            }
-          )
-          if (!res.ok) {
-            console.warn('[ebay:sync] Browse API failed:', res.status, await res.text())
-            break
-          }
-
-          const data  = await res.json()
-          const items = data.itemSummaries || []
-
-          for (const item of items) {
-            const ebayItemId = parseItemId(item.itemId || '')
-            if (!ebayItemId || existingIds.has(ebayItemId)) { skipped++; continue }
-
-            const { data: newListing, error } = await getAdmin().from('listings').insert({
-              user_id:     user.id,
-              title:       item.title || 'Untitled',
-              description: item.shortDescription || '',
-              price:       parseFloat(item.price?.value || '0'),
-              brand:       item.brand || '',
-              category:    item.categories?.[0]?.categoryName || '',
-              condition:   (item.condition || '').toLowerCase().includes('new') ? 'new' : 'used',
-              quantity:    item.estimatedAvailabilities?.[0]?.estimatedAvailableQuantity ?? 1,
-              images:      [
-                item.image?.imageUrl,
-                ...(item.additionalImages?.map((img: any) => img.imageUrl) || []),
-              ].filter(Boolean).slice(0, 8),
-              attributes:  {},
-              status:      'published',
-            }).select('id').single()
-
-            if (!error && newListing) {
-              await getAdmin().from('listing_channels').insert({
-                listing_id:         newListing.id,
-                user_id:            user.id,
-                channel_type:       'ebay',
-                channel_listing_id: ebayItemId,
-                channel_url:        item.itemWebUrl || `https://www.ebay.co.uk/itm/${ebayItemId}`,
-                status:             'published',
-                category_id:        item.categories?.[0]?.categoryId || null,
-                category_name:      item.categories?.[0]?.categoryName || null,
-                published_at:       new Date().toISOString(),
-              })
-              existingIds.add(ebayItemId)
-              imported++
-            }
-          }
-
-          if (items.length < 200) break
-          offset += 200
-        }
-      } catch (err) {
-        console.warn('[ebay:sync] Browse API error:', err)
-      }
+    } catch (err) {
+      console.warn('[ebay:sync] Trading API error:', err)
     }
 
     // Update last_synced_at on channel
