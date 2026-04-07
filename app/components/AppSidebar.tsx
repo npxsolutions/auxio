@@ -19,6 +19,7 @@ export default function AppSidebar() {
   const [user, setUser] = useState<any>(null)
   const [plan, setPlan] = useState('growth')
   const [pendingCount, setPendingCount] = useState(0)
+  const [errorCount, setErrorCount] = useState(0)
   const supabase = createClient()
 
   useEffect(() => {
@@ -37,6 +38,16 @@ export default function AppSidebar() {
 
       if (userRow.data?.plan) setPlan(userRow.data.plan)
       setPendingCount(pendingRow.count || 0)
+
+      try {
+        const errRes = await fetch('/api/errors')
+        if (errRes.ok) {
+          const errJson = await errRes.json()
+          setErrorCount(errJson.total || 0)
+        }
+      } catch {
+        // silently ignore — errors endpoint may not exist yet
+      }
     }
     load()
   }, [])
@@ -58,6 +69,7 @@ export default function AppSidebar() {
         { href: '/listings',   icon: '🏷️', label: 'Listings' },
         { href: '/orders',     icon: '📋', label: 'Orders' },
         { href: '/channels',   icon: '🔗', label: 'Channels' },
+        { href: '/errors',     icon: '⚠️', label: 'Errors', badge: errorCount },
         { href: '/inventory',  icon: '📦', label: 'Inventory' },
         { href: '/rules',      icon: '⚙️', label: 'Feed Rules' },
       ],

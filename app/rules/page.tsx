@@ -1,13 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import AppSidebar from '../components/AppSidebar'
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-type ConditionOp = 'contains' | 'not_contains' | 'equals' | 'starts_with' | 'ends_with' | 'gt' | 'lt'
-type ActionType  = 'set_field' | 'append' | 'prepend' | 'truncate' | 'replace' | 'map_value'
+type ConditionOp =
+  | 'contains' | 'not_contains' | 'equals' | 'not_equals'
+  | 'starts_with' | 'ends_with' | 'is_empty' | 'is_not_empty'
+  | 'greater_than' | 'less_than' | 'matches_regex'
+
+type ActionType =
+  | 'set_field' | 'append' | 'prepend' | 'truncate'
+  | 'replace' | 'map_value' | 'calculate'
+
+type LogicMode = 'AND' | 'OR'
 
 interface Condition {
   field: string
@@ -16,11 +24,12 @@ interface Condition {
 }
 
 interface Action {
-  type:  ActionType
-  field: string
-  value: string
-  from?: string   // for map_value / replace
-  to?:   string   // for map_value / replace
+  type:     ActionType
+  field:    string
+  value:    string
+  from?:    string
+  to?:      string
+  operator?: string
 }
 
 interface Rule {
@@ -34,116 +43,993 @@ interface Rule {
   created_at: string
 }
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const FIELDS = [
-  { value: 'title',       label: 'Title' },
-  { value: 'description', label: 'Description' },
-  { value: 'brand',       label: 'Brand' },
-  { value: 'category',    label: 'Category' },
-  { value: 'condition',   label: 'Condition' },
-  { value: 'price',       label: 'Price' },
-  { value: 'sku',         label: 'SKU' },
+  { value: 'title',           label: 'Title' },
+  { value: 'description',     label: 'Description' },
+  { value: 'price',           label: 'Price' },
+  { value: 'sale_price',      label: 'Sale Price' },
+  { value: 'brand',           label: 'Brand' },
+  { value: 'condition',       label: 'Condition' },
+  { value: 'category',        label: 'Category' },
+  { value: 'sku',             label: 'SKU' },
+  { value: 'barcode',         label: 'Barcode' },
+  { value: 'weight',          label: 'Weight' },
+  { value: 'material',        label: 'Material' },
+  { value: 'color',           label: 'Color' },
+  { value: 'size',            label: 'Size' },
+  { value: 'images[0]',       label: 'Image URL' },
+  { value: 'quantity',        label: 'Quantity' },
+  { value: 'shipping_weight', label: 'Shipping Weight' },
 ]
 
 const CONDITION_OPS: { value: ConditionOp; label: string }[] = [
-  { value: 'contains',     label: 'contains' },
-  { value: 'not_contains', label: 'does not contain' },
-  { value: 'equals',       label: 'equals' },
-  { value: 'starts_with',  label: 'starts with' },
-  { value: 'ends_with',    label: 'ends with' },
-  { value: 'gt',           label: 'is greater than' },
-  { value: 'lt',           label: 'is less than' },
+  { value: 'contains',      label: 'contains' },
+  { value: 'not_contains',  label: 'does not contain' },
+  { value: 'equals',        label: 'equals' },
+  { value: 'not_equals',    label: 'does not equal' },
+  { value: 'starts_with',   label: 'starts with' },
+  { value: 'ends_with',     label: 'ends with' },
+  { value: 'is_empty',      label: 'is empty' },
+  { value: 'is_not_empty',  label: 'is not empty' },
+  { value: 'greater_than',  label: 'is greater than' },
+  { value: 'less_than',     label: 'is less than' },
+  { value: 'matches_regex', label: 'matches regex' },
 ]
 
 const ACTION_TYPES: { value: ActionType; label: string; hint: string }[] = [
-  { value: 'set_field',  label: 'Set field',    hint: 'Replace field value entirely' },
-  { value: 'append',     label: 'Append',       hint: 'Add text to the end' },
-  { value: 'prepend',    label: 'Prepend',       hint: 'Add text to the start' },
-  { value: 'truncate',   label: 'Truncate',      hint: 'Trim to max length (enter number)' },
-  { value: 'replace',    label: 'Find & replace', hint: 'Replace one value with another' },
-  { value: 'map_value',  label: 'Map value',     hint: 'e.g. "New" → "new_with_tags"' },
+  { value: 'set_field',  label: 'Set field',      hint: 'Replace with a fixed value' },
+  { value: 'append',     label: 'Append',          hint: 'Add text to end of field' },
+  { value: 'prepend',    label: 'Prepend',          hint: 'Add text to start of field' },
+  { value: 'truncate',   label: 'Truncate',         hint: 'Trim to max character length' },
+  { value: 'replace',    label: 'Find & replace',   hint: 'Swap one string for another' },
+  { value: 'map_value',  label: 'Map value',        hint: 'e.g. "New" → "new_with_tags"' },
+  { value: 'calculate',  label: 'Calculate',        hint: 'e.g. price - 5%' },
+]
+
+const CALC_OPERATORS = [
+  { value: '+',  label: 'Add' },
+  { value: '-',  label: 'Subtract' },
+  { value: '*',  label: 'Multiply by' },
+  { value: '/',  label: 'Divide by' },
+  { value: '-%', label: 'Reduce by %' },
+  { value: '+%', label: 'Increase by %' },
 ]
 
 const CHANNELS = [
-  { value: 'all',     label: 'All channels' },
+  { value: 'all',     label: 'All Channels' },
   { value: 'ebay',    label: 'eBay' },
   { value: 'shopify', label: 'Shopify' },
   { value: 'amazon',  label: 'Amazon' },
 ]
 
-const CHANNEL_ICON: Record<string, string> = { all: '🔗', ebay: '🛒', shopify: '🛍️', amazon: '📦' }
+const CHANNEL_COLOR: Record<string, { bg: string; text: string; dot: string }> = {
+  all:     { bg: '#f1f1ef', text: '#787774', dot: '#b8b8b5' },
+  ebay:    { bg: '#fff0e6', text: '#c05621', dot: '#e07a38' },
+  shopify: { bg: '#e8f1fb', text: '#1d5fa8', dot: '#2383e2' },
+  amazon:  { bg: '#fdf3e8', text: '#b7600a', dot: '#d9730d' },
+}
 
-// ─── Blank builders ───────────────────────────────────────────────────────────
+const SAMPLE_LISTING: Record<string, string> = {
+  title:           'Nike Air Max 90 Mens Running Trainers White Black Size 10 UK New',
+  description:     'Classic Nike Air Max 90 in white and black colourway. Perfect for everyday wear.',
+  brand:           'Nike',
+  category:        'Trainers',
+  condition:       'New',
+  price:           '89.99',
+  sale_price:      '79.99',
+  sku:             'NIKE-AM90-W-10',
+  barcode:         '0191888735574',
+  weight:          '0.8',
+  material:        'Leather/Mesh',
+  color:           'White/Black',
+  size:            'UK 10',
+  'images[0]':     'https://example.com/image.jpg',
+  quantity:        '12',
+  shipping_weight: '1.1',
+}
 
-const blankCondition = (): Condition => ({ field: 'title', op: 'contains', value: '' })
-const blankAction    = (): Action    => ({ type: 'append', field: 'title', value: '' })
-
-// ─── Apply rules to a sample listing (preview engine) ────────────────────────
+// ─── applyRules preview engine ────────────────────────────────────────────────
 
 function applyRules(sample: Record<string, string>, rules: Rule[]): Record<string, string> {
   const out = { ...sample }
   const active = rules.filter(r => r.active).sort((a, b) => a.priority - b.priority)
 
   for (const rule of active) {
-    // Check all conditions pass (AND logic)
-    const passes = rule.conditions.every(c => {
-      const v = String(out[c.field] || '').toLowerCase()
+    const passes = rule.conditions.length === 0 || rule.conditions.every(c => {
+      const v  = String(out[c.field] ?? '').toLowerCase()
       const cv = c.value.toLowerCase()
       switch (c.op) {
-        case 'contains':     return v.includes(cv)
-        case 'not_contains': return !v.includes(cv)
-        case 'equals':       return v === cv
-        case 'starts_with':  return v.startsWith(cv)
-        case 'ends_with':    return v.endsWith(cv)
-        case 'gt':           return parseFloat(v) > parseFloat(cv)
-        case 'lt':           return parseFloat(v) < parseFloat(cv)
-        default:             return true
+        case 'contains':      return v.includes(cv)
+        case 'not_contains':  return !v.includes(cv)
+        case 'equals':        return v === cv
+        case 'not_equals':    return v !== cv
+        case 'starts_with':   return v.startsWith(cv)
+        case 'ends_with':     return v.endsWith(cv)
+        case 'is_empty':      return v === ''
+        case 'is_not_empty':  return v !== ''
+        case 'greater_than':  return parseFloat(v) > parseFloat(cv)
+        case 'less_than':     return parseFloat(v) < parseFloat(cv)
+        case 'matches_regex': try { return new RegExp(c.value, 'i').test(String(out[c.field] ?? '')) } catch { return false }
+        default:              return true
       }
     })
 
     if (!passes) continue
 
     for (const action of rule.actions) {
-      const cur = String(out[action.field] || '')
+      const cur = String(out[action.field] ?? '')
       switch (action.type) {
-        case 'set_field':  out[action.field] = action.value; break
-        case 'append':     out[action.field] = cur + action.value; break
-        case 'prepend':    out[action.field] = action.value + cur; break
-        case 'truncate':   out[action.field] = cur.slice(0, parseInt(action.value) || cur.length); break
-        case 'replace':    out[action.field] = cur.split(action.from || '').join(action.to || ''); break
-        case 'map_value':  if (cur === action.from) out[action.field] = action.to || ''; break
+        case 'set_field': out[action.field] = action.value; break
+        case 'append':    out[action.field] = cur + action.value; break
+        case 'prepend':   out[action.field] = action.value + cur; break
+        case 'truncate':  out[action.field] = cur.slice(0, parseInt(action.value) || cur.length); break
+        case 'replace':   out[action.field] = cur.split(action.from ?? '').join(action.to ?? ''); break
+        case 'map_value': if (cur === action.from) out[action.field] = action.to ?? ''; break
+        case 'calculate': {
+          const num = parseFloat(cur)
+          const val = parseFloat(action.value)
+          if (!isNaN(num) && !isNaN(val)) {
+            switch (action.operator) {
+              case '+':  out[action.field] = String(Math.round((num + val) * 100) / 100); break
+              case '-':  out[action.field] = String(Math.round((num - val) * 100) / 100); break
+              case '*':  out[action.field] = String(Math.round(num * val * 100) / 100); break
+              case '/':  out[action.field] = val !== 0 ? String(Math.round(num / val * 100) / 100) : cur; break
+              case '-%': out[action.field] = String(Math.round(num * (1 - val / 100) * 100) / 100); break
+              case '+%': out[action.field] = String(Math.round(num * (1 + val / 100) * 100) / 100); break
+            }
+          }
+          break
+        }
       }
     }
   }
   return out
 }
 
-const SAMPLE_LISTING: Record<string, string> = {
-  title:       'Nike Air Max 90 Mens Running Trainers White Black Size 10 UK New',
-  description: 'Classic Nike Air Max 90 in white and black colourway.',
-  brand:       'Nike',
-  category:    'Trainers',
-  condition:   'New',
-  price:       '89.99',
-  sku:         'NIKE-AM90-W-10',
-}
+// ─── Blank builders ───────────────────────────────────────────────────────────
 
-// ─── Inline editor components ─────────────────────────────────────────────────
+const blankCondition = (): Condition => ({ field: 'title', op: 'contains', value: '' })
+const blankAction    = (): Action    => ({ type: 'set_field', field: 'title', value: '', operator: '-' })
 
-function SelectField({ value, onChange, options, style }: any) {
+// ─── Shared primitive components ──────────────────────────────────────────────
+
+function Sel({ value, onChange, options, style }: {
+  value: string
+  onChange: (v: string) => void
+  options: { value: string; label: string }[]
+  style?: React.CSSProperties
+}) {
   return (
-    <select value={value} onChange={e => onChange(e.target.value)}
-      style={{ padding: '6px 10px', border: '1px solid #e8e8e5', borderRadius: '6px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', background: 'white', ...style }}>
-      {options.map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
+    <select
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      style={{
+        padding: '6px 28px 6px 10px',
+        border: '1px solid #e8e8e5',
+        borderRadius: 6,
+        fontSize: 12,
+        fontFamily: 'Inter, -apple-system, sans-serif',
+        color: '#191919',
+        background: 'white url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\' viewBox=\'0 0 10 6\'%3E%3Cpath d=\'M1 1l4 4 4-4\' stroke=\'%23b8b8b5\' stroke-width=\'1.5\' fill=\'none\' stroke-linecap=\'round\'/%3E%3C/svg%3E") no-repeat right 8px center',
+        appearance: 'none',
+        WebkitAppearance: 'none',
+        cursor: 'pointer',
+        outline: 'none',
+        flexShrink: 0,
+        ...style,
+      }}
+    >
+      {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
     </select>
   )
 }
 
-function TextInput({ value, onChange, placeholder, style }: any) {
+function Inp({ value, onChange, placeholder, style, type }: {
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  style?: React.CSSProperties
+  type?: string
+}) {
   return (
-    <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
-      style={{ padding: '6px 10px', border: '1px solid #e8e8e5', borderRadius: '6px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', background: 'white', ...style }} />
+    <input
+      type={type ?? 'text'}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      placeholder={placeholder}
+      style={{
+        padding: '6px 10px',
+        border: '1px solid #e8e8e5',
+        borderRadius: 6,
+        fontSize: 12,
+        fontFamily: 'Inter, -apple-system, sans-serif',
+        color: '#191919',
+        background: 'white',
+        outline: 'none',
+        width: '100%',
+        boxSizing: 'border-box',
+        ...style,
+      }}
+    />
+  )
+}
+
+function Toggle({ active, onChange }: { active: boolean; onChange: () => void }) {
+  return (
+    <div
+      onClick={onChange}
+      style={{
+        width: 36,
+        height: 20,
+        background: active ? '#0f7b6c' : '#e0e0db',
+        borderRadius: 10,
+        position: 'relative',
+        cursor: 'pointer',
+        flexShrink: 0,
+        transition: 'background 0.15s',
+      }}
+    >
+      <div style={{
+        position: 'absolute',
+        top: 2,
+        left: active ? 18 : 2,
+        width: 16,
+        height: 16,
+        background: 'white',
+        borderRadius: '50%',
+        transition: 'left 0.15s',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
+      }} />
+    </div>
+  )
+}
+
+// ─── Column header label ──────────────────────────────────────────────────────
+
+function ColHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 10,
+      fontWeight: 700,
+      color: '#9b9b98',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      marginBottom: 12,
+      paddingBottom: 10,
+      borderBottom: '1px solid #ededea',
+    }}>
+      {children}
+    </div>
+  )
+}
+
+// ─── Condition row ────────────────────────────────────────────────────────────
+
+function ConditionRow({
+  cond, idx, onChange, onDelete, showDelete,
+}: {
+  cond: Condition
+  idx: number
+  onChange: (c: Condition) => void
+  onDelete: () => void
+  showDelete: boolean
+}) {
+  const noValueOps = ['is_empty', 'is_not_empty']
+  return (
+    <div style={{
+      background: 'white',
+      border: '1px solid #e8e8e5',
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 8,
+      position: 'relative',
+    }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <Sel
+            value={cond.field}
+            onChange={v => onChange({ ...cond, field: v })}
+            options={FIELDS}
+            style={{ flex: 1 }}
+          />
+          {showDelete && (
+            <button
+              onClick={onDelete}
+              style={{
+                background: 'none', border: 'none', color: '#c9c9c5',
+                cursor: 'pointer', fontSize: 14, padding: '2px 4px',
+                lineHeight: 1, borderRadius: 4, flexShrink: 0,
+              }}
+              title="Remove condition"
+            >
+              ×
+            </button>
+          )}
+        </div>
+        <Sel
+          value={cond.op}
+          onChange={v => onChange({ ...cond, op: v as ConditionOp })}
+          options={CONDITION_OPS}
+          style={{ width: '100%' }}
+        />
+        {!noValueOps.includes(cond.op) && (
+          <Inp
+            value={cond.value}
+            onChange={v => onChange({ ...cond, value: v })}
+            placeholder="value…"
+          />
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ─── Action row ───────────────────────────────────────────────────────────────
+
+function ActionRow({
+  action, idx, onChange, onDelete, showDelete,
+}: {
+  action: Action
+  idx: number
+  onChange: (a: Action) => void
+  onDelete: () => void
+  showDelete: boolean
+}) {
+  const needsFromTo  = action.type === 'replace' || action.type === 'map_value'
+  const needsCalc    = action.type === 'calculate'
+  const noValue      = false
+
+  return (
+    <div style={{
+      background: 'white',
+      border: '1px solid #e8e8e5',
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 8,
+      position: 'relative',
+    }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <Sel
+            value={action.type}
+            onChange={v => onChange({ ...action, type: v as ActionType })}
+            options={ACTION_TYPES.map(t => ({ value: t.value, label: t.label }))}
+            style={{ flex: 1 }}
+          />
+          {showDelete && (
+            <button
+              onClick={onDelete}
+              style={{
+                background: 'none', border: 'none', color: '#c9c9c5',
+                cursor: 'pointer', fontSize: 14, padding: '2px 4px',
+                lineHeight: 1, borderRadius: 4, flexShrink: 0,
+              }}
+              title="Remove action"
+            >
+              ×
+            </button>
+          )}
+        </div>
+        <Sel
+          value={action.field}
+          onChange={v => onChange({ ...action, field: v })}
+          options={FIELDS}
+          style={{ width: '100%' }}
+        />
+        {needsCalc ? (
+          <div style={{ display: 'flex', gap: 6 }}>
+            <Sel
+              value={action.operator ?? '-'}
+              onChange={v => onChange({ ...action, operator: v })}
+              options={CALC_OPERATORS}
+              style={{ flex: 1 }}
+            />
+            <Inp
+              value={action.value}
+              onChange={v => onChange({ ...action, value: v })}
+              placeholder="amount…"
+              style={{ flex: 1 }}
+            />
+          </div>
+        ) : needsFromTo ? (
+          <>
+            <Inp
+              value={action.from ?? ''}
+              onChange={v => onChange({ ...action, from: v })}
+              placeholder={action.type === 'map_value' ? 'match value…' : 'find…'}
+            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ fontSize: 11, color: '#b8b8b5', flexShrink: 0 }}>→</div>
+              <Inp
+                value={action.to ?? ''}
+                onChange={v => onChange({ ...action, to: v })}
+                placeholder="replace with…"
+              />
+            </div>
+          </>
+        ) : (
+          <Inp
+            value={action.value}
+            onChange={v => onChange({ ...action, value: v })}
+            placeholder={action.type === 'truncate' ? 'max chars (e.g. 80)…' : 'value…'}
+          />
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ─── Channel badge ────────────────────────────────────────────────────────────
+
+function ChannelBadge({ channel }: { channel: string }) {
+  const colors = CHANNEL_COLOR[channel] ?? CHANNEL_COLOR.all
+  const label  = CHANNELS.find(c => c.value === channel)?.label ?? channel
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      background: colors.bg, color: colors.text,
+      fontSize: 11, fontWeight: 600,
+      padding: '3px 8px', borderRadius: 20,
+    }}>
+      <span style={{
+        width: 6, height: 6, borderRadius: '50%',
+        background: colors.dot, flexShrink: 0,
+        display: 'inline-block',
+      }} />
+      {label}
+    </span>
+  )
+}
+
+// ─── Rule table row ───────────────────────────────────────────────────────────
+
+function RuleRow({
+  rule, idx, onEdit, onDelete, onToggle,
+}: {
+  rule: Rule
+  idx: number
+  onEdit: () => void
+  onDelete: () => void
+  onToggle: () => void
+}) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <tr
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: hovered ? '#fafaf8' : 'white',
+        transition: 'background 0.1s',
+        opacity: rule.active ? 1 : 0.55,
+      }}
+    >
+      {/* Priority */}
+      <td style={{ padding: '14px 16px', width: 60, textAlign: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <svg width="10" height="14" viewBox="0 0 10 14" fill="none" style={{ color: '#c9c9c5', cursor: 'grab' }}>
+            <rect x="0" y="1" width="4" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="1" width="4" height="2" rx="1" fill="currentColor"/>
+            <rect x="0" y="6" width="4" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="6" width="4" height="2" rx="1" fill="currentColor"/>
+            <rect x="0" y="11" width="4" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="11" width="4" height="2" rx="1" fill="currentColor"/>
+          </svg>
+          <span style={{ fontSize: 12, fontWeight: 600, color: '#9b9b98' }}>{idx + 1}</span>
+        </div>
+      </td>
+      {/* Name */}
+      <td style={{ padding: '14px 16px' }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#191919' }}>{rule.name}</span>
+      </td>
+      {/* Channel */}
+      <td style={{ padding: '14px 16px' }}>
+        <ChannelBadge channel={rule.channel} />
+      </td>
+      {/* Conditions */}
+      <td style={{ padding: '14px 16px' }}>
+        <span style={{
+          fontSize: 12, color: '#787774',
+          background: '#f7f7f5', padding: '3px 8px', borderRadius: 5,
+        }}>
+          {rule.conditions.length === 0 ? 'Always' : `${rule.conditions.length} condition${rule.conditions.length !== 1 ? 's' : ''}`}
+        </span>
+      </td>
+      {/* Actions */}
+      <td style={{ padding: '14px 16px' }}>
+        <span style={{
+          fontSize: 12, color: '#787774',
+          background: '#f7f7f5', padding: '3px 8px', borderRadius: 5,
+        }}>
+          {rule.actions.length} action{rule.actions.length !== 1 ? 's' : ''}
+        </span>
+      </td>
+      {/* Status */}
+      <td style={{ padding: '14px 16px' }}>
+        <Toggle active={rule.active} onChange={onToggle} />
+      </td>
+      {/* Actions */}
+      <td style={{ padding: '14px 16px' }}>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <button
+            onClick={onEdit}
+            style={{
+              background: '#f1f1ef', color: '#191919', border: 'none',
+              borderRadius: 6, padding: '5px 12px', fontSize: 12,
+              fontWeight: 500, cursor: 'pointer',
+              fontFamily: 'Inter, -apple-system, sans-serif',
+            }}
+          >
+            Edit
+          </button>
+          <button
+            onClick={onDelete}
+            style={{
+              background: 'none', color: '#b8b8b5', border: '1px solid #e8e8e5',
+              borderRadius: 6, padding: '5px 8px', fontSize: 12,
+              cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif',
+              lineHeight: 1,
+            }}
+            title="Delete rule"
+          >
+            ×
+          </button>
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+// ─── Preview panel ────────────────────────────────────────────────────────────
+
+function PreviewPanel({
+  conditions, actions, logicMode,
+}: {
+  conditions: Condition[]
+  actions: Action[]
+  logicMode: LogicMode
+}) {
+  const draftRule: Rule = {
+    id: '__draft__', name: 'Draft', channel: 'all',
+    conditions: conditions.filter(c => c.value || c.op === 'is_empty' || c.op === 'is_not_empty'),
+    actions:    actions.filter(a => a.value || a.type === 'truncate' || a.from),
+    active: true, priority: 0, created_at: '',
+  }
+
+  const previewOut = applyRules(SAMPLE_LISTING, [draftRule])
+  const changedFields = Object.keys(SAMPLE_LISTING).filter(f => previewOut[f] !== SAMPLE_LISTING[f])
+
+  const conditionMatches = draftRule.conditions.length === 0 || (() => {
+    const results = draftRule.conditions.map(c => {
+      const v  = String(SAMPLE_LISTING[c.field] ?? '').toLowerCase()
+      const cv = c.value.toLowerCase()
+      switch (c.op) {
+        case 'contains':      return v.includes(cv)
+        case 'not_contains':  return !v.includes(cv)
+        case 'equals':        return v === cv
+        case 'not_equals':    return v !== cv
+        case 'starts_with':   return v.startsWith(cv)
+        case 'ends_with':     return v.endsWith(cv)
+        case 'is_empty':      return v === ''
+        case 'is_not_empty':  return v !== ''
+        case 'greater_than':  return parseFloat(v) > parseFloat(cv)
+        case 'less_than':     return parseFloat(v) < parseFloat(cv)
+        case 'matches_regex': try { return new RegExp(c.value, 'i').test(String(SAMPLE_LISTING[c.field] ?? '')) } catch { return false }
+        default:              return true
+      }
+    })
+    return logicMode === 'AND' ? results.every(Boolean) : results.some(Boolean)
+  })()
+
+  const affectedFields = actions
+    .filter(a => a.field && (a.value || a.type === 'truncate' || a.from))
+    .map(a => a.field)
+
+  const displayFields = affectedFields.length > 0
+    ? [...new Set(affectedFields)]
+    : ['title', 'price', 'brand', 'condition']
+
+  return (
+    <div style={{
+      marginTop: 24,
+      border: '1px solid #e8e8e5',
+      borderRadius: 10,
+      overflow: 'hidden',
+      background: 'white',
+    }}>
+      <div style={{
+        padding: '12px 16px',
+        background: '#f7f7f5',
+        borderBottom: '1px solid #e8e8e5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+          Live Preview — Sample Product
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{
+            width: 7, height: 7, borderRadius: '50%',
+            background: conditionMatches ? '#0f7b6c' : '#e3b341',
+            flexShrink: 0,
+          }} />
+          <span style={{ fontSize: 11, color: conditionMatches ? '#0f7b6c' : '#9b9b98', fontWeight: 500 }}>
+            {conditionMatches ? 'Conditions match' : 'No match'}
+          </span>
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
+        {/* Before */}
+        <div style={{ padding: '16px 20px', borderRight: '1px solid #f1f1ef' }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: '#b8b8b5', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 12 }}>
+            Before
+          </div>
+          {displayFields.map(f => (
+            <div key={f} style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: '#b8b8b5', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>{f}</div>
+              <div style={{
+                fontSize: 12, color: '#9b9b98',
+                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                textDecoration: changedFields.includes(f) && conditionMatches ? 'line-through' : 'none',
+              }}>
+                {SAMPLE_LISTING[f] || <span style={{ color: '#d0d0cc', fontStyle: 'italic' }}>empty</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* After */}
+        <div style={{ padding: '16px 20px' }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: '#b8b8b5', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 12 }}>
+            After
+          </div>
+          {displayFields.map(f => {
+            const changed = changedFields.includes(f) && conditionMatches
+            return (
+              <div key={f} style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 10, fontWeight: 600, color: '#b8b8b5', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>{f}</div>
+                <div style={{
+                  fontSize: 12,
+                  color: changed ? '#0f7b6c' : '#9b9b98',
+                  fontWeight: changed ? 600 : 400,
+                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                  background: changed ? '#e8f5f3' : 'transparent',
+                  padding: changed ? '2px 6px' : '2px 0',
+                  borderRadius: changed ? 4 : 0,
+                  display: 'inline-block',
+                  maxWidth: '100%',
+                }}>
+                  {conditionMatches ? (previewOut[f] || <span style={{ color: '#d0d0cc', fontStyle: 'italic' }}>empty</span>) : (SAMPLE_LISTING[f] || <span style={{ color: '#d0d0cc', fontStyle: 'italic' }}>empty</span>)}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── 3-Column Rule Editor ─────────────────────────────────────────────────────
+
+function RuleEditor({
+  editId,
+  initialName,
+  initialChannel,
+  initialPriority,
+  initialActive,
+  initialConditions,
+  initialActions,
+  saving,
+  onSave,
+  onCancel,
+}: {
+  editId: string | null
+  initialName: string
+  initialChannel: string
+  initialPriority: number
+  initialActive: boolean
+  initialConditions: Condition[]
+  initialActions: Action[]
+  saving: boolean
+  onSave: (data: {
+    name: string; channel: string; priority: number; active: boolean;
+    conditions: Condition[]; actions: Action[];
+  }) => void
+  onCancel: () => void
+}) {
+  const [name,       setName]       = useState(initialName)
+  const [channel,    setChannel]    = useState(initialChannel)
+  const [priority,   setPriority]   = useState(initialPriority)
+  const [active,     setActive]     = useState(initialActive)
+  const [conditions, setConditions] = useState<Condition[]>(
+    initialConditions.length ? initialConditions : [blankCondition()]
+  )
+  const [actions,    setActions]    = useState<Action[]>(
+    initialActions.length ? initialActions : [blankAction()]
+  )
+  const [logicMode,  setLogicMode]  = useState<LogicMode>('AND')
+
+  const updateCondition = useCallback((idx: number, c: Condition) =>
+    setConditions(prev => prev.map((x, i) => i === idx ? c : x)), [])
+  const deleteCondition = useCallback((idx: number) =>
+    setConditions(prev => prev.filter((_, i) => i !== idx)), [])
+  const updateAction = useCallback((idx: number, a: Action) =>
+    setActions(prev => prev.map((x, i) => i === idx ? a : x)), [])
+  const deleteAction = useCallback((idx: number) =>
+    setActions(prev => prev.filter((_, i) => i !== idx)), [])
+
+  const addBtnStyle: React.CSSProperties = {
+    background: 'none',
+    border: '1px dashed #d5d5d0',
+    borderRadius: 6,
+    padding: '7px 12px',
+    fontSize: 12,
+    color: '#9b9b98',
+    cursor: 'pointer',
+    fontFamily: 'Inter, -apple-system, sans-serif',
+    width: '100%',
+    textAlign: 'left',
+    transition: 'border-color 0.15s, color 0.15s',
+  }
+
+  return (
+    <div style={{
+      background: 'white',
+      border: '1px solid #e8e8e5',
+      borderRadius: 12,
+      marginBottom: 28,
+      overflow: 'hidden',
+    }}>
+      {/* Editor top bar */}
+      <div style={{
+        padding: '14px 20px',
+        background: '#f7f7f5',
+        borderBottom: '1px solid #e8e8e5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: '#787774' }}>
+          {editId ? 'Edit Rule' : 'New Rule'}
+        </span>
+        <button
+          onClick={onCancel}
+          style={{
+            background: 'none', border: 'none', color: '#9b9b98',
+            cursor: 'pointer', fontSize: 18, lineHeight: 1, padding: '0 4px',
+          }}
+          title="Close editor"
+        >
+          ×
+        </button>
+      </div>
+
+      {/* 3-column grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 200px 1fr',
+        minHeight: 360,
+      }}>
+        {/* ── LEFT: Conditions ── */}
+        <div style={{ padding: 20, borderRight: '1px solid #ededea' }}>
+          <ColHeader>
+            IF — Conditions
+          </ColHeader>
+
+          {/* Logic toggle */}
+          {conditions.length > 1 && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              marginBottom: 10,
+            }}>
+              <span style={{ fontSize: 11, color: '#9b9b98' }}>Match</span>
+              {(['AND', 'OR'] as LogicMode[]).map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => setLogicMode(mode)}
+                  style={{
+                    padding: '3px 10px',
+                    borderRadius: 5,
+                    border: '1px solid',
+                    borderColor: logicMode === mode ? '#191919' : '#e8e8e5',
+                    background: logicMode === mode ? '#191919' : 'white',
+                    color: logicMode === mode ? 'white' : '#787774',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    fontFamily: 'Inter, -apple-system, sans-serif',
+                    transition: 'all 0.1s',
+                  }}
+                >
+                  {mode}
+                </button>
+              ))}
+              <span style={{ fontSize: 11, color: '#9b9b98' }}>conditions</span>
+            </div>
+          )}
+
+          {conditions.map((c, i) => (
+            <div key={i}>
+              {i > 0 && (
+                <div style={{
+                  fontSize: 10, fontWeight: 700, color: '#c9c9c5',
+                  textTransform: 'uppercase', letterSpacing: '0.06em',
+                  marginBottom: 6, textAlign: 'center',
+                }}>
+                  {logicMode}
+                </div>
+              )}
+              <ConditionRow
+                cond={c}
+                idx={i}
+                onChange={nc => updateCondition(i, nc)}
+                onDelete={() => deleteCondition(i)}
+                showDelete={conditions.length > 1}
+              />
+            </div>
+          ))}
+
+          <button
+            onClick={() => setConditions(prev => [...prev, blankCondition()])}
+            style={addBtnStyle}
+          >
+            + Add condition
+          </button>
+        </div>
+
+        {/* ── MIDDLE: Rule settings ── */}
+        <div style={{
+          padding: 20,
+          background: '#f9f9f7',
+          borderRight: '1px solid #ededea',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 18,
+        }}>
+          <div>
+            <ColHeader>Rule Settings</ColHeader>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ fontSize: 10, fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 5 }}>
+                Name
+              </label>
+              <textarea
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="e.g. Truncate eBay titles to 80 chars"
+                rows={3}
+                style={{
+                  width: '100%',
+                  padding: '7px 10px',
+                  border: '1px solid #e8e8e5',
+                  borderRadius: 6,
+                  fontSize: 12,
+                  fontFamily: 'Inter, -apple-system, sans-serif',
+                  color: '#191919',
+                  background: 'white',
+                  outline: 'none',
+                  resize: 'vertical',
+                  boxSizing: 'border-box',
+                  lineHeight: 1.5,
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ fontSize: 10, fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 5 }}>
+                Channel
+              </label>
+              <Sel
+                value={channel}
+                onChange={setChannel}
+                options={CHANNELS}
+                style={{ width: '100%' }}
+              />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ fontSize: 10, fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 5 }}>
+                Priority
+              </label>
+              <input
+                type="number"
+                min={1}
+                value={priority}
+                onChange={e => setPriority(parseInt(e.target.value) || 1)}
+                style={{
+                  width: '100%',
+                  padding: '6px 10px',
+                  border: '1px solid #e8e8e5',
+                  borderRadius: 6,
+                  fontSize: 12,
+                  fontFamily: 'Inter, -apple-system, sans-serif',
+                  color: '#191919',
+                  background: 'white',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <label style={{ fontSize: 10, fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Active
+              </label>
+              <Toggle active={active} onChange={() => setActive(v => !v)} />
+            </div>
+          </div>
+
+          {/* Save / Cancel */}
+          <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <button
+              onClick={() => onSave({ name, channel, priority, active, conditions, actions })}
+              disabled={saving}
+              style={{
+                background: '#191919',
+                color: 'white',
+                border: 'none',
+                borderRadius: 7,
+                padding: '9px 16px',
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: saving ? 'wait' : 'pointer',
+                fontFamily: 'Inter, -apple-system, sans-serif',
+                opacity: saving ? 0.7 : 1,
+                transition: 'opacity 0.1s',
+              }}
+            >
+              {saving ? 'Saving…' : editId ? 'Update rule' : 'Save rule'}
+            </button>
+            <button
+              onClick={onCancel}
+              style={{
+                background: 'none',
+                color: '#787774',
+                border: '1px solid #e8e8e5',
+                borderRadius: 7,
+                padding: '8px 16px',
+                fontSize: 13,
+                cursor: 'pointer',
+                fontFamily: 'Inter, -apple-system, sans-serif',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        {/* ── RIGHT: Actions ── */}
+        <div style={{ padding: 20 }}>
+          <ColHeader>
+            THEN — Actions
+          </ColHeader>
+
+          {actions.map((a, i) => (
+            <ActionRow
+              key={i}
+              action={a}
+              idx={i}
+              onChange={na => updateAction(i, na)}
+              onDelete={() => deleteAction(i)}
+              showDelete={actions.length > 1}
+            />
+          ))}
+
+          <button
+            onClick={() => setActions(prev => [...prev, blankAction()])}
+            style={addBtnStyle}
+          >
+            + Add action
+          </button>
+        </div>
+      </div>
+
+      {/* Live Preview */}
+      <div style={{ padding: '0 20px 20px' }}>
+        <PreviewPanel conditions={conditions} actions={actions} logicMode={logicMode} />
+      </div>
+    </div>
   )
 }
 
@@ -151,19 +1037,13 @@ function TextInput({ value, onChange, placeholder, style }: any) {
 
 export default function RulesPage() {
   const router = useRouter()
-  const [rules, setRules]             = useState<Rule[]>([])
-  const [loading, setLoading]         = useState(true)
-  const [saving, setSaving]           = useState(false)
-  const [toast, setToast]             = useState('')
-  const [showForm, setShowForm]       = useState(false)
-  const [editId, setEditId]           = useState<string | null>(null)
-
-  // Form state
-  const [name, setName]               = useState('')
-  const [channel, setChannel]         = useState('all')
-  const [conditions, setConditions]   = useState<Condition[]>([blankCondition()])
-  const [actions, setActions]         = useState<Action[]>([blankAction()])
-  const [preview, setPreview]         = useState(false)
+  const [rules,    setRules]    = useState<Rule[]>([])
+  const [loading,  setLoading]  = useState(true)
+  const [saving,   setSaving]   = useState(false)
+  const [toast,    setToast]    = useState('')
+  const [showForm, setShowForm] = useState(false)
+  const [editRule, setEditRule] = useState<Rule | null>(null)
+  const [tabFilter, setTabFilter] = useState('all')
 
   function showToast(msg: string) {
     setToast(msg)
@@ -173,45 +1053,59 @@ export default function RulesPage() {
   useEffect(() => {
     fetch('/api/rules')
       .then(r => r.json())
-      .then(d => setRules(d.rules || []))
+      .then(d => setRules(d.rules ?? []))
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 
-  function resetForm() {
-    setName(''); setChannel('all')
-    setConditions([blankCondition()]); setActions([blankAction()])
-    setEditId(null); setShowForm(false); setPreview(false)
-  }
-
-  function openEdit(rule: Rule) {
-    setName(rule.name); setChannel(rule.channel)
-    setConditions(rule.conditions.length ? rule.conditions : [blankCondition()])
-    setActions(rule.actions.length ? rule.actions : [blankAction()])
-    setEditId(rule.id); setShowForm(true); setPreview(false)
+  function openNew() {
+    setEditRule(null)
+    setShowForm(true)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  async function saveRule() {
-    if (!name.trim()) { showToast('Rule name is required'); return }
+  function openEdit(rule: Rule) {
+    setEditRule(rule)
+    setShowForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function cancelForm() {
+    setShowForm(false)
+    setEditRule(null)
+  }
+
+  async function handleSave(data: {
+    name: string; channel: string; priority: number; active: boolean;
+    conditions: Condition[]; actions: Action[];
+  }) {
+    if (!data.name.trim()) { showToast('Rule name is required'); return }
     setSaving(true)
     try {
-      const body = { name, channel, conditions: conditions.filter(c => c.value), actions: actions.filter(a => a.value || a.type === 'truncate') }
+      const body = {
+        name:       data.name,
+        channel:    data.channel,
+        priority:   data.priority,
+        active:     data.active,
+        conditions: data.conditions.filter(c => c.value || c.op === 'is_empty' || c.op === 'is_not_empty'),
+        actions:    data.actions.filter(a => a.value || a.type === 'truncate' || a.from),
+      }
       const res = await fetch('/api/rules', {
-        method:  editId ? 'PATCH' : 'POST',
+        method:  editRule ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(editId ? { id: editId, ...body } : body),
+        body:    JSON.stringify(editRule ? { id: editRule.id, ...body } : body),
       })
       const json = await res.json()
-      if (!res.ok) { showToast(json.error || 'Failed to save'); return }
+      if (!res.ok) { showToast(json.error ?? 'Failed to save'); return }
 
-      if (editId) {
-        setRules(prev => prev.map(r => r.id === editId ? json.rule : r))
+      if (editRule) {
+        setRules(prev => prev.map(r => r.id === editRule.id ? json.rule : r))
+        showToast('Rule updated')
       } else {
         setRules(prev => [...prev, json.rule])
+        showToast('Rule created')
       }
-      showToast(editId ? 'Rule updated' : 'Rule created')
-      resetForm()
+      cancelForm()
     } catch (err: any) {
       showToast(err.message)
     } finally {
@@ -240,206 +1134,247 @@ export default function RulesPage() {
     else showToast('Delete failed')
   }
 
-  // Preview: simulate rules against sample
-  const previewOutput = applyRules(SAMPLE_LISTING, [
-    ...(editId ? [] : [{
-      id: '__draft__', name, channel,
-      conditions: conditions.filter(c => c.value),
-      actions:    actions.filter(a => a.value || a.type === 'truncate'),
-      active: true, priority: 0, created_at: '',
-    }]),
-  ])
+  const filteredRules = tabFilter === 'all'
+    ? rules
+    : rules.filter(r => r.channel === tabFilter)
+
+  const tabStyle = (tab: string): React.CSSProperties => ({
+    padding: '6px 14px',
+    borderRadius: 6,
+    border: 'none',
+    background: tabFilter === tab ? '#191919' : 'transparent',
+    color: tabFilter === tab ? 'white' : '#787774',
+    fontSize: 12,
+    fontWeight: tabFilter === tab ? 600 : 400,
+    cursor: 'pointer',
+    fontFamily: 'Inter, -apple-system, sans-serif',
+    transition: 'all 0.1s',
+  })
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{
+      fontFamily: 'Inter, -apple-system, sans-serif',
+      display: 'flex',
+      minHeight: '100vh',
+      background: '#f7f7f5',
+      WebkitFontSmoothing: 'antialiased',
+    }}>
       <AppSidebar />
 
+      {/* Toast */}
       {toast && (
-        <div style={{ position: 'fixed', bottom: '24px', right: '24px', background: '#191919', color: 'white', padding: '12px 18px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, zIndex: 200 }}>
+        <div style={{
+          position: 'fixed', bottom: 24, right: 24,
+          background: '#191919', color: 'white',
+          padding: '11px 18px', borderRadius: 8,
+          fontSize: 13, fontWeight: 500, zIndex: 300,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+          animation: 'none',
+        }}>
           {toast}
         </div>
       )}
 
-      <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px' }}>
-        <div style={{ maxWidth: '840px' }}>
+      <main style={{ marginLeft: 220, flex: 1, padding: '32px 40px' }}>
 
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '28px' }}>
-            <div>
-              <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', letterSpacing: '-0.02em', marginBottom: '4px' }}>Feed Rules</h1>
-              <p style={{ fontSize: '14px', color: '#787774' }}>Transform listing data automatically before publishing to each channel.</p>
-            </div>
-            {!showForm && (
-              <button onClick={() => setShowForm(true)}
-                style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '8px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                + New rule
-              </button>
-            )}
+        {/* ── Header ── */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          marginBottom: 24,
+        }}>
+          <div>
+            <h1 style={{
+              fontSize: 22, fontWeight: 700, color: '#191919',
+              letterSpacing: '-0.02em', margin: 0, marginBottom: 4,
+            }}>
+              Feed Rules
+            </h1>
+            <p style={{ fontSize: 13, color: '#787774', margin: 0 }}>
+              Transform your product data before it reaches each channel
+            </p>
           </div>
-
-          {/* ── Rule editor ── */}
-          {showForm && (
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '12px', marginBottom: '28px', overflow: 'hidden' }}>
-              <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f1ef', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ flex: 1 }}>
-                  <input value={name} onChange={e => setName(e.target.value)} placeholder="Rule name (e.g. Truncate eBay titles to 80 chars)"
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '14px', fontWeight: 600, fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none', boxSizing: 'border-box' }} />
-                </div>
-                <SelectField value={channel} onChange={setChannel} options={CHANNELS} />
-              </div>
-
-              <div style={{ padding: '20px 24px' }}>
-                {/* CONDITIONS */}
-                <div style={{ marginBottom: '20px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
-                    When (conditions — all must match)
-                  </div>
-                  {conditions.map((c, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <SelectField value={c.field} onChange={(v: string) => setConditions(prev => prev.map((x, j) => j === i ? { ...x, field: v } : x))} options={FIELDS} />
-                      <SelectField value={c.op}    onChange={(v: string) => setConditions(prev => prev.map((x, j) => j === i ? { ...x, op: v as ConditionOp } : x))} options={CONDITION_OPS} />
-                      <TextInput  value={c.value}  onChange={(v: string) => setConditions(prev => prev.map((x, j) => j === i ? { ...x, value: v } : x))} placeholder="value…" style={{ flex: 1 }} />
-                      {conditions.length > 1 && (
-                        <button onClick={() => setConditions(prev => prev.filter((_, j) => j !== i))}
-                          style={{ background: 'none', border: 'none', color: '#9b9b98', cursor: 'pointer', fontSize: '16px', padding: '4px 6px', fontFamily: 'Inter' }}>✕</button>
-                      )}
-                    </div>
-                  ))}
-                  <button onClick={() => setConditions(prev => [...prev, blankCondition()])}
-                    style={{ background: '#f7f7f5', border: '1px dashed #e8e8e5', borderRadius: '6px', padding: '6px 14px', fontSize: '12px', color: '#787774', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                    + Add condition
-                  </button>
-                </div>
-
-                {/* ACTIONS */}
-                <div style={{ marginBottom: '20px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
-                    Then (actions)
-                  </div>
-                  {actions.map((a, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
-                      <SelectField value={a.type}  onChange={(v: string) => setActions(prev => prev.map((x, j) => j === i ? { ...x, type: v as ActionType } : x))} options={ACTION_TYPES.map(t => ({ value: t.value, label: t.label }))} />
-                      <SelectField value={a.field} onChange={(v: string) => setActions(prev => prev.map((x, j) => j === i ? { ...x, field: v } : x))} options={FIELDS} />
-                      {(a.type === 'replace' || a.type === 'map_value') ? (
-                        <>
-                          <TextInput value={a.from || ''} onChange={(v: string) => setActions(prev => prev.map((x, j) => j === i ? { ...x, from: v } : x))} placeholder="from…" style={{ flex: 1 }} />
-                          <span style={{ fontSize: '12px', color: '#9b9b98', padding: '6px 4px' }}>→</span>
-                          <TextInput value={a.to   || ''} onChange={(v: string) => setActions(prev => prev.map((x, j) => j === i ? { ...x, to: v } : x))} placeholder="to…" style={{ flex: 1 }} />
-                        </>
-                      ) : (
-                        <TextInput value={a.value} onChange={(v: string) => setActions(prev => prev.map((x, j) => j === i ? { ...x, value: v } : x))}
-                          placeholder={a.type === 'truncate' ? 'max length (e.g. 80)' : 'value…'} style={{ flex: 1 }} />
-                      )}
-                      {actions.length > 1 && (
-                        <button onClick={() => setActions(prev => prev.filter((_, j) => j !== i))}
-                          style={{ background: 'none', border: 'none', color: '#9b9b98', cursor: 'pointer', fontSize: '16px', padding: '4px 6px', fontFamily: 'Inter' }}>✕</button>
-                      )}
-                    </div>
-                  ))}
-                  <button onClick={() => setActions(prev => [...prev, blankAction()])}
-                    style={{ background: '#f7f7f5', border: '1px dashed #e8e8e5', borderRadius: '6px', padding: '6px 14px', fontSize: '12px', color: '#787774', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                    + Add action
-                  </button>
-                </div>
-
-                {/* PREVIEW TOGGLE */}
-                <div style={{ background: '#f7f7f5', borderRadius: '8px', padding: '14px 16px', marginBottom: '20px' }}>
-                  <button onClick={() => setPreview(p => !p)}
-                    style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: 600, color: '#2383e2', cursor: 'pointer', fontFamily: 'Inter, sans-serif', padding: 0 }}>
-                    {preview ? '▲ Hide preview' : '▼ Preview against sample listing'}
-                  </button>
-                  {preview && (
-                    <div style={{ marginTop: '12px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                      {['title', 'condition', 'brand', 'price'].map(f => (
-                        <div key={f} style={{ background: 'white', borderRadius: '6px', padding: '10px 12px', border: '1px solid #e8e8e5' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>{f}</div>
-                          <div style={{ fontSize: '12px', color: '#9b9b98', textDecoration: 'line-through', marginBottom: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{SAMPLE_LISTING[f]}</div>
-                          <div style={{ fontSize: '12px', fontWeight: 600, color: previewOutput[f] !== SAMPLE_LISTING[f] ? '#0f7b6c' : '#191919', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {previewOutput[f] !== SAMPLE_LISTING[f] && <span style={{ marginRight: '4px' }}>✓</span>}{previewOutput[f] || SAMPLE_LISTING[f]}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* FORM BUTTONS */}
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button onClick={saveRule} disabled={saving}
-                    style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 20px', fontSize: '13px', fontWeight: 600, cursor: saving ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif', opacity: saving ? 0.7 : 1 }}>
-                    {saving ? 'Saving…' : editId ? 'Update rule' : 'Create rule'}
-                  </button>
-                  <button onClick={resetForm}
-                    style={{ background: 'none', color: '#787774', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '10px 16px', fontSize: '13px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
+          {!showForm && (
+            <button
+              onClick={openNew}
+              style={{
+                background: '#191919', color: 'white',
+                border: 'none', borderRadius: 8,
+                padding: '10px 18px', fontSize: 13, fontWeight: 600,
+                cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}
+            >
+              <span style={{ fontSize: 16, fontWeight: 400, lineHeight: 1 }}>+</span>
+              New Rule
+            </button>
           )}
-
-          {/* ── Rules list ── */}
-          {loading ? (
-            <div style={{ textAlign: 'center', padding: '48px', color: '#787774', fontSize: '14px' }}>Loading…</div>
-          ) : rules.length === 0 && !showForm ? (
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '12px', padding: '48px', textAlign: 'center' }}>
-              <div style={{ fontSize: '28px', marginBottom: '12px' }}>⚙️</div>
-              <div style={{ fontSize: '15px', fontWeight: 600, color: '#191919', marginBottom: '6px' }}>No rules yet</div>
-              <div style={{ fontSize: '13px', color: '#787774', marginBottom: '20px', maxWidth: '360px', margin: '0 auto 20px' }}>
-                Rules automatically transform your listing data — truncate titles, map conditions, remap categories — before publishing.
-              </div>
-              <button onClick={() => setShowForm(true)}
-                style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                Create your first rule
-              </button>
-            </div>
-          ) : rules.length > 0 ? (
-            <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
-                {rules.length} rule{rules.length !== 1 ? 's' : ''} · applied in order
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {rules.map((rule, idx) => (
-                  <div key={rule.id} style={{ background: 'white', border: `1px solid ${rule.active ? '#e8e8e5' : '#f1f1ef'}`, borderRadius: '10px', padding: '16px 20px', opacity: rule.active ? 1 : 0.55 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{ width: '20px', height: '20px', background: '#f1f1ef', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 700, color: '#9b9b98', flexShrink: 0 }}>{idx + 1}</div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '14px', fontWeight: 600, color: '#191919' }}>{rule.name}</span>
-                          <span style={{ fontSize: '11px', color: '#787774', background: '#f1f1ef', padding: '2px 7px', borderRadius: '4px' }}>
-                            {CHANNEL_ICON[rule.channel]} {CHANNELS.find(c => c.value === rule.channel)?.label || rule.channel}
-                          </span>
-                        </div>
-                        <div style={{ fontSize: '12px', color: '#787774', marginTop: '3px' }}>
-                          {rule.conditions.length > 0 && <span>{rule.conditions.length} condition{rule.conditions.length !== 1 ? 's' : ''}</span>}
-                          {rule.conditions.length > 0 && rule.actions.length > 0 && <span style={{ margin: '0 6px' }}>·</span>}
-                          {rule.actions.length > 0 && <span>{rule.actions.length} action{rule.actions.length !== 1 ? 's' : ''}</span>}
-                          {rule.conditions.length === 0 && rule.actions.length === 0 && <span style={{ color: '#c9372c' }}>No conditions or actions</span>}
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {/* Toggle */}
-                        <div onClick={() => toggleActive(rule)}
-                          style={{ width: '36px', height: '20px', background: rule.active ? '#0f7b6c' : '#e8e8e5', borderRadius: '10px', position: 'relative', cursor: 'pointer', flexShrink: 0 }}>
-                          <div style={{ position: 'absolute', top: '2px', left: rule.active ? '18px' : '2px', width: '16px', height: '16px', background: 'white', borderRadius: '50%', transition: 'left 0.15s' }} />
-                        </div>
-                        <button onClick={() => openEdit(rule)}
-                          style={{ background: '#f1f1ef', color: '#191919', border: 'none', borderRadius: '6px', padding: '6px 12px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                          Edit
-                        </button>
-                        <button onClick={() => deleteRule(rule.id)}
-                          style={{ background: 'none', color: '#9b9b98', border: '1px solid #e8e8e5', borderRadius: '6px', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                          ✕
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
         </div>
+
+        {/* ── Rule Editor (3-column) ── */}
+        {showForm && (
+          <RuleEditor
+            editId={editRule?.id ?? null}
+            initialName={editRule?.name ?? ''}
+            initialChannel={editRule?.channel ?? 'all'}
+            initialPriority={editRule?.priority ?? rules.length + 1}
+            initialActive={editRule?.active ?? true}
+            initialConditions={editRule?.conditions ?? []}
+            initialActions={editRule?.actions ?? []}
+            saving={saving}
+            onSave={handleSave}
+            onCancel={cancelForm}
+          />
+        )}
+
+        {/* ── Channel filter tabs ── */}
+        {!showForm && (
+          <div style={{
+            display: 'flex',
+            gap: 2,
+            marginBottom: 16,
+            background: '#ededea',
+            padding: 3,
+            borderRadius: 8,
+            width: 'fit-content',
+          }}>
+            {[
+              { value: 'all', label: 'All' },
+              { value: 'ebay', label: 'eBay' },
+              { value: 'shopify', label: 'Shopify' },
+              { value: 'amazon', label: 'Amazon' },
+            ].map(tab => (
+              <button
+                key={tab.value}
+                onClick={() => setTabFilter(tab.value)}
+                style={tabStyle(tab.value)}
+              >
+                {tab.label}
+                {tab.value !== 'all' && (
+                  <span style={{
+                    marginLeft: 5,
+                    fontSize: 10,
+                    color: tabFilter === tab.value ? 'rgba(255,255,255,0.65)' : '#b8b8b5',
+                    fontWeight: 500,
+                  }}>
+                    {rules.filter(r => r.channel === tab.value).length}
+                  </span>
+                )}
+                {tab.value === 'all' && (
+                  <span style={{
+                    marginLeft: 5,
+                    fontSize: 10,
+                    color: tabFilter === 'all' ? 'rgba(255,255,255,0.65)' : '#b8b8b5',
+                    fontWeight: 500,
+                  }}>
+                    {rules.length}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── Rules list ── */}
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '60px 0', color: '#b8b8b5', fontSize: 14 }}>
+            Loading…
+          </div>
+        ) : !showForm && rules.length === 0 ? (
+          <div style={{
+            background: 'white',
+            border: '1px solid #e8e8e5',
+            borderRadius: 12,
+            padding: '64px 40px',
+            textAlign: 'center',
+          }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: 12,
+              background: '#f1f1ef',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: 22,
+            }}>
+              ⚙️
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 600, color: '#191919', marginBottom: 6 }}>
+              No rules yet
+            </div>
+            <div style={{ fontSize: 13, color: '#787774', maxWidth: 380, margin: '0 auto 20px', lineHeight: 1.6 }}>
+              Rules automatically transform your listing data — truncate titles, remap conditions, adjust prices — before publishing to each channel.
+            </div>
+            <button
+              onClick={openNew}
+              style={{
+                background: '#191919', color: 'white', border: 'none',
+                borderRadius: 8, padding: '10px 20px', fontSize: 13,
+                fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif',
+              }}
+            >
+              Create your first rule
+            </button>
+          </div>
+        ) : !showForm && filteredRules.length === 0 ? (
+          <div style={{
+            background: 'white', border: '1px solid #e8e8e5',
+            borderRadius: 12, padding: '40px', textAlign: 'center',
+            color: '#9b9b98', fontSize: 13,
+          }}>
+            No rules for this channel yet.
+          </div>
+        ) : !showForm ? (
+          <div style={{
+            background: 'white',
+            border: '1px solid #e8e8e5',
+            borderRadius: 12,
+            overflow: 'hidden',
+          }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ background: '#f9f9f7', borderBottom: '1px solid #ededea' }}>
+                  {['Priority', 'Rule Name', 'Channel', 'Conditions', 'Actions', 'Status', ''].map((h, i) => (
+                    <th key={i} style={{
+                      padding: '10px 16px',
+                      textAlign: 'left',
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: '#9b9b98',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.07em',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredRules
+                  .sort((a, b) => a.priority - b.priority)
+                  .map((rule, idx) => (
+                    <React.Fragment key={rule.id}>
+                      <RuleRow
+                        rule={rule}
+                        idx={idx}
+                        onEdit={() => openEdit(rule)}
+                        onDelete={() => deleteRule(rule.id)}
+                        onToggle={() => toggleActive(rule)}
+                      />
+                      {idx < filteredRules.length - 1 && (
+                        <tr>
+                          <td colSpan={7} style={{ padding: 0 }}>
+                            <div style={{ height: 1, background: '#f1f1ef' }} />
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        ) : null}
+
       </main>
     </div>
   )

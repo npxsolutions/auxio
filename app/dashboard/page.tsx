@@ -17,6 +17,9 @@ interface ChannelStat {
   roas: number
   orders: number
   status: 'performing' | 'monitoring' | 'needs_attention'
+  errors?: number
+  lastSynced?: string
+  syncing?: boolean
 }
 
 interface DashboardData {
@@ -94,7 +97,113 @@ function buildChannelStatsFromBreakdown(breakdown: Record<string, { revenue: num
 
 const STATUS_COLOR = { performing: '#0f7b6c', needs_attention: '#c9372c', monitoring: '#d9730d' }
 const STATUS_BG    = { performing: '#e8f5f3', needs_attention: '#fce8e6', monitoring: '#fdf3e8' }
-const STATUS_LABEL = { performing: '● Performing', needs_attention: '● Needs fix', monitoring: '● Monitor' }
+const STATUS_ICON  = { performing: '●', needs_attention: '⚠', monitoring: '↻' }
+const STATUS_LABEL = { performing: 'Live', needs_attention: 'Errors', monitoring: 'Syncing' }
+
+function ChannelCard({
+  ch,
+  onSyncNow,
+  onErrorClick,
+}: {
+  ch: ChannelStat
+  onSyncNow: (id: string) => void
+  onErrorClick: (id: string) => void
+}) {
+  const f = (n: number) => `£${n.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <div
+      style={{
+        background: 'white',
+        border: '1px solid #e8e8e5',
+        borderRadius: '10px',
+        padding: '20px',
+        minWidth: '240px',
+        flex: '0 0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px',
+      }}
+    >
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ width: '34px', height: '34px', background: ch.color, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
+            {ch.icon}
+          </div>
+          <span style={{ fontSize: '14px', fontWeight: 600, color: '#191919' }}>{ch.name}</span>
+        </div>
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          padding: '3px 8px',
+          borderRadius: '100px',
+          fontSize: '11px',
+          fontWeight: 600,
+          background: STATUS_BG[ch.status],
+          color: STATUS_COLOR[ch.status],
+        }}>
+          {STATUS_ICON[ch.status]} {STATUS_LABEL[ch.status]}
+        </span>
+      </div>
+
+      {/* Metrics grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+        {[
+          { label: 'Revenue', value: f(ch.revenue) },
+          { label: 'Orders',  value: String(ch.orders) },
+          { label: 'ROAS',    value: ch.roas > 0 ? `${ch.roas}×` : '—' },
+        ].map(m => (
+          <div key={m.label} style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', lineHeight: 1 }}>{m.value}</div>
+            <div style={{ fontSize: '10px', color: '#9b9b98', marginTop: '3px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{m.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {(ch.errors ?? 0) > 0 && (
+            <button
+              onClick={() => onErrorClick(ch.id)}
+              style={{ background: '#fce8e6', color: '#c9372c', border: 'none', borderRadius: '4px', padding: '3px 8px', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+            >
+              ⚠ {ch.errors} error{ch.errors !== 1 ? 's' : ''}
+            </button>
+          )}
+          {ch.lastSynced && (
+            <span style={{ fontSize: '11px', color: '#9b9b98' }}>
+              {ch.lastSynced}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={() => onSyncNow(ch.id)}
+          disabled={ch.syncing}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          style={{
+            background: hovered ? '#191919' : 'white',
+            color: hovered ? 'white' : '#191919',
+            border: '1px solid #e8e8e5',
+            borderRadius: '5px',
+            padding: '5px 10px',
+            fontSize: '11px',
+            fontWeight: 500,
+            cursor: ch.syncing ? 'wait' : 'pointer',
+            transition: 'background 0.15s, color 0.15s',
+            opacity: ch.syncing ? 0.6 : 1,
+          }}
+        >
+          {ch.syncing ? '↻ Syncing…' : '↻ Sync now'}
+        </button>
+      </div>
+    </div>
+  )
+}
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -105,6 +214,7 @@ export default function DashboardPage() {
   const [chatResponse, setChatResponse] = useState('')
   const [chatLoading, setChatLoading] = useState(false)
   const [agentRunning, setAgentRunning] = useState(false)
+  const [syncingChannels, setSyncingChannels] = useState<Set<string>>(new Set())
   const supabase = createClient()
 
   useEffect(() => { loadDashboard() }, [])
@@ -175,6 +285,27 @@ export default function DashboardPage() {
     }
   }
 
+  async function syncChannel(channelId: string) {
+    setSyncingChannels(prev => new Set(prev).add(channelId))
+    try {
+      await fetch(`/api/channels/${channelId}/sync`, { method: 'POST' })
+      await loadDashboard()
+    } catch (error) {
+      console.error('Sync error:', error)
+    } finally {
+      setSyncingChannels(prev => {
+        const next = new Set(prev)
+        next.delete(channelId)
+        return next
+      })
+    }
+  }
+
+  async function syncAll() {
+    const channels = data?.channelStats || []
+    await Promise.all(channels.map(ch => syncChannel(ch.id)))
+  }
+
   const f  = (n: number) => `£${n.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
   const fp = (n: number) => `${n.toFixed(1)}%`
 
@@ -187,7 +318,18 @@ export default function DashboardPage() {
     </div>
   )
 
-  const channels = data?.channelStats || []
+  const channels = (data?.channelStats || []).map(ch => ({
+    ...ch,
+    syncing: syncingChannels.has(ch.id),
+  }))
+
+  const statCards = [
+    { label: 'True Profit Today',  value: f(data?.profitToday  || 0), sub: '↑ updated live',          href: '/orders' },
+    { label: 'Revenue Today',      value: f(data?.revenueToday || 0), sub: 'Across all channels',       href: '/orders' },
+    { label: 'Orders Today',       value: String(data?.ordersToday || 0), sub: 'Across all channels',   href: '/orders' },
+    { label: 'Avg Margin 30d',     value: fp(data?.avgMargin   || 0), sub: 'After all costs',           href: '/listings' },
+    { label: 'Active Alerts',      value: String(data?.activeAlerts || 0), sub: `${data?.pendingActions || 0} pending actions`, href: '/errors' },
+  ]
 
   return (
     <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', fontSize: '14px', WebkitFontSmoothing: 'antialiased' }}>
@@ -218,24 +360,22 @@ export default function DashboardPage() {
           <div style={{ fontSize: '20px', fontWeight: 600, marginBottom: '4px', letterSpacing: '-0.02em', color: '#191919' }}>
             Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.email?.split('@')[0] || 'there'} 👋
           </div>
-          <div style={{ fontSize: '13px', color: '#787774', marginBottom: '20px' }}>
+          <div style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>
             {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </div>
 
+          {/* QUICK ACTIONS BAR */}
+          <QuickActionsBar
+            onSyncAll={syncAll}
+            onNewListing={() => router.push('/listings/new')}
+            onViewErrors={() => router.push('/errors')}
+            onExport={() => router.push('/orders?export=1')}
+          />
+
           {/* HERO STATS */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px', marginBottom: '16px' }}>
-            {[
-              { label: 'True Profit Today',  value: f(data?.profitToday  || 0), sub: '↑ updated live' },
-              { label: 'Revenue Today',      value: f(data?.revenueToday || 0), sub: 'Across all channels' },
-              { label: 'Orders Today',       value: String(data?.ordersToday || 0), sub: 'Across all channels' },
-              { label: 'Avg Margin 30d',     value: fp(data?.avgMargin   || 0), sub: 'After all costs' },
-              { label: 'Active Alerts',      value: String(data?.activeAlerts || 0), sub: `${data?.pendingActions || 0} pending actions` },
-            ].map(stat => (
-              <div key={stat.label} style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '16px 18px' }}>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>{stat.label}</div>
-                <div style={{ fontSize: '26px', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '6px', color: '#191919' }}>{stat.value}</div>
-                <div style={{ fontSize: '11px', fontWeight: 500, color: '#9b9b98' }}>{stat.sub}</div>
-              </div>
+            {statCards.map(stat => (
+              <StatCard key={stat.label} {...stat} router={router} />
             ))}
           </div>
 
@@ -259,48 +399,36 @@ export default function DashboardPage() {
             </Link>
           )}
 
+          {/* CHANNEL HEALTH CARDS */}
+          {channels.length > 0 && (
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Channel Health</span>
+                <Link href="/channels" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>Manage channels →</Link>
+              </div>
+              <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
+                {channels.map(ch => (
+                  <ChannelCard
+                    key={ch.id}
+                    ch={ch}
+                    onSyncNow={syncChannel}
+                    onErrorClick={(id) => router.push(`/errors?channel=${id}`)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* MAIN GRID */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '12px', marginBottom: '12px' }}>
 
-            {/* CHANNEL TABLE */}
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
-              <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Channel Performance — Last 30 days</span>
-                <Link href="/channels" style={{ fontSize: '12px', color: '#2383e2', cursor: 'pointer', textDecoration: 'none' }}>Manage channels →</Link>
-              </div>
-              {channels.length > 0 ? (
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      {['Channel', 'Orders', 'Ad Spend', 'Revenue', 'ROAS', 'True Profit', 'Status'].map((h, i) => (
-                        <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '9px 16px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid #e8e8e5', background: '#f7f7f5' }}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {channels.map(ch => (
-                      <tr key={ch.id}>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <div style={{ width: '30px', height: '30px', background: ch.color, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px' }}>{ch.icon}</div>
-                            <span style={{ fontSize: '13px', fontWeight: 500, color: '#191919' }}>{ch.name}</span>
-                          </div>
-                        </td>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '13px', color: '#787774' }}>{ch.orders}</td>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '13px', color: '#787774' }}>{f(ch.spend)}</td>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '13px', color: '#191919' }}>{f(ch.revenue)}</td>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '13px', color: '#191919' }}>{ch.roas > 0 ? `${ch.roas}×` : '—'}</td>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '13px', fontWeight: 600, color: '#0f7b6c' }}>{f(ch.profit)}</td>
-                        <td style={{ padding: '12px 16px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '100px', fontSize: '11px', fontWeight: 600, background: STATUS_BG[ch.status], color: STATUS_COLOR[ch.status] }}>
-                            {STATUS_LABEL[ch.status]}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
+            {/* CHANNEL TABLE (kept for when no cards are shown, or as supplemental detail) */}
+            {channels.length === 0 && (
+              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
+                <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Channel Performance — Last 30 days</span>
+                  <Link href="/channels" style={{ fontSize: '12px', color: '#2383e2', cursor: 'pointer', textDecoration: 'none' }}>Manage channels →</Link>
+                </div>
                 <div style={{ padding: '40px 24px', textAlign: 'center' }}>
                   <div style={{ fontSize: '28px', marginBottom: '12px' }}>🔗</div>
                   <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '6px' }}>No channels connected yet</div>
@@ -309,8 +437,48 @@ export default function DashboardPage() {
                     Connect a channel →
                   </Link>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
+            {/* When channels exist, show top products full-width in left column */}
+            {channels.length > 0 && (
+              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
+                <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e8e5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Top Products</span>
+                  <Link href="/inventory" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>View all →</Link>
+                </div>
+                {data?.topProducts?.length ? (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr>
+                        {['Product', 'Margin', 'Signal'].map((h, i) => (
+                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f7f7f5' }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.topProducts.map((p: any) => (
+                        <tr key={p.sku || p.title}>
+                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
+                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: (p.margin || p.avg_margin_90d || 0) > 20 ? '#0f7b6c' : (p.margin || p.avg_margin_90d || 0) > 15 ? '#d9730d' : '#c9372c' }}>
+                            {fp(p.margin || p.avg_margin_90d || 0)}
+                          </td>
+                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
+                            <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: (p.margin||0) > 20 ? '#e8f5f3' : (p.margin||0) > 10 ? '#e8f1fb' : '#fdf3e8', color: (p.margin||0) > 20 ? '#0f7b6c' : (p.margin||0) > 10 ? '#2383e2' : '#d9730d' }}>
+                              {(p.margin||0) > 20 ? 'scale' : (p.margin||0) > 10 ? 'hold' : 'review'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div style={{ padding: '24px', textAlign: 'center', color: '#9b9b98', fontSize: '13px' }}>
+                    Connect eBay or Amazon to see product intelligence
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* RIGHT PANEL */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -355,45 +523,47 @@ export default function DashboardPage() {
           </div>
 
           {/* BOTTOM ROW */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: channels.length > 0 ? '1fr 1fr' : '1fr 1fr 1fr', gap: '12px' }}>
 
-            {/* TOP PRODUCTS */}
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
-              <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e8e5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Top Products</span>
-                <Link href="/inventory" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>View all →</Link>
-              </div>
-              {data?.topProducts?.length ? (
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      {['Product', 'Margin', 'Signal'].map((h, i) => (
-                        <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f7f7f5' }}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.topProducts.map((p: any) => (
-                      <tr key={p.sku || p.title}>
-                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
-                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: (p.margin || p.avg_margin_90d || 0) > 20 ? '#0f7b6c' : (p.margin || p.avg_margin_90d || 0) > 15 ? '#d9730d' : '#c9372c' }}>
-                          {fp(p.margin || p.avg_margin_90d || 0)}
-                        </td>
-                        <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: (p.margin||0) > 20 ? '#e8f5f3' : (p.margin||0) > 10 ? '#e8f1fb' : '#fdf3e8', color: (p.margin||0) > 20 ? '#0f7b6c' : (p.margin||0) > 10 ? '#2383e2' : '#d9730d' }}>
-                            {(p.margin||0) > 20 ? 'scale' : (p.margin||0) > 10 ? 'hold' : 'review'}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <div style={{ padding: '24px', textAlign: 'center', color: '#9b9b98', fontSize: '13px' }}>
-                  Connect eBay or Amazon to see product intelligence
+            {/* TOP PRODUCTS (only shown when no channels, otherwise shown above) */}
+            {channels.length === 0 && (
+              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
+                <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e8e5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Top Products</span>
+                  <Link href="/inventory" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>View all →</Link>
                 </div>
-              )}
-            </div>
+                {data?.topProducts?.length ? (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr>
+                        {['Product', 'Margin', 'Signal'].map((h, i) => (
+                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f7f7f5' }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.topProducts.map((p: any) => (
+                        <tr key={p.sku || p.title}>
+                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
+                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: (p.margin || p.avg_margin_90d || 0) > 20 ? '#0f7b6c' : (p.margin || p.avg_margin_90d || 0) > 15 ? '#d9730d' : '#c9372c' }}>
+                            {fp(p.margin || p.avg_margin_90d || 0)}
+                          </td>
+                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
+                            <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: (p.margin||0) > 20 ? '#e8f5f3' : (p.margin||0) > 10 ? '#e8f1fb' : '#fdf3e8', color: (p.margin||0) > 20 ? '#0f7b6c' : (p.margin||0) > 10 ? '#2383e2' : '#d9730d' }}>
+                              {(p.margin||0) > 20 ? 'scale' : (p.margin||0) > 10 ? 'hold' : 'review'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div style={{ padding: '24px', textAlign: 'center', color: '#9b9b98', fontSize: '13px' }}>
+                    Connect eBay or Amazon to see product intelligence
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* MONTHLY SUMMARY */}
             <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '18px' }}>
@@ -449,6 +619,97 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
+    </div>
+  )
+}
+
+/* ─── Sub-components ─── */
+
+function StatCard({ label, value, sub, href, router }: {
+  label: string
+  value: string
+  sub: string
+  href: string
+  router: ReturnType<typeof useRouter>
+}) {
+  const [hovered, setHovered] = useState(false)
+  const isAlert = label === 'Active Alerts'
+
+  return (
+    <div
+      onClick={() => router.push(href)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: hovered ? '#f7f7f5' : 'white',
+        border: '1px solid #e8e8e5',
+        borderRadius: '10px',
+        padding: '16px 18px',
+        cursor: 'pointer',
+        transition: 'background 0.15s',
+      }}
+    >
+      <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>{label}</div>
+      <div style={{ fontSize: '26px', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '6px', color: isAlert && Number(value) > 0 ? '#c9372c' : '#191919' }}>{value}</div>
+      <div style={{ fontSize: '11px', fontWeight: 500, color: '#9b9b98' }}>{sub}</div>
+    </div>
+  )
+}
+
+function QuickActionsBar({ onSyncAll, onNewListing, onViewErrors, onExport }: {
+  onSyncAll: () => void
+  onNewListing: () => void
+  onViewErrors: () => void
+  onExport: () => void
+}) {
+  const btnStyle = (hovered: boolean): React.CSSProperties => ({
+    border: '1px solid #e8e8e5',
+    background: hovered ? '#f7f7f5' : 'white',
+    padding: '7px 14px',
+    borderRadius: '6px',
+    fontSize: '13px',
+    fontWeight: 500,
+    cursor: 'pointer',
+    color: '#191919',
+    fontFamily: 'Inter, -apple-system, sans-serif',
+    transition: 'background 0.15s',
+  })
+
+  const [h1, setH1] = useState(false)
+  const [h2, setH2] = useState(false)
+  const [h3, setH3] = useState(false)
+  const [h4, setH4] = useState(false)
+
+  return (
+    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+      <button
+        onClick={onNewListing}
+        onMouseEnter={() => setH1(true)} onMouseLeave={() => setH1(false)}
+        style={btnStyle(h1)}
+      >
+        + New Listing
+      </button>
+      <button
+        onClick={onSyncAll}
+        onMouseEnter={() => setH2(true)} onMouseLeave={() => setH2(false)}
+        style={btnStyle(h2)}
+      >
+        ↻ Sync All
+      </button>
+      <button
+        onClick={onViewErrors}
+        onMouseEnter={() => setH3(true)} onMouseLeave={() => setH3(false)}
+        style={{ ...btnStyle(h3), color: '#c9372c', borderColor: '#f5c6c3' }}
+      >
+        ⚠ View Errors
+      </button>
+      <button
+        onClick={onExport}
+        onMouseEnter={() => setH4(true)} onMouseLeave={() => setH4(false)}
+        style={btnStyle(h4)}
+      >
+        📊 Export
+      </button>
     </div>
   )
 }
