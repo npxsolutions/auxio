@@ -107,13 +107,13 @@ export default function AgentPage() {
   const totalImpact = actions.reduce((sum, a) => sum + (a.profit_impact || 0), 0)
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f7f7f5', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'Inter, sans-serif' }}>
       <div style={{ fontSize: '14px', color: '#787774' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -157,7 +157,7 @@ export default function AgentPage() {
 
                 return (
                   <div key={action.id} style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '20px', display: 'flex', gap: '16px' }}>
-                    <div style={{ width: '40px', height: '40px', background: '#f7f7f5', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>
+                    <div style={{ width: '40px', height: '40px', background: '#f5f3ef', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>
                       {icon}
                     </div>
 

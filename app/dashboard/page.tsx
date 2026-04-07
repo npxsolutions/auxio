@@ -310,7 +310,7 @@ export default function DashboardPage() {
   const fp = (n: number) => `${n.toFixed(1)}%`
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontFamily: 'Inter, sans-serif', background: '#f7f7f5' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontFamily: 'Inter, sans-serif', background: '#f5f3ef' }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '24px', fontWeight: 700, marginBottom: '8px', color: '#191919' }}>Auxio</div>
         <div style={{ fontSize: '14px', color: '#787774' }}>Loading your intelligence engine...</div>
@@ -332,7 +332,7 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', fontSize: '14px', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontSize: '14px', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       <main style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -452,7 +452,7 @@ export default function DashboardPage() {
                     <thead>
                       <tr>
                         {['Product', 'Margin', 'Signal'].map((h, i) => (
-                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f7f7f5' }}>{h}</th>
+                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f5f3ef' }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -537,7 +537,7 @@ export default function DashboardPage() {
                     <thead>
                       <tr>
                         {['Product', 'Margin', 'Signal'].map((h, i) => (
-                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f7f7f5' }}>{h}</th>
+                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f5f3ef' }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -589,13 +589,13 @@ export default function DashboardPage() {
               </div>
               <div style={{ padding: '14px' }}>
                 {chatResponse && (
-                  <div style={{ background: '#f7f7f5', borderRadius: '6px', padding: '10px', fontSize: '12px', color: '#191919', lineHeight: 1.6, marginBottom: '10px', maxHeight: '120px', overflowY: 'auto' }}>
+                  <div style={{ background: '#f5f3ef', borderRadius: '6px', padding: '10px', fontSize: '12px', color: '#191919', lineHeight: 1.6, marginBottom: '10px', maxHeight: '120px', overflowY: 'auto' }}>
                     {chatResponse}
                   </div>
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
                   {['Why did my ACOS spike?', 'Which products to restock?', 'Show my worst margin products'].map(q => (
-                    <div key={q} onClick={() => setChatInput(q)} style={{ background: '#f7f7f5', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', color: '#787774', cursor: 'pointer' }}>{q}</div>
+                    <div key={q} onClick={() => setChatInput(q)} style={{ background: '#f5f3ef', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', color: '#787774', cursor: 'pointer' }}>{q}</div>
                   ))}
                 </div>
                 <div style={{ display: 'flex', gap: '6px' }}>
@@ -604,7 +604,7 @@ export default function DashboardPage() {
                     onChange={e => setChatInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && askClaude()}
                     placeholder="Ask anything..."
-                    style={{ flex: 1, background: '#f7f7f5', border: '1px solid #e8e8e5', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
+                    style={{ flex: 1, background: '#f5f3ef', border: '1px solid #e8e8e5', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
                   />
                   <button
                     onClick={askClaude}
@@ -641,7 +641,7 @@ function StatCard({ label, value, sub, href, router }: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#f7f7f5' : 'white',
+        background: hovered ? '#f5f3ef' : 'white',
         border: '1px solid #e8e8e5',
         borderRadius: '10px',
         padding: '16px 18px',
@@ -664,7 +664,7 @@ function QuickActionsBar({ onSyncAll, onNewListing, onViewErrors, onExport }: {
 }) {
   const btnStyle = (hovered: boolean): React.CSSProperties => ({
     border: '1px solid #e8e8e5',
-    background: hovered ? '#f7f7f5' : 'white',
+    background: hovered ? '#f5f3ef' : 'white',
     padding: '7px 14px',
     borderRadius: '6px',
     fontSize: '13px',

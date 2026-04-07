@@ -532,7 +532,7 @@ function RuleRow({
       <td style={{ padding: '14px 16px' }}>
         <span style={{
           fontSize: 12, color: '#787774',
-          background: '#f7f7f5', padding: '3px 8px', borderRadius: 5,
+          background: '#f5f3ef', padding: '3px 8px', borderRadius: 5,
         }}>
           {rule.conditions.length === 0 ? 'Always' : `${rule.conditions.length} condition${rule.conditions.length !== 1 ? 's' : ''}`}
         </span>
@@ -541,7 +541,7 @@ function RuleRow({
       <td style={{ padding: '14px 16px' }}>
         <span style={{
           fontSize: 12, color: '#787774',
-          background: '#f7f7f5', padding: '3px 8px', borderRadius: 5,
+          background: '#f5f3ef', padding: '3px 8px', borderRadius: 5,
         }}>
           {rule.actions.length} action{rule.actions.length !== 1 ? 's' : ''}
         </span>
@@ -641,7 +641,7 @@ function PreviewPanel({
     }}>
       <div style={{
         padding: '12px 16px',
-        background: '#f7f7f5',
+        background: '#f5f3ef',
         borderBottom: '1px solid #e8e8e5',
         display: 'flex',
         alignItems: 'center',
@@ -786,7 +786,7 @@ function RuleEditor({
       {/* Editor top bar */}
       <div style={{
         padding: '14px 20px',
-        background: '#f7f7f5',
+        background: '#f5f3ef',
         borderBottom: '1px solid #e8e8e5',
         display: 'flex',
         alignItems: 'center',
@@ -1156,7 +1156,7 @@ export default function RulesPage() {
       fontFamily: 'Inter, -apple-system, sans-serif',
       display: 'flex',
       minHeight: '100vh',
-      background: '#f7f7f5',
+      background: '#f5f3ef',
       WebkitFontSmoothing: 'antialiased',
     }}>
       <AppSidebar />

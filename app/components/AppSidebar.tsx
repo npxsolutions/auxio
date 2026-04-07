@@ -5,14 +5,97 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '../lib/supabase-client'
 
+/* ─────────────────────────────────────────
+   SVG ICON SET  (15 × 15, stroke-based)
+───────────────────────────────────────── */
+const Icon = {
+  dashboard: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="1.5" y="1.5" width="5" height="5" rx="1.25"/>
+      <rect x="8.5" y="1.5" width="5" height="5" rx="1.25"/>
+      <rect x="1.5" y="8.5" width="5" height="5" rx="1.25"/>
+      <rect x="8.5" y="8.5" width="5" height="5" rx="1.25"/>
+    </svg>
+  ),
+  listings: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 4.5h11M2 7.5h11M2 10.5h6.5"/>
+    </svg>
+  ),
+  orders: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+      <path d="M5 5.5h5M5 7.5h5M5 9.5h3"/>
+    </svg>
+  ),
+  channels: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="7.5" cy="2" r="1.25"/>
+      <circle cx="2" cy="12" r="1.25"/>
+      <circle cx="13" cy="12" r="1.25"/>
+      <path d="M7.5 3.25v3M6.5 6.5L3 10.8M8.5 6.5L12 10.8"/>
+      <path d="M3.25 12h8.5"/>
+    </svg>
+  ),
+  errors: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.5 1.5L13.5 12H1.5L7.5 1.5Z"/>
+      <path d="M7.5 6v3"/>
+      <circle cx="7.5" cy="10.5" r="0.6" fill="currentColor" stroke="none"/>
+    </svg>
+  ),
+  inventory: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.5 1.5L13 4.5v6L7.5 13.5 2 10.5v-6L7.5 1.5Z"/>
+      <path d="M7.5 13.5V7.5"/>
+      <path d="M13 4.5L7.5 7.5 2 4.5"/>
+    </svg>
+  ),
+  rules: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 3.5h11"/>
+      <path d="M2 7.5h11"/>
+      <path d="M2 11.5h11"/>
+      <circle cx="5" cy="3.5" r="1.5" fill="var(--sidebar-bg)" stroke="currentColor"/>
+      <circle cx="10" cy="7.5" r="1.5" fill="var(--sidebar-bg)" stroke="currentColor"/>
+      <circle cx="6" cy="11.5" r="1.5" fill="var(--sidebar-bg)" stroke="currentColor"/>
+    </svg>
+  ),
+  agent: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.5 1.5L9 5h3.5L9.5 7.5l1 4L7.5 9.5l-3 2 1-4L2.5 5H6L7.5 1.5Z"/>
+    </svg>
+  ),
+  settings: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="7.5" cy="7.5" r="2"/>
+      <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M3 12l1-1M11 4l1-1"/>
+    </svg>
+  ),
+  billing: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="1.5" y="3.5" width="12" height="8" rx="1.25"/>
+      <path d="M1.5 6.5h12"/>
+      <circle cx="4.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/>
+      <path d="M7.5 9.5h3"/>
+    </svg>
+  ),
+} as const
+
+/* ─────────────────────────────────────────
+   PLAN BADGES
+───────────────────────────────────────── */
 const PLAN_STYLE: Record<string, { bg: string; text: string; label: string }> = {
-  starter:    { bg: '#f1f1ef', text: '#787774', label: 'Starter' },
-  growth:     { bg: '#e8f1fb', text: '#2383e2', label: 'Growth' },
-  scale:      { bg: '#e8f5f3', text: '#0f7b6c', label: 'Scale' },
-  enterprise: { bg: '#fdf3e8', text: '#d9730d', label: 'Enterprise' },
-  free:       { bg: '#f1f1ef', text: '#787774', label: 'Free' },
+  starter:    { bg: 'rgba(255,255,255,0.07)', text: '#7a7d96', label: 'Starter' },
+  growth:     { bg: 'rgba(91,82,245,0.2)',    text: '#a89ef8', label: 'Growth' },
+  scale:      { bg: 'rgba(5,150,105,0.2)',    text: '#6ee7b7', label: 'Scale' },
+  enterprise: { bg: 'rgba(217,119,6,0.2)',    text: '#fcd34d', label: 'Enterprise' },
+  free:       { bg: 'rgba(255,255,255,0.07)', text: '#7a7d96', label: 'Free' },
 }
 
+/* ─────────────────────────────────────────
+   COMPONENT
+───────────────────────────────────────── */
 export default function AppSidebar() {
   const pathname = usePathname()
   const router = useRouter()
@@ -45,9 +128,7 @@ export default function AppSidebar() {
           const errJson = await errRes.json()
           setErrorCount(errJson.total || 0)
         }
-      } catch {
-        // silently ignore — errors endpoint may not exist yet
-      }
+      } catch { /* silent */ }
     }
     load()
   }, [])
@@ -65,112 +146,216 @@ export default function AppSidebar() {
   const navGroups = [
     {
       items: [
-        { href: '/dashboard',  icon: '⚡', label: 'Command Centre' },
-        { href: '/listings',   icon: '🏷️', label: 'Listings' },
-        { href: '/orders',     icon: '📋', label: 'Orders' },
-        { href: '/channels',   icon: '🔗', label: 'Channels' },
-        { href: '/errors',     icon: '⚠️', label: 'Errors', badge: errorCount },
-        { href: '/inventory',  icon: '📦', label: 'Inventory' },
-        { href: '/rules',      icon: '⚙️', label: 'Feed Rules' },
+        { href: '/dashboard', icon: Icon.dashboard, label: 'Command Centre' },
+        { href: '/listings',  icon: Icon.listings,  label: 'Listings' },
+        { href: '/orders',    icon: Icon.orders,    label: 'Orders' },
+        { href: '/channels',  icon: Icon.channels,  label: 'Channels' },
+        { href: '/errors',    icon: Icon.errors,    label: 'Errors',     badge: errorCount,   badgeColor: '#ef4444' },
+        { href: '/inventory', icon: Icon.inventory, label: 'Inventory' },
+        { href: '/rules',     icon: Icon.rules,     label: 'Feed Rules' },
       ],
     },
     {
       label: 'AI',
       items: [
-        { href: '/agent', icon: '🤖', label: 'AI Agent', badge: pendingCount },
+        { href: '/agent', icon: Icon.agent, label: 'AI Agent', badge: pendingCount, badgeColor: '#f59e0b' },
       ],
     },
     {
       label: 'Account',
       items: [
-        { href: '/settings', icon: '⚙️', label: 'Settings' },
-        { href: '/billing',  icon: '💳', label: 'Billing' },
+        { href: '/settings', icon: Icon.settings, label: 'Settings' },
+        { href: '/billing',  icon: Icon.billing,  label: 'Billing' },
       ],
     },
   ]
 
+  const initials = user?.email?.[0]?.toUpperCase() || 'U'
+  const username = user?.email?.split('@')[0] || 'User'
+
   return (
     <aside style={{
       width: '220px',
-      background: 'white',
-      borderRight: '1px solid #e8e8e5',
+      background: '#0f1117',
       position: 'fixed',
       top: 0, left: 0, bottom: 0,
       display: 'flex',
       flexDirection: 'column',
       zIndex: 100,
-      fontFamily: 'Inter, -apple-system, sans-serif',
+      fontFamily: 'inherit',
     }}>
-      {/* Logo */}
-      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <div style={{ width: '28px', height: '28px', background: '#191919', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '14px', fontWeight: 700 }}>A</div>
-        <span style={{ fontSize: '15px', fontWeight: 600, color: '#191919' }}>Auxio</span>
+
+      {/* ── Logo ── */}
+      <div style={{
+        padding: '20px 16px 18px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      }}>
+        <div style={{
+          width: '28px', height: '28px',
+          background: 'linear-gradient(135deg, #5b52f5 0%, #7c6af7 100%)',
+          borderRadius: '7px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'white', fontSize: '13px', fontWeight: 700,
+          letterSpacing: '-0.02em',
+          flexShrink: 0,
+          boxShadow: '0 2px 8px rgba(91,82,245,0.4)',
+        }}>A</div>
+        <span style={{ fontSize: '15px', fontWeight: 600, color: '#f0f0f8', letterSpacing: '-0.01em' }}>
+          Auxio
+        </span>
       </div>
 
-      {/* Navigation */}
-      <nav style={{ padding: '8px', flex: 1, overflowY: 'auto' }}>
+      {/* ── Navigation ── */}
+      <nav style={{ padding: '10px 8px', flex: 1, overflowY: 'auto' }}>
         {navGroups.map((group, gi) => (
-          <div key={gi}>
+          <div key={gi} style={{ marginBottom: gi < navGroups.length - 1 ? '4px' : 0 }}>
+
             {group.label && (
-              <div style={{ fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '8px 8px 4px' }}>
+              <div style={{
+                fontSize: '10px', fontWeight: 600,
+                color: 'rgba(255,255,255,0.2)',
+                textTransform: 'uppercase', letterSpacing: '0.08em',
+                padding: '10px 8px 4px',
+              }}>
                 {group.label}
               </div>
             )}
-            {group.items.map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                style={{
-                  textDecoration: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '7px 8px',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  color: isActive(item.href) ? '#191919' : '#787774',
-                  background: isActive(item.href) ? '#f1f1ef' : 'transparent',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  marginBottom: '1px',
-                }}
-              >
-                <span style={{ fontSize: '15px', width: '20px', textAlign: 'center' }}>{item.icon}</span>
-                <span style={{ flex: 1 }}>{item.label}</span>
-                {(item as any).badge > 0 && (
-                  <span style={{ background: '#c9372c', color: 'white', fontSize: '10px', fontWeight: 600, padding: '1px 5px', borderRadius: '8px' }}>
-                    {(item as any).badge}
+
+            {group.items.map(item => {
+              const active = isActive(item.href)
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  style={{
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '9px',
+                    padding: '7px 8px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    color: active ? '#f0f0f8' : 'rgba(255,255,255,0.45)',
+                    background: active ? 'rgba(255,255,255,0.07)' : 'transparent',
+                    fontSize: '13px',
+                    fontWeight: active ? 500 : 400,
+                    marginBottom: '1px',
+                    transition: 'color 0.15s, background 0.15s',
+                    position: 'relative',
+                  }}
+                  onMouseEnter={e => {
+                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.7)'
+                  }}
+                  onMouseLeave={e => {
+                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.45)'
+                  }}
+                >
+                  {/* Active indicator */}
+                  {active && (
+                    <div style={{
+                      position: 'absolute',
+                      left: 0, top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: '3px', height: '16px',
+                      background: 'linear-gradient(180deg, #5b52f5, #7c6af7)',
+                      borderRadius: '0 2px 2px 0',
+                    }}/>
+                  )}
+
+                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+                    {item.icon}
                   </span>
-                )}
-              </Link>
-            ))}
+
+                  <span style={{ flex: 1, lineHeight: 1 }}>{item.label}</span>
+
+                  {(item as any).badge > 0 && (
+                    <span style={{
+                      background: (item as any).badgeColor || '#ef4444',
+                      color: 'white',
+                      fontSize: '10px', fontWeight: 600,
+                      padding: '1px 5px',
+                      borderRadius: '10px',
+                      lineHeight: '16px',
+                      minWidth: '18px',
+                      textAlign: 'center',
+                    }}>
+                      {(item as any).badge}
+                    </span>
+                  )}
+                </Link>
+              )
+            })}
+
             {gi < navGroups.length - 1 && (
-              <div style={{ height: '1px', background: '#e8e8e5', margin: '6px 8px' }} />
+              <div style={{
+                height: '1px',
+                background: 'rgba(255,255,255,0.06)',
+                margin: '8px 4px',
+              }}/>
             )}
           </div>
         ))}
       </nav>
 
-      {/* User footer */}
-      <div style={{ padding: '12px', borderTop: '1px solid #e8e8e5' }}>
-        <div style={{ padding: '4px 8px', marginBottom: '6px' }}>
-          <span style={{ background: planStyle.bg, color: planStyle.text, fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: '4px' }}>
-            {planStyle.label} Plan
+      {/* ── User footer ── */}
+      <div style={{
+        padding: '10px 8px 12px',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+      }}>
+        {/* Plan badge */}
+        <div style={{ padding: '0 4px 8px' }}>
+          <span style={{
+            background: planStyle.bg,
+            color: planStyle.text,
+            fontSize: '10px', fontWeight: 600,
+            padding: '2px 8px',
+            borderRadius: '4px',
+            letterSpacing: '0.02em',
+          }}>
+            {planStyle.label}
           </span>
         </div>
+
+        {/* User row */}
         <div
           onClick={signOut}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 8px', borderRadius: '5px', cursor: 'pointer' }}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '9px',
+            padding: '7px 8px', borderRadius: '6px',
+            cursor: 'pointer',
+            transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.05)'}
+          onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = 'transparent'}
         >
-          <div style={{ width: '26px', height: '26px', background: '#2383e2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '11px', fontWeight: 600, flexShrink: 0 }}>
-            {user?.email?.[0]?.toUpperCase() || 'U'}
+          <div style={{
+            width: '26px', height: '26px',
+            background: 'linear-gradient(135deg, #5b52f5, #7c6af7)',
+            borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'white', fontSize: '11px', fontWeight: 600,
+            flexShrink: 0,
+          }}>
+            {initials}
           </div>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: '12px', fontWeight: 600, color: '#191919', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {user?.email?.split('@')[0] || 'User'}
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{
+              fontSize: '12px', fontWeight: 500,
+              color: 'rgba(255,255,255,0.75)',
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {username}
             </div>
-            <div style={{ fontSize: '11px', color: '#9b9b98' }}>Sign out</div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>
+              Sign out
+            </div>
           </div>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M8 6H2M10 4l2 2-2 2M7 2H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h4"/>
+          </svg>
         </div>
       </div>
     </aside>

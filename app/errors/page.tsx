@@ -171,7 +171,7 @@ function SidePanel({ error, onClose, onResolved }: SidePanelProps) {
             </div>
 
             {/* Product + channel */}
-            <div style={{ background: '#f7f7f5', borderRadius: '8px', padding: '14px 16px', marginBottom: '24px' }}>
+            <div style={{ background: '#f5f3ef', borderRadius: '8px', padding: '14px 16px', marginBottom: '24px' }}>
               <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>{error.title}</div>
               {error.sku && <div style={{ fontSize: '12px', color: '#9b9b98', marginBottom: '8px' }}>SKU: {error.sku}</div>}
               <ChannelBadge channel={error.channel} />
@@ -362,7 +362,7 @@ function BulkFixModal({ errors, onClose, onAllResolved }: BulkFixModalProps) {
         </div>
 
         {/* Affected products */}
-        <div style={{ background: '#f7f7f5', borderRadius: '8px', padding: '12px 14px', marginBottom: '20px', maxHeight: '160px', overflowY: 'auto' }}>
+        <div style={{ background: '#f5f3ef', borderRadius: '8px', padding: '12px 14px', marginBottom: '20px', maxHeight: '160px', overflowY: 'auto' }}>
           {errors.slice(0, 20).map(e => (
             <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
               <ChannelBadge channel={e.channel} />
@@ -705,7 +705,7 @@ export default function ErrorsPage() {
   } as const
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {/* Toast */}

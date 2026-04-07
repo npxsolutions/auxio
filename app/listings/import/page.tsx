@@ -95,7 +95,7 @@ export default function ImportListingsPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
       <div style={{ maxWidth: '680px' }}>

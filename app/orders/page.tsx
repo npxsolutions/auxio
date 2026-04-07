@@ -103,7 +103,7 @@ export default function OrdersPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -222,7 +222,7 @@ export default function OrdersPage() {
                     <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{fmt(order.gross_revenue)}</div>
                     <div style={{ fontSize: '13px', fontWeight: 600, color: order.true_profit >= 0 ? '#0f7b6c' : '#c9372c' }}>{fmt(order.true_profit)}</div>
                     <div>
-                      <span style={{ fontSize: '12px', fontWeight: 600, color: marginColor(order.true_margin), background: '#f7f7f5', padding: '2px 7px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: 600, color: marginColor(order.true_margin), background: '#f5f3ef', padding: '2px 7px', borderRadius: '4px' }}>
                         {order.true_margin?.toFixed(1)}%
                       </span>
                     </div>

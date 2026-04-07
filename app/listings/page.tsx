@@ -668,7 +668,7 @@ export default function ListingsPage() {
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {/* Toast */}
@@ -984,7 +984,7 @@ export default function ListingsPage() {
                         width: '100%',
                         textAlign: 'left',
                         padding: '8px 12px',
-                        background: density === d ? '#f7f7f5' : 'none',
+                        background: density === d ? '#f5f3ef' : 'none',
                         border: 'none',
                         borderRadius: '6px',
                         fontSize: '13px',
@@ -1090,7 +1090,7 @@ export default function ListingsPage() {
                       <button
                         key={f!}
                         onClick={() => { setBulkEditField(f); setBulkEditValue('') }}
-                        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', background: bulkEditField === f ? '#f7f7f5' : 'none', border: 'none', borderRadius: '6px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', cursor: 'pointer', fontWeight: bulkEditField === f ? 600 : 400 }}
+                        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', background: bulkEditField === f ? '#f5f3ef' : 'none', border: 'none', borderRadius: '6px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', cursor: 'pointer', fontWeight: bulkEditField === f ? 600 : 400 }}
                       >
                         {f!.charAt(0).toUpperCase() + f!.slice(1)}
                       </button>

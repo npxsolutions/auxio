@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 
 export const dynamic = 'force-dynamic';
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"] });
+const geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-mono' });
 
 export const metadata: Metadata = {
   title: "Auxio — AI Operating System for eCommerce Sellers",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${geist.className}`}>
+      <body className={`${geist.className} ${geistMono.variable}`} style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif' }}>
         {children}
       </body>
     </html>

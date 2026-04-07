@@ -151,13 +151,13 @@ export default function SettingsPage() {
   }
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f7f7f5', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'Inter, sans-serif' }}>
       <div style={{ fontSize: '14px', color: '#787774' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -305,7 +305,7 @@ export default function SettingsPage() {
             {mappingsLoading ? (
               <div style={{ fontSize: '13px', color: '#787774' }}>Loading…</div>
             ) : mappings.length === 0 ? (
-              <div style={{ fontSize: '13px', color: '#9b9b98', padding: '16px', background: '#f7f7f5', borderRadius: '8px', textAlign: 'center' }}>
+              <div style={{ fontSize: '13px', color: '#9b9b98', padding: '16px', background: '#f5f3ef', borderRadius: '8px', textAlign: 'center' }}>
                 No mappings yet — they appear here after your first publish with a category selected.
               </div>
             ) : (

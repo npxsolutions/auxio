@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Sidebar */
+  --sidebar-bg: #0f1117;
+  --sidebar-text: #7a7d96;
+  --sidebar-text-active: #f0f0f8;
+  --sidebar-item-active-bg: rgba(255,255,255,0.07);
+  --sidebar-divider: rgba(255,255,255,0.06);
+  --sidebar-section-label: #3a3d52;
+
+  /* App shell */
+  --app-bg: #f5f3ef;
+  --card-bg: #ffffff;
+  --card-border: #e8e5df;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04);
+  --card-shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+
+  /* Accent */
+  --accent: #5b52f5;
+  --accent-hover: #4a42e5;
+  --accent-subtle: #eeecff;
+
+  /* Text */
+  --text-primary: #1a1b22;
+  --text-secondary: #6b6e87;
+  --text-muted: #9496b0;
+
+  /* Status */
+  --success: #059669;
+  --success-bg: #ecfdf5;
+  --success-text: #065f46;
+  --error: #dc2626;
+  --error-bg: #fef2f2;
+  --error-text: #991b1b;
+  --warning: #d97706;
+  --warning-bg: #fffbeb;
+  --warning-text: #92400e;
+  --info: #2563eb;
+  --info-bg: #eff6ff;
+
+  /* Borders */
+  --border: #e8e5df;
+  --border-subtle: #f0ede8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─────────────────────────────────────────
+   BASE RESET
+───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--app-bg);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+/* ─────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d1ca;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8b4ac;
+}
+
+/* Sidebar scrollbar (dark) */
+aside::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+aside::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* ─────────────────────────────────────────
+   SELECTION
+───────────────────────────────────────── */
+::selection {
+  background: rgba(91,82,245,0.15);
+  color: var(--accent);
+}
+
+/* ─────────────────────────────────────────
+   FOCUS
+───────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

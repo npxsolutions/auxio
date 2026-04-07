@@ -121,7 +121,7 @@ function BillingContent() {
   }
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f7f7f5' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef' }}>
       <div style={{ fontSize: '14px', color: '#787774', fontFamily: 'Inter, sans-serif' }}>Loading...</div>
     </div>
   )
@@ -129,7 +129,7 @@ function BillingContent() {
   const hasPaidPlan = currentPlan && currentPlan !== 'free'
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f7f7f5', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {/* Toast */}
