@@ -116,17 +116,23 @@ export async function GET(request: NextRequest) {
     const data = await res.json()
 
     const aspects = (data.aspects || [])
-      .filter((a: any) => a.aspectConstraint?.aspectUsage !== 'OPTIONAL')
-      .map((a: any) => ({
-        name:        a.aspectName,
-        usage:       (a.aspectConstraint?.aspectUsage || 'OPTIONAL') as 'REQUIRED' | 'RECOMMENDED' | 'OPTIONAL',
-        required:    a.aspectConstraint?.aspectUsage === 'REQUIRED',
-        mode:        (a.aspectConstraint?.aspectMode || 'FREE_TEXT') as 'FREE_TEXT' | 'SELECTION_ONLY' | 'FREE_TEXT_AND_SELECTION',
-        cardinality: (a.aspectConstraint?.itemToAspectCardinality || 'SINGLE') as 'SINGLE' | 'MULTI',
-        values:      (a.aspectValues || []).map((v: any) => v.localizedValue).slice(0, 80),
-        type:        a.aspectConstraint?.aspectDataType || 'STRING',
-        description: ASPECT_DESCRIPTIONS[a.aspectName] || null,
-      }))
+      .filter((a: any) => {
+        const usage = a.aspectConstraint?.aspectUsage
+        return usage === 'REQUIRED' || usage === 'RECOMMENDED'
+      })
+      .map((a: any) => {
+        const name = a.localizedAspectName || a.aspectName || ''
+        return {
+          name,
+          usage:       (a.aspectConstraint?.aspectUsage || 'OPTIONAL') as 'REQUIRED' | 'RECOMMENDED' | 'OPTIONAL',
+          required:    a.aspectConstraint?.aspectUsage === 'REQUIRED',
+          mode:        (a.aspectConstraint?.aspectMode || 'FREE_TEXT') as 'FREE_TEXT' | 'SELECTION_ONLY' | 'FREE_TEXT_AND_SELECTION',
+          cardinality: (a.aspectConstraint?.itemToAspectCardinality || 'SINGLE') as 'SINGLE' | 'MULTI',
+          values:      (a.aspectValues || []).map((v: any) => v.localizedValue).slice(0, 80),
+          type:        a.aspectConstraint?.aspectDataType || 'STRING',
+          description: ASPECT_DESCRIPTIONS[name] || null,
+        }
+      })
       .sort((a: any, b: any) => {
         const order = { REQUIRED: 0, RECOMMENDED: 1, OPTIONAL: 2 }
         return (order[a.usage as keyof typeof order] ?? 2) - (order[b.usage as keyof typeof order] ?? 2)
