@@ -279,6 +279,7 @@ export default function ListingDetailPage() {
   const [aspectFreeText, setAspectFreeText]         = useState<Set<string>>(new Set())
   const [ebayAspectsLoading, setEbayAspectsLoading] = useState(false)
   const [aspectValues, setAspectValues]             = useState<Record<string, string>>({})
+  const [catalogAspects, setCatalogAspects]         = useState<Record<string, string>>({})
   const [catalogLooking, setCatalogLooking]         = useState(false)
   const [catalogMsg, setCatalogMsg]                 = useState('')
 
@@ -316,7 +317,8 @@ export default function ListingDetailPage() {
   useEffect(() => {
     if (!ebayCategoryId) { setEbayAspects([]); setAspectValues({}); setAspectFreeText(new Set()); return }
     setEbayAspectsLoading(true)
-    setAspectValues({})
+    // Seed with any values already populated by the barcode lookup, then let user edits layer on top
+    setAspectValues(catalogAspects)
     setAspectFreeText(new Set())
     fetch(`/api/ebay/aspects?categoryId=${ebayCategoryId}`)
       .then(r => r.json())
@@ -325,7 +327,7 @@ export default function ListingDetailPage() {
       .finally(() => setEbayAspectsLoading(false))
   }, [ebayCategoryId])
 
-  // Auto-fill listing from eBay catalog by barcode
+  // Auto-fill listing + item specifics from barcode (eBay catalog + UPCitemdb)
   async function lookupEbayCatalog() {
     if (!listing?.barcode) return
     setCatalogLooking(true)
@@ -333,25 +335,50 @@ export default function ListingDetailPage() {
     try {
       const res  = await fetch(`/api/ebay/catalog?barcode=${encodeURIComponent(listing.barcode)}`)
       const data = await res.json()
-      if (!data.product) { setCatalogMsg('No match found on eBay for this barcode'); return }
-      const { title, description, images, category, condition, brand } = data.product
+      if (!data.product) { setCatalogMsg('No product found for this barcode'); return }
+      const { title, description, images, category, condition, brand, aspects } = data.product
+
+      // ── Patch core listing fields (only fill blanks) ─────────────────────
       const patch: Record<string, any> = {}
-      if (title       && !listing.title)           patch.title = title
-      if (description && !listing.description)     patch.description = description
-      if (images?.length) patch.images = images
-      if (condition   && !listing.condition)       patch.condition = condition
-      if (brand       && !listing.brand)           patch.brand = brand
-      if (Object.keys(patch).length === 0) {
-        setCatalogMsg('eBay match found — all fields already filled')
-        if (category?.id && !categorySelections['ebay']) setCategorySelections(p => ({ ...p, ebay: category }))
-        return
+      if (title       && !listing.title)       patch.title = title
+      if (description && !listing.description) patch.description = description
+      if (images?.length)                      patch.images = images
+      if (condition   && !listing.condition)   patch.condition = condition
+      if (brand       && !listing.brand)       patch.brand = brand
+
+      const filledFields: string[] = Object.keys(patch)
+
+      if (Object.keys(patch).length > 0) {
+        const pRes  = await fetch(`/api/listings/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch) })
+        const pData = await pRes.json()
+        if (pRes.ok) setListing(pData.listing)
       }
-      const pRes  = await fetch(`/api/listings/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch) })
-      const pData = await pRes.json()
-      if (pRes.ok) {
-        setListing(pData.listing)
-        if (category?.id && !categorySelections['ebay']) setCategorySelections(p => ({ ...p, ebay: category }))
-        setCatalogMsg(`Auto-filled: ${Object.keys(patch).join(', ')}`)
+
+      // ── Auto-set eBay category ────────────────────────────────────────────
+      if (category?.id && !categorySelections['ebay']) {
+        setCategorySelections(p => ({ ...p, ebay: category }))
+      }
+
+      // ── Auto-populate item specifics (only fill empty fields) ────────────
+      if (aspects && typeof aspects === 'object' && Object.keys(aspects).length > 0) {
+        const incomingAspects = aspects as Record<string, string>
+        // Save so they survive category changes
+        setCatalogAspects(incomingAspects)
+        setAspectValues(prev => {
+          const next = { ...prev }
+          let filled = 0
+          for (const [key, val] of Object.entries(incomingAspects)) {
+            if (!next[key] && val) { next[key] = val; filled++ }
+          }
+          if (filled > 0) filledFields.push(`${filled} item specific${filled > 1 ? 's' : ''}`)
+          return next
+        })
+      }
+
+      if (filledFields.length > 0) {
+        setCatalogMsg(`Auto-filled: ${filledFields.join(', ')}`)
+      } else {
+        setCatalogMsg('Match found — all fields already filled')
       }
     } finally { setCatalogLooking(false) }
   }
@@ -492,18 +519,30 @@ export default function ListingDetailPage() {
               {/* ── DETAILS TAB ── */}
               {activeTab === 'details' && <>
 
-                {/* eBay catalog auto-fill */}
-                {listing.barcode && (
-                  <div style={{ background: '#f0f9ff', border: '1px solid #bae0fd', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {/* Barcode auto-fill — works for all channels */}
+                {listing.barcode ? (
+                  <div style={{ background: '#f0f9ff', border: '1px solid #bae0fd', borderLeft: '3px solid #0369a1', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 700, color: '#0369a1' }}>Auto-fill from eBay catalog</div>
-                      <div style={{ fontSize: '11px', color: '#0369a1', marginTop: '2px', opacity: 0.8 }}>Barcode detected — look up on eBay to auto-fill title, images, description and more</div>
-                      {catalogMsg && <div style={{ fontSize: '11px', color: catalogMsg.startsWith('No') ? '#c9372c' : '#0f7b6c', marginTop: '4px', fontWeight: 600 }}>{catalogMsg}</div>}
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: '#0369a1' }}>Auto-fill from barcode</div>
+                      <div style={{ fontSize: '11px', color: '#0369a1', marginTop: '2px', opacity: 0.8 }}>
+                        Barcode <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{listing.barcode}</span> — auto-fills title, images, description, brand and all item specifics for every channel
+                      </div>
+                      {catalogMsg && (
+                        <div style={{ fontSize: '11px', color: catalogMsg.startsWith('No') || catalogMsg.startsWith('Error') ? '#c9372c' : '#0f7b6c', marginTop: '5px', fontWeight: 600 }}>
+                          {catalogMsg.startsWith('No') || catalogMsg.startsWith('Error') ? '✕ ' : '✓ '}{catalogMsg}
+                        </div>
+                      )}
                     </div>
                     <button onClick={lookupEbayCatalog} disabled={catalogLooking}
                       style={{ padding: '8px 14px', background: catalogLooking ? '#e8e8e5' : '#0369a1', color: catalogLooking ? '#9b9b98' : 'white', border: 'none', borderRadius: '7px', fontSize: '12px', fontWeight: 600, cursor: catalogLooking ? 'default' : 'pointer', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap' }}>
-                      {catalogLooking ? 'Looking up...' : '🔍 Auto-fill'}
+                      {catalogLooking ? 'Looking up…' : '⚡ Auto-fill all'}
                     </button>
+                  </div>
+                ) : (
+                  <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderLeft: '3px solid #d97706', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '12px', color: '#92400e' }}>
+                      <span style={{ fontWeight: 700 }}>Add a barcode (EAN/UPC)</span> to enable auto-fill — we'll look up the product and populate all fields and item specifics across every channel automatically.
+                    </div>
                   </div>
                 )}
 
@@ -829,13 +868,21 @@ export default function ListingDetailPage() {
                             <div style={{ fontSize: '11px', color: '#9b9b98', padding: '4px 0' }}>Loading category fields...</div>
                           ) : ebayAspects.length > 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                              <div style={{ fontSize: '10px', fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Item specifics</div>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                                <div style={{ fontSize: '10px', fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Item specifics</div>
+                                {Object.keys(catalogAspects).length > 0 && (
+                                  <div style={{ fontSize: '10px', color: '#0369a1', fontWeight: 600 }}>
+                                    ⚡ {Object.keys(catalogAspects).length} auto-filled from barcode
+                                  </div>
+                                )}
+                              </div>
                               {ebayAspects.map(a => {
-                                const isFreeTextMode = aspectFreeText.has(a.name)
-                                const showDropdown   = a.values.length > 0 && (a.mode === 'SELECTION_ONLY' || (a.mode === 'FREE_TEXT_AND_SELECTION' && !isFreeTextMode))
-                                const showInput      = a.mode === 'FREE_TEXT' || (a.mode === 'FREE_TEXT_AND_SELECTION' && isFreeTextMode) || a.values.length === 0
+                                const isFreeTextMode  = aspectFreeText.has(a.name)
+                                const showDropdown    = a.values.length > 0 && (a.mode === 'SELECTION_ONLY' || (a.mode === 'FREE_TEXT_AND_SELECTION' && !isFreeTextMode))
+                                const showInput       = a.mode === 'FREE_TEXT' || (a.mode === 'FREE_TEXT_AND_SELECTION' && isFreeTextMode) || a.values.length === 0
+                                const isAutoFilled    = !!catalogAspects[a.name] && aspectValues[a.name] === catalogAspects[a.name]
                                 return (
-                                  <div key={a.name}>
+                                  <div key={a.name} style={{ background: isAutoFilled ? '#f0f9ff' : undefined, borderRadius: isAutoFilled ? '6px' : undefined, padding: isAutoFilled ? '6px 8px' : undefined, border: isAutoFilled ? '1px solid #bae0fd' : undefined }}>
                                     {/* Label row */}
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
                                       <span style={{ fontSize: '11px', fontWeight: 600, color: '#191919' }}>{a.name}</span>
@@ -847,6 +894,9 @@ export default function ListingDetailPage() {
                                       )}
                                       {a.cardinality === 'MULTI' && (
                                         <span style={{ fontSize: '9px', color: '#787774', background: '#f1f1ef', padding: '1px 5px', borderRadius: '3px' }}>Multi-value</span>
+                                      )}
+                                      {isAutoFilled && (
+                                        <span style={{ fontSize: '9px', color: '#0369a1', background: '#e0f2fe', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>⚡ Auto</span>
                                       )}
                                     </div>
 
@@ -861,7 +911,7 @@ export default function ListingDetailPage() {
                                         <select
                                           value={aspectValues[a.name] || ''}
                                           onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
-                                          style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', background: 'white', color: aspectValues[a.name] ? '#191919' : '#9b9b98' }}>
+                                          style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: `1px solid ${isAutoFilled ? '#bae0fd' : '#e8e8e5'}`, borderRadius: '5px', fontFamily: 'Inter, sans-serif', background: isAutoFilled ? '#f0f9ff' : 'white', color: aspectValues[a.name] ? '#191919' : '#9b9b98' }}>
                                           <option value="">Select {a.name}...</option>
                                           {a.values.map(v => <option key={v} value={v}>{v}</option>)}
                                         </select>
@@ -879,7 +929,7 @@ export default function ListingDetailPage() {
                                           value={aspectValues[a.name] || ''}
                                           onChange={e => setAspectValues(p => ({ ...p, [a.name]: e.target.value }))}
                                           placeholder={a.cardinality === 'MULTI' ? `Enter values, comma-separated...` : `Enter ${a.name}...`}
-                                          style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box', color: '#191919' }}
+                                          style={{ width: '100%', fontSize: '12px', padding: '6px 8px', border: `1px solid ${isAutoFilled ? '#bae0fd' : '#e8e8e5'}`, borderRadius: '5px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box', color: '#191919', background: isAutoFilled ? '#f0f9ff' : 'white' }}
                                         />
                                         {a.mode === 'FREE_TEXT_AND_SELECTION' && a.values.length > 0 && (
                                           <button
