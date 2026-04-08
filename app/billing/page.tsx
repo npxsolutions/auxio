@@ -13,8 +13,8 @@ const PLANS = [
     price: 79.99,
     description: 'For solo sellers just getting started',
     features: ['Up to 500 orders/mo', 'Margin & velocity intelligence', 'AI insights (daily)', 'eBay + 1 other channel', 'Email support'],
-    color: '#f1f1ef',
-    textColor: '#787774',
+    dark: false,
+    popular: false,
   },
   {
     id: 'growth',
@@ -22,8 +22,7 @@ const PLANS = [
     price: 199,
     description: 'For scaling sellers who want the edge',
     features: ['Up to 5,000 orders/mo', 'Everything in Starter', 'AI Agent (copilot mode)', 'PPC intelligence & bid optimisation', 'All channels', 'Priority support'],
-    color: '#e8f1fb',
-    textColor: '#2383e2',
+    dark: true,
     popular: true,
   },
   {
@@ -32,8 +31,8 @@ const PLANS = [
     price: 599,
     description: 'For serious operations building a brand',
     features: ['Unlimited orders', 'Everything in Growth', 'AI Agent (autopilot mode)', 'Network benchmark data', 'Custom margin targets', 'Dedicated account manager'],
-    color: '#e8f5f3',
-    textColor: '#0f7b6c',
+    dark: false,
+    popular: false,
   },
   {
     id: 'enterprise',
@@ -41,21 +40,21 @@ const PLANS = [
     price: 1500,
     description: 'For high-volume operations & agencies',
     features: ['Everything in Scale', 'Multi-account dashboard', 'Custom AI model training', 'API access', 'SLA guarantee', 'Onboarding & setup service'],
-    color: '#fdf3e8',
-    textColor: '#d9730d',
+    dark: false,
+    popular: false,
   },
 ]
 
 function BillingContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [user, setUser] = useState<any>(null)
-  const [currentPlan, setCurrentPlan] = useState<string>('free')
+  const [user, setUser]                   = useState<any>(null)
+  const [currentPlan, setCurrentPlan]     = useState<string>('free')
   const [subscriptionStatus, setSubscriptionStatus] = useState<string>('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading]             = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
   const [portalLoading, setPortalLoading] = useState(false)
-  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+  const [toast, setToast]                 = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -122,19 +121,30 @@ function BillingContent() {
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef' }}>
-      <div style={{ fontSize: '14px', color: '#787774', fontFamily: 'Inter, sans-serif' }}>Loading...</div>
+      <div style={{ fontSize: 14, color: '#6b6e87', fontFamily: 'inherit' }}>Loading...</div>
     </div>
   )
 
   const hasPaidPlan = currentPlan && currentPlan !== 'free'
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {/* Toast */}
       {toast && (
-        <div style={{ position: 'fixed', bottom: '24px', right: '24px', background: toast.type === 'success' ? '#0f7b6c' : '#c9372c', color: 'white', padding: '12px 18px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, zIndex: 200, boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+        <div style={{
+          position: 'fixed', bottom: 24, right: 24,
+          background: 'white', color: '#1a1b22',
+          border: '1px solid #e8e5df',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06)',
+          borderRadius: 10, padding: '14px 18px',
+          fontSize: 13, fontWeight: 500, zIndex: 200,
+          display: 'flex', alignItems: 'center', gap: 10,
+          borderLeft: `3px solid ${toast.type === 'success' ? '#059669' : '#dc2626'}`,
+          fontFamily: 'inherit',
+        }}>
+          <span style={{ color: toast.type === 'success' ? '#059669' : '#dc2626' }}>{toast.type === 'success' ? '✓' : '✕'}</span>
           {toast.msg}
         </div>
       )}
@@ -143,21 +153,34 @@ function BillingContent() {
         <div style={{ maxWidth: '960px' }}>
 
           {/* Header */}
-          <div style={{ marginBottom: '32px' }}>
-            <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', letterSpacing: '-0.02em', marginBottom: '6px' }}>Billing & Plans</h1>
-            <p style={{ fontSize: '14px', color: '#787774' }}>
-              {hasPaidPlan
-                ? `You're on the ${currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)} plan${subscriptionStatus === 'past_due' ? ' — payment overdue' : ''}`
-                : 'Choose a plan to unlock your intelligence engine'}
-            </p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 28 }}>
+            <div>
+              <h1 style={{ fontSize: 22, fontWeight: 800, color: '#1a1b22', letterSpacing: '-0.03em', margin: 0 }}>Billing & Plans</h1>
+              <p style={{ fontSize: 14, color: '#6b6e87', margin: '4px 0 0' }}>
+                {hasPaidPlan
+                  ? `You're on the ${currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)} plan${subscriptionStatus === 'past_due' ? ' — payment overdue' : ''}`
+                  : 'Choose a plan to unlock your intelligence engine'}
+              </p>
+            </div>
           </div>
 
-          {/* Manage billing button for paid plans */}
+          {/* Manage billing card for paid plans */}
           {hasPaidPlan && (
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '20px 24px', marginBottom: '28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{
+              background: 'white',
+              border: '1px solid #e8e5df',
+              borderLeft: '3px solid #5b52f5',
+              borderRadius: 12,
+              padding: '20px 24px',
+              marginBottom: 28,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
+            }}>
               <div>
-                <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>Current subscription</div>
-                <div style={{ fontSize: '13px', color: '#787774' }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22', marginBottom: 4 }}>Current subscription</div>
+                <div style={{ fontSize: 13, color: '#6b6e87' }}>
                   {currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)} Plan
                   {subscriptionStatus && ` · ${subscriptionStatus}`}
                 </div>
@@ -165,79 +188,142 @@ function BillingContent() {
               <button
                 onClick={openPortal}
                 disabled={portalLoading}
-                style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '6px', padding: '9px 18px', fontSize: '13px', fontWeight: 500, cursor: portalLoading ? 'wait' : 'pointer', opacity: portalLoading ? 0.7 : 1 }}
+                style={{
+                  background: '#5b52f5', color: 'white',
+                  border: 'none', borderRadius: 8,
+                  padding: '10px 18px',
+                  fontSize: 13, fontWeight: 600,
+                  cursor: portalLoading ? 'wait' : 'pointer',
+                  opacity: portalLoading ? 0.7 : 1,
+                  fontFamily: 'inherit',
+                }}
               >
-                {portalLoading ? 'Opening...' : 'Manage billing →'}
+                {portalLoading ? 'Opening…' : 'Manage billing →'}
               </button>
             </div>
           )}
 
           {/* Plan cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
             {PLANS.map(plan => {
               const isCurrent = currentPlan === plan.id
               const isLoading = checkoutLoading === plan.id
+              const isDark = plan.dark && !isCurrent
+
               return (
                 <div
                   key={plan.id}
                   style={{
-                    background: 'white',
-                    border: isCurrent ? `2px solid ${plan.textColor}` : '1px solid #e8e8e5',
-                    borderRadius: '12px',
+                    background: isDark ? '#0f1117' : 'white',
+                    border: isCurrent
+                      ? '2px solid #5b52f5'
+                      : isDark
+                        ? '1px solid #1e2130'
+                        : '1px solid #e8e5df',
+                    borderRadius: 12,
                     padding: '24px 20px',
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
+                    boxShadow: isCurrent
+                      ? '0 0 0 4px rgba(91,82,245,0.12)'
+                      : isDark
+                        ? '0 4px 16px rgba(0,0,0,0.2)'
+                        : '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
                   }}
                 >
-                  {plan.popular && !isCurrent && (
-                    <div style={{ position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)', background: '#2383e2', color: 'white', fontSize: '10px', fontWeight: 700, padding: '3px 10px', borderRadius: '100px', whiteSpace: 'nowrap' }}>
-                      MOST POPULAR
-                    </div>
-                  )}
+                  {/* Badge: Current or Most Popular */}
                   {isCurrent && (
-                    <div style={{ position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)', background: plan.textColor, color: 'white', fontSize: '10px', fontWeight: 700, padding: '3px 10px', borderRadius: '100px', whiteSpace: 'nowrap' }}>
+                    <div style={{
+                      position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)',
+                      background: '#5b52f5', color: 'white',
+                      fontSize: 10, fontWeight: 700,
+                      padding: '3px 12px', borderRadius: 100,
+                      whiteSpace: 'nowrap', letterSpacing: '0.04em',
+                    }}>
                       CURRENT PLAN
                     </div>
                   )}
+                  {plan.popular && !isCurrent && (
+                    <div style={{
+                      position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)',
+                      background: 'linear-gradient(135deg, #5b52f5 0%, #7c75f7 100%)', color: 'white',
+                      fontSize: 10, fontWeight: 700,
+                      padding: '3px 12px', borderRadius: 100,
+                      whiteSpace: 'nowrap', letterSpacing: '0.04em',
+                    }}>
+                      MOST POPULAR
+                    </div>
+                  )}
 
-                  <div style={{ marginBottom: '16px' }}>
-                    <span style={{ background: plan.color, color: plan.textColor, fontSize: '11px', fontWeight: 700, padding: '3px 9px', borderRadius: '4px' }}>{plan.name}</span>
+                  {/* Plan name badge */}
+                  <div style={{ marginBottom: 16 }}>
+                    <span style={{
+                      background: isDark ? 'rgba(91,82,245,0.2)' : isCurrent ? 'rgba(91,82,245,0.1)' : '#f5f3ef',
+                      color: isDark ? '#a5a0fb' : isCurrent ? '#5b52f5' : '#6b6e87',
+                      fontSize: 11, fontWeight: 700,
+                      padding: '3px 9px', borderRadius: 6,
+                      letterSpacing: '0.04em',
+                    }}>
+                      {plan.name}
+                    </span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '30px', fontWeight: 800, color: '#191919', letterSpacing: '-0.03em' }}>£{plan.price}</span>
-                    <span style={{ fontSize: '13px', color: '#9b9b98' }}>/mo</span>
+                  {/* Price */}
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 6 }}>
+                    <span style={{
+                      fontSize: 36, fontWeight: 800,
+                      color: isDark ? 'white' : '#1a1b22',
+                      letterSpacing: '-0.03em',
+                      fontFamily: 'var(--font-mono), ui-monospace, monospace',
+                    }}>
+                      £{plan.price}
+                    </span>
+                    <span style={{ fontSize: 13, color: isDark ? '#6b7280' : '#9496b0' }}>/mo</span>
                   </div>
-                  <p style={{ fontSize: '12px', color: '#787774', marginBottom: '20px', lineHeight: 1.5 }}>{plan.description}</p>
 
+                  <p style={{
+                    fontSize: 12,
+                    color: isDark ? '#9ca3af' : '#6b6e87',
+                    marginBottom: 20, lineHeight: 1.5,
+                  }}>
+                    {plan.description}
+                  </p>
+
+                  {/* Feature list */}
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', flex: 1 }}>
                     {plan.features.map(f => (
-                      <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px', color: '#191919', marginBottom: '8px', lineHeight: 1.4 }}>
-                        <span style={{ color: plan.textColor, fontWeight: 700, flexShrink: 0 }}>✓</span>
+                      <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: isDark ? '#d1d5db' : '#1a1b22', marginBottom: 8, lineHeight: 1.4 }}>
+                        <span style={{ color: isDark ? '#a5a0fb' : '#059669', fontWeight: 700, flexShrink: 0 }}>✓</span>
                         {f}
                       </li>
                     ))}
                   </ul>
 
+                  {/* CTA button */}
                   <button
                     onClick={() => !isCurrent && startCheckout(plan.id)}
                     disabled={isCurrent || isLoading}
                     style={{
                       width: '100%',
                       padding: '10px',
-                      borderRadius: '7px',
-                      border: 'none',
-                      fontSize: '13px',
+                      borderRadius: 8,
+                      border: isCurrent ? '2px solid #5b52f5' : 'none',
+                      fontSize: 13,
                       fontWeight: 600,
                       cursor: isCurrent ? 'default' : isLoading ? 'wait' : 'pointer',
-                      background: isCurrent ? plan.color : '#191919',
-                      color: isCurrent ? plan.textColor : 'white',
+                      background: isCurrent
+                        ? 'transparent'
+                        : isDark
+                          ? '#5b52f5'
+                          : '#5b52f5',
+                      color: isCurrent ? '#5b52f5' : 'white',
                       opacity: isLoading ? 0.7 : 1,
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'inherit',
+                      transition: 'opacity 0.15s',
                     }}
                   >
-                    {isLoading ? 'Redirecting...' : isCurrent ? 'Current plan' : hasPaidPlan ? 'Switch plan' : 'Start now'}
+                    {isLoading ? 'Redirecting…' : isCurrent ? 'Current plan' : hasPaidPlan ? 'Switch plan' : 'Start now'}
                   </button>
                 </div>
               )
@@ -245,7 +331,7 @@ function BillingContent() {
           </div>
 
           {/* Footer note */}
-          <p style={{ fontSize: '12px', color: '#9b9b98', textAlign: 'center', marginTop: '24px' }}>
+          <p style={{ fontSize: 12, color: '#9496b0', textAlign: 'center', marginTop: 24 }}>
             All plans billed monthly. Cancel anytime. Prices in GBP (£) excluding VAT.
           </p>
         </div>

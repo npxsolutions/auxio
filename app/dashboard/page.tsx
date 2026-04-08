@@ -95,10 +95,21 @@ function buildChannelStatsFromBreakdown(breakdown: Record<string, { revenue: num
     .sort((a, b) => b.revenue - a.revenue)
 }
 
-const STATUS_COLOR = { performing: '#0f7b6c', needs_attention: '#c9372c', monitoring: '#d9730d' }
-const STATUS_BG    = { performing: '#e8f5f3', needs_attention: '#fce8e6', monitoring: '#fdf3e8' }
+const STATUS_COLOR = { performing: '#059669', needs_attention: '#dc2626', monitoring: '#d97706' }
+const STATUS_BG    = { performing: '#ecfdf5', needs_attention: '#fef2f2', monitoring: '#fffbeb' }
 const STATUS_ICON  = { performing: '●', needs_attention: '⚠', monitoring: '↻' }
 const STATUS_LABEL = { performing: 'Live', needs_attention: 'Errors', monitoring: 'Syncing' }
+
+const CARD_STYLE: React.CSSProperties = {
+  background: 'white',
+  border: '1px solid #e8e5df',
+  borderRadius: '12px',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
+}
+
+const MONO: React.CSSProperties = {
+  fontFamily: 'var(--font-mono), ui-monospace, monospace',
+}
 
 function ChannelCard({
   ch,
@@ -111,28 +122,33 @@ function ChannelCard({
 }) {
   const f = (n: number) => `£${n.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
   const [hovered, setHovered] = useState(false)
+  const [syncHovered, setSyncHovered] = useState(false)
 
   return (
     <div
       style={{
-        background: 'white',
-        border: '1px solid #e8e8e5',
-        borderRadius: '10px',
+        ...CARD_STYLE,
         padding: '20px',
         minWidth: '240px',
         flex: '0 0 auto',
         display: 'flex',
         flexDirection: 'column',
         gap: '14px',
+        transition: 'box-shadow 0.15s',
+        boxShadow: hovered
+          ? '0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)'
+          : '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '34px', height: '34px', background: ch.color, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
+          <div style={{ width: '36px', height: '36px', background: ch.color, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
             {ch.icon}
           </div>
-          <span style={{ fontSize: '14px', fontWeight: 600, color: '#191919' }}>{ch.name}</span>
+          <span style={{ fontSize: '14px', fontWeight: 600, color: '#1a1b22' }}>{ch.name}</span>
         </div>
         <span style={{
           display: 'inline-flex',
@@ -157,8 +173,8 @@ function ChannelCard({
           { label: 'ROAS',    value: ch.roas > 0 ? `${ch.roas}×` : '—' },
         ].map(m => (
           <div key={m.label} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', lineHeight: 1 }}>{m.value}</div>
-            <div style={{ fontSize: '10px', color: '#9b9b98', marginTop: '3px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{m.label}</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#1a1b22', lineHeight: 1, ...MONO }}>{m.value}</div>
+            <div style={{ fontSize: '10px', color: '#9496b0', marginTop: '3px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{m.label}</div>
           </div>
         ))}
       </div>
@@ -169,13 +185,13 @@ function ChannelCard({
           {(ch.errors ?? 0) > 0 && (
             <button
               onClick={() => onErrorClick(ch.id)}
-              style={{ background: '#fce8e6', color: '#c9372c', border: 'none', borderRadius: '4px', padding: '3px 8px', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+              style={{ background: '#fef2f2', color: '#dc2626', border: 'none', borderRadius: '6px', padding: '3px 8px', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
             >
               ⚠ {ch.errors} error{ch.errors !== 1 ? 's' : ''}
             </button>
           )}
           {ch.lastSynced && (
-            <span style={{ fontSize: '11px', color: '#9b9b98' }}>
+            <span style={{ fontSize: '11px', color: '#9496b0' }}>
               {ch.lastSynced}
             </span>
           )}
@@ -183,24 +199,86 @@ function ChannelCard({
         <button
           onClick={() => onSyncNow(ch.id)}
           disabled={ch.syncing}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onMouseEnter={() => setSyncHovered(true)}
+          onMouseLeave={() => setSyncHovered(false)}
           style={{
-            background: hovered ? '#191919' : 'white',
-            color: hovered ? 'white' : '#191919',
-            border: '1px solid #e8e8e5',
-            borderRadius: '5px',
+            background: syncHovered ? '#f9f8f6' : 'white',
+            color: '#1a1b22',
+            border: '1px solid #e8e5df',
+            borderRadius: '6px',
             padding: '5px 10px',
             fontSize: '11px',
             fontWeight: 500,
             cursor: ch.syncing ? 'wait' : 'pointer',
-            transition: 'background 0.15s, color 0.15s',
+            transition: 'background 0.15s',
             opacity: ch.syncing ? 0.6 : 1,
           }}
         >
           {ch.syncing ? '↻ Syncing…' : '↻ Sync now'}
         </button>
       </div>
+    </div>
+  )
+}
+
+const SHIMMER_KEYFRAMES = `
+  @keyframes shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+`
+
+const SHIMMER_STYLE: React.CSSProperties = {
+  background: 'linear-gradient(90deg, #f0ede8 25%, #e8e5df 50%, #f0ede8 75%)',
+  backgroundSize: '800px 100%',
+  animation: 'shimmer 1.4s ease-in-out infinite',
+  borderRadius: '6px',
+}
+
+function SkeletonLoader() {
+  const shimmer = SHIMMER_STYLE
+
+  return (
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: 'Inter, -apple-system, sans-serif' }}>
+      <style>{SHIMMER_KEYFRAMES}</style>
+      <AppSidebar />
+      <main style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Topbar skeleton */}
+        <div style={{ height: '52px', background: 'white', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', padding: '0 24px', gap: '12px' }}>
+          <div style={{ ...shimmer, width: '140px', height: '16px' }} />
+          <div style={{ flex: 1 }} />
+          <div style={{ ...shimmer, width: '90px', height: '30px', borderRadius: '8px' }} />
+        </div>
+        <div style={{ padding: '24px' }}>
+          {/* Greeting skeleton */}
+          <div style={{ ...shimmer, width: '220px', height: '20px', marginBottom: '8px' }} />
+          <div style={{ ...shimmer, width: '160px', height: '14px', marginBottom: '20px' }} />
+          {/* Quick actions skeleton */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
+            {[80, 80, 90, 70].map((w, i) => (
+              <div key={i} style={{ ...shimmer, width: `${w}px`, height: '32px', borderRadius: '8px' }} />
+            ))}
+          </div>
+          {/* Stat cards skeleton */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px', marginBottom: '20px' }}>
+            {[0,1,2,3,4].map(i => (
+              <div key={i} style={{ ...CARD_STYLE, padding: '18px' }}>
+                <div style={{ ...shimmer, width: '80px', height: '10px', marginBottom: '12px' }} />
+                <div style={{ ...shimmer, width: '100px', height: '28px', marginBottom: '8px' }} />
+                <div style={{ ...shimmer, width: '70px', height: '10px' }} />
+              </div>
+            ))}
+          </div>
+          {/* Main grid skeleton */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '12px' }}>
+            <div style={{ ...CARD_STYLE, height: '280px' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ ...CARD_STYLE, height: '120px' }} />
+              <div style={{ ...CARD_STYLE, height: '148px' }} />
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   )
 }
@@ -309,14 +387,7 @@ export default function DashboardPage() {
   const f  = (n: number) => `£${n.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
   const fp = (n: number) => `${n.toFixed(1)}%`
 
-  if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontFamily: 'Inter, sans-serif', background: '#f5f3ef' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, marginBottom: '8px', color: '#191919' }}>Auxio</div>
-        <div style={{ fontSize: '14px', color: '#787774' }}>Loading your intelligence engine...</div>
-      </div>
-    </div>
-  )
+  if (loading) return <SkeletonLoader />
 
   const channels = (data?.channelStats || []).map(ch => ({
     ...ch,
@@ -324,11 +395,11 @@ export default function DashboardPage() {
   }))
 
   const statCards = [
-    { label: 'True Profit Today',  value: f(data?.profitToday  || 0), sub: '↑ updated live',          href: '/orders' },
-    { label: 'Revenue Today',      value: f(data?.revenueToday || 0), sub: 'Across all channels',       href: '/orders' },
-    { label: 'Orders Today',       value: String(data?.ordersToday || 0), sub: 'Across all channels',   href: '/orders' },
-    { label: 'Avg Margin 30d',     value: fp(data?.avgMargin   || 0), sub: 'After all costs',           href: '/listings' },
-    { label: 'Active Alerts',      value: String(data?.activeAlerts || 0), sub: `${data?.pendingActions || 0} pending actions`, href: '/errors' },
+    { label: 'True Profit Today',  value: f(data?.profitToday  || 0), sub: '↑ updated live',          href: '/orders',   accent: '#059669' },
+    { label: 'Revenue Today',      value: f(data?.revenueToday || 0), sub: 'Across all channels',       href: '/orders',   accent: '#5b52f5' },
+    { label: 'Orders Today',       value: String(data?.ordersToday || 0), sub: 'Across all channels',   href: '/orders',   accent: null },
+    { label: 'Avg Margin 30d',     value: fp(data?.avgMargin   || 0), sub: 'After all costs',           href: '/listings', accent: null },
+    { label: 'Active Alerts',      value: String(data?.activeAlerts || 0), sub: `${data?.pendingActions || 0} pending actions`, href: '/errors', accent: (data?.activeAlerts || 0) > 0 ? '#dc2626' : null },
   ]
 
   return (
@@ -338,17 +409,40 @@ export default function DashboardPage() {
       <main style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
         {/* TOPBAR */}
-        <div style={{ height: '48px', background: 'white', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', padding: '0 24px', gap: '12px', position: 'sticky', top: 0, zIndex: 50 }}>
-          <span style={{ fontSize: '14px', fontWeight: 600, flex: 1, color: '#191919' }}>Command Centre</span>
+        <div style={{
+          height: '52px',
+          background: 'white',
+          borderBottom: '1px solid #e8e5df',
+          boxShadow: '0 1px 0 #e8e5df',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 24px',
+          gap: '12px',
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+        }}>
+          <span style={{ fontSize: '15px', fontWeight: 600, flex: 1, color: '#1a1b22' }}>Command Centre</span>
           {(data?.leverageRatio ?? 0) > 0 && (
-            <span style={{ fontSize: '12px', color: '#0f7b6c', fontWeight: 600, background: '#e8f5f3', padding: '4px 10px', borderRadius: '100px' }}>
+            <span style={{ fontSize: '12px', color: '#059669', fontWeight: 600, background: '#ecfdf5', padding: '4px 10px', borderRadius: '100px' }}>
               {data!.leverageRatio.toFixed(1)}× leverage ratio
             </span>
           )}
           <button
             onClick={runAgent}
             disabled={agentRunning}
-            style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '5px', padding: '7px 14px', fontSize: '12px', fontWeight: 500, cursor: agentRunning ? 'wait' : 'pointer', opacity: agentRunning ? 0.7 : 1 }}
+            style={{
+              background: '#5b52f5',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '7px 14px',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: agentRunning ? 'wait' : 'pointer',
+              opacity: agentRunning ? 0.7 : 1,
+              transition: 'opacity 0.15s',
+            }}
           >
             {agentRunning ? '⚡ Running...' : '⚡ Run Agent'}
           </button>
@@ -357,10 +451,10 @@ export default function DashboardPage() {
         <div style={{ padding: '24px' }}>
 
           {/* GREETING */}
-          <div style={{ fontSize: '20px', fontWeight: 600, marginBottom: '4px', letterSpacing: '-0.02em', color: '#191919' }}>
+          <div style={{ fontSize: '20px', fontWeight: 600, marginBottom: '4px', letterSpacing: '-0.02em', color: '#1a1b22' }}>
             Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.email?.split('@')[0] || 'there'} 👋
           </div>
-          <div style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>
+          <div style={{ fontSize: '13px', color: '#6b6e87', marginBottom: '16px' }}>
             {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </div>
 
@@ -382,17 +476,27 @@ export default function DashboardPage() {
           {/* AI AGENT BANNER */}
           {(data?.pendingActions ?? 0) > 0 && (
             <Link href="/agent" style={{ textDecoration: 'none' }}>
-              <div style={{ background: '#191919', borderRadius: '10px', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', cursor: 'pointer' }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #5b52f5 0%, #4338ca 100%)',
+                borderRadius: '12px',
+                padding: '16px 20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '16px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(91,82,245,0.3)',
+              }}>
                 <div style={{ fontSize: '20px' }}>🤖</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: '13px', fontWeight: 600, color: 'white', marginBottom: '3px' }}>
                     AI Agent has {data!.pendingActions} action{data!.pendingActions !== 1 ? 's' : ''} waiting for approval
                   </div>
-                  <div style={{ fontSize: '12px', color: '#888' }}>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>
                     Review and approve recommended changes to your campaigns and listings
                   </div>
                 </div>
-                <div style={{ background: 'white', color: '#191919', padding: '7px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, flexShrink: 0 }}>
+                <div style={{ background: 'white', color: '#5b52f5', padding: '7px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, flexShrink: 0 }}>
                   Review actions →
                 </div>
               </div>
@@ -403,10 +507,10 @@ export default function DashboardPage() {
           {channels.length > 0 && (
             <div style={{ marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Channel Health</span>
-                <Link href="/channels" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>Manage channels →</Link>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1b22' }}>Channel Health</span>
+                <Link href="/channels" style={{ fontSize: '12px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Manage channels →</Link>
               </div>
-              <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
+              <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '4px' }}>
                 {channels.map(ch => (
                   <ChannelCard
                     key={ch.id}
@@ -422,58 +526,48 @@ export default function DashboardPage() {
           {/* MAIN GRID */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '12px', marginBottom: '12px' }}>
 
-            {/* CHANNEL TABLE (kept for when no cards are shown, or as supplemental detail) */}
+            {/* CHANNEL TABLE (when no channels) */}
             {channels.length === 0 && (
-              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
-                <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Channel Performance — Last 30 days</span>
-                  <Link href="/channels" style={{ fontSize: '12px', color: '#2383e2', cursor: 'pointer', textDecoration: 'none' }}>Manage channels →</Link>
+              <div style={{ ...CARD_STYLE, overflow: 'hidden' }}>
+                <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1b22' }}>Channel Performance — Last 30 days</span>
+                  <Link href="/channels" style={{ fontSize: '12px', color: '#5b52f5', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>Manage channels →</Link>
                 </div>
                 <div style={{ padding: '40px 24px', textAlign: 'center' }}>
                   <div style={{ fontSize: '28px', marginBottom: '12px' }}>🔗</div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: '#191919', marginBottom: '6px' }}>No channels connected yet</div>
-                  <div style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>Connect eBay, Amazon, or Shopify to start seeing real data</div>
-                  <Link href="/channels" style={{ background: '#191919', color: 'white', padding: '8px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', display: 'inline-block' }}>
+                  <div style={{ fontSize: '14px', fontWeight: 600, color: '#1a1b22', marginBottom: '6px' }}>No channels connected yet</div>
+                  <div style={{ fontSize: '13px', color: '#6b6e87', marginBottom: '16px' }}>Connect eBay, Amazon, or Shopify to start seeing real data</div>
+                  <Link href="/channels" style={{ background: '#5b52f5', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', display: 'inline-block' }}>
                     Connect a channel →
                   </Link>
                 </div>
               </div>
             )}
 
-            {/* When channels exist, show top products full-width in left column */}
+            {/* TOP PRODUCTS (when channels exist) */}
             {channels.length > 0 && (
-              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
-                <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e8e5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Top Products</span>
-                  <Link href="/inventory" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>View all →</Link>
+              <div style={{ ...CARD_STYLE, overflow: 'hidden' }}>
+                <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e5df', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1b22' }}>Top Products</span>
+                  <Link href="/inventory" style={{ fontSize: '12px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>View all →</Link>
                 </div>
                 {data?.topProducts?.length ? (
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                       <tr>
                         {['Product', 'Margin', 'Signal'].map((h, i) => (
-                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f5f3ef' }}>{h}</th>
+                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 16px', fontSize: '11px', fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid #e8e5df', background: '#f9f8f6' }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {data.topProducts.map((p: any) => (
-                        <tr key={p.sku || p.title}>
-                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
-                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: (p.margin || p.avg_margin_90d || 0) > 20 ? '#0f7b6c' : (p.margin || p.avg_margin_90d || 0) > 15 ? '#d9730d' : '#c9372c' }}>
-                            {fp(p.margin || p.avg_margin_90d || 0)}
-                          </td>
-                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
-                            <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: (p.margin||0) > 20 ? '#e8f5f3' : (p.margin||0) > 10 ? '#e8f1fb' : '#fdf3e8', color: (p.margin||0) > 20 ? '#0f7b6c' : (p.margin||0) > 10 ? '#2383e2' : '#d9730d' }}>
-                              {(p.margin||0) > 20 ? 'scale' : (p.margin||0) > 10 ? 'hold' : 'review'}
-                            </span>
-                          </td>
-                        </tr>
+                        <ProductRow key={p.sku || p.title} p={p} fp={fp} />
                       ))}
                     </tbody>
                   </table>
                 ) : (
-                  <div style={{ padding: '24px', textAlign: 'center', color: '#9b9b98', fontSize: '13px' }}>
+                  <div style={{ padding: '24px', textAlign: 'center', color: '#9496b0', fontSize: '13px' }}>
                     Connect eBay or Amazon to see product intelligence
                   </div>
                 )}
@@ -484,36 +578,36 @@ export default function DashboardPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
               {/* LEVERAGE RATIO */}
-              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '18px' }}>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Your Leverage Ratio</div>
+              <div style={{ ...CARD_STYLE, padding: '18px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Your Leverage Ratio</div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '4px' }}>
-                  <div style={{ fontSize: '44px', fontWeight: 700, letterSpacing: '-0.04em', color: '#0f7b6c', lineHeight: 1 }}>
+                  <div style={{ fontSize: '44px', fontWeight: 700, letterSpacing: '-0.04em', color: '#059669', lineHeight: 1, ...MONO }}>
                     {(data?.leverageRatio ?? 0) > 0 ? `${data!.leverageRatio.toFixed(1)}×` : '—'}
                   </div>
                 </div>
-                <div style={{ fontSize: '12px', color: '#787774', marginBottom: '12px' }}>Value returned per £1 paid to Auxio</div>
-                <div style={{ fontSize: '12px', color: '#9b9b98', fontStyle: 'italic', lineHeight: 1.5 }}>
+                <div style={{ fontSize: '12px', color: '#6b6e87', marginBottom: '12px' }}>Value returned per £1 paid to Auxio</div>
+                <div style={{ fontSize: '12px', color: '#9496b0', fontStyle: 'italic', lineHeight: 1.5 }}>
                   "Your bank lends your £1 deposit out 9 times. Auxio returns {(data?.leverageRatio ?? 0) > 0 ? data!.leverageRatio.toFixed(1) : '9.4'}× for every £1 you pay."
                 </div>
               </div>
 
               {/* AI INSIGHTS */}
-              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden', flex: 1 }}>
-                <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>AI Insights</span>
-                  <span style={{ background: '#fce8e6', color: '#c9372c', fontSize: '11px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px' }}>{data?.insights?.length || 0} active</span>
+              <div style={{ ...CARD_STYLE, overflow: 'hidden', flex: 1 }}>
+                <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1b22' }}>AI Insights</span>
+                  <span style={{ background: '#fef2f2', color: '#dc2626', fontSize: '11px', fontWeight: 700, padding: '2px 7px', borderRadius: '6px' }}>{data?.insights?.length || 0} active</span>
                 </div>
                 <div style={{ padding: '8px' }}>
                   {data?.insights?.length ? data.insights.map((insight: any, i: number) => (
-                    <div key={i} style={{ display: 'flex', gap: '10px', padding: '10px', borderRadius: '7px', marginBottom: '2px' }}>
-                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: insight.priority === 'high' ? '#c9372c' : insight.priority === 'medium' ? '#d9730d' : '#2383e2', flexShrink: 0, marginTop: '4px' }} />
+                    <div key={i} style={{ display: 'flex', gap: '10px', padding: '10px', borderRadius: '8px', marginBottom: '2px' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: insight.priority === 'high' ? '#dc2626' : insight.priority === 'medium' ? '#d97706' : '#5b52f5', flexShrink: 0, marginTop: '4px' }} />
                       <div>
-                        <div style={{ fontSize: '13px', fontWeight: 500, color: '#191919', marginBottom: '3px' }}>{insight.title}</div>
-                        <div style={{ fontSize: '12px', color: '#787774', lineHeight: 1.4 }}>{insight.body?.substring(0, 80)}...</div>
+                        <div style={{ fontSize: '13px', fontWeight: 500, color: '#1a1b22', marginBottom: '3px' }}>{insight.title}</div>
+                        <div style={{ fontSize: '12px', color: '#6b6e87', lineHeight: 1.4 }}>{insight.body?.substring(0, 80)}...</div>
                       </div>
                     </div>
                   )) : (
-                    <div style={{ padding: '20px', textAlign: 'center', color: '#9b9b98', fontSize: '13px' }}>
+                    <div style={{ padding: '20px', textAlign: 'center', color: '#9496b0', fontSize: '13px' }}>
                       Connect a channel to generate AI insights
                     </div>
                   )}
@@ -525,40 +619,30 @@ export default function DashboardPage() {
           {/* BOTTOM ROW */}
           <div style={{ display: 'grid', gridTemplateColumns: channels.length > 0 ? '1fr 1fr' : '1fr 1fr 1fr', gap: '12px' }}>
 
-            {/* TOP PRODUCTS (only shown when no channels, otherwise shown above) */}
+            {/* TOP PRODUCTS (only shown when no channels) */}
             {channels.length === 0 && (
-              <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
-                <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e8e5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Top Products</span>
-                  <Link href="/inventory" style={{ fontSize: '12px', color: '#2383e2', textDecoration: 'none' }}>View all →</Link>
+              <div style={{ ...CARD_STYLE, overflow: 'hidden' }}>
+                <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e5df', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1b22' }}>Top Products</span>
+                  <Link href="/inventory" style={{ fontSize: '12px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>View all →</Link>
                 </div>
                 {data?.topProducts?.length ? (
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                       <tr>
                         {['Product', 'Margin', 'Signal'].map((h, i) => (
-                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 14px', fontSize: '10px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #e8e8e5', background: '#f5f3ef' }}>{h}</th>
+                          <th key={h} style={{ textAlign: i === 0 ? 'left' : 'right', padding: '8px 16px', fontSize: '11px', fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid #e8e5df', background: '#f9f8f6' }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {data.topProducts.map((p: any) => (
-                        <tr key={p.sku || p.title}>
-                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', fontSize: '12px', fontWeight: 500, color: '#191919', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
-                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: (p.margin || p.avg_margin_90d || 0) > 20 ? '#0f7b6c' : (p.margin || p.avg_margin_90d || 0) > 15 ? '#d9730d' : '#c9372c' }}>
-                            {fp(p.margin || p.avg_margin_90d || 0)}
-                          </td>
-                          <td style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e5', textAlign: 'right' }}>
-                            <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 7px', borderRadius: '4px', background: (p.margin||0) > 20 ? '#e8f5f3' : (p.margin||0) > 10 ? '#e8f1fb' : '#fdf3e8', color: (p.margin||0) > 20 ? '#0f7b6c' : (p.margin||0) > 10 ? '#2383e2' : '#d9730d' }}>
-                              {(p.margin||0) > 20 ? 'scale' : (p.margin||0) > 10 ? 'hold' : 'review'}
-                            </span>
-                          </td>
-                        </tr>
+                        <ProductRow key={p.sku || p.title} p={p} fp={fp} />
                       ))}
                     </tbody>
                   </table>
                 ) : (
-                  <div style={{ padding: '24px', textAlign: 'center', color: '#9b9b98', fontSize: '13px' }}>
+                  <div style={{ padding: '24px', textAlign: 'center', color: '#9496b0', fontSize: '13px' }}>
                     Connect eBay or Amazon to see product intelligence
                   </div>
                 )}
@@ -566,36 +650,42 @@ export default function DashboardPage() {
             )}
 
             {/* MONTHLY SUMMARY */}
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '18px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '16px', color: '#191919' }}>This Month</div>
+            <div style={{ ...CARD_STYLE, padding: '18px' }}>
+              <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '16px', color: '#1a1b22' }}>This Month</div>
               {[
-                { label: 'Revenue',      value: f(data?.revenueThisMonth || 0) },
+                { label: 'Revenue',      value: f(data?.revenueThisMonth || 0), green: false },
                 { label: 'True Profit',  value: f(data?.profitThisMonth  || 0), green: true },
-                { label: 'Avg Margin',   value: fp(data?.avgMargin       || 0) },
-                { label: 'Blended ROAS', value: `${(data?.blendedRoas    || 0).toFixed(1)}×` },
+                { label: 'Avg Margin',   value: fp(data?.avgMargin       || 0), green: false },
+                { label: 'Blended ROAS', value: `${(data?.blendedRoas    || 0).toFixed(1)}×`, green: false },
               ].map(row => (
-                <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #f7f7f5' }}>
-                  <span style={{ fontSize: '13px', color: '#787774' }}>{row.label}</span>
-                  <span style={{ fontSize: '15px', fontWeight: 700, color: row.green ? '#0f7b6c' : '#191919' }}>{row.value}</span>
+                <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #f5f3ef' }}>
+                  <span style={{ fontSize: '13px', color: '#6b6e87' }}>{row.label}</span>
+                  <span style={{ fontSize: '15px', fontWeight: 700, color: row.green ? '#059669' : '#1a1b22', ...MONO }}>{row.value}</span>
                 </div>
               ))}
             </div>
 
             {/* ASK CLAUDE */}
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
-              <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e8e5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>Ask Claude</span>
-                <span style={{ fontSize: '11px', color: '#9b9b98' }}>Knows your full store</span>
+            <div style={{ ...CARD_STYLE, overflow: 'hidden' }}>
+              <div style={{ padding: '14px 18px', borderBottom: '1px solid #e8e5df', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1b22' }}>Ask Claude</span>
+                <span style={{ fontSize: '11px', color: '#9496b0' }}>Knows your full store</span>
               </div>
               <div style={{ padding: '14px' }}>
                 {chatResponse && (
-                  <div style={{ background: '#f5f3ef', borderRadius: '6px', padding: '10px', fontSize: '12px', color: '#191919', lineHeight: 1.6, marginBottom: '10px', maxHeight: '120px', overflowY: 'auto' }}>
+                  <div style={{ background: '#f9f8f6', border: '1px solid #e8e5df', borderRadius: '8px', padding: '10px 12px', fontSize: '12px', color: '#1a1b22', lineHeight: 1.6, marginBottom: '10px', maxHeight: '120px', overflowY: 'auto' }}>
                     {chatResponse}
                   </div>
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
                   {['Why did my ACOS spike?', 'Which products to restock?', 'Show my worst margin products'].map(q => (
-                    <div key={q} onClick={() => setChatInput(q)} style={{ background: '#f5f3ef', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', color: '#787774', cursor: 'pointer' }}>{q}</div>
+                    <div
+                      key={q}
+                      onClick={() => setChatInput(q)}
+                      style={{ background: '#f9f8f6', border: '1px solid #e8e5df', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', color: '#6b6e87', cursor: 'pointer' }}
+                    >
+                      {q}
+                    </div>
                   ))}
                 </div>
                 <div style={{ display: 'flex', gap: '6px' }}>
@@ -604,12 +694,33 @@ export default function DashboardPage() {
                     onChange={e => setChatInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && askClaude()}
                     placeholder="Ask anything..."
-                    style={{ flex: 1, background: '#f5f3ef', border: '1px solid #e8e8e5', borderRadius: '6px', padding: '8px 10px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
+                    style={{
+                      flex: 1,
+                      background: 'white',
+                      border: '1px solid #e8e5df',
+                      borderRadius: '100px',
+                      padding: '8px 14px',
+                      fontSize: '12px',
+                      fontFamily: 'Inter, sans-serif',
+                      color: '#1a1b22',
+                      outline: 'none',
+                    }}
                   />
                   <button
                     onClick={askClaude}
                     disabled={chatLoading}
-                    style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '6px', padding: '8px 12px', fontSize: '12px', cursor: chatLoading ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}
+                    style={{
+                      background: '#5b52f5',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '100px',
+                      padding: '8px 14px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: chatLoading ? 'wait' : 'pointer',
+                      fontFamily: 'Inter, sans-serif',
+                      opacity: chatLoading ? 0.7 : 1,
+                    }}
                   >
                     {chatLoading ? '...' : '→'}
                   </button>
@@ -625,15 +736,39 @@ export default function DashboardPage() {
 
 /* ─── Sub-components ─── */
 
-function StatCard({ label, value, sub, href, router }: {
+function ProductRow({ p, fp }: { p: any; fp: (n: number) => string }) {
+  const [hovered, setHovered] = useState(false)
+  const margin = p.margin || p.avg_margin_90d || 0
+  return (
+    <tr
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ background: hovered ? '#f9f8f6' : 'transparent', transition: 'background 0.1s' }}
+    >
+      <td style={{ padding: '10px 16px', borderBottom: '1px solid #e8e5df', fontSize: '12px', fontWeight: 500, color: '#1a1b22', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || p.sku}</td>
+      <td style={{ padding: '10px 16px', borderBottom: '1px solid #e8e5df', textAlign: 'right', fontSize: '12px', fontWeight: 700, color: margin > 20 ? '#059669' : margin > 15 ? '#d97706' : '#dc2626', ...MONO }}>
+        {fp(margin)}
+      </td>
+      <td style={{ padding: '10px 16px', borderBottom: '1px solid #e8e5df', textAlign: 'right' }}>
+        <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 7px', borderRadius: '4px', background: margin > 20 ? '#ecfdf5' : margin > 10 ? '#eff6ff' : '#fffbeb', color: margin > 20 ? '#059669' : margin > 10 ? '#5b52f5' : '#d97706' }}>
+          {margin > 20 ? 'scale' : margin > 10 ? 'hold' : 'review'}
+        </span>
+      </td>
+    </tr>
+  )
+}
+
+function StatCard({ label, value, sub, href, accent, router }: {
   label: string
   value: string
   sub: string
   href: string
+  accent: string | null
   router: ReturnType<typeof useRouter>
 }) {
   const [hovered, setHovered] = useState(false)
   const isAlert = label === 'Active Alerts'
+  const isProfit = label === 'True Profit Today'
 
   return (
     <div
@@ -641,17 +776,29 @@ function StatCard({ label, value, sub, href, router }: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#f5f3ef' : 'white',
-        border: '1px solid #e8e8e5',
-        borderRadius: '10px',
-        padding: '16px 18px',
+        background: 'white',
+        border: '1px solid #e8e5df',
+        borderRadius: '12px',
+        borderLeft: accent ? `3px solid ${accent}` : '1px solid #e8e5df',
+        padding: accent ? '16px 18px 16px 15px' : '16px 18px',
         cursor: 'pointer',
-        transition: 'background 0.15s',
+        transition: 'box-shadow 0.15s',
+        boxShadow: hovered
+          ? '0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)'
+          : '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
       }}
     >
-      <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>{label}</div>
-      <div style={{ fontSize: '26px', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '6px', color: isAlert && Number(value) > 0 ? '#c9372c' : '#191919' }}>{value}</div>
-      <div style={{ fontSize: '11px', fontWeight: 500, color: '#9b9b98' }}>{sub}</div>
+      <div style={{ fontSize: '11px', fontWeight: 600, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>{label}</div>
+      <div style={{
+        fontSize: '28px',
+        fontWeight: 800,
+        letterSpacing: '-0.03em',
+        lineHeight: 1,
+        marginBottom: '6px',
+        color: isAlert && Number(value) > 0 ? '#dc2626' : isProfit ? '#059669' : '#1a1b22',
+        ...MONO,
+      }}>{value}</div>
+      <div style={{ fontSize: '11px', fontWeight: 500, color: '#9496b0' }}>{sub}</div>
     </div>
   )
 }
@@ -662,53 +809,57 @@ function QuickActionsBar({ onSyncAll, onNewListing, onViewErrors, onExport }: {
   onViewErrors: () => void
   onExport: () => void
 }) {
-  const btnStyle = (hovered: boolean): React.CSSProperties => ({
-    border: '1px solid #e8e8e5',
-    background: hovered ? '#f5f3ef' : 'white',
-    padding: '7px 14px',
-    borderRadius: '6px',
-    fontSize: '13px',
-    fontWeight: 500,
-    cursor: 'pointer',
-    color: '#191919',
-    fontFamily: 'Inter, -apple-system, sans-serif',
-    transition: 'background 0.15s',
-  })
-
   const [h1, setH1] = useState(false)
   const [h2, setH2] = useState(false)
   const [h3, setH3] = useState(false)
   const [h4, setH4] = useState(false)
+
+  const btnBase = (hovered: boolean): React.CSSProperties => ({
+    border: '1px solid #e8e5df',
+    background: hovered ? '#f9f8f6' : 'white',
+    padding: '7px 14px',
+    borderRadius: '8px',
+    fontSize: '13px',
+    fontWeight: 500,
+    cursor: 'pointer',
+    color: '#1a1b22',
+    fontFamily: 'Inter, -apple-system, sans-serif',
+    transition: 'background 0.15s',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+  })
 
   return (
     <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
       <button
         onClick={onNewListing}
         onMouseEnter={() => setH1(true)} onMouseLeave={() => setH1(false)}
-        style={btnStyle(h1)}
+        style={btnBase(h1)}
       >
-        + New Listing
+        <span>＋</span> New Listing
       </button>
       <button
         onClick={onSyncAll}
         onMouseEnter={() => setH2(true)} onMouseLeave={() => setH2(false)}
-        style={btnStyle(h2)}
+        style={btnBase(h2)}
       >
-        ↻ Sync All
+        <span>↻</span> Sync All
       </button>
       <button
         onClick={onViewErrors}
         onMouseEnter={() => setH3(true)} onMouseLeave={() => setH3(false)}
-        style={{ ...btnStyle(h3), color: '#c9372c', borderColor: '#f5c6c3' }}
+        style={{ ...btnBase(h3), color: '#dc2626', borderColor: '#fecaca' }}
       >
-        ⚠ View Errors
+        <span>⚠</span> View Errors
       </button>
       <button
         onClick={onExport}
         onMouseEnter={() => setH4(true)} onMouseLeave={() => setH4(false)}
-        style={btnStyle(h4)}
+        style={btnBase(h4)}
       >
-        📊 Export
+        <span>📊</span> Export
       </button>
     </div>
   )

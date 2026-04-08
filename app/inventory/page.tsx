@@ -18,23 +18,37 @@ interface InventoryItem {
 }
 
 function reorderPoint(item: InventoryItem): number {
-  return Math.ceil((item.lead_time_days + item.safety_stock_days) * 1) // assumes 1 unit/day as floor
+  return Math.ceil((item.lead_time_days + item.safety_stock_days) * 1)
 }
 
-function stockStatus(item: InventoryItem): { label: string; bg: string; color: string } {
-  if (item.stock_qty <= 0) return { label: 'Out of stock', bg: '#fce8e6', color: '#c9372c' }
-  if (item.stock_qty <= item.safety_stock_days) return { label: 'Low stock', bg: '#fff3e6', color: '#c97a2c' }
-  return { label: 'In stock', bg: '#e8f5f3', color: '#0f7b6c' }
+function stockStatus(item: InventoryItem): { label: string; bg: string; color: string; border: string } {
+  if (item.stock_qty <= 0)                      return { label: 'Out of stock', bg: '#fef2f2', color: '#dc2626', border: '#fecaca' }
+  if (item.stock_qty <= item.safety_stock_days) return { label: 'Low stock',    bg: '#fffbeb', color: '#d97706', border: '#fde68a' }
+  return                                               { label: 'In stock',     bg: '#ecfdf5', color: '#059669', border: '#a7f3d0' }
+}
+
+const inputStyle = {
+  padding: '6px 10px',
+  border: '1px solid #e8e5df',
+  borderRadius: 6,
+  fontSize: 12,
+  fontFamily: 'inherit',
+  color: '#1a1b22',
+  outline: 'none',
+  background: 'white',
+  transition: 'border-color 0.15s, box-shadow 0.15s',
 }
 
 export default function InventoryPage() {
   const router = useRouter()
-  const [items, setItems] = useState<InventoryItem[]>([])
+  const [items, setItems]   = useState<InventoryItem[]>([])
   const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState<string | null>(null)
-  const [search, setSearch] = useState('')
-  const [toast, setToast] = useState('')
-  const [edits, setEdits] = useState<Record<string, Partial<InventoryItem>>>({})
+  const [saving, setSaving]   = useState<string | null>(null)
+  const [search, setSearch]   = useState('')
+  const [toast, setToast]     = useState('')
+  const [toastType, setToastType] = useState<'success' | 'error'>('success')
+  const [edits, setEdits]     = useState<Record<string, Partial<InventoryItem>>>({})
+  const [focusedInput, setFocusedInput] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
 
@@ -52,8 +66,9 @@ export default function InventoryPage() {
     setLoading(false)
   }
 
-  function showToast(msg: string) {
+  function showToast(msg: string, type: 'success' | 'error' = 'success') {
     setToast(msg)
+    setToastType(type)
     setTimeout(() => setToast(''), 3500)
   }
 
@@ -78,9 +93,9 @@ export default function InventoryPage() {
       if (!res.ok) throw new Error('Save failed')
       setItems(prev => prev.map(i => i.id === item.id ? { ...i, ...pending } : i))
       setEdits(prev => { const next = { ...prev }; delete next[item.id]; return next })
-      showToast('Saved')
+      showToast('Saved', 'success')
     } catch {
-      showToast('Failed to save — please try again')
+      showToast('Failed to save — please try again', 'error')
     } finally {
       setSaving(null)
     }
@@ -106,7 +121,7 @@ export default function InventoryPage() {
       }
     }).filter(r => r.sku)
 
-    if (!rows.length) { showToast('No valid rows found in CSV'); return }
+    if (!rows.length) { showToast('No valid rows found in CSV', 'error'); return }
 
     const res = await fetch('/api/inventory', {
       method: 'POST',
@@ -115,10 +130,10 @@ export default function InventoryPage() {
     })
     if (res.ok) {
       const json = await res.json()
-      showToast(`Imported ${json.inserted} items`)
+      showToast(`Imported ${json.inserted} items`, 'success')
       load()
     } else {
-      showToast('Import failed')
+      showToast('Import failed', 'error')
     }
   }
 
@@ -127,17 +142,28 @@ export default function InventoryPage() {
   )
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'Inter, sans-serif' }}>
-      <div style={{ fontSize: '14px', color: '#787774' }}>Loading...</div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'inherit' }}>
+      <div style={{ fontSize: 14, color: '#6b6e87' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
-        <div style={{ position: 'fixed', bottom: '24px', right: '24px', background: '#191919', color: 'white', padding: '12px 18px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, zIndex: 200 }}>
+        <div style={{
+          position: 'fixed', bottom: 24, right: 24,
+          background: 'white', color: '#1a1b22',
+          border: '1px solid #e8e5df',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06)',
+          borderRadius: 10, padding: '14px 18px',
+          fontSize: 13, fontWeight: 500, zIndex: 200,
+          display: 'flex', alignItems: 'center', gap: 10,
+          borderLeft: `3px solid ${toastType === 'success' ? '#059669' : '#dc2626'}`,
+          fontFamily: 'inherit',
+        }}>
+          <span style={{ color: toastType === 'success' ? '#059669' : '#dc2626' }}>{toastType === 'success' ? '✓' : '✕'}</span>
           {toast}
         </div>
       )}
@@ -145,22 +171,42 @@ export default function InventoryPage() {
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
         <div style={{ maxWidth: '1000px' }}>
 
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '28px', gap: '16px', flexWrap: 'wrap' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 28, gap: 16, flexWrap: 'wrap' }}>
             <div>
-              <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', letterSpacing: '-0.02em', marginBottom: '4px' }}>Inventory</h1>
-              <p style={{ fontSize: '14px', color: '#787774' }}>Manage stock levels, lead times, and reorder points.</p>
+              <h1 style={{ fontSize: 22, fontWeight: 800, color: '#1a1b22', letterSpacing: '-0.03em', margin: 0 }}>Inventory</h1>
+              <p style={{ fontSize: 14, color: '#6b6e87', margin: '4px 0 0' }}>Manage stock levels, lead times, and reorder points.</p>
             </div>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                placeholder="Search SKU or title..."
-                style={{ padding: '8px 12px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none', width: '200px' }}
+                placeholder="Search SKU or title…"
+                style={{
+                  padding: '9px 12px',
+                  border: `1px solid ${focusedInput === 'search' ? '#5b52f5' : '#e8e5df'}`,
+                  borderRadius: 8,
+                  fontSize: 13,
+                  fontFamily: 'inherit',
+                  color: '#1a1b22',
+                  outline: 'none',
+                  width: 200,
+                  boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                  transition: 'border-color 0.15s, box-shadow 0.15s',
+                }}
+                onFocus={() => setFocusedInput('search')}
+                onBlur={() => setFocusedInput(null)}
               />
               <input ref={fileRef} type="file" accept=".csv" style={{ display: 'none' }} onChange={e => { if (e.target.files?.[0]) importCSV(e.target.files[0]) }} />
               <button
                 onClick={() => fileRef.current?.click()}
-                style={{ background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '8px 14px', fontSize: '12px', fontWeight: 500, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{
+                  background: 'white', color: '#1a1b22',
+                  border: '1px solid #e8e5df',
+                  borderRadius: 8, padding: '9px 14px',
+                  fontSize: 13, fontWeight: 500,
+                  cursor: 'pointer', fontFamily: 'inherit',
+                }}
               >
                 Import CSV
               </button>
@@ -168,21 +214,25 @@ export default function InventoryPage() {
           </div>
 
           {items.length === 0 ? (
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '48px 24px', textAlign: 'center' }}>
-              <div style={{ fontSize: '32px', marginBottom: '12px' }}>📦</div>
-              <div style={{ fontSize: '15px', fontWeight: 600, color: '#191919', marginBottom: '6px' }}>No inventory yet</div>
-              <div style={{ fontSize: '13px', color: '#787774', marginBottom: '20px' }}>Import a CSV or sync a channel to populate your inventory.</div>
-              <button onClick={() => fileRef.current?.click()} style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '7px', padding: '10px 20px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+            <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '56px 24px', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div style={{ width: 56, height: 56, background: '#f5f3ef', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>📦</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1b22', marginBottom: 6 }}>No inventory yet</div>
+              <div style={{ fontSize: 13, color: '#6b6e87', marginBottom: 24 }}>Import a CSV or sync a channel to populate your inventory.</div>
+              <button onClick={() => fileRef.current?.click()} style={{
+                background: '#5b52f5', color: 'white', border: 'none',
+                borderRadius: 8, padding: '10px 20px',
+                fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}>
                 Import CSV
               </button>
             </div>
           ) : (
-            <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', overflow: 'hidden' }}>
+            <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid #f1f1ef' }}>
+                  <tr style={{ borderBottom: '1px solid #f0ede8', background: '#fafaf9' }}>
                     {['SKU', 'Title', 'Stock', 'Lead time', 'Safety stock', 'Reorder at', 'Status', ''].map(h => (
-                      <th key={h} style={{ padding: '10px 14px', fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: 'left', whiteSpace: 'nowrap' }}>{h}</th>
+                      <th key={h} style={{ padding: '11px 16px', fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: 'left', whiteSpace: 'nowrap' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -192,56 +242,97 @@ export default function InventoryPage() {
                     const rp = reorderPoint(item)
                     const isDirty = !!edits[item.id] && Object.keys(edits[item.id]).length > 0
                     return (
-                      <tr key={item.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f7f7f5' : undefined }}>
-                        <td style={{ padding: '10px 14px', fontSize: '12px', color: '#787774', fontFamily: 'monospace' }}>{item.sku}</td>
-                        <td style={{ padding: '10px 14px', fontSize: '13px', color: '#191919', maxWidth: '200px' }}>
+                      <tr key={item.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f0ede8' : undefined }}>
+                        <td style={{ padding: '10px 16px', fontSize: 12, color: '#6b6e87', fontFamily: 'var(--font-mono), ui-monospace, monospace', whiteSpace: 'nowrap' }}>{item.sku}</td>
+                        <td style={{ padding: '10px 16px', fontSize: 13, color: '#1a1b22', maxWidth: 200 }}>
                           <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</div>
                         </td>
-                        <td style={{ padding: '10px 14px' }}>
+                        <td style={{ padding: '10px 16px' }}>
                           <input
                             type="number"
                             min={0}
                             value={getValue(item, 'stock_qty') as number}
                             onChange={e => setField(item.id, 'stock_qty', parseInt(e.target.value) || 0)}
-                            style={{ width: '64px', padding: '5px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
+                            onFocus={() => setFocusedInput(`${item.id}-stock`)}
+                            onBlur={() => setFocusedInput(null)}
+                            style={{
+                              ...inputStyle,
+                              width: 64,
+                              border: `1px solid ${focusedInput === `${item.id}-stock` ? '#5b52f5' : '#e8e5df'}`,
+                              boxShadow: focusedInput === `${item.id}-stock` ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                            }}
                           />
                         </td>
-                        <td style={{ padding: '10px 14px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <td style={{ padding: '10px 16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                             <input
                               type="number"
                               min={1}
                               value={getValue(item, 'lead_time_days') as number}
                               onChange={e => setField(item.id, 'lead_time_days', parseInt(e.target.value) || 1)}
-                              style={{ width: '52px', padding: '5px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
+                              onFocus={() => setFocusedInput(`${item.id}-lead`)}
+                              onBlur={() => setFocusedInput(null)}
+                              style={{
+                                ...inputStyle,
+                                width: 52,
+                                border: `1px solid ${focusedInput === `${item.id}-lead` ? '#5b52f5' : '#e8e5df'}`,
+                                boxShadow: focusedInput === `${item.id}-lead` ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                              }}
                             />
-                            <span style={{ fontSize: '11px', color: '#9b9b98' }}>d</span>
+                            <span style={{ fontSize: 11, color: '#9496b0' }}>d</span>
                           </div>
                         </td>
-                        <td style={{ padding: '10px 14px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <td style={{ padding: '10px 16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                             <input
                               type="number"
                               min={1}
                               value={getValue(item, 'safety_stock_days') as number}
                               onChange={e => setField(item.id, 'safety_stock_days', parseInt(e.target.value) || 1)}
-                              style={{ width: '52px', padding: '5px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none' }}
+                              onFocus={() => setFocusedInput(`${item.id}-safety`)}
+                              onBlur={() => setFocusedInput(null)}
+                              style={{
+                                ...inputStyle,
+                                width: 52,
+                                border: `1px solid ${focusedInput === `${item.id}-safety` ? '#5b52f5' : '#e8e5df'}`,
+                                boxShadow: focusedInput === `${item.id}-safety` ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                              }}
                             />
-                            <span style={{ fontSize: '11px', color: '#9b9b98' }}>d</span>
+                            <span style={{ fontSize: 11, color: '#9496b0' }}>d</span>
                           </div>
                         </td>
-                        <td style={{ padding: '10px 14px', fontSize: '13px', color: '#191919', fontWeight: 500 }}>{rp}</td>
-                        <td style={{ padding: '10px 14px' }}>
-                          <span style={{ background: status.bg, color: status.color, fontSize: '11px', fontWeight: 600, padding: '3px 8px', borderRadius: '100px' }}>{status.label}</span>
+                        <td style={{ padding: '10px 16px', fontSize: 13, color: '#1a1b22', fontWeight: 500, fontFamily: 'var(--font-mono), ui-monospace, monospace' }}>{rp}</td>
+                        <td style={{ padding: '10px 16px' }}>
+                          <span style={{
+                            background: status.bg,
+                            color: status.color,
+                            border: `1px solid ${status.border}`,
+                            fontSize: 11,
+                            fontWeight: 600,
+                            padding: '3px 9px',
+                            borderRadius: 100,
+                            whiteSpace: 'nowrap',
+                          }}>
+                            {status.label}
+                          </span>
                         </td>
-                        <td style={{ padding: '10px 14px' }}>
+                        <td style={{ padding: '10px 16px' }}>
                           {isDirty && (
                             <button
                               onClick={() => saveRow(item)}
                               disabled={saving === item.id}
-                              style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '5px', padding: '5px 12px', fontSize: '11px', fontWeight: 600, cursor: saving === item.id ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}
+                              style={{
+                                background: '#5b52f5', color: 'white',
+                                border: 'none', borderRadius: 6,
+                                padding: '5px 12px',
+                                fontSize: 11, fontWeight: 600,
+                                cursor: saving === item.id ? 'wait' : 'pointer',
+                                fontFamily: 'inherit',
+                                opacity: saving === item.id ? 0.7 : 1,
+                                whiteSpace: 'nowrap',
+                              }}
                             >
-                              {saving === item.id ? '...' : 'Save'}
+                              {saving === item.id ? '…' : 'Save'}
                             </button>
                           )}
                         </td>
