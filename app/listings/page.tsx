@@ -30,9 +30,21 @@ type Listing = {
 }
 
 type DensityMode = 'compact' | 'comfortable' | 'spacious'
-type SortField = 'title' | 'price' | 'quantity' | 'status' | 'created_at' | null
+type SortField = 'title' | 'price' | 'quantity' | 'status' | 'created_at' | 'velocity' | 'revenue_30d' | 'margin_30d' | 'days_supply' | null
 type SortDir = 'asc' | 'desc'
 type SidePanelTab = 'details' | 'channels' | 'errors'
+
+type ListingStats = {
+  units_7d:     number
+  units_30d:    number
+  revenue_7d:   number
+  revenue_30d:  number
+  margin_30d:   number | null
+  velocity:     number
+  days_supply:  number | null
+  sparkline:    number[]
+  channels_30d: string[]
+}
 
 type FilterState = {
   status: string
@@ -57,9 +69,28 @@ type BulkEditField = 'price' | 'quantity' | 'condition' | 'brand' | 'category' |
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ALL_COLUMNS = ['image', 'sku', 'price', 'stock', 'condition', 'brand', 'category', 'channels', 'status', 'created']
+const ALL_COLUMNS = ['image', 'sku', 'price', 'stock', 'condition', 'brand', 'category', 'channels', 'status', 'created', 'performance', 'velocity', 'revenue_30d', 'margin', 'supply', 'trend']
 
-const DEFAULT_COLUMNS = ['image', 'sku', 'price', 'stock', 'channels', 'status']
+const DEFAULT_COLUMNS = ['image', 'sku', 'price', 'stock', 'channels', 'status', 'performance', 'velocity', 'trend']
+
+const COLUMN_LABELS: Record<string, string> = {
+  image:       'Image',
+  sku:         'SKU',
+  price:       'Price',
+  stock:       'Stock',
+  condition:   'Condition',
+  brand:       'Brand',
+  category:    'Category',
+  channels:    'Channels',
+  status:      'Status',
+  created:     'Created',
+  performance: 'Performance',
+  velocity:    'Velocity (7d)',
+  revenue_30d: '30d Revenue',
+  margin:      'Margin',
+  supply:      'Days Supply',
+  trend:       'Sales Trend',
+}
 
 const DENSITY_ROW_HEIGHT: Record<DensityMode, number> = {
   compact: 32,
@@ -188,6 +219,69 @@ function ChannelDot({ channel, cs }: { channel: string; cs?: ChannelStatus }) {
   )
 }
 
+// ── Sparkline: 7-bar mini chart ───────────────────────────────────────────────
+function Sparkline({ data, color = '#5b52f5' }: { data: number[]; color?: string }) {
+  const max = Math.max(...data, 1)
+  const W = 56, H = 22, BAR = 5, GAP = 3
+  return (
+    <svg width={W} height={H} style={{ display: 'block' }}>
+      {data.map((v, i) => {
+        const barH = Math.max(2, (v / max) * (H - 2))
+        return (
+          <rect
+            key={i}
+            x={i * (BAR + GAP)}
+            y={H - barH}
+            width={BAR}
+            height={barH}
+            rx={1.5}
+            fill={v > 0 ? color : '#e8e8e5'}
+            opacity={v > 0 ? (0.4 + 0.6 * (v / max)) : 1}
+          />
+        )
+      })}
+    </svg>
+  )
+}
+
+// ── Performance tier badge ────────────────────────────────────────────────────
+function PerfTier({ velocity, units30d }: { velocity: number; units30d: number }) {
+  let label: string, bg: string, color: string, dot: string
+
+  if (velocity >= 3) {
+    label = 'Top Seller'; bg = '#ecfdf5'; color = '#059669'; dot = '#059669'
+  } else if (velocity >= 0.5 || units30d >= 3) {
+    label = 'Active'; bg = '#eff6ff'; color = '#2563eb'; dot = '#2563eb'
+  } else if (units30d > 0) {
+    label = 'Slow'; bg = '#fffbeb'; color = '#d97706'; dot = '#d97706'
+  } else {
+    label = 'Stale'; bg = '#f9f9f8'; color = '#9b9b98'; dot = '#d4d4d0'
+  }
+
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      fontSize: 11, fontWeight: 600, color,
+      background: bg, padding: '3px 8px', borderRadius: 5,
+      whiteSpace: 'nowrap',
+    }}>
+      <span style={{ width: 6, height: 6, borderRadius: '50%', background: dot, display: 'inline-block', flexShrink: 0 }} />
+      {label}
+    </span>
+  )
+}
+
+// ── Days supply indicator ─────────────────────────────────────────────────────
+function DaysSupply({ days }: { days: number | null }) {
+  if (days === null) return <span style={{ fontSize: 12, color: '#9b9b98' }}>—</span>
+  const color = days < 7 ? '#dc2626' : days < 21 ? '#d97706' : '#059669'
+  return (
+    <span style={{ fontSize: 12, fontWeight: 600, color, fontFamily: 'monospace' }}>
+      {days > 999 ? '999+' : Math.round(days)}d
+    </span>
+  )
+}
+
 function EditableCell({
   value,
   onSave,
@@ -274,6 +368,7 @@ export default function ListingsPage() {
   const [listings, setListings] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
   const [connectedChannels, setConnectedChannels] = useState<string[]>([])
+  const [stats, setStats] = useState<Record<string, ListingStats>>({})
 
   // Selection
   const [selected, setSelected] = useState<Set<string>>(new Set())
@@ -358,6 +453,13 @@ export default function ListingsPage() {
       .finally(() => setLoading(false))
   }, [])
 
+  useEffect(() => {
+    fetch('/api/listings/stats')
+      .then(r => r.json())
+      .then(d => setStats(d.stats || {}))
+      .catch(() => {})
+  }, [])
+
   // ── Toast helper ──────────────────────────────────────────────────────────────
 
   function showToast(msg: string) {
@@ -438,12 +540,22 @@ export default function ListingsPage() {
     }
 
     // Sort
+    const STAT_SORT_FIELDS = new Set(['velocity', 'revenue_30d', 'margin_30d', 'days_supply'])
     if (sortField) {
       out = [...out].sort((a, b) => {
-        let av: any = a[sortField as keyof Listing]
-        let bv: any = b[sortField as keyof Listing]
-        if (typeof av === 'string') av = av.toLowerCase()
-        if (typeof bv === 'string') bv = bv.toLowerCase()
+        let av: any
+        let bv: any
+        if (STAT_SORT_FIELDS.has(sortField)) {
+          const as = a.sku ? stats[a.sku] : null
+          const bs = b.sku ? stats[b.sku] : null
+          av = as ? (as as any)[sortField] ?? -1 : -1
+          bv = bs ? (bs as any)[sortField] ?? -1 : -1
+        } else {
+          av = a[sortField as keyof Listing]
+          bv = b[sortField as keyof Listing]
+          if (typeof av === 'string') av = av.toLowerCase()
+          if (typeof bv === 'string') bv = bv.toLowerCase()
+        }
         if (av < bv) return sortDir === 'asc' ? -1 : 1
         if (av > bv) return sortDir === 'asc' ? 1 : -1
         return 0
@@ -632,17 +744,23 @@ export default function ListingsPage() {
 
   function buildGridCols() {
     const parts: string[] = ['36px']
-    if (visibleColumns.includes('image')) parts.push('44px')
+    if (visibleColumns.includes('image'))       parts.push('44px')
     parts.push('1fr') // title always visible
-    if (visibleColumns.includes('sku')) parts.push('90px')
-    if (visibleColumns.includes('price')) parts.push('80px')
-    if (visibleColumns.includes('stock')) parts.push('70px')
-    if (visibleColumns.includes('condition')) parts.push('100px')
-    if (visibleColumns.includes('brand')) parts.push('100px')
-    if (visibleColumns.includes('category')) parts.push('110px')
-    if (visibleColumns.includes('channels')) parts.push('110px')
-    if (visibleColumns.includes('status')) parts.push('100px')
-    if (visibleColumns.includes('created')) parts.push('110px')
+    if (visibleColumns.includes('sku'))         parts.push('90px')
+    if (visibleColumns.includes('price'))       parts.push('80px')
+    if (visibleColumns.includes('stock'))       parts.push('65px')
+    if (visibleColumns.includes('condition'))   parts.push('100px')
+    if (visibleColumns.includes('brand'))       parts.push('100px')
+    if (visibleColumns.includes('category'))    parts.push('110px')
+    if (visibleColumns.includes('channels'))    parts.push('100px')
+    if (visibleColumns.includes('status'))      parts.push('100px')
+    if (visibleColumns.includes('created'))     parts.push('110px')
+    if (visibleColumns.includes('performance')) parts.push('110px')
+    if (visibleColumns.includes('velocity'))    parts.push('90px')
+    if (visibleColumns.includes('revenue_30d')) parts.push('100px')
+    if (visibleColumns.includes('margin'))      parts.push('80px')
+    if (visibleColumns.includes('supply'))      parts.push('90px')
+    if (visibleColumns.includes('trend'))       parts.push('70px')
     return parts.join(' ')
   }
 
@@ -957,7 +1075,7 @@ export default function ListingsPage() {
                   {ALL_COLUMNS.map(col => (
                     <label key={col} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', cursor: 'pointer', fontSize: '13px', color: '#191919' }}>
                       <input type="checkbox" checked={visibleColumns.includes(col)} onChange={() => toggleColumn(col)} style={{ accentColor: '#191919' }} />
-                      {col.charAt(0).toUpperCase() + col.slice(1)}
+                      {COLUMN_LABELS[col] || col}
                     </label>
                   ))}
                 </div>
@@ -1189,9 +1307,15 @@ export default function ListingsPage() {
                 {visibleColumns.includes('condition') && <HeaderCell label="Condition" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('brand') && <HeaderCell label="Brand" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('category') && <HeaderCell label="Category" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('channels') && <HeaderCell label="Channels" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('status') && <HeaderCell label="Status" field="status" sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('created') && <HeaderCell label="Created" field="created_at" sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('channels')    && <HeaderCell label="Channels"      field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('status')      && <HeaderCell label="Status"         field="status"         sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('created')     && <HeaderCell label="Created"        field="created_at"     sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('performance') && <HeaderCell label="Performance"    field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('velocity')    && <HeaderCell label="Velocity (7d)"  field="velocity"       sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('revenue_30d') && <HeaderCell label="30d Revenue"    field="revenue_30d"    sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('margin')      && <HeaderCell label="Margin"         field="margin_30d"     sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('supply')      && <HeaderCell label="Days Supply"    field="days_supply"    sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('trend')       && <HeaderCell label="Trend (7d)"     field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
               </div>
 
               {/* Rows */}
@@ -1309,6 +1433,67 @@ export default function ListingsPage() {
                     {visibleColumns.includes('created') && (
                       <div style={{ fontSize: '12px', color: '#9b9b98', whiteSpace: 'nowrap' }}>{fmtDate(listing.created_at)}</div>
                     )}
+
+                    {/* ── Performance stats (SKU-linked from transactions) ── */}
+                    {(() => {
+                      const s = listing.sku ? stats[listing.sku] : null
+                      const daysSupply = s && s.velocity > 0 ? listing.quantity / s.velocity : null
+
+                      return (
+                        <>
+                          {visibleColumns.includes('performance') && (
+                            <div>
+                              {s ? (
+                                <PerfTier velocity={s.velocity} units30d={s.units_30d} />
+                              ) : (
+                                <span style={{ fontSize: 11, color: '#d4d4d0' }}>No data</span>
+                              )}
+                            </div>
+                          )}
+
+                          {visibleColumns.includes('velocity') && (
+                            <div style={{ fontSize: 12, fontWeight: 600, color: '#191919', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                              {s ? (
+                                <>
+                                  <span>{s.units_7d}</span>
+                                  <span style={{ fontSize: 10, color: '#9b9b98', fontWeight: 400 }}> units</span>
+                                </>
+                              ) : <span style={{ color: '#d4d4d0' }}>—</span>}
+                            </div>
+                          )}
+
+                          {visibleColumns.includes('revenue_30d') && (
+                            <div style={{ fontSize: 12, fontWeight: 600, color: s && s.revenue_30d > 0 ? '#059669' : '#9b9b98', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                              {s && s.revenue_30d > 0 ? `£${s.revenue_30d.toFixed(0)}` : '—'}
+                            </div>
+                          )}
+
+                          {visibleColumns.includes('margin') && (
+                            <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
+                              color: s?.margin_30d != null ? (s.margin_30d >= 20 ? '#059669' : s.margin_30d >= 10 ? '#d97706' : '#dc2626') : '#9b9b98' }}>
+                              {s?.margin_30d != null ? `${s.margin_30d.toFixed(1)}%` : '—'}
+                            </div>
+                          )}
+
+                          {visibleColumns.includes('supply') && (
+                            <DaysSupply days={daysSupply} />
+                          )}
+
+                          {visibleColumns.includes('trend') && (
+                            <div>
+                              {s ? (
+                                <Sparkline
+                                  data={s.sparkline}
+                                  color={s.units_7d >= 3 ? '#059669' : s.units_7d > 0 ? '#5b52f5' : '#e8e8e5'}
+                                />
+                              ) : (
+                                <Sparkline data={[0,0,0,0,0,0,0]} color="#e8e8e5" />
+                              )}
+                            </div>
+                          )}
+                        </>
+                      )
+                    })()}
                   </div>
                 )
               })}
