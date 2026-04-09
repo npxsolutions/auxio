@@ -303,11 +303,10 @@ export default function HomePage() {
 
         {/* Nav links */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-          <a href="#features" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}
-            onClick={e => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }) }}>Features</a>
-          <a href="#pricing" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}
-            onClick={e => { e.preventDefault(); document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }) }}>Pricing</a>
-          <a href="#about" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}>About</a>
+          <a href="/features" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}>Features</a>
+          <a href="/integrations" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}>Integrations</a>
+          <a href="/pricing" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}>Pricing</a>
+          <a href="/about" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', fontWeight: 500 }}>About</a>
           <button
             onClick={() => router.push('/login')}
             style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.55)', fontSize: '14px', fontWeight: 500, cursor: 'pointer', padding: '0', fontFamily: 'inherit' }}
