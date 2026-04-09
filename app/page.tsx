@@ -181,7 +181,7 @@ export default function HomePage() {
           <span style={{ fontSize: '16px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>Auxio</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-          {[['Features', '/features'], ['Integrations', '/integrations'], ['Pricing', '/pricing'], ['About', '/about']].map(([l, h]) => (
+          {[['Features', '/features'], ['Integrations', '/integrations'], ['Pricing', '/pricing'], ['Blog', '/blog'], ['About', '/about']].map(([l, h]) => (
             <a key={l} href={h} style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontWeight: 400 }}>{l}</a>
           ))}
         </div>
@@ -494,7 +494,7 @@ export default function HomePage() {
           </div>
           <div style={{ display: 'flex', gap: '48px' }}>
             {[
-              { heading: 'Product', links: [['Features', '/features'], ['Integrations', '/integrations'], ['Pricing', '/pricing']] },
+              { heading: 'Product', links: [['Features', '/features'], ['Integrations', '/integrations'], ['Pricing', '/pricing'], ['Blog', '/blog']] },
               { heading: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy'], ['Terms', '/terms']] },
               { heading: 'Account', links: [['Sign in', '/login'], ['Start free', '/signup']] },
             ].map(col => (
