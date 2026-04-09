@@ -108,6 +108,14 @@ const Icon = {
       <path d="M7.5 1.5L9 5h3.5L9.5 7.5l1 4L7.5 9.5l-3 2 1-4L2.5 5H6L7.5 1.5Z"/>
     </svg>
   ),
+  socialIntel: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="5" cy="5" r="2.5"/>
+      <circle cx="11" cy="4" r="1.5"/>
+      <circle cx="10" cy="10.5" r="2"/>
+      <path d="M7.5 5h2M6.5 7l2.5 2"/>
+    </svg>
+  ),
   settings: (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="7.5" cy="7.5" r="2"/>
@@ -211,7 +219,8 @@ export default function AppSidebar() {
     {
       label: 'AI',
       items: [
-        { href: '/agent', icon: Icon.agent, label: 'AI Agent', badge: pendingCount, badgeColor: '#f59e0b' },
+        { href: '/agent',        icon: Icon.agent,        label: 'AI Agent',          badge: pendingCount, badgeColor: '#f59e0b' },
+        { href: '/social-intel', icon: Icon.socialIntel,  label: 'Social Intel' },
       ],
     },
     {
