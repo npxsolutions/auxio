@@ -1,0 +1,63 @@
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
+
+// WooCommerce REST API — Consumer Key / Secret connection
+// Docs: https://woocommerce.github.io/woocommerce-rest-api-docs/
+// Keys generated in: WooCommerce > Settings > Advanced > REST API
+
+export async function POST(request: Request) {
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  )
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  let body: { siteUrl?: string; consumerKey?: string; consumerSecret?: string }
+  try { body = await request.json() } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }) }
+
+  const { siteUrl, consumerKey, consumerSecret } = body
+  if (!siteUrl || !consumerKey || !consumerSecret) {
+    return NextResponse.json({ error: 'siteUrl, consumerKey and consumerSecret are required' }, { status: 400 })
+  }
+
+  // Normalise URL
+  const baseUrl = siteUrl.replace(/\/$/, '')
+
+  // Validate credentials by fetching store info
+  try {
+    const testRes = await fetch(`${baseUrl}/wp-json/wc/v3/system_status`, {
+      headers: {
+        Authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
+      },
+    })
+
+    if (!testRes.ok) {
+      const errText = await testRes.text()
+      console.error('[woocommerce/connect] validation failed:', errText)
+      return NextResponse.json({ error: 'Invalid credentials or store URL. Check your Consumer Key and Secret.' }, { status: 400 })
+    }
+
+    const status = await testRes.json()
+    const shopName = status.settings?.blog_name || new URL(baseUrl).hostname
+
+    await supabase.from('channels').upsert({
+      user_id:      user.id,
+      type:         'woocommerce',
+      active:       true,
+      // Store credentials encoded in access_token field (key:secret format)
+      access_token: Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64'),
+      shop_name:    shopName,
+      shop_domain:  baseUrl,
+      connected_at: new Date().toISOString(),
+    }, { onConflict: 'user_id,type' })
+
+    return NextResponse.json({ success: true, shopName })
+  } catch (err: any) {
+    console.error('[woocommerce/connect]', err)
+    return NextResponse.json({ error: `Could not reach store: ${err.message}` }, { status: 400 })
+  }
+}

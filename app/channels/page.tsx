@@ -49,19 +49,19 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'etsy', name: 'Etsy', category: 'Marketplaces',
     description: 'Sync your Etsy shop listings, orders, and inventory in real time.',
-    color: '#fdf6ee', accent: '#F56400', textColor: '#fff', status: 'beta',
+    color: '#fdf6ee', accent: '#F56400', textColor: '#fff', status: 'live',
     logo: 'etsy',
   },
   {
     id: 'walmart', name: 'Walmart Marketplace', category: 'Marketplaces',
     description: 'Reach millions of Walmart.com shoppers with automated listing and order management.',
-    color: '#eff6ff', accent: '#0071CE', textColor: '#fff', status: 'beta',
+    color: '#eff6ff', accent: '#0071CE', textColor: '#fff', status: 'live',
     logo: 'walmart',
   },
   {
     id: 'onbuy', name: 'OnBuy', category: 'Marketplaces',
     description: 'UK\'s fastest-growing marketplace — list products and sync orders automatically.',
-    color: '#fdf4ff', accent: '#6E2EB8', textColor: '#fff', status: 'beta',
+    color: '#fdf4ff', accent: '#6E2EB8', textColor: '#fff', status: 'live',
     logo: 'onbuy',
   },
   {
@@ -167,13 +167,13 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'tiktok_shop', name: 'TikTok Shop', category: 'Social Commerce',
     description: 'Sell directly within TikTok — sync your product catalog and manage orders.',
-    color: '#f0f9f7', accent: '#010101', textColor: '#fff', status: 'beta',
+    color: '#f0f9f7', accent: '#010101', textColor: '#fff', status: 'live',
     logo: 'tiktok',
   },
   {
     id: 'facebook_shop', name: 'Facebook & Instagram', category: 'Social Commerce',
     description: 'Sync your catalog to Facebook Shop and Instagram Shopping automatically.',
-    color: '#eff6ff', accent: '#1877F2', textColor: '#fff', status: 'beta',
+    color: '#eff6ff', accent: '#1877F2', textColor: '#fff', status: 'live',
     logo: 'meta',
   },
   {
@@ -193,7 +193,7 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'google_shopping', name: 'Google Shopping', category: 'Shopping Feeds',
     description: 'Sync your product feed to Google Merchant Center for Shopping and Performance Max ads.',
-    color: '#eff6ff', accent: '#4285F4', textColor: '#fff', status: 'beta',
+    color: '#eff6ff', accent: '#4285F4', textColor: '#fff', status: 'live',
     logo: 'google',
   },
   {
@@ -237,13 +237,13 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'woocommerce', name: 'WooCommerce', category: 'Store Platforms',
     description: 'Connect your WooCommerce store for bidirectional product and order sync.',
-    color: '#fdf4ff', accent: '#7F54B3', textColor: '#fff', status: 'beta',
+    color: '#fdf4ff', accent: '#7F54B3', textColor: '#fff', status: 'live',
     logo: 'woocommerce',
   },
   {
     id: 'bigcommerce', name: 'BigCommerce', category: 'Store Platforms',
     description: 'Sync your BigCommerce catalog and orders across all your channels.',
-    color: '#eff6ff', accent: '#34313F', textColor: '#fff', status: 'beta',
+    color: '#eff6ff', accent: '#34313F', textColor: '#fff', status: 'live',
     logo: 'bigcommerce',
   },
   {
@@ -387,13 +387,114 @@ const STATUS_META = {
   soon:  { label: 'Coming soon',  bg: '#f5f3ef', color: '#9496b0', border: '#e8e5df' },
 }
 
+// ── Connection metadata ────────────────────────────────────────────────────────
+// Auth type, sandbox availability, developer program link, required env vars
+type AuthType = 'oauth' | 'apikey' | 'feed'
+interface ChannelMeta {
+  authType:   AuthType
+  sandbox:    boolean
+  devLink:    string
+  envVars:    string[]
+  connectPath?: string   // GET redirect path (OAuth)
+  apiFields?: { key: string; label: string; placeholder: string; type?: string }[]  // API key form fields
+  note?:      string
+}
+
+const CHANNEL_META: Record<string, ChannelMeta> = {
+  ebay: {
+    authType: 'oauth', sandbox: true, devLink: 'https://developer.ebay.com',
+    envVars: ['EBAY_CLIENT_ID', 'EBAY_CLIENT_SECRET', 'EBAY_REDIRECT_URI'],
+    connectPath: '/api/ebay/connect',
+    note: 'Sandbox at sandbox.ebay.com — switch EBAY_SANDBOX=true in .env',
+  },
+  amazon: {
+    authType: 'oauth', sandbox: true, devLink: 'https://developer.amazonservices.com',
+    envVars: ['AMAZON_APP_ID', 'AMAZON_CLIENT_SECRET'],
+    connectPath: '/api/amazon/connect',
+    note: 'Test with SP-API Sandbox endpoint (add &sandbox=true to connect URL)',
+  },
+  shopify: {
+    authType: 'oauth', sandbox: true, devLink: 'https://partners.shopify.com',
+    envVars: ['SHOPIFY_CLIENT_ID', 'SHOPIFY_CLIENT_SECRET', 'SHOPIFY_REDIRECT_URI'],
+    connectPath: null as any,   // needs shop domain first
+    note: 'Create a Development Store in your Shopify Partner dashboard for free testing',
+  },
+  etsy: {
+    authType: 'oauth', sandbox: false, devLink: 'https://www.etsy.com/developers',
+    envVars: ['ETSY_CLIENT_ID', 'ETSY_REDIRECT_URI'],
+    connectPath: '/api/etsy/connect',
+    note: 'No sandbox — use a personal Etsy shop for testing. PKCE flow, no client secret needed.',
+  },
+  tiktok_shop: {
+    authType: 'oauth', sandbox: true, devLink: 'https://partner.tiktokshop.com',
+    envVars: ['TIKTOK_APP_KEY', 'TIKTOK_APP_SECRET'],
+    connectPath: '/api/tiktok/connect',
+    note: 'Sandbox available in TikTok Shop Partner Center under Test Accounts',
+  },
+  facebook_shop: {
+    authType: 'oauth', sandbox: true, devLink: 'https://developers.facebook.com',
+    envVars: ['FACEBOOK_APP_ID', 'FACEBOOK_APP_SECRET', 'FACEBOOK_REDIRECT_URI'],
+    connectPath: '/api/facebook/connect',
+    note: 'Use Facebook test users & test Catalogs in Meta Developer console',
+  },
+  google_shopping: {
+    authType: 'oauth', sandbox: false, devLink: 'https://console.cloud.google.com',
+    envVars: ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REDIRECT_URI'],
+    connectPath: '/api/google/connect',
+    note: 'Use a personal Google Merchant Center account for testing (free to create)',
+  },
+  bigcommerce: {
+    authType: 'oauth', sandbox: true, devLink: 'https://developer.bigcommerce.com',
+    envVars: ['BIGCOMMERCE_CLIENT_ID', 'BIGCOMMERCE_CLIENT_SECRET', 'BIGCOMMERCE_REDIRECT_URI'],
+    connectPath: '/api/bigcommerce/connect',
+    note: 'Create a free sandbox store at developer.bigcommerce.com/sandbox',
+  },
+  woocommerce: {
+    authType: 'apikey', sandbox: false, devLink: 'https://woocommerce.github.io/woocommerce-rest-api-docs/',
+    envVars: [],
+    apiFields: [
+      { key: 'siteUrl',        label: 'Store URL',       placeholder: 'https://mystore.com' },
+      { key: 'consumerKey',    label: 'Consumer Key',    placeholder: 'ck_xxxxxxxxxxxxxxxx' },
+      { key: 'consumerSecret', label: 'Consumer Secret', placeholder: 'cs_xxxxxxxxxxxxxxxx', type: 'password' },
+    ],
+    note: 'Generate keys in WooCommerce → Settings → Advanced → REST API',
+  },
+  walmart: {
+    authType: 'apikey', sandbox: true, devLink: 'https://developer.walmart.com',
+    envVars: [],
+    apiFields: [
+      { key: 'clientId',     label: 'Client ID',     placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' },
+      { key: 'clientSecret', label: 'Client Secret', placeholder: 'Enter your Client Secret', type: 'password' },
+    ],
+    note: 'Sandbox available — toggle below to test without real Walmart seller account',
+  },
+  onbuy: {
+    authType: 'apikey', sandbox: false, devLink: 'https://developer.onbuy.com',
+    envVars: [],
+    apiFields: [
+      { key: 'secretKey', label: 'Secret Key', placeholder: 'Enter your OnBuy API Secret Key', type: 'password' },
+    ],
+    note: 'Generate in OnBuy Seller Control Panel → Settings → API Keys',
+  },
+  zalando: {
+    authType: 'apikey', sandbox: true, devLink: 'https://developer.zalando.com',
+    envVars: [],
+    note: 'Requires Zalando Partner approval. Contact partner-api@zalando.de',
+  },
+}
+
 export default function ChannelsPage() {
   const router = useRouter()
   const [channels, setChannels]         = useState<Channel[]>([])
   const [loading, setLoading]           = useState(true)
   const [syncing, setSyncing]           = useState<string | null>(null)
+  const [testing, setTesting]           = useState<string | null>(null)
+  const [testResults, setTestResults]   = useState<Record<string, { ok: boolean; detail?: string }>>({})
   const [adding, setAdding]             = useState<string | null>(null)
   const [shopDomain, setShopDomain]     = useState('')
+  const [apiKeyFields, setApiKeyFields] = useState<Record<string, Record<string, string>>>({})
+  const [sandboxMode, setSandboxMode]   = useState<Record<string, boolean>>({})
+  const [submitting, setSubmitting]     = useState<string | null>(null)
   const [toast, setToast]               = useState('')
   const [toastType, setToastType]       = useState<'success' | 'error'>('success')
   const [healthIssues, setHealthIssues] = useState<HealthIssue[]>([])
@@ -426,6 +527,54 @@ export default function ChannelsPage() {
   function showToast(msg: string, type: 'success' | 'error' = 'success') {
     setToast(msg); setToastType(type)
     setTimeout(() => setToast(''), 3500)
+  }
+
+  async function testChannel(channelType: string) {
+    setTesting(channelType)
+    try {
+      const res = await fetch('/api/channels/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: channelType }),
+      })
+      const result = await res.json()
+      setTestResults(prev => ({ ...prev, [channelType]: result }))
+      if (result.ok) {
+        showToast(`${channelType} connection is healthy ✓`)
+      } else {
+        showToast(result.detail || 'Connection test failed', 'error')
+      }
+    } catch (err: any) {
+      showToast('Test failed — network error', 'error')
+    } finally {
+      setTesting(null)
+    }
+  }
+
+  async function connectApiKey(ch: ChannelDef) {
+    const fields = apiKeyFields[ch.id] || {}
+    const meta = CHANNEL_META[ch.id]
+    setSubmitting(ch.id)
+    try {
+      const body: Record<string, any> = { ...fields }
+      if (ch.id === 'walmart' && sandboxMode[ch.id]) body.sandbox = true
+      const res = await fetch(`/api/${ch.id === 'tiktok_shop' ? 'tiktok' : ch.id}/connect`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      const json = await res.json()
+      if (!res.ok || json.error) {
+        showToast(json.error || 'Connection failed', 'error')
+      } else {
+        showToast(`${ch.name} connected successfully ✓`)
+        setAdding(null)
+        load()
+      }
+    } catch (err: any) {
+      showToast(err.message || 'Connection failed', 'error')
+    } finally {
+      setSubmitting(null) }
   }
 
   async function syncChannel(channelId: string, channelType: string) {
@@ -597,6 +746,25 @@ export default function ChannelsPage() {
                       background: '#ecfdf5', color: '#059669', border: '1px solid #a7f3d0',
                       fontSize: 11, fontWeight: 600, padding: '3px 9px', borderRadius: 100,
                     }}>● Active</span>
+                    {/* Test connection */}
+                    {(() => {
+                      const tr = testResults[ch.type]
+                      return (
+                        <button
+                          onClick={() => testChannel(ch.type)}
+                          disabled={testing === ch.type}
+                          style={{
+                            background: tr ? (tr.ok ? '#ecfdf5' : '#fef2f2') : 'white',
+                            color: tr ? (tr.ok ? '#059669' : '#dc2626') : '#6b6e87',
+                            border: tr ? `1px solid ${tr.ok ? '#a7f3d0' : '#fecaca'}` : '1px solid #e8e5df',
+                            borderRadius: 8, padding: '7px 14px', fontSize: 12, fontWeight: 500,
+                            cursor: testing === ch.type ? 'wait' : 'pointer', fontFamily: 'inherit',
+                          }}
+                        >
+                          {testing === ch.type ? 'Testing…' : tr ? (tr.ok ? '✓ Healthy' : '✕ Failed') : '⚡ Test'}
+                        </button>
+                      )
+                    })()}
                     <button
                       onClick={() => syncChannel(ch.id, ch.type)}
                       disabled={syncing === ch.id}
@@ -760,103 +928,163 @@ export default function ChannelsPage() {
                       </div>
 
                       {/* Expanded panel */}
-                      {isOpen && (
-                        <div style={{ padding: '0 16px 16px', borderTop: '1px solid #f0ede8' }}>
+                      {isOpen && (() => {
+                        const meta = CHANNEL_META[ch.id]
+                        const inputStyle = (key: string): React.CSSProperties => ({
+                          width: '100%', padding: '8px 11px', marginBottom: 8,
+                          border: `1px solid ${focusedInput === key ? '#5b52f5' : '#e8e5df'}`,
+                          borderRadius: 7, fontSize: 13, fontFamily: 'inherit',
+                          color: '#1a1b22', outline: 'none', boxSizing: 'border-box',
+                          boxShadow: focusedInput === key ? '0 0 0 3px rgba(91,82,245,0.1)' : 'none',
+                        })
 
-                          {/* LIVE — Shopify */}
-                          {ch.id === 'shopify' && (
+                        return (
+                          <div style={{ padding: '0 16px 16px', borderTop: '1px solid #f0ede8' }}>
                             <div style={{ paddingTop: 14 }}>
-                              <label style={{ fontSize: 12, fontWeight: 600, color: '#1a1b22', display: 'block', marginBottom: 6 }}>Store domain</label>
-                              <input
-                                value={shopDomain}
-                                onChange={e => setShopDomain(e.target.value)}
-                                placeholder="mystore.myshopify.com"
-                                onFocus={() => setFocusedInput('shopify')}
-                                onBlur={() => setFocusedInput(null)}
-                                style={{
-                                  width: '100%', padding: '9px 12px',
-                                  border: `1px solid ${focusedInput === 'shopify' ? '#5b52f5' : '#e8e5df'}`,
-                                  borderRadius: 7, fontSize: 13, fontFamily: 'inherit',
-                                  color: '#1a1b22', outline: 'none', boxSizing: 'border-box', marginBottom: 10,
-                                  boxShadow: focusedInput === 'shopify' ? '0 0 0 3px rgba(91,82,245,0.1)' : 'none',
-                                }}
-                              />
-                              <button
-                                onClick={() => {
-                                  const d = shopDomain.replace(/^https?:\/\//, '').replace(/\/$/, '')
-                                  router.push(`/api/shopify/connect?shop=${d}`)
-                                }}
-                                style={{
-                                  background: '#96BF48', color: 'white', border: 'none', borderRadius: 7,
-                                  padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%',
-                                }}
-                              >
-                                Connect with Shopify →
-                              </button>
-                            </div>
-                          )}
 
-                          {/* LIVE — Amazon */}
-                          {ch.id === 'amazon' && (
-                            <div style={{ paddingTop: 14 }}>
-                              <p style={{ fontSize: 12, color: '#6b6e87', margin: '0 0 12px', lineHeight: 1.6 }}>
-                                Connect via Amazon Login with Amazon (LWA) OAuth. You'll be redirected to Amazon to authorise Auxio.
-                              </p>
-                              <button
-                                onClick={() => router.push('/api/amazon/connect')}
-                                style={{
-                                  background: '#FF9900', color: 'white', border: 'none', borderRadius: 7,
-                                  padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%',
-                                }}
-                              >
-                                Connect with Amazon →
-                              </button>
-                            </div>
-                          )}
-
-                          {/* LIVE — eBay */}
-                          {ch.id === 'ebay' && (
-                            <div style={{ paddingTop: 14 }}>
-                              <p style={{ fontSize: 12, color: '#6b6e87', margin: '0 0 12px', lineHeight: 1.6 }}>
-                                Connect via eBay OAuth. You'll be redirected to eBay to authorise Auxio to access your seller account.
-                              </p>
-                              <button
-                                onClick={() => router.push('/api/ebay/connect')}
-                                style={{
-                                  background: '#E53238', color: 'white', border: 'none', borderRadius: 7,
-                                  padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%',
-                                }}
-                              >
-                                Connect with eBay →
-                              </button>
-                            </div>
-                          )}
-
-                          {/* BETA channels — generic request form */}
-                          {ch.status === 'beta' && ch.id !== 'shopify' && ch.id !== 'amazon' && ch.id !== 'ebay' && (
-                            <div style={{ paddingTop: 14 }}>
-                              <div style={{
-                                background: '#eff6ff', border: '1px solid #bfdbfe',
-                                borderRadius: 8, padding: '12px 14px', marginBottom: 12,
-                              }}>
-                                <div style={{ fontSize: 12, fontWeight: 600, color: '#2563eb', marginBottom: 4 }}>Beta integration</div>
-                                <div style={{ fontSize: 12, color: '#6b6e87', lineHeight: 1.5 }}>
-                                  {ch.name} is available in private beta. Join the waitlist and our team will reach out to get you set up.
+                              {/* Dev program + env vars info */}
+                              {meta && (
+                                <div style={{
+                                  background: '#fafaf9', border: '1px solid #e8e5df',
+                                  borderRadius: 8, padding: '10px 12px', marginBottom: 12,
+                                  fontSize: 11,
+                                }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                                    <span style={{
+                                      background: meta.authType === 'oauth' ? '#eff6ff' : meta.authType === 'apikey' ? '#fdf4ff' : '#f0fdf4',
+                                      color:      meta.authType === 'oauth' ? '#2563eb' : meta.authType === 'apikey' ? '#7c3aed' : '#16a34a',
+                                      border:     meta.authType === 'oauth' ? '1px solid #bfdbfe' : meta.authType === 'apikey' ? '1px solid #e9d5ff' : '1px solid #bbf7d0',
+                                      borderRadius: 4, padding: '1px 6px', fontSize: 10, fontWeight: 700,
+                                    }}>
+                                      {meta.authType === 'oauth' ? 'OAuth 2.0' : meta.authType === 'apikey' ? 'API Key' : 'Feed URL'}
+                                    </span>
+                                    {meta.sandbox && (
+                                      <span style={{
+                                        background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0',
+                                        borderRadius: 4, padding: '1px 6px', fontSize: 10, fontWeight: 700,
+                                      }}>Sandbox available</span>
+                                    )}
+                                    <a
+                                      href={meta.devLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{ marginLeft: 'auto', color: '#5b52f5', textDecoration: 'none', fontWeight: 600, fontSize: 11 }}
+                                    >
+                                      Developer docs →
+                                    </a>
+                                  </div>
+                                  {meta.note && (
+                                    <div style={{ color: '#6b6e87', lineHeight: 1.5, marginBottom: meta.envVars.length > 0 ? 6 : 0 }}>
+                                      {meta.note}
+                                    </div>
+                                  )}
+                                  {meta.envVars.length > 0 && (
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4 }}>
+                                      {meta.envVars.map(v => (
+                                        <code key={v} style={{
+                                          background: '#f0ede8', color: '#374151', borderRadius: 4,
+                                          padding: '1px 5px', fontSize: 10, fontFamily: 'monospace',
+                                        }}>{v}</code>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
-                              </div>
-                              <button
-                                onClick={() => requestBeta(ch.id, ch.name)}
-                                style={{
-                                  background: '#5b52f5', color: 'white', border: 'none', borderRadius: 7,
-                                  padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%',
-                                }}
-                              >
-                                Request access to {ch.name} →
-                              </button>
+                              )}
+
+                              {/* Shopify — needs domain input */}
+                              {ch.id === 'shopify' && (
+                                <>
+                                  <label style={{ fontSize: 11, fontWeight: 600, color: '#6b6e87', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Store domain</label>
+                                  <input
+                                    value={shopDomain}
+                                    onChange={e => setShopDomain(e.target.value)}
+                                    placeholder="mystore.myshopify.com"
+                                    onFocus={() => setFocusedInput('shopify-domain')}
+                                    onBlur={() => setFocusedInput(null)}
+                                    style={inputStyle('shopify-domain')}
+                                  />
+                                  <button
+                                    onClick={() => {
+                                      const d = shopDomain.replace(/^https?:\/\//, '').replace(/\/$/, '')
+                                      router.push(`/api/shopify/connect?shop=${d}`)
+                                    }}
+                                    style={{ background: '#96BF48', color: 'white', border: 'none', borderRadius: 7, padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}
+                                  >Connect with Shopify →</button>
+                                </>
+                              )}
+
+                              {/* OAuth channels — single redirect button */}
+                              {meta?.authType === 'oauth' && ch.id !== 'shopify' && meta.connectPath && (
+                                <button
+                                  onClick={() => router.push(meta.connectPath!)}
+                                  style={{ background: ch.accent, color: ch.textColor, border: 'none', borderRadius: 7, padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}
+                                >
+                                  Connect with {ch.name} →
+                                </button>
+                              )}
+
+                              {/* API key channels — form */}
+                              {meta?.authType === 'apikey' && meta.apiFields && (
+                                <>
+                                  {meta.apiFields.map(f => (
+                                    <div key={f.key}>
+                                      <label style={{ fontSize: 11, fontWeight: 600, color: '#6b6e87', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{f.label}</label>
+                                      <input
+                                        type={f.type || 'text'}
+                                        placeholder={f.placeholder}
+                                        value={apiKeyFields[ch.id]?.[f.key] || ''}
+                                        onChange={e => setApiKeyFields(prev => ({
+                                          ...prev,
+                                          [ch.id]: { ...prev[ch.id], [f.key]: e.target.value },
+                                        }))}
+                                        onFocus={() => setFocusedInput(`${ch.id}-${f.key}`)}
+                                        onBlur={() => setFocusedInput(null)}
+                                        style={inputStyle(`${ch.id}-${f.key}`)}
+                                      />
+                                    </div>
+                                  ))}
+                                  {/* Sandbox toggle for Walmart */}
+                                  {ch.id === 'walmart' && (
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#6b6e87', marginBottom: 10, cursor: 'pointer' }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={sandboxMode[ch.id] || false}
+                                        onChange={e => setSandboxMode(prev => ({ ...prev, [ch.id]: e.target.checked }))}
+                                      />
+                                      Use sandbox environment (for testing)
+                                    </label>
+                                  )}
+                                  <button
+                                    onClick={() => connectApiKey(ch)}
+                                    disabled={submitting === ch.id}
+                                    style={{ background: ch.accent, color: ch.textColor, border: 'none', borderRadius: 7, padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: submitting === ch.id ? 'wait' : 'pointer', fontFamily: 'inherit', width: '100%' }}
+                                  >
+                                    {submitting === ch.id ? 'Connecting…' : `Connect ${ch.name} →`}
+                                  </button>
+                                </>
+                              )}
+
+                              {/* Channels without meta or apiFields (beta request) */}
+                              {(!meta || (meta.authType === 'apikey' && !meta.apiFields)) && ch.status === 'beta' && (
+                                <>
+                                  <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: '12px 14px', marginBottom: 12 }}>
+                                    <div style={{ fontSize: 12, fontWeight: 600, color: '#2563eb', marginBottom: 4 }}>Beta integration</div>
+                                    <div style={{ fontSize: 12, color: '#6b6e87', lineHeight: 1.5 }}>
+                                      {ch.name} is in private beta. Our team will reach out to configure your integration.
+                                    </div>
+                                  </div>
+                                  <button
+                                    onClick={() => requestBeta(ch.id, ch.name)}
+                                    style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 7, padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}
+                                  >
+                                    Request access to {ch.name} →
+                                  </button>
+                                </>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      )}
+                          </div>
+                        )
+                      })()}
                     </div>
                   )
                 })}
