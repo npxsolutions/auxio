@@ -82,12 +82,15 @@ const CHANNEL_TESTS: Record<string, (token: string, domain: string) => Promise<{
   },
 
   onbuy: async (token) => {
+    // token is base64(consumerKey:secretKey)
+    const decoded  = Buffer.from(token, 'base64').toString()
+    const [consumerKey, secretKey] = decoded.split(':')
     const ts = Math.floor(Date.now() / 1000)
     const { createHmac } = await import('crypto')
-    const hmacToken = createHmac('sha256', token).update(String(ts)).digest('hex')
+    const hmacToken = createHmac('sha256', secretKey).update(String(ts)).digest('hex')
     const res = await fetch('https://api.onbuy.com/v2/categories?site_id=2000', {
       headers: {
-        Authorization: JSON.stringify({ site_id: 2000, timestamp: ts, token: hmacToken }),
+        Authorization: JSON.stringify({ consumer_key: consumerKey, timestamp: ts, token: hmacToken }),
         'Content-Type': 'application/json',
       },
     })

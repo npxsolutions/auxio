@@ -469,12 +469,13 @@ const CHANNEL_META: Record<string, ChannelMeta> = {
     note: 'Sandbox available — toggle below to test without real Walmart seller account',
   },
   onbuy: {
-    authType: 'apikey', sandbox: false, devLink: 'https://developer.onbuy.com',
+    authType: 'apikey', sandbox: true, devLink: 'https://docs.api.onbuy.com',
     envVars: [],
     apiFields: [
-      { key: 'secretKey', label: 'Secret Key', placeholder: 'Enter your OnBuy API Secret Key', type: 'password' },
+      { key: 'consumerKey', label: 'Consumer Key', placeholder: 'Enter your OnBuy Consumer Key' },
+      { key: 'secretKey',   label: 'Secret Key',   placeholder: 'Enter your OnBuy Secret Key', type: 'password' },
     ],
-    note: 'Generate in OnBuy Seller Control Panel → Settings → API Keys',
+    note: 'Test keys available in Seller Control Panel → API Settings (separate from live keys)',
   },
   zalando: {
     authType: 'apikey', sandbox: true, devLink: 'https://developer.zalando.com',

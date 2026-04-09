@@ -16,16 +16,16 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  let body: { secretKey?: string; siteId?: number }
+  let body: { consumerKey?: string; secretKey?: string; siteId?: number }
   try { body = await request.json() } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }) }
 
-  const { secretKey, siteId = 2000 } = body  // siteId 2000 = OnBuy UK
-  if (!secretKey) {
-    return NextResponse.json({ error: 'secretKey is required' }, { status: 400 })
+  const { consumerKey, secretKey, siteId = 2000 } = body  // siteId 2000 = OnBuy UK
+  if (!consumerKey || !secretKey) {
+    return NextResponse.json({ error: 'consumerKey and secretKey are required' }, { status: 400 })
   }
 
   try {
-    // Validate by generating a token and calling /v2/categories
+    // OnBuy auth: HMAC-SHA256(secretKey, timestamp) — Consumer Key goes in Authorization header
     const timestamp = Math.floor(Date.now() / 1000)
     const { createHmac } = await import('crypto')
     const token = createHmac('sha256', secretKey)
@@ -34,21 +34,22 @@ export async function POST(request: Request) {
 
     const testRes = await fetch('https://api.onbuy.com/v2/categories?site_id=' + siteId, {
       headers: {
-        'Authorization': JSON.stringify({ site_id: siteId, timestamp, token }),
+        'Authorization': JSON.stringify({ consumer_key: consumerKey, timestamp, token }),
         'Content-Type':  'application/json',
       },
     })
 
     if (!testRes.ok) {
       console.error('[onbuy/connect] validation failed:', await testRes.text())
-      return NextResponse.json({ error: 'Invalid API key. Generate one from your OnBuy Seller Control Panel.' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid credentials. Check your Consumer Key and Secret Key in the OnBuy Seller Control Panel.' }, { status: 400 })
     }
 
+    // Store consumer_key:secret_key encoded so we can re-generate tokens
     await supabase.from('channels').upsert({
       user_id:      user.id,
       type:         'onbuy',
       active:       true,
-      access_token: secretKey,
+      access_token: Buffer.from(`${consumerKey}:${secretKey}`).toString('base64'),
       shop_name:    'OnBuy Store',
       shop_domain:  String(siteId),
       connected_at: new Date().toISOString(),

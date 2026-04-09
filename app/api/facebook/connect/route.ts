@@ -24,7 +24,7 @@ export async function GET() {
     state,
   })
 
-  const authUrl = `https://www.facebook.com/dialog/oauth?${params.toString()}`
+  const authUrl = `https://www.facebook.com/v22.0/dialog/oauth?${params.toString()}`
 
   const response = NextResponse.redirect(authUrl)
   response.cookies.set('facebook_oauth_state', state, {
