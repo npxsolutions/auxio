@@ -122,8 +122,16 @@ function OnboardingContent() {
   async function skipOnboarding() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    await supabase.auth.updateUser({ data: { onboarding_complete: true } })
+    await supabase.auth.updateUser({ data: { onboarding_complete: true, category } })
     router.push('/dashboard')
+  }
+
+  async function completeStep1() {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      await supabase.auth.updateUser({ data: { category } })
+    }
+    setStep(2)
   }
 
   async function connectShopify() {
@@ -222,7 +230,7 @@ function OnboardingContent() {
             </div>
 
             <button
-              onClick={() => category && setStep(2)}
+              onClick={() => category && completeStep1()}
               disabled={!category}
               onMouseEnter={() => setContinueBtnHover(true)}
               onMouseLeave={() => setContinueBtnHover(false)}
@@ -279,6 +287,7 @@ function OnboardingContent() {
             {!selectedChannel ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {CHANNELS.map(ch => (
+
                   <div
                     key={ch.id}
                     onClick={() => ch.available && setSelectedChannel(ch.id)}
@@ -323,6 +332,15 @@ function OnboardingContent() {
                     )}
                   </div>
                 ))}
+
+                <div style={{ textAlign: 'center', marginTop: 20, paddingTop: 16, borderTop: '1px solid #f1f1ef' }}>
+                  <button
+                    onClick={skipOnboarding}
+                    style={{ background: 'none', border: 'none', color: '#9b9ea8', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    Skip for now — I'll connect channels from Settings →
+                  </button>
+                </div>
               </div>
             ) : (
               <div>

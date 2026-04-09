@@ -495,7 +495,7 @@ export default function HomePage() {
           <div style={{ display: 'flex', gap: '48px' }}>
             {[
               { heading: 'Product', links: [['Features', '/features'], ['Integrations', '/integrations'], ['Pricing', '/pricing']] },
-              { heading: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy']] },
+              { heading: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy'], ['Terms', '/terms']] },
               { heading: 'Account', links: [['Sign in', '/login'], ['Start free', '/signup']] },
             ].map(col => (
               <div key={col.heading}>

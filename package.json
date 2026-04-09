@@ -15,6 +15,7 @@
     "@supabase/supabase-js": "^2.99.3",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.37.0",
+    "@vercel/analytics": "^2.0.1",
     "aws4": "^1.13.2",
     "axios": "^1.13.6",
     "fast-xml-parser": "^5.5.10",

@@ -344,10 +344,10 @@ export default function SignupPage() {
           </p>
 
           <p style={{ textAlign: 'center', fontSize: 12, color: '#9b9ea8', marginTop: 20, lineHeight: 1.5 }}>
-            By creating an account, you agree to our{' '}
-            <Link href="/privacy" style={{ color: '#9b9ea8', textDecoration: 'underline' }}>
-              Terms & Privacy Policy
-            </Link>
+            By creating an account you agree to our{' '}
+            <Link href="/terms" style={{ color: '#9b9ea8', textDecoration: 'underline' }}>Terms of Service</Link>
+            {' '}and{' '}
+            <Link href="/privacy" style={{ color: '#9b9ea8', textDecoration: 'underline' }}>Privacy Policy</Link>
           </p>
         </div>
       </div>
