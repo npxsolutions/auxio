@@ -17,6 +17,48 @@ const Icon = {
       <rect x="8.5" y="8.5" width="5" height="5" rx="1.25"/>
     </svg>
   ),
+  products: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.5 1L13 4v7L7.5 14 2 11V4L7.5 1Z"/>
+      <path d="M7.5 14V7.5"/>
+      <path d="M13 4L7.5 7.5 2 4"/>
+      <path d="M2 8.5l2.5 1.5M13 8.5l-2.5 1.5"/>
+    </svg>
+  ),
+  returns: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 3H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-2"/>
+      <path d="M5 1.5h5v3H5V1.5Z"/>
+      <path d="M6 8.5l-2 2 2 2"/>
+      <path d="M4 10.5h5"/>
+    </svg>
+  ),
+  shipping: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 4h9v7H1V4Z"/>
+      <path d="M10 6h2.5L14 8.5V11h-4V6Z"/>
+      <circle cx="3.5" cy="11.5" r="1.25"/>
+      <circle cx="11.5" cy="11.5" r="1.25"/>
+    </svg>
+  ),
+  repricing: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1.5 1.5h5L13 8l-4.5 4.5L2 7V1.5Z"/>
+      <circle cx="5" cy="5" r="1"/>
+      <path d="M9.5 11l3 2.5"/>
+    </svg>
+  ),
+  analytics: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1.5 13.5V9h2.75v4.5H1.5ZM6.375 13.5V5.5h2.75v8h-2.75ZM11.25 13.5V2h2.75v11.5h-2.75Z"/>
+    </svg>
+  ),
+  buffers: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.5 1.5L13 4v4c0 3.5-2.5 5.5-5.5 6C4.5 13.5 2 11.5 2 8V4L7.5 1.5Z"/>
+      <path d="M5 7.5l2 2 3.5-3"/>
+    </svg>
+  ),
   listings: (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 4.5h11M2 7.5h11M2 10.5h6.5"/>
@@ -148,11 +190,22 @@ export default function AppSidebar() {
       items: [
         { href: '/dashboard', icon: Icon.dashboard, label: 'Command Centre' },
         { href: '/listings',  icon: Icon.listings,  label: 'Listings' },
+        { href: '/products',  icon: Icon.products,  label: 'Products' },
         { href: '/orders',    icon: Icon.orders,    label: 'Orders' },
+        { href: '/returns',   icon: Icon.returns,   label: 'Returns' },
+        { href: '/shipping',  icon: Icon.shipping,  label: 'Shipping' },
         { href: '/channels',  icon: Icon.channels,  label: 'Channels' },
         { href: '/errors',    icon: Icon.errors,    label: 'Errors',     badge: errorCount,   badgeColor: '#ef4444' },
         { href: '/inventory', icon: Icon.inventory, label: 'Inventory' },
-        { href: '/rules',     icon: Icon.rules,     label: 'Feed Rules' },
+        { href: '/inventory/buffers', icon: Icon.buffers, label: 'Buffers' },
+      ],
+    },
+    {
+      label: 'Automation',
+      items: [
+        { href: '/rules',      icon: Icon.rules,      label: 'Feed Rules' },
+        { href: '/repricing',  icon: Icon.repricing,  label: 'Repricing' },
+        { href: '/analytics',  icon: Icon.analytics,  label: 'Analytics' },
       ],
     },
     {
