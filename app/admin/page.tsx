@@ -54,7 +54,7 @@ export default async function AdminOverview() {
 
       {!stats ? (
         <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>
-          Could not load stats — check SUPABASE_SERVICE_ROLE_KEY in environment variables.
+          Could not load stats — check SUPABASE_SERVICE_KEY in environment variables.
         </div>
       ) : (
         <>

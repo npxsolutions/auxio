@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js'
 // Service-role client — NEVER import this in client components.
 // Using a lazy getter so the key is only read at request time (not build time).
 export function getSupabaseAdmin() {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY env var is not set')
+  const key = process.env.SUPABASE_SERVICE_KEY
+  if (!key) throw new Error('SUPABASE_SERVICE_KEY env var is not set')
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     key,
