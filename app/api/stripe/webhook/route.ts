@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { getPostHogClient } from '../../lib/posthog'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 
@@ -47,6 +48,13 @@ export async function POST(request: Request) {
           subscription_status: 'active',
           updated_at: new Date().toISOString(),
         })
+
+        // Track subscription started
+        const ph = getPostHogClient()
+        if (ph && userId) {
+          ph.capture({ distinctId: userId, event: 'subscription_started', properties: { plan, revenue: session.amount_total ? session.amount_total / 100 : 0 } })
+          await ph.shutdown()
+        }
         break
       }
 
@@ -57,6 +65,8 @@ export async function POST(request: Request) {
 
         const priceId = sub.items.data[0]?.price.id
         const plan    = PLAN_BY_PRICE[priceId] || 'growth'
+        const prevPriceId = (event.data.previous_attributes as any)?.items?.data?.[0]?.price?.id
+        const prevPlan    = prevPriceId ? (PLAN_BY_PRICE[prevPriceId] || 'unknown') : null
 
         await getSupabase().from('users').upsert({
           id: userId,
@@ -64,6 +74,15 @@ export async function POST(request: Request) {
           subscription_status: sub.status,
           updated_at: new Date().toISOString(),
         })
+
+        // Track upgrades/downgrades (key for NRR)
+        if (prevPlan && prevPlan !== plan) {
+          const ph = getPostHogClient()
+          if (ph) {
+            ph.capture({ distinctId: userId, event: 'plan_changed', properties: { from: prevPlan, to: plan } })
+            await ph.shutdown()
+          }
+        }
         break
       }
 
@@ -72,12 +91,22 @@ export async function POST(request: Request) {
         const userId = sub.metadata?.supabase_user_id
         if (!userId) break
 
+        const priceId = sub.items.data[0]?.price.id
+        const plan    = PLAN_BY_PRICE[priceId] || 'unknown'
+
         await getSupabase().from('users').upsert({
           id: userId,
           plan: 'free',
           subscription_status: 'cancelled',
           updated_at: new Date().toISOString(),
         })
+
+        // Track churn
+        const ph = getPostHogClient()
+        if (ph) {
+          ph.capture({ distinctId: userId, event: 'subscription_cancelled', properties: { plan } })
+          await ph.shutdown()
+        }
         break
       }
 

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const dynamic = 'force-dynamic';
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { PostHogProvider } from "./components/PostHogProvider";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
@@ -21,8 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geist.className} ${geistMono.variable}`} style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif' }}>
-        {children}
-        <Analytics />
+        <PostHogProvider>
+          {children}
+          <Analytics />
+        </PostHogProvider>
       </body>
     </html>
   );

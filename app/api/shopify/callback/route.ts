@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { getPostHogClient } from '../../lib/posthog'
 
 const getAdminSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -90,6 +91,13 @@ export async function GET(request: Request) {
       }
 
       console.log(`Channel saved for user ${userId}`)
+
+      // Track channel connected event
+      const ph = getPostHogClient()
+      if (ph) {
+        ph.capture({ distinctId: userId, event: 'channel_connected', properties: { channel: 'shopify', shop } })
+        await ph.shutdown()
+      }
 
       // Mark onboarding complete
       await supabase.auth.updateUser({ data: { onboarding_complete: true } })
