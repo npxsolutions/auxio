@@ -27,8 +27,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
 
         {[
-          { href: '/admin', label: 'Overview', icon: '◈' },
-          { href: '/admin/users', label: 'Users', icon: '◉' },
+          { href: '/admin',         label: 'Overview', icon: '◈' },
+          { href: '/admin/users',   label: 'Users',    icon: '◉' },
+          { href: '/admin/metrics', label: 'Metrics',  icon: '▲' },
         ].map(({ href, label, icon }) => (
           <Link key={href} href={href} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 20px', textDecoration: 'none', color: 'rgba(255,255,255,0.55)', fontSize: 13, fontWeight: 500, transition: 'color 0.15s' }}>
             <span style={{ fontSize: 14, opacity: 0.6 }}>{icon}</span>
