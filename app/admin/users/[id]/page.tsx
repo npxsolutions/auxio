@@ -1,10 +1,11 @@
-import { supabaseAdmin } from '../../../lib/supabase-admin'
+import { getSupabaseAdmin } from '../../../lib/supabase-admin'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
 async function getUserDetail(id: string) {
+  const supabaseAdmin = getSupabaseAdmin()
   const { data: { user }, error } = await supabaseAdmin.auth.admin.getUserById(id)
   if (error || !user) return null
 

@@ -1,9 +1,10 @@
-import { supabaseAdmin } from '../lib/supabase-admin'
+import { getSupabaseAdmin } from '../lib/supabase-admin'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
 async function getStats() {
+  const supabaseAdmin = getSupabaseAdmin()
   // All users from Supabase Auth
   const { data: { users }, error } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
   if (error || !users) return null

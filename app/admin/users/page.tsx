@@ -1,4 +1,4 @@
-import { supabaseAdmin } from '../../lib/supabase-admin'
+import { getSupabaseAdmin } from '../../lib/supabase-admin'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -10,6 +10,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
   const perPage  = 50
   const offset   = (pageNum - 1) * perPage
 
+  const supabaseAdmin = getSupabaseAdmin()
   const { data: { users: allUsers = [] } } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
 
   // Filter by search
