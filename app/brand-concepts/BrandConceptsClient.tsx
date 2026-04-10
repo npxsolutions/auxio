@@ -2,69 +2,198 @@
 
 import { useState } from 'react'
 
-// Mini-site previews: render at 1000×580, scale to 360×209
-const S = 0.36
-const IW = 1000
-const IH = 580
-const OW = IW * S   // 360
-const OH = IH * S   // 208.8
+// Mini-site previews: render at 1040×600, scaled to fit 346px wide card
+const IW = 1040
+const IH = 600
+const OW = 346
+const S  = OW / IW   // ≈ 0.333
+const OH = IH * S    // ≈ 200
 
-type Brand = {
-  id: string
-  name: string
-  tagline: string
-  font: string
-  accent: string
-  bg: string
-  text: string
-  feel: string[]
-  preview: React.ReactNode
-}
+// ── Brand mini-site previews ─────────────────────────────────────────────────
 
 function VeloPreview() {
-  const F = "var(--font-bricolage)"
+  // Velo: Dark teal + white. Clean SaaS. Like Vercel meets Linear.
+  // Font: Plus Jakarta Sans
+  const F = 'var(--font-jakarta)'
+  const bg = '#0a0f0f'
+  const acc = '#00c896'
+
   return (
-    <div style={{ width: IW, height: IH, background: '#0d0d0d', position: 'relative', overflow: 'hidden' }}>
-      {/* speed lines */}
-      <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox={`0 0 ${IW} ${IH}`}>
-        {[...Array(8)].map((_, i) => (
-          <line key={i} x1={-100 + i * 200} y1={IH} x2={200 + i * 200} y2={0}
-            stroke="#a8e63d" strokeWidth="0.6" strokeOpacity="0.06" />
-        ))}
-      </svg>
-      {/* nav */}
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 52px', borderBottom: '1px solid rgba(168,230,61,0.1)', position: 'relative', zIndex: 1 }}>
+    <div style={{ width: IW, height: IH, background: bg, fontFamily: F, position: 'relative', overflow: 'hidden' }}>
+      {/* Subtle dot grid */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(0,200,150,0.06) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+
+      {/* Nav */}
+      <div style={{ position: 'relative', zIndex: 1, height: 60, display: 'flex', alignItems: 'center', padding: '0 56px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
-          <div style={{ width: 26, height: 26, background: '#a8e63d', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: 14, fontWeight: 800, color: '#0d0d0d', fontFamily: F }}>V</span>
+          <div style={{ width: 28, height: 28, background: acc, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 12L7 2L12 12" stroke="#0a0f0f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <line x1="3.5" y1="9" x2="10.5" y2="9" stroke="#0a0f0f" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
           </div>
-          <span style={{ fontFamily: F, fontWeight: 800, fontSize: 20, color: '#fff', letterSpacing: '-0.03em' }}>Velo</span>
+          <span style={{ fontWeight: 700, fontSize: 18, color: '#fff', letterSpacing: '-0.03em' }}>Velo</span>
         </div>
-        {['Product','Pricing','Integrations'].map(t => (
-          <span key={t} style={{ fontFamily: F, fontSize: 14, color: 'rgba(255,255,255,0.35)', marginRight: 32 }}>{t}</span>
-        ))}
-        <div style={{ background: '#a8e63d', borderRadius: 9999, padding: '10px 24px', fontFamily: F, fontSize: 13, fontWeight: 700, color: '#0d0d0d' }}>Get started</div>
+        <div style={{ display: 'flex', gap: 32, marginRight: 40 }}>
+          {['Features','Integrations','Pricing'].map(t => (
+            <span key={t} style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>{t}</span>
+          ))}
+        </div>
+        <div style={{ background: acc, borderRadius: 7, padding: '9px 22px', fontSize: 13, fontWeight: 600, color: '#0a0f0f' }}>
+          Get started free
+        </div>
       </div>
-      {/* hero */}
-      <div style={{ padding: '64px 52px 0', position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(168,230,61,0.1)', border: '1px solid rgba(168,230,61,0.25)', borderRadius: 9999, padding: '7px 16px', marginBottom: 32 }}>
-          <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#a8e63d' }} />
-          <span style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: '#a8e63d', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Multichannel · UK</span>
+
+      {/* Hero */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '72px 56px 0', maxWidth: 660 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.2)', borderRadius: 6, padding: '5px 14px', marginBottom: 28 }}>
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: acc }} />
+          <span style={{ fontSize: 12, fontWeight: 500, color: acc, letterSpacing: '0.02em' }}>Connected commerce for UK sellers</span>
         </div>
-        <div style={{ fontFamily: F, fontSize: 88, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: '-0.04em', marginBottom: 8 }}>Sell fast.</div>
-        <div style={{ fontFamily: F, fontSize: 88, fontWeight: 800, color: '#a8e63d', lineHeight: 1, letterSpacing: '-0.04em', marginBottom: 28 }}>Stay ahead.</div>
-        <div style={{ fontFamily: F, fontSize: 18, color: 'rgba(255,255,255,0.45)', maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
-          List once. Sync everywhere. Keep the profit. Built for UK sellers who move fast.
+        <h1 style={{ fontSize: 58, fontWeight: 700, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
+          Manage and scale<br />
+          <span style={{ color: acc }}>every channel.</span>
+        </h1>
+        <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, marginBottom: 40, maxWidth: 520 }}>
+          One platform to manage orders, listings, and inventory across eBay, Amazon, Shopify and more. Real profit tracking included.
+        </p>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <div style={{ background: acc, borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 600, color: '#0a0f0f' }}>Start free trial</div>
+          <div style={{ border: '1px solid rgba(255,255,255,0.12)', borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.6)' }}>See demo</div>
         </div>
-        <div style={{ display: 'flex', gap: 16, marginBottom: 48 }}>
-          <div style={{ background: '#a8e63d', borderRadius: 9999, padding: '14px 32px', fontFamily: F, fontSize: 15, fontWeight: 700, color: '#0d0d0d' }}>Start free trial</div>
-          <div style={{ border: '1.5px solid rgba(168,230,61,0.35)', borderRadius: 9999, padding: '14px 32px', fontFamily: F, fontSize: 15, fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>See demo</div>
+      </div>
+
+      {/* Stats */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        {[['10 min','average setup'],['100%','inventory sync'],['8 channels','supported'],['No hidden fees','ever']].map(([v, l]) => (
+          <div key={v} style={{ flex: 1, padding: '20px 28px', borderRight: '1px solid rgba(255,255,255,0.04)' }}>
+            <div style={{ fontSize: 20, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em', marginBottom: 3 }}>{v}</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>{l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function HelmPreview() {
+  // Helm: Clean white/light. Professional. Like Stripe or Notion.
+  // Font: DM Sans. Navy #1e2d3d + sky blue #3b82f6
+  const F = 'var(--font-dmsans)'
+  const bg = '#ffffff'
+  const navy = '#1e2d3d'
+  const blue = '#3b82f6'
+
+  return (
+    <div style={{ width: IW, height: IH, background: bg, fontFamily: F, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 480, height: 480, background: 'radial-gradient(circle at 80% 20%, rgba(59,130,246,0.07) 0%, transparent 65%)' }} />
+
+      {/* Nav */}
+      <div style={{ position: 'relative', zIndex: 1, height: 60, display: 'flex', alignItems: 'center', padding: '0 56px', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="11" stroke={blue} strokeWidth="2" fill="none"/>
+            <circle cx="13" cy="13" r="3.5" fill={blue}/>
+            {[0,60,120,180,240,300].map((deg, i) => {
+              const r = (deg * Math.PI) / 180
+              return <line key={i} x1={13 + 5.5 * Math.cos(r)} y1={13 + 5.5 * Math.sin(r)} x2={13 + 9.5 * Math.cos(r)} y2={13 + 9.5 * Math.sin(r)} stroke={blue} strokeWidth="1.8" strokeLinecap="round"/>
+            })}
+          </svg>
+          <span style={{ fontWeight: 700, fontSize: 18, color: navy, letterSpacing: '-0.02em' }}>Helm</span>
+        </div>
+        <div style={{ display: 'flex', gap: 32, marginRight: 40 }}>
+          {['Platform','Channels','Pricing'].map(t => (
+            <span key={t} style={{ fontSize: 14, color: 'rgba(30,45,61,0.45)', fontWeight: 400 }}>{t}</span>
+          ))}
+        </div>
+        <div style={{ background: blue, borderRadius: 7, padding: '9px 22px', fontSize: 13, fontWeight: 600, color: '#fff' }}>
+          Get started
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '68px 56px 0' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#eff6ff', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 6, padding: '5px 14px', marginBottom: 28 }}>
+          <span style={{ fontSize: 12, fontWeight: 500, color: blue }}>Multichannel ecommerce, simplified</span>
+        </div>
+        <h1 style={{ fontSize: 58, fontWeight: 700, color: navy, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20, maxWidth: 640 }}>
+          You're in control of<br />
+          <span style={{ color: blue }}>every channel.</span>
+        </h1>
+        <p style={{ fontSize: 17, color: 'rgba(30,45,61,0.5)', lineHeight: 1.7, marginBottom: 40, maxWidth: 520 }}>
+          Manage orders, inventory, and listings across all your marketplaces from one dashboard. No more tabs. No more discrepancies.
+        </p>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 48 }}>
+          <div style={{ background: navy, borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 600, color: '#fff' }}>Start free trial</div>
+          <div style={{ border: '1px solid rgba(30,45,61,0.15)', borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 500, color: 'rgba(30,45,61,0.6)' }}>See how it works →</div>
+        </div>
+        {/* Channel pills */}
+        <div style={{ display: 'flex', gap: 10 }}>
+          {['eBay','Amazon','Shopify','OnBuy','Etsy'].map(ch => (
+            <div key={ch} style={{ background: '#f8fafc', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '7px 16px', fontSize: 13, fontWeight: 600, color: 'rgba(30,45,61,0.6)' }}>{ch}</div>
+          ))}
+          <div style={{ background: '#f8fafc', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '7px 16px', fontSize: 13, color: blue, fontWeight: 600 }}>+3 more</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function GrafterPreview() {
+  // Grafter: Dark slate. No-nonsense British. Like Basecamp or Framer dark.
+  // Font: Manrope. Amber #f59e0b accent.
+  const F = 'var(--font-manrope)'
+  const bg = '#111827'
+  const acc = '#f59e0b'
+
+  return (
+    <div style={{ width: IW, height: IH, background: bg, fontFamily: F, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', bottom: 0, right: 0, width: 500, height: 300, background: 'radial-gradient(ellipse at 100% 100%, rgba(245,158,11,0.1) 0%, transparent 60%)' }} />
+
+      {/* Nav */}
+      <div style={{ position: 'relative', zIndex: 1, height: 60, display: 'flex', alignItems: 'center', padding: '0 56px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
+          <div style={{ width: 28, height: 28, background: acc, borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="1" y="3" width="12" height="2.5" rx="1" fill="#111827"/>
+              <rect x="1" y="7" width="12" height="2.5" rx="1" fill="#111827" opacity="0.7"/>
+              <rect x="1" y="11" width="8" height="2.5" rx="1" fill="#111827" opacity="0.4"/>
+            </svg>
+          </div>
+          <span style={{ fontWeight: 800, fontSize: 18, color: '#fff', letterSpacing: '-0.02em' }}>Grafter</span>
+        </div>
+        <div style={{ display: 'flex', gap: 32, marginRight: 40 }}>
+          {['Features','Pricing','About'].map(t => (
+            <span key={t} style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)', fontWeight: 400 }}>{t}</span>
+          ))}
+        </div>
+        <div style={{ border: '1px solid rgba(245,158,11,0.4)', borderRadius: 7, padding: '9px 22px', fontSize: 13, fontWeight: 600, color: acc }}>
+          Start free
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '68px 56px 0', maxWidth: 660 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
+          <span style={{ fontSize: 16 }}>🇬🇧</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Built for UK sellers</span>
+        </div>
+        <h1 style={{ fontSize: 56, fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
+          Less tabs.<br />
+          More <span style={{ color: acc }}>selling.</span>
+        </h1>
+        <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, marginBottom: 40, maxWidth: 500 }}>
+          All your orders, listings, and stock in one straightforward platform. No bloat, no enterprise pricing, no nonsense.
+        </p>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 52 }}>
+          <div style={{ background: acc, borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 700, color: '#111827' }}>Try Grafter free</div>
+          <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.5)' }}>Watch a demo</div>
         </div>
         <div style={{ display: 'flex', gap: 24 }}>
-          {[['2.4s','Average sync time'],['£0 extra','No per-listing fees'],['8 channels','eBay · Amazon · more']].map(([v, l]) => (
-            <div key={v} style={{ background: 'rgba(168,230,61,0.07)', border: '1px solid rgba(168,230,61,0.15)', borderRadius: 12, padding: '14px 20px' }}>
-              <div style={{ fontFamily: F, fontSize: 22, fontWeight: 800, color: '#a8e63d', letterSpacing: '-0.02em', marginBottom: 2 }}>{v}</div>
-              <div style={{ fontFamily: F, fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>{l}</div>
+          {[['Straightforward','pricing'],['No contract','cancel any time'],['UK-first','support']].map(([v, l]) => (
+            <div key={v}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: acc, marginBottom: 1 }}>{v}</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{l}</div>
             </div>
           ))}
         </div>
@@ -73,129 +202,60 @@ function VeloPreview() {
   )
 }
 
-function HelmPreview() {
-  const F = "var(--font-playfair)"
-  return (
-    <div style={{ width: IW, height: IH, background: '#0f2d5c', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 500, height: 500, background: 'radial-gradient(circle, rgba(240,165,0,0.12) 0%, transparent 70%)', borderRadius: '50%' }} />
-      {/* nav */}
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 52px', borderBottom: '1px solid rgba(240,165,0,0.12)', position: 'relative', zIndex: 1 }}>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10 }}>
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="12" stroke="#f0a500" strokeWidth="1.5" fill="none" />
-            <circle cx="14" cy="14" r="3.5" fill="#f0a500" />
-            {[0,60,120,180,240,300].map((deg, i) => {
-              const r = (deg * Math.PI) / 180
-              return <line key={i} x1={14 + 5 * Math.cos(r)} y1={14 + 5 * Math.sin(r)} x2={14 + 10 * Math.cos(r)} y2={14 + 10 * Math.sin(r)} stroke="#f0a500" strokeWidth="1.5" strokeLinecap="round" />
-            })}
-          </svg>
-          <span style={{ fontFamily: F, fontWeight: 700, fontSize: 22, color: '#f0a500', letterSpacing: '-0.01em' }}>Helm</span>
-        </div>
-        {['Platform','Pricing','Solutions'].map(t => (
-          <span key={t} style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.35)', marginRight: 36 }}>{t}</span>
-        ))}
-        <div style={{ background: '#f0a500', borderRadius: 9999, padding: '10px 26px', fontFamily: "'Inter', sans-serif", fontSize: 13, fontWeight: 600, color: '#0f2d5c' }}>Get started</div>
-      </div>
-      {/* hero */}
-      <div style={{ padding: '60px 52px 0', position: 'relative', zIndex: 1 }}>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(240,165,0,0.6)', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 28 }}>
-          Complete channel control
-        </div>
-        <div style={{ fontFamily: F, fontSize: 82, fontWeight: 900, color: '#fff', lineHeight: 0.95, letterSpacing: '-0.02em', marginBottom: 4 }}>You're in</div>
-        <div style={{ fontFamily: F, fontSize: 82, fontWeight: 900, color: '#f0a500', lineHeight: 0.95, letterSpacing: '-0.02em', fontStyle: 'italic', marginBottom: 32 }}>control.</div>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 500, lineHeight: 1.65, marginBottom: 44 }}>
-          One platform to manage every marketplace, every order, every penny. Helm puts you at the wheel.
-        </div>
-        <div style={{ display: 'flex', gap: 16, marginBottom: 52 }}>
-          <div style={{ background: '#f0a500', borderRadius: 9999, padding: '15px 36px', fontFamily: "'Inter', sans-serif", fontSize: 15, fontWeight: 600, color: '#0f2d5c' }}>Take the helm</div>
-          <div style={{ border: '1.5px solid rgba(240,165,0,0.4)', borderRadius: 9999, padding: '15px 36px', fontFamily: F, fontSize: 15, fontStyle: 'italic', color: 'rgba(255,255,255,0.65)' }}>Watch a demo</div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, color: 'rgba(255,255,255,0.2)', fontFamily: "'Inter', sans-serif", fontSize: 13 }}>
-          {['eBay','Amazon','OnBuy','Etsy','Shopify'].map((ch, i) => (
-            <span key={ch} style={{ color: i === 0 ? 'rgba(240,165,0,0.7)' : 'rgba(255,255,255,0.3)', fontWeight: i === 0 ? 600 : 400 }}>{ch}</span>
-          ))}
-          <span style={{ color: 'rgba(240,165,0,0.4)' }}>+ more</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function GrafterPreview() {
-  const F = "var(--font-barlow)"
-  return (
-    <div style={{ width: IW, height: IH, background: '#1a3a2a', position: 'relative', overflow: 'hidden' }}>
-      {/* grid texture */}
-      <svg style={{ position: 'absolute', inset: 0, opacity: 0.06 }} width={IW} height={IH}>
-        {[...Array(20)].map((_, i) => <line key={`v${i}`} x1={i * 56} y1={0} x2={i * 56} y2={IH} stroke="#c8f060" strokeWidth="0.5" />)}
-        {[...Array(12)].map((_, i) => <line key={`h${i}`} x1={0} y1={i * 52} x2={IW} y2={i * 52} stroke="#c8f060" strokeWidth="0.5" />)}
-      </svg>
-      {/* nav */}
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 52px', borderBottom: '1px solid rgba(200,240,96,0.1)', position: 'relative', zIndex: 1 }}>
-        <div style={{ flex: 1 }}>
-          <span style={{ fontFamily: F, fontWeight: 800, fontSize: 22, color: '#f5f0e8', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Grafter</span>
-        </div>
-        {['How it works','Pricing','About'].map(t => (
-          <span key={t} style={{ fontFamily: F, fontSize: 14, color: 'rgba(245,240,232,0.4)', marginRight: 36, fontWeight: 600, letterSpacing: '0.02em', textTransform: 'uppercase' }}>{t}</span>
-        ))}
-        <div style={{ background: '#c8f060', borderRadius: 4, padding: '10px 26px', fontFamily: F, fontSize: 13, fontWeight: 800, color: '#1a3a2a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Try free</div>
-      </div>
-      {/* hero */}
-      <div style={{ padding: '48px 52px 0', position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 28, background: 'rgba(197,240,96,0.08)', border: '1px solid rgba(197,240,96,0.2)', padding: '6px 16px', borderRadius: 4 }}>
-          <span style={{ fontSize: 16 }}>🇬🇧</span>
-          <span style={{ fontFamily: F, fontSize: 12, fontWeight: 700, color: 'rgba(245,240,232,0.55)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Made for UK Sellers</span>
-        </div>
-        <div style={{ fontFamily: F, fontSize: 96, fontWeight: 800, color: '#f5f0e8', lineHeight: 0.88, letterSpacing: '-0.01em', textTransform: 'uppercase', marginBottom: 6 }}>Work</div>
-        <div style={{ fontFamily: F, fontSize: 96, fontWeight: 800, color: '#c8f060', lineHeight: 0.88, letterSpacing: '-0.01em', textTransform: 'uppercase', marginBottom: 6 }}>Smart.</div>
-        <div style={{ fontFamily: F, fontSize: 96, fontWeight: 800, color: 'rgba(245,240,232,0.45)', lineHeight: 0.88, letterSpacing: '-0.01em', textTransform: 'uppercase', marginBottom: 32 }}>Sell more.</div>
-        <div style={{ fontFamily: F, fontSize: 17, color: 'rgba(245,240,232,0.5)', maxWidth: 500, lineHeight: 1.6, marginBottom: 40, fontWeight: 400 }}>
-          No fluff. No faff. Just proper multichannel tools built for sellers who put in the work.
-        </div>
-        <div style={{ display: 'flex', gap: 14 }}>
-          <div style={{ background: '#c8f060', borderRadius: 4, padding: '14px 32px', fontFamily: F, fontSize: 15, fontWeight: 800, color: '#1a3a2a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Start grafting</div>
-          <div style={{ border: '1.5px solid rgba(245,240,232,0.2)', borderRadius: 4, padding: '14px 32px', fontFamily: F, fontSize: 15, fontWeight: 600, color: 'rgba(245,240,232,0.55)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>See the tool</div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function RelayPreview() {
-  const F = "var(--font-outfit)"
+  // Relay: Soft white/cream. Warm and modern. Like Notion meets Linear.
+  // Font: Work Sans. Green #16a34a accent.
+  const F = 'var(--font-worksans)'
+  const bg = '#fafaf8'
+  const green = '#16a34a'
+  const dark = '#1a1a1a'
+
   return (
-    <div style={{ width: IW, height: IH, background: '#f8faff', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: -100, right: -100, width: 600, height: 600, background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', borderRadius: '50%' }} />
-      {/* nav */}
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 52px', borderBottom: '1px solid rgba(37,99,235,0.08)', position: 'relative', zIndex: 1 }}>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 28, height: 28, background: '#2563eb', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ color: 'white', fontSize: 15, fontWeight: 700, fontFamily: F }}>→</span>
-          </div>
-          <span style={{ fontFamily: F, fontWeight: 700, fontSize: 20, color: '#0a0f2e', letterSpacing: '-0.02em' }}>Relay</span>
+    <div style={{ width: IW, height: IH, background: bg, fontFamily: F, position: 'relative', overflow: 'hidden' }}>
+      {/* Nav */}
+      <div style={{ position: 'relative', zIndex: 1, height: 60, display: 'flex', alignItems: 'center', padding: '0 56px', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="8" cy="14" r="4" fill={green}/>
+            <circle cx="20" cy="8" r="3" fill={green} fillOpacity="0.6"/>
+            <circle cx="20" cy="20" r="3" fill={green} fillOpacity="0.6"/>
+            <line x1="12" y1="12" x2="17" y2="9.5" stroke={green} strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="12" y1="16" x2="17" y2="18.5" stroke={green} strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <span style={{ fontWeight: 700, fontSize: 18, color: dark, letterSpacing: '-0.02em' }}>Relay</span>
         </div>
-        {['Product','Integrations','Pricing'].map(t => (
-          <span key={t} style={{ fontFamily: F, fontSize: 14, color: '#64748b', marginRight: 36 }}>{t}</span>
-        ))}
-        <div style={{ background: '#2563eb', borderRadius: 9999, padding: '10px 26px', fontFamily: F, fontSize: 13, fontWeight: 600, color: '#fff' }}>Start free</div>
+        <div style={{ display: 'flex', gap: 32, marginRight: 40 }}>
+          {['Product','Integrations','Pricing'].map(t => (
+            <span key={t} style={{ fontSize: 14, color: 'rgba(26,26,26,0.4)', fontWeight: 400 }}>{t}</span>
+          ))}
+        </div>
+        <div style={{ background: dark, borderRadius: 7, padding: '9px 22px', fontSize: 13, fontWeight: 600, color: '#fff' }}>
+          Start for free
+        </div>
       </div>
-      {/* hero */}
-      <div style={{ padding: '60px 52px 0', position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#eff6ff', border: '1px solid rgba(37,99,235,0.2)', borderRadius: 9999, padding: '7px 16px', marginBottom: 32 }}>
-          <span style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: '#2563eb', letterSpacing: '0.04em' }}>Multichannel listings, simplified</span>
+
+      {/* Hero */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '64px 56px 0' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#f0fdf4', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '5px 14px', marginBottom: 28 }}>
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: green }} />
+          <span style={{ fontSize: 12, fontWeight: 500, color: green }}>One listing. Every channel.</span>
         </div>
-        <div style={{ fontFamily: F, fontSize: 72, fontWeight: 700, color: '#0a0f2e', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: 4 }}>One listing.</div>
-        <div style={{ fontFamily: F, fontSize: 72, fontWeight: 700, color: '#2563eb', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: 28 }}>Every channel.</div>
-        <div style={{ fontFamily: F, fontSize: 17, color: '#64748b', maxWidth: 500, lineHeight: 1.65, marginBottom: 40 }}>
-          Create one product listing and let Relay handle the rest — synced across eBay, Amazon, OnBuy, and more in real-time.
+        <h1 style={{ fontSize: 58, fontWeight: 600, color: dark, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: 20, maxWidth: 620 }}>
+          Automate and scale<br />
+          your ecommerce.
+        </h1>
+        <p style={{ fontSize: 17, color: 'rgba(26,26,26,0.5)', lineHeight: 1.7, marginBottom: 40, maxWidth: 500 }}>
+          Manage inventory, orders, and listings across 8+ marketplaces from one place. No more discrepancies. No more manual work.
+        </p>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 52 }}>
+          <div style={{ background: green, borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 600, color: '#fff' }}>Get started free</div>
+          <div style={{ border: '1px solid rgba(0,0,0,0.12)', borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 500, color: 'rgba(26,26,26,0.55)' }}>See all integrations →</div>
         </div>
-        <div style={{ display: 'flex', gap: 14, marginBottom: 48 }}>
-          <div style={{ background: '#2563eb', borderRadius: 9999, padding: '14px 32px', fontFamily: F, fontSize: 15, fontWeight: 600, color: '#fff' }}>Get started free</div>
-          <div style={{ border: '1.5px solid rgba(37,99,235,0.25)', borderRadius: 9999, padding: '14px 32px', fontFamily: F, fontSize: 15, fontWeight: 500, color: '#2563eb' }}>Watch 2-min demo →</div>
-        </div>
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          {['eBay','Amazon','OnBuy','Etsy','Shopify','TikTok Shop'].map(ch => (
-            <div key={ch} style={{ background: '#fff', border: '1px solid rgba(37,99,235,0.15)', borderRadius: 8, padding: '8px 16px', fontFamily: F, fontSize: 12, fontWeight: 600, color: '#2563eb' }}>{ch}</div>
+        {/* Channel row */}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <span style={{ fontSize: 12, color: 'rgba(26,26,26,0.35)', marginRight: 4, fontWeight: 500 }}>Works with:</span>
+          {['eBay','Amazon','Shopify','OnBuy','Etsy','TikTok','+ more'].map((ch, i) => (
+            <div key={ch} style={{ background: i === 6 ? 'transparent' : '#fff', border: '1px solid rgba(0,0,0,0.09)', borderRadius: 6, padding: '5px 12px', fontSize: 12, fontWeight: 500, color: i === 6 ? green : 'rgba(26,26,26,0.6)' }}>{ch}</div>
           ))}
         </div>
       </div>
@@ -204,46 +264,68 @@ function RelayPreview() {
 }
 
 function StackdPreview() {
-  const F = "var(--font-syne)"
+  // Stackd: Clean dark with indigo/violet. Modern B2B SaaS.
+  // Font: Nunito Sans. Violet #8b5cf6 accent.
+  const F = 'var(--font-nunito)'
+  const bg = '#0e0e16'
+  const acc = '#8b5cf6'
+
   return (
-    <div style={{ width: IW, height: IH, background: '#180a2e', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: -80, left: -80, width: 500, height: 500, background: 'radial-gradient(circle, rgba(109,40,217,0.4) 0%, transparent 60%)', borderRadius: '50%' }} />
-      <div style={{ position: 'absolute', top: -60, right: -60, width: 400, height: 400, background: 'radial-gradient(circle, rgba(196,255,0,0.08) 0%, transparent 70%)', borderRadius: '50%' }} />
-      {/* horizontal scan lines */}
-      <svg style={{ position: 'absolute', inset: 0, opacity: 0.04 }} width={IW} height={IH}>
-        {[...Array(29)].map((_, i) => <line key={i} x1={0} y1={i * 20} x2={IW} y2={i * 20} stroke="#c4ff00" strokeWidth="0.5" />)}
-      </svg>
-      {/* nav */}
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 52px', borderBottom: '1px solid rgba(196,255,0,0.08)', position: 'relative', zIndex: 1 }}>
-        <div style={{ flex: 1 }}>
-          <span style={{ fontFamily: F, fontWeight: 800, fontSize: 22, color: '#c4ff00', letterSpacing: '-0.02em' }}>Stackd</span>
+    <div style={{ width: IW, height: IH, background: bg, fontFamily: F, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: -80, right: -80, width: 500, height: 500, background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 65%)', borderRadius: '50%' }} />
+
+      {/* Nav */}
+      <div style={{ position: 'relative', zIndex: 1, height: 60, display: 'flex', alignItems: 'center', padding: '0 56px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {[16, 12, 8].map((w, i) => (
+              <div key={i} style={{ width: w, height: 3.5, background: acc, borderRadius: 2, opacity: 1 - i * 0.2 }} />
+            ))}
+          </div>
+          <span style={{ fontWeight: 800, fontSize: 18, color: '#fff', letterSpacing: '-0.02em' }}>Stackd</span>
         </div>
-        {['Features','Pricing','Channels'].map(t => (
-          <span key={t} style={{ fontFamily: F, fontSize: 13, color: 'rgba(255,255,255,0.25)', marginRight: 36, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{t}</span>
-        ))}
-        <div style={{ background: '#c4ff00', borderRadius: 9999, padding: '10px 26px', fontFamily: F, fontSize: 13, fontWeight: 700, color: '#180a2e', letterSpacing: '0.02em', textTransform: 'uppercase' }}>Start stacking</div>
+        <div style={{ display: 'flex', gap: 32, marginRight: 40 }}>
+          {['Features','Channels','Pricing'].map(t => (
+            <span key={t} style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)', fontWeight: 400 }}>{t}</span>
+          ))}
+        </div>
+        <div style={{ background: acc, borderRadius: 7, padding: '9px 22px', fontSize: 13, fontWeight: 700, color: '#fff' }}>
+          Try free
+        </div>
       </div>
-      {/* hero */}
-      <div style={{ padding: '52px 52px 0', position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'inline-flex', gap: 8, background: 'rgba(196,255,0,0.08)', border: '1px solid rgba(196,255,0,0.2)', borderRadius: 6, padding: '6px 16px', marginBottom: 28 }}>
-          <span style={{ fontFamily: F, fontSize: 11, fontWeight: 700, color: '#c4ff00', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Stack more · Earn more</span>
+
+      {/* Hero */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '68px 56px 0', display: 'flex', gap: 60, alignItems: 'flex-start' }}>
+        <div style={{ flex: 1, maxWidth: 560 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: 6, padding: '5px 14px', marginBottom: 28 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#c4b5fd' }}>Connected commerce for growing sellers</span>
+          </div>
+          <h1 style={{ fontSize: 54, fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
+            Stack your channels.<br />
+            <span style={{ color: acc }}>Stack your profit.</span>
+          </h1>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, marginBottom: 36, maxWidth: 460 }}>
+            Every channel you add is more revenue. Stackd keeps them all in sync, your stock accurate, and your margin visible.
+          </p>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <div style={{ background: acc, borderRadius: 7, padding: '12px 26px', fontSize: 14, fontWeight: 700, color: '#fff' }}>Start stacking</div>
+            <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '12px 26px', fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.5)' }}>Watch demo</div>
+          </div>
         </div>
-        <div style={{ fontFamily: F, fontSize: 72, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: 4 }}>Stack your channels.</div>
-        <div style={{ fontFamily: F, fontSize: 72, fontWeight: 800, color: '#c4ff00', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: 28 }}>Stack your profit.</div>
-        <div style={{ fontFamily: F, fontSize: 16, color: 'rgba(255,255,255,0.4)', maxWidth: 520, lineHeight: 1.65, marginBottom: 36, fontWeight: 400 }}>
-          Every channel you add is profit you're leaving somewhere else. Stop leaving it. Stackd connects everything.
-        </div>
-        <div style={{ display: 'flex', gap: 14, marginBottom: 40 }}>
-          <div style={{ background: '#c4ff00', borderRadius: 9999, padding: '14px 32px', fontFamily: F, fontSize: 14, fontWeight: 700, color: '#180a2e', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Add your first channel</div>
-          <div style={{ border: '1.5px solid rgba(196,255,0,0.2)', borderRadius: 9999, padding: '14px 32px', fontFamily: F, fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.4)' }}>See demo</div>
-        </div>
-        {/* stacked channel pills */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 560 }}>
-          {[['eBay','#ff4444',1],['Amazon','#ff9900',0.7],['OnBuy','#6d28d9',0.5],['Etsy','#f56400',0.35]].map(([name, color, op]) => (
-            <div key={name as string} style={{ display: 'flex', alignItems: 'center', gap: 12, background: `rgba(196,255,0,${Number(op) * 0.04})`, border: `1px solid rgba(196,255,0,${Number(op) * 0.15})`, borderRadius: 8, padding: '10px 16px', opacity: Number(op) + 0.1 }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: color as string }} />
-              <span style={{ fontFamily: F, fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{name as string}</span>
-              <span style={{ marginLeft: 'auto', fontFamily: F, fontSize: 12, color: '#c4ff00', fontWeight: 600 }}>Active</span>
+
+        {/* Channel stack visual */}
+        <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 12 }}>
+          {[
+            { ch: 'eBay', col: '#E53238', orders: 24, status: 'Synced' },
+            { ch: 'Amazon', col: '#FF9900', orders: 18, status: 'Synced' },
+            { ch: 'OnBuy', col: '#0066cc', orders: 9, status: 'Synced' },
+            { ch: 'Shopify', col: '#96bf48', orders: 6, status: 'Synced' },
+          ].map(({ ch, col, orders, status }) => (
+            <div key={ch} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 8, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: col, flexShrink: 0 }} />
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#fff', flex: 1 }}>{ch}</span>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{orders} orders</span>
+              <span style={{ fontSize: 11, color: '#4ade80', fontWeight: 600 }}>{status}</span>
             </div>
           ))}
         </div>
@@ -253,43 +335,62 @@ function StackdPreview() {
 }
 
 function KovaPreview() {
-  const F = "var(--font-cormorant)"
+  // Kova: Warm white. Premium minimal. Like Framer or Figma.
+  // Font: Space Grotesk. Slate + coral #f97316 accent.
+  const F = 'var(--font-space)'
+  const bg = '#ffffff'
+  const dark = '#18181b'
+  const coral = '#f97316'
+
   return (
-    <div style={{ width: IW, height: IH, background: '#1c1917', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 600, height: 400, background: 'radial-gradient(ellipse at top right, rgba(255,107,71,0.1) 0%, transparent 65%)' }} />
-      {/* nav */}
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 52px', borderBottom: '1px solid rgba(255,255,255,0.06)', position: 'relative', zIndex: 1 }}>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10 }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="#ff6b47" strokeWidth="1.5" fill="none" />
-            <circle cx="12" cy="12" r="3" fill="#ff6b47" />
+    <div style={{ width: IW, height: IH, background: bg, fontFamily: F, position: 'relative', overflow: 'hidden' }}>
+      {/* Warm gradient background */}
+      <div style={{ position: 'absolute', bottom: 0, right: 0, width: 600, height: 400, background: 'radial-gradient(ellipse at 100% 100%, rgba(249,115,22,0.06) 0%, transparent 60%)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: 400, height: 400, background: 'radial-gradient(ellipse at 0% 0%, rgba(249,115,22,0.04) 0%, transparent 60%)' }} />
+
+      {/* Nav */}
+      <div style={{ position: 'relative', zIndex: 1, height: 60, display: 'flex', alignItems: 'center', padding: '0 56px', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke={coral} strokeWidth="1.8" fill="none" strokeLinejoin="round"/>
+            <circle cx="13" cy="13" r="3.5" fill={coral}/>
           </svg>
-          <span style={{ fontFamily: F, fontWeight: 600, fontSize: 22, color: '#fafaf9', letterSpacing: '0.02em' }}>Kova</span>
+          <span style={{ fontWeight: 600, fontSize: 18, color: dark, letterSpacing: '-0.02em' }}>Kova</span>
         </div>
-        {['Platform','Channels','Pricing'].map(t => (
-          <span key={t} style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(250,250,249,0.3)', marginRight: 36 }}>{t}</span>
-        ))}
-        <div style={{ border: '1px solid rgba(255,107,71,0.5)', borderRadius: 9999, padding: '10px 26px', fontFamily: "'Inter', sans-serif", fontSize: 13, fontWeight: 500, color: '#ff6b47' }}>Get early access</div>
+        <div style={{ display: 'flex', gap: 32, marginRight: 40 }}>
+          {['Platform','Channels','Pricing'].map(t => (
+            <span key={t} style={{ fontSize: 14, color: 'rgba(24,24,27,0.4)', fontWeight: 400 }}>{t}</span>
+          ))}
+        </div>
+        <div style={{ border: '1px solid rgba(24,24,27,0.15)', borderRadius: 7, padding: '9px 22px', fontSize: 13, fontWeight: 500, color: dark }}>
+          Get started
+        </div>
       </div>
-      {/* hero */}
-      <div style={{ padding: '64px 52px 0', position: 'relative', zIndex: 1 }}>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'rgba(255,107,71,0.6)', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 32 }}>
-          The intelligent selling platform
+
+      {/* Hero */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '68px 56px 0' }}>
+        <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(24,24,27,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 24 }}>
+          The smarter way to sell
         </div>
-        <div style={{ fontFamily: F, fontSize: 84, fontWeight: 400, color: 'rgba(250,250,249,0.6)', lineHeight: 0.95, letterSpacing: '-0.01em', fontStyle: 'italic', marginBottom: 4 }}>The smarter</div>
-        <div style={{ fontFamily: F, fontSize: 84, fontWeight: 600, color: '#fafaf9', lineHeight: 0.95, letterSpacing: '-0.01em', marginBottom: 32 }}>way to sell.</div>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 17, color: 'rgba(250,250,249,0.4)', maxWidth: 500, lineHeight: 1.65, marginBottom: 44, fontWeight: 300 }}>
-          Kova learns how you sell and optimises everything — pricing, listing quality, channel selection — automatically.
+        <h1 style={{ fontSize: 60, fontWeight: 600, color: dark, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: 22, maxWidth: 620 }}>
+          All your channels.<br />
+          <span style={{ color: coral }}>One platform.</span>
+        </h1>
+        <p style={{ fontSize: 18, color: 'rgba(24,24,27,0.5)', lineHeight: 1.65, marginBottom: 40, maxWidth: 500, fontWeight: 400 }}>
+          Connect eBay, Amazon, Shopify and more. Manage orders, sync inventory, and track true profit — automatically.
+        </p>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 52 }}>
+          <div style={{ background: coral, borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 600, color: '#fff' }}>Start for free</div>
+          <div style={{ border: '1px solid rgba(0,0,0,0.12)', borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 500, color: 'rgba(24,24,27,0.5)' }}>Book a demo</div>
         </div>
-        <div style={{ display: 'flex', gap: 16, marginBottom: 52 }}>
-          <div style={{ background: '#ff6b47', borderRadius: 9999, padding: '15px 36px', fontFamily: "'Inter', sans-serif", fontSize: 15, fontWeight: 500, color: '#fff' }}>Request access</div>
-          <div style={{ border: '1px solid rgba(250,250,249,0.12)', borderRadius: 9999, padding: '15px 36px', fontFamily: F, fontSize: 16, fontStyle: 'italic', color: 'rgba(250,250,249,0.45)' }}>Learn more →</div>
-        </div>
-        <div style={{ display: 'flex', gap: 20 }}>
-          {[['Profit tracking','Automated'],['AI optimisation','Live'],['8 channels','Connected']].map(([label, badge]) => (
-            <div key={label as string} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <div style={{ fontFamily: F, fontSize: 13, color: 'rgba(250,250,249,0.35)', fontStyle: 'italic' }}>{label as string}</div>
-              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: '#ff6b47', fontWeight: 500, letterSpacing: '0.06em' }}>{badge as string}</div>
+        <div style={{ display: 'flex', gap: 28 }}>
+          {[['No credit card','required'],['Set up','in 10 minutes'],['Cancel','any time']].map(([v, l]) => (
+            <div key={v} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle cx="7" cy="7" r="6" fill={coral} fillOpacity="0.12"/>
+                <path d="M4 7l2 2 4-4" stroke={coral} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span style={{ fontSize: 12, color: 'rgba(24,24,27,0.5)', fontWeight: 400 }}>{v} {l}</span>
             </div>
           ))}
         </div>
@@ -298,172 +399,146 @@ function KovaPreview() {
   )
 }
 
-const BRANDS: Brand[] = [
+// ── Brand data ────────────────────────────────────────────────────────────────
+
+const BRANDS = [
   {
     id: 'velo', name: 'Velo', tagline: 'Sell fast. Stay ahead.',
-    font: 'var(--font-bricolage)', accent: '#a8e63d', bg: '#0d0d0d', text: '#ffffff',
-    feel: ['Fast-twitch energy', 'Precision-built', 'No lag, no friction'],
+    font: 'var(--font-jakarta)', accent: '#00c896', bg: '#0a0f0f', text: '#fff',
+    desc: 'Dark, precise, teal. Clean SaaS energy. For sellers who move fast.',
     preview: <VeloPreview />,
   },
   {
     id: 'helm', name: 'Helm', tagline: "You're in control.",
-    font: 'var(--font-playfair)', accent: '#f0a500', bg: '#0f2d5c', text: '#ffffff',
-    feel: ['Authoritative calm', 'Serene command', 'Built to last'],
+    font: 'var(--font-dmsans)', accent: '#3b82f6', bg: '#ffffff', text: '#1e2d3d',
+    desc: 'Clean and professional. Light mode authority. Like Stripe or Notion.',
     preview: <HelmPreview />,
   },
   {
     id: 'grafter', name: 'Grafter', tagline: 'Built for sellers who graft.',
-    font: 'var(--font-barlow)', accent: '#c8f060', bg: '#1a3a2a', text: '#f5f0e8',
-    feel: ['Pure British grit', 'Earned, not given', 'No nonsense'],
+    font: 'var(--font-manrope)', accent: '#f59e0b', bg: '#111827', text: '#fff',
+    desc: 'Dark slate, amber accent. Honest, direct, British in character.',
     preview: <GrafterPreview />,
   },
   {
     id: 'relay', name: 'Relay', tagline: 'One listing. Every channel.',
-    font: 'var(--font-outfit)', accent: '#2563eb', bg: '#f8faff', text: '#0a0f2e',
-    feel: ['Frictionless flow', 'Instant handoff', 'Always in motion'],
+    font: 'var(--font-worksans)', accent: '#16a34a', bg: '#fafaf8', text: '#1a1a1a',
+    desc: 'Warm cream, forest green. Calm and trustworthy. Like Notion or Linear.',
     preview: <RelayPreview />,
   },
   {
     id: 'stackd', name: 'Stackd', tagline: 'Stack your channels. Stack your profit.',
-    font: 'var(--font-syne)', accent: '#c4ff00', bg: '#180a2e', text: '#ffffff',
-    feel: ['Maximalist ambition', 'Layer by layer', 'Always building'],
+    font: 'var(--font-nunito)', accent: '#8b5cf6', bg: '#0e0e16', text: '#fff',
+    desc: 'Deep dark with violet. Modern B2B SaaS. Growth-focused, bold.',
     preview: <StackdPreview />,
   },
   {
     id: 'kova', name: 'Kova', tagline: 'The smarter way to sell.',
-    font: 'var(--font-cormorant)', accent: '#ff6b47', bg: '#1c1917', text: '#fafaf9',
-    feel: ['Refined intelligence', 'Quietly powerful', 'Warm precision'],
+    font: 'var(--font-space)', accent: '#f97316', bg: '#ffffff', text: '#18181b',
+    desc: 'White, warm coral. Premium minimal. Figma/Framer energy.',
     preview: <KovaPreview />,
   },
 ]
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function BrandConceptsClient() {
   const [selected, setSelected] = useState<string | null>(null)
-  const [hovered, setHovered] = useState<string | null>(null)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#050505', padding: '72px 56px 96px' }}>
+    <div style={{ minHeight: '100vh', background: '#0c0c0e', padding: '64px 48px 96px', fontFamily: 'system-ui, sans-serif' }}>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        .bc-card {
-          border-radius: 16px;
-          overflow: hidden;
-          cursor: pointer;
-          transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.25s ease;
-          border: 1.5px solid transparent;
-        }
-        .bc-card:hover { transform: translateY(-8px); }
-        .bc-card.selected { transform: translateY(-6px); }
-        .bc-preview {
-          overflow: hidden;
-          position: relative;
-          flex-shrink: 0;
-        }
-        .bc-preview-inner {
-          transform-origin: top left;
-          pointer-events: none;
-          user-select: none;
-        }
-        .bc-btn {
-          border: none; cursor: pointer; width: 100%;
-          padding: 13px 0; border-radius: 10px;
-          font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
-          transition: filter 0.15s, opacity 0.15s;
-        }
-        .bc-btn:hover { filter: brightness(1.1); }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .bc-card { animation: fadeUp 0.5s ease both; }
-        .bc-card:nth-child(1) { animation-delay: 0.04s; }
-        .bc-card:nth-child(2) { animation-delay: 0.10s; }
-        .bc-card:nth-child(3) { animation-delay: 0.16s; }
-        .bc-card:nth-child(4) { animation-delay: 0.22s; }
-        .bc-card:nth-child(5) { animation-delay: 0.28s; }
-        .bc-card:nth-child(6) { animation-delay: 0.34s; }
-        .bc-banner { animation: fadeUp 0.35s ease both; }
+        .bc-card { border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.25s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.2s ease; border: 1.5px solid rgba(255,255,255,0.06); }
+        .bc-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.12); }
+        .bc-card.sel { transform: translateY(-4px); }
+        .bc-btn { border: none; cursor: pointer; width: 100%; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.01em; transition: filter 0.15s; }
+        .bc-btn:hover { filter: brightness(1.08); }
+        @keyframes up { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+        .bc-card { animation: up 0.45s ease both; }
+        .bc-card:nth-child(1){animation-delay:.04s}
+        .bc-card:nth-child(2){animation-delay:.10s}
+        .bc-card:nth-child(3){animation-delay:.16s}
+        .bc-card:nth-child(4){animation-delay:.22s}
+        .bc-card:nth-child(5){animation-delay:.28s}
+        .bc-card:nth-child(6){animation-delay:.34s}
+        .bc-banner { animation: up 0.3s ease both; }
       `}</style>
 
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: 64, maxWidth: 640, margin: '0 auto 64px' }}>
-        <div style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 20, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 20 }}>
+      <div style={{ maxWidth: 720, margin: '0 auto 56px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 20, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 20 }}>
           Brand Direction · Internal
         </div>
-        <h1 style={{ fontSize: 48, fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 14 }}>
-          Choose your identity.
+        <h1 style={{ fontSize: 40, fontWeight: 700, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 12 }}>
+          Choose your brand.
         </h1>
-        <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.3)', lineHeight: 1.65 }}>
-          Six fully-realised brand directions. Each shows a real hero — exactly how the site would open.
-          Pick the one that feels like you.
+        <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.35)', lineHeight: 1.7 }}>
+          Six directions, each with a real hero preview. These are exactly how the site would look — not mockups, live rendered code. Pick the one that feels right and say the word.
         </p>
       </div>
 
       {/* Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1164, margin: '0 auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, maxWidth: 1100, margin: '0 auto' }}>
         {BRANDS.map(brand => {
           const isSel = selected === brand.id
-          const isLight = brand.id === 'relay'
+          const isLight = brand.bg === '#ffffff' || brand.bg === '#fafaf8'
 
           return (
             <div
               key={brand.id}
-              className={`bc-card${isSel ? ' selected' : ''}`}
+              className={`bc-card${isSel ? ' sel' : ''}`}
               style={{
-                background: '#111',
-                borderColor: isSel ? brand.accent : hovered === brand.id ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)',
+                background: '#141417',
                 boxShadow: isSel
-                  ? `0 0 0 3px ${brand.accent}28, 0 20px 60px ${brand.accent}20, 0 4px 24px rgba(0,0,0,0.6)`
-                  : '0 4px 32px rgba(0,0,0,0.5)',
+                  ? `0 0 0 2px ${brand.accent}, 0 16px 48px ${brand.accent}22`
+                  : '0 2px 20px rgba(0,0,0,0.5)',
+                borderColor: isSel ? brand.accent : undefined,
               }}
               onClick={() => setSelected(isSel ? null : brand.id)}
-              onMouseEnter={() => setHovered(brand.id)}
-              onMouseLeave={() => setHovered(null)}
             >
-              {/* Mini-site preview */}
-              <div className="bc-preview" style={{ width: OW, height: OH }}>
-                <div className="bc-preview-inner" style={{ transform: `scale(${S})`, width: IW, height: IH }}>
+              {/* Scaled preview */}
+              <div style={{ width: OW, height: OH, overflow: 'hidden', position: 'relative', background: brand.bg }}>
+                <div style={{ transform: `scale(${S})`, transformOrigin: 'top left', width: IW, height: IH, position: 'absolute', top: 0, left: 0, pointerEvents: 'none', userSelect: 'none' }}>
                   {brand.preview}
                 </div>
               </div>
 
-              {/* Card info */}
-              <div style={{ padding: '20px 22px 22px', background: '#111' }}>
-                {/* Name + selected badge row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                  <span style={{ fontFamily: brand.font, fontSize: 26, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>
+              {/* Card footer */}
+              <div style={{ padding: '18px 20px 20px', background: '#141417' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+                  <span style={{ fontFamily: brand.font, fontSize: 20, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>
                     {brand.name}
                   </span>
                   {isSel && (
-                    <div style={{ background: brand.accent, borderRadius: 9999, padding: '3px 10px', fontSize: 10, fontWeight: 800, color: isLight ? brand.bg : '#000', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    <div style={{ background: brand.accent, borderRadius: 9999, padding: '2px 9px', fontSize: 10, fontWeight: 700, color: isLight ? '#000' : '#fff', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                       Selected
                     </div>
                   )}
                 </div>
-                <div style={{ fontFamily: brand.font, fontSize: 13, color: brand.accent, fontWeight: 500, marginBottom: 16, fontStyle: brand.id === 'kova' ? 'italic' : 'normal', lineHeight: 1.4 }}>
+                <div style={{ fontFamily: brand.font, fontSize: 12, color: brand.accent, fontWeight: 500, marginBottom: 10, lineHeight: 1.4 }}>
                   {brand.tagline}
                 </div>
-
-                {/* Feel descriptors */}
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 18 }}>
-                  {brand.feel.map(f => (
-                    <div key={f} style={{ background: `${brand.accent}12`, border: `1px solid ${brand.accent}22`, borderRadius: 6, padding: '4px 10px', fontSize: 11, color: `${brand.accent}cc`, fontWeight: 500, lineHeight: 1 }}>
-                      {f}
-                    </div>
-                  ))}
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', lineHeight: 1.55, marginBottom: 14 }}>
+                  {brand.desc}
+                </p>
+                {/* Accent swatch */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                  <div style={{ width: 16, height: 16, borderRadius: 4, background: brand.accent }} />
+                  <div style={{ width: 16, height: 16, borderRadius: 4, background: brand.bg, border: '1px solid rgba(255,255,255,0.1)' }} />
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', fontFamily: 'monospace' }}>{brand.accent}</span>
                 </div>
-
                 <button
                   className="bc-btn"
                   style={{
-                    background: isSel ? brand.accent : `${brand.accent}15`,
-                    color: isSel ? (isLight ? brand.bg : '#000') : brand.accent,
+                    background: isSel ? brand.accent : `${brand.accent}18`,
+                    color: isSel ? (isLight ? '#000' : '#fff') : brand.accent,
                     fontFamily: brand.font,
-                    border: `1px solid ${brand.accent}${isSel ? 'ff' : '30'}`,
+                    border: `1px solid ${brand.accent}${isSel ? '' : '35'}`,
                   }}
                   onClick={e => { e.stopPropagation(); setSelected(isSel ? null : brand.id) }}
                 >
-                  {isSel ? `✓ I want ${brand.name}` : `Select ${brand.name}`}
+                  {isSel ? `✓ This is the one` : `Choose ${brand.name}`}
                 </button>
               </div>
             </div>
@@ -474,32 +549,30 @@ export default function BrandConceptsClient() {
       {/* Selection banner */}
       {selected && (() => {
         const b = BRANDS.find(x => x.id === selected)!
-        const isLight = selected === 'relay'
+        const isLight = b.bg === '#ffffff' || b.bg === '#fafaf8'
         return (
-          <div className="bc-banner" style={{ maxWidth: 1164, margin: '28px auto 0', padding: '22px 28px', background: `${b.accent}0e`, border: `1px solid ${b.accent}25`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
+          <div className="bc-banner" style={{ maxWidth: 1100, margin: '24px auto 0', padding: '20px 24px', background: `${b.accent}0c`, border: `1px solid ${b.accent}28`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: b.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontFamily: b.font, fontSize: 18, fontWeight: 800, color: isLight ? b.bg : '#000' }}>{b.name[0]}</span>
+              <div style={{ width: 38, height: 38, borderRadius: 9, background: b.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontFamily: b.font, fontSize: 16, fontWeight: 800, color: isLight ? '#000' : '#fff' }}>{b.name[0]}</span>
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: b.font, marginBottom: 3 }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: b.font, marginBottom: 2 }}>
                   You chose <span style={{ color: b.accent }}>{b.name}</span>
                 </div>
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
-                  Tell me and I'll rename the entire codebase, update every file, and push a commit — all in one shot.
+                  Say the word — I'll rename the app, update all the copy, and push it as a single commit.
                 </div>
               </div>
             </div>
-            <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.2)', cursor: 'pointer', fontSize: 22, lineHeight: 1, padding: '4px 8px', flexShrink: 0 }}>×</button>
+            <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.2)', cursor: 'pointer', fontSize: 20, padding: '4px 8px', flexShrink: 0 }}>×</button>
           </div>
         )
       })()}
 
-      <div style={{ textAlign: 'center', marginTop: 64 }}>
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.12)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-          Internal use only · Brand selection
-        </p>
-      </div>
+      <p style={{ textAlign: 'center', marginTop: 56, fontSize: 11, color: 'rgba(255,255,255,0.1)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+        Internal use only · Brand selection
+      </p>
     </div>
   )
 }

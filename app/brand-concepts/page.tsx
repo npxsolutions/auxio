@@ -1,14 +1,16 @@
-import { bricolage, playfair, barlow, outfit, syne, cormorant } from './fonts'
+import { jakarta, dmsans, manrope, worksans, nunitosans, spaceGrotesk } from './fonts'
 import BrandConceptsClient from './BrandConceptsClient'
+
+export const metadata = { title: 'Brand Concepts' }
 
 export default function BrandConceptsPage() {
   const fontVars = [
-    bricolage.variable,
-    playfair.variable,
-    barlow.variable,
-    outfit.variable,
-    syne.variable,
-    cormorant.variable,
+    jakarta.variable,
+    dmsans.variable,
+    manrope.variable,
+    worksans.variable,
+    nunitosans.variable,
+    spaceGrotesk.variable,
   ].join(' ')
 
   return (

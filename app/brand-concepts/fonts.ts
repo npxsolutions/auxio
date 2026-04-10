@@ -1,51 +1,50 @@
 import {
-  Bricolage_Grotesque,
-  Playfair_Display,
-  Barlow_Condensed,
-  Outfit,
-  Syne,
-  Cormorant_Garamond,
+  Plus_Jakarta_Sans,
+  DM_Sans,
+  Manrope,
+  Work_Sans,
+  Nunito_Sans,
+  Space_Grotesk,
 } from 'next/font/google'
 
-export const bricolage = Bricolage_Grotesque({
+export const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '600', '800'],
-  variable: '--font-bricolage',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
-export const playfair = Playfair_Display({
+export const dmsans = DM_Sans({
   subsets: ['latin'],
-  weight: ['400', '700', '900'],
-  variable: '--font-playfair',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dmsans',
   display: 'swap',
 })
 
-export const barlow = Barlow_Condensed({
+export const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['400', '600', '800'],
-  variable: '--font-barlow',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-manrope',
   display: 'swap',
 })
 
-export const outfit = Outfit({
+export const worksans = Work_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-outfit',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-worksans',
   display: 'swap',
 })
 
-export const syne = Syne({
+export const nunitosans = Nunito_Sans({
   subsets: ['latin'],
-  weight: ['400', '700', '800'],
-  variable: '--font-syne',
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-nunito',
   display: 'swap',
 })
 
-export const cormorant = Cormorant_Garamond({
+export const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-cormorant',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-space',
   display: 'swap',
 })

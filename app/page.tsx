@@ -61,18 +61,18 @@ const NAV = [
 ]
 
 const FEATURES = [
-  { icon: '📊', title: 'True profit, not just revenue', desc: 'After eBay fees, Amazon referral, postage, packaging, COGS and VAT — see exactly what you kept on every single order.' },
-  { icon: '🤖', title: 'AI that writes and acts', desc: 'Channel-specific listing copy in seconds. One AI agent that monitors, flags, and fixes problems while you sleep.' },
-  { icon: '🔄', title: 'One listing, everywhere', desc: 'Write once. Publish to eBay, Amazon, Shopify, and OnBuy in one click. A price change syncs across all channels in real time.' },
-  { icon: '📡', title: 'Feed rules engine', desc: 'Transform titles, remap categories, strip banned words, and enforce price floors — per channel, automatically.' },
-  { icon: '⚠️', title: 'Error intelligence', desc: 'Auxio watches your live listings 24/7 and flags ended listings, suppressed items, and policy violations before they cost you sales.' },
-  { icon: '📈', title: 'Social intelligence', desc: 'Analyse what TikTok and Instagram creators are saying about products in your category. Spot trends before they spike.' },
+  { icon: '◎', title: 'All your channels in one place', desc: 'Stop logging in to eBay, Amazon, Shopify, and OnBuy separately. Manage every order, every listing, and every stock level from a single control panel.' },
+  { icon: '◈', title: 'No more stock and price discrepancies', desc: 'Synchronise your inventory across every sales channel in real time. When you sell one on eBay, Amazon, OnBuy, and Shopify all update instantly — no oversells, no manual fixes.' },
+  { icon: '◉', title: 'True profit, not just revenue', desc: 'After marketplace fees, postage, packaging, COGS, and VAT — see exactly what you kept on every single sale. Feedonomics and Linnworks show revenue. We show what actually matters.' },
+  { icon: '⬡', title: 'Automate the repetitive work', desc: 'Automatic order routing, label printing, invoice generation, and status updates. Reduce order processing time and free yourself from the tasks that don\'t grow your business.' },
+  { icon: '◇', title: 'List products in bulk, instantly', desc: 'Import your product catalogue and list across all your channels in minutes — not hours. Create thousands of listings with ready-made templates optimised per marketplace.' },
+  { icon: '▲', title: 'Connected commerce that scales', desc: 'Start with eBay and one warehouse. Add Amazon, OnBuy, Etsy, and Shopify as you grow. Your processes, automations, and profit tracking scale with you.' },
 ]
 
 const TESTIMONIALS = [
-  { quote: 'I knew I was making money on eBay. I didn\'t know it was barely 8%. Auxio showed me the real number in about three minutes.', name: 'Sarah T.', role: 'Clothing reseller · Growth plan', metric: '+34%', metricLabel: 'margin after switching' },
-  { quote: 'Setting up a new channel used to take a week of back and forth with a dev. Now it\'s genuinely fifteen minutes.', name: 'Marcus L.', role: 'Electronics seller · Scale plan', metric: '4 channels', metricLabel: 'added in first month' },
-  { quote: 'The AI briefing every morning is the thing I didn\'t know I needed. It\'s like having an analyst who never sleeps.', name: 'Priya K.', role: 'Health supplements · Growth plan', metric: '2 hrs/day', metricLabel: 'saved on manual work' },
+  { quote: 'We handle several hundred orders a day. Before Auxio it was spreadsheets and four browser tabs. Now everything is in one place and we save the equivalent of two full days a week.', name: 'Sarah T.', role: 'Clothing reseller, eBay & Amazon', metric: '2 days/week', metricLabel: 'saved on manual work' },
+  { quote: 'I knew I was making money on eBay. I didn\'t know it was barely 8% margin. Auxio showed me the real number in about three minutes — then showed me exactly which listings to reprice.', name: 'Marcus L.', role: 'Electronics seller, 4 channels', metric: '+34%', metricLabel: 'margin improvement in 60 days' },
+  { quote: 'We used Linnworks for two years. The price kept going up and the product barely changed. Auxio does more for a fraction of the cost — and the profit tracking alone paid for the first year.', name: 'Priya K.', role: 'Health & beauty, switched from Linnworks', metric: '£4,200', metricLabel: 'saved vs Linnworks annually' },
 ]
 
 const COMPETITORS = [
@@ -82,11 +82,12 @@ const COMPETITORS = [
 ]
 
 const FAQS = [
-  { q: 'How long does it take to get set up?', a: 'Most sellers are live on their first channel within 10 minutes. Connect via OAuth, import your listings, and your profit dashboard is populated that evening.' },
-  { q: 'Does Auxio work for sellers outside the UK?', a: 'Auxio is built for UK sellers first — eBay.co.uk, OnBuy, Royal Mail, UK VAT. International expansion is on the roadmap.' },
-  { q: 'What channels does Auxio support?', a: 'eBay, Amazon, Shopify, WooCommerce, and OnBuy are live. Etsy, TikTok Shop, and Facebook Marketplace are in beta.' },
-  { q: 'Is my data safe?', a: 'Yes. We use Supabase with row-level security, all credentials are encrypted at rest, and we never share your data with third parties.' },
-  { q: 'Can I cancel any time?', a: 'Yes — monthly plans cancel with no notice. Annual plans are refunded pro-rata if cancelled in the first 14 days after renewal.' },
+  { q: 'How quickly can I get up and running?', a: 'Most sellers are connected and selling within 10 minutes. Connect your first channel via OAuth, and your order management dashboard populates automatically. No lengthy onboarding, no implementation calls — just connect and go.' },
+  { q: 'Can I manage all my channels from one place?', a: 'Yes. Orders from eBay, Amazon, OnBuy, Shopify, Etsy, and more all flow into one inbox. Inventory syncs automatically across every channel when you make a sale — no manual updates, no oversells.' },
+  { q: 'How is Auxio different from Linnworks or Baselinker?', a: 'Linnworks charges £449+/mo and requires an implementation project. Baselinker is cheaper but built for Eastern European marketplaces with limited UK fee models. Auxio is built specifically for UK sellers, with real profit tracking (not just revenue) and AI tools neither competitor offers.' },
+  { q: 'What channels does Auxio support?', a: 'eBay, Amazon, Shopify, WooCommerce, and OnBuy are live. Etsy, TikTok Shop, and Facebook Marketplace are in beta. We\'re adding new integrations every month based on member requests.' },
+  { q: 'Does the profit tracking include all my costs?', a: 'Yes. We calculate true profit after marketplace fees (eBay FVF, Amazon referral), fulfilment costs, postage, packaging, advertising spend, COGS, and VAT. Most sellers discover their real margin is 15–30% lower than they thought.' },
+  { q: 'Is my data safe?', a: 'Yes. We use enterprise-grade infrastructure with row-level security, encrypted credentials, and no data sharing with third parties. We are compliant with UK GDPR and process your data solely to provide the service.' },
 ]
 
 export default function HomePage() {
@@ -121,20 +122,20 @@ export default function HomePage() {
           {/* Eyebrow — glass pill */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '20px', background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.border}`, fontSize: '12px', color: C.text50, fontWeight: 500, letterSpacing: '0.01em', marginBottom: '36px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', display: 'inline-block', boxShadow: '0 0 6px #4ade80' }} />
-            Now open to founding members — 27 of 50 spots left
+            The multichannel platform built for UK sellers
           </div>
 
           {/* Headline — Stripe weight-300 technique */}
           <h1 style={{ fontSize: 'clamp(52px, 7vw, 88px)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 1.05, color: 'white', marginBottom: '24px' }}>
-            Know what you make.
+            Manage and scale your
             <br />
             <span style={{ background: `linear-gradient(135deg, ${C.purple} 0%, #a78bfa 50%, #c4b5fd 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Sell everywhere.
+              multichannel business.
             </span>
           </h1>
 
-          <p style={{ fontSize: '19px', color: C.text50, lineHeight: 1.7, marginBottom: '44px', maxWidth: '580px', margin: '0 auto 44px', fontWeight: 300, letterSpacing: '-0.01em' }}>
-            The multichannel command centre for UK sellers. True profit tracking, AI-powered listings, and one-click sync across eBay, Amazon, Shopify, and OnBuy.
+          <p style={{ fontSize: '19px', color: C.text50, lineHeight: 1.7, marginBottom: '44px', maxWidth: '600px', margin: '0 auto 44px', fontWeight: 300, letterSpacing: '-0.01em' }}>
+            Automate and scale your ecommerce across eBay, Amazon, Shopify, OnBuy, and more — from one platform. Real profit tracking, no manual work, no stock discrepancies.
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '48px' }}>
@@ -162,10 +163,10 @@ export default function HomePage() {
       <section style={{ background: C.cream, borderTop: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '40px 48px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#a39e98', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '28px' }}>
-            The multichannel stack UK independent sellers are migrating to
+            Trusted by independent sellers switching from Linnworks and Baselinker
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: 'rgba(0,0,0,0.06)', borderRadius: '12px', overflow: 'hidden' }}>
-            {[['£0', 'hidden fees'], ['10 min', 'to go live'], ['24/7', 'error watch'], ['1 place', 'every channel']].map(([stat, label]) => (
+            {[['10 min', 'average setup time'], ['100%', 'inventory accuracy'], ['24/7', 'error monitoring'], ['1 place', 'every channel']].map(([stat, label]) => (
               <div key={label} style={{ background: C.cream, padding: '20px', textAlign: 'center' }}>
                 <div style={{ fontSize: '22px', fontWeight: 700, color: C.warmDark, letterSpacing: '-0.03em' }}>{stat}</div>
                 <div style={{ fontSize: '12px', color: '#a39e98', marginTop: '2px', fontWeight: 500 }}>{label}</div>
