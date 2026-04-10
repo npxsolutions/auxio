@@ -11,37 +11,39 @@ export async function GET() {
   try {
     const supabase = getAdmin()
 
-    // Query listing errors: listing_channels with status = 'error', joined to listings
-    const { data: listingErrors, error: listingError } = await supabase
-      .from('listing_channels')
-      .select(`
-        id,
-        listing_id,
-        channel,
-        error_message,
-        updated_at,
-        listings (
-          title,
-          sku
-        )
-      `)
-      .eq('status', 'error')
-      .order('updated_at', { ascending: false })
+    // Query listing errors — gracefully handle if table doesn't exist yet
+    let formattedListingErrors: any[] = []
+    try {
+      const { data: listingErrors, error: listingError } = await supabase
+        .from('listing_channels')
+        .select(`
+          id,
+          listing_id,
+          channel,
+          error_message,
+          updated_at,
+          listings (
+            title,
+            sku
+          )
+        `)
+        .eq('status', 'error')
+        .order('updated_at', { ascending: false })
 
-    if (listingError) {
-      console.error('[errors] listing query error:', listingError.message)
+      if (!listingError && listingErrors) {
+        formattedListingErrors = listingErrors.map((row: any) => ({
+          id: row.id,
+          listing_id: row.listing_id,
+          channel: row.channel,
+          error_message: row.error_message,
+          updated_at: row.updated_at,
+          title: row.listings?.title ?? 'Untitled',
+          sku: row.listings?.sku ?? null,
+        }))
+      }
+    } catch {
+      // Table doesn't exist yet — return empty
     }
-
-    // Flatten joined data into a flat array
-    const formattedListingErrors = (listingErrors || []).map((row: any) => ({
-      id: row.id,
-      listing_id: row.listing_id,
-      channel: row.channel,
-      error_message: row.error_message,
-      updated_at: row.updated_at,
-      title: row.listings?.title ?? 'Untitled',
-      sku: row.listings?.sku ?? null,
-    }))
 
     // Try to query order errors — gracefully handle if table/column doesn't exist
     let orderErrors: any[] = []
