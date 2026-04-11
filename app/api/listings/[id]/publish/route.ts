@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { applyFeedRules, applyFieldMappings } from '@/app/lib/feed-rules'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -290,9 +291,89 @@ async function publishToEbay(listing: any, channel: any, categoryId?: string, as
   }
 }
 
-// ── AMAZON PUBLISHER ──
-async function publishToAmazon(_listing: any, _channel: any): Promise<{ id: string; url: string }> {
-  throw new Error('Amazon listing creation coming soon — SP-API integration in progress')
+// ── AMAZON SP-API PUBLISHER ──
+async function getAmazonAccessToken(refreshToken: string): Promise<string> {
+  const res = await fetch('https://api.amazon.com/auth/o2/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type:    'refresh_token',
+      refresh_token: refreshToken,
+      client_id:     process.env.AMAZON_CLIENT_ID!,
+      client_secret: process.env.AMAZON_CLIENT_SECRET!,
+    }),
+  })
+  if (!res.ok) throw Object.assign(new Error(`Amazon token error: ${await res.text()}`), { status: res.status })
+  const { access_token } = await res.json()
+  return access_token
+}
+
+async function publishToAmazon(listing: any, channel: any): Promise<{ id: string; url: string }> {
+  if (!process.env.AMAZON_CLIENT_ID || !process.env.AMAZON_CLIENT_SECRET) {
+    throw new Error('Amazon SP-API credentials not configured (AMAZON_CLIENT_ID, AMAZON_CLIENT_SECRET)')
+  }
+
+  const accessToken  = await getAmazonAccessToken(channel.refresh_token)
+  const sellerId     = channel.seller_id
+  const marketplaceId = channel.marketplace_id || 'A1F83G8C2ARO7P' // UK default
+  const sku          = listing.sku || listing.id
+
+  const spApiEndpoint = 'https://sellingpartnerapi-eu.amazon.com'
+
+  const body = {
+    productType: listing.amazon_product_type || 'PRODUCT',
+    requirements: 'LISTING',
+    attributes: {
+      item_name:       [{ value: listing.title,        language_tag: 'en_GB', marketplace_id: marketplaceId }],
+      product_description: listing.description
+        ? [{ value: listing.description, language_tag: 'en_GB', marketplace_id: marketplaceId }]
+        : undefined,
+      brand:           listing.brand    ? [{ value: listing.brand,    language_tag: 'en_GB', marketplace_id: marketplaceId }] : undefined,
+      externally_assigned_product_identifier: listing.barcode
+        ? [{ type: listing.barcode.length === 13 ? 'ean' : 'upc', value: listing.barcode }]
+        : undefined,
+      fulfillment_availability: [{
+        fulfillment_channel_code: 'DEFAULT',
+        quantity: listing.quantity ?? 0,
+      }],
+      purchasable_offer: [{
+        marketplace_id: marketplaceId,
+        currency:       'GBP',
+        our_price:      [{ schedule: [{ value_with_tax: listing.price }] }],
+      }],
+      condition_type: [{ value: listing.condition === 'new' ? 'new_new' : 'used_good', marketplace_id: marketplaceId }],
+      // Spread any additional channel-specific attributes stored on the listing
+      ...(listing.attributes || {}),
+    },
+  }
+
+  const res = await fetch(
+    `${spApiEndpoint}/listings/2021-08-01/items/${sellerId}/${encodeURIComponent(sku)}?marketplaceIds=${marketplaceId}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-amz-access-token': accessToken,
+      },
+      body: JSON.stringify(body),
+    }
+  )
+
+  if (!res.ok) {
+    const errText = await res.text()
+    throw Object.assign(new Error(`Amazon SP-API error (${res.status}): ${errText}`), { status: res.status })
+  }
+
+  const data = await res.json()
+
+  // SP-API PUT returns status 200 for updates, 201 for new listings
+  // ASIN is returned in the response for new listings; for updates it may require a separate lookup
+  const asin = data.asin || sku
+
+  return {
+    id:  asin,
+    url: `https://www.amazon.co.uk/dp/${asin}`,
+  }
 }
 
 // ── MAIN HANDLER ──
@@ -321,13 +402,23 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       .eq('id', id).eq('user_id', user.id).single()
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
 
-    // Load connected channels + existing publish state + saved category mappings
-    const [{ data: connectedChannels }, { data: existingChannelListings }, { data: savedMappings }] = await Promise.all([
+    // Load connected channels + existing publish state + saved category mappings + feed rules + field mappings
+    const [
+      { data: connectedChannels },
+      { data: existingChannelListings },
+      { data: savedMappings },
+      { data: feedRules },
+      { data: fieldMappings },
+    ] = await Promise.all([
       supabase.from('channels').select('*').eq('user_id', user.id).eq('active', true).in('type', requestedChannels),
       supabase.from('listing_channels').select('*').eq('listing_id', id),
       listing.category
         ? supabase.from('category_mappings').select('*').eq('user_id', user.id).eq('source_category', listing.category)
         : Promise.resolve({ data: [] }),
+      supabase.from('feed_rules').select('id,name,channel,conditions,actions,active,priority')
+        .eq('user_id', user.id).eq('active', true).order('priority', { ascending: true }),
+      supabase.from('field_mappings').select('source_field,target_field,transform,template')
+        .eq('user_id', user.id),
     ])
 
     // Merge caller-supplied category selections with saved mappings (caller wins)
@@ -379,15 +470,21 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         try {
           let published: { id: string; url: string }
 
+          // Apply feed rules (channel-specific first, then 'all'), then field mappings
+          const transformed = applyFieldMappings(
+            applyFeedRules(listing, feedRules || [], channelType),
+            (fieldMappings || []).filter(m => !('channel_type' in m) || (m as any).channel_type === channelType)
+          )
+
           if (channelType === 'shopify') {
             published = await withRetry(() =>
-              publishToShopify(listing, channel, existingCL?.status === 'published' ? existingCL.channel_listing_id : null)
+              publishToShopify(transformed, channel, existingCL?.status === 'published' ? existingCL.channel_listing_id : null)
             )
           } else if (channelType === 'ebay') {
             const ebayCategory = mergedCategorySelections['ebay']
-            published = await withRetry(() => publishToEbay(listing, channel, ebayCategory?.id, aspectValues))
+            published = await withRetry(() => publishToEbay(transformed, channel, ebayCategory?.id, aspectValues))
           } else if (channelType === 'amazon') {
-            published = await withRetry(() => publishToAmazon(listing, channel))
+            published = await withRetry(() => publishToAmazon(transformed, channel))
           } else {
             throw new Error(`Unknown channel: ${channelType}`)
           }
