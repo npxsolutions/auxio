@@ -472,7 +472,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
           // Apply feed rules (channel-specific first, then 'all'), then field mappings
           const transformed = applyFieldMappings(
-            applyFeedRules(listing, feedRules || [], channelType),
+            applyFeedRules(listing, (feedRules || []) as any, channelType),
             (fieldMappings || []).filter(m => !('channel_type' in m) || (m as any).channel_type === channelType)
           )
 

@@ -47,12 +47,18 @@ export async function POST(request: NextRequest) {
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id)
 
+    const { rule_phase, combinator, valid_from, valid_to } = body
+
     const { data, error } = await supabase
       .from('feed_rules')
       .insert({
         user_id:    user.id,
         name:       name.trim(),
         channel:    channel || 'all',
+        rule_phase: rule_phase || 'business',
+        combinator: combinator || 'AND',
+        valid_from: valid_from || null,
+        valid_to:   valid_to   || null,
         conditions: conditions || [],
         actions:    actions || [],
         active:     active !== false,

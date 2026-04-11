@@ -1,6 +1,9 @@
-// ── Feed Rule Engine ──────────────────────────────────────────────────────────
-// Evaluates conditions and applies actions to a listing object before publish.
-// Schema mirrors feed_rules.conditions (jsonb) and feed_rules.actions (jsonb).
+// ── Feed Rule Engine — Feedonomics-parity ────────────────────────────────────
+// Three-phase execution: pre → business → post
+// AND/OR condition combinators
+// Scheduled activation via valid_from / valid_to
+// Template expressions: {field} placeholders in any action value
+// Lookup table actions via lookup_table_id
 
 type ConditionOp =
   | 'contains' | 'not_contains' | 'equals' | 'not_equals'
@@ -14,21 +17,26 @@ interface Condition {
 }
 
 interface Action {
-  type:      string
-  field:     string
-  value:     string
-  from?:     string
-  to?:       string
-  operator?: string
+  type:             string
+  field:            string
+  value:            string
+  from?:            string
+  to?:              string
+  operator?:        string
+  lookup_table_id?: string   // for lookup_table action type
 }
 
 export interface FeedRule {
-  id:         string
-  conditions: Condition[]
-  actions:    Action[]
-  active:     boolean
-  priority:   number
-  channel:    string
+  id:          string
+  conditions:  Condition[]
+  actions:     Action[]
+  active:      boolean
+  priority:    number
+  channel:     string
+  rule_phase:  'pre' | 'business' | 'post'
+  combinator:  'AND' | 'OR'
+  valid_from?: string | null
+  valid_to?:   string | null
 }
 
 export interface FieldMapping {
@@ -36,6 +44,11 @@ export interface FieldMapping {
   target_field: string
   transform?:   string | null
   template?:    string | null
+}
+
+export interface LookupRow {
+  match_value:  string
+  output_value: string
 }
 
 // ── Field accessors ────────────────────────────────────────────────────────────
@@ -65,6 +78,14 @@ function setField(listing: Record<string, any>, field: string, value: string): v
   listing[field] = value
 }
 
+// ── Template expression resolver ───────────────────────────────────────────────
+// Resolves {field} placeholders in a template string against the current listing.
+// e.g. "{brand} {title} - Free UK Delivery" → "Nike Air Max - Free UK Delivery"
+
+function resolveTemplate(template: string, listing: Record<string, any>): string {
+  return template.replace(/\{(\w+(?:\[\d+\])?)\}/g, (_, f) => getField(listing, f))
+}
+
 // ── Condition evaluator ────────────────────────────────────────────────────────
 
 function evaluateCondition(listing: Record<string, any>, c: Condition): boolean {
@@ -89,30 +110,61 @@ function evaluateCondition(listing: Record<string, any>, c: Condition): boolean 
   }
 }
 
+function conditionsPass(
+  listing: Record<string, any>,
+  conditions: Condition[],
+  combinator: 'AND' | 'OR'
+): boolean {
+  if (conditions.length === 0) return true
+  const results = conditions.map(c => evaluateCondition(listing, c))
+  return combinator === 'AND' ? results.every(Boolean) : results.some(Boolean)
+}
+
 // ── Action applicator ──────────────────────────────────────────────────────────
 
-function applyAction(listing: Record<string, any>, action: Action): void {
+function applyAction(
+  listing: Record<string, any>,
+  action: Action,
+  lookupRows?: LookupRow[]
+): void {
   const cur = getField(listing, action.field)
 
+  // Resolve {field} template placeholders in value for all action types
+  const resolvedValue = resolveTemplate(action.value ?? '', listing)
+
   switch (action.type) {
-    case 'set_field': setField(listing, action.field, action.value); break
-    case 'append':    setField(listing, action.field, cur + action.value); break
-    case 'prepend':   setField(listing, action.field, action.value + cur); break
-    case 'truncate':  setField(listing, action.field, cur.slice(0, parseInt(action.value) || cur.length)); break
-    case 'replace':   setField(listing, action.field, cur.split(action.from ?? '').join(action.to ?? '')); break
-    case 'map_value': if (cur === action.from) setField(listing, action.field, action.to ?? ''); break
+    case 'set_field':  setField(listing, action.field, resolvedValue); break
+    case 'template':   setField(listing, action.field, resolvedValue); break   // explicit template type
+    case 'append':     setField(listing, action.field, cur + resolvedValue); break
+    case 'prepend':    setField(listing, action.field, resolvedValue + cur); break
+    case 'truncate':   setField(listing, action.field, cur.slice(0, parseInt(action.value) || cur.length)); break
+    case 'replace':    setField(listing, action.field, cur.split(action.from ?? '').join(action.to ?? '')); break
+    case 'map_value':  if (cur === action.from) setField(listing, action.field, action.to ?? ''); break
+    case 'strip_html': setField(listing, action.field, cur.replace(/<[^>]*>/g, '')); break
+    case 'uppercase':  setField(listing, action.field, cur.toUpperCase()); break
+    case 'lowercase':  setField(listing, action.field, cur.toLowerCase()); break
+    case 'trim':       setField(listing, action.field, cur.trim()); break
+
+    case 'lookup_table': {
+      if (lookupRows?.length) {
+        const match = lookupRows.find(r => r.match_value === cur)
+        if (match) setField(listing, action.field, match.output_value)
+      }
+      break
+    }
+
     case 'calculate': {
       const num = parseFloat(cur)
       const val = parseFloat(action.value)
       if (!isNaN(num) && !isNaN(val)) {
         let result: number
         switch (action.operator) {
-          case '+':  result = Math.round((num + val)                   * 100) / 100; break
-          case '-':  result = Math.round((num - val)                   * 100) / 100; break
-          case '*':  result = Math.round(num * val                     * 100) / 100; break
-          case '/':  result = val !== 0 ? Math.round(num / val        * 100) / 100 : num; break
-          case '-%': result = Math.round(num * (1 - val / 100)        * 100) / 100; break
-          case '+%': result = Math.round(num * (1 + val / 100)        * 100) / 100; break
+          case '+':  result = Math.round((num + val)              * 100) / 100; break
+          case '-':  result = Math.round((num - val)              * 100) / 100; break
+          case '*':  result = Math.round(num * val                * 100) / 100; break
+          case '/':  result = val !== 0 ? Math.round(num / val   * 100) / 100 : num; break
+          case '-%': result = Math.round(num * (1 - val / 100)   * 100) / 100; break
+          case '+%': result = Math.round(num * (1 + val / 100)   * 100) / 100; break
           default:   return
         }
         setField(listing, action.field, String(result))
@@ -122,31 +174,54 @@ function applyAction(listing: Record<string, any>, action: Action): void {
   }
 }
 
+// ── Scheduling check ───────────────────────────────────────────────────────────
+
+function isScheduledActive(rule: FeedRule, now: Date): boolean {
+  if (rule.valid_from && new Date(rule.valid_from) > now) return false
+  if (rule.valid_to   && new Date(rule.valid_to)   < now) return false
+  return true
+}
+
 // ── Public API ─────────────────────────────────────────────────────────────────
 
 /**
- * Apply feed rules to a listing before publishing.
- * Rules targeting 'all' or the specific channelType are applied in priority order.
+ * Apply feed rules to a listing in three phases (pre → business → post).
+ * Rules are filtered by: active, channel scope, scheduled window.
+ * Conditions are evaluated with the rule's own AND/OR combinator.
+ * Template expressions ({field}) are resolved in all action values.
+ *
  * Returns a shallow clone — the original listing is not mutated.
+ *
+ * @param lookupMap  Optional pre-fetched lookup table rows keyed by table_id
  */
 export function applyFeedRules(
   listing: Record<string, any>,
   rules: FeedRule[],
-  channelType: string
+  channelType: string,
+  lookupMap: Record<string, LookupRow[]> = {}
 ): Record<string, any> {
   const out = { ...listing, images: [...(listing.images || [])] }
+  const now = new Date()
 
-  const applicable = rules
-    .filter(r => r.active && (r.channel === 'all' || r.channel === channelType))
-    .sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0))
+  const eligible = rules.filter(r =>
+    r.active &&
+    (r.channel === 'all' || r.channel === channelType) &&
+    isScheduledActive(r, now)
+  )
 
-  for (const rule of applicable) {
-    const passes =
-      rule.conditions.length === 0 ||
-      rule.conditions.every(c => evaluateCondition(out, c))
+  // Execute in three explicit phases, each sorted by priority
+  for (const phase of ['pre', 'business', 'post'] as const) {
+    const phaseRules = eligible
+      .filter(r => (r.rule_phase ?? 'business') === phase)
+      .sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0))
 
-    if (!passes) continue
-    for (const action of rule.actions) applyAction(out, action)
+    for (const rule of phaseRules) {
+      if (!conditionsPass(out, rule.conditions, rule.combinator ?? 'AND')) continue
+      for (const action of rule.actions) {
+        const lookupRows = action.lookup_table_id ? lookupMap[action.lookup_table_id] : undefined
+        applyAction(out, action, lookupRows)
+      }
+    }
   }
 
   return out
@@ -154,7 +229,7 @@ export function applyFeedRules(
 
 /**
  * Apply field mappings — remaps source → target fields with optional transform or template.
- * Templates support {{field_name}} placeholders resolved against the original listing.
+ * Templates support {field_name} placeholders resolved against the original listing.
  * Returns a shallow clone — the original listing is not mutated.
  */
 export function applyFieldMappings(
@@ -167,10 +242,7 @@ export function applyFieldMappings(
     const sourceVal = String(listing[m.source_field] ?? '')
 
     if (m.template) {
-      out[m.target_field] = m.template.replace(
-        /\{\{(\w+)\}\}/g,
-        (_: string, f: string) => String(listing[f] ?? '')
-      )
+      out[m.target_field] = resolveTemplate(m.template, listing)
     } else if (m.transform) {
       switch (m.transform) {
         case 'uppercase':  out[m.target_field] = sourceVal.toUpperCase(); break
@@ -186,4 +258,24 @@ export function applyFieldMappings(
   }
 
   return out
+}
+
+// ── Preview helper (for UI live-preview, no DB lookups needed) ─────────────────
+
+export function previewRule(
+  listing: Record<string, string>,
+  conditions: Condition[],
+  actions: Action[],
+  combinator: 'AND' | 'OR'
+): { out: Record<string, string>; matched: boolean } {
+  const out = { ...listing }
+  const matched = conditionsPass(out as any, conditions, combinator)
+
+  if (matched) {
+    for (const action of actions) {
+      applyAction(out as any, action)
+    }
+  }
+
+  return { out, matched }
 }
