@@ -130,6 +130,12 @@ const Icon = {
       <path d="M7.5 9.5h3"/>
     </svg>
   ),
+  costs: (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="7.5" cy="7.5" r="5.5"/>
+      <path d="M7.5 4.5v1M7.5 9.5v1M5.5 6.5a1.5 1.5 0 0 1 2-1.4 1.5 1.5 0 0 1 0 2.8A1.5 1.5 0 0 0 7.5 9.5"/>
+    </svg>
+  ),
 } as const
 
 /* ─────────────────────────────────────────
@@ -206,6 +212,7 @@ export default function AppSidebar() {
         { href: '/errors',    icon: Icon.errors,    label: 'Errors',     badge: errorCount,   badgeColor: '#ef4444' },
         { href: '/inventory', icon: Icon.inventory, label: 'Inventory' },
         { href: '/inventory/buffers', icon: Icon.buffers, label: 'Buffers' },
+        { href: '/costs',     icon: Icon.costs,     label: 'Costs & Margins' },
       ],
     },
     {
