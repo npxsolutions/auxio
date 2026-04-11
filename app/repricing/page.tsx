@@ -369,7 +369,7 @@ export default function RepricingPage() {
               padding: '16px 18px',
             }}>
               <div style={{ fontSize: 20, marginBottom: 8 }}>{stat.icon}</div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: stat.valueColor || '#1a1b22', letterSpacing: '-0.02em' }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: '#1a1b22', letterSpacing: '-0.02em' }}>
                 {stat.value}
               </div>
               <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 2 }}>
