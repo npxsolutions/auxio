@@ -24,65 +24,48 @@ interface RepricingRule {
   listingsAffected: number
 }
 
-interface LogEntry {
-  id: string
-  title: string
-  sku: string
-  oldPrice: number
-  newPrice: number
-  channel: Channel
-  reason: string
-  time: string
+
+// ─── DB ↔ UI mapping ─────────────────────────────────────────────────────────
+
+const CH_TO_LABEL: Record<string, Channel> = {
+  all:     'All Channels',
+  ebay:    'eBay',
+  amazon:  'Amazon',
+  shopify: 'Shopify',
+}
+const LABEL_TO_CH: Record<Channel, string> = {
+  'All Channels': 'all',
+  'eBay':         'ebay',
+  'Amazon':       'amazon',
+  'Shopify':      'shopify',
 }
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+function relativeTime(iso: string | null): string {
+  if (!iso) return 'Never'
+  const diff = Date.now() - new Date(iso).getTime()
+  const m = Math.floor(diff / 60000)
+  if (m < 1)  return 'Just now'
+  if (m < 60) return `${m} min${m > 1 ? 's' : ''} ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h} hour${h > 1 ? 's' : ''} ago`
+  const d = Math.floor(h / 24)
+  return `${d} day${d > 1 ? 's' : ''} ago`
+}
 
-const INITIAL_RULES: RepricingRule[] = [
-  {
-    id: 'r1',
-    name: 'Beat Lowest – Electronics',
-    channel: 'eBay',
-    strategy: 'beat_lowest',
-    strategyParam: 2,
-    floorPrice: 15,
-    ceilingPrice: 200,
-    status: 'active',
-    lastRun: '2 hours ago',
-    listingsAffected: 34,
-  },
-  {
-    id: 'r2',
-    name: 'Amazon Buy Box Winner',
-    channel: 'Amazon',
-    strategy: 'match_buybox',
-    strategyParam: 0,
-    floorPrice: 10,
-    ceilingPrice: 500,
-    status: 'active',
-    lastRun: '30 mins ago',
-    listingsAffected: 58,
-  },
-  {
-    id: 'r3',
-    name: 'Clearance Stock',
-    channel: 'All Channels',
-    strategy: 'timed_reduction',
-    strategyParam: 5,
-    floorPrice: 5,
-    ceilingPrice: 50,
-    status: 'paused',
-    lastRun: '3 days ago',
-    listingsAffected: 12,
-  },
-]
-
-const LOG_ENTRIES: LogEntry[] = [
-  { id: 'l1', title: 'Sony WH-1000XM5 Headphones', sku: 'SKU-8821', oldPrice: 189.99, newPrice: 185.99, channel: 'eBay', reason: 'Beat lowest by 2%', time: '14 mins ago' },
-  { id: 'l2', title: 'Apple AirPods Pro (2nd Gen)', sku: 'SKU-3340', oldPrice: 229.00, newPrice: 224.99, channel: 'Amazon', reason: 'Match Buy Box', time: '31 mins ago' },
-  { id: 'l3', title: 'Logitech MX Master 3S Mouse', sku: 'SKU-5512', oldPrice: 89.99, newPrice: 87.99, channel: 'eBay', reason: 'Beat lowest by 2%', time: '1 hour ago' },
-  { id: 'l4', title: 'Samsung Galaxy Buds2 Pro', sku: 'SKU-7703', oldPrice: 149.99, newPrice: 142.49, channel: 'Amazon', reason: 'Match Buy Box', time: '2 hours ago' },
-  { id: 'l5', title: 'Anker PowerCore 26800mAh', sku: 'SKU-2291', oldPrice: 44.99, newPrice: 42.74, channel: 'All Channels', reason: 'Timed reduction 5%', time: '3 hours ago' },
-]
+function fromDB(row: any): RepricingRule {
+  return {
+    id:               row.id,
+    name:             row.name,
+    channel:          CH_TO_LABEL[row.channel] ?? 'All Channels',
+    strategy:         row.strategy as Strategy,
+    strategyParam:    row.strategy_param ?? 0,
+    floorPrice:       row.floor_price ?? 0,
+    ceilingPrice:     row.ceiling_price ?? 9999,
+    status:           row.active ? 'active' : 'paused',
+    lastRun:          relativeTime(row.last_run_at),
+    listingsAffected: row.listings_affected ?? 0,
+  }
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -111,15 +94,6 @@ function fmt(n: number) {
   return `£${n.toFixed(2)}`
 }
 
-function priceDiff(oldP: number, newP: number) {
-  const diff = newP - oldP
-  const pct = ((diff / oldP) * 100).toFixed(1)
-  const isNeg = diff < 0
-  return {
-    label: `${isNeg ? '' : '+'}£${Math.abs(diff).toFixed(2)} (${isNeg ? '' : '+'}${pct}%)`,
-    color: isNeg ? '#059669' : '#dc2626',
-  }
-}
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -170,27 +144,44 @@ function StatusBadge({ status }: { status: RuleStatus }) {
 
 export default function RepricingPage() {
   const router = useRouter()
-  const supabase = createClient()
 
-  const [rules, setRules] = useState<RepricingRule[]>(INITIAL_RULES)
+  const [rules, setRules]             = useState<RepricingRule[]>([])
+  const [loading, setLoading]         = useState(true)
   const [showCreatePanel, setShowCreatePanel] = useState(false)
-  const [running, setRunning] = useState(false)
-  const [toast, setToast] = useState<string | null>(null)
+  const [saving, setSaving]           = useState(false)
+  const [running, setRunning]         = useState(false)
+  const [toast, setToast]             = useState<string | null>(null)
 
   // New rule form state
-  const [newRuleName, setNewRuleName] = useState('')
-  const [newChannel, setNewChannel] = useState<Channel>('All Channels')
-  const [newStrategy, setNewStrategy] = useState<Strategy>('beat_lowest')
+  const [newRuleName, setNewRuleName]         = useState('')
+  const [newChannel, setNewChannel]           = useState<Channel>('All Channels')
+  const [newStrategy, setNewStrategy]         = useState<Strategy>('beat_lowest')
   const [newStrategyParam, setNewStrategyParam] = useState('2')
-  const [newFloor, setNewFloor] = useState('')
-  const [newCeiling, setNewCeiling] = useState('')
-  const [newActive, setNewActive] = useState(true)
+  const [newFloor, setNewFloor]               = useState('')
+  const [newCeiling, setNewCeiling]           = useState('')
+  const [newActive, setNewActive]             = useState(true)
 
-  // Auth guard
+  async function loadRules() {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/repricing')
+      const { rules: data } = await res.json()
+      setRules((data || []).map(fromDB))
+    } catch { /* silent */ } finally {
+      setLoading(false)
+    }
+  }
+
+  // Auth guard + initial load
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user) router.push('/login')
-    })
+    fetch('/api/repricing')
+      .then(r => r.json())
+      .then(({ rules: data, error }) => {
+        if (error && error === 'Unauthorized') { router.push('/login'); return }
+        setRules((data || []).map(fromDB))
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
   }, [])
 
   // Toast auto-dismiss
@@ -204,36 +195,72 @@ export default function RepricingPage() {
     setRunning(true)
     await new Promise(r => setTimeout(r, 2200))
     setRunning(false)
-    setToast('Repricing complete — 12 listings updated')
+    setToast('Repricing run triggered — results will appear in the log')
   }, [])
 
-  const toggleRule = useCallback((id: string) => {
-    setRules(prev => prev.map(r =>
-      r.id === id ? { ...r, status: r.status === 'active' ? 'paused' : 'active' } : r
-    ))
-  }, [])
-
-  const handleCreateRule = useCallback(() => {
-    if (!newRuleName.trim()) return
-    const rule: RepricingRule = {
-      id: `r${Date.now()}`,
-      name: newRuleName.trim(),
-      channel: newChannel,
-      strategy: newStrategy,
-      strategyParam: parseFloat(newStrategyParam) || 0,
-      floorPrice: parseFloat(newFloor) || 0,
-      ceilingPrice: parseFloat(newCeiling) || 9999,
-      status: newActive ? 'active' : 'paused',
-      lastRun: 'Never',
-      listingsAffected: 0,
+  const toggleRule = useCallback(async (id: string) => {
+    const rule = rules.find(r => r.id === id)
+    if (!rule) return
+    const newActive = rule.status !== 'active'
+    // Optimistic update
+    setRules(prev => prev.map(r => r.id === id ? { ...r, status: newActive ? 'active' : 'paused' } : r))
+    const res = await fetch('/api/repricing', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, active: newActive }),
+    })
+    if (!res.ok) {
+      // Revert on failure
+      setRules(prev => prev.map(r => r.id === id ? rule : r))
+      setToast('Failed to update rule')
     }
-    setRules(prev => [rule, ...prev])
-    setShowCreatePanel(false)
-    setNewRuleName('')
-    setNewFloor('')
-    setNewCeiling('')
-    setToast(`Rule "${rule.name}" created`)
-  }, [newRuleName, newChannel, newStrategy, newStrategyParam, newFloor, newCeiling, newActive])
+  }, [rules])
+
+  const deleteRule = useCallback(async (id: string, name: string) => {
+    if (!confirm(`Delete rule "${name}"?`)) return
+    setRules(prev => prev.filter(r => r.id !== id))
+    const res = await fetch('/api/repricing', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    if (!res.ok) {
+      setToast('Failed to delete rule')
+      loadRules()
+    } else {
+      setToast(`Rule "${name}" deleted`)
+    }
+  }, [])
+
+  const handleCreateRule = useCallback(async () => {
+    if (!newRuleName.trim() || saving) return
+    setSaving(true)
+    try {
+      const res = await fetch('/api/repricing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:           newRuleName.trim(),
+          channel:        LABEL_TO_CH[newChannel],
+          strategy:       newStrategy,
+          strategy_param: parseFloat(newStrategyParam) || 0,
+          floor_price:    parseFloat(newFloor) || 0,
+          ceiling_price:  parseFloat(newCeiling) || 9999,
+          active:         newActive,
+        }),
+      })
+      const { rule, error } = await res.json()
+      if (error) { setToast(`Error: ${error}`); return }
+      setRules(prev => [fromDB(rule), ...prev])
+      setShowCreatePanel(false)
+      setNewRuleName('')
+      setNewFloor('')
+      setNewCeiling('')
+      setToast(`Rule "${rule.name}" created`)
+    } finally {
+      setSaving(false)
+    }
+  }, [newRuleName, newChannel, newStrategy, newStrategyParam, newFloor, newCeiling, newActive, saving])
 
   const labelStyle: React.CSSProperties = {
     fontSize: 11, fontWeight: 700, color: '#9496b0',
@@ -249,6 +276,7 @@ export default function RepricingPage() {
   }
 
   const activeRules = rules.filter(r => r.status === 'active').length
+  const totalAffected = rules.reduce((s, r) => s + r.listingsAffected, 0)
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
@@ -331,10 +359,10 @@ export default function RepricingPage() {
         {/* ── Stats row ── */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
           {[
-            { label: 'Active Rules', value: String(activeRules), sub: `${rules.length} total rules`, icon: '⚡' },
-            { label: 'Repriced Today', value: '12', sub: 'listings updated', icon: '🔄' },
-            { label: 'Avg Price Change', value: '-2.3%', sub: 'vs yesterday', icon: '📉', valueColor: '#059669' },
-            { label: 'Margin Protected', value: '£4,821', sub: 'this month', icon: '🛡️', valueColor: '#5b52f5' },
+            { label: 'Active Rules',     value: String(activeRules),     sub: `${rules.length} rule${rules.length !== 1 ? 's' : ''} total`, icon: '⚡' },
+            { label: 'Listings Covered', value: String(totalAffected),   sub: 'across active rules', icon: '🔄' },
+            { label: 'Strategies',       value: String(new Set(rules.map(r => r.strategy)).size), sub: 'rule types active', icon: '📐' },
+            { label: 'Paused Rules',     value: String(rules.length - activeRules), sub: 'not running', icon: '⏸️' },
           ].map(stat => (
             <div key={stat.label} style={{
               background: 'white', border: '1px solid #e8e5df', borderRadius: 12,
@@ -364,6 +392,18 @@ export default function RepricingPage() {
               </div>
 
               <div>
+                {loading && (
+                  <div style={{ padding: '40px 20px', textAlign: 'center', color: '#9496b0', fontSize: 13 }}>
+                    Loading rules…
+                  </div>
+                )}
+                {!loading && rules.length === 0 && (
+                  <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 32, marginBottom: 12 }}>🏷️</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22', marginBottom: 4 }}>No repricing rules yet</div>
+                    <div style={{ fontSize: 13, color: '#6b6e87' }}>Create your first rule to start protecting margins and winning buy boxes automatically.</div>
+                  </div>
+                )}
                 {rules.map((rule, idx) => (
                   <div key={rule.id} style={{
                     padding: '16px 20px',
@@ -426,13 +466,6 @@ export default function RepricingPage() {
                       </div>
 
                       <div style={{ display: 'flex', gap: 6 }}>
-                        <button style={{
-                          background: 'transparent', border: '1px solid #e8e5df',
-                          borderRadius: 6, padding: '4px 10px', fontSize: 12,
-                          color: '#1a1b22', cursor: 'pointer', fontWeight: 500,
-                        }}>
-                          Edit
-                        </button>
                         <button
                           onClick={() => setToast(`Running rule "${rule.name}"…`)}
                           style={{
@@ -441,6 +474,15 @@ export default function RepricingPage() {
                             color: '#5b52f5', cursor: 'pointer', fontWeight: 500,
                           }}>
                           Run now
+                        </button>
+                        <button
+                          onClick={() => deleteRule(rule.id, rule.name)}
+                          style={{
+                            background: 'transparent', border: '1px solid #fecaca',
+                            borderRadius: 6, padding: '4px 10px', fontSize: 12,
+                            color: '#dc2626', cursor: 'pointer', fontWeight: 500,
+                          }}>
+                          Delete
                         </button>
                       </div>
                     </div>
@@ -455,45 +497,13 @@ export default function RepricingPage() {
                 <span style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Repricing Log</span>
                 <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b6e87' }}>Recent price adjustments made by your rules</p>
               </div>
-
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-                <thead>
-                  <tr style={{ background: '#faf9f7' }}>
-                    {['Listing', 'Old Price', 'New Price', 'Change', 'Channel', 'Reason', 'Time'].map(col => (
-                      <th key={col} style={{
-                        padding: '10px 16px', textAlign: 'left',
-                        fontSize: 11, fontWeight: 700, color: '#9496b0',
-                        textTransform: 'uppercase', letterSpacing: '0.06em',
-                        borderBottom: '1px solid #e8e5df',
-                        whiteSpace: 'nowrap',
-                      }}>
-                        {col}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {LOG_ENTRIES.map((entry, idx) => {
-                    const diff = priceDiff(entry.oldPrice, entry.newPrice)
-                    return (
-                      <tr key={entry.id} style={{ background: idx % 2 === 0 ? 'white' : '#faf9f7' }}>
-                        <td style={{ padding: '11px 16px', color: '#1a1b22', fontWeight: 500 }}>
-                          <div style={{ fontSize: 13 }}>{entry.title}</div>
-                          <div style={{ fontSize: 11, color: '#9496b0', marginTop: 1 }}>{entry.sku}</div>
-                        </td>
-                        <td style={{ padding: '11px 16px', color: '#6b6e87' }}>{fmt(entry.oldPrice)}</td>
-                        <td style={{ padding: '11px 16px', color: '#1a1b22', fontWeight: 600 }}>{fmt(entry.newPrice)}</td>
-                        <td style={{ padding: '11px 16px', color: diff.color, fontWeight: 600 }}>{diff.label}</td>
-                        <td style={{ padding: '11px 16px' }}>
-                          <ChannelBadge channel={entry.channel} />
-                        </td>
-                        <td style={{ padding: '11px 16px', color: '#6b6e87' }}>{entry.reason}</td>
-                        <td style={{ padding: '11px 16px', color: '#9496b0', fontSize: 12 }}>{entry.time}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
+              <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>📋</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 4 }}>No repricing history yet</div>
+                <div style={{ fontSize: 12, color: '#9496b0' }}>
+                  Price changes will appear here once your rules run. Active rules run hourly.
+                </div>
+              </div>
             </div>
           </div>
 
@@ -631,17 +641,17 @@ export default function RepricingPage() {
 
               <button
                 onClick={handleCreateRule}
-                disabled={!newRuleName.trim()}
+                disabled={!newRuleName.trim() || saving}
                 style={{
                   width: '100%',
-                  background: newRuleName.trim() ? '#5b52f5' : '#c7c3fb',
+                  background: newRuleName.trim() && !saving ? '#5b52f5' : '#c7c3fb',
                   color: 'white', border: 'none', borderRadius: 8,
                   padding: '10px', fontSize: 13, fontWeight: 600,
-                  cursor: newRuleName.trim() ? 'pointer' : 'not-allowed',
+                  cursor: newRuleName.trim() && !saving ? 'pointer' : 'not-allowed',
                   transition: 'background 0.15s',
                 }}
               >
-                Create Rule
+                {saving ? 'Creating…' : 'Create Rule'}
               </button>
             </div>
           )}
