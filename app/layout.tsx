@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "./components/PostHogProvider";
 import { CookieConsent } from "./components/CookieConsent";
+import { HelpWidget } from "./components/HelpWidget";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className={`${geist.className} ${geistMono.variable}`} style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif' }}>
         <PostHogProvider>
           {children}
+          <HelpWidget />
           <CookieConsent />
           <Analytics />
         </PostHogProvider>
