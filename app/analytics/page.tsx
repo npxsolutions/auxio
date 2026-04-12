@@ -7,126 +7,18 @@ import { createClient } from '../lib/supabase-client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Period = '7d' | '30d' | '90d'
+type Period = '7d' | '30d' | '90d' | '1y' | 'all'
 
-interface ChannelRow {
-  channel: string
-  gmv: number
-  fees: number
-  cogs: number
-  shipping: number
-  returns: number
-  netProfit: number
-  marginPct: number
-  vsPrev: number
+interface AnalyticsData {
+  period: string
+  totals: { revenue: number; profit: number; orders: number; margin: number }
+  comparison: { revenueChange: number | null; profitChange: number | null; ordersChange: number | null }
+  byChannel: { channel: string; revenue: number; profit: number; orders: number; margin: number }[]
+  timeSeries: { date: string; revenue: number; profit: number; orders: number }[]
+  topSkus: { sku: string; title: string; revenue: number; profit: number; orders: number; margin: number }[]
+  listingHealth: { total: number; published: number; partial: number; draft: number }
+  platformStats: { channels: number; rules: number; totalRules: number }
 }
-
-interface SkuRow {
-  product: string
-  sku: string
-  revenue: number
-  marginPct: number
-  unitsSold: number
-  channel: string
-}
-
-interface MarginLeak {
-  id: string
-  title: string
-  detail: string
-  impact: string
-  severity: 'high' | 'medium' | 'warning'
-  action: string
-}
-
-// ─── Mock data per period ─────────────────────────────────────────────────────
-
-const PERIOD_DATA: Record<Period, {
-  gmv: number; netRevenue: number; netProfit: number; blendedMargin: number
-  gmvTrend: number; revTrend: number; profitTrend: number; marginTrend: number
-  fees: number; cogs: number; shipping: number; returns: number
-  channels: ChannelRow[]
-  skus: SkuRow[]
-}> = {
-  '7d': {
-    gmv: 5840, netRevenue: 5190, netProfit: 1920, blendedMargin: 32.9,
-    gmvTrend: 8.4, revTrend: 9.1, profitTrend: 11.2, marginTrend: 0.8,
-    fees: 467, cogs: 2334, shipping: 292, returns: 292,
-    channels: [
-      { channel: 'eBay',    gmv: 2340, fees: 187, cogs: 936,  shipping: 117, returns: 117, netProfit: 748,  marginPct: 31.9, vsPrev: 5.2  },
-      { channel: 'Amazon',  gmv: 2100, fees: 189, cogs: 840,  shipping: 105, returns: 105, netProfit: 672,  marginPct: 32.0, vsPrev: 12.4 },
-      { channel: 'Shopify', gmv: 1400, fees:  91, cogs: 558,  shipping:  70, returns:  70, netProfit: 500,  marginPct: 35.7, vsPrev: 8.9  },
-    ],
-    skus: [
-      { product: 'Sony WH-1000XM5', sku: 'SKU-8821', revenue: 760, marginPct: 34.2, unitsSold: 4, channel: 'eBay' },
-      { product: 'Apple AirPods Pro (2nd Gen)', sku: 'SKU-3340', revenue: 685, marginPct: 29.8, unitsSold: 3, channel: 'Amazon' },
-      { product: 'Logitech MX Master 3S', sku: 'SKU-5512', revenue: 540, marginPct: 38.5, unitsSold: 6, channel: 'eBay' },
-      { product: 'Samsung Galaxy Buds2 Pro', sku: 'SKU-7703', revenue: 450, marginPct: 27.3, unitsSold: 3, channel: 'Amazon' },
-      { product: 'Anker PowerCore 26800', sku: 'SKU-2291', revenue: 360, marginPct: 42.1, unitsSold: 8, channel: 'Shopify' },
-    ],
-  },
-  '30d': {
-    gmv: 24840, netRevenue: 22100, netProfit: 8420, blendedMargin: 33.9,
-    gmvTrend: 12.0, revTrend: 11.4, profitTrend: 14.8, marginTrend: 1.2,
-    fees: 1987, cogs: 9936, shipping: 1242, returns: 1242,
-    channels: [
-      { channel: 'eBay',    gmv: 9950,  fees: 796, cogs: 3980, shipping: 497, returns: 497, netProfit: 3184, marginPct: 32.0, vsPrev: 9.3  },
-      { channel: 'Amazon',  gmv: 8940,  fees: 804, cogs: 3576, shipping: 447, returns: 447, netProfit: 2862, marginPct: 32.0, vsPrev: 16.7 },
-      { channel: 'Shopify', gmv: 5950,  fees: 387, cogs: 2380, shipping: 298, returns: 298, netProfit: 2374, marginPct: 39.9, vsPrev: 11.2 },
-    ],
-    skus: [
-      { product: 'Sony WH-1000XM5', sku: 'SKU-8821', revenue: 3230, marginPct: 34.2, unitsSold: 17, channel: 'eBay' },
-      { product: 'Apple AirPods Pro (2nd Gen)', sku: 'SKU-3340', revenue: 2975, marginPct: 29.8, unitsSold: 13, channel: 'Amazon' },
-      { product: 'Logitech MX Master 3S', sku: 'SKU-5512', revenue: 2430, marginPct: 38.5, unitsSold: 27, channel: 'eBay' },
-      { product: 'Samsung Galaxy Buds2 Pro', sku: 'SKU-7703', revenue: 1950, marginPct: 27.3, unitsSold: 13, channel: 'Amazon' },
-      { product: 'Anker PowerCore 26800', sku: 'SKU-2291', revenue: 1575, marginPct: 42.1, unitsSold: 35, channel: 'Shopify' },
-    ],
-  },
-  '90d': {
-    gmv: 74200, netRevenue: 66100, netProfit: 25440, blendedMargin: 34.3,
-    gmvTrend: 18.5, revTrend: 17.2, profitTrend: 21.4, marginTrend: 2.1,
-    fees: 5936, cogs: 29680, shipping: 3710, returns: 3710,
-    channels: [
-      { channel: 'eBay',    gmv: 29700, fees: 2376, cogs: 11880, shipping: 1485, returns: 1485, netProfit: 9504, marginPct: 32.0, vsPrev: 14.2 },
-      { channel: 'Amazon',  gmv: 26700, fees: 2403, cogs: 10680, shipping: 1335, returns: 1335, netProfit: 8544, marginPct: 32.0, vsPrev: 22.1 },
-      { channel: 'Shopify', gmv: 17800, fees: 1157, cogs: 7120,  shipping:  890, returns:  890, netProfit: 7392, marginPct: 41.5, vsPrev: 17.9 },
-    ],
-    skus: [
-      { product: 'Sony WH-1000XM5', sku: 'SKU-8821', revenue: 9690, marginPct: 34.2, unitsSold: 51, channel: 'eBay' },
-      { product: 'Apple AirPods Pro (2nd Gen)', sku: 'SKU-3340', revenue: 8925, marginPct: 29.8, unitsSold: 39, channel: 'Amazon' },
-      { product: 'Logitech MX Master 3S', sku: 'SKU-5512', revenue: 7290, marginPct: 38.5, unitsSold: 81, channel: 'eBay' },
-      { product: 'Samsung Galaxy Buds2 Pro', sku: 'SKU-7703', revenue: 5850, marginPct: 27.3, unitsSold: 39, channel: 'Amazon' },
-      { product: 'Anker PowerCore 26800', sku: 'SKU-2291', revenue: 4725, marginPct: 42.1, unitsSold: 105, channel: 'Shopify' },
-    ],
-  },
-}
-
-const MARGIN_LEAKS: MarginLeak[] = [
-  {
-    id: 'ml1',
-    title: 'High return rate on SKU-1234',
-    detail: 'USB-C Hub Multiport returned 18% of orders this month — above the 8% category average.',
-    impact: '£230/month',
-    severity: 'high',
-    action: 'Review listing',
-  },
-  {
-    id: 'ml2',
-    title: 'eBay fees increased 2.1% this month',
-    detail: 'Final value fees rose from 12.0% to 14.1% on Electronics — check your fee category assignments.',
-    impact: '£180 impact',
-    severity: 'medium',
-    action: 'View fee breakdown',
-  },
-  {
-    id: 'ml3',
-    title: '5 listings priced below cost',
-    detail: 'SKU-4421, SKU-7712, SKU-0093, SKU-2287, SKU-8834 are selling at a net loss after fees and shipping.',
-    impact: 'Immediate action needed',
-    severity: 'warning',
-    action: 'Fix prices',
-  },
-]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -140,19 +32,43 @@ function marginColor(pct: number): { color: string; bg: string; border: string }
   return { color: '#dc2626', bg: '#fef2f2', border: '#fecaca' }
 }
 
-function trendBadge(val: number) {
+function changeBadge(val: number | null) {
+  if (val === null) return null
   const pos = val >= 0
   return {
-    label: `${pos ? '+' : ''}${val.toFixed(1)}% vs last period`,
+    label: `${pos ? '+' : ''}${val.toFixed(1)}%`,
     color: pos ? '#059669' : '#dc2626',
-    bg: pos ? '#ecfdf5' : '#fef2f2',
+    bg:    pos ? '#ecfdf5' : '#fef2f2',
   }
 }
 
 const CHANNEL_PILL: Record<string, { bg: string; color: string; border: string }> = {
-  eBay:    { bg: '#fff3f3', color: '#c0392b', border: '#fecaca' },
-  Amazon:  { bg: '#fffbf0', color: '#b45309', border: '#fde68a' },
-  Shopify: { bg: '#f0fdf4', color: '#15803d', border: '#a7f3d0' },
+  ebay:    { bg: '#fff3f3', color: '#c0392b', border: '#fecaca' },
+  amazon:  { bg: '#fffbf0', color: '#b45309', border: '#fde68a' },
+  shopify: { bg: '#f0fdf4', color: '#15803d', border: '#a7f3d0' },
+}
+
+function channelPill(ch: string) {
+  return CHANNEL_PILL[ch.toLowerCase()] || { bg: '#f5f3ef', color: '#6b6e87', border: '#e8e5df' }
+}
+
+// Simple sparkline SVG from time-series data
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  if (data.length < 2) return null
+  const max = Math.max(...data)
+  const min = Math.min(...data)
+  const range = max - min || 1
+  const W = 80, H = 28
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * W
+    const y = H - ((v - min) / range) * H
+    return `${x},${y}`
+  }).join(' ')
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ display: 'block' }}>
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -161,8 +77,10 @@ export default function AnalyticsPage() {
   const router = useRouter()
   const supabase = createClient()
 
-  const [period, setPeriod] = useState<Period>('30d')
-  const data = PERIOD_DATA[period]
+  const [period, setPeriod]   = useState<Period>('30d')
+  const [data, setData]       = useState<AnalyticsData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError]     = useState('')
 
   // Auth guard
   useEffect(() => {
@@ -171,27 +89,31 @@ export default function AnalyticsPage() {
     })
   }, [])
 
-  // Try to fetch real dashboard stats; silently fall back to mock
-  useEffect(() => {
-    fetch('/api/dashboard/stats').catch(() => { /* use mock */ })
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch(`/api/analytics?period=${period}`)
+      if (!res.ok) throw new Error(`${res.status}`)
+      const json = await res.json()
+      if (json.error) throw new Error(json.error)
+      setData(json)
+    } catch (e: any) {
+      setError(e.message || 'Failed to load analytics')
+    } finally {
+      setLoading(false)
+    }
   }, [period])
+
+  useEffect(() => { load() }, [load])
 
   const labelStyle: React.CSSProperties = {
     fontSize: 11, fontWeight: 700, color: '#9496b0',
     textTransform: 'uppercase', letterSpacing: '0.06em',
   }
 
-  // Waterfall bar widths (proportional to GMV)
-  const waterfallItems = [
-    { label: 'GMV',          value: data.gmv,         color: '#5b52f5', textColor: 'white', type: 'base' },
-    { label: 'Channel Fees', value: data.fees,         color: '#f87171', textColor: 'white', type: 'minus' },
-    { label: 'COGS',         value: data.cogs,         color: '#fb923c', textColor: 'white', type: 'minus' },
-    { label: 'Shipping',     value: data.shipping,     color: '#fbbf24', textColor: '#1a1b22', type: 'minus' },
-    { label: 'Returns',      value: data.returns,      color: '#e879f9', textColor: 'white', type: 'minus' },
-    { label: 'Net Profit',   value: data.netProfit,    color: '#34d399', textColor: '#1a1b22', type: 'result' },
-  ]
-
-  const maxVal = data.gmv
+  const sparkRevenue = (data?.timeSeries || []).map(d => d.revenue)
+  const sparkProfit  = (data?.timeSeries || []).map(d => d.profit)
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
@@ -206,341 +128,320 @@ export default function AnalyticsPage() {
               Analytics
             </h1>
             <p style={{ fontSize: 13, color: '#6b6e87', margin: '4px 0 0', lineHeight: 1.5 }}>
-              GMV → Net Profit breakdown across all your channels.
+              Revenue, profit, and channel performance from your transaction history.
             </p>
           </div>
 
           {/* Period tabs */}
-          <div style={{
-            display: 'flex', background: 'white',
-            border: '1px solid #e8e5df', borderRadius: 10, padding: 3, gap: 2,
-          }}>
-            {(['7d', '30d', '90d'] as Period[]).map(p => (
-              <button
-                key={p}
-                onClick={() => setPeriod(p)}
-                style={{
-                  padding: '6px 14px', borderRadius: 8, border: 'none',
-                  fontSize: 13, fontWeight: period === p ? 600 : 400,
-                  background: period === p ? '#5b52f5' : 'transparent',
-                  color: period === p ? 'white' : '#6b6e87',
-                  cursor: 'pointer', transition: 'all 0.15s',
-                }}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ── KPI cards ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
-          {[
-            { label: 'Total GMV', value: fmtGBP(data.gmv), trend: data.gmvTrend },
-            { label: 'Net Revenue', value: fmtGBP(data.netRevenue), trend: data.revTrend, sub: 'after channel fees' },
-            { label: 'Net Profit', value: fmtGBP(data.netProfit), trend: data.profitTrend },
-            { label: 'Blended Margin', value: `${data.blendedMargin}%`, trend: data.marginTrend },
-          ].map(kpi => {
-            const tb = trendBadge(kpi.trend)
-            return (
-              <div key={kpi.label} style={{
-                background: 'white', border: '1px solid #e8e5df', borderRadius: 12,
-                padding: '18px 20px',
-              }}>
-                <div style={{ ...labelStyle, marginBottom: 10 }}>{kpi.label}</div>
-                <div style={{ fontSize: 26, fontWeight: 700, color: '#1a1b22', letterSpacing: '-0.03em', lineHeight: 1 }}>
-                  {kpi.value}
-                </div>
-                {kpi.sub && (
-                  <div style={{ fontSize: 11, color: '#9496b0', marginTop: 3 }}>{kpi.sub}</div>
-                )}
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 4,
-                  marginTop: 10,
-                  background: tb.bg, color: tb.color,
-                  fontSize: 11, fontWeight: 600,
-                  padding: '3px 8px', borderRadius: 100,
-                }}>
-                  {kpi.trend >= 0
-                    ? <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7L5 3l3 4"/></svg>
-                    : <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3L5 7l3-4"/></svg>
-                  }
-                  {tb.label}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* ── Waterfall chart ── */}
-        <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
-          <div style={{ marginBottom: 18 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Profit Waterfall</div>
-            <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>
-              How GMV flows through to Net Profit after deductions
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {waterfallItems.map((item, idx) => {
-              const widthPct = (item.value / maxVal) * 100
-              const isMinus = item.type === 'minus'
-              return (
-                <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 110, fontSize: 12, color: '#6b6e87', textAlign: 'right', flexShrink: 0 }}>
-                    {isMinus && <span style={{ color: '#f87171', marginRight: 2 }}>−</span>}
-                    {item.label}
-                  </div>
-                  <div style={{ flex: 1, background: '#f5f3ef', borderRadius: 6, height: 32, overflow: 'hidden', position: 'relative' }}>
-                    <div style={{
-                      width: `${widthPct}%`,
-                      height: '100%',
-                      background: item.color,
-                      borderRadius: 6,
-                      display: 'flex', alignItems: 'center',
-                      paddingLeft: 10, boxSizing: 'border-box',
-                      minWidth: 60,
-                      transition: 'width 0.4s ease',
-                    }}>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: item.textColor, whiteSpace: 'nowrap' }}>
-                        {fmtGBP(item.value)}
-                      </span>
-                    </div>
-                  </div>
-                  <div style={{ width: 70, fontSize: 12, color: '#9496b0', flexShrink: 0 }}>
-                    {item.type !== 'base' && item.type !== 'result'
-                      ? `${((item.value / data.gmv) * 100).toFixed(1)}% of GMV`
-                      : item.type === 'result'
-                      ? `${data.blendedMargin}% margin`
-                      : ''
-                    }
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Divider before result */}
-          <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px dashed #e8e5df', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Net margin retained:
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#059669' }}>
-              {data.blendedMargin}% — {fmtGBP(data.netProfit)} from {fmtGBP(data.gmv)} GMV
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            {loading && (
+              <div style={{ fontSize: 12, color: '#9496b0', marginRight: 8 }}>Refreshing…</div>
+            )}
+            <div style={{
+              display: 'flex', background: 'white',
+              border: '1px solid #e8e5df', borderRadius: 10, padding: 3, gap: 2,
+            }}>
+              {(['7d', '30d', '90d', '1y', 'all'] as Period[]).map(p => (
+                <button
+                  key={p}
+                  onClick={() => setPeriod(p)}
+                  style={{
+                    padding: '6px 12px', borderRadius: 8, border: 'none',
+                    fontSize: 13, fontWeight: period === p ? 600 : 400,
+                    background: period === p ? '#5b52f5' : 'transparent',
+                    color: period === p ? 'white' : '#6b6e87',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                  }}
+                >
+                  {p}
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* ── Channel profitability table ── */}
-        <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden', marginBottom: 20 }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df' }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Channel Profitability</div>
-            <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Breakdown by sales channel for the selected period</div>
+        {error && (
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 18px', marginBottom: 20, fontSize: 13, color: '#dc2626' }}>
+            {error} — <button onClick={load} style={{ color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0 }}>Retry</button>
           </div>
+        )}
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-            <thead>
-              <tr style={{ background: '#faf9f7' }}>
-                {['Channel', 'GMV', 'Fees', 'COGS', 'Shipping', 'Net Profit', 'Margin %', 'vs Last Period'].map(col => (
-                  <th key={col} style={{
-                    padding: '10px 16px', textAlign: col === 'Channel' ? 'left' : 'right',
-                    fontSize: 11, fontWeight: 700, color: '#9496b0',
-                    textTransform: 'uppercase', letterSpacing: '0.06em',
-                    borderBottom: '1px solid #e8e5df', whiteSpace: 'nowrap',
+        {!data && !loading && !error && (
+          <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '48px', textAlign: 'center' }}>
+            <div style={{ fontSize: 14, color: '#6b6e87' }}>No transaction data yet — sales will appear here once orders are synced.</div>
+          </div>
+        )}
+
+        {data && (
+          <>
+            {/* ── KPI cards ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+              {[
+                { label: 'Revenue',      value: fmtGBP(data.totals.revenue), change: data.comparison.revenueChange, spark: sparkRevenue, sparkColor: '#5b52f5' },
+                { label: 'Net Profit',   value: fmtGBP(data.totals.profit),  change: data.comparison.profitChange,  spark: sparkProfit,  sparkColor: '#059669' },
+                { label: 'Orders',       value: String(data.totals.orders),   change: data.comparison.ordersChange,  spark: null, sparkColor: '' },
+                { label: 'Avg Margin',   value: `${data.totals.margin.toFixed(1)}%`, change: null, spark: null, sparkColor: '' },
+              ].map(kpi => {
+                const badge = changeBadge(kpi.change)
+                return (
+                  <div key={kpi.label} style={{
+                    background: 'white', border: '1px solid #e8e5df', borderRadius: 12,
+                    padding: '18px 20px',
                   }}>
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {data.channels.map((row, idx) => {
-                const mc = marginColor(row.marginPct)
-                const vp = trendBadge(row.vsPrev)
-                const pill = CHANNEL_PILL[row.channel] || { bg: '#f5f3ef', color: '#6b6e87', border: '#e8e5df' }
-                return (
-                  <tr key={row.channel} style={{ borderBottom: '1px solid #f0ede8' }}>
-                    <td style={{ padding: '12px 16px' }}>
-                      <span style={{
-                        background: pill.bg, color: pill.color, border: `1px solid ${pill.border}`,
-                        borderRadius: 100, fontSize: 11, fontWeight: 600, padding: '2px 9px',
-                      }}>
-                        {row.channel}
-                      </span>
-                    </td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 600, color: '#1a1b22' }}>{fmtGBP(row.gmv)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', color: '#dc2626' }}>−{fmtGBP(row.fees)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', color: '#d97706' }}>−{fmtGBP(row.cogs)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', color: '#6b6e87' }}>−{fmtGBP(row.shipping)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 700, color: '#059669' }}>{fmtGBP(row.netProfit)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right' }}>
-                      <span style={{
-                        background: mc.bg, color: mc.color, border: `1px solid ${mc.border}`,
-                        borderRadius: 100, fontSize: 11, fontWeight: 700, padding: '2px 8px',
-                      }}>
-                        {row.marginPct.toFixed(1)}%
-                      </span>
-                    </td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right' }}>
-                      <span style={{
-                        background: vp.bg, color: vp.color,
-                        borderRadius: 100, fontSize: 11, fontWeight: 600, padding: '2px 8px',
-                      }}>
-                        +{row.vsPrev}%
-                      </span>
-                    </td>
-                  </tr>
-                )
-              })}
-
-              {/* Totals row */}
-              {(() => {
-                const totGmv = data.channels.reduce((s, r) => s + r.gmv, 0)
-                const totFees = data.channels.reduce((s, r) => s + r.fees, 0)
-                const totCogs = data.channels.reduce((s, r) => s + r.cogs, 0)
-                const totShip = data.channels.reduce((s, r) => s + r.shipping, 0)
-                const totProfit = data.channels.reduce((s, r) => s + r.netProfit, 0)
-                const totMargin = (totProfit / totGmv) * 100
-                return (
-                  <tr style={{ background: '#faf9f7', borderTop: '2px solid #e8e5df' }}>
-                    <td style={{ padding: '12px 16px', fontWeight: 700, color: '#1a1b22', fontSize: 12 }}>Total</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 700, color: '#1a1b22' }}>{fmtGBP(totGmv)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 600, color: '#dc2626' }}>−{fmtGBP(totFees)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 600, color: '#d97706' }}>−{fmtGBP(totCogs)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 600, color: '#6b6e87' }}>−{fmtGBP(totShip)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 700, color: '#059669' }}>{fmtGBP(totProfit)}</td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right' }}>
-                      <span style={{
-                        ...marginColor(totMargin),
-                        borderRadius: 100, fontSize: 11, fontWeight: 700, padding: '2px 8px',
-                        border: `1px solid ${marginColor(totMargin).border}`,
-                      }}>
-                        {totMargin.toFixed(1)}%
-                      </span>
-                    </td>
-                    <td style={{ padding: '12px 16px' }} />
-                  </tr>
-                )
-              })()}
-            </tbody>
-          </table>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
-
-          {/* ── Top 5 SKUs ── */}
-          <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df' }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Top 5 SKUs by Profit</div>
-              <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Best-performing products this period</div>
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-              <thead>
-                <tr style={{ background: '#faf9f7' }}>
-                  {['Product', 'Revenue', 'Margin', 'Units', 'Channel'].map(col => (
-                    <th key={col} style={{
-                      padding: '8px 14px',
-                      textAlign: col === 'Product' ? 'left' : 'right',
-                      fontSize: 10, fontWeight: 700, color: '#9496b0',
-                      textTransform: 'uppercase', letterSpacing: '0.06em',
-                      borderBottom: '1px solid #e8e5df',
-                    }}>
-                      {col}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.skus.map((sku, idx) => {
-                  const mc = marginColor(sku.marginPct)
-                  const pill = CHANNEL_PILL[sku.channel] || { bg: '#f5f3ef', color: '#6b6e87', border: '#e8e5df' }
-                  return (
-                    <tr key={sku.sku} style={{ borderBottom: idx < data.skus.length - 1 ? '1px solid #f0ede8' : 'none' }}>
-                      <td style={{ padding: '10px 14px' }}>
-                        <div style={{ fontSize: 12, fontWeight: 500, color: '#1a1b22', lineHeight: 1.2 }}>{sku.product}</div>
-                        <div style={{ fontSize: 10, color: '#9496b0', marginTop: 1 }}>{sku.sku}</div>
-                      </td>
-                      <td style={{ padding: '10px 14px', textAlign: 'right', fontWeight: 600, color: '#1a1b22' }}>{fmtGBP(sku.revenue)}</td>
-                      <td style={{ padding: '10px 14px', textAlign: 'right' }}>
-                        <span style={{
-                          background: mc.bg, color: mc.color, border: `1px solid ${mc.border}`,
-                          borderRadius: 100, fontSize: 10, fontWeight: 700, padding: '1px 6px',
-                        }}>
-                          {sku.marginPct}%
-                        </span>
-                      </td>
-                      <td style={{ padding: '10px 14px', textAlign: 'right', color: '#6b6e87' }}>{sku.unitsSold}</td>
-                      <td style={{ padding: '10px 14px', textAlign: 'right' }}>
-                        <span style={{
-                          background: pill.bg, color: pill.color, border: `1px solid ${pill.border}`,
-                          borderRadius: 100, fontSize: 10, fontWeight: 600, padding: '1px 7px',
-                        }}>
-                          {sku.channel}
-                        </span>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          {/* ── Margin Leaks ── */}
-          <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="#f59e0b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7.5 1.5L13.5 12H1.5L7.5 1.5Z"/>
-                <path d="M7.5 6v3"/>
-                <circle cx="7.5" cy="10.5" r="0.6" fill="#f59e0b" stroke="none"/>
-              </svg>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Margin Leaks Detected</div>
-                <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 1 }}>Issues eating into your profitability</div>
-              </div>
-            </div>
-
-            <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {MARGIN_LEAKS.map(leak => {
-                const severityMap = {
-                  high:    { border: '#fecaca', bg: '#fef2f2', dot: '#dc2626', impact: '#dc2626' },
-                  medium:  { border: '#fde68a', bg: '#fffbeb', dot: '#d97706', impact: '#d97706' },
-                  warning: { border: '#c7c3fb', bg: '#f0effd', dot: '#5b52f5', impact: '#5b52f5' },
-                }
-                const s = severityMap[leak.severity]
-                return (
-                  <div key={leak.id} style={{
-                    border: `1px solid ${s.border}`,
-                    background: s.bg,
-                    borderRadius: 10, padding: '12px 14px',
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ width: 7, height: 7, borderRadius: '50%', background: s.dot, display: 'inline-block', flexShrink: 0 }} />
-                        <span style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>{leak.title}</span>
+                    <div style={{ ...labelStyle, marginBottom: 10 }}>{kpi.label}</div>
+                    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                      <div style={{ fontSize: 26, fontWeight: 700, color: '#1a1b22', letterSpacing: '-0.03em', lineHeight: 1 }}>
+                        {kpi.value}
                       </div>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: s.impact, whiteSpace: 'nowrap', flexShrink: 0 }}>
-                        {leak.impact}
-                      </span>
+                      {kpi.spark && kpi.spark.length > 1 && (
+                        <Sparkline data={kpi.spark} color={kpi.sparkColor} />
+                      )}
                     </div>
-                    <p style={{ fontSize: 12, color: '#6b6e87', margin: '0 0 10px', lineHeight: 1.5, paddingLeft: 13 }}>
-                      {leak.detail}
-                    </p>
-                    <div style={{ paddingLeft: 13 }}>
-                      <button style={{
-                        background: '#1a1b22', color: 'white',
-                        border: 'none', borderRadius: 6,
-                        padding: '5px 12px', fontSize: 11, fontWeight: 600,
-                        cursor: 'pointer',
+                    {badge && (
+                      <div style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 4,
+                        marginTop: 10,
+                        background: badge.bg, color: badge.color,
+                        fontSize: 11, fontWeight: 600,
+                        padding: '3px 8px', borderRadius: 100,
                       }}>
-                        {leak.action}
-                      </button>
-                    </div>
+                        {(kpi.change ?? 0) >= 0
+                          ? <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7L5 3l3 4"/></svg>
+                          : <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3L5 7l3-4"/></svg>
+                        }
+                        {badge.label} vs prev period
+                      </div>
+                    )}
+                    {!badge && (
+                      <div style={{ fontSize: 11, color: '#9496b0', marginTop: 10 }}>
+                        {kpi.label === 'Avg Margin' ? 'blended across all channels' : 'no previous period data'}
+                      </div>
+                    )}
                   </div>
                 )
               })}
             </div>
+
+            {/* ── Channel breakdown ── */}
+            {data.byChannel.length > 0 && (
+              <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden', marginBottom: 20 }}>
+                <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Revenue by Channel</div>
+                  <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Breakdown for the selected period</div>
+                </div>
+
+                {/* Channel bars */}
+                <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {data.byChannel.map(ch => {
+                    const maxRev = Math.max(...data.byChannel.map(c => c.revenue))
+                    const widthPct = maxRev > 0 ? (ch.revenue / maxRev) * 100 : 0
+                    const pill = channelPill(ch.channel)
+                    const mc = marginColor(ch.margin)
+                    return (
+                      <div key={ch.channel}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <span style={{
+                              background: pill.bg, color: pill.color, border: `1px solid ${pill.border}`,
+                              borderRadius: 100, fontSize: 11, fontWeight: 600, padding: '2px 9px',
+                            }}>
+                              {ch.channel}
+                            </span>
+                            <span style={{ fontSize: 12, color: '#6b6e87' }}>{ch.orders} orders</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                            <span style={{
+                              background: mc.bg, color: mc.color, border: `1px solid ${mc.border}`,
+                              borderRadius: 100, fontSize: 11, fontWeight: 700, padding: '2px 8px',
+                            }}>
+                              {ch.margin.toFixed(1)}% margin
+                            </span>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: '#1a1b22' }}>{fmtGBP(ch.revenue)}</span>
+                          </div>
+                        </div>
+                        <div style={{ background: '#f5f3ef', borderRadius: 6, height: 8, overflow: 'hidden' }}>
+                          <div style={{
+                            width: `${widthPct}%`, height: '100%',
+                            background: 'linear-gradient(90deg, #5b52f5, #7c6af7)',
+                            borderRadius: 6, transition: 'width 0.4s ease',
+                          }}/>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+
+              {/* ── Top SKUs ── */}
+              {data.topSkus.length > 0 && (
+                <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>
+                  <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df' }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Top SKUs by Profit</div>
+                    <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Best-performing products this period</div>
+                  </div>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+                    <thead>
+                      <tr style={{ background: '#faf9f7' }}>
+                        {['Product', 'Revenue', 'Margin', 'Orders'].map(col => (
+                          <th key={col} style={{
+                            padding: '8px 14px',
+                            textAlign: col === 'Product' ? 'left' : 'right',
+                            fontSize: 10, fontWeight: 700, color: '#9496b0',
+                            textTransform: 'uppercase', letterSpacing: '0.06em',
+                            borderBottom: '1px solid #e8e5df',
+                          }}>
+                            {col}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.topSkus.slice(0, 8).map((sku, idx) => {
+                        const mc = marginColor(sku.margin)
+                        return (
+                          <tr key={sku.sku} style={{ borderBottom: idx < data.topSkus.length - 1 ? '1px solid #f0ede8' : 'none' }}>
+                            <td style={{ padding: '10px 14px' }}>
+                              <div style={{ fontSize: 12, fontWeight: 500, color: '#1a1b22', lineHeight: 1.2, maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {sku.title}
+                              </div>
+                              <div style={{ fontSize: 10, color: '#9496b0', marginTop: 1 }}>{sku.sku}</div>
+                            </td>
+                            <td style={{ padding: '10px 14px', textAlign: 'right', fontWeight: 600, color: '#1a1b22' }}>{fmtGBP(sku.revenue)}</td>
+                            <td style={{ padding: '10px 14px', textAlign: 'right' }}>
+                              <span style={{
+                                background: mc.bg, color: mc.color, border: `1px solid ${mc.border}`,
+                                borderRadius: 100, fontSize: 10, fontWeight: 700, padding: '1px 6px',
+                              }}>
+                                {sku.margin.toFixed(1)}%
+                              </span>
+                            </td>
+                            <td style={{ padding: '10px 14px', textAlign: 'right', color: '#6b6e87' }}>{sku.orders}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* ── Platform health ── */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+
+                {/* Listing health */}
+                <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 14 }}>Listing Health</div>
+                  {[
+                    { label: 'Published',    value: data.listingHealth.published, color: '#059669', bg: '#ecfdf5' },
+                    { label: 'Partial',      value: data.listingHealth.partial,   color: '#d97706', bg: '#fffbeb' },
+                    { label: 'Draft',        value: data.listingHealth.draft,     color: '#9496b0', bg: '#f5f3ef' },
+                  ].map(item => {
+                    const pct = data.listingHealth.total > 0 ? (item.value / data.listingHealth.total) * 100 : 0
+                    return (
+                      <div key={item.label} style={{ marginBottom: 10 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
+                          <span style={{ color: '#6b6e87' }}>{item.label}</span>
+                          <span style={{ fontWeight: 600, color: '#1a1b22' }}>{item.value} <span style={{ fontWeight: 400, color: '#9496b0' }}>({pct.toFixed(0)}%)</span></span>
+                        </div>
+                        <div style={{ background: '#f5f3ef', borderRadius: 4, height: 6 }}>
+                          <div style={{ width: `${pct}%`, height: '100%', background: item.color, borderRadius: 4 }}/>
+                        </div>
+                      </div>
+                    )
+                  })}
+                  <div style={{ fontSize: 11, color: '#9496b0', marginTop: 6, paddingTop: 10, borderTop: '1px solid #f0ede8' }}>
+                    {data.listingHealth.total} total listings
+                  </div>
+                </div>
+
+                {/* Platform stats */}
+                <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 14 }}>Platform</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    {[
+                      { label: 'Active Channels', value: data.platformStats.channels },
+                      { label: 'Active Rules',    value: `${data.platformStats.rules}/${data.platformStats.totalRules}` },
+                    ].map(stat => (
+                      <div key={stat.label} style={{ background: '#f5f3ef', borderRadius: 8, padding: '12px 14px' }}>
+                        <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1b22', letterSpacing: '-0.02em' }}>{stat.value}</div>
+                        <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Time series mini chart ── */}
+            {data.timeSeries.length > 1 && (
+              <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 4 }}>Daily Revenue Trend</div>
+                <div style={{ fontSize: 12, color: '#6b6e87', marginBottom: 16 }}>
+                  {data.timeSeries[0].date} → {data.timeSeries[data.timeSeries.length - 1].date}
+                </div>
+
+                {/* SVG bar chart */}
+                {(() => {
+                  const maxRev = Math.max(...data.timeSeries.map(d => d.revenue))
+                  const H = 60, barW = Math.max(4, Math.floor(800 / data.timeSeries.length) - 2)
+                  return (
+                    <div style={{ overflowX: 'auto' }}>
+                      <svg
+                        width={Math.max(800, data.timeSeries.length * (barW + 2))}
+                        height={H + 20}
+                        viewBox={`0 0 ${Math.max(800, data.timeSeries.length * (barW + 2))} ${H + 20}`}
+                      >
+                        {data.timeSeries.map((d, i) => {
+                          const barH = maxRev > 0 ? (d.revenue / maxRev) * H : 0
+                          const x = i * (barW + 2)
+                          return (
+                            <g key={d.date}>
+                              <rect
+                                x={x} y={H - barH}
+                                width={barW} height={barH}
+                                fill="#5b52f5" opacity="0.7" rx="2"
+                              />
+                              <rect
+                                x={x} y={H - (maxRev > 0 ? (d.profit / maxRev) * H : 0)}
+                                width={barW} height={maxRev > 0 ? (d.profit / maxRev) * H : 0}
+                                fill="#059669" opacity="0.85" rx="2"
+                              />
+                            </g>
+                          )
+                        })}
+                      </svg>
+                    </div>
+                  )
+                })()}
+
+                <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}>
+                    <div style={{ width: 10, height: 10, borderRadius: 2, background: '#5b52f5', opacity: 0.7 }}/>
+                    Revenue
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}>
+                    <div style={{ width: 10, height: 10, borderRadius: 2, background: '#059669', opacity: 0.85 }}/>
+                    Profit
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {data.timeSeries.length === 0 && !loading && (
+              <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '32px', textAlign: 'center', marginBottom: 20 }}>
+                <div style={{ fontSize: 14, color: '#6b6e87' }}>No transactions in this period. Try a longer date range.</div>
+              </div>
+            )}
+          </>
+        )}
+
+        {loading && !data && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 0' }}>
+            <div style={{ fontSize: 13, color: '#9496b0' }}>Loading analytics…</div>
           </div>
-        </div>
+        )}
 
       </main>
     </div>

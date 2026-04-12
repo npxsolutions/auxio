@@ -216,25 +216,43 @@ export default function AppSidebar() {
       ],
     },
     {
+      label: 'Procurement',
+      items: [
+        { href: '/suppliers',       icon: Icon.shipping,   label: 'Suppliers' },
+        { href: '/purchase-orders', icon: Icon.orders,     label: 'Purchase Orders' },
+        { href: '/forecasting',     icon: Icon.analytics,  label: 'Forecasting' },
+        { href: '/bundles',         icon: Icon.products,   label: 'Bundles & Kitting' },
+      ],
+    },
+    {
+      label: 'Growth',
+      items: [
+        { href: '/advertising', icon: Icon.repricing, label: 'Advertising & PPC' },
+        { href: '/analytics',   icon: Icon.analytics, label: 'Analytics' },
+        { href: '/financials',  icon: Icon.billing,   label: 'Financials' },
+      ],
+    },
+    {
       label: 'Automation',
       items: [
-        { href: '/rules',      icon: Icon.rules,      label: 'Feed Rules' },
-        { href: '/repricing',  icon: Icon.repricing,  label: 'Repricing' },
-        { href: '/analytics',  icon: Icon.analytics,  label: 'Analytics' },
+        { href: '/rules',         icon: Icon.rules,     label: 'Feed Rules' },
+        { href: '/lookup-tables', icon: Icon.costs,     label: 'Lookup Tables' },
+        { href: '/repricing',     icon: Icon.repricing, label: 'Repricing' },
       ],
     },
     {
       label: 'AI',
       items: [
-        { href: '/agent',        icon: Icon.agent,        label: 'AI Agent',          badge: pendingCount, badgeColor: '#f59e0b' },
-        { href: '/social-intel', icon: Icon.socialIntel,  label: 'Social Intel' },
+        { href: '/agent',        icon: Icon.agent,       label: 'AI Agent',   badge: pendingCount, badgeColor: '#f59e0b' },
+        { href: '/social-intel', icon: Icon.socialIntel, label: 'Social Intel' },
       ],
     },
     {
-      label: 'Account',
+      label: 'Platform',
       items: [
-        { href: '/settings', icon: Icon.settings, label: 'Settings' },
-        { href: '/billing',  icon: Icon.billing,  label: 'Billing' },
+        { href: '/developer', icon: Icon.channels, label: 'Developer & API' },
+        { href: '/settings',  icon: Icon.settings, label: 'Settings' },
+        { href: '/billing',   icon: Icon.billing,  label: 'Billing' },
       ],
     },
   ]
