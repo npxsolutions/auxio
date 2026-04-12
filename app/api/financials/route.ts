@@ -96,8 +96,8 @@ export async function GET() {
       .filter(t => new Date(t.order_date) >= new Date(Date.now() - 30 * 86400000))
       .reduce((s, t) => s + Number(t.sale_price || 0), 0)
 
-    const plan = userRes.data?.plan || 'free'
-    const monthlyFee = { free: 0, starter: 79.99, growth: 199, scale: 599, enterprise: 1500 }[plan] || 0
+    const plan = (userRes.data?.plan || 'free') as 'free' | 'starter' | 'growth' | 'scale' | 'enterprise'
+    const monthlyFee = ({ free: 0, starter: 79.99, growth: 199, scale: 599, enterprise: 1500 } as const)[plan] ?? 0
 
     return NextResponse.json({
       monthly,
