@@ -43,19 +43,67 @@ export async function POST(request: Request) {
 
     const status = await testRes.json()
     const shopName = status.settings?.blog_name || new URL(baseUrl).hostname
+    const basicAuth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')
+
+    // Register webhooks so we get real-time order/product events.
+    // WooCommerce lets the caller supply its own `secret` per webhook.
+    const appBase = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || ''
+    const webhookSecret = process.env.WOOCOMMERCE_WEBHOOK_SECRET || crypto.randomUUID()
+    const registrations: Array<{ topic: string; deliveryUrl: string }> = []
+
+    if (appBase) {
+      const topics: Array<{ topic: string; path: string }> = [
+        { topic: 'order.created',   path: '/api/webhooks/woocommerce/orders' },
+        { topic: 'order.updated',   path: '/api/webhooks/woocommerce/orders' },
+        { topic: 'product.created', path: '/api/webhooks/woocommerce/products' },
+        { topic: 'product.updated', path: '/api/webhooks/woocommerce/products' },
+        { topic: 'product.deleted', path: '/api/webhooks/woocommerce/products' },
+      ]
+      for (const { topic, path } of topics) {
+        try {
+          const deliveryUrl = `${appBase.replace(/\/$/, '')}${path}`
+          const hookRes = await fetch(`${baseUrl}/wp-json/wc/v3/webhooks`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Basic ${basicAuth}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: `Auxio ${topic}`,
+              topic,
+              delivery_url: deliveryUrl,
+              secret: webhookSecret,
+            }),
+          })
+          if (!hookRes.ok) {
+            console.error('[woocommerce/connect] webhook register failed:', topic, await hookRes.text())
+          } else {
+            registrations.push({ topic, deliveryUrl })
+          }
+        } catch (e) {
+          console.error('[woocommerce/connect] webhook register error:', topic, e)
+        }
+      }
+    } else {
+      console.warn('[woocommerce/connect] APP_URL not set — skipping webhook registration')
+    }
 
     await supabase.from('channels').upsert({
       user_id:      user.id,
       type:         'woocommerce',
       active:       true,
       // Store credentials encoded in access_token field (key:secret format)
-      access_token: Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64'),
+      access_token: basicAuth,
       shop_name:    shopName,
       shop_domain:  baseUrl,
       connected_at: new Date().toISOString(),
+      metadata: {
+        webhook_secret: webhookSecret,
+        webhooks: registrations,
+      },
     }, { onConflict: 'user_id,type' })
 
-    return NextResponse.json({ success: true, shopName })
+    return NextResponse.json({ success: true, shopName, webhooks: registrations.length })
   } catch (err: any) {
     console.error('[woocommerce/connect]', err)
     return NextResponse.json({ error: `Could not reach store: ${err.message}` }, { status: 400 })

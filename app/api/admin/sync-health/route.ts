@@ -119,8 +119,13 @@ export async function GET() {
     buckets[k].dead_letter++
   }
 
+  // Known channel types we actively sync. Used so the dashboard shows a row
+  // for each supported channel even if it has no active connections yet.
+  const KNOWN_CHANNELS = ['shopify', 'ebay', 'woocommerce', 'bigcommerce'] as const
+
   return NextResponse.json({
     generated_at: new Date().toISOString(),
+    known_channels: KNOWN_CHANNELS,
     per_channel: Object.fromEntries(
       Object.entries(buckets).map(([k, v]) => {
         const [userId, channel] = k.split('::')

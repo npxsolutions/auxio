@@ -13,19 +13,25 @@ export type ChannelKey =
   | 'walmart'
   | 'facebook'
   | 'tiktok'
-  | 'onbuf'
+  | 'onbuy'
   | 'google'
+  | 'woocommerce'
+  | 'bigcommerce'
 
 const LIMITS: Record<ChannelKey, { capacity: number; windowSeconds: number }> = {
-  shopify: { capacity: 2, windowSeconds: 1 },
-  ebay:    { capacity: 3, windowSeconds: 2 }, // 1.5 rps
-  amazon:  { capacity: 1, windowSeconds: 1 },
-  etsy:    { capacity: 5, windowSeconds: 1 },
-  walmart: { capacity: 2, windowSeconds: 1 },
-  facebook:{ capacity: 2, windowSeconds: 1 },
-  tiktok:  { capacity: 2, windowSeconds: 1 },
-  onbuf:   { capacity: 1, windowSeconds: 1 },
-  google:  { capacity: 5, windowSeconds: 1 },
+  shopify:     { capacity: 2, windowSeconds: 1 },
+  ebay:        { capacity: 3, windowSeconds: 2 }, // 1.5 rps
+  amazon:      { capacity: 1, windowSeconds: 1 },
+  etsy:        { capacity: 5, windowSeconds: 1 },
+  walmart:     { capacity: 2, windowSeconds: 1 },
+  facebook:    { capacity: 2, windowSeconds: 1 },
+  tiktok:      { capacity: 2, windowSeconds: 1 },
+  onbuy:       { capacity: 1, windowSeconds: 1 },
+  google:      { capacity: 5, windowSeconds: 1 },
+  // Conservative — WooCommerce has no hard global limit; host-dependent.
+  woocommerce: { capacity: 20, windowSeconds: 60 },
+  // BigCommerce: 450/hr safety ceiling -> ~7 / 60s.
+  bigcommerce: { capacity: 7, windowSeconds: 60 },
 }
 
 let _redis: Redis | null = null
