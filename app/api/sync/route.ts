@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { withRateLimit, type ChannelKey } from '../../lib/rate-limit/channel'
+import { recordDeadLetter } from '../../lib/sync/jobs'
 
 // Runs on a schedule — detects listing drift vs last-synced channel state and re-publishes
 
@@ -87,8 +89,13 @@ export async function GET(request: Request) {
     : 'http://localhost:3000'
 
   await Promise.allSettled(
-    Array.from(byListing.entries()).map(async ([listingId, { channels, attempts }]) => {
+    Array.from(byListing.entries()).map(async ([listingId, { userId, channels, attempts }]) => {
       try {
+        // Reserve a rate-limit slot per target channel (uses userId as scope;
+        // for shopify we don't know the shop here so userId is a safe proxy).
+        for (const ch of channels) {
+          await withRateLimit(ch as ChannelKey, userId, async () => undefined)
+        }
         const res = await fetch(`${baseUrl}/api/listings/${listingId}/publish`, {
           method: 'POST',
           headers: {
@@ -108,22 +115,42 @@ export async function GET(request: Request) {
           skipped += channels.length
 
           // Increment sync_attempts per channel so we don't loop forever on broken listings
-          await Promise.all(channels.map(ch =>
-            adminSupabase.from('channel_sync_state')
-              .update({ last_error: body.error || 'Sync re-publish failed', sync_attempts: (attempts[ch] ?? 0) + 1 })
+          await Promise.all(channels.map(async ch => {
+            const nextAttempts = (attempts[ch] ?? 0) + 1
+            await adminSupabase.from('channel_sync_state')
+              .update({ last_error: body.error || 'Sync re-publish failed', sync_attempts: nextAttempts })
               .eq('listing_id', listingId)
               .eq('channel_type', ch)
-          ))
+            if (nextAttempts >= 5) {
+              await recordDeadLetter({
+                userId,
+                channelType: ch,
+                jobType: 'drift.republish',
+                errorMessage: body.error || 'Sync re-publish failed',
+                payload: { listing_id: listingId },
+              })
+            }
+          }))
         }
       } catch (err: any) {
         console.error(`[sync:cron] Exception re-publishing ${listingId}:`, err)
         skipped += channels.length
-        await Promise.all(channels.map(ch =>
-          adminSupabase.from('channel_sync_state')
-            .update({ last_error: err.message, sync_attempts: (attempts[ch] ?? 0) + 1 })
+        await Promise.all(channels.map(async ch => {
+          const nextAttempts = (attempts[ch] ?? 0) + 1
+          await adminSupabase.from('channel_sync_state')
+            .update({ last_error: err.message, sync_attempts: nextAttempts })
             .eq('listing_id', listingId)
             .eq('channel_type', ch)
-        ))
+          if (nextAttempts >= 5) {
+            await recordDeadLetter({
+              userId,
+              channelType: ch,
+              jobType: 'drift.republish',
+              errorMessage: err.message,
+              payload: { listing_id: listingId },
+            })
+          }
+        }))
       }
     })
   )

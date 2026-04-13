@@ -164,6 +164,10 @@ export async function GET(request: Request) {
       { topic: 'orders/updated',         address: `${appUrl}/api/webhooks/shopify/orders` },
       { topic: 'orders/cancelled',       address: `${appUrl}/api/webhooks/shopify/orders` },
       { topic: 'orders/refunded',        address: `${appUrl}/api/webhooks/shopify/orders` },
+      { topic: 'products/create',        address: `${appUrl}/api/webhooks/shopify/products` },
+      { topic: 'products/update',        address: `${appUrl}/api/webhooks/shopify/products` },
+      { topic: 'products/delete',        address: `${appUrl}/api/webhooks/shopify/products` },
+      { topic: 'inventory_levels/update',address: `${appUrl}/api/webhooks/shopify/inventory` },
     ]
     Promise.all(webhooks.map(wh =>
       fetch(`https://${shop}/admin/api/2024-01/webhooks.json`, {

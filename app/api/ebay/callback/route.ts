@@ -56,22 +56,68 @@ export async function GET(request: Request) {
 
     const { access_token, refresh_token } = await tokenRes.json()
 
-    // Fetch eBay user identity to get username and userId for shop_domain
+    // Fetch eBay user identity. The Identity API sits on apiz.ebay.com and
+    // requires the `commerce.identity.readonly` scope on the OAuth token.
+    // We try identity first; if it 401s (missing scope) or the shape is
+    // unexpected, fall back to the Trading API GetUser call which works with
+    // the same user token via the IAF header.
     let shopName = 'eBay Store'
     let shopDomain = ''
     try {
       const identityRes = await fetch('https://apiz.ebay.com/commerce/identity/v1/user/', {
-        headers: { Authorization: `Bearer ${access_token}` },
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: 'application/json',
+        },
       })
       if (identityRes.ok) {
         const identity = await identityRes.json()
-        shopName   = identity.username  || shopName
-        shopDomain = identity.userId    || ''
+        shopName   = identity.username || identity.individualAccount?.firstName || shopName
+        shopDomain = identity.userId || identity.username || ''
+      } else {
+        console.warn('[ebay:callback] identity API failed:', identityRes.status, await identityRes.text().catch(() => ''))
       }
-    } catch {
-      // non-fatal — proceed without identity
+    } catch (err) {
+      console.warn('[ebay:callback] identity API exception:', err)
     }
-    console.log(`eBay connected — user: ${shopName}`)
+
+    // Fallback: Trading API GetUser — works with the user OAuth token via IAF.
+    if (!shopDomain) {
+      try {
+        const xml = `<?xml version="1.0" encoding="utf-8"?>
+<GetUserRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+  <DetailLevel>ReturnAll</DetailLevel>
+</GetUserRequest>`
+        const tradingRes = await fetch('https://api.ebay.com/ws/api.dll', {
+          method: 'POST',
+          headers: {
+            'Content-Type':                   'text/xml',
+            'X-EBAY-API-CALL-NAME':           'GetUser',
+            'X-EBAY-API-SITEID':              '3',
+            'X-EBAY-API-COMPATIBILITY-LEVEL': '967',
+            'X-EBAY-API-IAF-TOKEN':           access_token,
+          },
+          body: xml,
+        })
+        if (tradingRes.ok) {
+          const body = await tradingRes.text()
+          const userIdMatch = body.match(/<UserID>([^<]+)<\/UserID>/)
+          if (userIdMatch?.[1]) {
+            shopDomain = userIdMatch[1]
+            shopName = userIdMatch[1]
+          }
+        }
+      } catch (err) {
+        console.warn('[ebay:callback] Trading GetUser fallback failed:', err)
+      }
+    }
+
+    // Absolute last resort — use a deterministic user-scoped key so the unique
+    // lookup in webhooks still succeeds.
+    if (!shopDomain) shopDomain = `ebay:${user.id}`
+
+    console.log(`[ebay:callback] connected — user: ${shopName}, domain: ${shopDomain}`)
 
     const { error: upsertErr } = await supabase.from('channels').upsert({
       user_id:       user.id,
