@@ -82,6 +82,31 @@ export default function CompareLandingPage() {
     setNotes({ v1: '', v2: '', v3: '' })
   }
 
+  const [copied, setCopied] = useState(false)
+  const exportScores = async () => {
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      maxTotal,
+      criteria: CRITERIA,
+      results: VARIANTS.map(v => ({
+        id: v.id,
+        name: v.name,
+        headline: v.headline,
+        total: totalFor(scores[v.id]),
+        scores: scores[v.id],
+        notes: notes[v.id],
+      })),
+    }
+    const text = JSON.stringify(payload, null, 2)
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    } catch {
+      window.prompt('Copy this JSON and paste it back to Claude:', text)
+    }
+  }
+
   const ranked = [...VARIANTS]
     .map(v => ({ ...v, total: totalFor(scores[v.id]) }))
     .sort((a, b) => b.total - a.total)
@@ -103,12 +128,20 @@ export default function CompareLandingPage() {
               Three candidate homepages for the $1B-positioning relaunch. Open each in a new tab, then score on the rubric below. Weights reflect what matters most for the exit narrative. Scores save to your browser automatically.
             </p>
           </div>
-          <button
-            onClick={reset}
-            style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${C.border}`, background: 'white', color: C.muted, fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}
-          >
-            Reset scores
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={exportScores}
+              style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${C.purple}`, background: C.purple, color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+            >
+              {copied ? '✓ Copied — paste to Claude' : 'Export scores → clipboard'}
+            </button>
+            <button
+              onClick={reset}
+              style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${C.border}`, background: 'white', color: C.muted, fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}
+            >
+              Reset scores
+            </button>
+          </div>
         </div>
 
         {/* Live ranking summary */}
