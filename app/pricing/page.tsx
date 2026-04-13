@@ -241,7 +241,7 @@ export default function PricingPage() {
             {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: '2px solid #f1f5f9' }}>
               <div style={{ padding: '16px 20px' }} />
-              {['Auxio', 'Feedonomics', 'Rithum', 'Baselinker'].map((name, i) => (
+              {['Auxio', 'Brightpearl', 'Linnworks', 'Baselinker'].map((name, i) => (
                 <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(91,82,245,0.05)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#5b52f5' : '#0f172a' }}>{name}</div>
                 </div>
@@ -251,7 +251,7 @@ export default function PricingPage() {
             {COMPARE.map((row, i) => (
               <div key={row.feature} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: i < COMPARE.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
                 <div style={{ padding: '14px 20px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
-                {[row.auxio, row.feedonomics, row.rithum, row.baselinker].map((val, j) => (
+                {[row.auxio, row.brightpearl, row.linnworks, row.baselinker].map((val, j) => (
                   <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(91,82,245,0.03)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                     <span style={{ fontSize: '12px', fontWeight: 600, color: j === 0 ? '#5b52f5' : val === '✗' ? '#94a3b8' : '#374151' }}>{val}</span>
                   </div>
