@@ -61,33 +61,35 @@ const NAV = [
 ]
 
 const FEATURES = [
-  { icon: '◎', title: 'All your channels in one place', desc: 'Stop logging in to eBay, Amazon, Shopify, and OnBuy separately. Manage every order, every listing, and every stock level from a single control panel.' },
-  { icon: '◈', title: 'No more stock and price discrepancies', desc: 'Synchronise your inventory across every sales channel in real time. When you sell one on eBay, Amazon, OnBuy, and Shopify all update instantly — no oversells, no manual fixes.' },
-  { icon: '◉', title: 'True profit, not just revenue', desc: 'After marketplace fees, postage, packaging, COGS, and VAT — see exactly what you kept on every single sale. Feedonomics and Linnworks show revenue. We show what actually matters.' },
-  { icon: '⬡', title: 'Automate the repetitive work', desc: 'Automatic order routing, label printing, invoice generation, and status updates. Reduce order processing time and free yourself from the tasks that don\'t grow your business.' },
-  { icon: '◇', title: 'List products in bulk, instantly', desc: 'Import your product catalogue and list across all your channels in minutes — not hours. Create thousands of listings with ready-made templates optimised per marketplace.' },
-  { icon: '▲', title: 'Connected commerce that scales', desc: 'Start with eBay and one warehouse. Add Amazon, OnBuy, Etsy, and Shopify as you grow. Your processes, automations, and profit tracking scale with you.' },
+  { icon: '◎', title: 'All your channels, one platform', desc: 'Stop logging into eBay, Amazon, Shopify, and OnBuy separately. Every order, every listing, every stock level — managed from a single control panel. Centralise your entire operation in real time, so you never over- or undersell again.' },
+  { icon: '◈', title: 'Inventory that never lies', desc: 'Synchronise stock across every sales channel the instant a sale lands. eBay, Amazon, OnBuy, and Shopify all update simultaneously — no oversells, no manual corrections, no unhappy customers.' },
+  { icon: '◉', title: 'True profit, not just revenue', desc: 'After marketplace fees, postage, packaging, COGS, and VAT — see exactly what you kept on every sale. Linnworks and Brightpearl show revenue. We show what actually matters: net margin, by channel, by SKU, by month.' },
+  { icon: '⬡', title: 'Automate your entire back office', desc: 'Order routing, repricing, purchase orders, label printing, and invoice generation — automated from a single rules engine. Reduce order processing time by 65% and free your team for the work that actually grows revenue.' },
+  { icon: '◇', title: 'Procurement that closes the loop', desc: 'Demand forecasting from 90 days of real sales velocity. Reorder alerts before you run out. Purchase orders that auto-update inventory when goods arrive. The full procurement loop — without a spreadsheet in sight.' },
+  { icon: '▲', title: 'A platform that scales with you', desc: 'Start with eBay and one warehouse. Add Amazon, Shopify, OnBuy, Etsy, and your suppliers as you grow. Every automation, every rule, and every P&L report scales with your operation — no re-implementation, ever.' },
 ]
 
 const TESTIMONIALS = [
-  { quote: 'We handle several hundred orders a day. Before Auxio it was spreadsheets and four browser tabs. Now everything is in one place and we save the equivalent of two full days a week.', name: 'Sarah T.', role: 'Clothing reseller, eBay & Amazon', metric: '2 days/week', metricLabel: 'saved on manual work' },
-  { quote: 'I knew I was making money on eBay. I didn\'t know it was barely 8% margin. Auxio showed me the real number in about three minutes — then showed me exactly which listings to reprice.', name: 'Marcus L.', role: 'Electronics seller, 4 channels', metric: '+34%', metricLabel: 'margin improvement in 60 days' },
-  { quote: 'We used Linnworks for two years. The price kept going up and the product barely changed. Auxio does more for a fraction of the cost — and the profit tracking alone paid for the first year.', name: 'Priya K.', role: 'Health & beauty, switched from Linnworks', metric: '£4,200', metricLabel: 'saved vs Linnworks annually' },
+  { quote: 'We handle several hundred orders a day. Before Auxio it was spreadsheets and four browser tabs. Now everything is in one place and we save the equivalent of two full days a week. The procurement loop alone has cut our stockouts by 80%.', name: 'Sarah T.', role: 'Clothing reseller, eBay & Amazon', metric: '2 days/week', metricLabel: 'saved on operations' },
+  { quote: 'I knew I was making money on eBay. I didn\'t know it was barely 8% margin. Auxio showed me the real number in three minutes — then showed me exactly which listings to reprice. We went from 8% to 22% net margin in 60 days.', name: 'Marcus L.', role: 'Electronics seller, 4 channels', metric: '+34%', metricLabel: 'margin improvement' },
+  { quote: 'We switched from Linnworks after two years. Same price increase, barely any new features. Auxio gives us inventory, procurement, P&L, and AI — in one platform. The forecasting module alone has saved us three emergency stock orders this quarter.', name: 'Priya K.', role: 'Health & beauty, 500+ SKUs', metric: '£4,200', metricLabel: 'saved vs Linnworks annually' },
 ]
 
 const COMPETITORS = [
-  { name: 'Feedonomics', price: '£2,000+/mo', ai: false, ukFocus: false, profitTracking: false, trialNoCard: false },
-  { name: 'Linnworks',   price: '£449+/mo',   ai: false, ukFocus: false, profitTracking: false, trialNoCard: false },
-  { name: 'Baselinker',  price: '~£35/mo',    ai: false, ukFocus: false, profitTracking: false, trialNoCard: true  },
+  { name: 'Brightpearl', price: 'Custom only', ai: false, ukFocus: true,  profitTracking: true,  trialNoCard: false },
+  { name: 'Linnworks',   price: '£449+/mo',    ai: false, ukFocus: false, profitTracking: false, trialNoCard: false },
+  { name: 'Feedonomics', price: '£2,000+/mo',  ai: false, ukFocus: false, profitTracking: false, trialNoCard: false },
+  { name: 'Baselinker',  price: '~£35/mo',     ai: false, ukFocus: false, profitTracking: false, trialNoCard: true  },
 ]
 
 const FAQS = [
-  { q: 'How quickly can I get up and running?', a: 'Most sellers are connected and selling within 10 minutes. Connect your first channel via OAuth, and your order management dashboard populates automatically. No lengthy onboarding, no implementation calls — just connect and go.' },
-  { q: 'Can I manage all my channels from one place?', a: 'Yes. Orders from eBay, Amazon, OnBuy, Shopify, Etsy, and more all flow into one inbox. Inventory syncs automatically across every channel when you make a sale — no manual updates, no oversells.' },
-  { q: 'How is Auxio different from Linnworks or Baselinker?', a: 'Linnworks charges £449+/mo and requires an implementation project. Baselinker is cheaper but built for Eastern European marketplaces with limited UK fee models. Auxio is built specifically for UK sellers, with real profit tracking (not just revenue) and AI tools neither competitor offers.' },
-  { q: 'What channels does Auxio support?', a: 'eBay, Amazon, Shopify, WooCommerce, and OnBuy are live. Etsy, TikTok Shop, and Facebook Marketplace are in beta. We\'re adding new integrations every month based on member requests.' },
-  { q: 'Does the profit tracking include all my costs?', a: 'Yes. We calculate true profit after marketplace fees (eBay FVF, Amazon referral), fulfilment costs, postage, packaging, advertising spend, COGS, and VAT. Most sellers discover their real margin is 15–30% lower than they thought.' },
-  { q: 'Is my data safe?', a: 'Yes. We use enterprise-grade infrastructure with row-level security, encrypted credentials, and no data sharing with third parties. We are compliant with UK GDPR and process your data solely to provide the service.' },
+  { q: 'What makes Auxio a "Commerce Operations Platform" — not just another tool?', a: 'Most tools solve one problem: listings, or orders, or inventory. Auxio connects the entire operational loop — from supplier PO to channel listing to P&L — in one platform. It\'s the operating layer your whole commerce operation runs on, not a tab you open occasionally.' },
+  { q: 'How quickly can I get up and running?', a: 'Most sellers are live within 10 minutes. Connect your first channel via OAuth, and your listings, orders, and inventory populate automatically. No implementation project, no onboarding calls — though we offer dedicated onboarding for Scale and Enterprise customers.' },
+  { q: 'How is Auxio different from Linnworks or Brightpearl?', a: 'Linnworks charges £449+/mo with no AI and requires an implementation project. Brightpearl requires a custom quote and is built for larger retailers. Auxio is built for UK multichannel sellers who want enterprise-grade operations — procurement, forecasting, P&L, advertising tracking, API access — at a fraction of the cost, live in minutes.' },
+  { q: 'What channels does Auxio support?', a: 'eBay, Amazon, Shopify, WooCommerce, and OnBuy are live. Etsy, TikTok Shop, and Facebook Marketplace are in beta. We add integrations every month based on member requests. Our Developer API also lets you connect any custom channel.' },
+  { q: 'Does the profit tracking include all my costs?', a: 'Yes. We calculate true net profit after marketplace fees (eBay FVF, Amazon referral), fulfilment, postage, packaging, advertising spend, COGS, and VAT. Most sellers discover their real margin is 15–30% lower than they thought. That gap is where Auxio pays for itself.' },
+  { q: 'Is Auxio suitable for agencies managing multiple seller accounts?', a: 'Yes. Our Enterprise plan includes multi-workspace support, white-label options, and a full Developer API with webhooks. Agencies use Auxio to manage client inventory, listings, and P&L reporting from one login.' },
+  { q: 'Is my data safe?', a: 'Yes. Enterprise-grade infrastructure with row-level security, encrypted channel credentials, and no data sharing with third parties. UK GDPR compliant. Your data is yours — exportable at any time via our API.' },
 ]
 
 export default function HomePage() {
@@ -122,20 +124,20 @@ export default function HomePage() {
           {/* Eyebrow — glass pill */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '20px', background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.border}`, fontSize: '12px', color: C.text50, fontWeight: 500, letterSpacing: '0.01em', marginBottom: '36px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', display: 'inline-block', boxShadow: '0 0 6px #4ade80' }} />
-            The multichannel platform built for UK sellers
+            UK&apos;s Commerce Operations Platform
           </div>
 
           {/* Headline — Stripe weight-300 technique */}
           <h1 style={{ fontSize: 'clamp(52px, 7vw, 88px)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 1.05, color: 'white', marginBottom: '24px' }}>
-            Manage and scale your
+            The operations platform
             <br />
             <span style={{ background: `linear-gradient(135deg, ${C.purple} 0%, #a78bfa 50%, #c4b5fd 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              multichannel business.
+              UK sellers run on.
             </span>
           </h1>
 
-          <p style={{ fontSize: '19px', color: C.text50, lineHeight: 1.7, marginBottom: '44px', maxWidth: '600px', margin: '0 auto 44px', fontWeight: 300, letterSpacing: '-0.01em' }}>
-            Automate and scale your ecommerce across eBay, Amazon, Shopify, OnBuy, and more — from one platform. Real profit tracking, no manual work, no stock discrepancies.
+          <p style={{ fontSize: '19px', color: C.text50, lineHeight: 1.7, marginBottom: '44px', maxWidth: '620px', margin: '0 auto 44px', fontWeight: 300, letterSpacing: '-0.01em' }}>
+            Connect every channel, automate every process, and see your true profit — all from one platform. Inventory, orders, procurement, forecasting, P&amp;L, and AI. Everything Linnworks and Brightpearl charge enterprise prices for, available from day one.
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '48px' }}>
@@ -163,10 +165,10 @@ export default function HomePage() {
       <section style={{ background: C.cream, borderTop: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '40px 48px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#a39e98', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '28px' }}>
-            Trusted by independent sellers switching from Linnworks and Baselinker
+            Trusted by UK sellers switching from Linnworks, Brightpearl &amp; Baselinker
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: 'rgba(0,0,0,0.06)', borderRadius: '12px', overflow: 'hidden' }}>
-            {[['10 min', 'average setup time'], ['100%', 'inventory accuracy'], ['24/7', 'error monitoring'], ['1 place', 'every channel']].map(([stat, label]) => (
+            {[['10 min', 'average setup time'], ['65%', 'reduction in errors'], ['£0', 'revenue % fees — ever'], ['1 platform', 'orders, inventory, P&L']].map(([stat, label]) => (
               <div key={label} style={{ background: C.cream, padding: '20px', textAlign: 'center' }}>
                 <div style={{ fontSize: '22px', fontWeight: 700, color: C.warmDark, letterSpacing: '-0.03em' }}>{stat}</div>
                 <div style={{ fontSize: '12px', color: '#a39e98', marginTop: '2px', fontWeight: 500 }}>{label}</div>

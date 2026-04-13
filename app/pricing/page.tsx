@@ -92,15 +92,17 @@ const PLANS = [
 ]
 
 const COMPARE = [
-  { feature: 'Channels supported',     auxio: '12+',         feedonomics: '300+',       rithum: '420+',     baselinker: '1,000+' },
-  { feature: 'Starting price',         auxio: '£49/mo',      feedonomics: 'Custom',     rithum: '$2,000+',  baselinker: '$19/mo' },
-  { feature: 'Time to go live',        auxio: '< 10 min',    feedonomics: 'Weeks',      rithum: 'Months',   baselinker: '1-2 days' },
-  { feature: 'AI listing optimisation',auxio: '✓',           feedonomics: '✓',          rithum: '✓',        baselinker: '✗' },
-  { feature: 'True profit tracking',   auxio: '✓',           feedonomics: '✗',          rithum: 'Partial',  baselinker: '✗' },
-  { feature: 'Social Intelligence',    auxio: '✓',           feedonomics: '✗',          rithum: '✗',        baselinker: '✗' },
-  { feature: 'Self-serve setup',       auxio: '✓',           feedonomics: 'Managed',    rithum: 'Managed',  baselinker: '✓' },
-  { feature: 'UK-first support',       auxio: '✓',           feedonomics: '✗',          rithum: '✗',        baselinker: 'Partial' },
-  { feature: 'Transparent pricing',    auxio: '✓',           feedonomics: '✗',          rithum: '✗',        baselinker: '✓' },
+  { feature: 'Starting price',              auxio: 'From £49/mo',  brightpearl: 'Custom only', linnworks: '£449+/mo',  baselinker: '£19/mo' },
+  { feature: 'Pricing model',               auxio: 'Per plan',     brightpearl: 'Bespoke',     linnworks: 'Order vol', baselinker: 'Per order' },
+  { feature: 'Revenue % fee',               auxio: 'Never',        brightpearl: 'Never',       linnworks: 'Never',     baselinker: '✗' },
+  { feature: 'Time to go live',             auxio: '< 10 min',     brightpearl: 'Weeks',       linnworks: '40 days',   baselinker: '1-2 days' },
+  { feature: 'True P&L (not just revenue)', auxio: '✓',            brightpearl: 'Partial',     linnworks: '✗',         baselinker: '✗' },
+  { feature: 'Demand forecasting',          auxio: '✓',            brightpearl: '✓',           linnworks: 'Add-on',    baselinker: '✗' },
+  { feature: 'Purchase orders',             auxio: '✓',            brightpearl: '✓',           linnworks: '✓',         baselinker: '✗' },
+  { feature: 'AI listing optimisation',     auxio: '✓',            brightpearl: '✗',           linnworks: '✗',         baselinker: '✗' },
+  { feature: 'Developer API + webhooks',    auxio: '✓',            brightpearl: 'Enterprise',  linnworks: 'Add-on',    baselinker: '✓' },
+  { feature: 'UK-first support',            auxio: '✓',            brightpearl: '✓',           linnworks: 'Partial',   baselinker: '✗' },
+  { feature: 'Self-serve setup',            auxio: '✓',            brightpearl: 'Managed',     linnworks: 'Managed',   baselinker: '✓' },
 ]
 
 const FAQ = [
