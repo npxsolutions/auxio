@@ -665,6 +665,101 @@ const PRICE_ROWS = [
   { name: 'Enterprise', price: null, tag: 'Bespoke',      desc: 'Multi-region, custom SLA, dedicated IR.',  includes: ['Custom SLA', 'Dedicated incident response', 'Audit log exports'], cta: 'Talk to sales' },
 ]
 
+// ── Connections — marketplaces + stack ──────────────────────────────────────
+type Brand = { name: string; tag: string; mark: (s: number) => React.ReactElement; status?: 'live' | 'beta' }
+const BRAND_MARK = (paths: React.ReactNode) => (s: number) => (
+  <svg width={s} height={s} viewBox="0 0 32 32" fill="none" aria-hidden>{paths}</svg>
+)
+const COMMERCE_BRANDS: Brand[] = [
+  { name: 'Shopify',      tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><path d="M10 11 Q16 6 22 11 L24 26 L8 26 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><path d="M13 14 V18" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round"/></>) },
+  { name: 'eBay',         tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><rect x="6" y="10" width="20" height="14" rx="2" stroke={C.ink} strokeWidth="1.5"/><path d="M6 14 L26 14" stroke={C.ink} strokeWidth="1.5"/><circle cx="10" cy="12" r="0.9" fill={C.cobalt}/></>) },
+  { name: 'Amazon',       tag: 'Marketplace',  status: 'beta',  mark: BRAND_MARK(<><path d="M6 19 Q16 25 26 19" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M22 19 L26 19 L26 15" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round"/></>) },
+  { name: 'Etsy',         tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><path d="M16 6 L26 12 L26 22 L16 28 L6 22 L6 12 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><circle cx="16" cy="17" r="3" stroke={C.cobalt} strokeWidth="1.5"/></>) },
+  { name: 'TikTok Shop',  tag: 'Marketplace',  status: 'beta',  mark: BRAND_MARK(<><path d="M14 8 V20 A4 4 0 1 1 10 16" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M14 8 Q18 12 22 12" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round" fill="none"/></>) },
+  { name: 'Walmart',      tag: 'Marketplace',  status: 'beta',  mark: BRAND_MARK(<><circle cx="16" cy="16" r="2.5" fill={C.cobalt}/>{[0,60,120,180,240,300].map(a=>(<line key={a} x1="16" y1="16" x2={16+10*Math.cos(a*Math.PI/180)} y2={16+10*Math.sin(a*Math.PI/180)} stroke={C.ink} strokeWidth="1.5" strokeLinecap="round"/>))}</>) },
+  { name: 'OnBuy',        tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><path d="M6 12 H9 L12 22 H24 L26 14 H11" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><circle cx="14" cy="26" r="1.5" fill={C.cobalt}/><circle cx="22" cy="26" r="1.5" fill={C.cobalt}/></>) },
+  { name: 'BigCommerce',  tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><circle cx="16" cy="16" r="10" stroke={C.ink} strokeWidth="1.5"/><circle cx="16" cy="16" r="6" stroke={C.ink} strokeWidth="1.5" strokeOpacity="0.5"/><circle cx="16" cy="16" r="2" fill={C.cobalt}/></>) },
+  { name: 'WooCommerce',  tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><path d="M4 10 L10 22 L16 12 L22 22 L28 10" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><circle cx="16" cy="26" r="1.5" fill={C.cobalt}/></>) },
+]
+const STACK_BRANDS: Brand[] = [
+  { name: 'Stripe',    tag: 'Billing',       mark: BRAND_MARK(<><path d="M20 11 Q14 10 14 13 Q14 15 18 16 Q22 17 22 19 Q22 22 16 21 Q12 20 10 19" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><circle cx="18" cy="14" r="0.9" fill={C.cobalt}/></>) },
+  { name: 'Resend',    tag: 'Email',         mark: BRAND_MARK(<><rect x="6" y="10" width="20" height="12" rx="1.5" stroke={C.ink} strokeWidth="1.5"/><path d="M6 11 L16 18 L26 11" stroke={C.cobalt} strokeWidth="1.5" strokeLinejoin="round" fill="none"/></>) },
+  { name: 'Supabase',  tag: 'Data layer',    mark: BRAND_MARK(<><path d="M12 6 L22 6 L22 16 L16 16 L16 26 L6 26 L6 16 L12 16 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><path d="M16 16 L22 16" stroke={C.cobalt} strokeWidth="1.5"/></>) },
+  { name: 'Vercel',    tag: 'Edge runtime',  mark: BRAND_MARK(<><path d="M16 7 L27 24 L5 24 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><path d="M16 7 L21 17" stroke={C.cobalt} strokeWidth="1.5"/></>) },
+  { name: 'PostHog',   tag: 'Analytics',     mark: BRAND_MARK(<><path d="M6 26 L16 16 L26 26" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round" fill="none"/><path d="M6 20 L12 14 L18 20" stroke={C.cobalt} strokeWidth="1.5" strokeLinejoin="round" fill="none"/></>) },
+  { name: 'Sentry',    tag: 'Observability', mark: BRAND_MARK(<><path d="M6 24 L16 6 L26 24 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round" fill="none"/><path d="M12 20 Q16 14 20 20" stroke={C.cobalt} strokeWidth="1.5" fill="none"/></>) },
+]
+
+function BrandTile({ b }: { b: Brand }) {
+  const r = useReveal<HTMLDivElement>(0)
+  return (
+    <div
+      ref={r.ref}
+      style={{
+        background: C.surface, border: `1px solid ${C.rule}`, padding: '20px 20px',
+        display: 'flex', alignItems: 'center', gap: 14,
+        transition: 'transform 200ms ease, border-color 200ms ease, opacity 700ms cubic-bezier(.2,.7,.2,1)',
+        opacity: r.style.opacity,
+        transform: r.style.transform,
+      }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = C.ink; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = C.rule; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)' }}
+    >
+      <div style={{ width: 32, height: 32, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{b.mark(32)}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 18, lineHeight: 1.1, letterSpacing: '-0.012em', color: C.ink }}>{b.name}</div>
+        <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, letterSpacing: '0.06em', color: C.muted, marginTop: 2 }}>{b.tag}</div>
+      </div>
+      {b.status && (
+        <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9, letterSpacing: '0.12em', color: b.status === 'live' ? C.emerald : C.muted, textTransform: 'uppercase', flexShrink: 0 }}>
+          <span style={{ display: 'inline-block', width: 5, height: 5, borderRadius: 3, background: b.status === 'live' ? C.emerald : C.muted, marginRight: 6, verticalAlign: 'middle' }} />
+          {b.status}
+        </span>
+      )}
+    </div>
+  )
+}
+
+function ConnectionsSection() {
+  return (
+    <section id="connections" style={{ padding: '96px 32px', background: C.bg, borderBottom: `1px solid ${C.rule}` }}>
+      <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 28 }}>
+          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>Connections</span>
+          <div style={{ flex: 1, height: 1, background: C.rule }} />
+          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 02a — {COMMERCE_BRANDS.length} channels · {STACK_BRANDS.length} stack</span>
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.04, color: C.ink, margin: '0 0 40px', maxWidth: 880 }}>
+          Speaks every marketplace. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>Plays with your stack.</em>
+        </h2>
+
+        <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 16 }}>Sell on</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid ${C.rule}`, borderLeft: `1px solid ${C.rule}`, marginBottom: 48 }}>
+          {COMMERCE_BRANDS.map(b => (
+            <div key={b.name} style={{ borderRight: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}` }}>
+              <BrandTile b={b} />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 16 }}>Built on</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid ${C.rule}`, borderLeft: `1px solid ${C.rule}` }}>
+          {STACK_BRANDS.map(b => (
+            <div key={b.name} style={{ borderRight: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}` }}>
+              <BrandTile b={b} />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 18, fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted, letterSpacing: '0.04em', display: 'flex', justifyContent: 'space-between' }}>
+          <span>More coming · request a channel via <Link href="/contact" style={{ color: C.cobalt, textDecoration: 'none' }}>sales</Link></span>
+          <Link href="/integrations" style={{ color: C.cobalt, textDecoration: 'none' }}>Full integration catalog →</Link>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function LandingV8() {
   const heroPar = useParallax<HTMLHeadingElement>(0.15)
   return (
@@ -741,6 +836,9 @@ export default function LandingV8() {
           ].map((m, i) => <NumberCell key={i} m={m} i={i} />)}
         </div>
       </section>
+
+      {/* Connections — marketplaces & stack */}
+      <ConnectionsSection />
 
       {/* Inside the ledger */}
       <section id="ledger" style={{ padding: '120px 32px', background: C.bg }}>
