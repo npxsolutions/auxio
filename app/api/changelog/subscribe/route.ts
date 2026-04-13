@@ -1,21 +1,44 @@
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 // POST /api/changelog/subscribe
-// Captures email subscriptions for changelog updates.
-// TODO: wire to Loops / Resend audiences / Customer.io. Currently logs only.
+// Public changelog email capture from /changelog.
+// Persists to public.changelog_subscribers with confirmation_token; caller should
+// trigger a double-opt-in email elsewhere (Resend/Loops). Unique on email — existing
+// subscribers return ok without error.
+// TODO: wire Resend to send confirm-your-subscription email using confirmation_token.
+
+const getSupabase = async () => {
+  const cookieStore = await cookies()
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  )
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({} as Record<string, unknown>))
-    const email = typeof body.email === 'string' ? body.email.trim() : ''
-
+    const str = (k: string) => typeof body[k] === 'string' ? (body[k] as string).trim() : null
+    const email = str('email')
     if (!email || !email.includes('@')) {
       return NextResponse.json({ ok: false, error: 'A valid email is required.' }, { status: 400 })
     }
 
-    console.log('[api/changelog/subscribe] subscriber added', {
+    const supabase = await getSupabase()
+    const { error } = await supabase.from('changelog_subscribers').insert({
       email,
-      receivedAt: new Date().toISOString(),
+      source: str('source') ?? 'changelog',
+      utm: body.utm ?? null,
     })
+
+    // Postgres unique_violation = 23505 — treat as idempotent success.
+    if (error && (error as { code?: string }).code !== '23505') {
+      console.error('[api/changelog/subscribe] insert error', error)
+      return NextResponse.json({ ok: false, error: 'Could not save subscription.' }, { status: 500 })
+    }
 
     return NextResponse.json({ ok: true, message: 'Subscribed. Watch your inbox on ship days.' })
   } catch (err) {
