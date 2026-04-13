@@ -159,13 +159,20 @@ export async function GET(request: Request) {
       { topic: 'customers/data_request', address: `${appUrl}/api/shopify/webhooks/customers-data-request` },
       { topic: 'customers/redact',       address: `${appUrl}/api/shopify/webhooks/customers-redact` },
       { topic: 'shop/redact',            address: `${appUrl}/api/shopify/webhooks/shop-redact` },
+      { topic: 'orders/create',          address: `${appUrl}/api/webhooks/shopify/orders` },
+      { topic: 'orders/paid',            address: `${appUrl}/api/webhooks/shopify/orders` },
+      { topic: 'orders/updated',         address: `${appUrl}/api/webhooks/shopify/orders` },
+      { topic: 'orders/cancelled',       address: `${appUrl}/api/webhooks/shopify/orders` },
+      { topic: 'orders/refunded',        address: `${appUrl}/api/webhooks/shopify/orders` },
     ]
     Promise.all(webhooks.map(wh =>
       fetch(`https://${shop}/admin/api/2024-01/webhooks.json`, {
         method: 'POST',
         headers: { 'X-Shopify-Access-Token': access_token, 'Content-Type': 'application/json' },
         body: JSON.stringify({ webhook: { topic: wh.topic, address: wh.address, format: 'json' } }),
-      }).catch(() => {})
+      })
+        .then(async r => console.log(`Shopify webhook register [${wh.topic}]:`, r.status))
+        .catch(err => console.error(`Shopify webhook register [${wh.topic}] failed:`, err))
     )).catch(() => {})
 
     // Kick off initial sync
