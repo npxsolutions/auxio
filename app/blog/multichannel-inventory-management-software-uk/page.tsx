@@ -2,17 +2,18 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Best Multichannel Inventory Management Software UK (2026) — Compared',
-  description: 'Comparing the best multichannel inventory management software for UK sellers in 2026: Auxio, Linnworks, Brightpearl, Baselinker, and Veeqo. Real pricing, features, and honest assessments.',
-  keywords: ['multichannel inventory management software UK', 'best inventory management software UK', 'inventory management for eBay and Amazon UK', 'multichannel ecommerce software UK 2026', 'Linnworks alternative UK'],
+  title: 'Best Multichannel Inventory Management Software (2026) — Global Comparison',
+  description: 'Comparing the best multichannel inventory management software for global sellers in 2026: Auxio, Linnworks, Brightpearl, ChannelAdvisor, Feedonomics, and Veeqo. Real pricing, features, and honest assessments.',
+  keywords: ['multichannel inventory management software', 'best inventory management software', 'inventory management for eBay and Amazon', 'global multichannel ecommerce software 2026', 'Linnworks alternative', 'ChannelAdvisor alternative', 'Feedonomics alternative'],
 }
 
 const TOOLS = [
-  { name: 'Auxio', verdict: 'Best for UK sellers who want the full operations stack', price: 'From £49/mo', trial: true, ukFocus: true, aiBuiltIn: true, procurementLoop: true, trueProfit: true, highlight: true },
-  { name: 'Linnworks', verdict: 'Established mid-market platform, strong warehouse management', price: '£449+/mo', trial: false, ukFocus: false, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
-  { name: 'Brightpearl by Sage', verdict: 'Powerful retail OS for larger operations — but expensive and slow to set up', price: 'Custom only', trial: false, ukFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
-  { name: 'Baselinker', verdict: 'Cheapest option — good for listing sync, weak on P&L and procurement', price: 'From ~£19/mo', trial: true, ukFocus: false, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
-  { name: 'Veeqo (Amazon)', verdict: 'Free, shipping-focused — best if Amazon is your main channel', price: 'Free', trial: true, ukFocus: false, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
+  { name: 'Auxio', verdict: 'Best for global multichannel sellers who want the full operations stack', price: 'From $59/mo', trial: true, globalFocus: true, aiBuiltIn: true, procurementLoop: true, trueProfit: true, highlight: true },
+  { name: 'Linnworks', verdict: 'Established mid-market platform, strong warehouse management', price: '$549+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
+  { name: 'Brightpearl by Sage', verdict: 'Powerful retail OS for larger operations — but expensive and slow to set up', price: 'Custom only', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
+  { name: 'ChannelAdvisor (Rithum)', verdict: 'Enterprise commerce network — broad channel coverage, months to implement', price: '$2,500+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
+  { name: 'Feedonomics', verdict: 'Enterprise feed management — best-in-class for large catalogues and ad feeds', price: '$2,500+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
+  { name: 'Veeqo (Amazon)', verdict: 'Free, shipping-focused — best if Amazon is your main channel', price: 'Free', trial: true, globalFocus: false, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
 ]
 
 export default function BlogPostPage() {
@@ -32,10 +33,13 @@ export default function BlogPostPage() {
         <div style={{ marginBottom: '32px' }}>
           <span style={{ fontSize: '12px', fontWeight: 600, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Buyer's Guide · 2026</span>
           <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginTop: '12px', marginBottom: '20px' }}>
-            Best Multichannel Inventory Management Software for UK Sellers (2026)
+            Best Multichannel Inventory Management Software for Global Sellers (2026)
           </h1>
           <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '16px' }}>
-            If you sell on eBay, Amazon, Shopify, and OnBuy simultaneously, you need software that keeps inventory in sync across all of them — and ideally tells you your real profit margin after fees. We compared the six most-used platforms for UK multichannel sellers.
+            If you sell on eBay, Amazon, Shopify, and OnBuy simultaneously — across the US, UK, EU, or Asia-Pacific — you need software that keeps inventory in sync across all of them, and ideally tells you your real profit margin after fees. We compared the six most-used platforms for multichannel sellers worldwide.
+          </p>
+          <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.7, marginBottom: '16px', fontStyle: 'italic' }}>
+            Editor's note: this guide was originally written for UK sellers and has been updated for 2026 with global pricing and coverage. The recommendations apply equally to sellers in the US, EU, Canada, Australia, and beyond.
           </p>
           <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: '#94a3b8' }}>
             <span>Updated April 2026</span>
@@ -47,27 +51,28 @@ export default function BlogPostPage() {
         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '20px 24px', marginBottom: '40px' }}>
           <strong style={{ fontSize: '13px', fontWeight: 700, display: 'block', marginBottom: '12px', color: '#334155' }}>Quick summary</strong>
           <ul style={{ margin: 0, padding: '0 0 0 18px', fontSize: '14px', color: '#475569', lineHeight: 1.9 }}>
-            <li><strong>Best overall for UK sellers:</strong> Auxio — full operations stack, AI included, from £49/mo</li>
-            <li><strong>Best for mid-market / high volume:</strong> Linnworks — established, strong WMS, from £449/mo</li>
+            <li><strong>Best overall for global multichannel sellers:</strong> Auxio — full operations stack, AI included, from $59/mo</li>
+            <li><strong>Best for mid-market / high volume:</strong> Linnworks — established, strong WMS, from $549/mo</li>
             <li><strong>Best for larger retailers:</strong> Brightpearl by Sage — enterprise retail OS, custom pricing</li>
-            <li><strong>Best budget option:</strong> Baselinker — cheap listing sync, limited analytics</li>
+            <li><strong>Best for enterprise channel breadth:</strong> ChannelAdvisor (Rithum) — broadest marketplace coverage, $2,500+/mo</li>
+            <li><strong>Best for feed-heavy catalogues:</strong> Feedonomics — enterprise feed management for ads and marketplaces</li>
             <li><strong>Best if Amazon is your primary channel:</strong> Veeqo — free, Amazon-native</li>
           </ul>
         </div>
 
         <h2 style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>What to look for in multichannel inventory software</h2>
         <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, marginBottom: '16px' }}>
-          The term "multichannel inventory management" covers a broad spectrum of tools, from basic listing sync tools to full commerce operations platforms. For most UK sellers, you need at minimum:
+          The term "multichannel inventory management" covers a broad spectrum of tools, from basic listing sync tools to full commerce operations platforms. For most multichannel sellers, you need at minimum:
         </p>
         <ul style={{ fontSize: '16px', color: '#334155', lineHeight: 1.9, paddingLeft: '24px', marginBottom: '32px' }}>
           <li><strong>Real-time inventory sync</strong> across every channel — when you sell one unit anywhere, all channels update instantly</li>
           <li><strong>Order management</strong> — a unified inbox for all your orders, regardless of which channel they came from</li>
-          <li><strong>True profit tracking</strong> — revenue minus marketplace fees, postage, COGS, and VAT. Revenue alone is meaningless.</li>
+          <li><strong>True profit tracking</strong> — revenue minus marketplace fees, postage, COGS, and sales tax/VAT. Revenue alone is meaningless.</li>
           <li><strong>Demand forecasting</strong> — to prevent stockouts and avoid over-ordering on slow-moving SKUs</li>
           <li><strong>Rules and automation</strong> — to handle repricing, feed rules, and channel-specific data transformations without manual work</li>
         </ul>
 
-        <h2 style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '24px' }}>The 5 best options compared</h2>
+        <h2 style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '24px' }}>The 6 best options compared</h2>
 
         {TOOLS.map((tool) => (
           <div key={tool.name} style={{ border: tool.highlight ? '2px solid #5b52f5' : '1px solid #e2e8f0', borderRadius: '12px', padding: '24px', marginBottom: '24px', position: 'relative' }}>
@@ -80,7 +85,7 @@ export default function BlogPostPage() {
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {[
                 ['Free trial', tool.trial],
-                ['UK-focused', tool.ukFocus],
+                ['Global', tool.globalFocus],
                 ['AI built-in', tool.aiBuiltIn],
                 ['Procurement loop', tool.procurementLoop],
                 ['True P&L', tool.trueProfit],
@@ -98,7 +103,7 @@ export default function BlogPostPage() {
           Most multichannel tools solve half the problem: they sync inventory and pull in orders. But they stop short of the full operations picture. You still need separate tools for purchase orders, demand forecasting, P&amp;L reporting, and advertising tracking.
         </p>
         <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, marginBottom: '16px' }}>
-          Auxio is built as a Commerce Operations Platform — the single layer that manages the entire loop from supplier purchase order to channel listing to net profit. It's what Linnworks and Brightpearl are evolving towards, but available to UK sellers from £49/month today, with a self-serve setup that takes under 10 minutes.
+          Auxio is built as a Commerce Operations Platform — the single layer that manages the entire loop from supplier purchase order to channel listing to net profit. It's what Linnworks, Brightpearl, and ChannelAdvisor are evolving towards, but available to global sellers from $59/month today, with a self-serve setup that takes under 10 minutes and multi-currency billing in USD, GBP, EUR, AUD or CAD.
         </p>
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>

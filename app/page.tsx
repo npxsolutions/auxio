@@ -72,24 +72,24 @@ const FEATURES = [
 const TESTIMONIALS = [
   { quote: 'We handle several hundred orders a day. Before Auxio it was spreadsheets and four browser tabs. Now everything is in one place and we save the equivalent of two full days a week. The procurement loop alone has cut our stockouts by 80%.', name: 'Sarah T.', role: 'Clothing reseller, eBay & Amazon', metric: '2 days/week', metricLabel: 'saved on operations' },
   { quote: 'I knew I was making money on eBay. I didn\'t know it was barely 8% margin. Auxio showed me the real number in three minutes — then showed me exactly which listings to reprice. We went from 8% to 22% net margin in 60 days.', name: 'Marcus L.', role: 'Electronics seller, 4 channels', metric: '+34%', metricLabel: 'margin improvement' },
-  { quote: 'We switched from Linnworks after two years. Same price increase, barely any new features. Auxio gives us inventory, procurement, P&L, and AI — in one platform. The forecasting module alone has saved us three emergency stock orders this quarter.', name: 'Priya K.', role: 'Health & beauty, 500+ SKUs', metric: '£4,200', metricLabel: 'saved vs Linnworks annually' },
+  { quote: 'We switched from Linnworks after two years. Same price increase, barely any new features. Auxio gives us inventory, procurement, P&L, and AI — in one platform. The forecasting module alone has saved us three emergency stock orders this quarter.', name: 'Priya K.', role: 'Health & beauty, 500+ SKUs', metric: '$5,400', metricLabel: 'saved vs Linnworks annually' },
 ]
 
 const COMPETITORS = [
-  { name: 'Brightpearl', price: 'Custom only', ai: false, ukFocus: true,  profitTracking: true,  trialNoCard: false },
-  { name: 'Linnworks',   price: '£449+/mo',    ai: false, ukFocus: false, profitTracking: false, trialNoCard: false },
-  { name: 'Feedonomics', price: '£2,000+/mo',  ai: false, ukFocus: false, profitTracking: false, trialNoCard: false },
-  { name: 'Baselinker',  price: '~£35/mo',     ai: false, ukFocus: false, profitTracking: false, trialNoCard: true  },
+  { name: 'ChannelAdvisor', price: 'Custom only',   ai: false, globalFocus: true,  profitTracking: false, trialNoCard: false },
+  { name: 'Brightpearl',    price: 'Custom only',   ai: false, globalFocus: true,  profitTracking: true,  trialNoCard: false },
+  { name: 'Linnworks',      price: '$549+/mo',      ai: false, globalFocus: false, profitTracking: false, trialNoCard: false },
+  { name: 'Feedonomics',    price: '$2,500+/mo',    ai: false, globalFocus: false, profitTracking: false, trialNoCard: false },
 ]
 
 const FAQS = [
   { q: 'What makes Auxio a "Commerce Operations Platform" — not just another tool?', a: 'Most tools solve one problem: listings, or orders, or inventory. Auxio connects the entire operational loop — from supplier PO to channel listing to P&L — in one platform. It\'s the operating layer your whole commerce operation runs on, not a tab you open occasionally.' },
   { q: 'How quickly can I get up and running?', a: 'Most sellers are live within 10 minutes. Connect your first channel via OAuth, and your listings, orders, and inventory populate automatically. No implementation project, no onboarding calls — though we offer dedicated onboarding for Scale and Enterprise customers.' },
-  { q: 'How is Auxio different from Linnworks or Brightpearl?', a: 'Linnworks charges £449+/mo with no AI and requires an implementation project. Brightpearl requires a custom quote and is built for larger retailers. Auxio is built for UK multichannel sellers who want enterprise-grade operations — procurement, forecasting, P&L, advertising tracking, API access — at a fraction of the cost, live in minutes.' },
+  { q: 'How is Auxio different from Linnworks or Brightpearl?', a: 'Linnworks charges £449+/mo with no AI and requires an implementation project. Brightpearl requires a custom quote and is built for larger retailers. Auxio is built for multichannel sellers who want enterprise-grade operations — procurement, forecasting, P&L, advertising tracking, API access — at a fraction of the cost, live in minutes.' },
   { q: 'What channels does Auxio support?', a: 'eBay, Amazon, Shopify, WooCommerce, and OnBuy are live. Etsy, TikTok Shop, and Facebook Marketplace are in beta. We add integrations every month based on member requests. Our Developer API also lets you connect any custom channel.' },
   { q: 'Does the profit tracking include all my costs?', a: 'Yes. We calculate true net profit after marketplace fees (eBay FVF, Amazon referral), fulfilment, postage, packaging, advertising spend, COGS, and VAT. Most sellers discover their real margin is 15–30% lower than they thought. That gap is where Auxio pays for itself.' },
   { q: 'Is Auxio suitable for agencies managing multiple seller accounts?', a: 'Yes. Our Enterprise plan includes multi-workspace support, white-label options, and a full Developer API with webhooks. Agencies use Auxio to manage client inventory, listings, and P&L reporting from one login.' },
-  { q: 'Is my data safe?', a: 'Yes. Enterprise-grade infrastructure with row-level security, encrypted channel credentials, and no data sharing with third parties. UK GDPR compliant. Your data is yours — exportable at any time via our API.' },
+  { q: 'Is my data safe?', a: 'Yes. Enterprise-grade infrastructure with row-level security, encrypted channel credentials, and no data sharing with third parties. GDPR compliant. Your data is yours — exportable at any time via our API.' },
 ]
 
 export default function HomePage() {
@@ -124,7 +124,7 @@ export default function HomePage() {
           {/* Eyebrow — glass pill */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '20px', background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.border}`, fontSize: '12px', color: C.text50, fontWeight: 500, letterSpacing: '0.01em', marginBottom: '36px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', display: 'inline-block', boxShadow: '0 0 6px #4ade80' }} />
-            UK&apos;s Commerce Operations Platform
+            The Global Commerce Operations Platform
           </div>
 
           {/* Headline — Stripe weight-300 technique */}
@@ -132,12 +132,12 @@ export default function HomePage() {
             The operations platform
             <br />
             <span style={{ background: `linear-gradient(135deg, ${C.purple} 0%, #a78bfa 50%, #c4b5fd 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              UK sellers run on.
+              global sellers run on.
             </span>
           </h1>
 
           <p style={{ fontSize: '19px', color: C.text50, lineHeight: 1.7, marginBottom: '44px', maxWidth: '620px', margin: '0 auto 44px', fontWeight: 300, letterSpacing: '-0.01em' }}>
-            Connect every channel, automate every process, and see your true profit — all from one platform. Inventory, orders, procurement, forecasting, P&amp;L, and AI. Everything Linnworks and Brightpearl charge enterprise prices for, available from day one.
+            One platform for every marketplace, every currency, every region. Inventory, orders, procurement, forecasting, P&amp;L, and AI — unified worldwide. Everything ChannelAdvisor, Linnworks, Brightpearl, and Feedonomics charge enterprise prices for, available from day one.
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '48px' }}>
@@ -165,10 +165,10 @@ export default function HomePage() {
       <section style={{ background: C.cream, borderTop: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '40px 48px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#a39e98', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '28px' }}>
-            Trusted by UK sellers switching from Linnworks, Brightpearl &amp; Baselinker
+            Trusted by sellers worldwide replacing ChannelAdvisor, Linnworks, Brightpearl &amp; Feedonomics
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: 'rgba(0,0,0,0.06)', borderRadius: '12px', overflow: 'hidden' }}>
-            {[['10 min', 'average setup time'], ['65%', 'reduction in errors'], ['£0', 'revenue % fees — ever'], ['1 platform', 'orders, inventory, P&L']].map(([stat, label]) => (
+            {[['10 min', 'average setup time'], ['65%', 'reduction in errors'], ['0%', 'revenue share fees — ever'], ['1 platform', 'orders, inventory, P&L worldwide']].map(([stat, label]) => (
               <div key={label} style={{ background: C.cream, padding: '20px', textAlign: 'center' }}>
                 <div style={{ fontSize: '22px', fontWeight: 700, color: C.warmDark, letterSpacing: '-0.03em' }}>{stat}</div>
                 <div style={{ fontSize: '12px', color: '#a39e98', marginTop: '2px', fontWeight: 500 }}>{label}</div>
@@ -187,7 +187,7 @@ export default function HomePage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
             {[
-              { stat: 2400000, prefix: '£', suffix: '+', label: 'GMV managed per month', note: 'across all connected channels' },
+              { stat: 3200000, prefix: '$', suffix: '+', label: 'GMV managed per month', note: 'across every connected channel, worldwide' },
               { stat: 94, suffix: '%', label: 'Average margin accuracy', note: 'vs. what sellers thought they made' },
               { stat: 12, suffix: ' min', label: 'Median onboarding time', note: 'from signup to first dashboard' },
             ].map(({ stat, prefix, suffix, label, note }) => (
@@ -211,7 +211,7 @@ export default function HomePage() {
               Features
             </div>
             <h2 style={{ fontSize: '42px', fontWeight: 300, letterSpacing: '-0.03em', color: C.warmDark, marginBottom: '12px' }}>Everything in one place</h2>
-            <p style={{ fontSize: '16px', color: '#a39e98' }}>Built for how UK multichannel sellers actually work. Not a US tool with a pound sign.</p>
+            <p style={{ fontSize: '16px', color: '#a39e98' }}>Built for how multichannel sellers actually work — currency, tax, and channel-aware in every market.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
             {FEATURES.map((f, i) => (
@@ -248,13 +248,13 @@ export default function HomePage() {
               </thead>
               <tbody>
                 {[
-                  ['True profit tracking', true, false, false, false],
-                  ['AI listing writer', true, false, false, false],
-                  ['OnBuy integration', true, false, false, false],
-                  ['Built for UK sellers', true, false, false, false],
-                  ['Social intelligence', true, false, false, false],
-                  ['Starting price', '£49/mo', '£2,000+', '£449+', '~£35'],
-                  ['Free trial, no card', true, false, false, true],
+                  ['True profit tracking', true, false, true, false, false],
+                  ['AI listing writer', true, false, false, false, false],
+                  ['Multi-currency native', true, true, true, true, false],
+                  ['Built for multichannel sellers', true, true, true, false, false],
+                  ['Social intelligence', true, false, false, false, false],
+                  ['Starting price', '$59/mo', 'Custom', 'Custom', '$549+', '$2,500+'],
+                  ['Free trial, no card', true, false, false, false, false],
                 ].map(([cap, ...vals], i) => (
                   <tr key={String(cap)} style={{ borderTop: `1px solid ${C.border}`, background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)' }}>
                     <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>{cap}</td>
@@ -317,9 +317,9 @@ export default function HomePage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
             {[
-              { name: 'Starter', price: '£49', desc: 'For sellers getting started with multichannel', features: ['3 channels', '500 listings', 'Profit tracking', 'AI listing writer', 'Error alerts'], featured: false },
-              { name: 'Growth', price: '£129', desc: 'For sellers scaling across 5+ channels', features: ['Unlimited channels', '5,000 listings', 'Everything in Starter', 'Feed rules engine', 'AI daily briefings', 'Priority support'], featured: true },
-              { name: 'Scale', price: '£399', desc: 'For high-volume operations', features: ['Unlimited everything', 'Social intelligence', 'Custom integrations', 'Dedicated success manager', 'SLA 99.9%'], featured: false },
+              { name: 'Starter', price: '$59', desc: 'For sellers getting started with multichannel', features: ['3 channels', '500 listings', 'Profit tracking', 'AI listing writer', 'Error alerts'], featured: false },
+              { name: 'Growth', price: '$159', desc: 'For sellers scaling across 5+ channels', features: ['Unlimited channels', '5,000 listings', 'Everything in Starter', 'Feed rules engine', 'AI daily briefings', 'Priority support'], featured: true },
+              { name: 'Scale', price: '$499', desc: 'For high-volume operations', features: ['Unlimited everything', 'Social intelligence', 'Custom integrations', 'Dedicated success manager', 'SLA 99.9%'], featured: false },
             ].map(plan => (
               <div key={plan.name} style={{ background: plan.featured ? C.hero : 'white', border: `1px solid ${plan.featured ? 'transparent' : C.borderLight}`, borderRadius: '14px', padding: '32px', boxShadow: plan.featured ? `0 0 0 2px ${C.purple}, ${C.shadow}` : C.shadow, position: 'relative' }}>
                 {plan.featured && <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: C.purple, color: 'white', fontSize: '11px', fontWeight: 700, padding: '3px 10px', borderRadius: '10px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Most popular</div>}
@@ -390,7 +390,7 @@ export default function HomePage() {
                 <div style={{ width: '26px', height: '26px', background: `linear-gradient(135deg, ${C.purple}, #a78bfa)`, borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '12px' }}>A</div>
                 <span style={{ fontWeight: 700, fontSize: '15px', color: 'white', letterSpacing: '-0.02em' }}>Auxio</span>
               </div>
-              <p style={{ fontSize: '13px', color: C.text30, lineHeight: 1.65, maxWidth: '240px' }}>The multichannel command centre for UK ecommerce sellers.</p>
+              <p style={{ fontSize: '13px', color: C.text30, lineHeight: 1.65, maxWidth: '240px' }}>The global commerce operations platform for multichannel sellers.</p>
             </div>
             {[
               { heading: 'Product', links: [['Features', '/features'], ['Integrations', '/integrations'], ['Pricing', '/pricing'], ['Blog', '/blog']] },
@@ -404,8 +404,8 @@ export default function HomePage() {
             ))}
           </div>
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', color: C.text30 }}>© 2026 Auxio · NPX Solutions · United Kingdom</span>
-            <span style={{ fontSize: '12px', color: C.text30 }}>Built for UK sellers.</span>
+            <span style={{ fontSize: '12px', color: C.text30 }}>© 2026 Auxio · NPX Solutions</span>
+            <span style={{ fontSize: '12px', color: C.text30 }}>Worldwide. Multi-currency. Multichannel.</span>
           </div>
         </div>
       </footer>

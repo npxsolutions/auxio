@@ -79,7 +79,7 @@ export default function TermsPage() {
         <Section title="9. Limitation of liability">
           <p>To the maximum extent permitted by law, NPX Solutions shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, arising from your use of or inability to use Auxio.</p>
           <p>Our total liability for any claim arising from your use of Auxio shall not exceed the total fees you paid to us in the 3 months preceding the claim.</p>
-          <p>Nothing in these Terms limits liability for death or personal injury caused by our negligence, fraud, or any liability that cannot be excluded by UK law.</p>
+          <p>Nothing in these Terms limits liability for death or personal injury caused by our negligence, fraud, or any liability that cannot be excluded by  law.</p>
         </Section>
 
         <Section title="10. Warranties">

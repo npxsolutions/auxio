@@ -2,22 +2,22 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'How to Calculate True Ecommerce Profit (Not Just Revenue) — UK Seller Guide',
-  description: 'Most ecommerce sellers overestimate their profit by 15–30% because they don\'t account for all fees. Here\'s the complete formula for calculating true net profit per order — with worked examples for eBay, Amazon, and Shopify.',
-  keywords: ['ecommerce profit calculation UK', 'how to calculate ecommerce profit', 'eBay profit calculator', 'Amazon profit calculator', 'true profit ecommerce', 'net margin ecommerce UK', 'profit after fees ecommerce'],
+  title: 'How to Calculate True Ecommerce Profit (Not Just Revenue) — Global Seller Guide',
+  description: 'Most ecommerce sellers overestimate their profit by 15–30% because they don\'t account for all fees. Here\'s the complete formula for calculating true net profit per order — with worked examples for eBay, Amazon, and Shopify, relevant for sellers worldwide.',
+  keywords: ['ecommerce profit calculation', 'how to calculate ecommerce profit', 'eBay profit calculator', 'Amazon profit calculator', 'true profit ecommerce', 'net margin ecommerce', 'profit after fees ecommerce', 'global ecommerce profit'],
 }
 
 const TABLE_ROWS = [
-  { label: 'Selling price', example: '£25.00', notes: 'What the buyer paid' },
-  { label: 'eBay final value fee (12.9%)', example: '–£3.23', notes: 'Varies by category' },
-  { label: 'eBay international fee (1.65%)', example: '–£0.41', notes: 'If buyer is outside UK' },
-  { label: 'PayPal/payment processing (1.9% + £0.30)', example: '–£0.78', notes: 'Or Stripe/Klarna fees' },
-  { label: 'Cost of goods (COGS)', example: '–£8.00', notes: 'What you paid the supplier' },
-  { label: 'Postage (Royal Mail tracked)', example: '–£3.40', notes: 'Your actual shipping cost' },
-  { label: 'Packaging materials', example: '–£0.45', notes: 'Bag, bubble wrap, label' },
-  { label: 'VAT (20% of profit if VAT registered)', example: '–£1.79', notes: 'If you\'re VAT registered' },
-  { label: 'Advertising (PPC allocated per order)', example: '–£0.80', notes: 'If you run eBay/Amazon ads' },
-  { label: 'True net profit', example: '£6.14', notes: '24.5% net margin' },
+  { label: 'Selling price', example: '$30.00', notes: 'What the buyer paid' },
+  { label: 'eBay final value fee (12.9%)', example: '–$3.87', notes: 'Varies by category' },
+  { label: 'eBay international fee (1.65%)', example: '–$0.50', notes: 'If buyer is in another country' },
+  { label: 'Payment processing (1.9% + $0.30)', example: '–$0.87', notes: 'Managed Payments / Stripe / PayPal' },
+  { label: 'Cost of goods (COGS)', example: '–$9.50', notes: 'What you paid the supplier' },
+  { label: 'Postage (tracked domestic carrier)', example: '–$4.10', notes: 'Your actual shipping cost' },
+  { label: 'Packaging materials', example: '–$0.55', notes: 'Bag, bubble wrap, label' },
+  { label: 'Sales tax / VAT liability', example: '–$2.15', notes: 'Varies by region (US sales tax, UK/EU VAT)' },
+  { label: 'Advertising (PPC allocated per order)', example: '–$0.95', notes: 'If you run eBay/Amazon ads' },
+  { label: 'True net profit', example: '$7.51', notes: '25.0% net margin' },
 ]
 
 export default function BlogPostPage() {
@@ -55,11 +55,11 @@ export default function BlogPostPage() {
           <div style={{ paddingLeft: '24px' }}>− Postage &amp; fulfilment cost</div>
           <div style={{ paddingLeft: '24px' }}>− Packaging materials</div>
           <div style={{ paddingLeft: '24px' }}>− Advertising spend (allocated per unit)</div>
-          <div style={{ paddingLeft: '24px' }}>− VAT liability (if VAT registered)</div>
+          <div style={{ paddingLeft: '24px' }}>− Sales tax / VAT liability (where applicable)</div>
           <div style={{ fontWeight: 700, color: '#059669', marginTop: '8px' }}>= Net profit per order</div>
         </div>
 
-        <h2 style={{ fontSize: '22px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>Worked example: £25 item on eBay</h2>
+        <h2 style={{ fontSize: '22px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>Worked example: $30 item on eBay</h2>
         <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', overflow: 'hidden', marginBottom: '32px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', background: '#f8fafc', padding: '10px 16px', fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', gap: '12px', borderBottom: '1px solid #e2e8f0' }}>
             <span>Line item</span><span style={{ textAlign: 'right' }}>Amount</span><span>Notes</span>
@@ -74,8 +74,8 @@ export default function BlogPostPage() {
         </div>
 
         {[
-          { h: 'The fees that catch sellers out', body: `The costs most sellers forget or undercount:\n\n• International buyer surcharge: eBay charges an additional 1.65% when the buyer is outside the UK. If 20% of your eBay sales are to EU buyers, this adds up fast.\n• Promotional listing fees: eBay's Promoted Listings can add 5–15% of the sale price. Track this per SKU, not as a blended average.\n• Returns cost: A 5% return rate means 1 in 20 items needs to be re-posted or refunded. This rarely appears in profit calculations.\n• FBA fulfilment fees (Amazon): FBA fees include pick, pack, weight handling, and monthly storage. A heavy item in oversized can cost £5–£8 to fulfil through FBA — before the referral fee.\n• Duty and import costs: If you import from China or other non-UK countries, import duty and shipping from supplier needs to be in your COGS — not treated as a one-off.` },
-          { h: 'Amazon vs eBay: the fee difference', body: `Amazon and eBay have different fee structures, which means the same product can have a very different margin on each platform:\n\n• eBay: Final value fee (8–15% depending on category) + payment processing (approx 2%) + any promotional fees. Total: typically 10–17% of selling price.\n• Amazon FBM (seller-fulfilled): Referral fee (6–15% depending on category) + no FBA fee. Total: typically 7–16% of selling price.\n• Amazon FBA: Referral fee + FBA fulfilment fee (£3–£10 depending on size/weight) + storage fee. Total: typically 20–35% of selling price for standard items.\n\nThe implication: a product with a 30% gross margin sold on FBA may have only a 10–15% net margin after all Amazon fees. This is why sellers often discover their FBA margins are far lower than their eBay margins for the same product.` },
+          { h: 'The fees that catch sellers out', body: `The costs most sellers forget or undercount:\n\n• International buyer surcharge: eBay charges an additional 1.65% when the buyer is outside your domestic market. If 20% of your eBay sales are cross-border, this adds up fast.\n• Promotional listing fees: eBay's Promoted Listings can add 5–15% of the sale price. Track this per SKU, not as a blended average.\n• Returns cost: A 5% return rate means 1 in 20 items needs to be re-posted or refunded. This rarely appears in profit calculations.\n• FBA fulfilment fees (Amazon): FBA fees include pick, pack, weight handling, and monthly storage. A heavy or oversized item can cost $6–$10 to fulfil through FBA — before the referral fee.\n• Duty and import costs: If you import from overseas, import duty and shipping from supplier needs to be in your COGS — not treated as a one-off.` },
+          { h: 'Amazon vs eBay: the fee difference', body: `Amazon and eBay have different fee structures, which means the same product can have a very different margin on each platform:\n\n• eBay: Final value fee (8–15% depending on category) + payment processing (approx 2%) + any promotional fees. Total: typically 10–17% of selling price.\n• Amazon FBM (seller-fulfilled): Referral fee (6–15% depending on category) + no FBA fee. Total: typically 7–16% of selling price.\n• Amazon FBA: Referral fee + FBA fulfilment fee ($4–$12 depending on size/weight) + storage fee. Total: typically 20–35% of selling price for standard items.\n\nThe implication: a product with a 30% gross margin sold on FBA may have only a 10–15% net margin after all Amazon fees. This is why sellers often discover their FBA margins are far lower than their eBay margins for the same product.` },
           { h: 'How to track this automatically', body: `Manually calculating this per order is impractical at scale. The right approach is:\n\n1. Use a platform that ingests your actual marketplace fee data (not estimated rates) from eBay and Amazon reporting APIs\n2. Set a cost price (COGS) for every SKU in your system\n3. Connect your shipping carrier to pull actual postage costs per order\n4. Set your advertising spend as a percentage or fixed amount per SKU based on your campaign data\n\nPlatforms like Auxio do this automatically — pulling in actual fees from channel APIs, calculating true net profit per order, and surfacing your real margin by channel, SKU, and month. The goal is to know your real P&L in 30 seconds, not 30 minutes.` },
         ].map(({ h, body }) => (
           <div key={h} style={{ marginBottom: '36px' }}>
@@ -109,7 +109,7 @@ export default function BlogPostPage() {
         <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '32px' }}>
           <strong style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '12px' }}>Related guides</strong>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Link href="/blog/multichannel-inventory-management-software-uk" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Best multichannel inventory management software for UK sellers →</Link>
+            <Link href="/blog/multichannel-inventory-management-software-uk" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Best multichannel inventory management software for multichannel sellers →</Link>
             <Link href="/blog/what-is-a-commerce-operations-platform" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>What is a Commerce Operations Platform? →</Link>
           </div>
         </div>

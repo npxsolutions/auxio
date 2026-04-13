@@ -2,9 +2,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Amazon Multichannel Listing Software UK | Auxio',
-  description: 'Sync your Amazon listings to eBay, Shopify, and OnBuy with Auxio. Track true profit after Amazon fees, automate repricing, and manage all orders in one place.',
-  keywords: ['Amazon listing software UK', 'Amazon multichannel software', 'Amazon eBay sync UK', 'sell on Amazon UK tool'],
+  title: 'Amazon Multichannel Listing Software — Global Sellers | Auxio',
+  description: 'Sync your Amazon listings to eBay, Shopify, and OnBuy with Auxio. Track true profit after Amazon fees, automate repricing, and manage all orders in one place — across US, UK, EU, and AU marketplaces.',
+  keywords: ['Amazon listing software', 'Amazon multichannel software', 'Amazon eBay sync', 'sell on Amazon tool', 'global Amazon seller software', 'Amazon SP-API multichannel'],
 }
 
 const NAV = [
@@ -19,16 +19,16 @@ const FEATURES = [
   { icon: '⚡', title: 'Real-time inventory sync', desc: 'A sale on eBay instantly decrements your Amazon inventory. Avoid suspension-risking oversells on either channel.' },
   { icon: '🤖', title: 'AI listing optimisation', desc: 'Generate Amazon-compliant titles, bullet points, and descriptions following A9 best practices — keyword-rich, search-ready.' },
   { icon: '📈', title: 'Profit-floor repricing', desc: 'Stay competitive in the Buy Box without racing to zero. Set a minimum margin and let Auxio reprice within those bounds.' },
-  { icon: '📦', title: 'Unified order management', desc: 'Amazon, eBay, and Shopify orders in one inbox. Bulk-print Royal Mail labels, update tracking, handle returns — without switching tabs.' },
+  { icon: '📦', title: 'Unified order management', desc: 'Amazon, eBay, and Shopify orders in one inbox. Bulk-print labels for USPS, Royal Mail, DHL, Australia Post and more, update tracking, handle returns — without switching tabs.' },
 ]
 
 const FAQS = [
-  { q: 'Does Auxio work with both Amazon.co.uk and Amazon.com?', a: 'Currently we support Amazon.co.uk (UK marketplace). Pan-European Amazon support is on the roadmap for Q4 2026.' },
+  { q: 'Does Auxio work with multiple Amazon marketplaces?', a: 'Yes. We support Amazon.com, Amazon.co.uk, Amazon.de, Amazon.fr, Amazon.it, Amazon.es, Amazon.ca, and Amazon.com.au out of the box. Additional marketplaces (JP, MX, BR) are on the roadmap for late 2026.' },
   { q: 'Does it work with FBA or only FBM?', a: 'Both. Auxio reads your FBA inventory levels from Amazon and factors FBA fulfilment fees into profit calculations automatically.' },
   { q: 'Can I import my existing Amazon catalogue?', a: 'Yes. When you connect Amazon, Auxio imports your existing ASINs, listings, and inventory levels. Nothing is overwritten until you tell us to.' },
   { q: 'What Amazon fees does profit tracking include?', a: 'Referral fees, FBA fulfilment fees (if applicable), and advertising spend you log manually or via the Ads API connection. We are working on Ads API auto-import.' },
   { q: 'Is there a risk to my Amazon account?', a: 'No. Auxio uses Amazon\'s official Selling Partner API (SP-API) with authorised credentials. We operate within Amazon\'s terms of service.' },
-  { q: 'What\'s the price?', a: 'Plans start at £49/month including Amazon, eBay, and Shopify. See full pricing at auxio.io/pricing. 14-day free trial, no card required.' },
+  { q: 'What\'s the price?', a: 'Plans start at $59/month including Amazon, eBay, and Shopify. Billing available in USD, GBP, EUR, AUD or CAD. See full pricing at auxio.io/pricing. 14-day free trial, no card required.' },
 ]
 
 export default function AmazonIntegrationPage() {

@@ -80,7 +80,7 @@ function setField(listing: Record<string, any>, field: string, value: string): v
 
 // ── Template expression resolver ───────────────────────────────────────────────
 // Resolves {field} placeholders in a template string against the current listing.
-// e.g. "{brand} {title} - Free UK Delivery" → "Nike Air Max - Free UK Delivery"
+// e.g. "{brand} {title} - Free  Delivery" → "Nike Air Max - Free  Delivery"
 
 function resolveTemplate(template: string, listing: Record<string, any>): string {
   return template.replace(/\{(\w+(?:\[\d+\])?)\}/g, (_, f) => getField(listing, f))

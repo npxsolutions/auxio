@@ -22,9 +22,9 @@ const VALUES = [
     desc: 'No custom quotes. No revenue share. No hidden fees. Our pricing is on the website, our profit numbers are real, and we tell you exactly what each channel costs you.',
   },
   {
-    icon: '🇬🇧',
-    title: 'Built for UK sellers',
-    desc: "eBay UK, OnBuy, Royal Mail, UK VAT — we build for how UK sellers actually operate. Not a US product retrofitted with a pound sign.",
+    icon: '🌍',
+    title: 'Built for global multichannel sellers',
+    desc: "Amazon US/UK/EU/AU, eBay worldwide, Shopify, OnBuy, TikTok Shop, plus regional carriers and sales tax/VAT — we build for how multichannel sellers actually operate across markets, with multi-currency billing in USD, GBP, EUR, AUD and CAD.",
   },
   {
     icon: '🤖',
@@ -71,10 +71,10 @@ export default function AboutPage() {
           We built the tool<br />we wished existed
         </h1>
         <p style={{ fontSize: '20px', color: '#64748b', lineHeight: 1.7, marginBottom: '20px' }}>
-          Multichannel selling shouldn't require a team of specialists, a six-figure annual contract, or three months of onboarding. For most sellers, it requires one good platform — and none of the enterprise tools are built for them.
+          Multichannel selling shouldn't require a team of specialists, a six-figure annual contract, or three months of onboarding. For most sellers worldwide, it requires one good platform — and none of the enterprise tools are built for them.
         </p>
         <p style={{ fontSize: '18px', color: '#64748b', lineHeight: 1.7 }}>
-          Feedonomics costs more than most sellers make in profit. Rithum takes months to go live. Baselinker covers the basics but stops there. We looked at the tools available and saw a gap: a self-serve, AI-powered, genuinely affordable platform that treats UK sellers as the main character — not an afterthought.
+          Feedonomics costs more than most sellers make in profit. ChannelAdvisor (Rithum) takes months to go live. Brightpearl requires a custom quote. Linnworks demands a 40-day implementation project. We looked at the tools available and saw a gap: a self-serve, AI-powered, genuinely affordable commerce operations platform that treats independent global sellers as the main character — not an afterthought.
         </p>
       </div>
 
@@ -83,7 +83,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600, marginBottom: '20px' }}>OUR MISSION</div>
           <blockquote style={{ fontSize: '32px', fontWeight: 800, color: 'white', lineHeight: 1.3, letterSpacing: '-0.02em', fontStyle: 'normal', margin: 0 }}>
-            "To give independent sellers the same multichannel infrastructure that enterprise retailers have — without the enterprise price tag, the enterprise complexity, or the enterprise timeline."
+            "To give independent sellers worldwide the same multichannel infrastructure that enterprise retailers have — without the enterprise price tag, the enterprise complexity, or the enterprise timeline."
           </blockquote>
         </div>
       </div>

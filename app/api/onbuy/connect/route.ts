@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   let body: { consumerKey?: string; secretKey?: string; siteId?: number }
   try { body = await request.json() } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }) }
 
-  const { consumerKey, secretKey, siteId = 2000 } = body  // siteId 2000 = OnBuy UK
+  const { consumerKey, secretKey, siteId = 2000 } = body  // siteId 2000 = OnBuy 
   if (!consumerKey || !secretKey) {
     return NextResponse.json({ error: 'consumerKey and secretKey are required' }, { status: 400 })
   }

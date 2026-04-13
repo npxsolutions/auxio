@@ -2,13 +2,13 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Auxio vs Brightpearl — Full comparison for UK multichannel sellers (2026)',
-  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Auxio gives you inventory, procurement, P&L, and AI from £49/mo — live in 10 minutes.',
-  keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Auxio', 'retail operating system alternative', 'multichannel ecommerce software UK', 'inventory management Brightpearl'],
+  title: 'Auxio vs Brightpearl — Full comparison for multichannel sellers (2026)',
+  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Auxio gives you inventory, procurement, P&L, and AI from $59/mo — live in 10 minutes, for sellers worldwide.',
+  keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Auxio', 'retail operating system alternative', 'global multichannel ecommerce software', 'international inventory management', 'Brightpearl competitor'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price',               auxio: 'From £49/mo',    bp: 'Custom quote only',    highlight: true },
+  { feature: 'Starting price',               auxio: 'From $59/mo',    bp: 'Custom quote only',    highlight: true },
   { feature: 'Time to go live',              auxio: 'Self-serve, <10 min', bp: 'Weeks of onboarding', highlight: true },
   { feature: 'Free trial',                   auxio: '14 days, no card',   bp: 'Demo only',           highlight: true },
   { feature: 'Demand forecasting',           auxio: true,              bp: true,                   highlight: false },
@@ -22,7 +22,7 @@ const COMPARISON = [
   { feature: 'Amazon integration',          auxio: true,              bp: true,                   highlight: false },
   { feature: 'Shopify integration',         auxio: true,              bp: true,                   highlight: false },
   { feature: 'OnBuy integration',           auxio: true,              bp: false,                  highlight: false },
-  { feature: 'UK-based support',            auxio: true,              bp: true,                   highlight: false },
+  { feature: 'Dedicated support',            auxio: true,              bp: true,                   highlight: false },
   { feature: 'Revenue % fee',               auxio: 'Never',           bp: 'Never',                highlight: false },
   { feature: 'Annual contract required',    auxio: false,             bp: 'Yes',                  highlight: false },
 ]
@@ -34,7 +34,7 @@ const REASONS = [
   },
   {
     heading: 'Transparent pricing from day one',
-    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Auxio publishes every tier, every feature, and every limit upfront. Start at £49/mo, cancel any time. No surprises.',
+    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Auxio publishes every tier, every feature, and every limit upfront. Start at $59/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
   },
   {
     heading: 'AI built in — not bolted on',
@@ -66,10 +66,10 @@ export default function VsBrightpearlPage() {
         </div>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
           Everything Brightpearl does —<br />
-          <span style={{ color: '#5b52f5' }}>live in 10 minutes, from £49/mo.</span>
+          <span style={{ color: '#5b52f5' }}>live in 10 minutes, from $59/mo.</span>
         </h1>
         <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '36px' }}>
-          Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Auxio gives UK multichannel sellers the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
+          Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Auxio gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           <Link href="/signup" style={{ padding: '13px 28px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
@@ -106,7 +106,7 @@ export default function VsBrightpearlPage() {
       <section style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '80px 48px' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>
-            Why UK sellers choose Auxio over Brightpearl
+            Why multichannel sellers choose Auxio over Brightpearl
           </h2>
           <div style={{ display: 'grid', gap: '32px' }}>
             {REASONS.map((r, i) => (
@@ -128,7 +128,7 @@ export default function VsBrightpearlPage() {
           Ready to switch from Brightpearl?
         </h2>
         <p style={{ fontSize: '16px', color: '#475569', lineHeight: 1.7, marginBottom: '32px' }}>
-          Join UK sellers who made the switch. No implementation project, no annual contract. Start a free 14-day trial — your first channel is live in under 10 minutes.
+          Join multichannel sellers who made the switch. No implementation project, no annual contract. Start a free 14-day trial — your first channel is live in under 10 minutes.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           <Link href="/signup" style={{ padding: '14px 32px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '15px', fontWeight: 600, textDecoration: 'none' }}>

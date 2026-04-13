@@ -315,7 +315,7 @@ async function publishToAmazon(listing: any, channel: any): Promise<{ id: string
 
   const accessToken  = await getAmazonAccessToken(channel.refresh_token)
   const sellerId     = channel.seller_id
-  const marketplaceId = channel.marketplace_id || 'A1F83G8C2ARO7P' // UK default
+  const marketplaceId = channel.marketplace_id || 'A1F83G8C2ARO7P' //  default
   const sku          = listing.sku || listing.id
 
   const spApiEndpoint = 'https://sellingpartnerapi-eu.amazon.com'

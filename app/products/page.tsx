@@ -80,11 +80,11 @@ const MOCK_GROUPS: ProductGroup[] = [
     variant_attributes: ['Size', 'Colour'],
     created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
     variants: [
-      { id: 'v12', sku: 'TR-BLK-6',  title: 'Black / UK 6',  price: 64.99, quantity: 4,  condition: 'new', images: [], attributes: { Size: 'UK 6',  Colour: 'Black' }, status: 'published' },
-      { id: 'v13', sku: 'TR-BLK-7',  title: 'Black / UK 7',  price: 64.99, quantity: 7,  condition: 'new', images: [], attributes: { Size: 'UK 7',  Colour: 'Black' }, status: 'published' },
-      { id: 'v14', sku: 'TR-BLK-8',  title: 'Black / UK 8',  price: 64.99, quantity: 12, condition: 'new', images: [], attributes: { Size: 'UK 8',  Colour: 'Black' }, status: 'published' },
-      { id: 'v15', sku: 'TR-WHT-7',  title: 'White / UK 7',  price: 64.99, quantity: 3,  condition: 'new', images: [], attributes: { Size: 'UK 7',  Colour: 'White' }, status: 'published' },
-      { id: 'v16', sku: 'TR-WHT-8',  title: 'White / UK 8',  price: 64.99, quantity: 0,  condition: 'new', images: [], attributes: { Size: 'UK 8',  Colour: 'White' }, status: 'published' },
+      { id: 'v12', sku: 'TR-BLK-6',  title: 'Black /  6',  price: 64.99, quantity: 4,  condition: 'new', images: [], attributes: { Size: 'UK 6',  Colour: 'Black' }, status: 'published' },
+      { id: 'v13', sku: 'TR-BLK-7',  title: 'Black /  7',  price: 64.99, quantity: 7,  condition: 'new', images: [], attributes: { Size: 'UK 7',  Colour: 'Black' }, status: 'published' },
+      { id: 'v14', sku: 'TR-BLK-8',  title: 'Black /  8',  price: 64.99, quantity: 12, condition: 'new', images: [], attributes: { Size: 'UK 8',  Colour: 'Black' }, status: 'published' },
+      { id: 'v15', sku: 'TR-WHT-7',  title: 'White /  7',  price: 64.99, quantity: 3,  condition: 'new', images: [], attributes: { Size: 'UK 7',  Colour: 'White' }, status: 'published' },
+      { id: 'v16', sku: 'TR-WHT-8',  title: 'White /  8',  price: 64.99, quantity: 0,  condition: 'new', images: [], attributes: { Size: 'UK 8',  Colour: 'White' }, status: 'published' },
     ],
   },
 ]

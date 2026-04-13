@@ -129,7 +129,7 @@ const CHANNEL_COLOR: Record<string, { bg: string; text: string; dot: string }> =
 }
 
 const SAMPLE_LISTING: Record<string, string> = {
-  title:           'Nike Air Max 90 Mens Running Trainers White Black Size 10 UK New',
+  title:           'Nike Air Max 90 Mens Running Trainers White Black Size 10  New',
   description:     'Classic Nike Air Max 90 in white and black colourway. Perfect for everyday wear.',
   brand:           'Nike',
   category:        'Trainers',
@@ -399,7 +399,7 @@ function ActionRow({ action, onChange, onDelete, showDelete }: {
             <textarea
               value={action.value}
               onChange={e => onChange({ ...action, value: e.target.value })}
-              placeholder="{brand} {title} - Free UK Delivery"
+              placeholder="{brand} {title} - Free  Delivery"
               rows={2}
               style={{
                 width: '100%', padding: '6px 10px', border: '1px solid #e8e8e5',

@@ -13,12 +13,35 @@ const NAV = [
 
 const FOUNDING_CLAIMED = 23
 
-const PLANS = [
+type Currency = 'USD' | 'GBP' | 'EUR' | 'AUD' | 'CAD'
+const CURRENCIES: { code: Currency; symbol: string; label: string }[] = [
+  { code: 'USD', symbol: '$',  label: 'USD' },
+  { code: 'GBP', symbol: '£',  label: 'GBP' },
+  { code: 'EUR', symbol: '€',  label: 'EUR' },
+  { code: 'AUD', symbol: 'A$', label: 'AUD' },
+  { code: 'CAD', symbol: 'C$', label: 'CAD' },
+]
+
+type PriceTier = { monthly: number; annual: number; founding: number }
+
+const PLANS: {
+  name: string
+  prices: Record<Currency, PriceTier> | null
+  desc: string
+  color: string
+  features: string[]
+  cta: string
+  popular: boolean
+}[] = [
   {
     name: 'Starter',
-    monthlyPrice: 79,
-    annualPrice: 63,
-    foundingPrice: 49,
+    prices: {
+      USD: { monthly: 99,  annual: 79,  founding: 59  },
+      GBP: { monthly: 79,  annual: 63,  founding: 49  },
+      EUR: { monthly: 89,  annual: 71,  founding: 55  },
+      AUD: { monthly: 149, annual: 119, founding: 89  },
+      CAD: { monthly: 135, annual: 109, founding: 79  },
+    },
     desc: 'Perfect for solo sellers getting started on their first marketplace.',
     color: '#64748b',
     features: [
@@ -34,9 +57,13 @@ const PLANS = [
   },
   {
     name: 'Growth',
-    monthlyPrice: 199,
-    annualPrice: 159,
-    foundingPrice: 129,
+    prices: {
+      USD: { monthly: 249, annual: 199, founding: 159 },
+      GBP: { monthly: 199, annual: 159, founding: 129 },
+      EUR: { monthly: 229, annual: 179, founding: 145 },
+      AUD: { monthly: 379, annual: 299, founding: 239 },
+      CAD: { monthly: 339, annual: 269, founding: 219 },
+    },
     desc: 'For sellers scaling across multiple channels who need automation.',
     color: '#5b52f5',
     features: [
@@ -53,9 +80,13 @@ const PLANS = [
   },
   {
     name: 'Scale',
-    monthlyPrice: 599,
-    annualPrice: 479,
-    foundingPrice: 399,
+    prices: {
+      USD: { monthly: 749, annual: 599, founding: 499 },
+      GBP: { monthly: 599, annual: 479, founding: 399 },
+      EUR: { monthly: 679, annual: 539, founding: 449 },
+      AUD: { monthly: 1129, annual: 899, founding: 749 },
+      CAD: { monthly: 1019, annual: 819, founding: 679 },
+    },
     desc: 'High-volume operations that need full automation and deep analytics.',
     color: '#059669',
     features: [
@@ -72,10 +103,8 @@ const PLANS = [
   },
   {
     name: 'Enterprise',
-    monthlyPrice: null,
-    annualPrice: null,
-    foundingPrice: null,
-    desc: 'Agencies, large catalogues, and custom requirements.',
+    prices: null,
+    desc: 'Agencies, large catalogues, multi-region rollouts, and custom requirements.',
     color: '#d97706',
     features: [
       'Unlimited channels',
@@ -91,34 +120,54 @@ const PLANS = [
   },
 ]
 
-const COMPARE = [
-  { feature: 'Starting price',              auxio: 'From £49/mo',  brightpearl: 'Custom only', linnworks: '£449+/mo',  baselinker: '£19/mo' },
-  { feature: 'Pricing model',               auxio: 'Per plan',     brightpearl: 'Bespoke',     linnworks: 'Order vol', baselinker: 'Per order' },
-  { feature: 'Revenue % fee',               auxio: 'Never',        brightpearl: 'Never',       linnworks: 'Never',     baselinker: '✗' },
-  { feature: 'Time to go live',             auxio: '< 10 min',     brightpearl: 'Weeks',       linnworks: '40 days',   baselinker: '1-2 days' },
-  { feature: 'True P&L (not just revenue)', auxio: '✓',            brightpearl: 'Partial',     linnworks: '✗',         baselinker: '✗' },
-  { feature: 'Demand forecasting',          auxio: '✓',            brightpearl: '✓',           linnworks: 'Add-on',    baselinker: '✗' },
-  { feature: 'Purchase orders',             auxio: '✓',            brightpearl: '✓',           linnworks: '✓',         baselinker: '✗' },
-  { feature: 'AI listing optimisation',     auxio: '✓',            brightpearl: '✗',           linnworks: '✗',         baselinker: '✗' },
-  { feature: 'Developer API + webhooks',    auxio: '✓',            brightpearl: 'Enterprise',  linnworks: 'Add-on',    baselinker: '✓' },
-  { feature: 'UK-first support',            auxio: '✓',            brightpearl: '✓',           linnworks: 'Partial',   baselinker: '✗' },
-  { feature: 'Self-serve setup',            auxio: '✓',            brightpearl: 'Managed',     linnworks: 'Managed',   baselinker: '✓' },
+const STARTING_PRICE: Record<Currency, string> = {
+  USD: 'From $59/mo',
+  GBP: 'From £49/mo',
+  EUR: 'From €55/mo',
+  AUD: 'From A$89/mo',
+  CAD: 'From C$79/mo',
+}
+const LINNWORKS_PRICE: Record<Currency, string> = {
+  USD: '$549+/mo', GBP: '£449+/mo', EUR: '€499+/mo', AUD: 'A$829+/mo', CAD: 'C$749+/mo',
+}
+const FEEDONOMICS_PRICE: Record<Currency, string> = {
+  USD: '$2,500+/mo', GBP: '£2,000+/mo', EUR: '€2,300+/mo', AUD: 'A$3,800+/mo', CAD: 'C$3,400+/mo',
+}
+
+const buildCompare = (currency: Currency) => [
+  { feature: 'Starting price',              auxio: STARTING_PRICE[currency], brightpearl: 'Custom only', linnworks: LINNWORKS_PRICE[currency],  feedonomics: FEEDONOMICS_PRICE[currency] },
+  { feature: 'Pricing model',               auxio: 'Per plan',     brightpearl: 'Bespoke',     linnworks: 'Order vol', feedonomics: 'Custom' },
+  { feature: 'Revenue % fee',               auxio: 'Never',        brightpearl: 'Never',       linnworks: 'Never',     feedonomics: 'Yes' },
+  { feature: 'Multi-currency native',       auxio: '✓',            brightpearl: '✓',           linnworks: '✓',         feedonomics: '✓' },
+  { feature: 'Multi-region rollout',        auxio: '✓',            brightpearl: '✓',           linnworks: 'Limited',   feedonomics: '✓' },
+  { feature: 'Time to go live',             auxio: '< 10 min',     brightpearl: 'Weeks',       linnworks: '40 days',   feedonomics: 'Months' },
+  { feature: 'True P&L (not just revenue)', auxio: '✓',            brightpearl: 'Partial',     linnworks: '✗',         feedonomics: '✗' },
+  { feature: 'Demand forecasting',          auxio: '✓',            brightpearl: '✓',           linnworks: 'Add-on',    feedonomics: '✗' },
+  { feature: 'Purchase orders',             auxio: '✓',            brightpearl: '✓',           linnworks: '✓',         feedonomics: '✗' },
+  { feature: 'AI listing optimisation',     auxio: '✓',            brightpearl: '✗',           linnworks: '✗',         feedonomics: '✗' },
+  { feature: 'Developer API + webhooks',    auxio: '✓',            brightpearl: 'Enterprise',  linnworks: 'Add-on',    feedonomics: 'Enterprise' },
+  { feature: 'Seller-first support',        auxio: '✓',            brightpearl: '✓',           linnworks: 'Partial',   feedonomics: 'Managed' },
+  { feature: 'Self-serve setup',            auxio: '✓',            brightpearl: 'Managed',     linnworks: 'Managed',   feedonomics: 'Managed' },
 ]
 
 const FAQ = [
   { q: 'Is there a free trial?', a: 'Yes — every plan starts with a 14-day free trial. No credit card required. You get full access to all features on your chosen plan.' },
   { q: 'What happens after my trial?', a: "You'll be prompted to enter payment details. If you don't, your account moves to read-only mode — your listings on channels stay live, you just can't create new ones or make changes through Auxio." },
   { q: 'Can I switch plans?', a: 'Yes, upgrade or downgrade at any time. Upgrades take effect immediately. Downgrades take effect at the next billing date.' },
-  { q: 'What counts as a "channel"?', a: 'Each marketplace or store counts as one channel — so eBay UK, Amazon UK, and Shopify would be three channels. Channel connections within the same platform (e.g. eBay UK + eBay US) each count separately.' },
+  { q: 'What counts as a "channel"?', a: 'Each marketplace or store counts as one channel — so eBay, Amazon, and Shopify would be three channels. Regional connections within the same platform (e.g. Amazon US + Amazon DE) each count separately.' },
+  { q: 'Which currencies and regions do you support?', a: 'Billing is available in USD, GBP, EUR, AUD, and CAD. The platform itself is multi-currency at the listing, order, and P&L level — sell in any marketplace currency and report in your home currency.' },
   { q: 'Do you take a cut of my revenue?', a: "Never. We charge a flat monthly subscription. No percentage of GMV, no per-order fees, no hidden charges. What you see is what you pay." },
-  { q: 'How is this different from Feedonomics?', a: 'Feedonomics is built for enterprise teams — dedicated specialists, custom contracts, and prices starting at £1,000+/month. Auxio is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at £49/month.' },
+  { q: 'How is this different from ChannelAdvisor or Feedonomics?', a: 'ChannelAdvisor and Feedonomics are built for enterprise teams — dedicated specialists, custom contracts, and prices starting in the thousands per month. Auxio is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at $59/month.' },
 ]
 
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false)
+  const [currency, setCurrency] = useState<Currency>('USD')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   const remaining = 50 - FOUNDING_CLAIMED
+  const currencySymbol = CURRENCIES.find(c => c.code === currency)!.symbol
+  const COMPARE = buildCompare(currency)
 
   return (
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
@@ -155,13 +204,35 @@ export default function PricingPage() {
           No custom quotes. No percentage of revenue. No enterprise sales calls. Start free, upgrade when you're ready.
         </p>
 
-        {/* Billing toggle */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '4px', background: '#f1f5f9', borderRadius: '10px' }}>
-          <button onClick={() => setAnnual(false)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: !annual ? 'white' : 'transparent', color: !annual ? '#0f172a' : '#64748b', boxShadow: !annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>Monthly</button>
-          <button onClick={() => setAnnual(true)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: annual ? 'white' : 'transparent', color: annual ? '#0f172a' : '#64748b', boxShadow: annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            Annual
-            <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', background: '#dcfce7', color: '#16a34a', fontWeight: 700 }}>Save 20%</span>
-          </button>
+        {/* Toggles: billing + currency */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '4px', background: '#f1f5f9', borderRadius: '10px' }}>
+            <button onClick={() => setAnnual(false)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: !annual ? 'white' : 'transparent', color: !annual ? '#0f172a' : '#64748b', boxShadow: !annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>Monthly</button>
+            <button onClick={() => setAnnual(true)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: annual ? 'white' : 'transparent', color: annual ? '#0f172a' : '#64748b', boxShadow: annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              Annual
+              <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', background: '#dcfce7', color: '#16a34a', fontWeight: 700 }}>Save 20%</span>
+            </button>
+          </div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '4px', background: '#f1f5f9', borderRadius: '10px' }}>
+            {CURRENCIES.map(c => (
+              <button
+                key={c.code}
+                onClick={() => setCurrency(c.code)}
+                aria-pressed={currency === c.code}
+                style={{
+                  padding: '8px 14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                  fontSize: '13px', fontWeight: 600,
+                  background: currency === c.code ? 'white' : 'transparent',
+                  color: currency === c.code ? '#0f172a' : '#64748b',
+                  boxShadow: currency === c.code ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                  transition: 'all 0.15s',
+                }}
+                title={`Show prices in ${c.label}`}
+              >
+                {c.symbol} {c.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -184,18 +255,18 @@ export default function PricingPage() {
             <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px' }}>{plan.name}</div>
             <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '20px', lineHeight: 1.5 }}>{plan.desc}</div>
 
-            {plan.monthlyPrice ? (
+            {plan.prices ? (
               <div style={{ marginBottom: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                   <span style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
-                    £{plan.foundingPrice}
+                    {currencySymbol}{plan.prices[currency].founding}
                   </span>
                   <span style={{ fontSize: '13px', color: '#64748b' }}>/mo</span>
                 </div>
                 <div style={{ fontSize: '12px', color: '#94a3b8', textDecoration: 'line-through' }}>
-                  £{annual ? plan.annualPrice : plan.monthlyPrice}/mo regular price
+                  {currencySymbol}{annual ? plan.prices[currency].annual : plan.prices[currency].monthly}/mo regular price
                 </div>
-                <div style={{ fontSize: '11px', color: '#d97706', fontWeight: 600, marginTop: '2px' }}>Founding member rate</div>
+                <div style={{ fontSize: '11px', color: '#d97706', fontWeight: 600, marginTop: '2px' }}>Founding member rate · billed in {currency}</div>
               </div>
             ) : (
               <div style={{ fontSize: '28px', fontWeight: 800, color: '#0f172a', marginBottom: '20px', letterSpacing: '-0.02em' }}>Custom</div>
@@ -241,7 +312,7 @@ export default function PricingPage() {
             {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: '2px solid #f1f5f9' }}>
               <div style={{ padding: '16px 20px' }} />
-              {['Auxio', 'Brightpearl', 'Linnworks', 'Baselinker'].map((name, i) => (
+              {['Auxio', 'Brightpearl', 'Linnworks', 'Feedonomics'].map((name, i) => (
                 <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(91,82,245,0.05)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#5b52f5' : '#0f172a' }}>{name}</div>
                 </div>
@@ -251,7 +322,7 @@ export default function PricingPage() {
             {COMPARE.map((row, i) => (
               <div key={row.feature} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: i < COMPARE.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
                 <div style={{ padding: '14px 20px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
-                {[row.auxio, row.brightpearl, row.linnworks, row.baselinker].map((val, j) => (
+                {[row.auxio, row.brightpearl, row.linnworks, row.feedonomics].map((val, j) => (
                   <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(91,82,245,0.03)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                     <span style={{ fontSize: '12px', fontWeight: 600, color: j === 0 ? '#5b52f5' : val === '✗' ? '#94a3b8' : '#374151' }}>{val}</span>
                   </div>

@@ -2,16 +2,16 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Auxio vs ChannelAdvisor (Rithum) — UK alternative comparison (2026)',
-  description: 'ChannelAdvisor/Rithum starts at $2,000+/mo and targets enterprise brands. Auxio gives UK multichannel sellers the same channel breadth, plus AI and true P&L, from £49/mo.',
-  keywords: ['ChannelAdvisor alternative UK', 'Rithum alternative', 'ChannelAdvisor vs Auxio', 'cheaper ChannelAdvisor', 'multichannel ecommerce software small business UK'],
+  title: 'Auxio vs ChannelAdvisor (Rithum) — global alternative comparison (2026)',
+  description: 'ChannelAdvisor/Rithum starts at $2,500+/mo and targets enterprise brands. Auxio gives multichannel sellers worldwide the same channel breadth, plus AI and true P&L, from $59/mo.',
+  keywords: ['ChannelAdvisor alternative', 'Rithum alternative', 'ChannelAdvisor vs Auxio', 'cheaper ChannelAdvisor', 'global multichannel ecommerce software', 'international commerce operations platform'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price',              auxio: 'From £49/mo',       ca: '$2,000+/mo',         highlight: true },
+  { feature: 'Starting price',              auxio: 'From $59/mo',       ca: '$2,500+/mo',         highlight: true },
   { feature: 'Time to go live',             auxio: '<10 min self-serve', ca: 'Months',              highlight: true },
   { feature: 'Free trial',                  auxio: '14 days, no card',   ca: 'Demo only',           highlight: true },
-  { feature: 'UK seller focus',             auxio: true,                 ca: false,                 highlight: false },
+  { feature: 'Independent multichannel seller focus', auxio: true,                 ca: false,                 highlight: false },
   { feature: 'True net P&L tracking',       auxio: true,                 ca: false,                 highlight: false },
   { feature: 'Demand forecasting',          auxio: true,                 ca: false,                 highlight: false },
   { feature: 'Purchase orders',             auxio: true,                 ca: false,                 highlight: false },
@@ -42,10 +42,10 @@ export default function VsChannelAdvisorPage() {
         </div>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
           ChannelAdvisor is built for enterprise brands.<br />
-          <span style={{ color: '#5b52f5' }}>Auxio is built for UK sellers like you.</span>
+          <span style={{ color: '#5b52f5' }}>Auxio is built for multichannel sellers like you.</span>
         </h1>
         <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '36px' }}>
-          ChannelAdvisor (now Rithum) is a powerful commerce network — but it starts at $2,000+/mo, requires months of onboarding, and is priced for enterprise brands managing millions in GMV. Auxio gives UK multichannel sellers enterprise-level operations at a fraction of the cost, live in minutes.
+          ChannelAdvisor (now Rithum) is a powerful commerce network — but it starts at $2,500+/mo, requires months of onboarding, and is priced for enterprise brands managing millions in GMV. Auxio gives multichannel sellers worldwide enterprise-level operations at a fraction of the cost, live in minutes.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           <Link href="/signup" style={{ padding: '13px 28px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
@@ -77,9 +77,9 @@ export default function VsChannelAdvisorPage() {
       </section>
 
       <section style={{ maxWidth: '600px', margin: '0 auto', padding: '0 48px 80px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>The smarter choice for growing UK sellers</h2>
+        <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>The smarter choice for growing multichannel sellers</h2>
         <p style={{ fontSize: '16px', color: '#475569', lineHeight: 1.7, marginBottom: '32px' }}>
-          ChannelAdvisor makes sense when you're managing $10M+ GMV and need a managed service. For UK multichannel sellers who want control, transparency, and a platform that grows with them — Auxio is built for you.
+          ChannelAdvisor makes sense when you're managing $10M+ GMV and need a managed service. For multichannel sellers who want control, transparency, and a platform that grows with them — Auxio is built for you.
         </p>
         <Link href="/signup" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '15px', fontWeight: 600, textDecoration: 'none' }}>
           Start your free trial →

@@ -2,24 +2,24 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Auxio vs Baselinker — Which is better for UK sellers? (2026)',
-  description: 'Comparing Auxio and Baselinker for UK multichannel sellers. See how they differ on pricing, UK-specific features, AI tools, profit tracking, and support.',
-  keywords: ['Baselinker alternative UK', 'Baselinker vs Auxio', 'Baselinker alternative 2026', 'multichannel software UK'],
+  title: 'Auxio vs Baselinker — Global platform vs regional alternative (2026)',
+  description: 'Baselinker is a strong regional tool for Central/Eastern European sellers. Auxio is the global multichannel operations platform — see how they compare on pricing, AI, profit tracking, and support.',
+  keywords: ['Baselinker alternative', 'Baselinker vs Auxio', 'Baselinker alternative 2026', 'global multichannel software', 'international commerce operations platform'],
 }
 
 const COMPARISON = [
   { feature: 'True profit tracking (after all fees)', auxio: true, bl: false, note: '' },
   { feature: 'AI listing writer', auxio: true, bl: false, note: '' },
-  { feature: 'Built specifically for UK sellers', auxio: true, bl: false, note: 'Baselinker is Poland-first, UK is one of many markets' },
+  { feature: 'Global multichannel coverage', auxio: true, bl: 'partial', note: 'Baselinker is Poland-first; Auxio is built for sellers worldwide' },
   { feature: 'OnBuy integration', auxio: true, bl: 'partial', note: '' },
-  { feature: 'Royal Mail label printing', auxio: true, bl: true, note: '' },
+  { feature: 'Royal Mail, USPS, DHL, Australia Post label printing', auxio: true, bl: true, note: '' },
   { feature: 'Social intelligence (TikTok/Instagram)', auxio: true, bl: false, note: '' },
   { feature: 'Feed rules engine', auxio: true, bl: 'partial', note: '' },
   { feature: 'Profit-floor repricing', auxio: true, bl: false, note: '' },
   { feature: 'AI daily briefings', auxio: true, bl: false, note: '' },
-  { feature: 'Starter price', auxio: '£49/mo', bl: '~£35/mo', note: 'Baselinker prices based on orders processed' },
+  { feature: 'Starter price', auxio: '$59/mo', bl: '~$45/mo', note: 'Baselinker prices based on orders processed' },
   { feature: 'Free trial (no card)', auxio: true, bl: true, note: '' },
-  { feature: 'UK-based support', auxio: true, bl: false, note: '' },
+  { feature: 'Dedicated support', auxio: true, bl: false, note: '' },
   { feature: 'In-app AI chat', auxio: true, bl: false, note: '' },
 ]
 
@@ -29,8 +29,8 @@ const REASONS = [
     desc: 'Baselinker tracks orders. Auxio tracks profit. We deduct eBay fees, Amazon referral fees, shipping costs, packaging, and COGS on every order so you see real margin — not just turnover.',
   },
   {
-    title: 'You sell in the UK and want a tool built for it',
-    desc: 'Baselinker is a Polish platform that supports the UK market. Auxio was built for UK sellers from day one — eBay.co.uk, OnBuy, Royal Mail, UK VAT, and UK channel-specific quirks are first-class.',
+    title: 'You sell globally, not just in one region',
+    desc: 'Baselinker is Poland-first and strongest in Central/Eastern Europe. Auxio is built for global multichannel sellers from day one — Amazon US/UK/DE/AU, eBay worldwide, Shopify, OnBuy, TikTok Shop, plus multi-currency billing in USD, GBP, EUR, AUD or CAD.',
   },
   {
     title: 'You want AI that actually helps',
@@ -67,7 +67,7 @@ export default function VsBaselinkerPage() {
             Auxio vs Baselinker
           </h1>
           <p style={{ fontSize: '18px', color: '#64748b', lineHeight: 1.7, marginBottom: '32px' }}>
-            Both are multichannel management tools. The difference is that Auxio is built for UK sellers who want to understand their profit — not just process their orders.
+            Baselinker is a strong regional tool, especially for sellers in Poland and Central/Eastern Europe. Auxio is the global commerce operations platform — built for multichannel sellers worldwide who want to understand their profit, not just process their orders.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <Link href="/signup" style={{ padding: '13px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Try Auxio free →</Link>
@@ -81,7 +81,7 @@ export default function VsBaselinkerPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
           <div style={{ padding: '28px', background: 'rgba(91,82,245,0.04)', border: '2px solid #5b52f5', borderRadius: '14px' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Choose Auxio if…</div>
-            {['You want to track true profit, not just revenue', 'You\'re a UK seller who needs OnBuy, UK VAT, and Royal Mail built-in', 'You want AI that writes listings and surfaces insights daily', 'You\'re tired of tools that require a spreadsheet to run'].map(r => (
+            {['You want to track true profit, not just revenue', 'You sell globally across Amazon, eBay, Shopify, OnBuy and TikTok Shop', 'You want AI that writes listings and surfaces insights daily', 'You\'re tired of tools that require a spreadsheet to run'].map(r => (
               <div key={r} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'flex-start' }}>
                 <span style={{ color: '#5b52f5', fontWeight: 700, flexShrink: 0 }}>✓</span>
                 <span style={{ fontSize: '14px', color: '#374151', lineHeight: 1.5 }}>{r}</span>
@@ -139,7 +139,7 @@ export default function VsBaselinkerPage() {
       {/* Reasons to switch */}
       <div style={{ background: '#fafaf9', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '40px', color: '#0f172a' }}>Why UK sellers switch from Baselinker to Auxio</h2>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '40px', color: '#0f172a' }}>Why multichannel sellers switch from Baselinker to Auxio</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
             {REASONS.map(r => (
               <div key={r.title} style={{ padding: '28px', background: 'white', border: '1px solid #e8e8e5', borderRadius: '14px' }}>
@@ -160,9 +160,9 @@ export default function VsBaselinkerPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
           <div style={{ padding: '28px', border: '2px solid #5b52f5', borderRadius: '14px', background: 'rgba(91,82,245,0.03)' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', marginBottom: '8px' }}>Auxio</div>
-            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>£49<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>$59<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>Starter — all channels included</div>
-            {['All channels included', 'True profit tracking', 'AI listing writer', 'UK-focused support', '14-day free trial'].map(f => (
+            {['All channels included', 'True profit tracking', 'AI listing writer', 'Global support', '14-day free trial'].map(f => (
               <div key={f} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
                 <span style={{ color: '#5b52f5' }}>✓</span>
                 <span style={{ fontSize: '13px', color: '#374151' }}>{f}</span>
@@ -172,7 +172,7 @@ export default function VsBaselinkerPage() {
           </div>
           <div style={{ padding: '28px', border: '1px solid #e8e8e5', borderRadius: '14px', background: '#fafaf9' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#64748b', marginBottom: '8px' }}>Baselinker</div>
-            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>~£35<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>~$45<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>For up to 3,000 orders/month</div>
             {['Order management', 'Basic automation', 'Courier integrations', 'No profit tracking', 'Scales by order volume'].map((f, i) => (
               <div key={f} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
@@ -186,7 +186,7 @@ export default function VsBaselinkerPage() {
 
       {/* CTA */}
       <div style={{ background: '#09090b', padding: '80px 48px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Ready to try the UK alternative?</h2>
+        <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Ready to try the global alternative?</h2>
         <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.55)', marginBottom: '32px' }}>14-day free trial. No card. Migrate from Baselinker in an afternoon.</p>
         <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: '#a3e635', color: '#0f172a', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Start free trial →</Link>
         <p style={{ marginTop: '16px', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>Questions? <Link href="/contact" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'underline' }}>Talk to us</Link></p>

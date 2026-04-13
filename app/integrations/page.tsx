@@ -14,10 +14,10 @@ const CHANNELS = [
   {
     category: 'Marketplaces',
     items: [
-      { name: 'eBay',         status: 'live',    desc: 'UK, US, DE, AU — list, sync stock and orders in real time', color: '#FFE500', textColor: '#191919' },
-      { name: 'Amazon',       status: 'live',    desc: 'FBA, FBM, and Seller Fulfilled Prime support', color: '#FF9900', textColor: '#191919' },
-      { name: 'Etsy',         status: 'live',    desc: 'Handmade, vintage, and craft product listings', color: '#F56400', textColor: 'white' },
-      { name: 'OnBuy',        status: 'live',    desc: 'UK-focused marketplace for fast-growing sellers', color: '#003087', textColor: 'white' },
+      { name: 'eBay',         status: 'live',    desc: 'US, UK, DE, FR, IT, ES, AU, CA and more — list, sync stock and orders in real time', color: '#FFE500', textColor: '#191919' },
+      { name: 'Amazon',       status: 'live',    desc: 'US, UK, DE, FR, IT, ES, CA, AU — FBA, FBM, and Seller Fulfilled Prime support', color: '#FF9900', textColor: '#191919' },
+      { name: 'Etsy',         status: 'live',    desc: 'Handmade, vintage, and craft product listings worldwide', color: '#F56400', textColor: 'white' },
+      { name: 'OnBuy',        status: 'live',    desc: 'Fast-growing international marketplace', color: '#003087', textColor: 'white' },
       { name: 'Walmart',      status: 'beta',    desc: 'US marketplace for approved sellers', color: '#0071CE', textColor: 'white' },
       { name: 'TikTok Shop',  status: 'live',    desc: 'Social commerce with direct checkout in-app', color: '#191919', textColor: 'white' },
     ],
@@ -44,7 +44,7 @@ const CHANNELS = [
       { name: 'Zalando',    status: 'soon', desc: 'Europe\'s leading fashion marketplace', color: '#FF6900', textColor: 'white' },
       { name: 'Wayfair',    status: 'soon', desc: 'Home goods and furniture marketplace', color: '#7B2D8B', textColor: 'white' },
       { name: 'Not On The High Street', status: 'soon', desc: 'Premium UK marketplace for independent sellers', color: '#B40068', textColor: 'white' },
-      { name: 'ASOS Marketplace', status: 'soon', desc: 'Fashion-forward UK marketplace', color: '#191919', textColor: 'white' },
+      { name: 'ASOS Marketplace', status: 'soon', desc: 'Fashion-forward global marketplace', color: '#191919', textColor: 'white' },
     ],
   },
 ]

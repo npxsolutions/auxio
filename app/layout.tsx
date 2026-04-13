@@ -13,22 +13,26 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-mono' });
 
 export const metadata: Metadata = {
   title: {
-    default: "Auxio — UK's Commerce Operations Platform",
+    default: "Auxio — The Global Commerce Operations Platform",
     template: "%s | Auxio",
   },
-  description: "Auxio is the UK's Commerce Operations Platform for multichannel sellers. Inventory, orders, procurement, demand forecasting, P&L, and AI — all in one place. Trusted by UK sellers switching from Linnworks and Brightpearl.",
-  keywords: ["multichannel inventory management UK", "ecommerce operations platform", "order management software UK", "inventory management software", "multichannel listing software", "Linnworks alternative", "Brightpearl alternative", "eBay Amazon Shopify inventory sync"],
+  description: "Auxio is the Commerce Operations Platform multichannel sellers run on worldwide. Inventory, orders, procurement, demand forecasting, P&L, and AI — unified across every marketplace, currency, and region. Trusted by sellers replacing Linnworks, Brightpearl, ChannelAdvisor, and Feedonomics.",
+  keywords: ["commerce operations platform", "multichannel inventory management", "global ecommerce platform", "order management software", "inventory management software", "multichannel listing software", "Linnworks alternative", "Brightpearl alternative", "ChannelAdvisor alternative", "Feedonomics alternative", "eBay Amazon Shopify inventory sync", "multi-currency ecommerce", "international marketplace management"],
+  alternates: {
+    canonical: "https://auxio.com",
+  },
   openGraph: {
     type: "website",
-    locale: "en_GB",
+    locale: "en_US",
+    alternateLocale: ["en_GB", "en_AU", "en_CA", "de_DE", "fr_FR", "es_ES"],
     siteName: "Auxio",
-    title: "Auxio — UK's Commerce Operations Platform",
-    description: "Inventory, orders, procurement, forecasting, P&L, and AI for UK multichannel sellers. Live in 10 minutes.",
+    title: "Auxio — The Global Commerce Operations Platform",
+    description: "Inventory, orders, procurement, forecasting, P&L, and AI for multichannel sellers worldwide. Live in 10 minutes.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Auxio — UK's Commerce Operations Platform",
-    description: "Inventory, orders, procurement, forecasting, P&L, and AI for UK multichannel sellers. Live in 10 minutes.",
+    title: "Auxio — The Global Commerce Operations Platform",
+    description: "Inventory, orders, procurement, forecasting, P&L, and AI for multichannel sellers worldwide. Live in 10 minutes.",
   },
   robots: {
     index: true,

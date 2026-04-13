@@ -2,9 +2,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'eBay Listing Software for UK Sellers | Auxio',
-  description: 'Connect your eBay store to Auxio and list products in minutes. Sync inventory, track true profit, and use AI to write better listings — built for UK eBay sellers.',
-  keywords: ['eBay listing software UK', 'eBay inventory management', 'eBay multichannel software', 'sell on eBay UK'],
+  title: 'eBay Listing Software for Global Sellers | Auxio',
+  description: 'Connect your eBay store to Auxio and list products in minutes. Sync inventory, track true profit, and use AI to write better listings — built for eBay sellers worldwide, across eBay.com, eBay.co.uk, eBay.de, eBay.com.au and more.',
+  keywords: ['eBay listing software', 'eBay inventory management', 'eBay multichannel software', 'sell on eBay', 'global eBay seller tool', 'eBay Cassini optimization'],
 }
 
 const NAV = [
@@ -20,7 +20,7 @@ const STEPS = [
 ]
 
 const FEATURES = [
-  { icon: '📊', title: 'True profit per eBay order', desc: 'After eBay fees, PayPal fees, postage, COGS, and VAT — see what you actually made on every sale, not just the sale price.' },
+  { icon: '📊', title: 'True profit per eBay order', desc: 'After eBay fees, payment processing, postage, COGS, and sales tax/VAT — see what you actually made on every sale, not just the sale price.' },
   { icon: '🤖', title: 'AI listing writer', desc: 'Generate eBay-optimised titles and descriptions that follow Cassini best practices — structured data, keyword placement, condition notes.' },
   { icon: '🔄', title: 'Real-time stock sync', desc: 'Sell one unit on Amazon and your eBay quantity drops instantly. No overselling, no manual updates.' },
   { icon: '⚠️', title: 'Error detection', desc: 'Auxio watches your eBay listings 24/7 and flags ended listings, policy violations, and suppressed items before they cost you sales.' },
@@ -29,7 +29,7 @@ const FEATURES = [
 ]
 
 const FAQS = [
-  { q: 'Does Auxio work with eBay UK specifically?', a: 'Yes. Auxio is built for UK sellers. We handle UK eBay categories, UK VAT calculation, Royal Mail integration, and eBay.co.uk as the primary marketplace — not as an afterthought.' },
+  { q: 'Which eBay marketplaces does Auxio support?', a: 'All major eBay sites — eBay.com (US), eBay.co.uk, eBay.de, eBay.fr, eBay.it, eBay.es, eBay.com.au, eBay.ca and more. We handle region-specific categories, sales tax / VAT calculation, and carrier integrations for each market (USPS, Royal Mail, DHL, Australia Post, Canada Post).' },
   { q: 'Will Auxio interfere with my existing eBay listings?', a: 'No. When you connect, we read your existing listings and import them. We only make changes when you explicitly tell us to — we never modify or end listings without your instruction.' },
   { q: 'Does it work with eBay Promoted Listings?', a: 'We sync your organic listing data. Promoted Listings management is on our roadmap for Q3 2026.' },
   { q: 'Can I use Auxio just for eBay and nothing else?', a: 'Absolutely. Many sellers start with eBay only and expand to other channels over time. There is no requirement to connect multiple channels.' },
@@ -63,7 +63,7 @@ export default function EbayIntegrationPage() {
           </div>
           <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'white', marginBottom: '24px' }}>
             The eBay listing tool<br />
-            <span style={{ color: '#a3e635' }}>built for UK sellers</span>
+            <span style={{ color: '#a3e635' }}>built for multichannel sellers</span>
           </h1>
           <p style={{ fontSize: '20px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: '40px', maxWidth: '680px', margin: '0 auto 40px' }}>
             Connect your eBay store in 60 seconds. Track true profit after all fees, sync inventory across every channel, and use AI to write listings that actually sell.
@@ -72,7 +72,7 @@ export default function EbayIntegrationPage() {
             <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '8px', background: '#a3e635', color: '#0f172a', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>Start free — no card needed →</Link>
             <Link href="/contact" style={{ padding: '14px 28px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>Book a demo</Link>
           </div>
-          <p style={{ marginTop: '16px', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>14-day free trial · No credit card · UK-based support</p>
+          <p style={{ marginTop: '16px', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>14-day free trial · No credit card · Dedicated support</p>
         </div>
       </div>
 
@@ -95,7 +95,7 @@ export default function EbayIntegrationPage() {
       {/* Features */}
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
         <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '12px', color: '#0f172a' }}>Everything eBay sellers need</h2>
-        <p style={{ textAlign: 'center', color: '#64748b', fontSize: '16px', marginBottom: '48px' }}>Not a US tool retrofitted with a pound sign. Built from scratch for how eBay UK actually works.</p>
+        <p style={{ textAlign: 'center', color: '#64748b', fontSize: '16px', marginBottom: '48px' }}>Built from scratch for how eBay actually works — across every major marketplace.</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
           {FEATURES.map(f => (
             <div key={f.title} style={{ padding: '28px', border: '1px solid #e8e8e5', borderRadius: '14px' }}>
@@ -110,15 +110,15 @@ export default function EbayIntegrationPage() {
       {/* Profit calculator callout */}
       <div style={{ background: '#09090b', padding: '80px 48px' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>£</div>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>$</div>
           <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>
             Know your real eBay profit
           </h2>
           <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: '32px' }}>
-            Most eBay sellers think they're making 20% margin. After eBay final value fees (10–15%), PayPal/payment processing (2.9%), Royal Mail postage, packaging, and COGS — the real number is often half that. Auxio shows you the actual figure on every order.
+            Most eBay sellers think they're making 20% margin. After eBay final value fees (10–15%), payment processing (2.9%), shipping, packaging, and COGS — the real number is often half that. Auxio shows you the actual figure on every order.
           </p>
           <div style={{ display: 'inline-grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px', overflow: 'hidden', marginBottom: '32px' }}>
-            {[['Sale price', '£45.00'], ['eBay fees', '−£5.85'], ['Postage', '−£3.99'], ['Packaging', '−£0.50'], ['COGS', '−£18.00'], ['True profit', '£16.66']].map(([label, val]) => (
+            {[['Sale price', '$55.00'], ['eBay fees', '−$7.15'], ['Postage', '−$4.85'], ['Packaging', '−$0.60'], ['COGS', '−$22.00'], ['True profit', '$20.40']].map(([label, val]) => (
               <div key={label} style={{ background: 'rgba(255,255,255,0.05)', padding: '16px 20px', textAlign: 'center' }}>
                 <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>{label}</div>
                 <div style={{ fontSize: '18px', fontWeight: 700, color: label === 'True profit' ? '#a3e635' : 'white' }}>{val}</div>
@@ -133,7 +133,7 @@ export default function EbayIntegrationPage() {
       <div style={{ background: '#fafaf9', padding: '80px 48px', borderTop: '1px solid #f1f1ef' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '12px', color: '#0f172a' }}>How Auxio compares for eBay sellers</h2>
-          <p style={{ textAlign: 'center', color: '#64748b', fontSize: '15px', marginBottom: '40px' }}>vs Linnworks, Baselinker, and selling manually</p>
+          <p style={{ textAlign: 'center', color: '#64748b', fontSize: '15px', marginBottom: '40px' }}>vs Linnworks, ChannelAdvisor, and selling manually</p>
           <div style={{ border: '1px solid #e8e8e5', borderRadius: '14px', overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
               <thead>
@@ -141,19 +141,19 @@ export default function EbayIntegrationPage() {
                   <th style={{ padding: '14px 20px', textAlign: 'left', fontWeight: 600 }}>Feature</th>
                   <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635' }}>Auxio</th>
                   <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>Linnworks</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>Baselinker</th>
+                  <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>ChannelAdvisor</th>
                 </tr>
               </thead>
               <tbody>
                 {[
                   ['True profit tracking (after all fees)', '✓', '✗', '✗'],
-                  ['AI listing writer', '✓', '✗', '✗'],
-                  ['Built for UK sellers', '✓', '✗', 'Partial'],
-                  ['OnBuy integration', '✓', '✗', 'Partial'],
+                  ['AI listing writer', '✓', '✗', 'Enterprise'],
+                  ['Built for independent multichannel sellers', '✓', '✗', '✗'],
+                  ['OnBuy integration', '✓', '✗', '✗'],
                   ['Social intelligence', '✓', '✗', '✗'],
-                  ['Starting price', '£49/mo', '£449+/mo', '~£35/mo'],
-                  ['Free trial (no card)', '✓', '✗', '✓'],
-                  ['UK-based support', '✓', '✗', '✗'],
+                  ['Starting price', '$59/mo', '$549+/mo', '$2,500+/mo'],
+                  ['Free trial (no card)', '✓', '✗', '✗'],
+                  ['Self-serve setup', '✓', '✗', '✗'],
                 ].map(([feat, a, l, b], i) => (
                   <tr key={feat} style={{ borderTop: '1px solid #f1f1ef', background: i % 2 === 0 ? 'white' : '#fafaf9' }}>
                     <td style={{ padding: '13px 20px', color: '#374151', fontWeight: 500 }}>{feat}</td>
@@ -168,7 +168,7 @@ export default function EbayIntegrationPage() {
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '32px' }}>
             <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Auxio vs Linnworks →</Link>
             <span style={{ color: '#e2e8f0' }}>|</span>
-            <Link href="/vs/baselinker" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Auxio vs Baselinker →</Link>
+            <Link href="/vs/channelAdvisor" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Auxio vs ChannelAdvisor →</Link>
           </div>
         </div>
       </div>

@@ -45,11 +45,11 @@ interface ShippingRule {
 /* ── Static data ── */
 const CARRIERS: Carrier[] = [
   { id: 'royalmail', name: 'Royal Mail',    description: "UK's national postal service",              initials: 'RM',  color: '#CC0000', bg: '#fff0f0' },
-  { id: 'evri',      name: 'Evri',          description: 'Budget-friendly UK parcel delivery',         initials: 'EV',  color: '#9b1fe8', bg: '#f5f0fe' },
+  { id: 'evri',      name: 'Evri',          description: 'Budget-friendly  parcel delivery',         initials: 'EV',  color: '#9b1fe8', bg: '#f5f0fe' },
   { id: 'dhl',       name: 'DHL Express',   description: 'International express shipping',             initials: 'DHL', color: '#D40511', bg: '#fff0f0' },
   { id: 'ups',       name: 'UPS',           description: 'Reliable global shipping',                  initials: 'UPS', color: '#351C15', bg: '#fdf8f0' },
   { id: 'fedex',     name: 'FedEx',         description: 'Priority international delivery',           initials: 'FX',  color: '#4D148C', bg: '#f4f0fc' },
-  { id: 'dpd',       name: 'DPD',           description: 'Next-day UK delivery with 1-hour windows',  initials: 'DPD', color: '#DC0032', bg: '#fff0f3' },
+  { id: 'dpd',       name: 'DPD',           description: 'Next-day  delivery with 1-hour windows',  initials: 'DPD', color: '#DC0032', bg: '#fff0f3' },
 ]
 
 const LABEL_QUEUE: LabelOrder[] = [
@@ -61,11 +61,11 @@ const LABEL_QUEUE: LabelOrder[] = [
 ]
 
 const SHIPMENTS: Shipment[] = [
-  { tracking: 'JD000960016523',   carrier: 'Royal Mail', service: '1st Class Signed',    destination: 'London, UK',       dispatched: '2026-04-07', status: 'Delivered' },
-  { tracking: 'EV992837461GB',    carrier: 'Evri',       service: 'Standard Parcel',      destination: 'Manchester, UK',   dispatched: '2026-04-06', status: 'In Transit' },
+  { tracking: 'JD000960016523',   carrier: 'Royal Mail', service: '1st Class Signed',    destination: 'London, ',       dispatched: '2026-04-07', status: 'Delivered' },
+  { tracking: 'EV992837461GB',    carrier: 'Evri',       service: 'Standard Parcel',      destination: 'Manchester, ',   dispatched: '2026-04-06', status: 'In Transit' },
   { tracking: '1Z999AA10123456',  carrier: 'UPS',        service: 'UPS Ground',           destination: 'Berlin, DE',       dispatched: '2026-04-05', status: 'Out for Delivery' },
   { tracking: 'DHL4839201740',    carrier: 'DHL',        service: 'Express Worldwide',    destination: 'New York, US',     dispatched: '2026-04-04', status: 'In Transit' },
-  { tracking: 'JD000960082947',   carrier: 'Royal Mail', service: 'Tracked 48',           destination: 'Birmingham, UK',   dispatched: '2026-04-03', status: 'Delivered' },
+  { tracking: 'JD000960082947',   carrier: 'Royal Mail', service: 'Tracked 48',           destination: 'Birmingham, ',   dispatched: '2026-04-03', status: 'Delivered' },
   { tracking: 'FX7289340021',     carrier: 'FedEx',      service: 'Priority International', destination: 'Sydney, AU',     dispatched: '2026-04-02', status: 'Exception' },
 ]
 

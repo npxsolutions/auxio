@@ -2,13 +2,13 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Auxio vs Linnworks — A better option for UK sellers (2026)',
-  description: 'Linnworks starts at £449/month. Auxio starts at £49. Compare features, pricing, and AI capabilities for UK multichannel sellers in 2026.',
-  keywords: ['Linnworks alternative UK', 'Linnworks alternative cheaper', 'Linnworks vs Auxio', 'cheaper than Linnworks', 'multichannel software UK small business'],
+  title: 'Auxio vs Linnworks — A better option for multichannel sellers (2026)',
+  description: 'Linnworks starts at $549/month. Auxio starts at $59. Compare features, pricing, and AI capabilities for global multichannel sellers in 2026.',
+  keywords: ['Linnworks alternative', 'Linnworks alternative cheaper', 'Linnworks vs Auxio', 'cheaper than Linnworks', 'global multichannel software', 'multichannel software small business', 'international ecommerce operations platform'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price', auxio: '£49/mo', lw: '£449/mo', highlight: true },
+  { feature: 'Starting price', auxio: '$59/mo', lw: '$549/mo', highlight: true },
   { feature: 'Free trial', auxio: '14 days (no card)', lw: 'Demo only', highlight: true },
   { feature: 'AI listing writer', auxio: true, lw: false, highlight: false },
   { feature: 'True profit tracking (after fees)', auxio: true, lw: false, highlight: false },
@@ -16,7 +16,7 @@ const COMPARISON = [
   { feature: 'Social intelligence', auxio: true, lw: false, highlight: false },
   { feature: 'AI daily briefings', auxio: true, lw: false, highlight: false },
   { feature: 'Profit-floor repricing', auxio: true, lw: 'Add-on', highlight: false },
-  { feature: 'Built for UK sellers', auxio: true, lw: false, highlight: false },
+  { feature: 'Built for multichannel sellers', auxio: true, lw: false, highlight: false },
   { feature: 'Feed rules engine', auxio: true, lw: true, highlight: false },
   { feature: 'eBay integration', auxio: true, lw: true, highlight: false },
   { feature: 'Amazon integration', auxio: true, lw: true, highlight: false },
@@ -50,11 +50,11 @@ export default function VsLinnworksPage() {
             Auxio vs Linnworks
           </h1>
           <p style={{ fontSize: '18px', color: '#64748b', lineHeight: 1.7, marginBottom: '16px' }}>
-            Linnworks is a powerful platform — built for warehouse operations teams at £449+/month. Auxio is built for independent UK sellers who want the same capabilities without the enterprise price tag or the 6-week onboarding.
+            Linnworks is a powerful platform — built for warehouse operations teams at $549+/month. Auxio is built for independent multichannel sellers worldwide who want the same capabilities without the enterprise price tag or the 6-week onboarding.
           </p>
           <div style={{ display: 'inline-flex', gap: '8px', padding: '12px 20px', background: 'rgba(220, 38, 38, 0.06)', border: '1px solid rgba(220, 38, 38, 0.15)', borderRadius: '10px', marginBottom: '32px' }}>
-            <span style={{ fontSize: '14px', color: '#dc2626', fontWeight: 600 }}>Linnworks starts at £449/month.</span>
-            <span style={{ fontSize: '14px', color: '#64748b' }}>Auxio starts at £49.</span>
+            <span style={{ fontSize: '14px', color: '#dc2626', fontWeight: 600 }}>Linnworks starts at $549/month.</span>
+            <span style={{ fontSize: '14px', color: '#64748b' }}>Auxio starts at $59.</span>
           </div>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <Link href="/signup" style={{ padding: '13px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Try Auxio free →</Link>
@@ -68,15 +68,15 @@ export default function VsLinnworksPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', background: '#fafaf9', border: '1px solid #f1f1ef', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
           <div>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Auxio Starter</div>
-            <div style={{ fontSize: '56px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.03em', lineHeight: 1 }}>£49</div>
-            <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px' }}>per month · all channels · no contract</div>
-            <div style={{ fontSize: '13px', color: '#5b52f5', marginTop: '8px', fontWeight: 500 }}>Founding member: £29/mo →</div>
+            <div style={{ fontSize: '56px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.03em', lineHeight: 1 }}>$59</div>
+            <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px' }}>per month · all channels · no contract · billed in USD / GBP / EUR / AUD / CAD</div>
+            <div style={{ fontSize: '13px', color: '#5b52f5', marginTop: '8px', fontWeight: 500 }}>Founding rate available →</div>
           </div>
           <div style={{ borderLeft: '1px solid #f1f1ef', paddingLeft: '40px' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Linnworks</div>
-            <div style={{ fontSize: '56px', fontWeight: 900, color: '#94a3b8', letterSpacing: '-0.03em', lineHeight: 1 }}>£449</div>
+            <div style={{ fontSize: '56px', fontWeight: 900, color: '#94a3b8', letterSpacing: '-0.03em', lineHeight: 1 }}>$549</div>
             <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '6px' }}>per month · annual contract required</div>
-            <div style={{ fontSize: '13px', color: '#dc2626', marginTop: '8px', fontWeight: 500 }}>That's £5,388/year before you sell a single item</div>
+            <div style={{ fontSize: '13px', color: '#dc2626', marginTop: '8px', fontWeight: 500 }}>That's $6,588/year before you sell a single item</div>
           </div>
         </div>
       </div>
@@ -122,11 +122,11 @@ export default function VsLinnworksPage() {
             <div style={{ padding: '28px', background: 'white', border: '2px solid #5b52f5', borderRadius: '14px' }}>
               <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Auxio is for you if…</div>
               {[
-                'You\'re an independent or small-team UK seller (1–50 staff)',
+                'You\'re an independent or small-team multichannel seller (1–50 staff)',
                 'You want to be live on a new channel in under 10 minutes',
                 'You want to know your actual profit, not just your GMV',
                 'You want AI that writes listings and gives you daily insights',
-                'You can\'t justify £449/month just to get started',
+                'You can\'t justify $549/month just to get started',
               ].map(r => (
                 <div key={r} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'flex-start' }}>
                   <span style={{ color: '#5b52f5', fontWeight: 700, flexShrink: 0 }}>✓</span>

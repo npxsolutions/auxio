@@ -14,7 +14,7 @@ const FEATURES = [
   {
     tag: 'Listings',
     headline: 'Create once. Publish to every channel.',
-    body: 'Write a product listing one time and push it to eBay, Amazon, Shopify, TikTok Shop, and more — simultaneously. Auxio handles format differences, title character limits, required attributes, and category mapping for every platform automatically.',
+    body: 'Write a product listing one time and push it to eBay, Amazon, Shopify, TikTok Shop, and more — simultaneously, across every region you sell in. Auxio handles format differences, title character limits, required attributes, and category mapping for every platform automatically.',
     bullets: [
       'Channel-specific formatting applied automatically',
       'Bulk CSV import with intelligent column mapping',
@@ -113,9 +113,9 @@ const VISUAL_MOCKUPS: Record<string, React.ReactNode> = {
           <div key={ch} style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 600, background: ['#FFE500', '#FF9900', '#96BF48', '#000'][i], color: ['#191919','white','white','white'][i] }}>{ch}</div>
         ))}
       </div>
-      <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '6px' }}>Nike Air Max 90 — UK 10 — Triple White</div>
+      <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '6px' }}>Nike Air Max 90 — US 10 — Triple White</div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-        {[['Price','£89.99'],['Stock','3 units'],['Status','✓ Live'],['Views','247']].map(([l,v]) => (
+        {[['Price','$109.99'],['Stock','3 units'],['Status','✓ Live'],['Views','247']].map(([l,v]) => (
           <div key={l} style={{ background: '#f7f7f5', borderRadius: '6px', padding: '8px 10px' }}>
             <div style={{ fontSize: '10px', color: '#9b9b98', marginBottom: '2px' }}>{l}</div>
             <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{v}</div>
@@ -129,11 +129,11 @@ const VISUAL_MOCKUPS: Record<string, React.ReactNode> = {
       <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '12px' }}>AI Agent · Generating eBay title…</div>
       <div style={{ background: 'rgba(91,82,245,0.1)', border: '1px solid rgba(91,82,245,0.2)', borderRadius: '8px', padding: '12px', marginBottom: '8px' }}>
         <div style={{ fontSize: '11px', color: '#a89ef8', marginBottom: '4px' }}>eBay Title (79/80 chars)</div>
-        <div style={{ fontSize: '12px', color: '#f0f0f8', lineHeight: 1.5 }}>Nike Air Max 90 Triple White UK 10 Mens Trainers Sneakers 2024 Brand New OG</div>
+        <div style={{ fontSize: '12px', color: '#f0f0f8', lineHeight: 1.5 }}>Nike Air Max 90 Triple White US 10 Mens Trainers Sneakers 2024 Brand New OG</div>
       </div>
       <div style={{ background: 'rgba(255,153,0,0.08)', border: '1px solid rgba(255,153,0,0.2)', borderRadius: '8px', padding: '12px' }}>
         <div style={{ fontSize: '11px', color: '#fbbf24', marginBottom: '4px' }}>Amazon Bullet 1</div>
-        <div style={{ fontSize: '12px', color: '#f0f0f8', lineHeight: 1.5 }}>ICONIC DESIGN: Classic Air Max 90 silhouette in all-white colourway with visible Air cushioning unit for all-day comfort</div>
+        <div style={{ fontSize: '12px', color: '#f0f0f8', lineHeight: 1.5 }}>ICONIC DESIGN: Classic Air Max 90 silhouette in an all-white colorway with visible Air cushioning unit for all-day comfort</div>
       </div>
     </div>
   ),
@@ -157,12 +157,12 @@ const VISUAL_MOCKUPS: Record<string, React.ReactNode> = {
     <div style={{ background: '#0f1117', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.08)' }}>
       <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '12px' }}>Profit breakdown · Last 30 days</div>
       {[
-        { label: 'Revenue',       value: '£12,840', color: '#f0f0f8' },
-        { label: 'Channel fees',  value: '− £1,284', color: '#f87171' },
-        { label: 'Shipping',      value: '− £962',   color: '#f87171' },
-        { label: 'Ad spend',      value: '− £744',   color: '#f87171' },
-        { label: 'COGS',          value: '− £6,420', color: '#f87171' },
-        { label: 'True profit',   value: '£3,430', color: '#34d399' },
+        { label: 'Revenue',       value: '$15,840', color: '#f0f0f8' },
+        { label: 'Channel fees',  value: '− $1,584', color: '#f87171' },
+        { label: 'Shipping',      value: '− $1,188', color: '#f87171' },
+        { label: 'Ad spend',      value: '− $912',   color: '#f87171' },
+        { label: 'COGS',          value: '− $7,920', color: '#f87171' },
+        { label: 'True profit',   value: '$4,236',   color: '#34d399' },
       ].map((r, i) => (
         <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderTop: i === 5 ? '1px solid rgba(255,255,255,0.1)' : 'none', marginTop: i === 5 ? '4px' : 0 }}>
           <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{r.label}</span>
@@ -175,9 +175,9 @@ const VISUAL_MOCKUPS: Record<string, React.ReactNode> = {
     <div style={{ background: 'white', borderRadius: '12px', padding: '20px', border: '1px solid #e8e8e5' }}>
       <div style={{ fontSize: '11px', fontWeight: 600, color: '#9b9b98', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Stock Sync · Live</div>
       {[
-        { product: 'Air Max 90 UK10', total: 3, ch: [3, 3, 2], status: 'ok' },
-        { product: 'Ultraboost UK9',  total: 1, ch: [1, 1, 0], status: 'low' },
-        { product: 'New Balance UK11',total: 5, ch: [5, 5, 4], status: 'ok' },
+        { product: 'Air Max 90 US10', total: 3, ch: [3, 3, 2], status: 'ok' },
+        { product: 'Ultraboost US9',  total: 1, ch: [1, 1, 0], status: 'low' },
+        { product: 'New Balance US11',total: 5, ch: [5, 5, 4], status: 'ok' },
       ].map((row, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 0', borderBottom: i < 2 ? '1px solid #f1f1ef' : 'none' }}>
           <div style={{ flex: 1, fontSize: '12px', fontWeight: 500, color: '#191919' }}>{row.product}</div>

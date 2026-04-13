@@ -72,12 +72,12 @@ export default function PrivacyPolicy() {
       </Section>
 
       <Section title="6. Data retention">
-        <p>We retain your account data for as long as your account is active. If you delete your account, we delete your personal data within 30 days, except where retention is required by law (e.g. billing records for 7 years under UK law).</p>
+        <p>We retain your account data for as long as your account is active. If you delete your account, we delete your personal data within 30 days, except where retention is required by law (e.g. billing records for 7 years under  law).</p>
         <p>Channel OAuth tokens are deleted immediately when you disconnect a channel or delete your account.</p>
       </Section>
 
-      <Section title="7. Your rights (UK GDPR)">
-        <p>If you are based in the UK or EEA, you have the right to:</p>
+      <Section title="7. Your rights (GDPR)">
+        <p>If you are based in the  or EEA, you have the right to:</p>
         <ul style={{ paddingLeft: '20px' }}>
           <li>Access the personal data we hold about you</li>
           <li>Correct inaccurate data</li>

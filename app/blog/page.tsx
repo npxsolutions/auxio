@@ -2,8 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Blog — Multichannel Selling Guides for UK Sellers | Auxio',
-  description: 'Practical guides on selling on eBay, Amazon, Shopify, and OnBuy in the UK. Profit tracking, listing optimisation, and multichannel strategy.',
+  title: 'Blog — Multichannel Selling Guides for Global Sellers | Auxio',
+  description: 'Practical guides on selling on eBay, Amazon, Shopify, and OnBuy worldwide. Profit tracking, listing optimisation, and multichannel strategy for sellers in the US, UK, EU, and beyond.',
 }
 
 const NAV = [
@@ -16,8 +16,8 @@ const POSTS = [
   {
     slug: 'multichannel-inventory-management-software-uk',
     category: "Buyer's Guide",
-    title: 'Best Multichannel Inventory Management Software for UK Sellers (2026)',
-    excerpt: 'Auxio, Linnworks, Brightpearl, Baselinker, and Veeqo — compared honestly. Real pricing, real feature gaps, and who each tool is actually built for.',
+    title: 'Best Multichannel Inventory Management Software for Global Sellers (2026)',
+    excerpt: 'Auxio, Linnworks, Brightpearl, ChannelAdvisor, Feedonomics, and Veeqo — compared honestly. Real pricing, real feature gaps, and who each tool is actually built for.',
     date: '13 April 2026',
     readTime: '12 min',
     featured: true,
@@ -34,8 +34,8 @@ const POSTS = [
   {
     slug: 'linnworks-alternative',
     category: 'Comparison',
-    title: 'The Best Linnworks Alternative for UK Sellers in 2026',
-    excerpt: 'Linnworks starts at £449/mo with a 40-day onboarding project. Here\'s what to switch to — and how the migration actually works.',
+    title: 'The Best Linnworks Alternative for Global Sellers in 2026',
+    excerpt: 'Linnworks starts at $549/mo with a 40-day onboarding project. Here\'s what to switch to — and how the migration actually works.',
     date: '12 April 2026',
     readTime: '9 min',
     featured: false,
@@ -44,7 +44,7 @@ const POSTS = [
     slug: 'how-to-calculate-true-profit-ecommerce',
     category: 'Profit Tracking',
     title: 'How to Calculate True Ecommerce Profit (Not Just Revenue)',
-    excerpt: 'The complete formula: selling price minus every fee, COGS, postage, VAT, and ad spend. With worked examples for eBay, Amazon FBA, and Shopify.',
+    excerpt: 'The complete formula: selling price minus every fee, COGS, postage, sales tax/VAT, and ad spend. With worked examples for eBay, Amazon FBA, and Shopify.',
     date: '11 April 2026',
     readTime: '10 min',
     featured: false,
@@ -52,7 +52,7 @@ const POSTS = [
   {
     slug: 'true-profit-ebay-uk',
     category: 'Profit Tracking',
-    title: 'The true cost of selling on eBay UK in 2026 (and how to calculate your real profit)',
+    title: 'The true cost of selling on eBay worldwide in 2026 (and how to calculate your real profit)',
     excerpt: 'Most eBay sellers overestimate their margin by 30–40%. Here\'s every fee you need to account for — and a formula to calculate what you actually made on each sale.',
     date: '7 April 2026',
     readTime: '7 min',
@@ -62,7 +62,7 @@ const POSTS = [
     slug: 'multichannel-selling-uk-guide',
     category: 'Strategy',
     title: 'How to sell on eBay, Amazon, and Shopify at the same time without losing your mind',
-    excerpt: 'A step-by-step guide to setting up multichannel selling as a UK independent seller — without needing enterprise software or a warehouse team.',
+    excerpt: 'A step-by-step guide to setting up multichannel selling as an independent seller — without needing enterprise software or a warehouse team.',
     date: '3 April 2026',
     readTime: '9 min',
     featured: false,
@@ -70,7 +70,7 @@ const POSTS = [
   {
     slug: 'onbuy-guide-uk-sellers',
     category: 'Channels',
-    title: 'OnBuy for UK sellers: is it worth it in 2026?',
+    title: 'OnBuy for multichannel sellers: is it worth it in 2026?',
     excerpt: 'OnBuy charges lower commission than eBay and Amazon. We analyse whether it\'s worth adding as a channel — including real fee comparisons and category performance data.',
     date: '1 April 2026',
     readTime: '6 min',
@@ -88,8 +88,8 @@ const POSTS = [
   {
     slug: 'amazon-fees-uk-breakdown',
     category: 'Profit Tracking',
-    title: 'Every Amazon UK fee explained — referral, FBA, closing, and advertising',
-    excerpt: 'A complete breakdown of what Amazon takes from each sale in 2026, by category. Includes a free profit calculator template.',
+    title: 'Every Amazon fee explained — referral, FBA, closing, and advertising',
+    excerpt: 'A complete breakdown of what Amazon takes from each sale in 2026, by category, across US / UK / EU marketplaces. Includes a free profit calculator template.',
     date: '25 March 2026',
     readTime: '8 min',
     featured: false,
@@ -97,8 +97,8 @@ const POSTS = [
   {
     slug: 'best-multichannel-software-uk',
     category: 'Comparisons',
-    title: 'Best multichannel selling software for UK sellers in 2026',
-    excerpt: 'Comparing Auxio, Linnworks, Baselinker, and Veeqo on price, features, and UK-specific support. An honest review from sellers who\'ve used all of them.',
+    title: 'Best multichannel selling software for global sellers in 2026',
+    excerpt: 'Comparing Auxio, Linnworks, ChannelAdvisor, Brightpearl, and Feedonomics on price, features, and support. An honest review from sellers who\'ve used all of them.',
     date: '20 March 2026',
     readTime: '11 min',
     featured: false,
@@ -136,7 +136,7 @@ export default function BlogPage() {
           Sell smarter. Keep more.
         </h1>
         <p style={{ fontSize: '17px', color: '#64748b', lineHeight: 1.7, maxWidth: '600px' }}>
-          Practical guides for UK multichannel sellers — profit tracking, eBay and Amazon optimisation, and honest tool comparisons.
+          Practical guides for multichannel sellers — profit tracking, eBay and Amazon optimisation, and honest tool comparisons.
         </p>
       </div>
 
@@ -191,7 +191,7 @@ export default function BlogPage() {
       <div style={{ background: '#f7f3eb', borderTop: '1px solid #ede9e0', padding: '64px 48px', textAlign: 'center' }}>
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0f172a', marginBottom: '10px' }}>Selling tips, every two weeks</h2>
-          <p style={{ fontSize: '15px', color: '#64748b', marginBottom: '24px', lineHeight: 1.6 }}>Practical guides for UK multichannel sellers. No fluff, no sales pitch. Unsubscribe any time.</p>
+          <p style={{ fontSize: '15px', color: '#64748b', marginBottom: '24px', lineHeight: 1.6 }}>Practical guides for multichannel sellers. No fluff, no sales pitch. Unsubscribe any time.</p>
           <div style={{ display: 'flex', gap: '10px' }}>
             <input type="email" placeholder="your@email.com" style={{ flex: 1, padding: '11px 14px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} />
             <button style={{ padding: '11px 20px', borderRadius: '8px', background: '#0f172a', color: 'white', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Subscribe →</button>

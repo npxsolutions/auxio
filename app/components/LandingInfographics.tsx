@@ -10,7 +10,7 @@ export function ChannelOptimisationInfographic() {
       bg: '#fff5f5',
       border: '#fecaca',
       badge: 'Cassini-optimised',
-      title: 'Nike Air Max 90 Mens Running Trainers White Black Size 10 UK New',
+      title: 'Nike Air Max 90 Mens Running Trainers White Black Size 10  New',
       bullets: ['Keyword-rich title', '80-char limit respected', 'Condition + category set'],
     },
     {
@@ -30,7 +30,7 @@ export function ChannelOptimisationInfographic() {
       bg: '#fffbf0',
       border: '#fcd89a',
       badge: 'A9 algorithm',
-      title: 'Nike Air Max 90 Mens Trainers | Lightweight | UK 10 | White/Black',
+      title: 'Nike Air Max 90 Mens Trainers | Lightweight |  10 | White/Black',
       bullets: ['Bullet-point format', 'Backend keywords filled', 'ASIN-ready attributes'],
     },
   ]
@@ -41,7 +41,7 @@ export function ChannelOptimisationInfographic() {
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
         <div style={{ background: '#191919', borderRadius: '12px', padding: '18px 32px', textAlign: 'center', minWidth: '260px' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>You create once</div>
-          <div style={{ fontSize: '16px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>Nike Air Max 90 — UK 10</div>
+          <div style={{ fontSize: '16px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>Nike Air Max 90 —  10</div>
           <div style={{ fontSize: '12px', color: '#888' }}>Title · Description · Images · Price</div>
         </div>
       </div>

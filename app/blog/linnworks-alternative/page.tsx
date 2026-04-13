@@ -2,9 +2,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Best Linnworks Alternative for UK Sellers (2026) — Honest Comparison',
-  description: 'Looking for a Linnworks alternative? Linnworks starts at £449/mo and requires a 40-day onboarding project. Auxio gives you more features — including AI and true P&L — from £49/mo, live today.',
-  keywords: ['Linnworks alternative UK', 'cheaper than Linnworks', 'Linnworks alternative 2026', 'Linnworks vs Auxio', 'best Linnworks replacement', 'multichannel inventory management UK'],
+  title: 'Best Linnworks Alternative for Global Sellers (2026) — Honest Comparison',
+  description: 'Looking for a Linnworks alternative? Linnworks starts at $549/mo and requires a 40-day onboarding project. Auxio gives you more features — including AI and true P&L — from $59/mo, live today. Built for sellers worldwide.',
+  keywords: ['Linnworks alternative', 'cheaper than Linnworks', 'Linnworks alternative 2026', 'Linnworks vs Auxio', 'best Linnworks replacement', 'global multichannel inventory management', 'international ecommerce operations platform'],
 }
 
 export default function BlogPostPage() {
@@ -23,10 +23,10 @@ export default function BlogPostPage() {
         <div style={{ marginBottom: '32px' }}>
           <span style={{ fontSize: '12px', fontWeight: 600, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Guide · 2026</span>
           <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginTop: '12px', marginBottom: '20px' }}>
-            The Best Linnworks Alternative for UK Sellers in 2026
+            The Best Linnworks Alternative for Global Sellers in 2026
           </h1>
           <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7 }}>
-            Linnworks has been the go-to multichannel platform for UK sellers for over 15 years. But at £449+/month, a 40-day average onboarding time, and no built-in AI or profit tracking, more sellers are looking for an alternative that delivers more for less. Here's what's actually worth switching to.
+            Linnworks has been the go-to multichannel platform for sellers worldwide for over 15 years. But at $549+/month, a 40-day average onboarding time, and no built-in AI or profit tracking, more sellers are looking for an alternative that delivers more for less. Here's what's actually worth switching to.
           </p>
           <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: '#94a3b8', marginTop: '16px' }}>
             <span>April 2026</span><span>·</span><span>9 min read</span>
@@ -36,15 +36,15 @@ export default function BlogPostPage() {
         {[
           {
             h: 'Why sellers leave Linnworks',
-            body: `Linnworks is a mature, capable platform. It processes $9B+ GMV annually and has a large customer base. But the reasons sellers look for alternatives are consistent:\n\n• Price: £449/mo minimum, rising to £800+/mo for scale plans. For sellers doing £20k–£100k/month GMV, that's a meaningful cost.\n• Onboarding: Linnworks takes an average of 40 days to implement. That's 40 days before you see a single benefit.\n• No free trial: You have to request a demo and get a custom quote before you can even try the product.\n• No AI features: Linnworks launched "Spotlight AI" in 2024 but it's limited to identifying manual tasks. There's no AI listing writer, no demand forecasting AI, no autonomous agent.\n• Profit tracking gap: Linnworks tracks orders and inventory well, but doesn't calculate true net profit after marketplace fees, COGS, postage, and VAT.\n• Pricing anxiety: Linnworks prices on order volume — so as you grow, your bill grows with you.`,
+            body: `Linnworks is a mature, capable platform. It processes $9B+ GMV annually and has a large global customer base. But the reasons sellers look for alternatives are consistent:\n\n• Price: $549/mo minimum, rising to $1,000+/mo for scale plans. For sellers doing $25k–$120k/month GMV, that's a meaningful cost.\n• Onboarding: Linnworks takes an average of 40 days to implement. That's 40 days before you see a single benefit.\n• No free trial: You have to request a demo and get a custom quote before you can even try the product.\n• No AI features: Linnworks launched "Spotlight AI" in 2024 but it's limited to identifying manual tasks. There's no AI listing writer, no demand forecasting AI, no autonomous agent.\n• Profit tracking gap: Linnworks tracks orders and inventory well, but doesn't calculate true net profit after marketplace fees, COGS, postage, and sales tax/VAT.\n• Pricing anxiety: Linnworks prices on order volume — so as you grow, your bill grows with you.`,
           },
           {
             h: 'What to look for in a Linnworks alternative',
-            body: `Before switching, be clear on what you actually need. The best Linnworks replacement for your business depends on your scale and complexity:\n\n• If you're doing under £50k/month GMV and want self-serve: you want something like Auxio — full features, self-serve setup, transparent pricing from £49/mo.\n• If you're doing over £500k/month and need warehouse management: Linnworks is still strong here, especially post-SkuVault acquisition. Brightpearl is also worth evaluating.\n• If you primarily need listing sync and order routing: Baselinker is cheaper, but offers much less depth on analytics and automation.\n\nFor most UK sellers in the £20k–£500k/month GMV range — and especially those who want AI, true profit visibility, and procurement management — Auxio is the strongest alternative.`,
+            body: `Before switching, be clear on what you actually need. The best Linnworks replacement for your business depends on your scale and complexity:\n\n• If you're doing under $60k/month GMV and want self-serve: you want something like Auxio — full features, self-serve setup, transparent pricing from $59/mo (billed in USD, GBP, EUR, AUD or CAD).\n• If you're doing over $600k/month and need warehouse management: Linnworks is still strong here, especially post-SkuVault acquisition. Brightpearl and ChannelAdvisor are also worth evaluating.\n• If you primarily need listing sync and order routing and sell mainly in Central/Eastern Europe: Baselinker is a cheaper regional option, but offers much less depth on analytics and automation.\n\nFor most sellers in the $25k–$600k/month GMV range — and especially those who want AI, true profit visibility, and procurement management — Auxio is the strongest alternative.`,
           },
           {
             h: 'Auxio vs Linnworks: the real differences',
-            body: `Here's what the comparison looks like side by side:\n\n• Price: Auxio from £49/mo vs Linnworks £449+/mo. That's a £4,800/year minimum saving.\n• Setup: Auxio is self-serve and live in under 10 minutes. Linnworks takes 40 days average with a dedicated implementation specialist.\n• AI: Auxio includes an AI listing optimiser, an autonomous AI agent with autopilot mode, and demand forecasting. Linnworks has basic task automation, no AI listing writer.\n• Profit tracking: Auxio calculates true net profit after all fees, COGS, postage, and VAT. Linnworks shows order revenue but not true margin.\n• Procurement: Both support purchase orders and supplier management. Auxio's forecasting module calculates reorder quantities automatically from 90-day sales velocity.\n• Developer API: Both offer API access. Auxio includes webhooks on Growth and above. Linnworks charges for API access as an add-on.\n• Free trial: Auxio offers 14 days free, no card required. Linnworks offers demos only.`,
+            body: `Here's what the comparison looks like side by side:\n\n• Price: Auxio from $59/mo vs Linnworks $549+/mo. That's roughly a $5,880/year minimum saving.\n• Setup: Auxio is self-serve and live in under 10 minutes. Linnworks takes 40 days average with a dedicated implementation specialist.\n• AI: Auxio includes an AI listing optimiser, an autonomous AI agent with autopilot mode, and demand forecasting. Linnworks has basic task automation, no AI listing writer.\n• Profit tracking: Auxio calculates true net profit after all fees, COGS, postage, and sales tax/VAT. Linnworks shows order revenue but not true margin.\n• Procurement: Both support purchase orders and supplier management. Auxio's forecasting module calculates reorder quantities automatically from 90-day sales velocity.\n• Developer API: Both offer API access. Auxio includes webhooks on Growth and above. Linnworks charges for API access as an add-on.\n• Free trial: Auxio offers 14 days free, no card required. Linnworks offers demos only.`,
           },
           {
             h: 'The switching process: what to expect',

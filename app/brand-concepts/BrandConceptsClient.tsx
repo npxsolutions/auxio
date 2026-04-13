@@ -48,7 +48,7 @@ function VeloPreview() {
       <div style={{ position: 'relative', zIndex: 1, padding: '72px 56px 0', maxWidth: 660 }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.2)', borderRadius: 6, padding: '5px 14px', marginBottom: 28 }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: acc }} />
-          <span style={{ fontSize: 12, fontWeight: 500, color: acc, letterSpacing: '0.02em' }}>Connected commerce for UK sellers</span>
+          <span style={{ fontSize: 12, fontWeight: 500, color: acc, letterSpacing: '0.02em' }}>Connected commerce for multichannel sellers</span>
         </div>
         <h1 style={{ fontSize: 58, fontWeight: 700, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
           Manage and scale<br />
@@ -176,7 +176,7 @@ function GrafterPreview() {
       <div style={{ position: 'relative', zIndex: 1, padding: '68px 56px 0', maxWidth: 660 }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
           <span style={{ fontSize: 16 }}>🇬🇧</span>
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Built for UK sellers</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Built for multichannel sellers</span>
         </div>
         <h1 style={{ fontSize: 56, fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
           Less tabs.<br />
@@ -190,7 +190,7 @@ function GrafterPreview() {
           <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '13px 28px', fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.5)' }}>Watch a demo</div>
         </div>
         <div style={{ display: 'flex', gap: 24 }}>
-          {[['Straightforward','pricing'],['No contract','cancel any time'],['UK-first','support']].map(([v, l]) => (
+          {[['Straightforward','pricing'],['No contract','cancel any time'],['Global-first','support']].map(([v, l]) => (
             <div key={v}>
               <div style={{ fontSize: 13, fontWeight: 700, color: acc, marginBottom: 1 }}>{v}</div>
               <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{l}</div>

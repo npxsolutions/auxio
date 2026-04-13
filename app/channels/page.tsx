@@ -36,7 +36,7 @@ const CHANNELS: ChannelDef[] = [
   // ── Marketplaces ────────────────────────────────────────────────────────────
   {
     id: 'ebay', name: 'eBay', category: 'Marketplaces',
-    description: 'List, sync, and manage orders across eBay UK, US, and global sites.',
+    description: 'List, sync, and manage orders across eBay , US, and global sites.',
     color: '#fff5f0', accent: '#E53238', textColor: '#fff', status: 'live',
     logo: 'ebay',
   },
@@ -60,7 +60,7 @@ const CHANNELS: ChannelDef[] = [
   },
   {
     id: 'onbuy', name: 'OnBuy', category: 'Marketplaces',
-    description: 'UK\'s fastest-growing marketplace — list products and sync orders automatically.',
+    description: 'One of the fastest-growing marketplaces — list products and sync orders automatically.',
     color: '#fdf4ff', accent: '#6E2EB8', textColor: '#fff', status: 'live',
     logo: 'onbuy',
   },
@@ -204,7 +204,7 @@ const CHANNELS: ChannelDef[] = [
   },
   {
     id: 'idealo', name: 'Idealo', category: 'Shopping Feeds',
-    description: 'Europe\'s leading price comparison engine — Germany, UK, France, and more.',
+    description: 'Europe\'s leading price comparison engine — Germany, , France, and more.',
     color: '#eff6ff', accent: '#003CFF', textColor: '#fff', status: 'soon',
     logo: 'idealo',
   },
@@ -216,7 +216,7 @@ const CHANNELS: ChannelDef[] = [
   },
   {
     id: 'pricerunner', name: 'PriceRunner', category: 'Shopping Feeds',
-    description: 'Nordic price comparison with 2M+ monthly users in UK, SE, and DK.',
+    description: 'Nordic price comparison with 2M+ monthly users in , SE, and DK.',
     color: '#fff0f5', accent: '#E40074', textColor: '#fff', status: 'soon',
     logo: 'pricerunner',
   },

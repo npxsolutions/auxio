@@ -36,7 +36,7 @@ export default function BlogPostPage() {
         {[
           {
             h: 'The old model: best-of-breed fragmentation',
-            body: `Five years ago, the "right" stack for a multichannel ecommerce seller looked like this: a listing tool (Codisto, Linnworks, or Sellbrite) + an order management system (Skubana or OrderHive) + an accounting integration (A2X into Xero) + a separate repricing tool (Repricer Express or BQool) + a spreadsheet for purchase orders and a different spreadsheet for P&L. Each tool was the best at what it did. But together they were slow, expensive, and fragmented. Data didn't flow between them. You had five subscriptions, five logins, and five sets of numbers that never quite agreed with each other.`,
+            body: `Five years ago, the "right" stack for a multichannel ecommerce seller looked like this: a listing tool (Codisto, Linnworks, or Sellbrite) + an order management system (Skubana or OrderHive) + an accounting integration (A2X into Xero or QuickBooks) + a separate repricing tool (Repricer Express or BQool) + a spreadsheet for purchase orders and a different spreadsheet for P&L. Each tool was the best at what it did. But together they were slow, expensive, and fragmented. Data didn't flow between them. You had five subscriptions, five logins, and five sets of numbers that never quite agreed with each other.`,
           },
           {
             h: 'The Commerce Operations Platform: the full loop in one place',
@@ -44,7 +44,7 @@ export default function BlogPostPage() {
           },
           {
             h: 'How this category evolved',
-            body: `Brightpearl coined the term "Retail Operating System" (ROS) — positioning their platform as the OS everything else runs on. Linnworks positioned as a "Commerce automation platform." ChannelAdvisor evolved into a "commerce network." In each case, the move was away from "tool that solves one problem" towards "infrastructure that powers the whole operation." This positioning commanded significantly higher acquisition multiples: Brightpearl sold to Sage for ~£300M, ChannelAdvisor to CommerceHub for $715M. The category name matters because it changes the strategic conversation from "is this cheaper than X?" to "can we run without this?"`,
+            body: `Brightpearl coined the term "Retail Operating System" (ROS) — positioning their platform as the OS everything else runs on. Linnworks positioned as a "Commerce automation platform." ChannelAdvisor evolved into a "commerce network" (now Rithum). Feedonomics built the feed layer. In each case, the move was away from "tool that solves one problem" towards "infrastructure that powers the whole operation." This positioning commanded significantly higher acquisition multiples: Brightpearl sold to Sage for ~$360M, ChannelAdvisor to CommerceHub for $715M, and Feedonomics to BigCommerce for $300M. The category name matters because it changes the strategic conversation from "is this cheaper than X?" to "can we run without this?" — and it's why well-run commerce operations platforms are increasingly priced as $1B+ exit candidates.`,
           },
           {
             h: 'Who needs a Commerce Operations Platform?',
@@ -78,16 +78,16 @@ export default function BlogPostPage() {
         ))}
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
-          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Auxio is built as a Commerce Operations Platform for UK sellers</strong>
-          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Inventory, orders, procurement, forecasting, P&amp;L, AI, and a full Developer API — all in one place. From £49/mo, live in 10 minutes.</p>
+          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Auxio is built as a Commerce Operations Platform for global multichannel sellers</strong>
+          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Inventory, orders, procurement, forecasting, P&amp;L, AI, and a full Developer API — all in one place. From $59/mo, live in 10 minutes. Billed in USD, GBP, EUR, AUD or CAD.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 
         <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '32px' }}>
           <strong style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '12px' }}>Related guides</strong>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Link href="/blog/multichannel-inventory-management-software-uk" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Best multichannel inventory management software for UK sellers →</Link>
-            <Link href="/blog/linnworks-alternative" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>The best Linnworks alternative for UK sellers →</Link>
+            <Link href="/blog/multichannel-inventory-management-software-uk" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Best multichannel inventory management software for multichannel sellers →</Link>
+            <Link href="/blog/linnworks-alternative" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>The best Linnworks alternative for multichannel sellers →</Link>
           </div>
         </div>
       </article>
