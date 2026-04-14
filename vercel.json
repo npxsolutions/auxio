@@ -8,6 +8,10 @@
     { "path": "/api/sync/woocommerce",   "schedule": "0 * * * *" },
     { "path": "/api/sync/bigcommerce",   "schedule": "0 * * * *" },
     { "path": "/api/sync/etsy/orders",   "schedule": "*/15 * * * *" },
-    { "path": "/api/sync/etsy/listings", "schedule": "0 * * * *" }
+    { "path": "/api/sync/etsy/listings", "schedule": "0 * * * *" },
+    { "path": "/api/sync/walmart/orders",    "schedule": "*/15 * * * *" },
+    { "path": "/api/sync/walmart/listings",  "schedule": "0 * * * *" },
+    { "path": "/api/sync/onbuy/orders",      "schedule": "*/30 * * * *" },
+    { "path": "/api/sync/onbuy/listings",    "schedule": "0 * * * *" }
   ]
 }

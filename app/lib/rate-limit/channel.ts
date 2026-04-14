@@ -24,11 +24,15 @@ const LIMITS: Record<ChannelKey, { capacity: number; windowSeconds: number }> = 
   amazon:      { capacity: 1, windowSeconds: 1 },
   // Etsy Open API v3: 10 req/s per app + 10 000 req/day.
   etsy:        { capacity: 10, windowSeconds: 1 },
-  walmart:     { capacity: 2, windowSeconds: 1 },
+  // Walmart Marketplace: ~100/min documented ceiling. 90/60s gives burst tolerance
+  // while staying safely under the ceiling for the correlation-id per-request model.
+  walmart:     { capacity: 90, windowSeconds: 60 },
   facebook:    { capacity: 2, windowSeconds: 1 },
   // TikTok Shop Partner: ~10 req/s typical ceiling per shop.
   tiktok:      { capacity: 10, windowSeconds: 1 },
-  onbuy:       { capacity: 1, windowSeconds: 1 },
+  // OnBuy: ~60/min ceiling. 50/60s allows bursts on paginated listings/orders
+  // without tripping the per-minute cap.
+  onbuy:       { capacity: 50, windowSeconds: 60 },
   google:      { capacity: 5, windowSeconds: 1 },
   // Conservative — WooCommerce has no hard global limit; host-dependent.
   woocommerce: { capacity: 20, windowSeconds: 60 },
