@@ -1,7 +1,7 @@
-# Meridia Rebrand — Naming Research
+# Fulcra Rebrand — Naming Research
 
 **Date**: 2026-04-13
-**Mission**: Generate 30 brand name candidates for Meridia's rebrand (global commerce operations platform), assess availability + trademark risk + SERP collision, and return a tight shortlist of 8 plus a recommended top 3.
+**Mission**: Generate 30 brand name candidates for Fulcra's rebrand (global commerce operations platform), assess availability + trademark risk + SERP collision, and return a tight shortlist of 8 plus a recommended top 3.
 
 ---
 
@@ -56,7 +56,7 @@
 | 28 | Gravit | Latin | 14 | Gravit Designer (design tool) + Graviti (data). Crowded. |
 | 29 | Stratum | Latin | 13 | Stratumn (finance SaaS) + 84.51 Stratum (retail analytics) — hard block. |
 | 30 | Emporia | Latin | 14 | Emporia Energy (smart home) + Emporia Brands (spirits). Moderate. |
-| 31 | Meridia | Latin | 20 | Two Meridias exist (IT services, personal-data tool) but neither is in commerce. Promising. |
+| 31 | Fulcra | Latin | 20 | Two Fulcras exist (IT services, personal-data tool) but neither is in commerce. Promising. |
 | 32 | Rialto | Latin | 17 | Rialto CRM (commercial real estate) + Rialto Partners (ecom agency). Moderate. |
 | 33 | Meridia | Latin | 19 | Meridia.land (agri-data SaaS) — different vertical. Clean-ish in commerce ops. |
 | 34 | Navos | Latin | 18 | Navos Agent (AI marketing) + Navos mental health — moderate collision. |
@@ -70,29 +70,29 @@
 
 Ranked by composite score. Domain availability marked **not verified — please confirm** where WebFetch access was blocked in this session. All SERP findings are from real searches.
 
-### 3.1 **Meridia** — score 20/30
+### 3.1 **Fulcra** — score 20/30
 
 - **Tagline**: *The commerce lever.*
 - **Sounds like**: a precision instrument — a fulcrum made verb. Feels engineered, not marketed.
-- **For commerce ops**: a fulcrum is the pivot point that makes leverage possible. Meridia is the pivot all your marketplaces, currencies, and regions rotate around. Perfect metaphor.
+- **For commerce ops**: a fulcrum is the pivot point that makes leverage possible. Fulcra is the pivot all your marketplaces, currencies, and regions rotate around. Perfect metaphor.
 - **Etymology**: Latin *fulcrum*, "support, prop" — the point around which a lever turns.
 - **Evokes**: control, operations, leverage, infrastructure.
 - **Phonetic risk**: low. FUL-krah. Unambiguous.
-- **Domain**: `fulcra.com` — **not verified — please confirm**. Meridia Networks (IT services, Denver) operates at `fulcra.net`, suggesting `.com` may be held by an unrelated party. Meridia Dynamics operates at `fulcradynamics.com`.
+- **Domain**: `fulcra.com` — **not verified — please confirm**. Fulcra Networks (IT services, Denver) operates at `fulcra.net`, suggesting `.com` may be held by an unrelated party. Fulcra Dynamics operates at `fulcradynamics.com`.
 - **Trademark**: low-medium. No obvious TM in Class 42 / commerce SaaS. Two existing companies are in IT services and personal-data wellness — different classes. **Please verify USPTO / EUIPO directly.**
-- **Personal verdict**: strongest of the list. Short, Latin, conceptually exact for a commerce-ops platform. The existing Meridias are small and in unrelated verticals. Main risk is `.com` acquisition cost.
+- **Personal verdict**: strongest of the list. Short, Latin, conceptually exact for a commerce-ops platform. The existing Fulcras are small and in unrelated verticals. Main risk is `.com` acquisition cost.
 
 ### 3.2 **Meridia** — score 19/30
 
 - **Tagline**: *Commerce, on one meridian.*
 - **Sounds like**: a globe, a spine, a line of reference. Calm and global.
-- **For commerce ops**: meridians are the lines that organise the globe. Meridia organises every channel and currency into one reference line.
+- **For commerce ops**: meridians are the lines that organise the globe. Fulcra organises every channel and currency into one reference line.
 - **Etymology**: from *meridian*, Latin *meridies* — the line that defines noon everywhere.
 - **Evokes**: global, scale, alignment, precision.
 - **Phonetic risk**: low. Muh-RID-ee-ah. Common root across Romance languages.
 - **Domain**: `meridia.com` — **not verified — please confirm**. Meridia.land operates on `.land`; a pharma drug Meridia (sibutramine) was withdrawn 2010, so TM in Class 5 may be abandoned but needs verification. Potentially premium/acquirable.
 - **Trademark**: medium. Historical pharma mark (abandoned); agricultural SaaS (different class). Commerce class likely open.
-- **Personal verdict**: beautiful, globally resonant, but 7 letters and a tiny bit soft. Less "engineered" feel than Meridia. Strong #2.
+- **Personal verdict**: beautiful, globally resonant, but 7 letters and a tiny bit soft. Less "engineered" feel than Fulcra. Strong #2.
 
 ### 3.3 **Voro** — score 19/30
 
@@ -128,7 +128,7 @@ Ranked by composite score. Domain availability marked **not verified — please 
 - **Phonetic risk**: low. KEE-lo.
 - **Domain**: `quilo.com` — **not verified — please confirm**. Quilo Home (smart cooling) appears to use `quilohome.com` and Quilo fintech uses `quilo.ai`. `.com` possibly held.
 - **Trademark**: medium. Quilo (fintech lending) + Quilo (home cooling) — both live in different classes. Commerce ops class likely open but would co-exist.
-- **Personal verdict**: soft and modern; lacks the weight Meridia's infrastructure positioning calls for. Nice but not heroic.
+- **Personal verdict**: soft and modern; lacks the weight Fulcra's infrastructure positioning calls for. Nice but not heroic.
 
 ### 3.6 **Rialto** — score 17/30
 
@@ -170,16 +170,16 @@ Ranked by composite score. Domain availability marked **not verified — please 
 
 ## 4. Recommended top 3
 
-### 1. **Meridia** — top pick
-The metaphor is almost too perfect: Meridia is the pivot point that makes commerce scale possible. Latin root (matches your current Meridia origin instinct), 6 letters, no active Meridia in commerce, two adjacent Meridias in unrelated verticals. Strongest overall.
+### 1. **Fulcra** — top pick
+The metaphor is almost too perfect: Fulcra is the pivot point that makes commerce scale possible. Latin root (matches your current Fulcra origin instinct), 6 letters, no active Fulcra in commerce, two adjacent Fulcras in unrelated verticals. Strongest overall.
 
 ### 2. **Meridia**
-The most globally evocative. Every merchant, every currency, every region — one meridian. Softer than Meridia but resonant. Watch out for the abandoned pharma TM — needs clearance.
+The most globally evocative. Every merchant, every currency, every region — one meridian. Softer than Fulcra but resonant. Watch out for the abandoned pharma TM — needs clearance.
 
 ### 3. **Voro**
 The most Stripe-shelf of the three. 4 letters, Latin root, feels engineered. Weakest conceptual link to commerce (could be anything), but that's also a strength for future stretch.
 
-**Trade-off**: Meridia is the concept name. Voro is the brand name. Meridia is the poetic name. If Meridia ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Meridia is unbeatable.
+**Trade-off**: Fulcra is the concept name. Voro is the brand name. Meridia is the poetic name. If Fulcra ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Fulcra is unbeatable.
 
 ---
 
@@ -216,7 +216,7 @@ Where the `.com` appears to be parked, dormant, or held by a small/non-operating
 - **Postrail.com** — SERP shows only a DIY/fence context and a dormant UK Companies House entity. Low commercial use; potentially acquirable but name has weak brand equity.
 - **Meridia.com** — status unverified but Meridia.land prefers `.land`, suggesting `.com` is held but possibly acquirable (expensive).
 - **Navos.com** — Navos Technologies uses `.co.uk`, mental-health org likely on `.org`. `.com` status worth negotiating.
-- **Meridia.com** — both existing Meridias use `.net` and `fulcradynamics.com`, so `.com` is held by someone else — unknown party. Worth probing.
+- **Fulcra.com** — both existing Fulcras use `.net` and `fulcradynamics.com`, so `.com` is held by someone else — unknown party. Worth probing.
 
 All require direct WHOIS + domain-broker outreach to verify (this session could not run WebFetch).
 
@@ -239,7 +239,7 @@ All require direct WHOIS + domain-broker outreach to verify (this session could 
 1. Run each shortlisted name through Namecheap / GoDaddy for actual `.com` status and acquisition pricing.
 2. Run USPTO TESS for exact-match and phonetic-equivalent marks in Class 9 (downloadable software), Class 35 (business mgmt), Class 42 (SaaS).
 3. Run EUIPO TMView equivalent.
-4. WIPO global brand database for international collisions (especially Meridia, Meridia, Voro).
+4. WIPO global brand database for international collisions (especially Fulcra, Meridia, Voro).
 5. Brand-language checks: confirm no offensive meaning in Spanish, German, French, Mandarin, Japanese, Arabic, Portuguese. (Voro = "I devour" in Italian — borderline but positive in a commerce context.)
 6. Social handle check (@fulcra, @getfulcra, @meridia, @voro) on X, GitHub, LinkedIn.
 7. App Store / Play Store name check.
@@ -250,14 +250,14 @@ All require direct WHOIS + domain-broker outreach to verify (this session could 
 
 Sources: Firecrawl fetches of each candidate `.com` / `.io` / `.ai`, Firecrawl Google SERPs (`<name>` + `<name> commerce`), and Justia Trademarks (as USPTO aggregator). EUIPO TMView blocked automated access after 2 attempts — **EUIPO results could not be verified this run**. USPTO TESS direct also blocked — Justia used as the USPTO-sourced aggregator.
 
-### Meridia
-.com:    Active: **Meridia** (Enventys Partners, Charlotte NC) — crowdfunding campaign marketing agency. Adjacency: marketing services for ecommerce crowdfunding campaigns — **adjacent to commerce**.
-.io:     Active: **Meridia Dynamics** — personal-data / MCP server for AI context. Uses fulcra.ai + fulcra.io as redirects to fulcradynamics.com. AI/data-infra adjacency.
-.ai:     Active: **Meridia Dynamics** (same as .io).
-SERP:    (1) Fulcrum SaaS (ecommerce personalization, Shopify app) — collision in name-stem, (2) Fulcrum Digital (digital commerce consulting), (3) Meridia | Making Technology Work for You (fulcra.net IT services). Note: "Meridia SaaS" on Shopify app store. **Commerce-adjacent collisions present.**
-USPTO:   ~7 live FULCRA marks via Justia. Direct Class 42 hits: **FULCRA (serial 98727022)** filed 2024-09-03 by Meridia Dynamics Corp — "Software as a service for collecting, aggregating, and augmenting personal data." **FULCRA DYNAMICS (98207560)** filed 2023-10-03 — "Software design and development." **FULCRA (87408201)** Enventys Partners — crowdfunding financial services. Plus FULCRA Lincoln Group (PR/market research), FULCRA BREWING (beer), FULCRA Bouncing Brain (carts). **Multiple live marks in software/commerce-adjacent classes.**
+### Fulcra
+.com:    Active: **Fulcra** (Enventys Partners, Charlotte NC) — crowdfunding campaign marketing agency. Adjacency: marketing services for ecommerce crowdfunding campaigns — **adjacent to commerce**.
+.io:     Active: **Fulcra Dynamics** — personal-data / MCP server for AI context. Uses fulcra.ai + fulcra.io as redirects to fulcradynamics.com. AI/data-infra adjacency.
+.ai:     Active: **Fulcra Dynamics** (same as .io).
+SERP:    (1) Fulcrum SaaS (ecommerce personalization, Shopify app) — collision in name-stem, (2) Fulcrum Digital (digital commerce consulting), (3) Fulcra | Making Technology Work for You (fulcra.net IT services). Note: "Fulcra SaaS" on Shopify app store. **Commerce-adjacent collisions present.**
+USPTO:   ~7 live FULCRA marks via Justia. Direct Class 42 hits: **FULCRA (serial 98727022)** filed 2024-09-03 by Fulcra Dynamics Corp — "Software as a service for collecting, aggregating, and augmenting personal data." **FULCRA DYNAMICS (98207560)** filed 2023-10-03 — "Software design and development." **FULCRA (87408201)** Enventys Partners — crowdfunding financial services. Plus FULCRA Lincoln Group (PR/market research), FULCRA BREWING (beer), FULCRA Bouncing Brain (carts). **Multiple live marks in software/commerce-adjacent classes.**
 EUIPO:   Could not verify (TMView blocked).
-Verdict: **RED** — `.com/.io/.ai` all taken by active businesses; two TM holders (Meridia Dynamics in SaaS Class 42, Enventys in crowdfunding) block the core software class; no viable domain path without acquisition from multiple parties.
+Verdict: **RED** — `.com/.io/.ai` all taken by active businesses; two TM holders (Fulcra Dynamics in SaaS Class 42, Enventys in crowdfunding) block the core software class; no viable domain path without acquisition from multiple parties.
 
 ### Meridia
 .com:    **Available** — DNS resolution failed (NXDOMAIN on meridia.com per Firecrawl).
@@ -326,9 +326,9 @@ Verdict: **RED** — `sellgrid.io` is a live pre-launch direct-competitor commer
 
 ## Summary
 
-Of the eight, **Meridia is the only GREEN** — `.com` appears genuinely available (NXDOMAIN), no direct commerce-SaaS trademark collision, closest SaaS namesake (meridia.co) is a UK consulting tool in a different vertical. **Voro and Quilo are YELLOW** — both have workable paths (`voro.io` available; `quilo.com` acquirable from broker) but carry real TM + SERP friction. **Meridia, Navos, Rialto, Orbix, Sellgrid are all RED** — blocked either by active direct-competitor domains, multiple live software-class trademarks, or both.
+Of the eight, **Meridia is the only GREEN** — `.com` appears genuinely available (NXDOMAIN), no direct commerce-SaaS trademark collision, closest SaaS namesake (meridia.co) is a UK consulting tool in a different vertical. **Voro and Quilo are YELLOW** — both have workable paths (`voro.io` available; `quilo.com` acquirable from broker) but carry real TM + SERP friction. **Fulcra, Navos, Rialto, Orbix, Sellgrid are all RED** — blocked either by active direct-competitor domains, multiple live software-class trademarks, or both.
 
-**Meridia verdict: RED.** The name is blocked on all three primary TLDs (`.com` Enventys crowdfunding, `.io`/`.ai` Meridia Dynamics personal-data MCP platform) and has multiple live USPTO software-class trademarks including a pending Meridia Dynamics SaaS mark (98727022) filed September 2024 covering personal-data SaaS — the closest thing to the target category. The metaphor is exact, but the name is not ownable without acquiring the Meridia Dynamics mark + `.com` from Enventys. Recommend switching the tentative pick to **Meridia** as the only GREEN-path option, with **Voro (.io)** as the fallback if a shorter 4-letter name is preferred.
+**Fulcra verdict: RED.** The name is blocked on all three primary TLDs (`.com` Enventys crowdfunding, `.io`/`.ai` Fulcra Dynamics personal-data MCP platform) and has multiple live USPTO software-class trademarks including a pending Fulcra Dynamics SaaS mark (98727022) filed September 2024 covering personal-data SaaS — the closest thing to the target category. The metaphor is exact, but the name is not ownable without acquiring the Fulcra Dynamics mark + `.com` from Enventys. Recommend switching the tentative pick to **Meridia** as the only GREEN-path option, with **Voro (.io)** as the fallback if a shorter 4-letter name is preferred.
 
 ### What could NOT be verified this run
 - EUIPO TMView — blocked automated access after 2 attempts (all 8 names).
