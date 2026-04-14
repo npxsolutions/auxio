@@ -27,13 +27,15 @@ const LIMITS: Record<ChannelKey, { capacity: number; windowSeconds: number }> = 
   // Walmart Marketplace: ~100/min documented ceiling. 90/60s gives burst tolerance
   // while staying safely under the ceiling for the correlation-id per-request model.
   walmart:     { capacity: 90, windowSeconds: 60 },
-  facebook:    { capacity: 2, windowSeconds: 1 },
+  // Facebook Commerce Catalog: ~200/hr per catalog ceiling. 180/hr leaves safe headroom.
+  facebook:    { capacity: 180, windowSeconds: 3600 },
   // TikTok Shop Partner: ~10 req/s typical ceiling per shop.
   tiktok:      { capacity: 10, windowSeconds: 1 },
   // OnBuy: ~60/min ceiling. 50/60s allows bursts on paginated listings/orders
   // without tripping the per-minute cap.
   onbuy:       { capacity: 50, windowSeconds: 60 },
-  google:      { capacity: 5, windowSeconds: 1 },
+  // Google Content API for Shopping: 60 QPS per project, scoped per merchant.
+  google:      { capacity: 60, windowSeconds: 1 },
   // Conservative — WooCommerce has no hard global limit; host-dependent.
   woocommerce: { capacity: 20, windowSeconds: 60 },
   // BigCommerce: 450/hr safety ceiling -> ~7 / 60s.

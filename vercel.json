@@ -12,6 +12,8 @@
     { "path": "/api/sync/walmart/orders",    "schedule": "*/15 * * * *" },
     { "path": "/api/sync/walmart/listings",  "schedule": "0 * * * *" },
     { "path": "/api/sync/onbuy/orders",      "schedule": "*/30 * * * *" },
-    { "path": "/api/sync/onbuy/listings",    "schedule": "0 * * * *" }
+    { "path": "/api/sync/onbuy/listings",    "schedule": "0 * * * *" },
+    { "path": "/api/sync/facebook/products", "schedule": "0 * * * *" },
+    { "path": "/api/sync/google/products",   "schedule": "0 * * * *" }
   ]
 }
