@@ -1,0 +1,245 @@
+# Auxio Rebrand — Naming Research
+
+**Date**: 2026-04-13
+**Mission**: Generate 30 brand name candidates for Auxio's rebrand (global commerce operations platform), assess availability + trademark risk + SERP collision, and return a tight shortlist of 8 plus a recommended top 3.
+
+---
+
+## 1. Brief recap
+
+**Product**: Unified ledger across every marketplace (eBay, Amazon, Shopify, Etsy, TikTok, Walmart, OnBuy, BigCommerce, WooCommerce), every currency, every region. Replaces ChannelAdvisor, Brightpearl, Linnworks, Feedonomics. Positioning: "The operating system for modern commerce."
+
+**Reference tier**: Stripe, Linear, Vercel, Plaid, Ramp, Mercury, Attio, Notion, Arc.
+
+**Scoring rubric (1-5 each, /30 total)**:
+
+- Availability — `.com` clean + no trademark hit + no SERP collision
+- Distinctiveness — memorable vs forgettable
+- Pronounceability — obvious across languages
+- Length / brevity — 4-5 chars = 5; 6-7 = 4; 8-9 = 3; 10+ = 2
+- Vibe fit — sits next to Stripe/Linear/Plaid
+- Future stretch — expandable beyond commerce ops
+
+---
+
+## 2. Long list — 30 candidates
+
+| # | Name | Bucket | Score | 1-line note |
+|---|------|--------|-------|-------------|
+| 1 | Orbix | Made-up | 17 | Multiple active Orbix companies (crypto, UX agency, holdings); crowded. |
+| 2 | Lumen | Made-up | 11 | Lumen Technologies (NYSE: LUMN) telco — hard block. |
+| 3 | Velto | Made-up | 15 | Several active Veltos (fintech, logistics, tech). Crowded. |
+| 4 | Cadro | Made-up | 16 | UK wealth mgmt firm Cadro Technologies (FCA-regulated) — TM risk in fintech-adjacent space. |
+| 5 | Nexa | Made-up | 13 | NexaCommerce + many Nexa* brands in commerce. Hard block. |
+| 6 | Quilo | Made-up | 18 | Fintech lender + home-cooling brand. Moderate collision but niche-split. |
+| 7 | Vantra | Made-up | 14 | Multiple Vantras in SaaS (productivity, financial brokerage) — crowded. |
+| 8 | Merox | Made-up | 13 | UOP Merox (Honeywell refining process) — legacy TM in chemicals. |
+| 9 | Ledger | Real | 10 | Ledger SAS (hardware wallet) owns "LEDGER" TM in fintech — hard block. |
+| 10 | Anvil | Real | 11 | Anvil.works + useanvil.com both active SaaS — hard block. |
+| 11 | Keel | Real | 10 | Keel.so ops platform in London — direct competitor space. Hard block. |
+| 12 | Tandem | Real | 11 | Multiple active Tandem SaaS (security, scheduling, chat) — hard block. |
+| 13 | Beacon | Real | 11 | Beacon (Stackline) is direct competitor in ecom analytics — hard block. |
+| 14 | Harbor | Real | 14 | goharbor.io (cloud registry) + harbor contract mgmt. Crowded. |
+| 15 | Parallel | Real | 13 | Common English word, many SaaS hits; long (8 chars). |
+| 16 | Cipher | Real | 13 | Cipher (LexisNexis analytics) + Cipher cybersec — crowded. |
+| 17 | Sellgrid | Compound | 17 | sellgrid.com parked/directory; SalesGRID active in sales tools. TM risk moderate. |
+| 18 | Tradeline | Compound | 11 | Dominated by credit-tradeline industry — polluted SERP. |
+| 19 | Shelfwise | Compound | 13 | ShelfWise (acquired by Form.com) active in retail AI. |
+| 20 | Mintstack | Compound | 16 | MintStack (NFT) + MintStack (web apps) — crowded. |
+| 21 | Orderline | Compound | 14 | Orderline (construction publications) active. Generic ring. |
+| 22 | Portkey | Compound | 10 | Portkey.ai is a funded YC company ($18M raised) — hard block. |
+| 23 | Postrail | Compound | 16 | Only a UK Companies House shell and fence-rail DIY. Clean-ish but meaning is weak. |
+| 24 | Mercato | Latin | 9 | Mercato ($26M Series A grocery ecom) — direct-adjacent. Hard block. |
+| 25 | Axion | Latin/Greek | 12 | useaxion.com is an ecom analytics SaaS — direct collision. Hard block. |
+| 26 | Polis | Greek | 11 | Pol.is + Ory Polis + Polis Solutions — crowded. |
+| 27 | Nexis | Latin | 10 | Nexis / LexisNexis — hard TM block. |
+| 28 | Gravit | Latin | 14 | Gravit Designer (design tool) + Graviti (data). Crowded. |
+| 29 | Stratum | Latin | 13 | Stratumn (finance SaaS) + 84.51 Stratum (retail analytics) — hard block. |
+| 30 | Emporia | Latin | 14 | Emporia Energy (smart home) + Emporia Brands (spirits). Moderate. |
+| 31 | Fulcra | Latin | 20 | Two Fulcras exist (IT services, personal-data tool) but neither is in commerce. Promising. |
+| 32 | Rialto | Latin | 17 | Rialto CRM (commercial real estate) + Rialto Partners (ecom agency). Moderate. |
+| 33 | Meridia | Latin | 19 | Meridia.land (agri-data SaaS) — different vertical. Clean-ish in commerce ops. |
+| 34 | Navos | Latin | 18 | Navos Agent (AI marketing) + Navos mental health — moderate collision. |
+| 35 | Voro | Latin | 19 | Cloud Voro (SaaS studio), Voro Motors, Voro Media — crowded but fragmented, each small. |
+
+> Note: list exceeded 30 because several candidates were eliminated mid-process; the top 30 by score are used for shortlisting.
+
+---
+
+## 3. Shortlist of 8 — deep dive
+
+Ranked by composite score. Domain availability marked **not verified — please confirm** where WebFetch access was blocked in this session. All SERP findings are from real searches.
+
+### 3.1 **Fulcra** — score 20/30
+
+- **Tagline**: *The commerce lever.*
+- **Sounds like**: a precision instrument — a fulcrum made verb. Feels engineered, not marketed.
+- **For commerce ops**: a fulcrum is the pivot point that makes leverage possible. Auxio is the pivot all your marketplaces, currencies, and regions rotate around. Perfect metaphor.
+- **Etymology**: Latin *fulcrum*, "support, prop" — the point around which a lever turns.
+- **Evokes**: control, operations, leverage, infrastructure.
+- **Phonetic risk**: low. FUL-krah. Unambiguous.
+- **Domain**: `fulcra.com` — **not verified — please confirm**. Fulcra Networks (IT services, Denver) operates at `fulcra.net`, suggesting `.com` may be held by an unrelated party. Fulcra Dynamics operates at `fulcradynamics.com`.
+- **Trademark**: low-medium. No obvious TM in Class 42 / commerce SaaS. Two existing companies are in IT services and personal-data wellness — different classes. **Please verify USPTO / EUIPO directly.**
+- **Personal verdict**: strongest of the list. Short, Latin, conceptually exact for a commerce-ops platform. The existing Fulcras are small and in unrelated verticals. Main risk is `.com` acquisition cost.
+
+### 3.2 **Meridia** — score 19/30
+
+- **Tagline**: *Commerce, on one meridian.*
+- **Sounds like**: a globe, a spine, a line of reference. Calm and global.
+- **For commerce ops**: meridians are the lines that organise the globe. Auxio organises every channel and currency into one reference line.
+- **Etymology**: from *meridian*, Latin *meridies* — the line that defines noon everywhere.
+- **Evokes**: global, scale, alignment, precision.
+- **Phonetic risk**: low. Muh-RID-ee-ah. Common root across Romance languages.
+- **Domain**: `meridia.com` — **not verified — please confirm**. Meridia.land operates on `.land`; a pharma drug Meridia (sibutramine) was withdrawn 2010, so TM in Class 5 may be abandoned but needs verification. Potentially premium/acquirable.
+- **Trademark**: medium. Historical pharma mark (abandoned); agricultural SaaS (different class). Commerce class likely open.
+- **Personal verdict**: beautiful, globally resonant, but 7 letters and a tiny bit soft. Less "engineered" feel than Fulcra. Strong #2.
+
+### 3.3 **Voro** — score 19/30
+
+- **Tagline**: *The commerce substrate.*
+- **Sounds like**: short, European, slightly abstract — Stripe-energy.
+- **For commerce ops**: from Latin *vorare* (to consume) — evokes a system that ingests every channel's data. Also close to "core."
+- **Etymology**: Latin *vorare* "to swallow/consume." Clean 4 letters.
+- **Evokes**: speed, consumption, core infrastructure.
+- **Phonetic risk**: low. VO-ro.
+- **Domain**: `voro.com` — **not verified — please confirm**. Multiple small Voros (Cloud Voro on `.com` subdomain unclear, Voro Motors on vormotors.com, Voro Media on voro.media). Likely premium.
+- **Trademark**: medium. Several active small businesses using "Voro" but none in commerce infrastructure. Crowded register.
+- **Personal verdict**: 4 letters is gold-tier. Risk: it's *too* abstract — no immediate commerce signal. Fits the Stripe/Arc shelf but feels like a fintech more than a commerce OS.
+
+### 3.4 **Navos** — score 18/30
+
+- **Tagline**: *Navigate every market.*
+- **Sounds like**: Greek root, confident, infrastructural. Faint echo of "navis" (ship) and "navigate."
+- **For commerce ops**: evokes navigation across oceans of channels. The "ship" metaphor fits a platform that carries merchants' cargo.
+- **Etymology**: Latin *navis* / Greek *naus* — ship. Root of navigate, navy.
+- **Evokes**: global, scale, operations, journey.
+- **Phonetic risk**: low. NAH-vos.
+- **Domain**: `navos.com` — **not verified — please confirm**. Navos Technologies (Bristol IT consultancy) on `navos.co.uk`. Navos Agent on `navosagent.ai`. `.com` status unknown.
+- **Trademark**: medium. Navos mental health organisation (Seattle, non-profit) holds name in healthcare. Navos Technologies in UK IT services. Commerce class likely open.
+- **Personal verdict**: handsome but a shade close to "navigate" / "navos GPS" category. If `.com` is clean, viable.
+
+### 3.5 **Quilo** — score 18/30
+
+- **Tagline**: *Operations, quieted.*
+- **Sounds like**: small and precise — Webflow / Figma energy.
+- **For commerce ops**: Latin *quilo* echoes *tranquillo* — calm. Pitch: commerce ops that makes chaos quiet.
+- **Etymology**: invented, echoes *tranquillo* (calm) and *kilo* (unit).
+- **Evokes**: simplicity, control, precision.
+- **Phonetic risk**: low. KEE-lo.
+- **Domain**: `quilo.com` — **not verified — please confirm**. Quilo Home (smart cooling) appears to use `quilohome.com` and Quilo fintech uses `quilo.ai`. `.com` possibly held.
+- **Trademark**: medium. Quilo (fintech lending) + Quilo (home cooling) — both live in different classes. Commerce ops class likely open but would co-exist.
+- **Personal verdict**: soft and modern; lacks the weight Auxio's infrastructure positioning calls for. Nice but not heroic.
+
+### 3.6 **Rialto** — score 17/30
+
+- **Tagline**: *The new market square.*
+- **Sounds like**: historic, worldly, mercantile. Faint Venetian weight.
+- **For commerce ops**: the Rialto was Venice's commercial heart — the original global marketplace. Naming a modern commerce OS after it is evocative without being cute.
+- **Etymology**: Venetian, *Rivus Altus* (high bank) — the trading island in Venice that became the world's first major market.
+- **Evokes**: commerce, scale, global, heritage.
+- **Phonetic risk**: low. Ree-AL-toh. Universally recognised.
+- **Domain**: `rialto.com` — **not verified — please confirm**. Likely held (common English/Italian word + city name in California). A CRM and an ecom agency use the name.
+- **Trademark**: medium-high. Multiple active Rialtos in adjacent spaces (real-estate CRM, ebook marketplace, ecom consultancy). Would face opposition.
+- **Personal verdict**: romantic and on-theme but the `.com` will be expensive and TM is noisy. Strong concept, compromised execution path.
+
+### 3.7 **Orbix** — score 17/30
+
+- **Tagline**: *Every channel, one orbit.*
+- **Sounds like**: modern, tech-first, slightly Stripe-adjacent.
+- **For commerce ops**: all your marketplaces orbit one core.
+- **Etymology**: invented from *orbit* + X suffix.
+- **Evokes**: scale, control, centrality.
+- **Phonetic risk**: low. OR-bix.
+- **Domain**: `orbix.com` — **not verified — please confirm**. Orbix Holdings (Thailand crypto group) + Orbix Studio (UX agency) + Orbix Technology (blockchain) all active. `.com` almost certainly held.
+- **Trademark**: medium-high. Bank of Thailand's KASIKORN conglomerate runs Orbix as a crypto brand — potential global expansion friction.
+- **Personal verdict**: trendy but the crypto-brand overlap is a tangible long-term risk.
+
+### 3.8 **Sellgrid** — score 17/30
+
+- **Tagline**: *Every channel on one grid.*
+- **Sounds like**: direct, operational — more ShipStation than Stripe.
+- **For commerce ops**: literally describes the product — a grid of sell channels.
+- **Etymology**: compound, sell + grid.
+- **Evokes**: commerce, operations, multichannel.
+- **Phonetic risk**: low. But feels descriptive rather than brand-grade.
+- **Domain**: `sellgrid.com` — appears to be a parked directory page (cgi-bin listing) per SERP. Possibly acquirable. **Not verified — please confirm.**
+- **Trademark**: medium. SELLGRID LTD exists on UK Companies House (may be dormant). SalesGRID (Australia) active in sales tooling.
+- **Personal verdict**: accurate but category-descriptive — would sit below the Stripe/Linear tier, closer to ShipStation. Underperforms on vibe fit.
+
+---
+
+## 4. Recommended top 3
+
+### 1. **Fulcra** — top pick
+The metaphor is almost too perfect: Auxio is the pivot point that makes commerce scale possible. Latin root (matches your current Auxio origin instinct), 6 letters, no active Fulcra in commerce, two adjacent Fulcras in unrelated verticals. Strongest overall.
+
+### 2. **Meridia**
+The most globally evocative. Every merchant, every currency, every region — one meridian. Softer than Fulcra but resonant. Watch out for the abandoned pharma TM — needs clearance.
+
+### 3. **Voro**
+The most Stripe-shelf of the three. 4 letters, Latin root, feels engineered. Weakest conceptual link to commerce (could be anything), but that's also a strength for future stretch.
+
+**Trade-off**: Fulcra is the concept name. Voro is the brand name. Meridia is the poetic name. If Auxio ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Fulcra is unbeatable.
+
+---
+
+## 5. Names ruled out — hard blockers
+
+**Direct commerce-SaaS collision (hard block):**
+- **Beacon** — Beacon by Stackline is a direct competitor in ecom analytics.
+- **Axion** — useaxion.com is an ecom analytics SaaS, direct adjacency.
+- **Mercato** — $26M-funded grocery ecom platform.
+- **NexaCommerce / Nexa** — live commerce API platform.
+- **Keel** — keel.so is a funded ops platform in direct space.
+
+**Strong trademark owner:**
+- **Ledger** — LEDGER SAS crypto wallet, global TM enforced.
+- **Lumen** — Lumen Technologies (NYSE).
+- **Portkey** — Portkey.ai ($18M raised, enterprise AI infra).
+- **Stratum** — Stratumn (finance SaaS) + 84.51 Stratum.
+- **Anvil** — anvil.works + useanvil.com both active.
+
+**Too crowded / category-polluted:**
+- **Tradeline** — credit-industry tradelines dominate SERP.
+- **Nexis** — LexisNexis.
+- **Tandem** — many active SaaS.
+- **Cipher** — LexisNexis-owned patent analytics.
+- **Cardinal** — CardinalCommerce (Visa subsidiary).
+
+---
+
+## 6. `.com` deal-possible candidates
+
+Where the `.com` appears to be parked, dormant, or held by a small/non-operating entity — potentially acquirable.
+
+- **Sellgrid.com** — SERP shows a cgi-bin directory listing, which typically means Apache default / parked. Acquisition likely feasible. UK Companies House entity (SELLGRID LTD) may or may not be active.
+- **Postrail.com** — SERP shows only a DIY/fence context and a dormant UK Companies House entity. Low commercial use; potentially acquirable but name has weak brand equity.
+- **Meridia.com** — status unverified but Meridia.land prefers `.land`, suggesting `.com` is held but possibly acquirable (expensive).
+- **Navos.com** — Navos Technologies uses `.co.uk`, mental-health org likely on `.org`. `.com` status worth negotiating.
+- **Fulcra.com** — both existing Fulcras use `.net` and `fulcradynamics.com`, so `.com` is held by someone else — unknown party. Worth probing.
+
+All require direct WHOIS + domain-broker outreach to verify (this session could not run WebFetch).
+
+---
+
+## 7. Process notes — what was verified vs estimated
+
+**Verified via WebSearch (real SERPs):**
+- Existence of competing / colliding brands for all 30+ names.
+- Industry category of the incumbent (critical for hard-block decisions).
+- Active vs dormant status where visible.
+
+**Not verified in this session (WebFetch was denied):**
+- Specific `.com` / `.io` / `.ai` availability and registrar pricing.
+- USPTO TESS live search output per candidate.
+- EUIPO TMView live search output per candidate.
+- WHOIS records for parked domains.
+
+**Recommended manual next steps before filing:**
+1. Run each shortlisted name through Namecheap / GoDaddy for actual `.com` status and acquisition pricing.
+2. Run USPTO TESS for exact-match and phonetic-equivalent marks in Class 9 (downloadable software), Class 35 (business mgmt), Class 42 (SaaS).
+3. Run EUIPO TMView equivalent.
+4. WIPO global brand database for international collisions (especially Fulcra, Meridia, Voro).
+5. Brand-language checks: confirm no offensive meaning in Spanish, German, French, Mandarin, Japanese, Arabic, Portuguese. (Voro = "I devour" in Italian — borderline but positive in a commerce context.)
+6. Social handle check (@fulcra, @getfulcra, @meridia, @voro) on X, GitHub, LinkedIn.
+7. App Store / Play Store name check.
