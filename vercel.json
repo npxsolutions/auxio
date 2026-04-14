@@ -16,6 +16,8 @@
     { "path": "/api/sync/facebook/products", "schedule": "0 * * * *" },
     { "path": "/api/sync/google/products",   "schedule": "0 * * * *" },
     { "path": "/api/sync/social-intel",      "schedule": "*/15 * * * *" },
-    { "path": "/api/cron/email-lifecycle",   "schedule": "0 9 * * *" }
+    { "path": "/api/cron/email-lifecycle",   "schedule": "0 9 * * *" },
+    { "path": "/api/cron/aggregations/listings",      "schedule": "0 3 * * *" },
+    { "path": "/api/cron/aggregations/metrics-daily", "schedule": "15 3 * * *" }
   ]
 }
