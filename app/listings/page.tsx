@@ -27,6 +27,23 @@ type Listing = {
   brand?: string
   created_at: string
   listing_channels: ChannelStatus[]
+  // v2 columns (listings_table_v2 migration)
+  margin_pct?: number | null
+  sold_30d?: number | null
+  sell_through_30d?: number | null
+  days_of_cover?: number | null
+  channel_count?: number | null
+  primary_channel?: string | null
+  last_sync_at?: string | null
+  sync_errors_count?: number | null
+  image_count?: number | null
+  msrp?: number | null
+  min_price?: number | null
+  max_price?: number | null
+  competitor_price?: number | null
+  tags?: string[] | null
+  parent_listing_id?: string | null
+  is_bundle?: boolean | null
 }
 
 type DensityMode = 'compact' | 'comfortable' | 'spacious'
@@ -54,6 +71,13 @@ type FilterState = {
   hasErrors: boolean
   health: string
   search: string
+  // v2 quick-filter chips
+  missingImage: boolean
+  lowStock: boolean
+  lowMargin: boolean
+  syncError: boolean
+  isBundle: boolean
+  isVariant: boolean
 }
 
 type SavedView = {
@@ -69,9 +93,18 @@ type BulkEditField = 'price' | 'quantity' | 'condition' | 'brand' | 'category' |
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ALL_COLUMNS = ['image', 'sku', 'price', 'stock', 'condition', 'brand', 'category', 'channels', 'status', 'created', 'performance', 'velocity', 'revenue_30d', 'margin', 'supply', 'trend']
+const ALL_COLUMNS = [
+  'image', 'sku', 'price', 'stock', 'condition', 'brand', 'category', 'channels', 'status', 'created',
+  'performance', 'velocity', 'revenue_30d', 'margin', 'supply', 'trend',
+  // v2 columns
+  'margin_pct', 'sold_30d', 'primary_channel', 'channel_count', 'last_sync_at', 'tags', 'msrp',
+  'competitor_price', 'days_of_cover',
+]
 
-const DEFAULT_COLUMNS = ['image', 'sku', 'price', 'stock', 'channels', 'status', 'performance', 'velocity', 'trend']
+const DEFAULT_COLUMNS = [
+  'sku', 'primary_channel', 'channel_count', 'stock', 'price', 'margin_pct', 'sold_30d', 'last_sync_at', 'status',
+  'image', 'trend',
+]
 
 const COLUMN_LABELS: Record<string, string> = {
   image:       'Image',
@@ -90,6 +123,16 @@ const COLUMN_LABELS: Record<string, string> = {
   margin:      'Margin',
   supply:      'Days Supply',
   trend:       'Sales Trend',
+  // v2
+  margin_pct:       'Margin %',
+  sold_30d:         'Sold (30d)',
+  primary_channel:  'Primary channel',
+  channel_count:    '# Channels',
+  last_sync_at:     'Last sync',
+  tags:             'Tags',
+  msrp:             'MSRP',
+  competitor_price: 'Competitor £',
+  days_of_cover:    'Cover (d)',
 }
 
 const DENSITY_ROW_HEIGHT: Record<DensityMode, number> = {
@@ -131,6 +174,12 @@ const DEFAULT_FILTERS: FilterState = {
   hasErrors: false,
   health: 'all',
   search: '',
+  missingImage: false,
+  lowStock: false,
+  lowMargin: false,
+  syncError: false,
+  isBundle: false,
+  isVariant: false,
 }
 
 const DEFAULT_VIEWS: SavedView[] = [
@@ -515,6 +564,12 @@ export default function ListingsPage() {
     if (filters.priceMax) chips.push({ label: `Max price: £${filters.priceMax}`, key: 'priceMax' })
     if (filters.hasErrors) chips.push({ label: 'Has errors', key: 'hasErrors' })
     if (filters.health === 'incomplete') chips.push({ label: 'Not published', key: 'health' })
+    if (filters.missingImage) chips.push({ label: 'Missing image', key: 'missingImage' })
+    if (filters.lowStock)     chips.push({ label: 'Low stock (<5)', key: 'lowStock' })
+    if (filters.lowMargin)    chips.push({ label: 'Low margin (<10%)', key: 'lowMargin' })
+    if (filters.syncError)    chips.push({ label: 'Sync error', key: 'syncError' })
+    if (filters.isBundle)     chips.push({ label: 'Bundle', key: 'isBundle' })
+    if (filters.isVariant)    chips.push({ label: 'Variant', key: 'isVariant' })
     return chips
   }, [filters])
 
@@ -529,6 +584,12 @@ export default function ListingsPage() {
     if (filters.priceMax) out = out.filter(l => l.price <= parseFloat(filters.priceMax))
     if (filters.hasErrors) out = out.filter(l => l.listing_channels?.some(lc => lc.error_message))
     if (filters.health === 'incomplete') out = out.filter(l => !l.listing_channels?.some(lc => lc.status === 'published'))
+    if (filters.missingImage) out = out.filter(l => !(l.images && l.images.length > 0))
+    if (filters.lowStock)     out = out.filter(l => (l.quantity ?? 0) < 5)
+    if (filters.lowMargin)    out = out.filter(l => l.margin_pct != null && Number(l.margin_pct) < 10)
+    if (filters.syncError)    out = out.filter(l => (l.sync_errors_count ?? 0) > 0 || l.listing_channels?.some(lc => lc.error_message))
+    if (filters.isBundle)     out = out.filter(l => !!l.is_bundle)
+    if (filters.isVariant)    out = out.filter(l => !!l.parent_listing_id)
     if (filters.search.trim()) {
       const q = filters.search.toLowerCase()
       out = out.filter(l =>
@@ -761,6 +822,15 @@ export default function ListingsPage() {
     if (visibleColumns.includes('margin'))      parts.push('80px')
     if (visibleColumns.includes('supply'))      parts.push('90px')
     if (visibleColumns.includes('trend'))       parts.push('70px')
+    if (visibleColumns.includes('margin_pct'))       parts.push('80px')
+    if (visibleColumns.includes('sold_30d'))         parts.push('80px')
+    if (visibleColumns.includes('primary_channel'))  parts.push('110px')
+    if (visibleColumns.includes('channel_count'))    parts.push('70px')
+    if (visibleColumns.includes('last_sync_at'))     parts.push('110px')
+    if (visibleColumns.includes('tags'))             parts.push('140px')
+    if (visibleColumns.includes('msrp'))             parts.push('80px')
+    if (visibleColumns.includes('competitor_price')) parts.push('90px')
+    if (visibleColumns.includes('days_of_cover'))    parts.push('80px')
     return parts.join(' ')
   }
 
@@ -1120,6 +1190,39 @@ export default function ListingsPage() {
             </div>
           </div>
 
+          {/* ── Quick filter chips (v2) ── */}
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '10px' }}>
+            {([
+              { key: 'missingImage', label: 'Missing image' },
+              { key: 'lowStock',     label: 'Low stock' },
+              { key: 'lowMargin',    label: 'Low margin' },
+              { key: 'syncError',    label: 'Sync error' },
+              { key: 'isBundle',     label: 'Bundle' },
+              { key: 'isVariant',    label: 'Variant' },
+            ] as { key: keyof FilterState; label: string }[]).map(chip => {
+              const on = Boolean(filters[chip.key])
+              return (
+                <button
+                  key={chip.key as string}
+                  onClick={() => updateFilter(chip.key, !on)}
+                  style={{
+                    padding: '4px 11px',
+                    fontSize: '12px',
+                    border: `1px solid ${on ? '#191919' : '#e8e8e5'}`,
+                    borderRadius: '20px',
+                    background: on ? '#191919' : 'white',
+                    color: on ? 'white' : '#787774',
+                    cursor: 'pointer',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 500,
+                  }}
+                >
+                  {chip.label}
+                </button>
+              )
+            })}
+          </div>
+
           {/* ── Active filter chips ── */}
           {activeFilterChips.length > 0 && (
             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '10px' }}>
@@ -1142,7 +1245,8 @@ export default function ListingsPage() {
                   {chip.label}
                   <button
                     onClick={() => {
-                      if (chip.key === 'hasErrors') updateFilter('hasErrors', false)
+                      const boolKeys: (keyof FilterState)[] = ['hasErrors', 'missingImage', 'lowStock', 'lowMargin', 'syncError', 'isBundle', 'isVariant']
+                      if (boolKeys.includes(chip.key)) updateFilter(chip.key, false)
                       else if (chip.key === 'health') updateFilter('health', 'all')
                       else updateFilter(chip.key, chip.key === 'status' || chip.key === 'channel' ? 'all' : '')
                     }}
@@ -1316,6 +1420,15 @@ export default function ListingsPage() {
                 {visibleColumns.includes('margin')      && <HeaderCell label="Margin"         field="margin_30d"     sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('supply')      && <HeaderCell label="Days Supply"    field="days_supply"    sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('trend')       && <HeaderCell label="Trend (7d)"     field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('margin_pct')      && <HeaderCell label="Margin %"       field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('sold_30d')        && <HeaderCell label="Sold (30d)"     field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('primary_channel') && <HeaderCell label="Primary"        field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('channel_count')   && <HeaderCell label="# Ch"           field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('last_sync_at')    && <HeaderCell label="Last sync"      field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('tags')            && <HeaderCell label="Tags"           field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('msrp')            && <HeaderCell label="MSRP"           field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('competitor_price')&& <HeaderCell label="Competitor"     field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('days_of_cover')   && <HeaderCell label="Cover (d)"      field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
               </div>
 
               {/* Rows */}
@@ -1494,6 +1607,55 @@ export default function ListingsPage() {
                         </>
                       )
                     })()}
+
+                    {/* ── v2 columns ── */}
+                    {visibleColumns.includes('margin_pct') && (
+                      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
+                        color: listing.margin_pct != null ? (Number(listing.margin_pct) >= 20 ? '#059669' : Number(listing.margin_pct) >= 10 ? '#d97706' : '#dc2626') : '#9b9b98' }}>
+                        {listing.margin_pct != null ? `${Number(listing.margin_pct).toFixed(1)}%` : '—'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('sold_30d') && (
+                      <div style={{ fontSize: 12, fontWeight: 600, color: '#191919', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                        {listing.sold_30d ?? 0}
+                      </div>
+                    )}
+                    {visibleColumns.includes('primary_channel') && (
+                      <div style={{ fontSize: 12, color: '#787774', whiteSpace: 'nowrap' }}>
+                        {listing.primary_channel ? (CHANNEL_LABELS[listing.primary_channel] || listing.primary_channel) : '—'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('channel_count') && (
+                      <div style={{ fontSize: 12, fontWeight: 600, color: '#191919', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                        {listing.channel_count ?? 0}
+                      </div>
+                    )}
+                    {visibleColumns.includes('last_sync_at') && (
+                      <div style={{ fontSize: 11, color: '#9b9b98', whiteSpace: 'nowrap' }}>
+                        {listing.last_sync_at ? fmtDate(listing.last_sync_at) : '—'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('tags') && (
+                      <div style={{ fontSize: 11, color: '#787774', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.tags && listing.tags.length > 0 ? listing.tags.slice(0, 3).join(', ') + (listing.tags.length > 3 ? ` +${listing.tags.length - 3}` : '') : '—'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('msrp') && (
+                      <div style={{ fontSize: 12, color: '#787774', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                        {listing.msrp != null ? `£${Number(listing.msrp).toFixed(2)}` : '—'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('competitor_price') && (
+                      <div style={{ fontSize: 12, color: '#787774', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                        {listing.competitor_price != null ? `£${Number(listing.competitor_price).toFixed(2)}` : '—'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('days_of_cover') && (
+                      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
+                        color: listing.days_of_cover != null ? (listing.days_of_cover < 7 ? '#dc2626' : listing.days_of_cover < 21 ? '#d97706' : '#059669') : '#9b9b98' }}>
+                        {listing.days_of_cover != null ? `${listing.days_of_cover}d` : '—'}
+                      </div>
+                    )}
                   </div>
                 )
               })}
