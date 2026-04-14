@@ -22,10 +22,12 @@ const LIMITS: Record<ChannelKey, { capacity: number; windowSeconds: number }> = 
   shopify:     { capacity: 2, windowSeconds: 1 },
   ebay:        { capacity: 3, windowSeconds: 2 }, // 1.5 rps
   amazon:      { capacity: 1, windowSeconds: 1 },
-  etsy:        { capacity: 5, windowSeconds: 1 },
+  // Etsy Open API v3: 10 req/s per app + 10 000 req/day.
+  etsy:        { capacity: 10, windowSeconds: 1 },
   walmart:     { capacity: 2, windowSeconds: 1 },
   facebook:    { capacity: 2, windowSeconds: 1 },
-  tiktok:      { capacity: 2, windowSeconds: 1 },
+  // TikTok Shop Partner: ~10 req/s typical ceiling per shop.
+  tiktok:      { capacity: 10, windowSeconds: 1 },
   onbuy:       { capacity: 1, windowSeconds: 1 },
   google:      { capacity: 5, windowSeconds: 1 },
   // Conservative — WooCommerce has no hard global limit; host-dependent.
