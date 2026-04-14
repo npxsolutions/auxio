@@ -95,7 +95,7 @@ export default function LoginPage() {
               fontWeight: 800,
               letterSpacing: '-0.02em',
             }}>A</div>
-            <span style={{ fontSize: 18, fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>Fulcra</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>Meridia</span>
           </div>
 
           {/* Headline */}
@@ -178,7 +178,7 @@ export default function LoginPage() {
             Welcome back
           </h1>
           <p style={{ fontSize: 14, color: '#6b6e87', marginBottom: 32 }}>
-            Sign in to your Fulcra account
+            Sign in to your Meridia account
           </p>
 
           <form onSubmit={handleLogin}>
@@ -253,7 +253,7 @@ export default function LoginPage() {
           </form>
 
           <p style={{ textAlign: 'center', fontSize: 13, color: '#6b6e87', marginTop: 24 }}>
-            New to Fulcra?{' '}
+            New to Meridia?{' '}
             <Link href="/signup" style={{ color: INDIGO, textDecoration: 'none', fontWeight: 500 }}>
               Start your free trial →
             </Link>

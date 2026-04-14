@@ -1,4 +1,4 @@
-# Fulcra
+# Meridia
 
 [![CI](https://github.com/npxsolutions/auxio/actions/workflows/ci.yml/badge.svg)](https://github.com/npxsolutions/auxio/actions/workflows/ci.yml)
 
@@ -35,7 +35,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Testing
 
-Fulcra has two test layers:
+Meridia has two test layers:
 
 ### Unit tests (Vitest)
 

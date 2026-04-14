@@ -5,16 +5,16 @@ Post Tuesday 6am PT (~6 hours after PH launch so the two traffic sources don&apo
 ---
 
 ## Title (under 80 chars)
-> **Show HN: Fulcra – Commerce Operations Platform for multichannel sellers**
+> **Show HN: Meridia – Commerce Operations Platform for multichannel sellers**
 > *(71 chars)*
 
 ## Body (under 1500 chars)
 
-> Hi HN — I&apos;m Nick, and this is Fulcra.
+> Hi HN — I&apos;m Nick, and this is Meridia.
 >
 > I built it because multichannel ecommerce operators are running businesses on a stack that doesn&apos;t exist: a channel manager that doesn&apos;t know their fees, an accounting tool that doesn&apos;t know their stock, and five spreadsheets holding the seam together. It breaks somewhere around the fifth channel, usually during a weekend sale, usually with an oversell.
 >
-> Fulcra is the layer that closes the loop. Inventory, orders, forecasting, procurement, and true multi-currency settled P&L across Shopify, Amazon, eBay, TikTok Shop, Etsy, and more — in one schema, with one canonical SKU. Order-volume pricing, never a percentage of revenue (the current enterprise incumbents all charge a % and we think that&apos;s wrong on principle).
+> Meridia is the layer that closes the loop. Inventory, orders, forecasting, procurement, and true multi-currency settled P&L across Shopify, Amazon, eBay, TikTok Shop, Etsy, and more — in one schema, with one canonical SKU. Order-volume pricing, never a percentage of revenue (the current enterprise incumbents all charge a % and we think that&apos;s wrong on principle).
 >
 > Tech: Next.js 16 on Vercel, Postgres via Supabase, Node worker jobs on Railway for the marketplace sync fan-out, PostHog for product analytics, Stripe for billing. The Developer API is REST + webhooks, typed SDK published to npm; everything you can see in the UI you can hit over API.
 >
@@ -41,7 +41,7 @@ Post Tuesday 6am PT (~6 hours after PH launch so the two traffic sources don&apo
 
 ### 2. "Multi-currency P&L is an accounting problem, not an ops problem. Isn't Xero + A2X enough?"
 
-> A2X into Xero gives you an accurate <em>accounting</em> P&L, lagged by 7–14 days, in one currency. That&apos;s correct and valuable for your bookkeeper. It&apos;s insufficient for operational decisions — repricing, channel pruning, SKU rationalization — which happen on a weekly or daily cadence. Fulcra shows settled P&L at the SKU-channel grain, in both the marketplace currency and your reporting currency, with FX spread explicit. That&apos;s a different artifact with a different audience.
+> A2X into Xero gives you an accurate <em>accounting</em> P&L, lagged by 7–14 days, in one currency. That&apos;s correct and valuable for your bookkeeper. It&apos;s insufficient for operational decisions — repricing, channel pruning, SKU rationalization — which happen on a weekly or daily cadence. Meridia shows settled P&L at the SKU-channel grain, in both the marketplace currency and your reporting currency, with FX spread explicit. That&apos;s a different artifact with a different audience.
 
 ### 3. "Why should I trust a pre-PMF SaaS with my commerce data?"
 

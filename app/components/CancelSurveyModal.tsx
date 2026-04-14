@@ -128,7 +128,7 @@ export function CancelSurveyModal({ open, onClose, onConfirm }: Props) {
               Before you go
             </h2>
             <p style={{ fontSize: 13.5, color: MUTED, margin: '0 0 18px', lineHeight: 1.5 }}>
-              A one-line reason helps us build a better Fulcra.
+              A one-line reason helps us build a better Meridia.
             </p>
 
             <label style={{ fontSize: 12, fontWeight: 600, color: INK, display: 'block', marginBottom: 6 }}>

@@ -1,6 +1,6 @@
 # Marketing System — Index
 
-> Company name reference: **Fulcra** (subject to rename). Every file in this directory is find-and-replaceable on the company name. Nothing is load-bearing on the string "Fulcra".
+> Company name reference: **Meridia** (subject to rename). Every file in this directory is find-and-replaceable on the company name. Nothing is load-bearing on the string "Meridia".
 
 The marketing function is organized as four layers: **strategy**, **operating cadence**, **assets**, and **distribution**. This doc indexes all of them plus the sibling directories.
 
@@ -55,7 +55,7 @@ Live blog posts (under `app/blog/`):
 
 | Directory | Summary | Owner |
 |---|---|---|
-| [`docs/distribution/README.md`](../distribution/README.md) | How we get Fulcra into the hands of operators — marketplace listings, partner motion, embeddables. | Founder |
+| [`docs/distribution/README.md`](../distribution/README.md) | How we get Meridia into the hands of operators — marketplace listings, partner motion, embeddables. | Founder |
 | [`docs/growth/README.md`](../growth/README.md) | In-product growth loops (onboarding, activation, referrals, virality). | Founder + Eng |
 | [`docs/acquisition/README.md`](../acquisition/README.md) | Paid and earned acquisition channel experiments and learnings. | Founder |
 | [`docs/retention/README.md`](../retention/README.md) | Post-conversion retention — onboarding, lifecycle emails, expansion triggers. | Founder + Eng |

@@ -26,12 +26,12 @@ function confirmationHtml(name: string): string {
 <tr><td>
   <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;">
     <div style="width:26px;height:26px;background:#0b0f1a;border-radius:6px;"></div>
-    <span style="font-size:14px;font-weight:600;">Fulcra</span>
+    <span style="font-size:14px;font-weight:600;">Meridia</span>
   </div>
   <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">Thanks${name ? `, ${first}` : ''}.</h1>
   <p style="font-size:15px;line-height:1.65;color:#1c2233;margin:0 0 16px;">We've received your demo request. Expect a reply within one business day with calendar options or, if you booked directly on Cal, a confirmation of the slot.</p>
   <p style="font-size:15px;line-height:1.65;color:#1c2233;margin:0 0 16px;">The demo is twenty minutes, working session format — we share a screen, pull your public data where possible, and show you the view that matters. No slides.</p>
-  <p style="font-size:14px;color:#5a6171;margin:28px 0 0;">— The Fulcra team</p>
+  <p style="font-size:14px;color:#5a6171;margin:28px 0 0;">— The Meridia team</p>
 </td></tr></table>
 </td></tr></table></body></html>`
 }
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
   try {
     const resend = getResend()
     await resend.emails.send({
-      from: 'Fulcra <hello@auxio.app>',
+      from: 'Meridia <hello@auxio.app>',
       to: email,
       replyTo: 'hello@auxio.app',
       subject: 'We received your demo request.',

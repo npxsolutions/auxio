@@ -1,6 +1,6 @@
 # Ideal Customer Profile
 
-> Company name is currently **Fulcra**. If the rename ships, do a find-and-replace across this directory — names are not load-bearing in these docs.
+> Company name is currently **Meridia**. If the rename ships, do a find-and-replace across this directory — names are not load-bearing in these docs.
 
 Three named tiers. The middle tier (Growing Operator) is our wedge — we acquire Solos as a volume play and Scale Operators as expansion. Every asset in `docs/marketing/` should map back to one of these tiers.
 

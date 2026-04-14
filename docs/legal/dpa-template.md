@@ -12,10 +12,10 @@
 This Data Processing Agreement ("DPA") is entered into between:
 
 - **Controller:** `[Customer legal name]`, of `[Customer address]` ("Customer"), and
-- **Processor:** NPX Solutions Ltd, operator of Fulcra, of `[Registered address, United Kingdom]` ("Fulcra").
+- **Processor:** NPX Solutions Ltd, operator of Meridia, of `[Registered address, United Kingdom]` ("Meridia").
 
 Each a "Party" and together the "Parties". This DPA supplements and is
-incorporated into the Fulcra Terms of Service agreed between the Parties (the
+incorporated into the Meridia Terms of Service agreed between the Parties (the
 "Principal Agreement"). In the event of conflict, the terms of this DPA prevail
 in respect of the processing of Personal Data.
 
@@ -28,9 +28,9 @@ Act 2018. "Personal Data", "Data Subject", "Processing", "Controller", and
 
 ## 3. Subject matter and duration
 
-Fulcra processes Personal Data on behalf of the Customer solely to provide the
-Fulcra service (multi-channel commerce management) in accordance with the
-Principal Agreement. This DPA is effective for as long as Fulcra processes
+Meridia processes Personal Data on behalf of the Customer solely to provide the
+Meridia service (multi-channel commerce management) in accordance with the
+Principal Agreement. This DPA is effective for as long as Meridia processes
 Personal Data on behalf of the Customer.
 
 ## 4. Nature and purpose of processing
@@ -38,21 +38,21 @@ Personal Data on behalf of the Customer.
 | Item                  | Detail                                                                                                                                                                |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Nature of processing  | Collection, storage, structuring, retrieval, transmission to marketplaces, and erasure of catalogue, listing, order, and account data.                                |
-| Purpose of processing | Operation of the Fulcra service — publishing listings, synchronising inventory, processing orders, generating analytics, and transactional communications.           |
+| Purpose of processing | Operation of the Meridia service — publishing listings, synchronising inventory, processing orders, generating analytics, and transactional communications.           |
 | Categories of Data Subjects | Customer's employees and authorised users; end-customers of the Customer (order recipients).                                                                     |
 | Categories of Personal Data | Names, business email addresses, authentication credentials, order shipping and billing addresses, phone numbers, marketplace account identifiers, transaction metadata. |
-| Special-category data | None processed in the ordinary course. Customer must not upload special-category data to Fulcra.                                                                      |
+| Special-category data | None processed in the ordinary course. Customer must not upload special-category data to Meridia.                                                                      |
 
 ## 5. Roles
 
-The Customer is the Controller of the Personal Data. Fulcra acts as Processor
+The Customer is the Controller of the Personal Data. Meridia acts as Processor
 on the Customer's documented instructions, which are the Principal Agreement,
 this DPA, and any written instructions the Customer gives that are reasonable
 and compatible with the service.
 
-## 6. Obligations of Fulcra
+## 6. Obligations of Meridia
 
-Fulcra shall:
+Meridia shall:
 
 - Process Personal Data only on documented instructions from the Customer, except where required by law.
 - Ensure persons authorised to process Personal Data are bound by confidentiality.
@@ -65,9 +65,9 @@ Fulcra shall:
 
 ## 7. Sub-processors
 
-The Customer provides general authorisation for Fulcra to engage
+The Customer provides general authorisation for Meridia to engage
 sub-processors. The current list is maintained at
-`https://fulcra.com/security` and in `docs/legal/sub-processors.md`. Fulcra
+`https://fulcra.com/security` and in `docs/legal/sub-processors.md`. Meridia
 shall:
 
 - Impose on each sub-processor, in writing, data-protection obligations
@@ -80,16 +80,16 @@ shall:
 
 ## 8. International transfers
 
-Where Personal Data is transferred outside the UK / EEA, Fulcra relies on the
+Where Personal Data is transferred outside the UK / EEA, Meridia relies on the
 European Commission's Standard Contractual Clauses (Module 2 or 3 as
 applicable) and the UK International Data Transfer Addendum, which are hereby
-incorporated by reference. Fulcra performs a transfer-impact assessment for
+incorporated by reference. Meridia performs a transfer-impact assessment for
 each sub-processor and maintains supplementary measures (encryption in transit
 and at rest, pseudonymisation where proportionate).
 
 ## 9. Security measures
 
-Fulcra maintains the measures described in Annex A, including but not limited
+Meridia maintains the measures described in Annex A, including but not limited
 to: encryption in transit (TLS 1.3) and at rest (AES-256), row-level access
 authorisation, least-privilege administrative access, documented backup and
 recovery with testing, vulnerability management, and an incident-response
@@ -98,15 +98,15 @@ of the art.
 
 ## 10. Data-Subject requests
 
-Fulcra makes available in-product tooling that enables the Customer to
+Meridia makes available in-product tooling that enables the Customer to
 fulfil Data-Subject access, portability, and erasure requests on its own
-timeline. Where the Customer cannot fulfil a request without Fulcra's
-assistance, Fulcra will respond within a commercially reasonable period and
+timeline. Where the Customer cannot fulfil a request without Meridia's
+assistance, Meridia will respond within a commercially reasonable period and
 without undue delay.
 
 ## 11. Audits
 
-Fulcra provides, on request and under NDA, its most recent third-party
+Meridia provides, on request and under NDA, its most recent third-party
 attestations (e.g. SOC 2 Type II once issued) and a completed SIG-lite. On
 reasonable notice and no more than once per year, the Customer may request a
 targeted audit. The Parties will agree scope, timing, and reasonable costs in
@@ -115,7 +115,7 @@ advance.
 ## 12. Term and termination
 
 This DPA terminates automatically on termination of the Principal Agreement.
-On termination, Fulcra shall delete all Personal Data within 30 days, save
+On termination, Meridia shall delete all Personal Data within 30 days, save
 where retention is required by law (see `data-retention.md`). A certificate of
 destruction is available on request.
 
@@ -145,7 +145,7 @@ _(Summary — full detail maintained at https://fulcra.com/security.)_
 
 ## Annex B — Signature
 
-| For the Customer            | For Fulcra (NPX Solutions Ltd)   |
+| For the Customer            | For Meridia (NPX Solutions Ltd)   |
 | --------------------------- | -------------------------------- |
 | Name: `____________________`| Name: `____________________`     |
 | Title: `___________________`| Title: `___________________`     |

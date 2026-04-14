@@ -2,8 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Amazon Multichannel Listing Software — Global Sellers | Fulcra',
-  description: 'Sync your Amazon listings to eBay, Shopify, and OnBuy with Fulcra. Track true profit after Amazon fees, automate repricing, and manage all orders in one place — across US, UK, EU, and AU marketplaces.',
+  title: 'Amazon Multichannel Listing Software — Global Sellers | Meridia',
+  description: 'Sync your Amazon listings to eBay, Shopify, and OnBuy with Meridia. Track true profit after Amazon fees, automate repricing, and manage all orders in one place — across US, UK, EU, and AU marketplaces.',
   keywords: ['Amazon listing software', 'Amazon multichannel software', 'Amazon eBay sync', 'sell on Amazon tool', 'global Amazon seller software', 'Amazon SP-API multichannel'],
 }
 
@@ -14,20 +14,20 @@ const NAV = [
 ]
 
 const FEATURES = [
-  { icon: '🔄', title: 'List once, publish everywhere', desc: 'Create a product in Fulcra and publish to Amazon, eBay, Shopify, and OnBuy simultaneously. One update, all channels.' },
-  { icon: '📊', title: 'Amazon fee-aware profit', desc: 'Referral fees, FBA fulfilment, advertising spend — Fulcra deducts them all so you see actual margin per ASIN, not just revenue.' },
+  { icon: '🔄', title: 'List once, publish everywhere', desc: 'Create a product in Meridia and publish to Amazon, eBay, Shopify, and OnBuy simultaneously. One update, all channels.' },
+  { icon: '📊', title: 'Amazon fee-aware profit', desc: 'Referral fees, FBA fulfilment, advertising spend — Meridia deducts them all so you see actual margin per ASIN, not just revenue.' },
   { icon: '⚡', title: 'Real-time inventory sync', desc: 'A sale on eBay instantly decrements your Amazon inventory. Avoid suspension-risking oversells on either channel.' },
   { icon: '🤖', title: 'AI listing optimisation', desc: 'Generate Amazon-compliant titles, bullet points, and descriptions following A9 best practices — keyword-rich, search-ready.' },
-  { icon: '📈', title: 'Profit-floor repricing', desc: 'Stay competitive in the Buy Box without racing to zero. Set a minimum margin and let Fulcra reprice within those bounds.' },
+  { icon: '📈', title: 'Profit-floor repricing', desc: 'Stay competitive in the Buy Box without racing to zero. Set a minimum margin and let Meridia reprice within those bounds.' },
   { icon: '📦', title: 'Unified order management', desc: 'Amazon, eBay, and Shopify orders in one inbox. Bulk-print labels for USPS, Royal Mail, DHL, Australia Post and more, update tracking, handle returns — without switching tabs.' },
 ]
 
 const FAQS = [
-  { q: 'Does Fulcra work with multiple Amazon marketplaces?', a: 'Yes. We support Amazon.com, Amazon.co.uk, Amazon.de, Amazon.fr, Amazon.it, Amazon.es, Amazon.ca, and Amazon.com.au out of the box. Additional marketplaces (JP, MX, BR) are on the roadmap for late 2026.' },
-  { q: 'Does it work with FBA or only FBM?', a: 'Both. Fulcra reads your FBA inventory levels from Amazon and factors FBA fulfilment fees into profit calculations automatically.' },
-  { q: 'Can I import my existing Amazon catalogue?', a: 'Yes. When you connect Amazon, Fulcra imports your existing ASINs, listings, and inventory levels. Nothing is overwritten until you tell us to.' },
+  { q: 'Does Meridia work with multiple Amazon marketplaces?', a: 'Yes. We support Amazon.com, Amazon.co.uk, Amazon.de, Amazon.fr, Amazon.it, Amazon.es, Amazon.ca, and Amazon.com.au out of the box. Additional marketplaces (JP, MX, BR) are on the roadmap for late 2026.' },
+  { q: 'Does it work with FBA or only FBM?', a: 'Both. Meridia reads your FBA inventory levels from Amazon and factors FBA fulfilment fees into profit calculations automatically.' },
+  { q: 'Can I import my existing Amazon catalogue?', a: 'Yes. When you connect Amazon, Meridia imports your existing ASINs, listings, and inventory levels. Nothing is overwritten until you tell us to.' },
   { q: 'What Amazon fees does profit tracking include?', a: 'Referral fees, FBA fulfilment fees (if applicable), and advertising spend you log manually or via the Ads API connection. We are working on Ads API auto-import.' },
-  { q: 'Is there a risk to my Amazon account?', a: 'No. Fulcra uses Amazon\'s official Selling Partner API (SP-API) with authorised credentials. We operate within Amazon\'s terms of service.' },
+  { q: 'Is there a risk to my Amazon account?', a: 'No. Meridia uses Amazon\'s official Selling Partner API (SP-API) with authorised credentials. We operate within Amazon\'s terms of service.' },
   { q: 'What\'s the price?', a: 'Plans start at $59/month including Amazon, eBay, and Shopify. Billing available in USD, GBP, EUR, AUD or CAD. See full pricing at auxio.io/pricing. 14-day free trial, no card required.' },
 ]
 
@@ -38,7 +38,7 @@ export default function AmazonIntegrationPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Fulcra</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Meridia</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>{n.label}</Link>)}
@@ -60,7 +60,7 @@ export default function AmazonIntegrationPage() {
             <span style={{ color: '#a3e635' }}>One dashboard, one truth.</span>
           </h1>
           <p style={{ fontSize: '20px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: '40px', maxWidth: '680px', margin: '0 auto 40px' }}>
-            Stop switching between Seller Central and eBay. Manage every channel, see true profit on every order, and let AI optimise your listings — all from Fulcra.
+            Stop switching between Seller Central and eBay. Manage every channel, see true profit on every order, and let AI optimise your listings — all from Meridia.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '8px', background: '#a3e635', color: '#0f172a', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>Start free — no card needed →</Link>
@@ -120,7 +120,7 @@ export default function AmazonIntegrationPage() {
       </div>
 
       <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Fulcra. All rights reserved.</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Meridia. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Integrations', '/integrations'], ['Pricing', '/pricing'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{l}</Link>

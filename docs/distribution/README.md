@@ -1,6 +1,6 @@
 # Distribution
 
-How Fulcra reaches customers without paying CAC for every one. The product is shipped — distribution is the unlock that turns engineering velocity into compounding revenue.
+How Meridia reaches customers without paying CAC for every one. The product is shipped — distribution is the unlock that turns engineering velocity into compounding revenue.
 
 This doc covers the channel ranking we use to decide what to invest in, the quarterly roadmap, the KPIs we track, who owns what, and the product dependencies that gate each channel.
 
@@ -13,7 +13,7 @@ Leverage = expected accounts won per hour invested over a 12-month window, weigh
 3. **Integrations-as-distribution.** Every new integration is a co-marketing event with the partner's ecosystem. A new Klaviyo, Stripe Tax, or ShipStation integration is a distribution channel before it's a feature.
 4. **Affiliates and content creators.** Lower per-deal ACV, broader reach, easier to scale. The right ecommerce-ops YouTuber or newsletter generates 30–60 trial signups per published piece. See `/app/affiliates`.
 5. **Directories (G2, Capterra, GetApp, AlternativeTo, Product Hunt, SaaSHub).** Compounding once seeded with 25+ honest reviews. See `/app/directories`.
-6. **Developer platform.** Indirect distribution. Each builder who ships an Fulcra-powered tool surfaces us to a new audience. ROI is 12–18 months out; worth the patience because retention is exceptional.
+6. **Developer platform.** Indirect distribution. Each builder who ships an Meridia-powered tool surfaces us to a new audience. ROI is 12–18 months out; worth the patience because retention is exceptional.
 7. **Outbound and paid acquisition.** Lowest leverage. We use it to test ICP variants, not as a primary channel.
 
 ## Quarterly distribution roadmap
@@ -39,7 +39,7 @@ Leverage = expected accounts won per hour invested over a 12-month window, weigh
 
 ### Q1 next year
 - TrustRadius Top-Rated submission.
-- First Fulcra operator dinners in London, NYC, Berlin, Singapore.
+- First Meridia operator dinners in London, NYC, Berlin, Singapore.
 - Developer platform GA: typed SDKs, OpenAPI spec at /developers/reference, public Postman collection.
 
 ## KPIs

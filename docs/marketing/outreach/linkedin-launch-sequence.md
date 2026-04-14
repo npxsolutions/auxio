@@ -4,7 +4,7 @@
 
 ---
 
-## Week 1 — Founder narrative: why we built Fulcra
+## Week 1 — Founder narrative: why we built Meridia
 
 **Engagement profile:** Narrative (personal story)
 **Optimal day/time:** Tuesday, 08:15 UK
@@ -13,7 +13,7 @@
 **Hook (first two lines):**
 
 > The spreadsheet that broke my last business had 14 tabs and 47 VLOOKUPs. It took a Sunday night to reconcile and a Monday morning to argue about.
-> That spreadsheet is why Fulcra exists.
+> That spreadsheet is why Meridia exists.
 
 **Body:**
 
@@ -21,7 +21,7 @@ In 2023 I was running a small homewares business across Shopify, Amazon UK, and 
 
 I tried the incumbents. Linnworks wanted six weeks and a sales call before I could see my own data. Brightpearl priced out at what would have been half a junior hire. ChannelAdvisor wanted a percentage of revenue, which is the one pricing model an operator on thin margin cannot stomach.
 
-So we built Fulcra. One ledger. Every channel. Every currency. Ten minutes to the first honest number. Order-volume pricing — never a percentage of revenue.
+So we built Meridia. One ledger. Every channel. Every currency. Ten minutes to the first honest number. Order-volume pricing — never a percentage of revenue.
 
 We're shipping it publicly now. If you've lived inside that spreadsheet, I'd like to hear what finally broke it for you.
 
@@ -33,7 +33,7 @@ We're shipping it publicly now. If you've lived inside that spreadsheet, I'd lik
 
 **Engagement profile:** Tactical (operator how-to)
 **Optimal day/time:** Wednesday, 07:45 UK
-**Visual brief:** A carousel screenshot (slide 1) of a redacted spreadsheet with five tabs — Inventory, Amazon orders, eBay orders, Shopify orders, Reconcile. Slide 2: the same spreadsheet with red circles on the cells that break. Slide 3: the replacement Fulcra view.
+**Visual brief:** A carousel screenshot (slide 1) of a redacted spreadsheet with five tabs — Inventory, Amazon orders, eBay orders, Shopify orders, Reconcile. Slide 2: the same spreadsheet with red circles on the cells that break. Slide 3: the replacement Meridia view.
 
 **Hook:**
 
@@ -60,7 +60,7 @@ What was the specific tab that broke for you first?
 
 **Engagement profile:** Product (feature spotlight)
 **Optimal day/time:** Thursday, 08:30 UK
-**Visual brief:** A clean screenshot of Fulcra's multi-currency P&L table. Three rows — one SKU sold across amazon.co.uk (GBP), amazon.com (USD), amazon.de (EUR). Columns: gross, fees, FX, net. A single cell highlighted in cobalt showing the real post-settlement margin. Annotation arrow: "settled rate, not invoice rate."
+**Visual brief:** A clean screenshot of Meridia's multi-currency P&L table. Three rows — one SKU sold across amazon.co.uk (GBP), amazon.com (USD), amazon.de (EUR). Columns: gross, fees, FX, net. A single cell highlighted in cobalt showing the real post-settlement margin. Annotation arrow: "settled rate, not invoice rate."
 
 **Hook:**
 
@@ -73,7 +73,7 @@ If you sell across currencies, your accounting software probably converts every 
 
 On a £25 SKU sold through amazon.com with a typical two-week payout lag, we've seen the gap run at 1.4% to 3.8% depending on the quarter. For a business doing 20,000 cross-border orders a year, that is real money — and it is the difference between a product line you lean into and one you quietly kill.
 
-Fulcra's settled P&L view reads payout data directly. Every order shows its true net after FX, fees, and any payout adjustment. No blended percentage. No monthly surprise.
+Meridia's settled P&L view reads payout data directly. Every order shows its true net after FX, fees, and any payout adjustment. No blended percentage. No monthly surprise.
 
 If you're running cross-border and would like to see the same view on your own numbers, there is a public trial at auxio-lkqv.vercel.app.
 
@@ -118,7 +118,7 @@ What's the number in your own business you suspect is lying to you?
 
 **Engagement profile:** Narrative (opinion piece)
 **Optimal day/time:** Wednesday, 09:00 UK
-**Visual brief:** A simple diagram. Left panel: seven tool logos (spreadsheet, repricer, feed manager, 3PL portal, A2X, Xero, Linnworks) arranged in a cluttered stack. Right panel: a single Fulcra box. A minimal arrow in between. Editorial layout, lots of whitespace.
+**Visual brief:** A simple diagram. Left panel: seven tool logos (spreadsheet, repricer, feed manager, 3PL portal, A2X, Xero, Linnworks) arranged in a cluttered stack. Right panel: a single Meridia box. A minimal arrow in between. Editorial layout, lots of whitespace.
 
 **Hook:**
 
@@ -135,7 +135,7 @@ The next generation of platforms will not win by having a better repricer. They 
 
 This is not a marketing line. It is why Feedonomics bolted onto BigCommerce, why Linnworks is priced at a point only the upper mid-market can afford, and why ChannelAdvisor charges a percentage of revenue — the unit economics of the point-tool era are no longer stable.
 
-Fulcra is opinionated about this. One ledger, every channel, one API. If we are wrong, the market will tell us within 18 months.
+Meridia is opinionated about this. One ledger, every channel, one API. If we are wrong, the market will tell us within 18 months.
 
 What does your own stack look like today, and what would you consolidate first if you could?
 
@@ -147,16 +147,16 @@ What does your own stack look like today, and what would you consolidate first i
 
 **Engagement profile:** Product (soft launch)
 **Optimal day/time:** Thursday, 08:20 UK
-**Visual brief:** A single still frame from a screen recording — the Fulcra onboarding screen with a timer overlay showing 00:09:47. Caption burned into the image: "first real number, under ten minutes." Clean, documentary.
+**Visual brief:** A single still frame from a screen recording — the Meridia onboarding screen with a timer overlay showing 00:09:47. Caption burned into the image: "first real number, under ten minutes." Clean, documentary.
 
 **Hook:**
 
-> We are launching Fulcra publicly in two weeks. Before that, a small invitation.
+> We are launching Meridia publicly in two weeks. Before that, a small invitation.
 > If you want to see what a ten-minute time-to-first-value actually looks like on your own data, read on.
 
 **Body:**
 
-Fulcra goes out on Product Hunt on a Tuesday later this month. Before that happens, I'd like to run twenty live demos with operators who are already living inside the multichannel problem — Shopify plus two or more marketplaces, somewhere between £50k and £500k a month, feeling the weight of it.
+Meridia goes out on Product Hunt on a Tuesday later this month. Before that happens, I'd like to run twenty live demos with operators who are already living inside the multichannel problem — Shopify plus two or more marketplaces, somewhere between £50k and £500k a month, feeling the weight of it.
 
 The demo is twenty minutes. We connect your Shopify and one marketplace live, pull your real SKUs and real orders, and look at the settled P&L and inventory view together. No slide deck. You leave with a working tenant whether or not you buy.
 

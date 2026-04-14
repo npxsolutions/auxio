@@ -1,4 +1,4 @@
-// Fulcra — Security & Trust
+// Meridia — Security & Trust
 // Matches v8 landing language: cream bg, ink type, cobalt accent,
 // Instrument Serif display, Geist (system) for UI, 1.5px SVG discipline.
 // Honest posture — we mark in-progress work as in-progress.
@@ -16,9 +16,9 @@ const display = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'Security · Fulcra',
+  title: 'Security · Meridia',
   description:
-    'How Fulcra handles your data — compliance posture, infrastructure, encryption, sub-processors, incident response, and your GDPR rights.',
+    'How Meridia handles your data — compliance posture, infrastructure, encryption, sub-processors, incident response, and your GDPR rights.',
 }
 
 const C = {
@@ -56,7 +56,7 @@ const COMPLIANCE: Array<{ name: string; status: Status; detail: string }> = [
   { name: 'GDPR',          status: 'live',     detail: 'Data Processing Agreement available on request. DSAR fulfilment in-app. EU data residency on Supabase eu-west-1.' },
   { name: 'UK GDPR / DPA 2018', status: 'live', detail: 'Operated by NPX Solutions (UK). ICO registration in process.' },
   { name: 'ISO 27001',     status: 'planned',  detail: 'Scoped for 2026 following SOC 2 report issuance.' },
-  { name: 'HIPAA',         status: 'na',       detail: 'Fulcra is not a covered entity. Do not upload PHI.' },
+  { name: 'HIPAA',         status: 'na',       detail: 'Meridia is not a covered entity. Do not upload PHI.' },
   { name: 'PCI DSS',       status: 'na',       detail: 'We never touch card data. All payments are tokenised and handled by Stripe (PCI DSS Level 1).' },
 ]
 
@@ -93,7 +93,7 @@ export default function SecurityPage() {
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
               <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
             </svg>
-            <span style={{ fontFamily: serif, fontSize: 22, letterSpacing: '-0.015em' }}>Fulcra</span>
+            <span style={{ fontFamily: serif, fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
           </Link>
           <div style={{ display: 'flex', gap: 20, fontSize: 13, color: C.mutedDk }}>
             <Link href="/privacy" style={{ color: C.mutedDk, textDecoration: 'none' }}>Privacy</Link>
@@ -109,7 +109,7 @@ export default function SecurityPage() {
           § Trust · Security · Privacy
         </div>
         <h1 style={{ fontFamily: serif, fontWeight: 400, fontSize: 'clamp(44px, 7vw, 84px)', lineHeight: 1.04, letterSpacing: '-0.025em', margin: 0 }}>
-          Security at <span style={{ fontStyle: 'italic', color: C.cobaltDk }}>Fulcra</span>.
+          Security at <span style={{ fontStyle: 'italic', color: C.cobaltDk }}>Meridia</span>.
         </h1>
         <p style={{ fontSize: 19, lineHeight: 1.55, color: C.mutedDk, maxWidth: 720, marginTop: 24 }}>
           Your catalogue, orders, and channel credentials are operational data that keeps your business running. We treat them that way — encrypted in transit and at rest, fenced behind row-level authorisation, and exportable in one click whenever you ask.
@@ -151,7 +151,7 @@ export default function SecurityPage() {
       {/* Infrastructure */}
       <Section id="infra" label="02 / Infrastructure" title="Where your data lives." C={C}>
         <p style={paraStyle(C)}>
-          Fulcra runs on managed primitives from operators we trust — chosen so your data stays in the EU by default and never sits on a server we operate by hand.
+          Meridia runs on managed primitives from operators we trust — chosen so your data stays in the EU by default and never sits on a server we operate by hand.
         </p>
         <div style={{ marginTop: 28, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
           {INFRA.map(i => (
@@ -185,7 +185,7 @@ export default function SecurityPage() {
       {/* Access control */}
       <Section id="access" label="04 / Access control" title="Row-level by default." C={C}>
         <p style={paraStyle(C)}>
-          Every public table in Fulcra has Row Level Security enabled, and every policy is scoped by <code style={codeStyle(C)}>user_id = auth.uid()</code>. Our service role exists only inside server functions — it is never exposed to the browser, never committed to the repo, and rotated on role change.
+          Every public table in Meridia has Row Level Security enabled, and every policy is scoped by <code style={codeStyle(C)}>user_id = auth.uid()</code>. Our service role exists only inside server functions — it is never exposed to the browser, never committed to the repo, and rotated on role change.
         </p>
         <ul style={listStyle(C)}>
           <li>Least-privilege engineering access, brokered through Supabase roles and reviewed quarterly.</li>
@@ -239,7 +239,7 @@ export default function SecurityPage() {
         </p>
         <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
           <Block C={C} title="In scope">
-            <code style={codeStyle(C)}>fulcra.com</code>, <code style={codeStyle(C)}>*.fulcra.com</code>, the Fulcra web app, our public API, and our marketing site.
+            <code style={codeStyle(C)}>fulcra.com</code>, <code style={codeStyle(C)}>*.fulcra.com</code>, the Meridia web app, our public API, and our marketing site.
           </Block>
           <Block C={C} title="Out of scope">
             Denial-of-service, volumetric testing, social engineering, physical attacks, third-party infrastructure (Vercel, Supabase, Stripe), and findings that require a rooted device.
@@ -253,7 +253,7 @@ export default function SecurityPage() {
       {/* Your data / rights */}
       <Section id="rights" label="08 / Your data" title="Your data is yours." C={C}>
         <p style={paraStyle(C)}>
-          GDPR gives you the right to access, correct, export, and erase the personal data we hold about you. Fulcra fulfils these rights in-app — no emails, no forms, no waiting.
+          GDPR gives you the right to access, correct, export, and erase the personal data we hold about you. Meridia fulfils these rights in-app — no emails, no forms, no waiting.
         </p>
         <div style={{ marginTop: 28, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
           <RightCard C={C} title="Export everything" subtitle="Art. 15 · 20 · 30-day SLA · usually seconds"
@@ -269,7 +269,7 @@ export default function SecurityPage() {
           <RightCard C={C} title="DPA &amp; documents" subtitle="Available on request"
             body="Standard SCC-backed Data Processing Agreement, sub-processor list, and data-retention schedule. We will sign mutual NDAs for enterprise evaluation."
             ctaLabel="Email security@fulcra.com"
-            ctaHref="mailto:security@fulcra.com?subject=Fulcra%20DPA%20request"
+            ctaHref="mailto:security@fulcra.com?subject=Meridia%20DPA%20request"
           />
         </div>
       </Section>

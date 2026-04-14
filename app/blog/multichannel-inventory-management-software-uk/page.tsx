@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Best Multichannel Inventory Management Software (2026) — Global Comparison',
-  description: 'Comparing the best multichannel inventory management software for global sellers in 2026: Fulcra, Linnworks, Brightpearl, ChannelAdvisor, Feedonomics, and Veeqo. Real pricing, features, and honest assessments.',
+  description: 'Comparing the best multichannel inventory management software for global sellers in 2026: Meridia, Linnworks, Brightpearl, ChannelAdvisor, Feedonomics, and Veeqo. Real pricing, features, and honest assessments.',
   keywords: ['multichannel inventory management software', 'best inventory management software', 'inventory management for eBay and Amazon', 'global multichannel ecommerce software 2026', 'Linnworks alternative', 'ChannelAdvisor alternative', 'Feedonomics alternative'],
 }
 
 const TOOLS = [
-  { name: 'Fulcra', verdict: 'Best for global multichannel sellers who want the full operations stack', price: 'From $59/mo', trial: true, globalFocus: true, aiBuiltIn: true, procurementLoop: true, trueProfit: true, highlight: true },
+  { name: 'Meridia', verdict: 'Best for global multichannel sellers who want the full operations stack', price: 'From $59/mo', trial: true, globalFocus: true, aiBuiltIn: true, procurementLoop: true, trueProfit: true, highlight: true },
   { name: 'Linnworks', verdict: 'Established mid-market platform, strong warehouse management', price: '$549+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
   { name: 'Brightpearl by Sage', verdict: 'Powerful retail OS for larger operations — but expensive and slow to set up', price: 'Custom only', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
   { name: 'ChannelAdvisor (Rithum)', verdict: 'Enterprise commerce network — broad channel coverage, months to implement', price: '$2,500+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
@@ -21,7 +21,7 @@ export default function BlogPostPage() {
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Fulcra</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Meridia</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -51,7 +51,7 @@ export default function BlogPostPage() {
         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '20px 24px', marginBottom: '40px' }}>
           <strong style={{ fontSize: '13px', fontWeight: 700, display: 'block', marginBottom: '12px', color: '#334155' }}>Quick summary</strong>
           <ul style={{ margin: 0, padding: '0 0 0 18px', fontSize: '14px', color: '#475569', lineHeight: 1.9 }}>
-            <li><strong>Best overall for global multichannel sellers:</strong> Fulcra — full operations stack, AI included, from $59/mo</li>
+            <li><strong>Best overall for global multichannel sellers:</strong> Meridia — full operations stack, AI included, from $59/mo</li>
             <li><strong>Best for mid-market / high volume:</strong> Linnworks — established, strong WMS, from $549/mo</li>
             <li><strong>Best for larger retailers:</strong> Brightpearl by Sage — enterprise retail OS, custom pricing</li>
             <li><strong>Best for enterprise channel breadth:</strong> ChannelAdvisor (Rithum) — broadest marketplace coverage, $2,500+/mo</li>
@@ -98,16 +98,16 @@ export default function BlogPostPage() {
           </div>
         ))}
 
-        <h2 style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px', marginTop: '48px' }}>What makes Fulcra different</h2>
+        <h2 style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px', marginTop: '48px' }}>What makes Meridia different</h2>
         <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, marginBottom: '16px' }}>
           Most multichannel tools solve half the problem: they sync inventory and pull in orders. But they stop short of the full operations picture. You still need separate tools for purchase orders, demand forecasting, P&amp;L reporting, and advertising tracking.
         </p>
         <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, marginBottom: '16px' }}>
-          Fulcra is built as a Commerce Operations Platform — the single layer that manages the entire loop from supplier purchase order to channel listing to net profit. It's what Linnworks, Brightpearl, and ChannelAdvisor are evolving towards, but available to global sellers from $59/month today, with a self-serve setup that takes under 10 minutes and multi-currency billing in USD, GBP, EUR, AUD or CAD.
+          Meridia is built as a Commerce Operations Platform — the single layer that manages the entire loop from supplier purchase order to channel listing to net profit. It's what Linnworks, Brightpearl, and ChannelAdvisor are evolving towards, but available to global sellers from $59/month today, with a self-serve setup that takes under 10 minutes and multi-currency billing in USD, GBP, EUR, AUD or CAD.
         </p>
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
-          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Try Fulcra free for 14 days</strong>
+          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Try Meridia free for 14 days</strong>
           <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>No credit card. Connect your first channel in under 10 minutes. See your real profit margin before you decide.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
@@ -115,8 +115,8 @@ export default function BlogPostPage() {
         <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '32px' }}>
           <strong style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '12px' }}>Related guides</strong>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Fulcra vs Linnworks — full comparison →</Link>
-            <Link href="/vs/brightpearl" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Fulcra vs Brightpearl — full comparison →</Link>
+            <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Meridia vs Linnworks — full comparison →</Link>
+            <Link href="/vs/brightpearl" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Meridia vs Brightpearl — full comparison →</Link>
             <Link href="/blog/how-to-calculate-true-profit-ecommerce" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>How to calculate true ecommerce profit (not just revenue) →</Link>
           </div>
         </div>

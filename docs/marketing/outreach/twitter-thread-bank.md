@@ -32,7 +32,7 @@
 > 10/ Playing this back: if you run multichannel and your dashboard says one number while your P&L says another, the gap is almost always in four places — fees, FX, pricing floors, stranded stock. Fix those four before you touch anything else.
 
 **Close:**
-> 11/ If you want to see the same view on your own data, Fulcra's public trial is at auxio-lkqv.vercel.app. Ten minutes to connect Shopify and one marketplace. No demo gate.
+> 11/ If you want to see the same view on your own data, Meridia's public trial is at auxio-lkqv.vercel.app. Ten minutes to connect Shopify and one marketplace. No demo gate.
 
 ---
 
@@ -67,7 +67,7 @@
 ## Thread 3 — Behind the scenes: building the multi-currency P&L
 
 **Hook:**
-> We built Fulcra's multi-currency settled P&L three times before it was right.
+> We built Meridia's multi-currency settled P&L three times before it was right.
 >
 > The first two versions shipped wrong numbers to real customers. Here is what we learned, and the technical choices that stuck.
 
@@ -92,7 +92,7 @@
 > 10/ Takeaway: the correct data model rewrites itself after the first real customer. The UI decisions fall out of the data model, not the other way round. If the schema is honest, the product tends to be too.
 
 **Close:**
-> 11/ The full view lives under /finance in any Fulcra tenant. Trial is at auxio-lkqv.vercel.app — bring your real payout data, it is the only way to see whether the number has been lying to you.
+> 11/ The full view lives under /finance in any Meridia tenant. Trial is at auxio-lkqv.vercel.app — bring your real payout data, it is the only way to see whether the number has been lying to you.
 
 ---
 
@@ -129,7 +129,7 @@
 ## Thread 5 — Why we don't take a percentage of revenue
 
 **Hook:**
-> Fulcra's biggest competitors price as a percentage of GMV. Two to four percent of every pound you sell.
+> Meridia's biggest competitors price as a percentage of GMV. Two to four percent of every pound you sell.
 >
 > We refuse. Here is why that pricing model is user-hostile, and what we charge instead.
 
@@ -143,7 +143,7 @@
 
 > 5/ It also disincentivises the platform from helping you optimise margin. If the platform is paid on revenue, it is silently rooting for you to keep running low-margin SKUs. The incentive shape is wrong.
 
-> 6/ Fulcra charges on order volume. Predictable, flat, disclosed on the pricing page. An operator doing £100k a month at £40 AOV pays the same as one doing £100k at £15 AOV — because the platform work is per-order, not per-pound.
+> 6/ Meridia charges on order volume. Predictable, flat, disclosed on the pricing page. An operator doing £100k a month at £40 AOV pays the same as one doing £100k at £15 AOV — because the platform work is per-order, not per-pound.
 
 > 7/ This is a deliberate design choice and it costs us revenue on the high-AOV deals. We have lost deals to ChannelAdvisor on price. We are fine with that. Winning on price is not the brand we are building.
 
@@ -175,7 +175,7 @@
 
 > 7/ The thing that will not change: the number of operators who run a five-marketplace business from a laptop at a kitchen table will keep going up. The top end of ecommerce is not the interesting story. The long tail of £1m to £20m businesses is.
 
-> 8/ The tooling shape that wins the long tail will look different from enterprise. Self-serve, priced on order volume, honest defaults, real API, no sales call. That is the bet Fulcra is making and it is why we are priced the way we are.
+> 8/ The tooling shape that wins the long tail will look different from enterprise. Self-serve, priced on order volume, honest defaults, real API, no sales call. That is the bet Meridia is making and it is why we are priced the way we are.
 
 > 9/ If any of this is wrong, the market will tell us within three years. I would rather be specifically wrong on the record than vaguely right in private.
 
@@ -205,12 +205,12 @@
 
 > 7/ This is not exotic. It is bookkeeping at a finer granularity than most ecom businesses are set up to do. The hard part is not the maths — it is getting the five data sources into one schema with SKU and channel as stable keys. That is the whole job.
 
-> 8/ Fulcra does this as a default view. Every SKU row has an expand-per-channel breakout with fees, FX, fulfilment, returns, and attributed ad spend pulled through the platform's integrations. No spreadsheet step.
+> 8/ Meridia does this as a default view. Every SKU row has an expand-per-channel breakout with fees, FX, fulfilment, returns, and attributed ad spend pulled through the platform's integrations. No spreadsheet step.
 
 > 9/ If you want to compute this yourself first on your own data, the template is: gross - marketplace fees - payment fees - FX delta - fulfilment - returns reserve - attributed ad spend = net. Attributed ad spend is the hard column; start with last-click, upgrade later.
 
 **Close:**
-> 10/ The Fulcra view of this is at /finance/skus in any trial tenant. auxio-lkqv.vercel.app. Ten minutes to first number.
+> 10/ The Meridia view of this is at /finance/skus in any trial tenant. auxio-lkqv.vercel.app. Ten minutes to first number.
 
 ---
 
@@ -239,7 +239,7 @@
 
 > 9/ The useful shorthand: AI in ops is a power tool, not an autopilot. Treat it like a junior analyst who is fast, confident, and occasionally wrong. Build the review surfaces before you deploy the automation.
 
-> 10/ Fulcra ships grounded AI features on the works list — forecasting, anomaly flags, listing drafts — and deliberately does not ship autonomous repricing. That is a product choice, not a technical one.
+> 10/ Meridia ships grounded AI features on the works list — forecasting, anomaly flags, listing drafts — and deliberately does not ship autonomous repricing. That is a product choice, not a technical one.
 
 **Close:**
 > 11/ If your team is building an internal "ask your data" tool and wants to compare notes on what holds up in production, my DMs are open. Still learning in public on this.

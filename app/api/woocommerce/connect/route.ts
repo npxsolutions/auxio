@@ -69,7 +69,7 @@ export async function POST(request: Request) {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              name: `Fulcra ${topic}`,
+              name: `Meridia ${topic}`,
               topic,
               delivery_url: deliveryUrl,
               secret: webhookSecret,

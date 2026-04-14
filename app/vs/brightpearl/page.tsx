@@ -2,9 +2,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Fulcra vs Brightpearl — Full comparison for multichannel sellers (2026)',
-  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Fulcra gives you inventory, procurement, P&L, and AI from $59/mo — live in 10 minutes, for sellers worldwide.',
-  keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Fulcra', 'retail operating system alternative', 'global multichannel ecommerce software', 'international inventory management', 'Brightpearl competitor'],
+  title: 'Meridia vs Brightpearl — Full comparison for multichannel sellers (2026)',
+  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Meridia gives you inventory, procurement, P&L, and AI from $59/mo — live in 10 minutes, for sellers worldwide.',
+  keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Meridia', 'retail operating system alternative', 'global multichannel ecommerce software', 'international inventory management', 'Brightpearl competitor'],
 }
 
 const COMPARISON = [
@@ -30,19 +30,19 @@ const COMPARISON = [
 const REASONS = [
   {
     heading: 'You don\'t need a 4-week implementation project',
-    body: 'Brightpearl\'s onboarding takes weeks and requires a dedicated implementation specialist. Fulcra is self-serve — connect your first channel in under 10 minutes, and your orders, listings, and inventory are live immediately. No calls, no contracts, no waiting.',
+    body: 'Brightpearl\'s onboarding takes weeks and requires a dedicated implementation specialist. Meridia is self-serve — connect your first channel in under 10 minutes, and your orders, listings, and inventory are live immediately. No calls, no contracts, no waiting.',
   },
   {
     heading: 'Transparent pricing from day one',
-    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Fulcra publishes every tier, every feature, and every limit upfront. Start at $59/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
+    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Meridia publishes every tier, every feature, and every limit upfront. Start at $59/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
   },
   {
     heading: 'AI built in — not bolted on',
-    body: 'Brightpearl\'s platform is powerful but doesn\'t include AI-powered listing optimisation, an autonomous AI agent, or demand forecasting driven by machine learning. Fulcra\'s AI layer is included on Growth and above — it monitors your store, surfaces actions, and can act on your behalf.',
+    body: 'Brightpearl\'s platform is powerful but doesn\'t include AI-powered listing optimisation, an autonomous AI agent, or demand forecasting driven by machine learning. Meridia\'s AI layer is included on Growth and above — it monitors your store, surfaces actions, and can act on your behalf.',
   },
   {
     heading: 'The full operations stack, not just order management',
-    body: 'Fulcra covers the entire commerce operations loop: multichannel listings → inventory sync → order management → procurement → demand forecasting → P&L → advertising tracking → developer API. Brightpearl covers the back half well. Fulcra covers all of it.',
+    body: 'Meridia covers the entire commerce operations loop: multichannel listings → inventory sync → order management → procurement → demand forecasting → P&L → advertising tracking → developer API. Brightpearl covers the back half well. Meridia covers all of it.',
   },
 ]
 
@@ -52,7 +52,7 @@ export default function VsBrightpearlPage() {
 
       {/* Nav */}
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, background: '#fff', zIndex: 50 }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none', letterSpacing: '-0.02em' }}>Fulcra</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none', letterSpacing: '-0.02em' }}>Meridia</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/pricing" style={{ padding: '7px 16px', borderRadius: '7px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#64748b', textDecoration: 'none', fontWeight: 500 }}>See pricing</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -69,7 +69,7 @@ export default function VsBrightpearlPage() {
           <span style={{ color: '#5b52f5' }}>live in 10 minutes, from $59/mo.</span>
         </h1>
         <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '36px' }}>
-          Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Fulcra gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
+          Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Meridia gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           <Link href="/signup" style={{ padding: '13px 28px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
@@ -86,7 +86,7 @@ export default function VsBrightpearlPage() {
         <h2 style={{ fontSize: '22px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '24px', textAlign: 'center' }}>Side-by-side comparison</h2>
         <div style={{ border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '12px 20px', fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', gap: '8px' }}>
-            <span>Feature</span><span style={{ textAlign: 'center', color: '#5b52f5' }}>Fulcra</span><span style={{ textAlign: 'center' }}>Brightpearl</span>
+            <span>Feature</span><span style={{ textAlign: 'center', color: '#5b52f5' }}>Meridia</span><span style={{ textAlign: 'center' }}>Brightpearl</span>
           </div>
           {COMPARISON.map((row, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '12px 20px', borderBottom: i < COMPARISON.length - 1 ? '1px solid #f1f5f9' : 'none', background: row.highlight ? '#fafaf8' : 'white', gap: '8px', alignItems: 'center' }}>
@@ -106,7 +106,7 @@ export default function VsBrightpearlPage() {
       <section style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '80px 48px' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>
-            Why multichannel sellers choose Fulcra over Brightpearl
+            Why multichannel sellers choose Meridia over Brightpearl
           </h2>
           <div style={{ display: 'grid', gap: '32px' }}>
             {REASONS.map((r, i) => (

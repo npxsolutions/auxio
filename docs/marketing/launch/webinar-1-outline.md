@@ -20,7 +20,7 @@
 **Who this is for:**
 > Founders and ops leads at multichannel ecommerce businesses between £50k and £500k a month GMV, on Shopify plus two or more marketplaces, currently living inside spreadsheets or actively trying to leave Linnworks.
 
-**Hosted by:** <FOUNDER_NAME>, founder of Fulcra
+**Hosted by:** <FOUNDER_NAME>, founder of Meridia
 
 **Date and time:** <DATE_PLACEHOLDER>, 14:00 UK / 09:00 ET
 
@@ -85,7 +85,7 @@ See you tomorrow.
 ### Slide 6 — Demo bridge (1 min)
 - "For the next twenty-two minutes I'm going to stop talking about this and show it"
 - Show the pre-setup: empty tenant, Shopify store ready to connect, Amazon seller account ready to connect
-- Demo cue: switch to full-screen browser, Fulcra onboarding URL
+- Demo cue: switch to full-screen browser, Meridia onboarding URL
 
 ### Slide 7 — Demo: connect Shopify (2 min)
 - OAuth flow, store selected, data import begins
@@ -102,7 +102,7 @@ See you tomorrow.
 - Stock per SKU per location per channel, live
 - Deliberate oversell scenario: toggle a SKU to 2 units, show buffer per channel updating
 - Show webhook log: when a Shopify order lands, Amazon availability updates inside seconds
-- Demo cue: split screen — Fulcra inventory view left, Shopify admin right
+- Demo cue: split screen — Meridia inventory view left, Shopify admin right
 
 ### Slide 10 — Demo: the multi-currency P&L (4 min)
 - Show the settled vs indicative view
@@ -136,7 +136,7 @@ See you tomorrow.
 - Honest caveat: results scale with volume and are not linear
 - Visual: the before/after line chart from LinkedIn week 4
 
-### Slide 15 — What Fulcra is not (1 min)
+### Slide 15 — What Meridia is not (1 min)
 - Not an ERP. Not an accounting tool. Not a repricer with a percentage-of-GMV bill.
 - Not a 6-week implementation. Not a demo-only product.
 - The point is clarity on what to compare us to, not defensiveness
@@ -187,9 +187,9 @@ Ordered sequence of clicks and script cues.
 Five questions the host can pose if audience Q&A runs slow.
 
 1. "For an operator currently on Linnworks — how long does a migration take, and what happens to the historical data?"
-2. "How does Fulcra handle oversell prevention specifically during a 12-hour marketplace API outage?"
+2. "How does Meridia handle oversell prevention specifically during a 12-hour marketplace API outage?"
 3. "Can the multi-currency P&L reconcile against Xero or QuickBooks at month-end, or does it replace them?"
-4. "What's the story on VAT and sales tax — is this handled inside Fulcra or does it hand off to a dedicated tool?"
+4. "What's the story on VAT and sales tax — is this handled inside Meridia or does it hand off to a dedicated tool?"
 5. "If I'm running a private label brand on Amazon and not using Shopify yet, is this still the right platform, or do I wait?"
 
 ---
@@ -220,7 +220,7 @@ Either way, I would like to hear what is breaking for you currently.
 
 **Four-week window before air date.**
 
-Week minus 4 — announce on the founder's LinkedIn with the registration link. Cross-post to the Fulcra company page. Target 150 registrations from organic LinkedIn alone.
+Week minus 4 — announce on the founder's LinkedIn with the registration link. Cross-post to the Meridia company page. Target 150 registrations from organic LinkedIn alone.
 
 Week minus 3 — email the newsletter list (current size, segmented to Tier 2 signals). Include a one-line personalised note from the founder. Target 40% open rate, 12% click-through to registration.
 

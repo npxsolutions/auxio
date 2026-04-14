@@ -131,7 +131,7 @@ export default function FinancialsPage() {
               <div style={{ background: '#f5f3ef', borderRadius: 10, padding: '14px 16px' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Monthly platform fee</div>
                 <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1b22' }}>{fmtGBP(wc.platformFee, 2)}</div>
-                <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>Fulcra subscription</div>
+                <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>Meridia subscription</div>
               </div>
             </div>
           </div>

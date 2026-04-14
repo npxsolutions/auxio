@@ -12,7 +12,7 @@ export default function BlogPostPage() {
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Fulcra</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Meridia</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -151,12 +151,12 @@ export default function BlogPostPage() {
             The trap here is to treat this as a six-month project. Six-month projects don&apos;t finish. The alternative is the one-week test: connect two channels to a platform that can run the ledger, import three months of historical orders, and answer one question that was previously hard — say, &quot;which SKU on which channel has the highest net contribution per unit?&quot;. If the answer surprises you, you have a real problem worth solving. If it confirms what you already suspected, you still have a dashboard worth keeping.
           </p>
           <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, margin: '0 0 14px' }}>
-            We built Fulcra specifically around this motion — ten minutes to first real number, one ledger from day one, no implementation consultants. But the pattern matters more than the product. If you take one thing from this piece: stop trying to get five tools to agree with each other, and start running five channels on one book of record. The math of your business will change the week you do.
+            We built Meridia specifically around this motion — ten minutes to first real number, one ledger from day one, no implementation consultants. But the pattern matters more than the product. If you take one thing from this piece: stop trying to get five tools to agree with each other, and start running five channels on one book of record. The math of your business will change the week you do.
           </p>
         </div>
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
-          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Run your 5+ marketplaces on one ledger with Fulcra</strong>
+          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Run your 5+ marketplaces on one ledger with Meridia</strong>
           <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Inventory, orders, forecasting, procurement, and true multi-currency P&amp;L in one place. Connect in ten minutes. From $59/mo, order-volume pricing, never a percentage of revenue.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>

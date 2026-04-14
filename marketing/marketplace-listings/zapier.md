@@ -1,14 +1,14 @@
-# Zapier — Fulcra integration brief
+# Zapier — Meridia integration brief
 
 **Status:** Submission-ready. Awaiting partner-account approval from Zapier.
 **Submission contact:** developers@auxio.io
 **Internal owner:** Platform team
 
 ## Integration name
-Fulcra
+Meridia
 
 ## Short description (≤140 chars)
-Trigger Zaps from any Fulcra event — new orders, listing changes, low stock, profit thresholds — across every marketplace you sell on.
+Trigger Zaps from any Meridia event — new orders, listing changes, low stock, profit thresholds — across every marketplace you sell on.
 
 ## Authentication
 - Type: **API Key (Bearer token)**

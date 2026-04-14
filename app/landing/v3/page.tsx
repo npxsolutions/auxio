@@ -68,7 +68,7 @@ const MARKETPLACES = [
 ]
 
 const COMPETITORS = [
-  { name: 'Fulcra',          us: true },
+  { name: 'Meridia',          us: true },
   { name: 'Linnworks',      us: false },
   { name: 'Brightpearl',    us: false },
   { name: 'ChannelAdvisor', us: false },
@@ -87,7 +87,7 @@ const COMPARISON_ROWS: Array<{ label: string; values: Array<boolean | string> }>
 ]
 
 const TESTIMONIALS = [
-  { quote: 'Fulcra replaced four tools and shaved $4,200 a month off our SaaS bill. The P&L view alone is worth the seat.', name: 'Sarah T.',  role: 'Apparel / US + UK',  metric: '$4,200/mo', metricLabel: 'SaaS savings' },
+  { quote: 'Meridia replaced four tools and shaved $4,200 a month off our SaaS bill. The P&L view alone is worth the seat.', name: 'Sarah T.',  role: 'Apparel / US + UK',  metric: '$4,200/mo', metricLabel: 'SaaS savings' },
   { quote: 'Went from 8% to 22% net margin in 60 days. The repricing engine found money we didn\'t know we were leaving on the table.',                name: 'Marcus L.', role: 'Electronics / 4 channels', metric: '+$680k', metricLabel: 'annualised margin' },
   { quote: 'We onboarded in 10 minutes. By the end of week one we\'d forecasted our way out of three stockouts that would have cost us six figures.', name: 'Priya K.',  role: 'Health / 500+ SKUs', metric: '$120k',    metricLabel: 'stockouts avoided' },
 ]
@@ -218,7 +218,7 @@ export default function LandingV3() {
         <div style={{ maxWidth: 1240, margin: '0 auto', padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: C.cream }}>
             <div style={{ width: 22, height: 22, borderRadius: 6, background: `linear-gradient(135deg, ${C.purple}, ${C.magenta})`, boxShadow: `0 0 18px ${C.purpleGlow}` }} />
-            <span style={{ fontWeight: 600, letterSpacing: '-0.01em' }}>Fulcra</span>
+            <span style={{ fontWeight: 600, letterSpacing: '-0.01em' }}>Meridia</span>
           </Link>
           <div style={{ display: 'flex', gap: 28 }}>
             {NAV.map(n => (
@@ -239,7 +239,7 @@ export default function LandingV3() {
         <div style={{ position: 'relative', maxWidth: 1000, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 999, background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.borderHi}`, fontSize: 12, color: C.text70, marginBottom: 32 }}>
             <span style={{ width: 6, height: 6, borderRadius: 3, background: C.green, boxShadow: `0 0 8px ${C.green}` }} />
-            Fulcra v4 · now with live multi-currency P&L
+            Meridia v4 · now with live multi-currency P&L
           </div>
           <h1 style={{ fontSize: 'clamp(56px, 9vw, 112px)', fontWeight: 300, letterSpacing: '-0.045em', lineHeight: 0.98, margin: 0, color: C.cream }}>
             The OS for<br />
@@ -452,7 +452,7 @@ export default function LandingV3() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 22, height: 22, borderRadius: 6, background: `linear-gradient(135deg, ${C.purple}, ${C.magenta})` }} />
-              <span style={{ fontWeight: 600, color: C.cream }}>Fulcra</span>
+              <span style={{ fontWeight: 600, color: C.cream }}>Meridia</span>
             </div>
             <p style={{ marginTop: 14, fontSize: 13, color: C.text50, maxWidth: 280, lineHeight: 1.55 }}>
               The OS for global commerce. Built for operators running multi-channel brands across every currency, marketplace and warehouse.
@@ -475,7 +475,7 @@ export default function LandingV3() {
           ))}
         </div>
         <div style={{ maxWidth: 1240, margin: '48px auto 0', paddingTop: 24, borderTop: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', fontSize: 12, color: C.text50 }}>
-          <span>© {new Date().getFullYear()} Fulcra. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Meridia. All rights reserved.</span>
           <span>Made for the operators running global commerce.</span>
         </div>
       </footer>

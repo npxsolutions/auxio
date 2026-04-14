@@ -2,7 +2,7 @@
 
 _Last updated: 2026-04-13._
 
-Fulcra retains personal and operational data only as long as it is needed for
+Meridia retains personal and operational data only as long as it is needed for
 the purpose it was collected for, or as required by law. This schedule is
 authoritative.
 
@@ -40,7 +40,7 @@ authoritative.
 | Data                       | Retention | Basis                        |
 | -------------------------- | --------- | ---------------------------- |
 | Invoices and receipts      | 7 years   | Legal (UK tax: HMRC 6 years + year of issue) |
-| Stripe payment tokens      | Handled by Stripe per their retention; Fulcra holds tokens only while subscription is active | Contract |
+| Stripe payment tokens      | Handled by Stripe per their retention; Meridia holds tokens only while subscription is active | Contract |
 
 ## OAuth channel credentials
 

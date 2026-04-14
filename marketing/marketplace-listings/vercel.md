@@ -1,17 +1,17 @@
-# Vercel Integrations Marketplace — Fulcra brief
+# Vercel Integrations Marketplace — Meridia brief
 
 **Status:** Concept; submission Q3 2026.
 **Submission contact:** developers@auxio.io
 **Internal owner:** Platform team
 
 ## Integration name
-Fulcra Commerce Embed
+Meridia Commerce Embed
 
 ## What it is
-A Vercel integration that lets developers embed Fulcra dashboards (orders, listings, profit, repricer history) into custom merchant portals built on Next.js, with auth and theming handled by environment variables provisioned at install time.
+A Vercel integration that lets developers embed Meridia dashboards (orders, listings, profit, repricer history) into custom merchant portals built on Next.js, with auth and theming handled by environment variables provisioned at install time.
 
 ## Why it fits the Vercel marketplace
-Most Fulcra customers ship a custom merchant portal for their own resellers, brands, or franchisees. Today they wrap our API by hand. The integration short-circuits that with iframe-able, themed dashboard primitives and a typed React SDK published to npm.
+Most Meridia customers ship a custom merchant portal for their own resellers, brands, or franchisees. Today they wrap our API by hand. The integration short-circuits that with iframe-able, themed dashboard primitives and a typed React SDK published to npm.
 
 ## What gets installed
 On install, the integration:
@@ -31,7 +31,7 @@ Read-only by default. Write scopes (e.g. fulfil order) require explicit confirma
 - Secondary: **Developer Tools · Analytics**
 
 ## Pricing on listing
-Free for projects with an active Fulcra subscription. No additional cost.
+Free for projects with an active Meridia subscription. No additional cost.
 
 ## Submission notes
 - Confirm Vercel Marketplace OIDC token flow vs static env-var provisioning.

@@ -419,7 +419,7 @@ export default function SettingsPage() {
               <div role="dialog" aria-modal="true" style={{ background: 'white', borderRadius: '12px', padding: '24px', maxWidth: '460px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
                 {!deleteAck ? (
                   <>
-                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#191919', marginBottom: '8px' }}>Delete your Fulcra account?</div>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#191919', marginBottom: '8px' }}>Delete your Meridia account?</div>
                     <div style={{ fontSize: '13px', color: '#4b5563', lineHeight: 1.6, marginBottom: '18px' }}>
                       We will queue your request and process it within 30 days (GDPR SLA). Billing records required by law are retained for 7 years; everything else is purged. You can keep using the account until processing completes.
                     </div>

@@ -97,7 +97,7 @@ export default function DemoPage() {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: `${C.bg}cc`, backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.ruleSoft}`, padding: '0 32px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '26px', height: '26px', background: C.ink, borderRadius: '6px' }} />
-          <span style={{ fontWeight: 600, fontSize: '15px', color: C.ink, letterSpacing: '-0.01em' }}>Fulcra</span>
+          <span style={{ fontWeight: 600, fontSize: '15px', color: C.ink, letterSpacing: '-0.01em' }}>Meridia</span>
         </Link>
         <div style={{ display: 'flex', gap: '28px' }}>
           {NAV.map(n => (
@@ -132,7 +132,7 @@ export default function DemoPage() {
             </div>
             <iframe
               src={CAL_URL}
-              title="Book a demo with Fulcra"
+              title="Book a demo with Meridia"
               style={{ width: '100%', height: 680, border: 0, display: 'block', background: C.surface }}
               loading="lazy"
             />
@@ -239,7 +239,7 @@ export default function DemoPage() {
 
       {/* Footer */}
       <footer style={{ background: C.ink, color: C.bg, padding: '28px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <span style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)' }}>© {new Date().getFullYear()} Fulcra. All rights reserved.</span>
+        <span style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)' }}>© {new Date().getFullYear()} Meridia. All rights reserved.</span>
         <div style={{ display: 'flex', gap: 20 }}>
           {[['Pricing', '/pricing'], ['Partners', '/partners'], ['Help', '/help'], ['Contact', '/contact']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)', textDecoration: 'none' }}>{l}</Link>

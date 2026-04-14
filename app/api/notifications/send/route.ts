@@ -41,17 +41,17 @@ export async function POST(request: Request) {
     let html = ''
 
     if (type === 'critical_alert') {
-      subject = `⚠️ Fulcra Alert: ${payload.title}`
+      subject = `⚠️ Meridia Alert: ${payload.title}`
       html = criticalAlertEmail(payload)
     } else if (type === 'welcome') {
-      subject = 'Welcome to Fulcra — your AI profit engine is ready'
+      subject = 'Welcome to Meridia — your AI profit engine is ready'
       html = welcomeEmail({ email })
     } else {
       return NextResponse.json({ error: 'Unknown notification type' }, { status: 400 })
     }
 
     const result = await getResend().emails.send({
-      from: 'Fulcra <alerts@auxio.app>',
+      from: 'Meridia <alerts@auxio.app>',
       to: email,
       subject,
       html,
@@ -76,10 +76,10 @@ function criticalAlertEmail({ title, description, profit_impact }: { title: stri
           <div style="font-size:22px;font-weight:700;color:#191919;letter-spacing:-0.02em;margin-bottom:8px;">⚠️ ${title}</div>
           <div style="font-size:14px;color:#787774;line-height:1.6;margin-bottom:24px;">${description}</div>
           ${profit_impact ? `<div style="background:#e8f5f3;border-radius:8px;padding:16px;margin-bottom:24px;"><div style="font-size:12px;color:#0f7b6c;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Potential impact</div><div style="font-size:24px;font-weight:700;color:#0f7b6c;">+£${profit_impact.toFixed(2)}</div></div>` : ''}
-          <a href="https://auxio.app/agent" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Review in Fulcra →</a>
+          <a href="https://auxio.app/agent" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Review in Meridia →</a>
         </td></tr>
         <tr><td style="padding:20px 40px;border-top:1px solid #f1f1ef;background:#fafafa;">
-          <div style="font-size:12px;color:#9b9b98;">You're receiving this because critical alerts are enabled in your Fulcra settings. <a href="https://auxio.app/settings" style="color:#787774;">Manage preferences</a></div>
+          <div style="font-size:12px;color:#9b9b98;">You're receiving this because critical alerts are enabled in your Meridia settings. <a href="https://auxio.app/settings" style="color:#787774;">Manage preferences</a></div>
         </td></tr>
       </table>
     </td></tr>
@@ -97,8 +97,8 @@ function welcomeEmail({ email }: { email: string }) {
     <tr><td align="center">
       <table width="560" cellpadding="0" cellspacing="0" style="background:white;border-radius:12px;overflow:hidden;border:1px solid #e8e8e5;">
         <tr><td style="padding:32px 40px;">
-          <div style="font-size:22px;font-weight:700;color:#191919;letter-spacing:-0.02em;margin-bottom:8px;">Welcome to Fulcra</div>
-          <div style="font-size:14px;color:#787774;line-height:1.6;margin-bottom:24px;">Your AI profit engine is ready. Connect your first selling channel and Fulcra will start monitoring your margins, spotting wasted ad spend, and surfacing actions that move your profit.</div>
+          <div style="font-size:22px;font-weight:700;color:#191919;letter-spacing:-0.02em;margin-bottom:8px;">Welcome to Meridia</div>
+          <div style="font-size:14px;color:#787774;line-height:1.6;margin-bottom:24px;">Your AI profit engine is ready. Connect your first selling channel and Meridia will start monitoring your margins, spotting wasted ad spend, and surfacing actions that move your profit.</div>
           <a href="https://auxio.app/onboarding" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Connect your first channel →</a>
         </td></tr>
         <tr><td style="padding:20px 40px;border-top:1px solid #f1f1ef;background:#fafafa;">

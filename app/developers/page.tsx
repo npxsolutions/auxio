@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Fulcra — Developers
+// Meridia — Developers
 // Production page. v8 palette + Instrument Serif display + Geist body + mono.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -115,7 +115,7 @@ export default function DevelopersPage() {
         <div style={{ maxWidth: 1040, margin: '0 auto', padding: '120px 32px 64px', position: 'relative', zIndex: 2 }}>
           <div style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.cobalt }}>Developers</div>
           <h1 className={display.className} style={{ fontSize: 'clamp(48px, 7vw, 88px)', lineHeight: 1.02, letterSpacing: '-0.02em', fontWeight: 400, margin: '20px 0 0' }}>
-            Build on <em style={{ fontStyle: 'italic', color: C.cobalt }}>Fulcra</em>.<br />
+            Build on <em style={{ fontStyle: 'italic', color: C.cobalt }}>Meridia</em>.<br />
             One API. Every channel.
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, color: C.muted, maxWidth: 640, marginTop: 24 }}>
@@ -215,7 +215,7 @@ export default function DevelopersPage() {
 
       <section style={{ ...section, marginBottom: 80 }}>
         <div style={{ background: C.ink, color: C.bg, borderRadius: 18, padding: '64px 48px' }}>
-          <div className={display.className} style={{ fontSize: 'clamp(36px, 5vw, 56px)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>Build on Fulcra.</div>
+          <div className={display.className} style={{ fontSize: 'clamp(36px, 5vw, 56px)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>Build on Meridia.</div>
           <p style={{ fontSize: 16, color: 'rgba(243,240,234,0.7)', maxWidth: 560, marginTop: 16, lineHeight: 1.6 }}>
             Early builders get white-glove support, a direct line to the platform team, and listing placement in the integrations gallery on day one.
           </p>
@@ -281,7 +281,7 @@ function BackdropGrid() {
 function Nav() {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Fulcra</Link>
+      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
       <div style={{ display: 'flex', gap: 28 }}>
         {NAV.map(n => (
           <Link key={n.href} href={n.href} style={{ fontSize: 14, color: n.label === 'Developers' ? C.ink : C.inkSoft, textDecoration: 'none', fontWeight: n.label === 'Developers' ? 500 : 400 }}>{n.label}</Link>
@@ -303,7 +303,7 @@ function ResourcesFooter() {
     <footer style={{ borderTop: `1px solid ${C.rule}`, background: C.bg }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 32px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
         <div>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Fulcra</Link>
+          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.55, marginTop: 12, maxWidth: 240 }}>The operating layer for multichannel commerce.</p>
         </div>
         {cols.map(col => (
@@ -318,7 +318,7 @@ function ResourcesFooter() {
         ))}
       </div>
       <div style={{ borderTop: `1px solid ${C.ruleSoft}`, padding: '20px 32px', maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Fulcra. All rights reserved.</div>
+        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Meridia. All rights reserved.</div>
         <div style={{ fontSize: 12, color: C.muted }}>Built for operators.</div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 'use client'
 
-// Fulcra — Directories. Where Fulcra is (or will be) listed and reviewable.
+// Meridia — Directories. Where Meridia is (or will be) listed and reviewable.
 
 import Link from 'next/link'
 import { Instrument_Serif } from 'next/font/google'
@@ -56,7 +56,7 @@ export default function DirectoriesPage() {
           and find us listed.
         </h1>
         <p style={{ fontSize: 16, color: C.muted, marginTop: 16, lineHeight: 1.6, maxWidth: 620 }}>
-          Reviews and listings are how operators find software they trust. If you use Fulcra, the most useful thing you can do is leave an honest review wherever you spend time.
+          Reviews and listings are how operators find software they trust. If you use Meridia, the most useful thing you can do is leave an honest review wherever you spend time.
         </p>
       </header>
 
@@ -113,7 +113,7 @@ function Section({ title, items }: { title: string; items: Listing[] }) {
 function Nav() {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Fulcra</Link>
+      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
       <div style={{ display: 'flex', gap: 28 }}>
         <Link href="/features" style={{ fontSize: 14, color: C.inkSoft, textDecoration: 'none' }}>Features</Link>
         <Link href="/integrations" style={{ fontSize: 14, color: C.inkSoft, textDecoration: 'none' }}>Integrations</Link>
@@ -136,7 +136,7 @@ function ResourcesFooter() {
     <footer style={{ borderTop: `1px solid ${C.rule}`, background: C.bg }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 32px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
         <div>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Fulcra</Link>
+          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.55, marginTop: 12, maxWidth: 240 }}>The operating layer for multichannel commerce.</p>
         </div>
         {cols.map(col => (
@@ -151,7 +151,7 @@ function ResourcesFooter() {
         ))}
       </div>
       <div style={{ borderTop: `1px solid ${C.ruleSoft}`, padding: '20px 32px', maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Fulcra. All rights reserved.</div>
+        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Meridia. All rights reserved.</div>
         <div style={{ fontSize: 12, color: C.muted }}>Built for operators.</div>
       </div>
     </footer>

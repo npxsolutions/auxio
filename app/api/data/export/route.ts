@@ -80,7 +80,7 @@ export async function POST() {
       user_email: user.email,
       counts,
       notice:
-        'This archive contains all personal and operational data Fulcra holds about you under GDPR Art. 15 (right of access) and Art. 20 (right to portability). Questions: security@fulcra.com.',
+        'This archive contains all personal and operational data Meridia holds about you under GDPR Art. 15 (right of access) and Art. 20 (right to portability). Questions: security@fulcra.com.',
     },
     ...dump,
   }

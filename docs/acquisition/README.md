@@ -1,6 +1,6 @@
 # Acquisition
 
-Paid and earned channels that bring net-new visitors to Fulcra. Separate from distribution (which leans on partners/directories).
+Paid and earned channels that bring net-new visitors to Meridia. Separate from distribution (which leans on partners/directories).
 
 ## Files
 

@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Fulcra — Landing v6
+// Meridia — Landing v6
 // Direction: "Global Map as Product." (continued from v5)
 // Iteration: ruthless word-stripping. Concepts now carried by SVG diagrams,
 // not paragraphs. One sentence max per section. The visuals do the explaining.
@@ -164,7 +164,7 @@ function LiveMap() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 18px', borderBottom: `1px solid ${C.rule}`, background: C.bg }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: C.emerald, boxShadow: `0 0 0 3px ${C.emerald}33` }} />
-          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.mutedDk, fontWeight: 600 }}>Live · Fulcra Atlas</span>
+          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.mutedDk, fontWeight: 600 }}>Live · Meridia Atlas</span>
         </div>
         <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.06em' }}>
           <span>{HUBS.length} markets</span><span>·</span><span>{ARCS.length} active routes</span>
@@ -426,16 +426,16 @@ function DiagramVersus() {
             <rect x={x} y={inc.cy - 18} width="140" height="36" fill="rgba(243,240,234,0.06)" stroke="rgba(243,240,234,0.25)" strokeWidth="1" />
             <text x={x + 70} y={inc.cy - 2} fontSize="11" fontFamily='var(--font-display-v6), Georgia, serif' fill="rgba(243,240,234,0.7)" textAnchor="middle">{inc.name}</text>
             <text x={x + 70} y={inc.cy + 12} fontSize="9" fontFamily='var(--font-mono), monospace' fill="rgba(243,240,234,0.4)" textAnchor="middle" letterSpacing="0.06em">{inc.year}</text>
-            {/* Lonely connecting line drifting toward Fulcra */}
+            {/* Lonely connecting line drifting toward Meridia */}
             <path d={`M ${x + 140} ${inc.cy} Q ${(x + 1080) / 2} 160 1080 160`} stroke="rgba(243,240,234,0.12)" strokeWidth="0.6" fill="none" strokeDasharray="2 5" />
           </g>
         )
       })}
-      {/* Fulcra — the unified box, glowing */}
+      {/* Meridia — the unified box, glowing */}
       <rect x="1080" y="118" width="180" height="84" fill={C.cobalt} />
       <rect x="1072" y="110" width="196" height="100" fill="none" stroke={C.cobalt} strokeWidth="1" strokeOpacity="0.4" />
       <rect x="1064" y="102" width="212" height="116" fill="none" stroke={C.cobalt} strokeWidth="1" strokeOpacity="0.18" />
-      <text x="1170" y="150" fontSize="22" fontFamily='var(--font-display-v6), Georgia, serif' fill={C.bg} textAnchor="middle" letterSpacing="-0.01em">Fulcra</text>
+      <text x="1170" y="150" fontSize="22" fontFamily='var(--font-display-v6), Georgia, serif' fill={C.bg} textAnchor="middle" letterSpacing="-0.01em">Meridia</text>
       <text x="1170" y="174" fontSize="10" fontFamily='var(--font-mono), monospace' fill={C.bg} textAnchor="middle" letterSpacing="0.16em" style={{ textTransform: 'uppercase' }}>One platform</text>
       <text x="1170" y="190" fontSize="9" fontFamily='var(--font-mono), monospace' fill="rgba(243,240,234,0.7)" textAnchor="middle" letterSpacing="0.06em">est. 2026</text>
       {/* Section captions */}
@@ -462,7 +462,7 @@ const PILLARS = [
 
 const QUOTES = [
   { metric: '+34%', label: 'net margin · 60d',         q: 'One screen. A P&L we trust.',                 who: 'Sarah T.', role: 'Apparel · 6 channels' },
-  { metric: '$5,400', label: 'saved · year',            q: 'Fulcra showed me my real margin.',             who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
+  { metric: '$5,400', label: 'saved · year',            q: 'Meridia showed me my real margin.',             who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
   { metric: '0', label: 'stockouts · Q1',               q: 'No emergency reorders since November.',       who: 'Priya K.', role: 'Beauty · 500 SKUs' },
 ]
 
@@ -484,7 +484,7 @@ export default function LandingV6() {
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
               <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
             </svg>
-            <span style={{ fontFamily: 'var(--font-display-v6), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Fulcra</span>
+            <span style={{ fontFamily: 'var(--font-display-v6), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Meridia</span>
           </Link>
           <nav style={{ display: 'flex', gap: 28 }}>
             {NAV.map(n => <a key={n.href} href={n.href} style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none' }}>{n.label}</a>)}
@@ -501,7 +501,7 @@ export default function LandingV6() {
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <span style={{ width: 24, height: 1, background: C.cobalt }} />
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.cobalt, fontWeight: 600 }}>Live · Fulcra Atlas</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.cobalt, fontWeight: 600 }}>Live · Meridia Atlas</span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-display-v6), Georgia, serif', fontSize: 'clamp(64px, 10vw, 148px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 0.94, color: C.ink, margin: 0 }}>
             Commerce, <em style={{ fontStyle: 'italic', color: C.cobalt }}>operated.</em>
@@ -575,7 +575,7 @@ export default function LandingV6() {
       <section id="why" style={{ padding: '120px 32px', background: C.ink, color: C.bg }}>
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 48 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.cobalt, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>Why Fulcra</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.cobalt, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>Why Meridia</span>
             <div style={{ flex: 1, height: 1, background: 'rgba(243,240,234,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'rgba(243,240,234,0.5)' }}>§ 03</span>
           </div>
@@ -678,7 +678,7 @@ export default function LandingV6() {
                 <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
                 <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
               </svg>
-              <span style={{ fontFamily: 'var(--font-display-v6), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Fulcra</span>
+              <span style={{ fontFamily: 'var(--font-display-v6), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
             </div>
             <p style={{ fontSize: 14, color: C.mutedDk, fontFamily: 'var(--font-display-v6), Georgia, serif', fontStyle: 'italic', margin: 0 }}>
               Commerce, operated.
