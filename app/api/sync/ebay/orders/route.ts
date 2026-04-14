@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { ebayHeaders, getEbayAccessToken } from '../../../../lib/ebay/auth'
 import { withRateLimit } from '../../../../lib/rate-limit/channel'
 import { syncFetch } from '../../../../lib/sync/http'
 import { enqueueJob, markCompleted, markFailed, markStarted } from '../../../../lib/sync/jobs'
@@ -10,23 +11,6 @@ const getAdmin = () =>
   })
 
 const OVERLAP_MINUTES = 5
-
-async function refreshUserToken(refreshToken: string): Promise<string> {
-  const credentials = Buffer.from(
-    `${process.env.EBAY_CLIENT_ID!}:${process.env.EBAY_CLIENT_SECRET!}`,
-  ).toString('base64')
-  const res = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${credentials}`,
-    },
-    body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
-  })
-  if (!res.ok) throw new Error(`eBay token refresh failed: ${res.status}`)
-  const body = await res.json()
-  return body.access_token as string
-}
 
 export async function GET(request: Request) {
   const secret = request.headers.get('authorization')?.replace('Bearer ', '')
@@ -48,10 +32,24 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
-    let token = ch.access_token as string
-    const refresh = ch.refresh_token as string | null
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
     const lastSync = (metadata.orders_last_synced_at as string | undefined) ?? null
+
+    const tokenResult = await getEbayAccessToken(
+      {
+        user_id: userId,
+        access_token: ch.access_token as string | null,
+        refresh_token: ch.refresh_token as string | null,
+        metadata,
+      },
+      supabase,
+    )
+    if (!tokenResult) {
+      console.warn(`[sync:ebay:orders] skip user=${userId} — token refresh failed`)
+      results.push({ userId, orders: 0, error: 'token_refresh_failed' })
+      continue
+    }
+    const token = tokenResult.accessToken
 
     const sinceMs =
       (lastSync ? new Date(lastSync).getTime() : Date.now() - 24 * 3600_000) -
@@ -72,23 +70,12 @@ export async function GET(request: Request) {
     try {
       const url = `https://api.ebay.com/sell/fulfillment/v1/order?filter=${encodeURIComponent(`lastmodifieddate:[${since}..${now}]`)}&limit=200`
 
-      let doFetch = async () =>
+      const res = await withRateLimit('ebay', userId, async () =>
         syncFetch(url, {
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          headers: ebayHeaders({ accessToken: token }),
           label: `ebay.orders:${userId}`,
-        })
-
-      let res = await withRateLimit('ebay', userId, doFetch)
-      if (res.status === 401 && refresh) {
-        token = await refreshUserToken(refresh)
-        await supabase.from('channels').update({ access_token: token }).eq('user_id', userId).eq('type', 'ebay')
-        doFetch = async () =>
-          syncFetch(url, {
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-            label: `ebay.orders:${userId}:retry`,
-          })
-        res = await withRateLimit('ebay', userId, doFetch)
-      }
+        }),
+      )
 
       if (res.ok) {
         const body = await res.json()

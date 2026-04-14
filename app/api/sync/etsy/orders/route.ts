@@ -1,7 +1,7 @@
 // TODO(etsy-webhooks): implement when Event Notifications HMAC scheme is verified
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { etsyHeaders } from '../../../../lib/etsy/auth'
+import { etsyHeaders, getEtsyAccessToken } from '../../../../lib/etsy/auth'
 import { withRateLimit } from '../../../../lib/rate-limit/channel'
 import { syncFetch } from '../../../../lib/sync/http'
 import {
@@ -41,15 +41,30 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
-    const token  = ch.access_token as string
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
     const shopId = (metadata.etsy_shop_id as string | undefined) ?? (ch.shop_domain as string | null)
     const etsyUserId = (metadata.etsy_user_id as string | undefined) ?? null
 
-    if (!shopId || !etsyUserId || !token) {
-      results.push({ shopId: shopId ?? null, orders: 0, error: 'missing shop_id / etsy_user_id / token' })
+    if (!shopId || !etsyUserId) {
+      results.push({ shopId: shopId ?? null, orders: 0, error: 'missing shop_id / etsy_user_id' })
       continue
     }
+
+    const tokenResult = await getEtsyAccessToken(
+      {
+        user_id: userId,
+        access_token: ch.access_token as string | null,
+        refresh_token: (ch.refresh_token as string | null) ?? null,
+        metadata,
+      },
+      supabase,
+    )
+    if (!tokenResult) {
+      console.warn(`[sync:etsy:orders] skip shop=${shopId} — token refresh failed`)
+      results.push({ shopId: String(shopId), orders: 0, error: 'token_refresh_failed' })
+      continue
+    }
+    const token = tokenResult.accessToken
 
     const jobId = await enqueueJob({
       userId,

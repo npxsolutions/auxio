@@ -50,7 +50,8 @@ export async function GET(request: Request) {
       return NextResponse.redirect(new URL('/channels?error=etsy_token_failed', request.url))
     }
 
-    const { access_token, refresh_token } = await tokenRes.json()
+    const { access_token, refresh_token, expires_in } = await tokenRes.json()
+    const etsyExpiresAt = Date.now() + Math.max(60, Number(expires_in ?? 3600) - 30) * 1000
 
     // Fetch shop info + numeric user id (required for future v3 calls).
     // The access token itself is prefixed with "<user_id>." but we also hit
@@ -101,6 +102,8 @@ export async function GET(request: Request) {
       metadata: {
         etsy_user_id: etsyUserId,
         etsy_shop_id: etsyShopId,
+        etsy_access_token: access_token,
+        etsy_token_expires_at: etsyExpiresAt,
       },
     }, { onConflict: 'user_id,type' })
 

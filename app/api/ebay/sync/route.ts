@@ -3,31 +3,12 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { XMLParser } from 'fast-xml-parser'
+import { getEbayAccessToken } from '../../../lib/ebay/auth'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
-
-async function refreshUserToken(refreshToken: string): Promise<string> {
-  const credentials = Buffer.from(
-    `${process.env.EBAY_CLIENT_ID!}:${process.env.EBAY_CLIENT_SECRET!}`
-  ).toString('base64')
-  const res = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type':  'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${credentials}`,
-    },
-    body: new URLSearchParams({
-      grant_type:    'refresh_token',
-      refresh_token: refreshToken,
-    }),
-  })
-  if (!res.ok) throw new Error(`Token refresh failed: ${res.status} ${await res.text()}`)
-  const { access_token } = await res.json()
-  return access_token
-}
 
 // Parse eBay item ID from v1|123456789|0 format
 function parseItemId(raw: string): string {
@@ -48,7 +29,7 @@ export async function POST() {
 
     const { data: channel } = await getAdmin()
       .from('channels')
-      .select('access_token, refresh_token, shop_name')
+      .select('access_token, refresh_token, shop_name, metadata')
       .eq('user_id', user.id)
       .eq('type', 'ebay')
       .eq('active', true)
@@ -56,6 +37,19 @@ export async function POST() {
 
     if (!channel?.access_token) {
       return NextResponse.json({ error: 'No eBay channel connected' }, { status: 400 })
+    }
+
+    const tokenResult = await getEbayAccessToken(
+      {
+        user_id: user.id,
+        access_token: channel.access_token as string | null,
+        refresh_token: (channel.refresh_token as string | null) ?? null,
+        metadata: (channel.metadata as Record<string, unknown> | null) ?? {},
+      },
+      getAdmin(),
+    )
+    if (!tokenResult) {
+      return NextResponse.json({ error: 'eBay token refresh failed — please reconnect' }, { status: 401 })
     }
 
     // Build set of already-imported eBay item IDs so we don't duplicate
@@ -68,9 +62,33 @@ export async function POST() {
 
     const existingIds = new Set((existingChannels || []).map(r => r.channel_listing_id as string))
 
-    let userToken = channel.access_token
+    let userToken = tokenResult.accessToken
     let imported = 0
     let skipped  = 0
+
+    // Helper to force a fresh token on 401 (e.g. cached token was revoked mid-run)
+    const forceRefresh = async (): Promise<string | null> => {
+      const { data: fresh } = await getAdmin()
+        .from('channels')
+        .select('access_token, refresh_token, metadata')
+        .eq('user_id', user.id)
+        .eq('type', 'ebay')
+        .single()
+      if (!fresh) return null
+      // Invalidate cache so getEbayAccessToken refreshes
+      const meta = (fresh.metadata as Record<string, unknown> | null) ?? {}
+      const invalid = { ...meta, ebay_token_expires_at: 0 }
+      const r = await getEbayAccessToken(
+        {
+          user_id: user.id,
+          access_token: fresh.access_token as string | null,
+          refresh_token: (fresh.refresh_token as string | null) ?? null,
+          metadata: invalid,
+        },
+        getAdmin(),
+      )
+      return r?.accessToken ?? null
+    }
 
     // ── STRATEGY 1: Inventory API ────────────────────────────────────────────
     // Fetches items created via the Inventory API (full data: title, description,
@@ -86,9 +104,10 @@ export async function POST() {
           `https://api.ebay.com/sell/inventory/v1/inventory_item?limit=100&offset=${offset}`,
           { headers: { Authorization: `Bearer ${userToken}`, 'Content-Language': 'en-GB' } }
         )
-        if (res.status === 401 && channel.refresh_token) {
-          userToken = await refreshUserToken(channel.refresh_token)
-          await getAdmin().from('channels').update({ access_token: userToken }).eq('user_id', user.id).eq('type', 'ebay')
+        if (res.status === 401) {
+          const t = await forceRefresh()
+          if (!t) break
+          userToken = t
           res = await fetch(
             `https://api.ebay.com/sell/inventory/v1/inventory_item?limit=100&offset=${offset}`,
             { headers: { Authorization: `Bearer ${userToken}`, 'Content-Language': 'en-GB' } }

@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { EBAY_DEFAULT_SCOPES } from '../../../lib/ebay/auth'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -54,7 +55,8 @@ export async function GET(request: Request) {
       return NextResponse.redirect(new URL('/channels?error=ebay_token_failed', request.url))
     }
 
-    const { access_token, refresh_token } = await tokenRes.json()
+    const { access_token, refresh_token, expires_in } = await tokenRes.json()
+    const ebayExpiresAt = Date.now() + Math.max(60, Number(expires_in ?? 7200) - 30) * 1000
 
     // Fetch eBay user identity. The Identity API sits on apiz.ebay.com and
     // requires the `commerce.identity.readonly` scope on the OAuth token.
@@ -128,6 +130,11 @@ export async function GET(request: Request) {
       shop_name:     shopName,
       shop_domain:   shopDomain,
       connected_at:  new Date().toISOString(),
+      metadata: {
+        ebay_access_token: access_token,
+        ebay_token_expires_at: ebayExpiresAt,
+        ebay_scope: EBAY_DEFAULT_SCOPES,
+      },
     }, { onConflict: 'user_id,type' })
 
     if (upsertErr) {

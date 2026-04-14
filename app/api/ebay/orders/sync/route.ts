@@ -3,28 +3,12 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { getProfitSettings } from '@/app/lib/profit-settings'
+import { getEbayAccessToken } from '@/app/lib/ebay/auth'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 )
-
-async function refreshUserToken(refreshToken: string): Promise<string> {
-  const credentials = Buffer.from(
-    `${process.env.EBAY_CLIENT_ID!}:${process.env.EBAY_CLIENT_SECRET!}`
-  ).toString('base64')
-  const res = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type':  'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${credentials}`,
-    },
-    body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
-  })
-  if (!res.ok) throw new Error(`Token refresh failed: ${res.status}`)
-  const { access_token } = await res.json()
-  return access_token
-}
 
 export async function POST() {
   try {
@@ -40,7 +24,7 @@ export async function POST() {
 
     const { data: channel } = await getAdmin()
       .from('channels')
-      .select('access_token, refresh_token')
+      .select('access_token, refresh_token, metadata')
       .eq('user_id', user.id)
       .eq('type', 'ebay')
       .eq('active', true)
@@ -50,7 +34,19 @@ export async function POST() {
       return NextResponse.json({ error: 'No eBay channel connected' }, { status: 400 })
     }
 
-    let userToken = channel.access_token
+    const tokenResult = await getEbayAccessToken(
+      {
+        user_id: user.id,
+        access_token: channel.access_token as string | null,
+        refresh_token: (channel.refresh_token as string | null) ?? null,
+        metadata: (channel.metadata as Record<string, unknown> | null) ?? {},
+      },
+      getAdmin(),
+    )
+    if (!tokenResult) {
+      return NextResponse.json({ error: 'eBay token refresh failed — please reconnect' }, { status: 401 })
+    }
+    let userToken = tokenResult.accessToken
     let synced = 0
     let cursor: string | null = null
 
@@ -82,13 +78,32 @@ export async function POST() {
         headers: { Authorization: `Bearer ${userToken}` },
       })
 
-      if (res.status === 401 && channel.refresh_token) {
-        userToken = await refreshUserToken(channel.refresh_token)
-        await getAdmin().from('channels').update({ access_token: userToken })
-          .eq('user_id', user.id).eq('type', 'ebay')
-        res = await fetch(url.toString(), {
-          headers: { Authorization: `Bearer ${userToken}` },
-        })
+      if (res.status === 401) {
+        // Force a refresh (cached token may have been revoked mid-run)
+        const { data: fresh } = await getAdmin()
+          .from('channels')
+          .select('access_token, refresh_token, metadata')
+          .eq('user_id', user.id)
+          .eq('type', 'ebay')
+          .single()
+        if (fresh) {
+          const meta = (fresh.metadata as Record<string, unknown> | null) ?? {}
+          const r = await getEbayAccessToken(
+            {
+              user_id: user.id,
+              access_token: fresh.access_token as string | null,
+              refresh_token: (fresh.refresh_token as string | null) ?? null,
+              metadata: { ...meta, ebay_token_expires_at: 0 },
+            },
+            getAdmin(),
+          )
+          if (r) {
+            userToken = r.accessToken
+            res = await fetch(url.toString(), {
+              headers: { Authorization: `Bearer ${userToken}` },
+            })
+          }
+        }
       }
 
       if (!res.ok) {
