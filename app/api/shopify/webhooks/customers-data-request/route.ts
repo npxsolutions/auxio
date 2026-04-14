@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { verifyShopifyHmac } from '../_verify'
 
 // Shopify GDPR: a customer requested to see what data you hold about them.
-// Auxio stores order/transaction data but no personal PII beyond what
+// Fulcra stores order/transaction data but no personal PII beyond what
 // Shopify provides. Acknowledge receipt — Shopify requires a 200 response.
 export async function POST(request: Request) {
   const rawBody = await request.text()

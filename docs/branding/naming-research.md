@@ -1,7 +1,7 @@
-# Auxio Rebrand — Naming Research
+# Fulcra Rebrand — Naming Research
 
 **Date**: 2026-04-13
-**Mission**: Generate 30 brand name candidates for Auxio's rebrand (global commerce operations platform), assess availability + trademark risk + SERP collision, and return a tight shortlist of 8 plus a recommended top 3.
+**Mission**: Generate 30 brand name candidates for Fulcra's rebrand (global commerce operations platform), assess availability + trademark risk + SERP collision, and return a tight shortlist of 8 plus a recommended top 3.
 
 ---
 
@@ -74,7 +74,7 @@ Ranked by composite score. Domain availability marked **not verified — please 
 
 - **Tagline**: *The commerce lever.*
 - **Sounds like**: a precision instrument — a fulcrum made verb. Feels engineered, not marketed.
-- **For commerce ops**: a fulcrum is the pivot point that makes leverage possible. Auxio is the pivot all your marketplaces, currencies, and regions rotate around. Perfect metaphor.
+- **For commerce ops**: a fulcrum is the pivot point that makes leverage possible. Fulcra is the pivot all your marketplaces, currencies, and regions rotate around. Perfect metaphor.
 - **Etymology**: Latin *fulcrum*, "support, prop" — the point around which a lever turns.
 - **Evokes**: control, operations, leverage, infrastructure.
 - **Phonetic risk**: low. FUL-krah. Unambiguous.
@@ -86,7 +86,7 @@ Ranked by composite score. Domain availability marked **not verified — please 
 
 - **Tagline**: *Commerce, on one meridian.*
 - **Sounds like**: a globe, a spine, a line of reference. Calm and global.
-- **For commerce ops**: meridians are the lines that organise the globe. Auxio organises every channel and currency into one reference line.
+- **For commerce ops**: meridians are the lines that organise the globe. Fulcra organises every channel and currency into one reference line.
 - **Etymology**: from *meridian*, Latin *meridies* — the line that defines noon everywhere.
 - **Evokes**: global, scale, alignment, precision.
 - **Phonetic risk**: low. Muh-RID-ee-ah. Common root across Romance languages.
@@ -128,7 +128,7 @@ Ranked by composite score. Domain availability marked **not verified — please 
 - **Phonetic risk**: low. KEE-lo.
 - **Domain**: `quilo.com` — **not verified — please confirm**. Quilo Home (smart cooling) appears to use `quilohome.com` and Quilo fintech uses `quilo.ai`. `.com` possibly held.
 - **Trademark**: medium. Quilo (fintech lending) + Quilo (home cooling) — both live in different classes. Commerce ops class likely open but would co-exist.
-- **Personal verdict**: soft and modern; lacks the weight Auxio's infrastructure positioning calls for. Nice but not heroic.
+- **Personal verdict**: soft and modern; lacks the weight Fulcra's infrastructure positioning calls for. Nice but not heroic.
 
 ### 3.6 **Rialto** — score 17/30
 
@@ -171,7 +171,7 @@ Ranked by composite score. Domain availability marked **not verified — please 
 ## 4. Recommended top 3
 
 ### 1. **Fulcra** — top pick
-The metaphor is almost too perfect: Auxio is the pivot point that makes commerce scale possible. Latin root (matches your current Auxio origin instinct), 6 letters, no active Fulcra in commerce, two adjacent Fulcras in unrelated verticals. Strongest overall.
+The metaphor is almost too perfect: Fulcra is the pivot point that makes commerce scale possible. Latin root (matches your current Fulcra origin instinct), 6 letters, no active Fulcra in commerce, two adjacent Fulcras in unrelated verticals. Strongest overall.
 
 ### 2. **Meridia**
 The most globally evocative. Every merchant, every currency, every region — one meridian. Softer than Fulcra but resonant. Watch out for the abandoned pharma TM — needs clearance.
@@ -179,7 +179,7 @@ The most globally evocative. Every merchant, every currency, every region — on
 ### 3. **Voro**
 The most Stripe-shelf of the three. 4 letters, Latin root, feels engineered. Weakest conceptual link to commerce (could be anything), but that's also a strength for future stretch.
 
-**Trade-off**: Fulcra is the concept name. Voro is the brand name. Meridia is the poetic name. If Auxio ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Fulcra is unbeatable.
+**Trade-off**: Fulcra is the concept name. Voro is the brand name. Meridia is the poetic name. If Fulcra ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Fulcra is unbeatable.
 
 ---
 

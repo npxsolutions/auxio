@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Auxio — Landing v4
+// Fulcra — Landing v4
 // Direction: Editorial Financial. Bloomberg + NYT Magazine + Financial Times.
 // Parchment paper, ink-black, vermillion accent, high-contrast Fraunces display
 // against Geist body and Geist Mono numerics. Density, hairlines, tabular nums,
@@ -37,7 +37,7 @@ const C = {
 
 const NAV = [
   { label: 'Platform',      href: '#platform' },
-  { label: 'Why Auxio',     href: '#why' },
+  { label: 'Why Fulcra',     href: '#why' },
   { label: 'Pricing',       href: '#pricing' },
   { label: 'Customers',     href: '#customers' },
   { label: 'Documentation', href: '/integrations' },
@@ -74,7 +74,7 @@ const Rule = ({ color = C.rule, my = 0 }: { color?: string; my?: number }) => (
   <div style={{ height: 1, background: color, width: '100%', margin: `${my}px 0` }} />
 )
 
-// ── SVG: Auxio mark (custom) ─────────────────────────────────────────────────
+// ── SVG: Fulcra mark (custom) ─────────────────────────────────────────────────
 const Mark = ({ size = 20, fill = C.ink }: { size?: number; fill?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
     <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={fill} />
@@ -138,8 +138,8 @@ const PRICE = [
 
 // ── Testimonials ─────────────────────────────────────────────────────────────
 const QUOTES = [
-  { q: 'We were running five marketplaces from four browser tabs. Auxio collapsed it to one screen and a P&L we can actually trust.', who: 'Sarah T.', role: 'Founder · Apparel · 6 channels', metric: '+34%', label: 'net margin, 60 days' },
-  { q: 'I knew we were profitable. I did not know we were 8% profitable. Auxio showed me the real number, then showed me the listings to fix.', who: 'Marcus L.', role: 'Operator · Electronics · US/UK/EU', metric: '$5,400', label: 'saved vs Linnworks (year)' },
+  { q: 'We were running five marketplaces from four browser tabs. Fulcra collapsed it to one screen and a P&L we can actually trust.', who: 'Sarah T.', role: 'Founder · Apparel · 6 channels', metric: '+34%', label: 'net margin, 60 days' },
+  { q: 'I knew we were profitable. I did not know we were 8% profitable. Fulcra showed me the real number, then showed me the listings to fix.', who: 'Marcus L.', role: 'Operator · Electronics · US/UK/EU', metric: '$5,400', label: 'saved vs Linnworks (year)' },
   { q: 'The forecasting model has paid for the platform twice over this quarter. We have not had an emergency reorder since November.', who: 'Priya K.', role: 'COO · Beauty · 500 SKUs', metric: '0', label: 'stockouts in Q1' },
 ]
 
@@ -189,7 +189,7 @@ export default function LandingV4() {
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '14px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: C.ink }}>
             <Mark size={22} />
-            <span style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 22, fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1 }}>Auxio</span>
+            <span style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 22, fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1 }}>Fulcra</span>
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', marginLeft: 4, paddingLeft: 10, borderLeft: `1px solid ${C.rule}` }}>est. mmxxvi</span>
           </Link>
           <nav style={{ display: 'flex', gap: 26 }}>
@@ -297,7 +297,7 @@ export default function LandingV4() {
       <section style={{ position: 'relative', zIndex: 2, background: C.ink, color: C.paper, padding: '52px 32px', borderBottom: `1px solid ${C.ink}` }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 28 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.accent, letterSpacing: '0.22em', textTransform: 'uppercase' }}>The Auxio Index</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.accent, letterSpacing: '0.22em', textTransform: 'uppercase' }}>The Fulcra Index</span>
             <div style={{ flex: 1, height: 1, background: 'rgba(241,235,223,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: 'rgba(241,235,223,0.5)' }}>Q1 · 2026</span>
           </div>
@@ -346,7 +346,7 @@ export default function LandingV4() {
               Five inventory systems. Five P&amp;Ls. Five truths about how much money you are actually making. The legacy stack — ChannelAdvisor for catalog, Linnworks for orders, Brightpearl for ERP, Feedonomics for feeds — was assembled one tool at a time, by people who could not yet see commerce as a single operating problem.
             </p>
             <p style={{ margin: 0 }}>
-              Auxio is the platform that does. One ledger. One inventory. One truth. Built from the operations layer up, not the listings layer down.
+              Fulcra is the platform that does. One ledger. One inventory. One truth. Built from the operations layer up, not the listings layer down.
             </p>
           </div>
         </div>
@@ -381,11 +381,11 @@ export default function LandingV4() {
         </div>
       </section>
 
-      {/* ── Why Auxio — incumbent comparison ────────────────────────────────── */}
+      {/* ── Why Fulcra — incumbent comparison ────────────────────────────────── */}
       <section id="why" style={{ position: 'relative', zIndex: 2, padding: '96px 32px', borderBottom: `1px solid ${C.rule}` }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 16 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.accent, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>Why Auxio</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.accent, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>Why Fulcra</span>
             <div style={{ flex: 1, height: 1, background: C.rule }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.muted }}>§ 3.0 — The incumbents</span>
           </div>
@@ -411,7 +411,7 @@ export default function LandingV4() {
 
           <div style={{ marginTop: 64, display: 'grid', gridTemplateColumns: '120px 1fr', gap: 32, alignItems: 'start' }}>
             <div style={{ borderTop: `2px solid ${C.accent}`, paddingTop: 18 }}>
-              <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.accent, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>Auxio</div>
+              <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.accent, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>Fulcra</div>
               <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, marginTop: 4 }}>est. mmxxvi</div>
             </div>
             <div>
@@ -555,7 +555,7 @@ export default function LandingV4() {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <Mark size={20} />
-                <span style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 22, fontWeight: 500, letterSpacing: '-0.02em' }}>Auxio</span>
+                <span style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 22, fontWeight: 500, letterSpacing: '-0.02em' }}>Fulcra</span>
               </div>
               <p style={{ fontSize: 13, lineHeight: 1.6, color: C.mutedDk, margin: 0, maxWidth: 320, fontFamily: 'var(--font-display), Georgia, serif', fontStyle: 'italic', fontWeight: 380 }}>
                 The operating system for global commerce.

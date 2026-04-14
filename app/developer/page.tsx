@@ -237,7 +237,7 @@ export default function DeveloperPage() {
           <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22' }}>API Keys</div>
-              <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Use these to authenticate requests to the Auxio API</div>
+              <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Use these to authenticate requests to the Fulcra API</div>
             </div>
             <button onClick={() => setKeyModal(true)} style={{ padding: '7px 14px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Generate key</button>
           </div>
@@ -288,7 +288,7 @@ export default function DeveloperPage() {
           <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22' }}>Webhooks</div>
-              <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Receive real-time events when things happen in Auxio</div>
+              <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Receive real-time events when things happen in Fulcra</div>
             </div>
             <button onClick={() => setHookModal(true)} style={{ padding: '7px 14px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Add webhook</button>
           </div>

@@ -1,6 +1,6 @@
 # Positioning Canvas
 
-> Framework: April Dunford's *Obviously Awesome*. This doc is the source of truth for how Auxio is described in every piece of marketing copy. If you are tempted to invent a new phrase on a landing page, check this doc first.
+> Framework: April Dunford's *Obviously Awesome*. This doc is the source of truth for how Fulcra is described in every piece of marketing copy. If you are tempted to invent a new phrase on a landing page, check this doc first.
 
 ---
 
@@ -37,7 +37,7 @@ Five things we have that the alternatives do not.
 What the attributes actually produce for the customer.
 
 - **Fewer oversells and stranded stock.** One operator's quarterly oversell rate drops from ~1.8% to under 0.2%. At a $500k/mo business that recovers ~$15k/quarter of margin that would otherwise have become refund and reship cost.
-- **Real margin clarity.** "We thought SKU A was our hero; Auxio showed us SKU C had 3x the net margin after Amazon fees and inbound freight." Operators reallocate ad spend within the first month.
+- **Real margin clarity.** "We thought SKU A was our hero; Fulcra showed us SKU C had 3x the net margin after Amazon fees and inbound freight." Operators reallocate ad spend within the first month.
 - **Ops hours reclaimed.** Growing Operator tier reports 8–12 hours/week of spreadsheet work eliminated. That is a fractional hire's worth of time, redeployed to merchandising or sourcing.
 - **Boardroom-ready P&L.** CFO and founder look at the same number. The multi-currency question stops being a monthly argument.
 - **Platform, not a trap.** Because the API is real and data is exportable, nobody has to fear switching — which paradoxically is why they stay.
@@ -76,13 +76,13 @@ The secondary, more colloquial version — used on the homepage and in launch co
 > The operating system for modern commerce.
 
 ### 30 words
-> Auxio is the Commerce Operations Platform for multichannel sellers. Inventory, orders, forecasting and true multi-currency P&L across every marketplace — in one place, live in ten minutes, priced on order volume not revenue.
+> Fulcra is the Commerce Operations Platform for multichannel sellers. Inventory, orders, forecasting and true multi-currency P&L across every marketplace — in one place, live in ten minutes, priced on order volume not revenue.
 
 ### 90 seconds
 > Most ecommerce operators today are running five channels on three spreadsheets and a prayer. They sell on Shopify, Amazon, eBay, maybe TikTok Shop and Etsy. Inventory drifts out of sync, so they oversell. Fees eat 30% of revenue but nobody sees the true per-order margin until the accountant files quarterly. And if they're selling across currencies, the dashboard is lying to them by the time the Stripe payout lands.
 >
 > The incumbents — Linnworks, Brightpearl, ChannelAdvisor — either cost $5k+ a month with a 90-day implementation, or they're bolted-together listing tools that don't close the loop to P&L.
 >
-> Auxio is the Commerce Operations Platform for this shape of business. You connect your channels in minutes, and inside the same product you get live inventory sync, order orchestration, demand forecasting, multi-currency settled P&L, and a real developer API. Order-volume pricing — never a percentage of revenue. From $59/month, live today.
+> Fulcra is the Commerce Operations Platform for this shape of business. You connect your channels in minutes, and inside the same product you get live inventory sync, order orchestration, demand forecasting, multi-currency settled P&L, and a real developer API. Order-volume pricing — never a percentage of revenue. From $59/month, live today.
 >
 > We're building this because commerce has gotten much more complex in the last five years, and the tools for running it haven't. That's the opening.

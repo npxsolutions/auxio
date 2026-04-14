@@ -3,7 +3,7 @@ import { createClient } from '../lib/supabase-server'
 import { isAdminEmail } from '../lib/supabase-admin'
 import Link from 'next/link'
 
-export const metadata = { title: 'Admin — Auxio' }
+export const metadata = { title: 'Admin — Fulcra' }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -19,7 +19,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <aside style={{ width: 220, background: '#0f0f17', borderRight: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', padding: '24px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 20px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 8 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>
-            Auxio
+            Fulcra
           </div>
           <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
             Super Admin

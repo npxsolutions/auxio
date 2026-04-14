@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Best Linnworks Alternative for Global Sellers (2026) — Honest Comparison',
-  description: 'Looking for a Linnworks alternative? Linnworks starts at $549/mo and requires a 40-day onboarding project. Auxio gives you more features — including AI and true P&L — from $59/mo, live today. Built for sellers worldwide.',
-  keywords: ['Linnworks alternative', 'cheaper than Linnworks', 'Linnworks alternative 2026', 'Linnworks vs Auxio', 'best Linnworks replacement', 'global multichannel inventory management', 'international ecommerce operations platform'],
+  description: 'Looking for a Linnworks alternative? Linnworks starts at $549/mo and requires a 40-day onboarding project. Fulcra gives you more features — including AI and true P&L — from $59/mo, live today. Built for sellers worldwide.',
+  keywords: ['Linnworks alternative', 'cheaper than Linnworks', 'Linnworks alternative 2026', 'Linnworks vs Fulcra', 'best Linnworks replacement', 'global multichannel inventory management', 'international ecommerce operations platform'],
 }
 
 export default function BlogPostPage() {
@@ -12,7 +12,7 @@ export default function BlogPostPage() {
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Auxio</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Fulcra</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -40,15 +40,15 @@ export default function BlogPostPage() {
           },
           {
             h: 'What to look for in a Linnworks alternative',
-            body: `Before switching, be clear on what you actually need. The best Linnworks replacement for your business depends on your scale and complexity:\n\n• If you're doing under $60k/month GMV and want self-serve: you want something like Auxio — full features, self-serve setup, transparent pricing from $59/mo (billed in USD, GBP, EUR, AUD or CAD).\n• If you're doing over $600k/month and need warehouse management: Linnworks is still strong here, especially post-SkuVault acquisition. Brightpearl and ChannelAdvisor are also worth evaluating.\n• If you primarily need listing sync and order routing and sell mainly in Central/Eastern Europe: Baselinker is a cheaper regional option, but offers much less depth on analytics and automation.\n\nFor most sellers in the $25k–$600k/month GMV range — and especially those who want AI, true profit visibility, and procurement management — Auxio is the strongest alternative.`,
+            body: `Before switching, be clear on what you actually need. The best Linnworks replacement for your business depends on your scale and complexity:\n\n• If you're doing under $60k/month GMV and want self-serve: you want something like Fulcra — full features, self-serve setup, transparent pricing from $59/mo (billed in USD, GBP, EUR, AUD or CAD).\n• If you're doing over $600k/month and need warehouse management: Linnworks is still strong here, especially post-SkuVault acquisition. Brightpearl and ChannelAdvisor are also worth evaluating.\n• If you primarily need listing sync and order routing and sell mainly in Central/Eastern Europe: Baselinker is a cheaper regional option, but offers much less depth on analytics and automation.\n\nFor most sellers in the $25k–$600k/month GMV range — and especially those who want AI, true profit visibility, and procurement management — Fulcra is the strongest alternative.`,
           },
           {
-            h: 'Auxio vs Linnworks: the real differences',
-            body: `Here's what the comparison looks like side by side:\n\n• Price: Auxio from $59/mo vs Linnworks $549+/mo. That's roughly a $5,880/year minimum saving.\n• Setup: Auxio is self-serve and live in under 10 minutes. Linnworks takes 40 days average with a dedicated implementation specialist.\n• AI: Auxio includes an AI listing optimiser, an autonomous AI agent with autopilot mode, and demand forecasting. Linnworks has basic task automation, no AI listing writer.\n• Profit tracking: Auxio calculates true net profit after all fees, COGS, postage, and sales tax/VAT. Linnworks shows order revenue but not true margin.\n• Procurement: Both support purchase orders and supplier management. Auxio's forecasting module calculates reorder quantities automatically from 90-day sales velocity.\n• Developer API: Both offer API access. Auxio includes webhooks on Growth and above. Linnworks charges for API access as an add-on.\n• Free trial: Auxio offers 14 days free, no card required. Linnworks offers demos only.`,
+            h: 'Fulcra vs Linnworks: the real differences',
+            body: `Here's what the comparison looks like side by side:\n\n• Price: Fulcra from $59/mo vs Linnworks $549+/mo. That's roughly a $5,880/year minimum saving.\n• Setup: Fulcra is self-serve and live in under 10 minutes. Linnworks takes 40 days average with a dedicated implementation specialist.\n• AI: Fulcra includes an AI listing optimiser, an autonomous AI agent with autopilot mode, and demand forecasting. Linnworks has basic task automation, no AI listing writer.\n• Profit tracking: Fulcra calculates true net profit after all fees, COGS, postage, and sales tax/VAT. Linnworks shows order revenue but not true margin.\n• Procurement: Both support purchase orders and supplier management. Fulcra's forecasting module calculates reorder quantities automatically from 90-day sales velocity.\n• Developer API: Both offer API access. Fulcra includes webhooks on Growth and above. Linnworks charges for API access as an add-on.\n• Free trial: Fulcra offers 14 days free, no card required. Linnworks offers demos only.`,
           },
           {
             h: 'The switching process: what to expect',
-            body: `Switching from Linnworks is less painful than most people expect:\n\n1. Export your product catalogue from Linnworks (CSV export is straightforward)\n2. Connect your channels to Auxio via OAuth — takes 2–3 minutes per channel\n3. Your orders, inventory, and listings populate automatically\n4. Import your supplier and product cost data\n5. Set up your repricing rules and feed rules to match your existing logic\n\nMost sellers are fully operational within a day. The main complexity is replicating any custom feed rules or repricing logic you've built in Linnworks — Auxio's rules engine is comparable, so it's mostly a copy-and-rebuild exercise.`,
+            body: `Switching from Linnworks is less painful than most people expect:\n\n1. Export your product catalogue from Linnworks (CSV export is straightforward)\n2. Connect your channels to Fulcra via OAuth — takes 2–3 minutes per channel\n3. Your orders, inventory, and listings populate automatically\n4. Import your supplier and product cost data\n5. Set up your repricing rules and feed rules to match your existing logic\n\nMost sellers are fully operational within a day. The main complexity is replicating any custom feed rules or repricing logic you've built in Linnworks — Fulcra's rules engine is comparable, so it's mostly a copy-and-rebuild exercise.`,
           },
         ].map(({ h, body }) => (
           <div key={h} style={{ marginBottom: '36px' }}>

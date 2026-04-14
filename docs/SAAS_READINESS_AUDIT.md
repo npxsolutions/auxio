@@ -1,4 +1,4 @@
-# Auxio — $1B SaaS Readiness Audit
+# Fulcra — $1B SaaS Readiness Audit
 
 **Date:** 2026-04-13
 **Scope:** 20 stages, ~120 sub-categories, graded against evidence in the repo.

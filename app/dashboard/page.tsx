@@ -585,9 +585,9 @@ export default function DashboardPage() {
                     {(data?.leverageRatio ?? 0) > 0 ? `${data!.leverageRatio.toFixed(1)}×` : '—'}
                   </div>
                 </div>
-                <div style={{ fontSize: '12px', color: '#6b6e87', marginBottom: '12px' }}>Value returned per £1 paid to Auxio</div>
+                <div style={{ fontSize: '12px', color: '#6b6e87', marginBottom: '12px' }}>Value returned per £1 paid to Fulcra</div>
                 <div style={{ fontSize: '12px', color: '#9496b0', fontStyle: 'italic', lineHeight: 1.5 }}>
-                  "Your bank lends your £1 deposit out 9 times. Auxio returns {(data?.leverageRatio ?? 0) > 0 ? data!.leverageRatio.toFixed(1) : '9.4'}× for every £1 you pay."
+                  "Your bank lends your £1 deposit out 9 times. Fulcra returns {(data?.leverageRatio ?? 0) > 0 ? data!.leverageRatio.toFixed(1) : '9.4'}× for every £1 you pay."
                 </div>
               </div>
 

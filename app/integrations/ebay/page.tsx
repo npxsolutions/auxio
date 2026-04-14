@@ -2,8 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'eBay Listing Software for Global Sellers | Auxio',
-  description: 'Connect your eBay store to Auxio and list products in minutes. Sync inventory, track true profit, and use AI to write better listings — built for eBay sellers worldwide, across eBay.com, eBay.co.uk, eBay.de, eBay.com.au and more.',
+  title: 'eBay Listing Software for Global Sellers | Fulcra',
+  description: 'Connect your eBay store to Fulcra and list products in minutes. Sync inventory, track true profit, and use AI to write better listings — built for eBay sellers worldwide, across eBay.com, eBay.co.uk, eBay.de, eBay.com.au and more.',
   keywords: ['eBay listing software', 'eBay inventory management', 'eBay multichannel software', 'sell on eBay', 'global eBay seller tool', 'eBay Cassini optimization'],
 }
 
@@ -15,7 +15,7 @@ const NAV = [
 
 const STEPS = [
   { n: '1', title: 'Connect your eBay account', desc: 'OAuth in 60 seconds. No API keys, no developer setup. Just click "Connect eBay" and authorise access.' },
-  { n: '2', title: 'Import your listings', desc: 'Auxio pulls in your existing eBay listings, prices, and stock levels automatically. Your data stays intact.' },
+  { n: '2', title: 'Import your listings', desc: 'Fulcra pulls in your existing eBay listings, prices, and stock levels automatically. Your data stays intact.' },
   { n: '3', title: 'List everywhere, manage from one place', desc: 'Publish the same product to Amazon, Shopify, and OnBuy from a single screen. One update syncs to all channels.' },
 ]
 
@@ -23,16 +23,16 @@ const FEATURES = [
   { icon: '📊', title: 'True profit per eBay order', desc: 'After eBay fees, payment processing, postage, COGS, and sales tax/VAT — see what you actually made on every sale, not just the sale price.' },
   { icon: '🤖', title: 'AI listing writer', desc: 'Generate eBay-optimised titles and descriptions that follow Cassini best practices — structured data, keyword placement, condition notes.' },
   { icon: '🔄', title: 'Real-time stock sync', desc: 'Sell one unit on Amazon and your eBay quantity drops instantly. No overselling, no manual updates.' },
-  { icon: '⚠️', title: 'Error detection', desc: 'Auxio watches your eBay listings 24/7 and flags ended listings, policy violations, and suppressed items before they cost you sales.' },
+  { icon: '⚠️', title: 'Error detection', desc: 'Fulcra watches your eBay listings 24/7 and flags ended listings, policy violations, and suppressed items before they cost you sales.' },
   { icon: '📦', title: 'Order management', desc: 'eBay orders land in one unified inbox alongside Amazon and Shopify orders. Print labels, mark dispatched, track returns.' },
   { icon: '📈', title: 'Fee-aware repricing', desc: 'Automatically adjust eBay prices to stay competitive while protecting your margin floor — factoring in eBay fees, not just sale price.' },
 ]
 
 const FAQS = [
-  { q: 'Which eBay marketplaces does Auxio support?', a: 'All major eBay sites — eBay.com (US), eBay.co.uk, eBay.de, eBay.fr, eBay.it, eBay.es, eBay.com.au, eBay.ca and more. We handle region-specific categories, sales tax / VAT calculation, and carrier integrations for each market (USPS, Royal Mail, DHL, Australia Post, Canada Post).' },
-  { q: 'Will Auxio interfere with my existing eBay listings?', a: 'No. When you connect, we read your existing listings and import them. We only make changes when you explicitly tell us to — we never modify or end listings without your instruction.' },
+  { q: 'Which eBay marketplaces does Fulcra support?', a: 'All major eBay sites — eBay.com (US), eBay.co.uk, eBay.de, eBay.fr, eBay.it, eBay.es, eBay.com.au, eBay.ca and more. We handle region-specific categories, sales tax / VAT calculation, and carrier integrations for each market (USPS, Royal Mail, DHL, Australia Post, Canada Post).' },
+  { q: 'Will Fulcra interfere with my existing eBay listings?', a: 'No. When you connect, we read your existing listings and import them. We only make changes when you explicitly tell us to — we never modify or end listings without your instruction.' },
   { q: 'Does it work with eBay Promoted Listings?', a: 'We sync your organic listing data. Promoted Listings management is on our roadmap for Q3 2026.' },
-  { q: 'Can I use Auxio just for eBay and nothing else?', a: 'Absolutely. Many sellers start with eBay only and expand to other channels over time. There is no requirement to connect multiple channels.' },
+  { q: 'Can I use Fulcra just for eBay and nothing else?', a: 'Absolutely. Many sellers start with eBay only and expand to other channels over time. There is no requirement to connect multiple channels.' },
   { q: 'How does the profit tracking work?', a: 'We pull your order data from eBay (sale price, shipping charged), combine it with your product cost and postage settings, and deduct the actual eBay final value fees. The result is your true profit on every transaction.' },
   { q: 'Is there a free trial?', a: 'Yes — 14 days free, no credit card required. You can connect eBay, import your listings, and see your profit dashboard before paying anything.' },
 ]
@@ -44,7 +44,7 @@ export default function EbayIntegrationPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Auxio</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Fulcra</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>{n.label}</Link>)}
@@ -115,7 +115,7 @@ export default function EbayIntegrationPage() {
             Know your real eBay profit
           </h2>
           <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: '32px' }}>
-            Most eBay sellers think they're making 20% margin. After eBay final value fees (10–15%), payment processing (2.9%), shipping, packaging, and COGS — the real number is often half that. Auxio shows you the actual figure on every order.
+            Most eBay sellers think they're making 20% margin. After eBay final value fees (10–15%), payment processing (2.9%), shipping, packaging, and COGS — the real number is often half that. Fulcra shows you the actual figure on every order.
           </p>
           <div style={{ display: 'inline-grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px', overflow: 'hidden', marginBottom: '32px' }}>
             {[['Sale price', '$55.00'], ['eBay fees', '−$7.15'], ['Postage', '−$4.85'], ['Packaging', '−$0.60'], ['COGS', '−$22.00'], ['True profit', '$20.40']].map(([label, val]) => (
@@ -132,14 +132,14 @@ export default function EbayIntegrationPage() {
       {/* vs competitors */}
       <div style={{ background: '#fafaf9', padding: '80px 48px', borderTop: '1px solid #f1f1ef' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '12px', color: '#0f172a' }}>How Auxio compares for eBay sellers</h2>
+          <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '12px', color: '#0f172a' }}>How Fulcra compares for eBay sellers</h2>
           <p style={{ textAlign: 'center', color: '#64748b', fontSize: '15px', marginBottom: '40px' }}>vs Linnworks, ChannelAdvisor, and selling manually</p>
           <div style={{ border: '1px solid #e8e8e5', borderRadius: '14px', overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
               <thead>
                 <tr style={{ background: '#0f172a', color: 'white' }}>
                   <th style={{ padding: '14px 20px', textAlign: 'left', fontWeight: 600 }}>Feature</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635' }}>Auxio</th>
+                  <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635' }}>Fulcra</th>
                   <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>Linnworks</th>
                   <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>ChannelAdvisor</th>
                 </tr>
@@ -166,9 +166,9 @@ export default function EbayIntegrationPage() {
             </table>
           </div>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '32px' }}>
-            <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Auxio vs Linnworks →</Link>
+            <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Fulcra vs Linnworks →</Link>
             <span style={{ color: '#e2e8f0' }}>|</span>
-            <Link href="/vs/channelAdvisor" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Auxio vs ChannelAdvisor →</Link>
+            <Link href="/vs/channelAdvisor" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Fulcra vs ChannelAdvisor →</Link>
           </div>
         </div>
       </div>
@@ -194,7 +194,7 @@ export default function EbayIntegrationPage() {
       </div>
 
       <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Auxio. All rights reserved.</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Fulcra. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Integrations', '/integrations'], ['Pricing', '/pricing'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{l}</Link>

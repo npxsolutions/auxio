@@ -23,7 +23,7 @@ function HeroStatCard() {
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '9999px', background: 'rgba(163,230,53,0.1)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '14px', color: '#a3e635', fontWeight: 700, marginBottom: '28px' }}>
-          Auxio · Multichannel Platform
+          Fulcra · Multichannel Platform
         </div>
         <h1 style={{ fontSize: '88px', fontWeight: 800, letterSpacing: '-0.05em', color: 'white', lineHeight: 1, marginBottom: '16px' }}>
           List once.<br />
@@ -63,11 +63,11 @@ function ComparisonCard() {
   return (
     <div style={{ width: '1200px', height: '628px', background: '#f7f3eb', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', system-ui, sans-serif", padding: '60px' }}>
       <div style={{ width: '100%' }}>
-        <h2 style={{ fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', textAlign: 'center', marginBottom: '8px' }}>Why sellers switch to Auxio</h2>
+        <h2 style={{ fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', textAlign: 'center', marginBottom: '8px' }}>Why sellers switch to Fulcra</h2>
         <p style={{ textAlign: 'center', fontSize: '16px', color: '#64748b', marginBottom: '36px' }}>Powerful like Feedonomics. Affordable like Baselinker. Faster than both.</p>
         <div style={{ background: 'white', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: '#0f172a' }}>
-            {['', 'Auxio', 'Feedonomics', 'Rithum'].map((h, i) => (
+            {['', 'Fulcra', 'Feedonomics', 'Rithum'].map((h, i) => (
               <div key={i} style={{ padding: '12px 16px', textAlign: i > 0 ? 'center' : 'left' }}>
                 <span style={{ fontSize: '13px', fontWeight: 700, color: i === 1 ? '#a3e635' : 'rgba(255,255,255,0.4)' }}>{h}</span>
               </div>
@@ -134,7 +134,7 @@ function TestimonialCard() {
       <div style={{ maxWidth: '800px', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', padding: '8px 20px', borderRadius: '9999px', background: 'rgba(163,230,53,0.15)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '15px', fontWeight: 700, color: '#4d7c0f', marginBottom: '32px' }}>87% time saved</div>
         <p style={{ fontSize: '32px', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, letterSpacing: '-0.02em', marginBottom: '32px', fontStyle: 'italic' }}>
-          &ldquo;We were spending 3 hours a day managing listings across eBay and Amazon. Auxio cut that to under 20 minutes.&rdquo;
+          &ldquo;We were spending 3 hours a day managing listings across eBay and Amazon. Fulcra cut that to under 20 minutes.&rdquo;
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
           <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: 700 }}>S</div>
@@ -191,7 +191,7 @@ function VsFeedonomicsCard() {
     <div style={{ width: '1200px', height: '628px', background: '#09090b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', system-ui, sans-serif", padding: '80px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
       <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <p style={{ textAlign: 'center', fontSize: '14px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Feedonomics vs Auxio</p>
+        <p style={{ textAlign: 'center', fontSize: '14px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Feedonomics vs Fulcra</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '32px', alignItems: 'center' }}>
           {/* Feedonomics */}
           <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
@@ -207,9 +207,9 @@ function VsFeedonomicsCard() {
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '28px', fontWeight: 800, color: 'rgba(255,255,255,0.15)', letterSpacing: '-0.02em' }}>vs</div>
           </div>
-          {/* Auxio */}
+          {/* Fulcra */}
           <div style={{ border: '1px solid rgba(91,82,245,0.4)', borderRadius: '16px', padding: '32px', textAlign: 'center', background: 'rgba(91,82,245,0.08)' }}>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#a3e635', marginBottom: '16px' }}>Auxio</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#a3e635', marginBottom: '16px' }}>Fulcra</div>
             {[['£49/mo', 'Starting price'], ['< 10 min', 'To go live'], ['Self-serve', 'Setup'], ['Yes', 'Profit tracking']].map(([v, l]) => (
               <div key={l} style={{ marginBottom: '12px' }}>
                 <div style={{ fontSize: '20px', fontWeight: 700, color: 'white' }}>{v}</div>

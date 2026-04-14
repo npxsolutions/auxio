@@ -27,11 +27,11 @@ function shell(inner: string): string {
 <tr><td>
   <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;">
     <div style="width:26px;height:26px;background:#0b0f1a;border-radius:6px;"></div>
-    <span style="font-size:14px;font-weight:600;color:#0b0f1a;letter-spacing:-0.01em;">Auxio</span>
+    <span style="font-size:14px;font-weight:600;color:#0b0f1a;letter-spacing:-0.01em;">Fulcra</span>
   </div>
   ${inner}
   <div style="margin-top:36px;padding-top:20px;border-top:1px solid rgba(11,15,26,0.06);font-size:12px;color:#5a6171;line-height:1.6;">
-    You're receiving this as part of your Auxio onboarding. <a href="${BASE_URL}/settings" style="color:#1d5fdb;text-decoration:none;">Manage email preferences</a>.
+    You're receiving this as part of your Fulcra onboarding. <a href="${BASE_URL}/settings" style="color:#1d5fdb;text-decoration:none;">Manage email preferences</a>.
   </div>
 </td></tr></table>
 </td></tr></table>
@@ -48,18 +48,18 @@ function p(text: string): string {
 
 export function welcomeEmail(user: LifecycleUser, _ctx: LifecycleContext = {}): RenderedEmail {
   const name = user.firstName ? `, ${user.firstName}` : ''
-  const subject = 'Welcome to Auxio.'
+  const subject = 'Welcome to Fulcra.'
   const html = shell(`
-    <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:34px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">Welcome to Auxio${name}.</h1>
-    ${p('Thanks for signing up. Auxio is the operating layer for multichannel commerce — one place to see true profit across every marketplace you sell on.')}
+    <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:34px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">Welcome to Fulcra${name}.</h1>
+    ${p('Thanks for signing up. Fulcra is the operating layer for multichannel commerce — one place to see true profit across every marketplace you sell on.')}
     ${p('Your first move: connect a marketplace. As soon as one channel syncs, you will see real orders, real costs, and the actual profit per SKU. Most operators reach that moment inside ten minutes.')}
     ${p('If you would rather have a human walk you through it, reply to this email. It lands in a real inbox, not a ticketing queue.')}
     ${btn(`${BASE_URL}/onboarding`, 'Connect your first channel')}
-    <p style="font-size:14px;line-height:1.6;color:#5a6171;margin:28px 0 0;">— The Auxio team</p>
+    <p style="font-size:14px;line-height:1.6;color:#5a6171;margin:28px 0 0;">— The Fulcra team</p>
   `)
-  const text = `Welcome to Auxio${name}.
+  const text = `Welcome to Fulcra${name}.
 
-Thanks for signing up. Auxio is the operating layer for multichannel commerce — one place to see true profit across every marketplace you sell on.
+Thanks for signing up. Fulcra is the operating layer for multichannel commerce — one place to see true profit across every marketplace you sell on.
 
 Your first move: connect a marketplace. As soon as one channel syncs, you will see real orders, real costs, and the actual profit per SKU.
 
@@ -67,7 +67,7 @@ If you would rather have a human walk you through it, reply to this email.
 
 Connect your first channel: ${BASE_URL}/onboarding
 
-— The Auxio team`
+— The Fulcra team`
   return { subject, html, text }
 }
 
@@ -76,7 +76,7 @@ export function day1NudgeEmail(user: LifecycleUser, _ctx: LifecycleContext = {})
   const html = shell(`
     <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">One step to your first profit number.</h1>
     ${p('You signed up yesterday and have not connected a channel yet. That is fine — the first connection is the one that takes a bit of thought.')}
-    ${p('Pick whichever store has the most recent activity. Shopify, eBay, Amazon, Etsy — any of them work. Auxio does the rest: pulls orders, matches fees, surfaces margin.')}
+    ${p('Pick whichever store has the most recent activity. Shopify, eBay, Amazon, Etsy — any of them work. Fulcra does the rest: pulls orders, matches fees, surfaces margin.')}
     ${btn(`${BASE_URL}/onboarding`, 'Pick a channel to connect')}
     <p style="font-size:14px;line-height:1.6;color:#5a6171;margin:28px 0 0;">Stuck on something specific. Reply and tell us which channel — we will unblock you.</p>
   `)
@@ -84,7 +84,7 @@ export function day1NudgeEmail(user: LifecycleUser, _ctx: LifecycleContext = {})
 
 You signed up yesterday and have not connected a channel yet. That is fine — the first connection is the one that takes a bit of thought.
 
-Pick whichever store has the most recent activity. Shopify, eBay, Amazon, Etsy — any of them work. Auxio does the rest: pulls orders, matches fees, surfaces margin.
+Pick whichever store has the most recent activity. Shopify, eBay, Amazon, Etsy — any of them work. Fulcra does the rest: pulls orders, matches fees, surfaces margin.
 
 Pick a channel: ${BASE_URL}/onboarding
 
@@ -97,7 +97,7 @@ export function day3NudgeEmail(user: LifecycleUser, _ctx: LifecycleContext = {})
   const html = shell(`
     <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">We can see your channels — orders next.</h1>
     ${p('Your channel is connected. Orders have not flowed through yet, which usually means one of two things.')}
-    ${p('First path: webhook registration. When a new sale happens, the marketplace pings Auxio in real time. Already set up for you.')}
+    ${p('First path: webhook registration. When a new sale happens, the marketplace pings Fulcra in real time. Already set up for you.')}
     ${p('Second path: the overnight poll. We sweep each channel for the past 90 days on first connect. This can take up to a few hours depending on catalogue size.')}
     ${p('Open the dashboard to see the sync status and manually trigger a backfill if you want to move faster.')}
     ${btn(`${BASE_URL}/dashboard`, 'Open dashboard')}
@@ -106,7 +106,7 @@ export function day3NudgeEmail(user: LifecycleUser, _ctx: LifecycleContext = {})
 
 Your channel is connected. Orders have not flowed through yet, which usually means one of two things.
 
-First: webhook registration — when a new sale happens, the marketplace pings Auxio in real time. Already set up.
+First: webhook registration — when a new sale happens, the marketplace pings Fulcra in real time. Already set up.
 
 Second: the overnight poll — we sweep each channel for the past 90 days on first connect. Can take a few hours depending on catalogue size.
 
@@ -123,7 +123,7 @@ export function day7ActiveEmail(user: LifecycleUser, ctx: LifecycleContext = {})
     <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">Your first week.</h1>
     ${p(`Seven days in. We counted <strong>${orders} order${orders === 1 ? '' : 's'}</strong> and <strong>£${gmv.toLocaleString('en-GB', { maximumFractionDigits: 0 })}</strong> in GMV, with ${top} leading the pack.`)}
     ${p('You have the baseline. Two things operators usually turn on next, in this order.')}
-    ${p('One — repricing rules. Set a floor, a ceiling, and a margin target. Auxio moves prices automatically against competitor velocity.')}
+    ${p('One — repricing rules. Set a floor, a ceiling, and a margin target. Fulcra moves prices automatically against competitor velocity.')}
     ${p('Two — invite your ops team. They get the same view, scoped to the channels and SKUs you decide.')}
     ${btn(`${BASE_URL}/repricing`, 'Set up repricing')}
     <p style="font-size:14px;line-height:1.6;color:#5a6171;margin:20px 0 0;"><a href="${BASE_URL}/settings" style="color:#1d5fdb;text-decoration:none;">Invite your team →</a></p>
@@ -142,14 +142,14 @@ export function day7DormantEmail(user: LifecycleUser, _ctx: LifecycleContext = {
   const subject = 'Still figuring it out?'
   const html = shell(`
     <h1 style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:-0.02em;line-height:1.1;margin:0 0 20px;">Still figuring it out.</h1>
-    ${p('A week in and Auxio has not given you a profit number yet. That is almost always a setup thing we can fix in fifteen minutes on a call.')}
+    ${p('A week in and Fulcra has not given you a profit number yet. That is almost always a setup thing we can fix in fifteen minutes on a call.')}
     ${p('We will share a screen, get the first channel syncing, and point at the view that matters. No slides, no qualification — just the product.')}
     ${btn(`${BASE_URL}/contact`, 'Book a 15-minute setup call')}
     <p style="font-size:14px;line-height:1.6;color:#5a6171;margin:20px 0 0;">Prefer email. Reply with the channel you are trying to connect and we will walk you through it in writing.</p>
   `)
   const text = `Still figuring it out.
 
-A week in and Auxio has not given you a profit number yet. That is almost always a setup thing we can fix in fifteen minutes on a call.
+A week in and Fulcra has not given you a profit number yet. That is almost always a setup thing we can fix in fifteen minutes on a call.
 
 Book a 15-minute setup call: ${BASE_URL}/contact
 

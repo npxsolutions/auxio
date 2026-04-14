@@ -120,7 +120,7 @@ export default function CompareLandingPage() {
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px', gap: '24px', flexWrap: 'wrap' }}>
           <div>
-            <Link href="/" style={{ fontSize: '13px', color: C.muted, textDecoration: 'none' }}>← Auxio</Link>
+            <Link href="/" style={{ fontSize: '13px', color: C.muted, textDecoration: 'none' }}>← Fulcra</Link>
             <h1 style={{ fontSize: '36px', fontWeight: 700, letterSpacing: '-0.025em', marginTop: '8px', marginBottom: '6px' }}>
               Landing-page bake-off
             </h1>

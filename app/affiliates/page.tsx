@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Auxio — Affiliates
+// Fulcra — Affiliates
 // Production page. v8 palette + Instrument Serif display + Geist body.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -60,14 +60,14 @@ const ASSETS = [
   'Banner set — square, vertical, leaderboard, in three palettes.',
   'Demo videos — 60-second tour, 3-minute walkthrough, integration teasers.',
   'Email swipe file — warm intros, cold outreach, newsletter drops.',
-  'Comparison decks — Auxio versus the four most-asked competitors.',
+  'Comparison decks — Fulcra versus the four most-asked competitors.',
   'Brand guidelines — voice, do-not-use claims, trademark policy.',
 ]
 
 const FAQ = [
   { q: 'What counts as a valid referral?',          a: 'Any paid account that stays active past day 14 of trial. Self-referrals, sock-puppets, and incentivised signups (e.g. cashback sites) are disqualified.' },
   { q: 'How long is the cookie window?',            a: 'Ninety days, last-click attribution. The cookie is HTTP-only and server-verified at signup.' },
-  { q: 'Can I run paid ads on the Auxio brand?',    a: 'No brand bidding on Google or Bing. Newsletters, YouTube pre-roll, programmatic display, and organic social are all fair game.' },
+  { q: 'Can I run paid ads on the Fulcra brand?',    a: 'No brand bidding on Google or Bing. Newsletters, YouTube pre-roll, programmatic display, and organic social are all fair game.' },
   { q: 'When do I get paid?',                       a: 'Monthly, on the 15th, via Stripe Connect or wire. Minimum £50 payout — balances roll forward.' },
   { q: 'Is there a cap on commissions?',            a: 'No cap. Our highest-earning affiliate last quarter billed five figures.' },
   { q: 'Can I be both an affiliate and a partner?', a: 'No — pick one. The partner program pays more for active management; affiliates earn more on volume without the operational lift.' },
@@ -277,7 +277,7 @@ function ApplicationForm() {
       <Field name="channels" label="Primary channels" placeholder="e.g. YouTube + newsletter" />
       <div>
         <label style={fieldLabel} htmlFor="about">Tell us about your audience</label>
-        <textarea id="about" name="about" rows={4} style={{ ...fieldInput, resize: 'vertical', fontFamily: 'inherit' }} placeholder="Who reads or watches you? Why does Auxio fit?" />
+        <textarea id="about" name="about" rows={4} style={{ ...fieldInput, resize: 'vertical', fontFamily: 'inherit' }} placeholder="Who reads or watches you? Why does Fulcra fit?" />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8, flexWrap: 'wrap' }}>
         <button type="submit" disabled={state === 'submitting'} style={{ ...btnPrimary, opacity: state === 'submitting' ? 0.6 : 1, cursor: state === 'submitting' ? 'progress' : 'pointer', border: 'none' }}>
@@ -303,7 +303,7 @@ function Field({ name, label, type = 'text', placeholder, required }: { name: st
 function Nav({ active }: { active: string }) {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Auxio</Link>
+      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Fulcra</Link>
       <div style={{ display: 'flex', gap: 28 }}>
         {NAV.map(n => (
           <Link key={n.href} href={n.href} style={{ fontSize: 14, color: n.label === active ? C.ink : C.inkSoft, textDecoration: 'none', fontWeight: n.label === active ? 500 : 400 }}>{n.label}</Link>
@@ -325,7 +325,7 @@ function ResourcesFooter() {
     <footer style={{ borderTop: `1px solid ${C.rule}`, background: C.bg }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 32px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
         <div>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Auxio</Link>
+          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Fulcra</Link>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.55, marginTop: 12, maxWidth: 240 }}>The operating layer for multichannel commerce.</p>
         </div>
         {cols.map(col => (
@@ -340,7 +340,7 @@ function ResourcesFooter() {
         ))}
       </div>
       <div style={{ borderTop: `1px solid ${C.ruleSoft}`, padding: '20px 32px', maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Auxio. All rights reserved.</div>
+        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Fulcra. All rights reserved.</div>
         <div style={{ fontSize: 12, color: C.muted }}>Built for operators.</div>
       </div>
     </footer>

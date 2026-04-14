@@ -69,7 +69,7 @@ export async function POST(request: Request) {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              name: `Auxio ${topic}`,
+              name: `Fulcra ${topic}`,
               topic,
               delivery_url: deliveryUrl,
               secret: webhookSecret,

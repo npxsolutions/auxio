@@ -17,7 +17,7 @@ import {
   TransactionIntelligenceEngine,
   ValueMultiplier,
   ClaudeIntelligenceLayer,
-  AuxioAgent,
+  FulcraAgent,
   captureTransaction,
 } from './transactionEngine'
 
@@ -380,7 +380,7 @@ async function runAgent(userId: string) {
   // Only run agent for Growth+ plans
   if (!userData || userData.plan === 'starter') return
 
-  const agent = new AuxioAgent()
+  const agent = new FulcraAgent()
   const result = await agent.runAgentCycle(
     userId,
     userData.agent_mode || 'copilot'
@@ -422,7 +422,7 @@ async function logSyncError(userId: string, channel: string, error: any) {
 
 // ── MAIN: PROCESS ALL USERS ──
 async function main() {
-  console.log(`\n🚀 Auxio Intelligence Worker Starting — ${new Date().toISOString()}`)
+  console.log(`\n🚀 Fulcra Intelligence Worker Starting — ${new Date().toISOString()}`)
   console.log('The compounding machine is running...\n')
 
   // Get all active users

@@ -82,7 +82,7 @@ export default function ArticlePage() {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: `${C.bg}cc`, backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.ruleSoft}`, padding: '0 32px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
           <div style={{ width: 26, height: 26, background: C.ink, borderRadius: 6 }} />
-          <span style={{ fontWeight: 600, fontSize: 15, color: C.ink }}>Auxio</span>
+          <span style={{ fontWeight: 600, fontSize: 15, color: C.ink }}>Fulcra</span>
         </Link>
         <div style={{ display: 'flex', gap: 24, fontSize: 13 }}>
           <Link href="/help" style={{ color: C.inkSoft, textDecoration: 'none' }}>← All articles</Link>
@@ -174,7 +174,7 @@ export default function ArticlePage() {
       </div>
 
       <footer style={{ background: C.ink, color: C.bg, padding: '28px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <span style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)' }}>© {new Date().getFullYear()} Auxio.</span>
+        <span style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)' }}>© {new Date().getFullYear()} Fulcra.</span>
         <div style={{ display: 'flex', gap: 20 }}>
           {[['Pricing', '/pricing'], ['Partners', '/partners'], ['Help', '/help'], ['Contact', '/contact']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)', textDecoration: 'none' }}>{l}</Link>

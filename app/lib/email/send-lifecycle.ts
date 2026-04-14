@@ -40,7 +40,7 @@ export async function sendLifecycleEmail(
     const rendered = LIFECYCLE_TEMPLATES[template](user, ctx)
     const resend = getResend()
     await resend.emails.send({
-      from: 'Auxio <hello@auxio.app>',
+      from: 'Fulcra <hello@auxio.app>',
       to: user.email,
       replyTo: 'hello@auxio.app',
       subject: rendered.subject,

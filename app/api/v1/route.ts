@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   try {
     return NextResponse.json({
-      api:     'Auxio API',
+      api:     'Fulcra API',
       version: 'v1',
       status:  'live',
       endpoints: {

@@ -62,7 +62,7 @@ const PILLARS = [
   {
     kicker: '04 — Profit',
     title: 'The number behind the number.',
-    body: 'Revenue is what your marketplace dashboard shows you. Profit is what is left after referral fees, FBA fees, shipping, packaging, COGS, VAT, advertising spend, returns, and refunds. Auxio subtracts all of it, on every order, in real time — and tells you your true net margin by SKU, by channel, by country, by month. Most sellers find they are making half of what they thought. The other half is where we pay for ourselves.',
+    body: 'Revenue is what your marketplace dashboard shows you. Profit is what is left after referral fees, FBA fees, shipping, packaging, COGS, VAT, advertising spend, returns, and refunds. Fulcra subtracts all of it, on every order, in real time — and tells you your true net margin by SKU, by channel, by country, by month. Most sellers find they are making half of what they thought. The other half is where we pay for ourselves.',
     bullets: ['True net margin per SKU & channel', 'Ad spend attribution (Sponsored Ads, TikTok)', 'Return & refund leakage tracking', 'FX-aware P&L across 5 currencies'],
   },
 ]
@@ -70,19 +70,19 @@ const PILLARS = [
 const COMPETITORS = [
   {
     name: 'ChannelAdvisor',
-    body: 'Enterprise-only, quote-gated, implementation measured in quarters. Powerful for nine-figure retailers who can afford a dedicated ops team to run it. Everyone else finds themselves paying six figures a year for features they never deploy and a contract that renews before they notice. Auxio is what channel management looks like when it is built for operators, not procurement departments.',
+    body: 'Enterprise-only, quote-gated, implementation measured in quarters. Powerful for nine-figure retailers who can afford a dedicated ops team to run it. Everyone else finds themselves paying six figures a year for features they never deploy and a contract that renews before they notice. Fulcra is what channel management looks like when it is built for operators, not procurement departments.',
   },
   {
     name: 'Linnworks',
-    body: 'The UK workhorse — capable at listing and order management, thin everywhere else. No native P&L, no procurement loop, no forecasting worth the name, and the price has climbed year over year without the product moving with it. Sellers arriving at Auxio from Linnworks describe the transition the same way: same money, an order of magnitude more platform.',
+    body: 'The UK workhorse — capable at listing and order management, thin everywhere else. No native P&L, no procurement loop, no forecasting worth the name, and the price has climbed year over year without the product moving with it. Sellers arriving at Fulcra from Linnworks describe the transition the same way: same money, an order of magnitude more platform.',
   },
   {
     name: 'Brightpearl',
-    body: 'Built for retailers with a brick-and-mortar heritage and an ERP mindset. Heavy implementation, heavier price tag, and a UI that feels like a finance system with a commerce skin. Auxio is the inverse — commerce-native, operator-built, with the accounting rigour arriving as a natural consequence of tracking every order from the first currency to the last fee.',
+    body: 'Built for retailers with a brick-and-mortar heritage and an ERP mindset. Heavy implementation, heavier price tag, and a UI that feels like a finance system with a commerce skin. Fulcra is the inverse — commerce-native, operator-built, with the accounting rigour arriving as a natural consequence of tracking every order from the first currency to the last fee.',
   },
   {
     name: 'Feedonomics',
-    body: 'A feed management specialist — excellent at pushing product data outward, silent on everything that happens after the sale. You still need an inventory system, an order system, a procurement system, and a P&L. Auxio is the single platform those four tools stop being necessary to string together.',
+    body: 'A feed management specialist — excellent at pushing product data outward, silent on everything that happens after the sale. You still need an inventory system, an order system, a procurement system, and a P&L. Fulcra is the single platform those four tools stop being necessary to string together.',
   },
 ]
 
@@ -110,7 +110,7 @@ function DashboardMock() {
       {/* body */}
       <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', minHeight: 420 }}>
         <aside style={{ borderRight: `1px solid ${C.rule}`, padding: 18, fontSize: 13, color: C.mute }}>
-          <div style={{ fontWeight: 600, color: C.ink, marginBottom: 14, letterSpacing: '-0.01em' }}>Auxio</div>
+          <div style={{ fontWeight: 600, color: C.ink, marginBottom: 14, letterSpacing: '-0.01em' }}>Fulcra</div>
           {['Operations', 'Inventory', 'Orders', 'Procurement', 'Financials', 'Advertising', 'Settings'].map((l, i) => (
             <div key={l} style={{
               padding: '7px 10px', marginLeft: -10, marginRight: -6, borderRadius: 7,
@@ -304,7 +304,7 @@ export default function LandingV2() {
         transition: 'background 0.2s, border 0.2s',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '18px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link href="/" style={{ fontSize: 20, fontWeight: 600, color: C.ink, letterSpacing: '-0.02em', textDecoration: 'none' }}>Auxio</Link>
+          <Link href="/" style={{ fontSize: 20, fontWeight: 600, color: C.ink, letterSpacing: '-0.02em', textDecoration: 'none' }}>Fulcra</Link>
           <div style={{ display: 'flex', gap: 34, fontSize: 14, color: C.mute }}>
             {NAV.map(n => (
               <Link key={n.href} href={n.href} style={{ color: C.inkSoft, textDecoration: 'none' }}>{n.label}</Link>
@@ -334,7 +334,7 @@ export default function LandingV2() {
           <span style={{ color: C.purple }}>One platform.</span>
         </h1>
         <p style={{ fontSize: 21, lineHeight: 1.55, color: C.mute, maxWidth: 680, marginTop: 38, fontWeight: 400 }}>
-          Auxio is the operating layer for modern multichannel sellers — a single system of record for inventory, orders, procurement, and profit across eBay, Amazon, Shopify, Walmart, OnBuy, Etsy, TikTok Shop, and the two dozen other places your customers already buy. Five currencies reconciled in a single ledger. Ten-thousand orders a day in one queue. The entire back office, operated as one business instead of five.
+          Fulcra is the operating layer for modern multichannel sellers — a single system of record for inventory, orders, procurement, and profit across eBay, Amazon, Shopify, Walmart, OnBuy, Etsy, TikTok Shop, and the two dozen other places your customers already buy. Five currencies reconciled in a single ledger. Ten-thousand orders a day in one queue. The entire back office, operated as one business instead of five.
         </p>
         <div style={{ display: 'flex', gap: 14, marginTop: 40, flexWrap: 'wrap' }}>
           <Link href="/signup" style={{
@@ -397,7 +397,7 @@ export default function LandingV2() {
             One ledger. One queue. One number at the bottom of the page.
           </h2>
           <p style={{ fontSize: 19, lineHeight: 1.6, color: C.mute, marginTop: 32, maxWidth: 680 }}>
-            Auxio collapses four categories of software — channel management, order management, procurement, and financial analytics — into a single platform with one data model underneath. Everything you sell, everywhere you sell it, in the currency it arrived in and the currency it reports in. Below is what an operations home screen looks like when the whole business finally agrees with itself.
+            Fulcra collapses four categories of software — channel management, order management, procurement, and financial analytics — into a single platform with one data model underneath. Everything you sell, everywhere you sell it, in the currency it arrived in and the currency it reports in. Below is what an operations home screen looks like when the whole business finally agrees with itself.
           </p>
           <div style={{ marginTop: 60 }}>
             <DashboardMock />
@@ -444,7 +444,7 @@ export default function LandingV2() {
         <div style={{ maxWidth: 980, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: 80, color: C.purpleSoft, lineHeight: 0.5, fontFamily: 'Georgia, serif', marginBottom: 20 }}>&ldquo;</div>
           <blockquote style={{ margin: 0, fontSize: 'clamp(28px, 3.8vw, 46px)', fontWeight: 300, letterSpacing: '-0.02em', lineHeight: 1.28 }}>
-            We ran eight years of a thirty-person operation on spreadsheets and four browser tabs. Inside a quarter of switching to Auxio our stockout rate fell by eighty percent and we discovered our real net margin was eleven points higher than the one we had been planning the business around. It is the first piece of software we have bought that changed how the company thinks, not just what the team does on a Tuesday.
+            We ran eight years of a thirty-person operation on spreadsheets and four browser tabs. Inside a quarter of switching to Fulcra our stockout rate fell by eighty percent and we discovered our real net margin was eleven points higher than the one we had been planning the business around. It is the first piece of software we have bought that changed how the company thinks, not just what the team does on a Tuesday.
           </blockquote>
           <div style={{ marginTop: 44, fontSize: 14, color: C.text50, letterSpacing: '0.04em' }}>
             PRIYA K. — HEAD OF OPERATIONS, HEALTH & BEAUTY · 500+ SKUs · FIVE CHANNELS
@@ -557,7 +557,7 @@ export default function LandingV2() {
       {/* ── Footer ────────────────────────────────────────────────────────── */}
       <footer style={{ background: C.ink, color: C.text50, padding: '60px 28px 40px', borderTop: `1px solid ${C.ruleDark}` }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, fontSize: 13 }}>
-          <div style={{ color: '#fff', fontWeight: 600, fontSize: 16, letterSpacing: '-0.02em' }}>Auxio</div>
+          <div style={{ color: '#fff', fontWeight: 600, fontSize: 16, letterSpacing: '-0.02em' }}>Fulcra</div>
           <div style={{ display: 'flex', gap: 28 }}>
             <Link href="/features" style={{ color: C.text50, textDecoration: 'none' }}>Product</Link>
             <Link href="/pricing" style={{ color: C.text50, textDecoration: 'none' }}>Pricing</Link>
@@ -567,7 +567,7 @@ export default function LandingV2() {
             <Link href="/privacy" style={{ color: C.text50, textDecoration: 'none' }}>Privacy</Link>
             <Link href="/terms" style={{ color: C.text50, textDecoration: 'none' }}>Terms</Link>
           </div>
-          <div style={{ color: C.text30 }}>© 2026 Auxio. Every marketplace. One platform.</div>
+          <div style={{ color: C.text30 }}>© 2026 Fulcra. Every marketplace. One platform.</div>
         </div>
       </footer>
     </div>

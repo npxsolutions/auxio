@@ -1,0 +1,19 @@
+Classification of Computer Services and Associated Policy ... - USPTO
+  URL: https://www.uspto.gov/web/offices/com/sol/notices/class.html
+  Subject matter or function of the software must be indicated, but the service of providing it is in Class 42. An acceptable ID in this area would be "providing ...
+
+042 - TMNG | IDML - USPTO
+  URL: https://idm-tmng.uspto.gov/id-master-list-public.html?&status=A&status=M&status=X&status=D&class-valid=true&search-by=all&status-all=All&class-num=042&pageNum=1&rows=10
+  Inspection, quantity and quality control, supervision and verification of the quality and quantity of raw materials, commodities, manufactured, ...
+
+Goods and services - USPTO
+  URL: https://www.uspto.gov/trademarks/basics/goods-and-services
+  Your trademark application must include a list of the goods and services in use or have a bona fide intent to use with your trademark.
+
+Understanding Classes 9 and 42 for Software Companies - Skala
+  URL: https://www.skala.io/blog/understanding-classes-9-and-42-for-software-companies
+  For tech founders, Classes 9 and 42 define how your software is protected. This article explains the difference between them, ...
+
+USPTO Trademark Classes Blog Series: Class 42 - Brand Diplomacy
+  URL: https://www.branddiplomacy.com/post/uspto-trademark-classes-blog-series-class-42-technology-and-scientific-services?srsltid=AfmBOorSWMQTHqdiOevWOMSdv0hLb6ZPEaCoGq_v2xXwo_JiQUpVbFbN
+  Trademark Class 42 includes services related to science, technology, and innovation, particularly in fields like software development, IT consulting, and data ...

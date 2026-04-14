@@ -50,7 +50,7 @@ export function ChannelOptimisationInfographic() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px', gap: '0' }}>
         <div style={{ width: '2px', height: '20px', background: '#e8e8e5' }} />
         <div style={{ background: '#f0f7ff', border: '1.5px solid #c7dff7', borderRadius: '100px', padding: '5px 14px', fontSize: '12px', fontWeight: 700, color: '#2383e2' }}>
-          🤖 Auxio AI optimises per channel
+          🤖 Fulcra AI optimises per channel
         </div>
         <div style={{ width: '2px', height: '16px', background: '#e8e8e5' }} />
         {/* Spread line */}
@@ -152,7 +152,7 @@ export function TrueProfitWaterfall() {
       <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f7f7f5', borderRadius: '8px', border: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ fontSize: '16px' }}>💡</span>
         <div style={{ fontSize: '12px', color: '#787774', lineHeight: 1.5 }}>
-          Most sellers think they made £100. Auxio shows you made <strong style={{ color: '#0f7b6c' }}>£23</strong> — and which channel, product, and ad spend drove it.
+          Most sellers think they made £100. Fulcra shows you made <strong style={{ color: '#0f7b6c' }}>£23</strong> — and which channel, product, and ad spend drove it.
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ export function TimeSavedInfographic() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#c9372c' }} />
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>Without Auxio</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>Without Fulcra</div>
           </div>
           {tasks.map(t => (
             <div key={t.task} style={{ marginBottom: '10px' }}>
@@ -203,7 +203,7 @@ export function TimeSavedInfographic() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0f7b6c' }} />
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>With Auxio</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>With Fulcra</div>
           </div>
           {tasks.map(t => (
             <div key={t.task} style={{ marginBottom: '10px' }}>
@@ -233,7 +233,7 @@ export function TimeSavedInfographic() {
       {/* Summary */}
       <div style={{ marginTop: '20px', background: '#191919', borderRadius: '10px', padding: '18px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
         <div style={{ fontSize: '14px', color: '#888', lineHeight: 1.5 }}>
-          If you launch <strong style={{ color: 'white' }}>5 products a week</strong>, Auxio saves you
+          If you launch <strong style={{ color: 'white' }}>5 products a week</strong>, Fulcra saves you
         </div>
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
           <div style={{ fontSize: '28px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>15+ hours</div>

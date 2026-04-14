@@ -1,12 +1,12 @@
 /**
  * AUXIO TRANSACTION INTELLIGENCE ENGINE
  * 
- * This is the core of what Auxio is:
+ * This is the core of what Fulcra is:
  * A system that sits in the middle of every eCommerce transaction
  * and multiplies the value of every pound a seller deploys.
  * 
  * Like a bank multiplies deposits 9x through fractional reserve lending,
- * Auxio multiplies transaction data into intelligence that compounds weekly.
+ * Fulcra multiplies transaction data into intelligence that compounds weekly.
  * 
  * Architecture:
  * Layer 1: Transaction Capture — every order, ad click, stock movement
@@ -781,8 +781,8 @@ export class ValueMultiplier {
       },
       totalValueCreated: Math.round(totalValueCreated * 100) / 100,
       leverageRatio: Math.round(leverageRatio * 10) / 10,
-      // Like the bank: for every £1 paid, Auxio returns £X
-      message: `For every £1 you pay Auxio, you get £${(Math.round(leverageRatio * 10) / 10).toFixed(1)} in value`,
+      // Like the bank: for every £1 paid, Fulcra returns £X
+      message: `For every £1 you pay Fulcra, you get £${(Math.round(leverageRatio * 10) / 10).toFixed(1)} in value`,
     }
   }
 
@@ -871,7 +871,7 @@ Total monthly value: £${leverage.totalValueCreated}
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
-      system: `You are the AI brain of Auxio — an eCommerce transaction intelligence platform.
+      system: `You are the AI brain of Fulcra — an eCommerce transaction intelligence platform.
 You have access to a seller's complete transaction data, ML model outputs, and network benchmarks.
 Your job is to generate a clear, actionable daily briefing.
 
@@ -917,7 +917,7 @@ Rules:
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
-      system: `You are the AI brain of Auxio with full access to this seller's store data.
+      system: `You are the AI brain of Fulcra with full access to this seller's store data.
 Answer questions using their actual data — specific products, specific numbers, specific recommendations.
 Never give generic advice. Always reference their actual performance data.
 Be direct and decisive. End every answer with a specific recommended action.`,
@@ -1008,10 +1008,10 @@ Format: [{"icon":"emoji","title":"short title","body":"one specific sentence wit
 // ────────────────────────────────────────────────────────────────
 // LAYER 5: THE AGENT LAYER
 // Takes actions automatically based on intelligence
-// This is what makes Auxio an OS not just a dashboard
+// This is what makes Fulcra an OS not just a dashboard
 // ────────────────────────────────────────────────────────────────
 
-export class AuxioAgent {
+export class FulcraAgent {
   private intelligence = new ClaudeIntelligenceLayer()
   private engine = new TransactionIntelligenceEngine()
 

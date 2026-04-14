@@ -146,7 +146,7 @@ export default function SignupPage() {
               fontWeight: 800,
               letterSpacing: '-0.02em',
             }}>A</div>
-            <span style={{ fontSize: 18, fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>Auxio</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>Fulcra</span>
           </div>
 
           {/* Headline */}
