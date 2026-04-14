@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireApiAuth } from '../lib/auth'
-import { createClient } from '@supabase/supabase-js'
+import { checkApiRateLimit } from '../../../lib/rate-limit/api-public'
 
 export async function GET(request: NextRequest) {
   try {
     const { user, error, supabase } = await requireApiAuth(request)
     if (error) return error
+
+    const rl = await checkApiRateLimit(request)
+    if (!rl.ok) return rl.response!
 
     const sp      = request.nextUrl.searchParams
     const channel = sp.get('channel')
@@ -13,26 +16,62 @@ export async function GET(request: NextRequest) {
     const limit   = Math.min(parseInt(sp.get('limit') ?? '50'), 200)
     const offset  = parseInt(sp.get('offset') ?? '0')
 
+    // NOTE: `public.listings` does not have `channel` or `stock_quantity` columns.
+    // The real columns are `category` and `quantity`. The channel relationship
+    // lives in `public.listing_channels` — filter via that join when a channel
+    // query-param is provided.
     let query = supabase!
       .from('listings')
-      .select('id, title, status, channel, price, stock_quantity, sku, created_at, updated_at')
+      .select('id, title, status, category, price, quantity, sku, created_at, updated_at')
       .eq('user_id', user!.id)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
 
-    if (channel) query = query.eq('channel', channel)
     if (status)  query = query.eq('status', status)
 
-    const { data, error: dbError, count } = await query
+    // Filter by channel via listing_channels join
+    if (channel) {
+      const { data: ids, error: idErr } = await supabase!
+        .from('listing_channels')
+        .select('listing_id')
+        .eq('channel_type', channel)
+      if (idErr) {
+        console.error('[api/v1/listings] listing_channels lookup error', idErr)
+        return NextResponse.json({ error: idErr.message }, { status: 500 })
+      }
+      const allowed = (ids ?? []).map((r: { listing_id: string }) => r.listing_id)
+      if (allowed.length === 0) {
+        return NextResponse.json({ data: [], meta: { count: 0, offset, limit } })
+      }
+      query = query.in('id', allowed)
+    }
+
+    const { data, error: dbError } = await query
 
     if (dbError) {
       console.error('[api/v1/listings] db error', dbError)
       return NextResponse.json({ error: dbError.message }, { status: 500 })
     }
 
+    // Maintain a stable API shape: expose `category` as `channel` would be
+    // misleading, so we expose real names. `stock_quantity` is aliased to
+    // `quantity` in the response for consumers that relied on the old name.
+    const transformed = (data ?? []).map((r) => ({
+      id:             r.id,
+      title:          r.title,
+      status:         r.status,
+      category:       r.category,
+      price:          r.price,
+      quantity:       r.quantity,
+      stock_quantity: r.quantity, // back-compat alias
+      sku:            r.sku,
+      created_at:     r.created_at,
+      updated_at:     r.updated_at,
+    }))
+
     return NextResponse.json({
-      data,
-      meta: { count: data?.length ?? 0, offset, limit },
+      data: transformed,
+      meta: { count: transformed.length, offset, limit },
     })
   } catch (err) {
     console.error('[api/v1/listings] error', err)

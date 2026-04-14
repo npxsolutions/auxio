@@ -4,6 +4,11 @@ import { withRateLimit, type ChannelKey } from '../../lib/rate-limit/channel'
 import { recordDeadLetter } from '../../lib/sync/jobs'
 
 // Runs on a schedule — detects listing drift vs last-synced channel state and re-publishes
+// TODO(metrics-daily): no aggregation cron found in the codebase that writes to
+// public.metrics_daily. The 6 seed rows (product_id A1/B1) were cleaned; a real
+// aggregation job (rollup of orders -> daily revenue/orders per product_id) is
+// still needed. Candidate home: new app/api/metrics/aggregate/route.ts running
+// nightly under CRON_SECRET, grouped by user_id + product_id + date.
 
 const getAdminSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

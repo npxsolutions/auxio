@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireApiAuth } from '../lib/auth'
+import { checkApiRateLimit } from '../../../lib/rate-limit/api-public'
 
 export async function GET(request: NextRequest) {
   try {
     const { user, error, supabase } = await requireApiAuth(request)
     if (error) return error
+
+    const rl = await checkApiRateLimit(request)
+    if (!rl.ok) return rl.response!
 
     const sp      = request.nextUrl.searchParams
     const channel = sp.get('channel')

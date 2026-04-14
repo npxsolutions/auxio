@@ -43,7 +43,7 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'amazon', name: 'Amazon', category: 'Marketplaces',
     description: 'Connect your Seller Central account to sync inventory and orders.',
-    color: '#fff8ed', accent: '#FF9900', textColor: '#fff', status: 'live',
+    color: '#fff8ed', accent: '#FF9900', textColor: '#fff', status: 'soon',
     logo: 'amazon',
   },
   {
@@ -55,13 +55,13 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'walmart', name: 'Walmart Marketplace', category: 'Marketplaces',
     description: 'Reach millions of Walmart.com shoppers with automated listing and order management.',
-    color: '#eff6ff', accent: '#0071CE', textColor: '#fff', status: 'live',
+    color: '#eff6ff', accent: '#0071CE', textColor: '#fff', status: 'soon',
     logo: 'walmart',
   },
   {
     id: 'onbuy', name: 'OnBuy', category: 'Marketplaces',
     description: 'One of the fastest-growing marketplaces — list products and sync orders automatically.',
-    color: '#fdf4ff', accent: '#6E2EB8', textColor: '#fff', status: 'live',
+    color: '#fdf4ff', accent: '#6E2EB8', textColor: '#fff', status: 'soon',
     logo: 'onbuy',
   },
   {
@@ -167,13 +167,13 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'tiktok_shop', name: 'TikTok Shop', category: 'Social Commerce',
     description: 'Sell directly within TikTok — sync your product catalog and manage orders.',
-    color: '#f0f9f7', accent: '#010101', textColor: '#fff', status: 'live',
+    color: '#f0f9f7', accent: '#010101', textColor: '#fff', status: 'soon',
     logo: 'tiktok',
   },
   {
     id: 'facebook_shop', name: 'Facebook & Instagram', category: 'Social Commerce',
     description: 'Sync your catalog to Facebook Shop and Instagram Shopping automatically.',
-    color: '#eff6ff', accent: '#1877F2', textColor: '#fff', status: 'live',
+    color: '#eff6ff', accent: '#1877F2', textColor: '#fff', status: 'soon',
     logo: 'meta',
   },
   {
@@ -193,7 +193,7 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'google_shopping', name: 'Google Shopping', category: 'Shopping Feeds',
     description: 'Sync your product feed to Google Merchant Center for Shopping and Performance Max ads.',
-    color: '#eff6ff', accent: '#4285F4', textColor: '#fff', status: 'live',
+    color: '#eff6ff', accent: '#4285F4', textColor: '#fff', status: 'soon',
     logo: 'google',
   },
   {

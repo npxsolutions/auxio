@@ -28,8 +28,30 @@ export async function POST(request: Request) {
   try {
     event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (err: any) {
-    console.error('Webhook signature failed:', err.message)
+    console.error('[stripe/webhook:POST] signature failed:', err.message)
     return NextResponse.json({ error: `Webhook error: ${err.message}` }, { status: 400 })
+  }
+
+  // ── Idempotency gate ──────────────────────────────────────────────────────
+  // Stripe delivers events at-least-once. Attempt to reserve event.id in the
+  // ledger BEFORE processing. On unique-violation (23505), this is a duplicate
+  // redelivery — acknowledge 200 immediately and short-circuit.
+  try {
+    const { error: insertErr } = await getSupabase()
+      .from('stripe_webhook_events')
+      .insert({ event_id: event.id, event_type: event.type })
+
+    if (insertErr) {
+      // 23505 = Postgres unique_violation
+      if ((insertErr as any).code === '23505') {
+        return NextResponse.json({ duplicate: true, ok: true }, { status: 200 })
+      }
+      console.error('[stripe/webhook:POST] idempotency ledger insert failed', insertErr)
+      // Fail open — still process the event so we don't drop legitimate deliveries.
+    }
+  } catch (err) {
+    console.error('[stripe/webhook:POST] idempotency ledger threw', err)
+    // Fail open.
   }
 
   try {
@@ -130,7 +152,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ received: true })
   } catch (error: any) {
-    console.error('Webhook handler error:', error)
+    console.error('[stripe/webhook:POST] handler error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
