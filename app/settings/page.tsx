@@ -68,6 +68,13 @@ export default function SettingsPage() {
   const [toast, setToast]             = useState('')
   const [mappings, setMappings]       = useState<CategoryMapping[]>([])
   const [mappingsLoading, setMappingsLoading] = useState(true)
+
+  // DSAR state — export + delete flows.
+  const [exporting, setExporting]       = useState(false)
+  const [deleteOpen, setDeleteOpen]     = useState(false)
+  const [deleting, setDeleting]         = useState(false)
+  const [deleteAck, setDeleteAck]       = useState<string | null>(null)
+
   const supabase = createClient()
 
   useEffect(() => { load() }, [])
@@ -147,6 +154,46 @@ export default function SettingsPage() {
       showToast('Failed to save — please try again')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function exportData() {
+    setExporting(true)
+    try {
+      const res = await fetch('/api/data/export', { method: 'POST' })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      const cd = res.headers.get('content-disposition') || ''
+      const m = /filename="([^"]+)"/.exec(cd)
+      a.download = m ? m[1] : `fulcra-export-${new Date().toISOString().slice(0,10)}.json`
+      document.body.appendChild(a); a.click(); a.remove()
+      URL.revokeObjectURL(url)
+      showToast('Export downloaded')
+    } catch {
+      showToast('Export failed — email security@fulcra.com')
+    } finally {
+      setExporting(false)
+    }
+  }
+
+  async function confirmDelete() {
+    setDeleting(true)
+    try {
+      const res = await fetch('/api/data/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ confirm: true }),
+      })
+      const body = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(body?.error || 'Request failed')
+      setDeleteAck(body?.message || 'Deletion request received.')
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Could not submit deletion request')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -328,6 +375,88 @@ export default function SettingsPage() {
               </div>
             )}
           </section>
+
+          {/* Privacy & data (DSAR) */}
+          <section id="privacy" style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '24px', marginTop: '32px' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Privacy &amp; data</div>
+            <div style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>
+              Exercise your GDPR rights in one click. <a href="/security" style={{ color: '#1d5fdb', textDecoration: 'none' }}>Security overview →</a>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px' }}>
+              <div style={{ border: '1px solid #e8e8e5', borderRadius: '8px', padding: '16px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>Export your data</div>
+                <div style={{ fontSize: '12px', color: '#787774', lineHeight: 1.5, marginBottom: '12px' }}>
+                  Download a JSON archive of every row we hold for your account. Instant.
+                </div>
+                <button
+                  onClick={exportData}
+                  disabled={exporting}
+                  style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '6px', padding: '8px 14px', fontSize: '12px', fontWeight: 600, cursor: exporting ? 'wait' : 'pointer', opacity: exporting ? 0.7 : 1, fontFamily: 'Inter, sans-serif' }}
+                >
+                  {exporting ? 'Preparing…' : 'Export data'}
+                </button>
+              </div>
+
+              <div style={{ border: '1px solid #e8e8e5', borderRadius: '8px', padding: '16px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919', marginBottom: '4px' }}>Delete your account</div>
+                <div style={{ fontSize: '12px', color: '#787774', lineHeight: 1.5, marginBottom: '12px' }}>
+                  We will process your request within 30 days and email confirmation.
+                </div>
+                <button
+                  onClick={() => setDeleteOpen(true)}
+                  style={{ background: 'white', color: '#7d2a1a', border: '1px solid #e8d5d0', borderRadius: '6px', padding: '8px 14px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                >
+                  Delete account…
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Delete confirmation modal */}
+          {deleteOpen && (
+            <div style={{ position: 'fixed', inset: 0, background: 'rgba(11,15,26,0.45)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+              <div role="dialog" aria-modal="true" style={{ background: 'white', borderRadius: '12px', padding: '24px', maxWidth: '460px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+                {!deleteAck ? (
+                  <>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#191919', marginBottom: '8px' }}>Delete your Fulcra account?</div>
+                    <div style={{ fontSize: '13px', color: '#4b5563', lineHeight: 1.6, marginBottom: '18px' }}>
+                      We will queue your request and process it within 30 days (GDPR SLA). Billing records required by law are retained for 7 years; everything else is purged. You can keep using the account until processing completes.
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                      <button
+                        onClick={() => setDeleteOpen(false)}
+                        disabled={deleting}
+                        style={{ background: 'white', color: '#191919', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '9px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={confirmDelete}
+                        disabled={deleting}
+                        style={{ background: '#7d2a1a', color: 'white', border: 'none', borderRadius: '6px', padding: '9px 14px', fontSize: '13px', fontWeight: 600, cursor: deleting ? 'wait' : 'pointer', opacity: deleting ? 0.7 : 1, fontFamily: 'Inter, sans-serif' }}
+                      >
+                        {deleting ? 'Submitting…' : 'Yes, request deletion'}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#191919', marginBottom: '8px' }}>Request received</div>
+                    <div style={{ fontSize: '13px', color: '#4b5563', lineHeight: 1.6, marginBottom: '18px' }}>{deleteAck}</div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <button
+                        onClick={() => { setDeleteOpen(false); setDeleteAck(null) }}
+                        style={{ background: '#191919', color: 'white', border: 'none', borderRadius: '6px', padding: '9px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

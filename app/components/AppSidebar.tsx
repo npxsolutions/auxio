@@ -392,6 +392,12 @@ export default function AppSidebar() {
         padding: '10px 8px 12px',
         borderTop: '1px solid rgba(255,255,255,0.06)',
       }}>
+        {/* Trust links — small, unobtrusive, above plan badge */}
+        <div style={{ padding: '0 4px 8px', display: 'flex', gap: '10px' }}>
+          <Link href="/security" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', letterSpacing: '0.02em' }}>Security</Link>
+          <Link href="/privacy" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', letterSpacing: '0.02em' }}>Privacy</Link>
+          <Link href="/settings#privacy" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', letterSpacing: '0.02em' }}>Your data</Link>
+        </div>
         {/* Plan badge */}
         <div style={{ padding: '0 4px 8px' }}>
           <span style={{

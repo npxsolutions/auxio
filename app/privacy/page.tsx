@@ -24,6 +24,19 @@ export default function PrivacyPolicy() {
         Fulcra ("we", "our", "us") is operated by NPX Solutions. This policy explains what data we collect, why we collect it, and how we use it. If you have questions, contact us at <a href="mailto:info@npx-solutions.com" style={{ color: '#191919' }}>info@npx-solutions.com</a>.
       </p>
 
+      {/* Your rights — surfaces DSAR endpoints + security page for GDPR fulfilment. */}
+      <section style={{ marginBottom: '40px', padding: '20px 22px', background: '#f8f7f3', border: '1px solid #e8e8e5', borderRadius: '10px' }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: 0, marginBottom: '8px', letterSpacing: '-0.01em' }}>Your rights</h2>
+        <p style={{ fontSize: '14px', color: '#374151', lineHeight: 1.7, margin: 0, marginBottom: '14px' }}>
+          Exercise your GDPR rights in one click. No forms, no waiting.
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Link href="/settings#privacy" style={{ fontSize: '13px', padding: '8px 14px', background: '#0f172a', color: 'white', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Export my data →</Link>
+          <Link href="/settings#privacy" style={{ fontSize: '13px', padding: '8px 14px', background: 'white', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Delete my account →</Link>
+          <Link href="/security" style={{ fontSize: '13px', padding: '8px 14px', background: 'white', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Security overview →</Link>
+        </div>
+      </section>
+
       <Section title="1. Who we are">
         <p>Fulcra is a multi-channel product listing management platform that connects ecommerce sellers with marketplaces including Shopify, eBay, and Amazon. We are based in the United Kingdom.</p>
       </Section>
