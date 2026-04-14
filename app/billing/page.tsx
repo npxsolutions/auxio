@@ -57,6 +57,7 @@ function BillingContent() {
   const [portalLoading, setPortalLoading] = useState(false)
   const [cancelModalOpen, setCancelModalOpen] = useState(false)
   const [toast, setToast]                 = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+  const [unappliedCents, setUnappliedCents] = useState<number>(0)
   const supabase = createClient()
 
   useEffect(() => {
@@ -86,6 +87,16 @@ function BillingContent() {
 
     setCurrentPlan(data?.plan || 'free')
     setSubscriptionStatus(data?.subscription_status || '')
+
+    // Load unapplied credits total.
+    const { data: credits } = await supabase
+      .from('user_credits')
+      .select('amount_cents')
+      .eq('user_id', user.id)
+      .eq('applied', false)
+    const total = (credits || []).reduce((s: number, c: any) => s + (c.amount_cents || 0), 0)
+    setUnappliedCents(total)
+
     setLoading(false)
   }
 
@@ -170,6 +181,29 @@ function BillingContent() {
               </p>
             </div>
           </div>
+
+          {/* Credits banner */}
+          {unappliedCents > 0 && (
+            <div style={{
+              background: 'white',
+              border: '1px solid #e8e5df',
+              borderLeft: '3px solid #1d5fdb',
+              borderRadius: 12,
+              padding: '16px 20px',
+              marginBottom: 20,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              fontSize: 13,
+              color: '#2c3142',
+            }}>
+              <div>
+                <strong style={{ color: '#0b0f1a' }}>${(unappliedCents / 100).toFixed(0)} in credits available.</strong>
+                <span style={{ marginLeft: 6, color: '#5a6171' }}>Credits apply to your next invoice.</span>
+              </div>
+              <a href="/settings/referral" style={{ fontSize: 12, color: '#1d5fdb', textDecoration: 'none', fontWeight: 600 }}>Refer more →</a>
+            </div>
+          )}
 
           {/* Manage billing card for paid plans */}
           {hasPaidPlan && (

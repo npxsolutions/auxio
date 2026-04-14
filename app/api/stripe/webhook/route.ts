@@ -132,6 +132,46 @@ export async function POST(request: Request) {
         break
       }
 
+      case 'invoice.paid': {
+        const invoice = event.data.object as Stripe.Invoice
+        const subRef = invoice.parent?.subscription_details?.subscription
+        const sub = typeof subRef === 'string'
+          ? await getStripe().subscriptions.retrieve(subRef)
+          : subRef as Stripe.Subscription | null
+        const userId = sub?.metadata?.supabase_user_id
+        if (!userId) break
+
+        const db = getSupabase()
+        // Find a pending/signed_up referral for this user.
+        const { data: ref } = await db
+          .from('referrals')
+          .select('id, referrer_user_id, credit_amount_cents, status, first_payment_at')
+          .eq('referred_user_id', userId)
+          .in('status', ['pending', 'signed_up'])
+          .maybeSingle()
+
+        if (ref && !ref.first_payment_at) {
+          // Flip referral → paid
+          await db.from('referrals').update({
+            status: 'paid',
+            first_payment_at: new Date().toISOString(),
+          }).eq('id', ref.id)
+
+          // Write credit row for the referrer — idempotent via uq_user_credits_source_ref.
+          const { error: credErr } = await db.from('user_credits').insert({
+            user_id: ref.referrer_user_id,
+            amount_cents: ref.credit_amount_cents || 5000,
+            source: 'referral',
+            source_ref: ref.id,
+            applied: false,
+          })
+          if (credErr && (credErr as any).code !== '23505') {
+            console.error('[stripe/webhook:POST] referral credit insert failed', credErr)
+          }
+        }
+        break
+      }
+
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
         const subRef = invoice.parent?.subscription_details?.subscription

@@ -48,6 +48,25 @@ export async function POST(request: Request) {
 
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
 
+    // Referred-friend discount: if user has a pending referral, apply the coupon.
+    let discounts: Stripe.Checkout.SessionCreateParams.Discount[] | undefined
+    try {
+      const { data: pendingRef } = await supabase
+        .from('referrals')
+        .select('id, status, discount_applied')
+        .eq('referred_user_id', user.id)
+        .in('status', ['pending', 'signed_up'])
+        .maybeSingle()
+      if (pendingRef && !pendingRef.discount_applied) {
+        const couponId = process.env.STRIPE_COUPON_REFERRED_FRIEND || 'REFERRED_FRIEND_10'
+        discounts = [{ coupon: couponId }]
+        // Mark discount as applied so we don't double-apply on retry.
+        await supabase.from('referrals').update({ discount_applied: couponId }).eq('id', pendingRef.id)
+      }
+    } catch (err) {
+      console.error('[api/stripe/checkout:POST] referral discount lookup failed', err)
+    }
+
     const session = await getStripe().checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
@@ -57,6 +76,7 @@ export async function POST(request: Request) {
       cancel_url:  `${origin}/billing?cancelled=true`,
       metadata: { supabase_user_id: user.id, plan },
       subscription_data: { metadata: { supabase_user_id: user.id, plan } },
+      ...(discounts ? { discounts } : { allow_promotion_codes: true }),
     })
 
     return NextResponse.json({ url: session.url })

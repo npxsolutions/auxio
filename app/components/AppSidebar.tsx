@@ -252,6 +252,7 @@ export default function AppSidebar() {
       items: [
         { href: '/developer', icon: Icon.channels, label: 'Developer & API' },
         { href: '/settings',  icon: Icon.settings, label: 'Settings' },
+        { href: '/settings/referral', icon: Icon.channels, label: 'Invite friends' },
         { href: '/billing',   icon: Icon.billing,  label: 'Billing' },
       ],
     },

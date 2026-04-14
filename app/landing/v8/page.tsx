@@ -10,6 +10,7 @@
 import Link from 'next/link'
 import { Instrument_Serif } from 'next/font/google'
 import { useEffect, useRef, useState } from 'react'
+import { useFlag } from '../../lib/ab'
 
 const display = Instrument_Serif({
   subsets: ['latin'],
@@ -762,6 +763,7 @@ function ConnectionsSection() {
 
 export default function LandingV8() {
   const heroPar = useParallax<HTMLHeadingElement>(0.15)
+  const heroHeadlineV2 = useFlag('hero-headline-v2', false)
   return (
     <div className={display.variable} style={{ background: C.bg, color: C.ink, minHeight: '100vh', fontFamily: 'var(--font-geist), -apple-system, sans-serif', WebkitFontSmoothing: 'antialiased' }}>
       {/* Nav */}
@@ -792,7 +794,11 @@ export default function LandingV8() {
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Meridia Atlas — live across 42 markets</span>
           </div>
           <h1 ref={heroPar.ref} style={{ ...heroPar.style, fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(64px, 10vw, 148px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 0.94, color: C.ink, margin: 0 }}>
-            The operating system for <em style={{ fontStyle: 'italic', color: C.cobalt }}>modern commerce.</em>
+            {heroHeadlineV2 ? (
+              <>One platform for <em style={{ fontStyle: 'italic', color: C.cobalt }}>global commerce.</em></>
+            ) : (
+              <>The operating system for <em style={{ fontStyle: 'italic', color: C.cobalt }}>modern commerce.</em></>
+            )}
           </h1>
 
           <div style={{ marginTop: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
@@ -974,7 +980,7 @@ export default function LandingV8() {
             { h: 'Platform', l: [['Atlas', '#atlas'], ['Ledger', '#ledger'], ['Pillars', '#platform'], ['Pricing', '#pricing']] as [string, string][] },
             { h: 'Compare',  l: [['ChannelAdvisor', '/vs/channelAdvisor'], ['Brightpearl', '/vs/brightpearl'], ['Linnworks', '/vs/linnworks'], ['Feedonomics', '/vs/baselinker']] as [string, string][] },
             { h: 'Company',  l: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy'], ['Terms', '/terms']] as [string, string][] },
-            { h: 'Resources', l: [['Security', '/security'], ['Status', 'https://status.fulcra.com'], ['Changelog', '/changelog'], ['Help', '/help']] as [string, string][] },
+            { h: 'Resources', l: [['Security', '/security'], ['Status', 'https://status.fulcra.com'], ['Changelog', '/changelog'], ['Help', '/help'], ['Careers', '/careers']] as [string, string][] },
           ].map(col => (
             <div key={col.h}>
               <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.cobalt, letterSpacing: '0.16em', fontWeight: 700, textTransform: 'uppercase', marginBottom: 12 }}>{col.h}</div>

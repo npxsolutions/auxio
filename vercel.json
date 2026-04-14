@@ -18,6 +18,7 @@
     { "path": "/api/sync/social-intel",      "schedule": "*/15 * * * *" },
     { "path": "/api/cron/email-lifecycle",   "schedule": "0 9 * * *" },
     { "path": "/api/cron/aggregations/listings",      "schedule": "0 3 * * *" },
-    { "path": "/api/cron/aggregations/metrics-daily", "schedule": "15 3 * * *" }
+    { "path": "/api/cron/aggregations/metrics-daily", "schedule": "15 3 * * *" },
+    { "path": "/api/cron/apply-credits",              "schedule": "30 2 * * *" }
   ]
 }
