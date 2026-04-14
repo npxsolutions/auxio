@@ -9,6 +9,8 @@ const NAV = [
   { label: 'Pricing',      href: '/pricing' },
   { label: 'Blog',          href: '/blog' },
   { label: 'About',        href: '/about' },
+  { label: 'Book demo',    href: '/demo' },
+  { label: 'Help',         href: '/help' },
 ]
 
 const FOUNDING_CLAIMED = 23

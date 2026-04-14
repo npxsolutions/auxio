@@ -38,6 +38,8 @@ const NAV = [
   { label: 'Pricing',      href: '/pricing' },
   { label: 'Partners',     href: '/partners' },
   { label: 'Developers',   href: '/developers' },
+  { label: 'Book demo',    href: '/demo' },
+  { label: 'Help',         href: '/help' },
 ]
 
 type Tier = {

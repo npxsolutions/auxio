@@ -24,8 +24,18 @@ export async function GET(request: Request) {
       }
     )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
+      // Fire-and-forget welcome email (idempotent — unique(user_id, template)).
+      const user = data?.user
+      if (user?.id && user.email) {
+        const base = origin
+        fetch(`${base}/api/email-lifecycle/welcome`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ userId: user.id, email: user.email, firstName: (user.user_metadata as any)?.first_name || null }),
+        }).catch(err => console.error('[auth/callback] welcome dispatch failed:', err))
+      }
       return NextResponse.redirect(`${origin}${next}`)
     }
   }
