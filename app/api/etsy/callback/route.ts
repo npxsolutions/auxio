@@ -52,8 +52,12 @@ export async function GET(request: Request) {
 
     const { access_token, refresh_token } = await tokenRes.json()
 
-    // Fetch shop info
+    // Fetch shop info + numeric user id (required for future v3 calls).
+    // The access token itself is prefixed with "<user_id>." but we also hit
+    // /users/me as the canonical source for the numeric id.
     let shopName = 'Etsy Shop'
+    let etsyUserId: string | null = null
+    let etsyShopId: string | null = null
     try {
       const meRes = await fetch('https://openapi.etsy.com/v3/application/users/me', {
         headers: {
@@ -63,6 +67,7 @@ export async function GET(request: Request) {
       })
       if (meRes.ok) {
         const me = await meRes.json()
+        if (me?.user_id) etsyUserId = String(me.user_id)
         // Get primary shop
         const shopRes = await fetch(`https://openapi.etsy.com/v3/application/users/${me.user_id}/shops`, {
           headers: {
@@ -72,10 +77,17 @@ export async function GET(request: Request) {
         })
         if (shopRes.ok) {
           const shopData = await shopRes.json()
-          shopName = shopData.shop_name || shopName
+          shopName   = shopData.shop_name || shopName
+          if (shopData.shop_id) etsyShopId = String(shopData.shop_id)
         }
       }
     } catch { /* non-fatal */ }
+
+    // Fallback: token's numeric prefix (<user_id>.<token>) is also the id.
+    if (!etsyUserId && typeof access_token === 'string' && access_token.includes('.')) {
+      const prefix = access_token.split('.')[0]
+      if (/^\d+$/.test(prefix)) etsyUserId = prefix
+    }
 
     await supabase.from('channels').upsert({
       user_id:      user.id,
@@ -84,7 +96,12 @@ export async function GET(request: Request) {
       access_token,
       refresh_token: refresh_token || null,
       shop_name:    shopName,
+      shop_domain:  etsyShopId, // Etsy has no domain; store shop_id here for parity.
       connected_at: new Date().toISOString(),
+      metadata: {
+        etsy_user_id: etsyUserId,
+        etsy_shop_id: etsyShopId,
+      },
     }, { onConflict: 'user_id,type' })
 
     const response = NextResponse.redirect(new URL('/channels?connected=etsy', request.url))

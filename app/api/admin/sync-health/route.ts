@@ -121,7 +121,7 @@ export async function GET() {
 
   // Known channel types we actively sync. Used so the dashboard shows a row
   // for each supported channel even if it has no active connections yet.
-  const KNOWN_CHANNELS = ['shopify', 'ebay', 'woocommerce', 'bigcommerce'] as const
+  const KNOWN_CHANNELS = ['shopify', 'ebay', 'woocommerce', 'bigcommerce', 'etsy'] as const
 
   return NextResponse.json({
     generated_at: new Date().toISOString(),
