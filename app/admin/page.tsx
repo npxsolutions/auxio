@@ -1,115 +1,139 @@
-import { getSupabaseAdmin } from '../lib/supabase-admin'
 import Link from 'next/link'
+import { getSupabaseAdmin } from '../lib/supabase-admin'
+import { theme } from './_lib/theme'
 
 export const dynamic = 'force-dynamic'
 
-async function getStats() {
-  const supabaseAdmin = getSupabaseAdmin()
-  // All users from Supabase Auth
-  const { data: { users }, error } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
-  if (error || !users) return null
+async function getCounts() {
+  const admin = getSupabaseAdmin()
+  const [partners, affiliates, demos, apiKeys] = await Promise.all([
+    admin.from('partner_applications').select('id,status', { count: 'exact', head: false }),
+    admin.from('affiliate_applications').select('id,status', { count: 'exact', head: false }),
+    admin.from('demo_requests').select('id,status', { count: 'exact', head: false }),
+    admin.from('api_keys').select('id,active', { count: 'exact', head: false }),
+  ])
 
-  const now = new Date()
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
-  const sevenDaysAgo  = new Date(now.getTime() - 7  * 24 * 60 * 60 * 1000)
+  const openCount = (rows: { status: string | null }[] | null) =>
+    (rows ?? []).filter(r => r.status === 'new' || r.status === 'reviewing').length
 
-  const total       = users.length
-  const last30      = users.filter(u => new Date(u.created_at) > thirtyDaysAgo).length
-  const last7       = users.filter(u => new Date(u.created_at) > sevenDaysAgo).length
-  const confirmed   = users.filter(u => u.email_confirmed_at).length
-  const recentSignups = [...users]
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-    .slice(0, 8)
-
-  // Channel stats
-  const { data: channels } = await supabaseAdmin
-    .from('channels')
-    .select('user_id, type, active')
-
-  const usersWithChannels = new Set(channels?.map(c => c.user_id) ?? []).size
-  const totalChannels = channels?.length ?? 0
-
-  return { total, last30, last7, confirmed, recentSignups, usersWithChannels, totalChannels }
+  return {
+    partners:   { total: partners.count   ?? 0, open: openCount(partners.data as any) },
+    affiliates: { total: affiliates.count ?? 0, open: openCount(affiliates.data as any) },
+    demos:      { total: demos.count      ?? 0, open: (demos.data ?? []).filter((r: any) => r.status === 'new' || r.status === 'scheduled').length },
+    apiKeys:    { total: apiKeys.count    ?? 0, active: (apiKeys.data ?? []).filter((r: any) => r.active).length },
+  }
 }
 
-function StatCard({ label, value, sub, color = '#7c6af7' }: { label: string; value: string | number; sub?: string; color?: string }) {
-  return (
-    <div style={{ background: '#0f0f17', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '20px 24px' }}>
-      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>{label}</div>
-      <div style={{ fontSize: 32, fontWeight: 700, color, letterSpacing: '-0.02em', lineHeight: 1 }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 6 }}>{sub}</div>}
-    </div>
-  )
-}
+type Tile = { href: string; label: string; sub: string; metric: string }
 
-export default async function AdminOverview() {
-  const stats = await getStats()
+export default async function AdminHome() {
+  let counts: Awaited<ReturnType<typeof getCounts>> | null = null
+  let err: string | null = null
+  try {
+    counts = await getCounts()
+  } catch (e) {
+    err = (e as Error).message
+    console.error('[admin:home] counts failed', err)
+  }
+
+  const tiles: Tile[] = counts
+    ? [
+        { href: '/admin/partners',    label: 'Partners',    sub: `${counts.partners.open} open`,    metric: String(counts.partners.total) },
+        { href: '/admin/affiliates',  label: 'Affiliates',  sub: `${counts.affiliates.open} open`,  metric: String(counts.affiliates.total) },
+        { href: '/admin/demos',       label: 'Demos',       sub: `${counts.demos.open} open`,       metric: String(counts.demos.total) },
+        { href: '/admin/api-keys',    label: 'API keys',    sub: `${counts.apiKeys.active} active`, metric: String(counts.apiKeys.total) },
+        { href: '/admin/sync-health', label: 'Sync health', sub: 'live status',                     metric: '→' },
+        { href: '/api/admin/sync-health', label: 'Sync health (JSON)', sub: 'raw endpoint',         metric: '{ }' },
+      ]
+    : []
 
   return (
-    <div style={{ padding: '40px 48px', maxWidth: 1100 }}>
-      <div style={{ marginBottom: 36 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em', marginBottom: 4 }}>Overview</h1>
-        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.3)' }}>Platform metrics and recent activity</p>
+    <div style={{ padding: '56px 56px 80px', maxWidth: 1120 }}>
+      <div style={{ marginBottom: 40 }}>
+        <h1
+          style={{
+            fontFamily: theme.serif,
+            fontSize: 56,
+            fontWeight: 400,
+            letterSpacing: '-0.02em',
+            margin: 0,
+            color: theme.ink,
+          }}
+        >
+          Admin
+        </h1>
+        <p style={{ fontSize: 15, color: theme.inkSoft, marginTop: 8 }}>
+          Operational control — applications, keys, sync health.
+        </p>
       </div>
 
-      {!stats ? (
-        <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>
-          Could not load stats — check SUPABASE_SERVICE_KEY in environment variables.
+      {err && (
+        <div
+          style={{
+            padding: 16,
+            border: `1px solid ${theme.inkFaint}`,
+            background: '#fff',
+            borderRadius: 8,
+            fontSize: 13,
+            color: theme.danger,
+          }}
+        >
+          Couldn’t load counts: {err}
         </div>
-      ) : (
-        <>
-          {/* Stats grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 40 }}>
-            <StatCard label="Total users"         value={stats.total}              sub="all time" />
-            <StatCard label="Joined last 30d"     value={stats.last30}             sub="new accounts" color="#34d399" />
-            <StatCard label="Joined last 7d"      value={stats.last7}              sub="this week"    color="#60a5fa" />
-            <StatCard label="Email confirmed"     value={stats.confirmed}          sub={`of ${stats.total}`} color="#f59e0b" />
-            <StatCard label="Users with channels" value={stats.usersWithChannels}  sub="have connected ≥1 channel" />
-            <StatCard label="Total channels"      value={stats.totalChannels}      sub="across all accounts" color="#a78bfa" />
-          </div>
-
-          {/* Recent signups */}
-          <div style={{ background: '#0f0f17', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ padding: '18px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#fff' }}>Recent signups</div>
-              <Link href="/admin/users" style={{ fontSize: 12, color: '#7c6af7', textDecoration: 'none', fontWeight: 500 }}>
-                View all users →
-              </Link>
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
-                  {['Email','Name','Confirmed','Joined'].map(h => (
-                    <th key={h} style={{ padding: '10px 24px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {stats.recentSignups.map((u, i) => (
-                  <tr key={u.id} style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                    <td style={{ padding: '12px 24px' }}>
-                      <Link href={`/admin/users/${u.id}`} style={{ color: '#7c6af7', textDecoration: 'none', fontSize: 13, fontWeight: 500 }}>
-                        {u.email}
-                      </Link>
-                    </td>
-                    <td style={{ padding: '12px 24px', fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-                      {(u.user_metadata?.full_name as string) || '—'}
-                    </td>
-                    <td style={{ padding: '12px 24px' }}>
-                      <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 9999, background: u.email_confirmed_at ? 'rgba(52,211,153,0.12)' : 'rgba(248,113,113,0.12)', color: u.email_confirmed_at ? '#34d399' : '#f87171', fontWeight: 600 }}>
-                        {u.email_confirmed_at ? 'Yes' : 'Pending'}
-                      </span>
-                    </td>
-                    <td style={{ padding: '12px 24px', fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-                      {new Date(u.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
       )}
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+          gap: 16,
+        }}
+      >
+        {tiles.map(t => (
+          <Link
+            key={t.href}
+            href={t.href}
+            style={{
+              textDecoration: 'none',
+              padding: '22px 22px 20px',
+              background: '#fff',
+              border: `1px solid ${theme.inkFaint}`,
+              borderRadius: 10,
+              color: theme.ink,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              minHeight: 128,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: theme.inkMuted,
+                fontWeight: 600,
+              }}
+            >
+              {t.label}
+            </div>
+            <div
+              style={{
+                fontFamily: theme.serif,
+                fontSize: 44,
+                fontWeight: 400,
+                letterSpacing: '-0.02em',
+                color: theme.cobalt,
+                lineHeight: 1,
+                marginTop: 12,
+              }}
+            >
+              {t.metric}
+            </div>
+            <div style={{ fontSize: 12.5, color: theme.inkSoft, marginTop: 10 }}>{t.sub}</div>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

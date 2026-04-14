@@ -1,0 +1,30 @@
+// Editorial v8 palette shared across the admin panel.
+export const theme = {
+  cream: '#f3f0ea',
+  creamSoft: '#ebe6dc',
+  ink: '#0b0f1a',
+  inkSoft: 'rgba(11,15,26,0.62)',
+  inkMuted: 'rgba(11,15,26,0.42)',
+  inkFaint: 'rgba(11,15,26,0.14)',
+  cobalt: '#1d5fdb',
+  cobaltSoft: 'rgba(29,95,219,0.10)',
+  danger: '#b4321f',
+  success: '#1f7a4a',
+  serif: "'Instrument Serif', 'Times New Roman', serif",
+  sans: "'Geist', -apple-system, system-ui, sans-serif",
+} as const
+
+export const STATUSES = {
+  partners:   ['new', 'reviewing', 'approved', 'rejected', 'archived'] as const,
+  affiliates: ['new', 'reviewing', 'approved', 'rejected', 'archived'] as const,
+  demos:      ['new', 'scheduled', 'completed', 'no_show', 'cancelled'] as const,
+} as const
+
+export type Entity = 'partners' | 'affiliates' | 'demos' | 'api-keys'
+
+export const ENTITY_TABLE: Record<Entity, string> = {
+  partners: 'partner_applications',
+  affiliates: 'affiliate_applications',
+  demos: 'demo_requests',
+  'api-keys': 'api_keys',
+}
