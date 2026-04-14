@@ -5,6 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '../lib/supabase-client'
 import AppSidebar from '../components/AppSidebar'
 import { CancelSurveyModal } from '../components/CancelSurveyModal'
+import { AnnualUpsell } from '../components/AnnualUpsell'
+import { LifetimeOffer } from '../components/LifetimeOffer'
+import { UsageCard } from '../components/UsageCard'
 import { Suspense } from 'react'
 
 const PLANS = [
@@ -181,6 +184,11 @@ function BillingContent() {
               </p>
             </div>
           </div>
+
+          {/* Usage, annual upsell, lifetime offer — render only for authenticated users on paid plans */}
+          {hasPaidPlan && <UsageCard />}
+          {hasPaidPlan && <AnnualUpsell />}
+          {hasPaidPlan && <LifetimeOffer />}
 
           {/* Credits banner */}
           {unappliedCents > 0 && (

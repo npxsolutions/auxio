@@ -980,7 +980,7 @@ export default function LandingV8() {
             { h: 'Platform', l: [['Atlas', '#atlas'], ['Ledger', '#ledger'], ['Pillars', '#platform'], ['Pricing', '#pricing']] as [string, string][] },
             { h: 'Compare',  l: [['ChannelAdvisor', '/vs/channelAdvisor'], ['Brightpearl', '/vs/brightpearl'], ['Linnworks', '/vs/linnworks'], ['Feedonomics', '/vs/baselinker']] as [string, string][] },
             { h: 'Company',  l: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy'], ['Terms', '/terms']] as [string, string][] },
-            { h: 'Resources', l: [['Security', '/security'], ['Status', 'https://status.fulcra.com'], ['Changelog', '/changelog'], ['Help', '/help'], ['Careers', '/careers']] as [string, string][] },
+            { h: 'Resources', l: [['Enterprise', '/enterprise'], ['Security', '/security'], ['Status', 'https://status.fulcra.com'], ['Changelog', '/changelog'], ['Help', '/help'], ['Careers', '/careers']] as [string, string][] },
           ].map(col => (
             <div key={col.h}>
               <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.cobalt, letterSpacing: '0.16em', fontWeight: 700, textTransform: 'uppercase', marginBottom: 12 }}>{col.h}</div>

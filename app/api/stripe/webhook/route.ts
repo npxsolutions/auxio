@@ -60,14 +60,57 @@ export async function POST(request: Request) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session
         const userId  = session.metadata?.supabase_user_id
-        const plan    = session.metadata?.plan
         if (!userId) break
+
+        // Lifetime one-time purchase — mode=payment and matching price id.
+        const isLifetime = session.metadata?.offer === 'lifetime_scale' || session.mode === 'payment'
+        const lifetimePriceId = process.env.STRIPE_PRICE_LIFETIME_SCALE
+        if (isLifetime && lifetimePriceId) {
+          // Confirm line item matches configured lifetime price before upgrading.
+          let matched = session.metadata?.offer === 'lifetime_scale'
+          try {
+            const items = await getStripe().checkout.sessions.listLineItems(session.id, { limit: 5 })
+            matched = matched || items.data.some(li => li.price?.id === lifetimePriceId)
+          } catch {}
+          if (matched) {
+            await getSupabase().from('users').upsert({
+              id: userId,
+              plan: 'lifetime_scale',
+              billing_interval: 'lifetime',
+              stripe_customer_id: session.customer as string,
+              subscription_status: 'active',
+              lifetime_purchased_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            })
+            const ph = getPostHogClient()
+            if (ph) {
+              ph.capture({ distinctId: userId, event: 'lifetime_purchased', properties: { revenue: session.amount_total ? session.amount_total / 100 : 0 } })
+              await ph.shutdown()
+            }
+            break
+          }
+        }
+
+        const plan = session.metadata?.plan
+        // Determine billing_interval from the subscription if present.
+        let billingInterval: string | null = null
+        let subscriptionId: string | null = null
+        if (session.mode === 'subscription' && session.subscription) {
+          subscriptionId = typeof session.subscription === 'string' ? session.subscription : session.subscription.id
+          try {
+            const sub = await getStripe().subscriptions.retrieve(subscriptionId)
+            const interval = sub.items.data[0]?.price.recurring?.interval
+            billingInterval = interval === 'year' ? 'year' : 'month'
+          } catch {}
+        }
 
         await getSupabase().from('users').upsert({
           id: userId,
           plan,
           stripe_customer_id: session.customer as string,
           subscription_status: 'active',
+          ...(billingInterval ? { billing_interval: billingInterval } : {}),
+          ...(subscriptionId   ? { stripe_subscription_id: subscriptionId } : {}),
           updated_at: new Date().toISOString(),
         })
 
@@ -90,10 +133,15 @@ export async function POST(request: Request) {
         const prevPriceId = (event.data.previous_attributes as any)?.items?.data?.[0]?.price?.id
         const prevPlan    = prevPriceId ? (PLAN_BY_PRICE[prevPriceId] || 'unknown') : null
 
+        const interval = sub.items.data[0]?.price.recurring?.interval
+        const billingInterval = interval === 'year' ? 'year' : 'month'
+
         await getSupabase().from('users').upsert({
           id: userId,
           plan,
           subscription_status: sub.status,
+          billing_interval: billingInterval,
+          stripe_subscription_id: sub.id,
           updated_at: new Date().toISOString(),
         })
 

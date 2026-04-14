@@ -275,7 +275,7 @@ export default function PricingPage() {
             )}
 
             <Link
-              href={plan.name === 'Enterprise' ? '/contact' : '/signup'}
+              href={plan.name === 'Enterprise' ? '/enterprise' : '/signup'}
               style={{
                 display: 'block', textAlign: 'center', padding: '11px',
                 borderRadius: '8px', fontSize: '13px', fontWeight: 600,

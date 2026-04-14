@@ -18,13 +18,15 @@ export const STATUSES = {
   partners:   ['new', 'reviewing', 'approved', 'rejected', 'archived'] as const,
   affiliates: ['new', 'reviewing', 'approved', 'rejected', 'archived'] as const,
   demos:      ['new', 'scheduled', 'completed', 'no_show', 'cancelled'] as const,
+  enterprise: ['new', 'reviewing', 'quoted', 'won', 'lost', 'archived'] as const,
 } as const
 
-export type Entity = 'partners' | 'affiliates' | 'demos' | 'api-keys'
+export type Entity = 'partners' | 'affiliates' | 'demos' | 'api-keys' | 'enterprise'
 
 export const ENTITY_TABLE: Record<Entity, string> = {
   partners: 'partner_applications',
   affiliates: 'affiliate_applications',
   demos: 'demo_requests',
   'api-keys': 'api_keys',
+  enterprise: 'enterprise_quotes',
 }

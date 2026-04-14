@@ -6,11 +6,12 @@ export const dynamic = 'force-dynamic'
 
 async function getCounts() {
   const admin = getSupabaseAdmin()
-  const [partners, affiliates, demos, apiKeys] = await Promise.all([
+  const [partners, affiliates, demos, apiKeys, enterprise] = await Promise.all([
     admin.from('partner_applications').select('id,status', { count: 'exact', head: false }),
     admin.from('affiliate_applications').select('id,status', { count: 'exact', head: false }),
     admin.from('demo_requests').select('id,status', { count: 'exact', head: false }),
     admin.from('api_keys').select('id,active', { count: 'exact', head: false }),
+    admin.from('enterprise_quotes').select('id,status', { count: 'exact', head: false }),
   ])
 
   const openCount = (rows: { status: string | null }[] | null) =>
@@ -21,6 +22,7 @@ async function getCounts() {
     affiliates: { total: affiliates.count ?? 0, open: openCount(affiliates.data as any) },
     demos:      { total: demos.count      ?? 0, open: (demos.data ?? []).filter((r: any) => r.status === 'new' || r.status === 'scheduled').length },
     apiKeys:    { total: apiKeys.count    ?? 0, active: (apiKeys.data ?? []).filter((r: any) => r.active).length },
+    enterprise: { total: enterprise.count ?? 0, open: openCount(enterprise.data as any) },
   }
 }
 
@@ -41,6 +43,7 @@ export default async function AdminHome() {
         { href: '/admin/partners',    label: 'Partners',    sub: `${counts.partners.open} open`,    metric: String(counts.partners.total) },
         { href: '/admin/affiliates',  label: 'Affiliates',  sub: `${counts.affiliates.open} open`,  metric: String(counts.affiliates.total) },
         { href: '/admin/demos',       label: 'Demos',       sub: `${counts.demos.open} open`,       metric: String(counts.demos.total) },
+        { href: '/admin/enterprise',  label: 'Enterprise',  sub: `${counts.enterprise.open} open`,  metric: String(counts.enterprise.total) },
         { href: '/admin/api-keys',    label: 'API keys',    sub: `${counts.apiKeys.active} active`, metric: String(counts.apiKeys.total) },
         { href: '/admin/sync-health', label: 'Sync health', sub: 'live status',                     metric: '→' },
         { href: '/api/admin/sync-health', label: 'Sync health (JSON)', sub: 'raw endpoint',         metric: '{ }' },
