@@ -121,7 +121,21 @@ export async function GET() {
 
   // Known channel types we actively sync. Used so the dashboard shows a row
   // for each supported channel even if it has no active connections yet.
-  const KNOWN_CHANNELS = ['shopify', 'ebay', 'woocommerce', 'bigcommerce', 'etsy', 'walmart', 'onbuy', 'facebook', 'google'] as const
+  const KNOWN_CHANNELS = ['shopify', 'ebay', 'woocommerce', 'bigcommerce', 'etsy', 'walmart', 'onbuy', 'facebook', 'google', 'apify'] as const
+
+  // Social-intel watchlist metrics (caller-scoped, owner-only view is already gated above).
+  const { data: watchlist } = await admin
+    .from('si_watchlist')
+    .select('active, consecutive_failures, last_run_at')
+
+  const watches = watchlist ?? []
+  const activeWatches = watches.filter(w => w.active).length
+  const failingWatches = watches.filter(w => (w.consecutive_failures ?? 0) > 0).length
+  const lastSuccessfulSiRun = watches
+    .map(w => w.last_run_at as string | null)
+    .filter((x): x is string => !!x)
+    .sort()
+    .pop() ?? null
 
   return NextResponse.json({
     generated_at: new Date().toISOString(),
@@ -132,6 +146,11 @@ export async function GET() {
         return [k, { user_id: userId, channel, ...v }]
       }),
     ),
+    social_intel: {
+      active_watches: activeWatches,
+      failing_watches: failingWatches,
+      last_successful_run: lastSuccessfulSiRun,
+    },
     total_dead_letter: failures.length,
     total_blocked_sync_states: syncStates.filter(s => (s.sync_attempts ?? 0) >= 5).length,
   })

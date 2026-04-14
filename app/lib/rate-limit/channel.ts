@@ -17,6 +17,7 @@ export type ChannelKey =
   | 'google'
   | 'woocommerce'
   | 'bigcommerce'
+  | 'apify'
 
 const LIMITS: Record<ChannelKey, { capacity: number; windowSeconds: number }> = {
   shopify:     { capacity: 2, windowSeconds: 1 },
@@ -40,6 +41,9 @@ const LIMITS: Record<ChannelKey, { capacity: number; windowSeconds: number }> = 
   woocommerce: { capacity: 20, windowSeconds: 60 },
   // BigCommerce: 450/hr safety ceiling -> ~7 / 60s.
   bigcommerce: { capacity: 7, windowSeconds: 60 },
+  // Apify: compute quota is monthly; this bucket prevents a single user hammering
+  // actor starts from the watchlist loop. Scope key is user_id.
+  apify:       { capacity: 3, windowSeconds: 60 },
 }
 
 let _redis: Redis | null = null
