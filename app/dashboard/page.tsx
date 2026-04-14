@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase-client'
 import AppSidebar from '../components/AppSidebar'
+import TourTrigger from '../components/TourTrigger'
+import { useTour } from '../lib/tours'
 
 interface ChannelStat {
   id: string
@@ -297,6 +299,17 @@ export default function DashboardPage() {
 
   useEffect(() => { loadDashboard() }, [])
 
+  // First-session welcome: only auto-fire the dashboard tour when the user
+  // account is fresh (created within the last 24h). Pre-existing users get
+  // the tour only via the "?" menu, never as a surprise.
+  const isFirstSession = (() => {
+    if (!user?.created_at) return false
+    const created = new Date(user.created_at).getTime()
+    if (!created) return false
+    return Date.now() - created < 24 * 60 * 60 * 1000
+  })()
+  useTour('dashboard', user?.id ?? null, { autoStart: isFirstSession })
+
   async function loadDashboard() {
     try {
       const { data: { user } } = await supabase.auth.getUser()
@@ -405,6 +418,7 @@ export default function DashboardPage() {
   return (
     <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontSize: '14px', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
+      <TourTrigger tourId="dashboard" userId={user?.id} />
 
       <main style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
@@ -467,13 +481,14 @@ export default function DashboardPage() {
           />
 
           {/* HERO STATS */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px', marginBottom: '16px' }}>
+          <div data-tour="dashboard-kpis" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px', marginBottom: '16px' }}>
             {statCards.map(stat => (
               <StatCard key={stat.label} {...stat} router={router} />
             ))}
           </div>
 
-          {/* AI AGENT BANNER */}
+          {/* AI AGENT BANNER — also the margin/alerts anchor for product tour */}
+          <div data-tour="dashboard-alerts">
           {(data?.pendingActions ?? 0) > 0 && (
             <Link href="/agent" style={{ textDecoration: 'none' }}>
               <div style={{
@@ -502,8 +517,10 @@ export default function DashboardPage() {
               </div>
             </Link>
           )}
+          </div>
 
-          {/* CHANNEL HEALTH CARDS */}
+          {/* CHANNEL HEALTH CARDS — also the "connect another channel" anchor */}
+          <div data-tour="dashboard-connect">
           {channels.length > 0 && (
             <div style={{ marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
@@ -522,9 +539,10 @@ export default function DashboardPage() {
               </div>
             </div>
           )}
+          </div>
 
           {/* MAIN GRID */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '12px', marginBottom: '12px' }}>
+          <div data-tour="dashboard-orders" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '12px', marginBottom: '12px' }}>
 
             {/* CHANNEL TABLE (when no channels) */}
             {channels.length === 0 && (
@@ -616,8 +634,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* BOTTOM ROW */}
-          <div style={{ display: 'grid', gridTemplateColumns: channels.length > 0 ? '1fr 1fr' : '1fr 1fr 1fr', gap: '12px' }}>
+          {/* BOTTOM ROW — also the sync/error health anchor for the tour */}
+          <div data-tour="dashboard-health" style={{ display: 'grid', gridTemplateColumns: channels.length > 0 ? '1fr 1fr' : '1fr 1fr 1fr', gap: '12px' }}>
 
             {/* TOP PRODUCTS (only shown when no channels) */}
             {channels.length === 0 && (

@@ -119,3 +119,94 @@ aside::-webkit-scrollbar-thumb:hover {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ─────────────────────────────────────────
+   PRODUCT TOURS (driver.js overrides)
+   Matches v8 cream / ink / cobalt palette.
+   No default driver.js theme — all visual
+   tokens below deliberately override it.
+───────────────────────────────────────── */
+.driver-popover {
+  background: #fbf8f1;          /* cream */
+  color: #1a1b22;                /* ink */
+  border: 1px solid #1a1b22;     /* 1px ink stroke */
+  border-radius: 8px;
+  box-shadow: none;              /* no shadow drop */
+  padding: 18px 20px;
+  max-width: 340px;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.driver-popover-arrow-side-top.driver-popover-arrow    { border-top-color:    #1a1b22; }
+.driver-popover-arrow-side-bottom.driver-popover-arrow { border-bottom-color: #1a1b22; }
+.driver-popover-arrow-side-left.driver-popover-arrow   { border-left-color:   #1a1b22; }
+.driver-popover-arrow-side-right.driver-popover-arrow  { border-right-color:  #1a1b22; }
+
+.driver-popover-title {
+  font-family: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #1a1b22;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+.driver-popover-description {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #3a3d52;
+  margin: 0 0 14px 0;
+}
+
+.driver-popover-progress-text {
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: #6b6e87;
+  letter-spacing: 0.04em;
+}
+
+.driver-popover-footer {
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.driver-popover-prev-btn,
+.driver-popover-next-btn,
+.driver-popover-close-btn {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 7px 12px;
+  border: 1px solid #d8d3c8;
+  background: transparent;
+  color: #1a1b22;
+  text-shadow: none;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.driver-popover-prev-btn:hover {
+  background: #f0ede4;
+}
+.driver-popover-next-btn {
+  background: #2d2bb2;           /* cobalt */
+  color: #ffffff;
+  border-color: #2d2bb2;
+}
+.driver-popover-next-btn:hover {
+  background: #211f8f;
+  border-color: #211f8f;
+}
+.driver-popover-close-btn {
+  color: #6b6e87;
+  border-color: transparent;
+  background: transparent;
+}
+.driver-popover-close-btn:hover {
+  color: #1a1b22;
+  background: transparent;
+}
+
+.driver-overlay {
+  background: rgba(26, 27, 34, 0.55) !important;
+}

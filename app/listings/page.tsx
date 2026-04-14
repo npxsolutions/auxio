@@ -3,6 +3,9 @@
 import { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import AppSidebar from '../components/AppSidebar'
+import TourTrigger from '../components/TourTrigger'
+import { useTour } from '../lib/tours'
+import { createClient as createSupabaseClient } from '../lib/supabase-client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -412,6 +415,16 @@ function EditableCell({
 
 export default function ListingsPage() {
   const router = useRouter()
+
+  // Tour: fetch user id once so the tour can key its "completed" flag per user.
+  const [tourUserId, setTourUserId] = useState<string | null>(null)
+  useEffect(() => {
+    const sb = createSupabaseClient()
+    sb.auth.getUser().then(({ data }) => {
+      if (data.user?.id) setTourUserId(data.user.id)
+    }).catch(err => console.error('[tour:listings] user fetch failed', err))
+  }, [])
+  useTour('listings', tourUserId)
 
   // Core data
   const [listings, setListings] = useState<Listing[]>([])
@@ -858,6 +871,7 @@ export default function ListingsPage() {
   return (
     <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
+      <TourTrigger tourId="listings" userId={tourUserId} />
 
       {/* Toast */}
       {toast && (
@@ -914,7 +928,7 @@ export default function ListingsPage() {
                 {listings.length} listing{listings.length !== 1 ? 's' : ''} · create once, publish everywhere
               </p>
             </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div data-tour="listings-cost" style={{ display: 'flex', gap: '8px' }}>
               <button
                 onClick={() => router.push('/listings/import')}
                 style={{ padding: '9px 16px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
@@ -1132,7 +1146,7 @@ export default function ListingsPage() {
             </div>
 
             {/* Column visibility */}
-            <div ref={colMenuRef} style={{ position: 'relative' }}>
+            <div ref={colMenuRef} data-tour="listings-columns" style={{ position: 'relative' }}>
               <button
                 onClick={() => setColMenuOpen(v => !v)}
                 style={{ padding: '8px 14px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
@@ -1191,7 +1205,7 @@ export default function ListingsPage() {
           </div>
 
           {/* ── Quick filter chips (v2) ── */}
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '10px' }}>
+          <div data-tour="listings-filters" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '10px' }}>
             {([
               { key: 'missingImage', label: 'Missing image' },
               { key: 'lowStock',     label: 'Low stock' },
@@ -1400,7 +1414,7 @@ export default function ListingsPage() {
                 top: 0,
                 zIndex: 10,
               }}>
-                <div onClick={e => e.stopPropagation()}>
+                <div data-tour="listings-bulk" onClick={e => e.stopPropagation()}>
                   <input type="checkbox" checked={allPageSelected} onChange={toggleAll} style={{ accentColor: '#191919', cursor: 'pointer' }} />
                 </div>
                 {visibleColumns.includes('image') && <div />}

@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import AppSidebar from '../components/AppSidebar'
 import { createClient } from '../lib/supabase-client'
+import TourTrigger from '../components/TourTrigger'
+import { useTour } from '../lib/tours'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -160,6 +162,14 @@ export default function RepricingPage() {
   const [newFloor, setNewFloor]               = useState('')
   const [newCeiling, setNewCeiling]           = useState('')
   const [newActive, setNewActive]             = useState(true)
+  const [tourUserId, setTourUserId] = useState<string | null>(null)
+  useEffect(() => {
+    const sb = createClient()
+    sb.auth.getUser().then(({ data }) => {
+      if (data.user?.id) setTourUserId(data.user.id)
+    }).catch(err => console.error('[tour:repricing] user fetch failed', err))
+  }, [])
+  useTour('repricing', tourUserId)
 
   async function loadRules() {
     setLoading(true)
@@ -281,6 +291,7 @@ export default function RepricingPage() {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
+      <TourTrigger tourId="repricing" userId={tourUserId} />
 
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px', minWidth: 0 }}>
 
@@ -314,6 +325,7 @@ export default function RepricingPage() {
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button
+              data-tour="repricing-form"
               onClick={() => setShowCreatePanel(p => !p)}
               style={{
                 background: 'white', color: '#1a1b22', border: '1px solid #e8e5df',
@@ -383,7 +395,7 @@ export default function RepricingPage() {
         <div style={{ display: 'grid', gridTemplateColumns: showCreatePanel ? '1fr 360px' : '1fr', gap: 20 }}>
           <div>
             {/* ── Rules section ── */}
-            <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden', marginBottom: 20 }}>
+            <div data-tour="repricing-rules" style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden', marginBottom: 20 }}>
               <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Repricing Rules</span>
                 <span style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -492,7 +504,7 @@ export default function RepricingPage() {
             </div>
 
             {/* ── Log table ── */}
-            <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>
+            <div data-tour="repricing-log" style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>
               <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8e5df' }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22' }}>Repricing Log</span>
                 <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b6e87' }}>Recent price adjustments made by your rules</p>

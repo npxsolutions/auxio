@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../lib/supabase-client'
 import AppSidebar from '../components/AppSidebar'
+import TourTrigger from '../components/TourTrigger'
+import { useTour } from '../lib/tours'
 
 interface Channel {
   id: string
@@ -502,7 +504,10 @@ export default function ChannelsPage() {
   const [focusedInput, setFocusedInput] = useState<string | null>(null)
   const [search, setSearch]             = useState('')
   const [activeCategory, setActiveCategory] = useState<string>('All')
+  const [tourUserId, setTourUserId]     = useState<string | null>(null)
   const supabase = createClient()
+
+  useTour('channels', tourUserId)
 
   useEffect(() => { load() }, [])
   useEffect(() => {
@@ -515,6 +520,7 @@ export default function ChannelsPage() {
   async function load() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { router.push('/login'); return }
+    setTourUserId(user.id)
     const { data } = await supabase
       .from('channels')
       .select('*')
@@ -643,6 +649,7 @@ export default function ChannelsPage() {
   return (
     <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
+      <TourTrigger tourId="channels" userId={tourUserId} />
 
       {toast && (
         <div style={{
@@ -711,6 +718,7 @@ export default function ChannelsPage() {
         )}
 
         {/* Connected channels strip */}
+        <div data-tour="channels-live">
         {channels.length > 0 && (
           <div style={{ marginBottom: 32 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
@@ -793,6 +801,7 @@ export default function ChannelsPage() {
             </div>
           </div>
         )}
+        </div>
 
         {/* Search + filter bar */}
         <div style={{ display: 'flex', gap: 12, marginBottom: 24, alignItems: 'center' }}>
@@ -836,7 +845,7 @@ export default function ChannelsPage() {
         </div>
 
         {/* Channel groups */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        <div data-tour="channels-connect" style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
           {grouped.map(({ cat, items }) => (
             <div key={cat}>
               <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
@@ -1095,7 +1104,7 @@ export default function ChannelsPage() {
         </div>
 
         {/* Footer note */}
-        <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid #e8e5df', textAlign: 'center' }}>
+        <div data-tour="channels-soon" style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid #e8e5df', textAlign: 'center' }}>
           <div style={{ fontSize: 12, color: '#9496b0' }}>
             Don't see a channel you need?{' '}
             <span style={{ color: '#5b52f5', fontWeight: 500, cursor: 'pointer' }}>

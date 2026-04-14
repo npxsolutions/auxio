@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppSidebar from '../components/AppSidebar'
 import { createClient } from '../lib/supabase-client'
+import TourTrigger from '../components/TourTrigger'
+import { useTour } from '../lib/tours'
 
 interface MonthRow {
   month: string
@@ -39,12 +41,17 @@ export default function FinancialsPage() {
   const [loading, setLoading]       = useState(true)
   const [error, setError]           = useState('')
   const [view, setView]             = useState<'pnl' | 'cashflow'>('pnl')
+  const [tourUserId, setTourUserId] = useState<string | null>(null)
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user) router.push('/login'); else load()
+      if (!user) { router.push('/login'); return }
+      setTourUserId(user.id)
+      load()
     })
   }, [])
+
+  useTour('profit', tourUserId)
 
   async function load() {
     setLoading(true); setError('')
@@ -64,6 +71,7 @@ export default function FinancialsPage() {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
+      <TourTrigger tourId="profit" userId={tourUserId} />
 
       <main style={{ marginLeft: 220, flex: 1, padding: 32 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24 }}>
@@ -71,7 +79,7 @@ export default function FinancialsPage() {
             <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1b22', margin: 0, letterSpacing: '-0.02em' }}>Financials</h1>
             <p style={{ fontSize: 13, color: '#6b6e87', margin: '4px 0 0' }}>12-month P&L, working capital position and cash flow</p>
           </div>
-          <div style={{ display: 'flex', background: 'white', border: '1px solid #e8e5df', borderRadius: 10, padding: 3, gap: 2 }}>
+          <div data-tour="profit-export" style={{ display: 'flex', background: 'white', border: '1px solid #e8e5df', borderRadius: 10, padding: 3, gap: 2 }}>
             {[{ id: 'pnl', label: 'P&L Statement' }, { id: 'cashflow', label: 'Cash Flow' }].map(tab => (
               <button key={tab.id} onClick={() => setView(tab.id as any)} style={{
                 padding: '6px 14px', borderRadius: 8, border: 'none',
@@ -89,7 +97,7 @@ export default function FinancialsPage() {
 
         {/* Summary KPIs */}
         {totals && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 20 }}>
+          <div data-tour="profit-net" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 20 }}>
             {[
               { label: 'Revenue (12m)',    value: fmtGBP(totals.revenue),      color: '#1a1b22' },
               { label: 'Gross profit',    value: fmtGBP(totals.gross_profit),  color: '#059669' },
@@ -107,7 +115,7 @@ export default function FinancialsPage() {
 
         {/* Working capital */}
         {wc && (
-          <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
+          <div data-tour="profit-flags" style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
             <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22', marginBottom: 14 }}>Working Capital</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
               <div style={{ background: '#f5f3ef', borderRadius: 10, padding: '14px 16px' }}>
@@ -138,7 +146,7 @@ export default function FinancialsPage() {
         ) : view === 'pnl' ? (
           <>
             {/* Revenue bar chart */}
-            <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
+            <div data-tour="profit-breakdown" style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 16 }}>Monthly Revenue & Profit</div>
               <div style={{ display: 'flex', gap: 3, alignItems: 'flex-end', height: 100 }}>
                 {monthly.map(m => (
