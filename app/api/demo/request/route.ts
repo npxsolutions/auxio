@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { getSupabaseAdmin } from '../../../lib/supabase-admin'
+import { notifySlack } from '../../../lib/slack/notify'
 
 export const runtime = 'nodejs'
 
@@ -83,7 +84,29 @@ export async function POST(request: Request) {
     console.error('[demo/request] confirmation email failed:', err.message)
   }
 
-  // TODO: notify #demos slack channel
+  // Fire-and-forget #demos slack notification.
+  const adminLink = data?.id
+    ? `https://auxio-lkqv.vercel.app/admin/demos/${data.id}`
+    : `mailto:${email}`
+  void notifySlack({
+    channel: 'demos',
+    text: `New demo request: ${body.company || body.name || email}`,
+    blocks: [
+      { type: 'header', text: { type: 'plain_text', text: 'New demo request' } },
+      {
+        type: 'section',
+        fields: [
+          { type: 'mrkdwn', text: `*Email:*\n${email}` },
+          { type: 'mrkdwn', text: `*Name:*\n${body.name || '—'}` },
+          { type: 'mrkdwn', text: `*Company:*\n${body.company || '—'}` },
+          { type: 'mrkdwn', text: `*Role:*\n${body.role || '—'}` },
+          { type: 'mrkdwn', text: `*Monthly GMV:*\n${body.monthly_gmv || '—'}` },
+          { type: 'mrkdwn', text: `*Channels:*\n${(body.channels && body.channels.length ? body.channels.join(', ') : '—')}` },
+        ],
+      },
+      { type: 'context', elements: [{ type: 'mrkdwn', text: `<${adminLink}|Open in admin>` }] },
+    ],
+  })
 
   return NextResponse.json({ ok: true, id: data?.id })
 }

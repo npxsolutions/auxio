@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { notifySlack } from '../../../lib/slack/notify'
 
 // POST /api/affiliates/apply
 // Public affiliate-program application from /affiliates.
@@ -26,22 +27,48 @@ export async function POST(request: Request) {
     }
 
     const supabase = await getSupabase()
-    const { error } = await supabase.from('affiliate_applications').insert({
+    const name = str('name')
+    const audienceType = str('audienceType') ?? str('audience')
+    const audienceSize = typeof body.audienceSize === 'number' ? body.audienceSize : null
+    const url = str('url')
+    const { data: inserted, error } = await supabase.from('affiliate_applications').insert({
       email,
-      name: str('name'),
-      audience_type: str('audienceType') ?? str('audience'),
-      audience_size: typeof body.audienceSize === 'number' ? body.audienceSize : null,
-      url: str('url'),
+      name,
+      audience_type: audienceType,
+      audience_size: audienceSize,
+      url,
       country: str('country'),
       payout_method: str('payoutMethod') ?? 'stripe',
       notes: str('notes'),
       utm: body.utm ?? null,
-    })
+    }).select('id').single()
 
     if (error) {
       console.error('[api/affiliates/apply] insert error', error)
       return NextResponse.json({ ok: false, error: 'Could not save application.' }, { status: 500 })
     }
+
+    const adminLink = inserted?.id
+      ? `https://auxio-lkqv.vercel.app/admin/affiliates/${inserted.id}`
+      : `mailto:${email}`
+    void notifySlack({
+      channel: 'affiliates',
+      text: `New affiliate application: ${name ?? email}`,
+      blocks: [
+        { type: 'header', text: { type: 'plain_text', text: 'New affiliate application' } },
+        {
+          type: 'section',
+          fields: [
+            { type: 'mrkdwn', text: `*Email:*\n${email}` },
+            { type: 'mrkdwn', text: `*Name:*\n${name ?? '—'}` },
+            { type: 'mrkdwn', text: `*Audience:*\n${audienceType ?? '—'}` },
+            { type: 'mrkdwn', text: `*Size:*\n${audienceSize ?? '—'}` },
+            { type: 'mrkdwn', text: `*URL:*\n${url ?? '—'}` },
+          ],
+        },
+        { type: 'context', elements: [{ type: 'mrkdwn', text: `<${adminLink}|Open in admin>` }] },
+      ],
+    })
 
     return NextResponse.json({ ok: true, message: 'Application received. We respond inside 72 hours.' })
   } catch (err) {

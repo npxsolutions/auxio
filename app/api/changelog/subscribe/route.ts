@@ -8,6 +8,9 @@ import { NextResponse } from 'next/server'
 // trigger a double-opt-in email elsewhere (Resend/Loops). Unique on email — existing
 // subscribers return ok without error.
 // TODO: wire Resend to send confirm-your-subscription email using confirmation_token.
+// TODO (slack): deliberately skipped — changelog signups are expected to be high-volume
+// and would be too noisy for a channel. Wire notifySlack({ channel: 'changelog' }) here
+// if/when we want per-signup pings (see app/lib/slack/notify.ts).
 
 const getSupabase = async () => {
   const cookieStore = await cookies()

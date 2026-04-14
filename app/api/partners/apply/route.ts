@@ -1,11 +1,12 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { notifySlack } from '../../../lib/slack/notify'
 
 // POST /api/partners/apply
 // Public partner-program application from /partners.
 // Persists to public.partner_applications (RLS: anon insert allowed, no public read).
-// TODO: push to CRM (HubSpot/Attio). Notify #partnerships Slack.
+// TODO: push to CRM (HubSpot/Attio).
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -26,23 +27,48 @@ export async function POST(request: Request) {
     }
 
     const supabase = await getSupabase()
-    const { error } = await supabase.from('partner_applications').insert({
+    const company = str('company')
+    const tier = str('tier') ?? 'registered'
+    const estimatedAccounts = typeof body.estimatedAccounts === 'number' ? body.estimatedAccounts : null
+    const { data: inserted, error } = await supabase.from('partner_applications').insert({
       email,
-      company: str('company'),
+      company,
       website: str('website'),
       country: str('country'),
       role: str('role'),
-      tier: str('tier') ?? 'registered',
+      tier,
       partner_type: str('partnerType'),
-      estimated_accounts: typeof body.estimatedAccounts === 'number' ? body.estimatedAccounts : null,
+      estimated_accounts: estimatedAccounts,
       notes: str('notes'),
       utm: body.utm ?? null,
-    })
+    }).select('id').single()
 
     if (error) {
       console.error('[api/partners/apply] insert error', error)
       return NextResponse.json({ ok: false, error: 'Could not save application.' }, { status: 500 })
     }
+
+    // Fire-and-forget Slack notification.
+    const adminLink = inserted?.id
+      ? `https://auxio-lkqv.vercel.app/admin/partners/${inserted.id}`
+      : `mailto:${email}`
+    void notifySlack({
+      channel: 'partnerships',
+      text: `New partner application: ${company ?? email} (${tier})`,
+      blocks: [
+        { type: 'header', text: { type: 'plain_text', text: 'New partner application' } },
+        {
+          type: 'section',
+          fields: [
+            { type: 'mrkdwn', text: `*Email:*\n${email}` },
+            { type: 'mrkdwn', text: `*Company:*\n${company ?? '—'}` },
+            { type: 'mrkdwn', text: `*Tier:*\n${tier}` },
+            { type: 'mrkdwn', text: `*Est. accounts:*\n${estimatedAccounts ?? '—'}` },
+          ],
+        },
+        { type: 'context', elements: [{ type: 'mrkdwn', text: `<${adminLink}|Open in admin>` }] },
+      ],
+    })
 
     return NextResponse.json({ ok: true, message: 'Application received. We review weekly.' })
   } catch (err) {
