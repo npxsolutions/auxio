@@ -337,3 +337,98 @@ Of the eight, **Meridia is the only GREEN** — `.com` appears genuinely availab
 - `rialto.com` domain status — Firecrawl proxy timed out twice.
 - WHOIS ownership / acquisition pricing for `meridia.com`, `voro.io`, `quilo.com`, `sellgrid.com`.
 - Full exact-class filings (Class 9 vs 35 vs 42) for each TM — Justia entries give use-descriptions but do not always surface the filed class number; manual TESS/TSDR lookup needed before filing.
+
+---
+
+## Round 3 — verify-first pool (2026-04-14)
+
+### Methodology change
+
+The first two rounds both produced a name the user picked (Fulcra, then Meridia) only for live checks — run *after* the shortlist formed — to reveal a blocking competitor or TM. The lesson is that generation-first, verification-after naming sessions converge on names that *sound* clean but collide on first contact with the web. Round 3 inverts the order: every candidate gets a real SERP + category collision probe *before* it's eligible for a shortlist slot. GREEN = `.com` available AND no in-category SERP collision AND no adjacency-competitor. Only GREEN names get a deeper verification tier.
+
+Tooling note: `firecrawl` and `WebFetch` were both denied permissions in this session; only `WebSearch` was available. Whois-registry lookups were therefore done indirectly via SERP evidence (active site at `<name>.com` = registered; absent active site + competing `.io`/`.ai` usage = likely registered but dormant). **USPTO/Justia TM and EUIPO TMView were not verified this run** — results are SERP-derived and must be confirmed manually before filing.
+
+### 30-candidate master table
+
+| # | Name | Angle | .com status (SERP-derived) | SERP collision | Verdict |
+|---|------|-------|----------------------------|----------------|---------|
+| 1 | Castra | Latin | Active: **Castra** — bed-platform / van-conversion brand ("Built To Roam"). | Streetwear (castramcr.co.uk), UK financial planning (castra.uk). No direct commerce-SaaS. | YELLOW — .com owned by active consumer brand, unrelated category. |
+| 2 | Limen | Latin | Unclear; **limen.one** is a CRM for SaaS founders. | **Limio.com** is a direct subscription-commerce SaaS ("Subscription Commerce for Humans and Agents") — near-phonetic collision. | RED — Limio is near-identical name in direct category. |
+| 3 | Tessera | Latin | Active: **tessera-software.com** exists; **tesseralabs.ai** is a $8M Foundation Capital–backed enterprise AI automation SaaS (2024). Also Brompton Technology LED software. | Tessera Labs = enterprise automation SaaS, direct adjacency. | RED — multiple active software/SaaS Tesseras, including a funded AI-ops platform. |
+| 4 | Kairos | Greek | Active: **kairos.com** = funded face-recognition / identity-verification AI (Miami, venture-backed). | **andkairos.com** literally runs "E-Commerce" service page; Kairos PSA = SaaS PSA; Kairos Technologies = digital transformation services. | RED — funded .com incumbent + commerce/SaaS namesakes. |
+| 5 | Axios | Greek | Active: **axios.com** = Axios Media (major news outlet, hundreds of millions in revenue) — Abbott-tier hoarder. Also axios-http (npm, 174K dependents), Axios HQ, Axios Software. | Ubiquitous in software / npm / media. | RED — Abbott-tier incumbent, zero acquisition path. |
+| 6 | Ostium | Latin | Active: **ostium.com** = Ostium Labs, $20M Series A (General Catalyst + Jump) onchain perpetuals DEX for RWAs. | Finance-infra collision; digitalostium.com also active. | RED — funded fintech incumbent on .com. |
+| 7 | Codex | Latin | Active: **codex.com** domain held; **codex.online**, **codex.io**, and **OpenAI Codex** all dominate namespace. | OpenAI Codex = global dev-tools brand. | RED — OpenAI + multiple incumbents; no brand oxygen. |
+| 8 | Plexa | Latin | Active: **Plexa** = construction-mgmt SaaS platform ("all-in-one construction management"). Near-neighbor **Plex** (Rockwell, $2.2B acq) = manufacturing ERP SaaS. | Direct SaaS + phonetic Plex ERP giant. | RED — direct SaaS collision + Plex phonetic overlap. |
+| 9 | Nodus | Latin | Active: **nodus.com** = Nodus Technologies (EVO Payments subsidiary, 2018 acq) — e-commerce + ERP payment automation. **Direct competitor category.** | nodusworks.com Shopify consultancy; nodus.io growth agency. | RED — .com is a direct ecommerce payment-ops platform. |
+| 10 | Stela | Latin | Active: **stela.com** = Stela Unlimited (comics/novels subscription app). **stela.ai** = RPA/automation SaaS. | stella.systems composable SaaS; stellasource.com steel ecommerce. | RED — .com active + SaaS collisions on .ai/.systems. |
+| 11 | Zevio | Made | Active: **zevio.com** = Zevio streaming/talks platform. **zeviotech.com** = WooCommerce / Shopify dev shop. **zevioo.com** = AI UGC for eshops. | Three commerce-adjacent Zevios. | RED — .com active + direct ecommerce competitor (zevioo). |
+| 12 | Kuron | Made | Active: **kuron.com** = Polish cooking/recipes site (Aneta Kuroń). Also Kuron Corporation (Bloomberg-listed). | No commerce-SaaS. | YELLOW — .com is held by unrelated culinary brand; no commerce collision but not acquirable casually. |
+| 13 | Tavio | Made | Active: **tavio.io** = integration platform SaaS (IDML). Plus castor-oil brand, trade-labor service, wellness counseling. **tavio.com** itself unclear — scam-detector review exists. | tavio.io integration SaaS = commerce-infra adjacency. | RED — direct integration-SaaS competitor on .io. |
+| 14 | Pelox | Made | Primary is **pelox.de** (German stainless-steel chemistry since 1956). .com status unclear. Also a pharmaceutical brand. | No commerce-SaaS. | YELLOW — .com unverified; TM risk in chemicals + pharma internationally. |
+| 15 | Varn | Made | **varn.com inactive** per SERP (no primary landing). shopvarn.com = Lebanon handbag retail. varn.co.uk = SEO agency using agentic-AI messaging. Varn Technologies, Varn Health all live. | Varn SEO agency publishes on "agentic AI" — brand-voice overlap. | YELLOW — .com may be dormant/acquirable; SEO-agency namespace is noisy but not in commerce-ops category. |
+| 16 | Qorum | Made | Active: **qorum.com** = designated-driver app (bars/restaurants, alcohol-sponsored Ubers). **qorum.io** = expense management SaaS. | qorum.io expense-mgmt SaaS = adjacent. | RED — .com active + SaaS collision on .io. |
+| 17 | Krono | Made | Active: **krono.com** = Swiss Krono Group (global wood-flooring conglomerate, 1966). Abbott-tier hoarder. | No SaaS. | RED — Abbott-tier incumbent. |
+| 18 | Drexo | Made | **drexo.com** not indexed as a primary site; name used by a music producer, a medical-lift brand on Amazon, and Drexo Pharma (India). | No commerce-SaaS. | YELLOW — .com likely dormant or low-use; fragmented TM (pharma, medical device, music). |
+| 19 | Miral | Made | **miral.com** not actively used; Miral Group (Abu Dhabi theme parks, Ferrari World, Disneyland Abu Dhabi 2025) on miral.ae. | **Mirakl** (Permira-backed, 450+ retailers, the dominant enterprise-marketplace SaaS) = near-phonetic twin in the exact target category. | RED — phonetic collision with Mirakl is fatal. |
+| 20 | Fintra | Made | **fintra.com** resolves to multiple Fintras. **fintrasoftware.com** = trade-finance SaaS (now Aurionpro). fintra.ch = financial-services consulting. Fintra app on Google Play (personal finance). Fintra Colombia social enterprise. | fintrasoftware.com = banking/trade-finance SaaS. | RED — crowded fintech register + direct trade-finance SaaS. |
+| 21 | Thread | Real | **thread.com** likely Meta-adjacent (threads.com is Meta); **thread.app** = Sierra-style post-sale execution platform ("execution layer your CRM and CSP are missing"). getthread.com = MSP service desk. | Thread.app is a direct ops-layer SaaS. Meta Threads owns the namespace socially. | RED — Meta + Thread.app ops-SaaS. |
+| 22 | Tether | Real | **tether.com** = design/branding agency; **tether.io / tether.to** = Tether (USDT) the $100B+ stablecoin. | Stablecoin brand saturates SERP globally. | RED — Tether (crypto) = global finance TM, unusable in commerce/fintech. |
+| 23 | Conduit | Real | **conduitcommerce.com** = B2B wholesale commerce SaaS, BoxGroup + First Round funded (2023). **getconduit.app** = inside-sales AI. **conduit.ai** = AI agents for support/sales. | Direct commerce SaaS + sales-ops AI, both funded. | RED — funded direct-category competitor. |
+| 24 | Scope | Real | Multiple actives: **scopeinc.com** = Implementation-as-a-Service for SaaS (partners: Plaid, Square, Shippo). scopeapp.io = influencer-marketing SaaS. Scope Technologies = roofing SaaS. | scopeinc.com is in commerce-adjacent SaaS onboarding — direct adjacency. | RED — scopeinc.com is nearly in category; generic word. |
+| 25 | Tally | Real | **tally.co** = utility billing SaaS; **tally.so** = form builder (widely known); TallyPrime (India, 30+ year accounting software, dominant SMB brand). | TallyPrime is *the* SMB accounting brand in India — catastrophic overlap for a commerce-ops play. Tally.so + Tally.co occupy SaaS namespace. | RED — TallyPrime India dominance + multiple SaaS namesakes. |
+| 26 | Girder | Real | **girder.com** = Promixis home-automation software (legacy). **girder/girder** on GitHub = Kitware data-management platform. | Legacy software incumbents. | RED — .com taken by active software + GitHub org held. |
+| 27 | Pillar | Real | **pillar.io** = funded creator-commerce platform (link-in-bio store, digital products, memberships). Pillar VC separately. | Direct creator-commerce SaaS on .io. | RED — pillar.io is in direct commerce category. |
+| 28 | Caravan | Real | **caravancommerce.com** = "world's first online e-commerce platform for local businesses." **crvn.net** = Caravan venture studio. SaaSBoomi Caravan = major SaaS community. | Direct ecommerce platform using exact name. | RED — caravancommerce.com is a direct-category incumbent. |
+| 29 | Compass | Real | **compass.com** = Compass Inc. (NYSE: COMP, 340K agents, $262B volume). Abbott-tier hoarder. | Compass Group (global food-service) separately. | RED — NYSE-listed incumbent. |
+| 30 | Ingot | Real | **ingot.io** = INGOT Brokers (forex/multi-asset broker, 2006). **ingotportal.com** = freight-forwarding SaaS. | Freight-ops SaaS + broker brand. | RED — logistics SaaS on .com-adjacent, commerce-infra overlap. |
+
+### GREEN shortlist
+
+**Zero candidates cleared GREEN.**
+
+No candidate simultaneously cleared (a) `.com` available or obviously dormant, (b) no in-category SERP collision, and (c) no live adjacency competitor. This is the honest result of inverting the methodology: names that *feel* clean on first pass almost never survive actual category probing.
+
+### Ruled out — grouped by reason
+
+**Abbott-style incumbent (NYSE-tier or global-monopoly hoarders):**
+- Axios (Axios Media), Compass (Compass Inc. NYSE:COMP), Krono (Swiss Krono Group), Tether (Tether stablecoin), Codex (OpenAI).
+
+**Active in-category competitor (direct commerce / ops / SaaS collision):**
+- Limen (Limio subscription-commerce), Kairos (andKairos e-commerce services), Ostium (funded DEX), Plexa (construction SaaS + Plex ERP), Nodus (EVO Payments ecom/ERP), Zevio (zevioo ecom UGC AI), Tavio (tavio.io integration SaaS), Qorum (qorum.io expense SaaS), Miral (Mirakl — the category leader), Fintra (trade-finance SaaS), Thread (Thread.app post-sale ops), Conduit (Conduit Commerce B2B), Scope (scopeinc.com SaaS onboarding), Tally (TallyPrime + tally.so + tally.co), Pillar (pillar.io creator commerce), Caravan (caravancommerce.com), Ingot (Ingot Brokers + Ingot freight SaaS), Tessera (Tessera Labs funded AI-ops), Stela (RPA SaaS + Stella Systems composable).
+
+**Trademark register noise (heavy register but not directly blocked):**
+- Girder (Kitware + Promixis holders), Pelox (pharma + chemicals internationally).
+
+**SERP collision / phonetic twin with incumbent:**
+- Miral (Mirakl), Plexa (Plex), Limen (Limio).
+
+**Dead domain held by unrelated party (softest rule-out tier):**
+- Castra (van-conversion brand), Kuron (Polish culinary site), Varn (dormant .com, noisy TM), Drexo (fragmented non-commerce TM), Pelox (.de primary, .com unverified).
+
+### Recommended top 3
+
+**None recommended.** The verify-first process produced zero GREEN candidates. Pushing a RED or a soft-YELLOW forward would repeat the Fulcra/Meridia mistake. The honest recommendation is to re-open generation from a different angle (see §7).
+
+### Fallback — 2 least-risky YELLOWs
+
+If a name *must* emerge from this pool:
+
+1. **Varn** — `.com` appears genuinely dormant (no primary landing page indexed; shopvarn.com is the active e-commerce site, not varn.com). No commerce-ops SaaS using the exact mark. Weaknesses: 4 letters but the Varn SEO agency (varn.co.uk) talks publicly about "agentic AI" so brand-voice space is cluttered; register is busy with healthcare/tech Varns; TM clearance in Class 9/42 still required; the name carries no commerce meaning. Acquisition path: WHOIS outreach to whoever holds varn.com.
+2. **Drexo** — `.com` appears dormant (only social / Amazon listings / India pharma). No software namesake in commerce. Weaknesses: the word has no positive associations, sounds slightly pharma/industrial, has a music-producer squatting the name socially (@drexoofficial on TikTok/Spotify), and Drexo Pharma in India is a live TM in Class 5. Acquisition: likely cheap if held by a speculator; verify no Class 9/42 mark.
+
+Both are "acceptable if forced," not "good." Neither is in the Stripe/Linear/Vercel tier.
+
+### The honest verdict
+
+**Do not pick from this pool.** Round 3's most useful contribution is the collision map, not a name. The pattern of blockers this round was overwhelmingly **active in-category SaaS competitors** — 19 of 30 were shot down by a funded or semi-funded startup using the exact mark or a phonetic twin in commerce, ops, or adjacent SaaS. This is structurally different from Round 1/2 — it's not 1990s Abbott-style hoarders holding the `.com`, it's 2022–2025 YC/seed-stage founders who already thought of the same Latin/Greek-root idea. The commerce-ops naming neighborhood is saturated.
+
+**Recommended angle for Round 4 — pivot away from the infra/abstract-noun shelf entirely:**
+
+1. **Operator-culture words** — English words from trading, shipping, logistics, or market-maker slang. Think: *Manifest, Consign, Clearing, Underwrite, Reconcile, Allocate, Settle, Cleared, Invoice, Arrival* — concrete operator vocabulary. Many of these will still be taken but the register is different (older B2B / logistics brands, not 2024 YC SaaS) so acquisition-or-coexistence is more tractable.
+2. **Geographic / landmark metaphors** — named-place metaphors that aren't cities (avoid Rialto/Meridia trap). Think: *Isthmus, Strait, Estuary, Junction, Delta, Crossing, Summit, Pass, Harbor, Gateway*.
+3. **Physics / mechanics metaphors (but specific, not abstract)** — not "fulcrum" / "lever" again. Think: *Torque, Flywheel, Cadence, Rhythm, Impulse, Vector, Gradient, Manifold*.
+4. **Constructed portmanteaus from a *commerce-specific* root word** — start from "ledger," "invoice," "parcel," "manifest," "tariff," "freight" and deform them, rather than starting from Latin/Greek.
+5. **Non-English words that mean something operationally specific** — Japanese *kaizen* / *takt* / *gemba* (taken, illustrative), Swedish/German industrial vocabulary, nautical terms.
+
+The core structural insight: **every 4–6 letter abstract Latin/Greek word is taken by a 2020s SaaS startup.** A name that survives live verification in 2026 almost has to come from a more concrete, more specific, less-abstract vocabulary than the Stripe/Plaid/Voro shelf the user is currently anchored to.
