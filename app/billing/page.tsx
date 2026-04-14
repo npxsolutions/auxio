@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '../lib/supabase-client'
 import AppSidebar from '../components/AppSidebar'
+import { CancelSurveyModal } from '../components/CancelSurveyModal'
 import { Suspense } from 'react'
 
 const PLANS = [
@@ -54,6 +55,7 @@ function BillingContent() {
   const [loading, setLoading]             = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
   const [portalLoading, setPortalLoading] = useState(false)
+  const [cancelModalOpen, setCancelModalOpen] = useState(false)
   const [toast, setToast]                 = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
   const supabase = createClient()
 
@@ -130,6 +132,11 @@ function BillingContent() {
   return (
     <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
+      <CancelSurveyModal
+        open={cancelModalOpen}
+        onClose={() => setCancelModalOpen(false)}
+        onConfirm={() => { setCancelModalOpen(false); openPortal() }}
+      />
 
       {/* Toast */}
       {toast && (
@@ -185,21 +192,36 @@ function BillingContent() {
                   {subscriptionStatus && ` · ${subscriptionStatus}`}
                 </div>
               </div>
-              <button
-                onClick={openPortal}
-                disabled={portalLoading}
-                style={{
-                  background: '#5b52f5', color: 'white',
-                  border: 'none', borderRadius: 8,
-                  padding: '10px 18px',
-                  fontSize: 13, fontWeight: 600,
-                  cursor: portalLoading ? 'wait' : 'pointer',
-                  opacity: portalLoading ? 0.7 : 1,
-                  fontFamily: 'inherit',
-                }}
-              >
-                {portalLoading ? 'Opening…' : 'Manage billing →'}
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  onClick={openPortal}
+                  disabled={portalLoading}
+                  style={{
+                    background: '#5b52f5', color: 'white',
+                    border: 'none', borderRadius: 8,
+                    padding: '10px 18px',
+                    fontSize: 13, fontWeight: 600,
+                    cursor: portalLoading ? 'wait' : 'pointer',
+                    opacity: portalLoading ? 0.7 : 1,
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  {portalLoading ? 'Opening…' : 'Manage billing →'}
+                </button>
+                <button
+                  onClick={() => setCancelModalOpen(true)}
+                  style={{
+                    background: 'transparent', color: '#6b6e87',
+                    border: '1px solid #e8e5df', borderRadius: 8,
+                    padding: '10px 14px',
+                    fontSize: 13, fontWeight: 500,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  Cancel subscription
+                </button>
+              </div>
             </div>
           )}
 
