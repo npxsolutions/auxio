@@ -243,3 +243,97 @@ All require direct WHOIS + domain-broker outreach to verify (this session could 
 5. Brand-language checks: confirm no offensive meaning in Spanish, German, French, Mandarin, Japanese, Arabic, Portuguese. (Voro = "I devour" in Italian — borderline but positive in a commerce context.)
 6. Social handle check (@fulcra, @getfulcra, @meridia, @voro) on X, GitHub, LinkedIn.
 7. App Store / Play Store name check.
+
+---
+
+## Live verification (2026-04-14)
+
+Sources: Firecrawl fetches of each candidate `.com` / `.io` / `.ai`, Firecrawl Google SERPs (`<name>` + `<name> commerce`), and Justia Trademarks (as USPTO aggregator). EUIPO TMView blocked automated access after 2 attempts — **EUIPO results could not be verified this run**. USPTO TESS direct also blocked — Justia used as the USPTO-sourced aggregator.
+
+### Fulcra
+.com:    Active: **Fulcra** (Enventys Partners, Charlotte NC) — crowdfunding campaign marketing agency. Adjacency: marketing services for ecommerce crowdfunding campaigns — **adjacent to commerce**.
+.io:     Active: **Fulcra Dynamics** — personal-data / MCP server for AI context. Uses fulcra.ai + fulcra.io as redirects to fulcradynamics.com. AI/data-infra adjacency.
+.ai:     Active: **Fulcra Dynamics** (same as .io).
+SERP:    (1) Fulcrum SaaS (ecommerce personalization, Shopify app) — collision in name-stem, (2) Fulcrum Digital (digital commerce consulting), (3) Fulcra | Making Technology Work for You (fulcra.net IT services). Note: "Fulcra SaaS" on Shopify app store. **Commerce-adjacent collisions present.**
+USPTO:   ~7 live FULCRA marks via Justia. Direct Class 42 hits: **FULCRA (serial 98727022)** filed 2024-09-03 by Fulcra Dynamics Corp — "Software as a service for collecting, aggregating, and augmenting personal data." **FULCRA DYNAMICS (98207560)** filed 2023-10-03 — "Software design and development." **FULCRA (87408201)** Enventys Partners — crowdfunding financial services. Plus FULCRA Lincoln Group (PR/market research), FULCRA BREWING (beer), FULCRA Bouncing Brain (carts). **Multiple live marks in software/commerce-adjacent classes.**
+EUIPO:   Could not verify (TMView blocked).
+Verdict: **RED** — `.com/.io/.ai` all taken by active businesses; two TM holders (Fulcra Dynamics in SaaS Class 42, Enventys in crowdfunding) block the core software class; no viable domain path without acquisition from multiple parties.
+
+### Meridia
+.com:    **Available** — DNS resolution failed (NXDOMAIN on meridia.com per Firecrawl).
+.io:     Not needed (.com available). Confirmed 404 on meridia.io earlier.
+.ai:     Not needed. (Active business Meridia Ltd operates on meridia.co — UK consultancy / agentic-AI reporting platform for advisory firms, not commerce.)
+SERP:    (1) Meridia.co — AI consultancy reporting platform (adjacent SaaS but not commerce), (2) Meridian Software (CAD/SaaS, different word), (3) Meridian Capital M&A (different word). **No direct commerce SaaS collision on exact name.**
+USPTO:   Multiple live MERIDIA marks via Justia: MERIDIA (74697373) Photo Communications — audience response services; MERIDIA (88055971) Photo Communications — audience/student response software + hardware (Class 9/42 education-adjacent); MERIDIA (86568206) American Generic Labs — dietary supplements; MERIDIA (88944706) Kovalenko — wine openers; MERIDIA (74568949, 75134969) Abbott/Boots — pharma (sibutramine, withdrawn); MERIDIA CAPITAL PARTNERS — real-estate finance. **One software mark (education-audience-response) is the closest collision; no direct ecommerce/commerce SaaS mark.**
+EUIPO:   Could not verify (blocked).
+Verdict: **GREEN** — `.com` appears available; active "Meridia" business is in consulting (different country + TLD); USPTO software mark is narrow education-audience-response niche, not commerce SaaS. Strongest candidate of the eight.
+
+### Voro
+.com:    Active: **VORO** — real-estate brokerage (VORO, INC; 240+ agents, $3B+ transactions; operates voropro.com). Commerce-adjacent (real-estate transactions) but not ecommerce SaaS.
+.io:     Available — DNS resolution failed (NXDOMAIN on voro.io per Firecrawl).
+.ai:     Not checked (.io available).
+SERP:    (1) Virto Commerce — B2B commerce platform (similar stem, direct competitor space), (2) OroCommerce — B2B ecom (different word but same SERP cluster), (3) Virto SAAS Ecommerce blog. **Strong SERP pollution from "Virto Commerce" — phonetic overlap risk.**
+USPTO:   84 live VORO-prefix marks. Direct hits: **VORO (99121895)** Voro Co. filed 2025-04-04 — "Downloadable software / mobile application for social connection, friend discovery, community" (Class 9 software). **VORO MOTORS (98140447)** e-mobility/scooters. **VORO HEALTH (99050558)**. **VORO Restaurants (multiple).** Plus VORO pharma, VORO carts, VORO real-estate (implied). **Crowded register with live Class 9 software mark.**
+EUIPO:   Could not verify.
+Verdict: **YELLOW** — `.io` available, `.com` is active real-estate SaaS (VORO, Inc — large). Crowded TM register including a 2025 live software mark. Workable with `.io` + careful class filing, but Virto Commerce SERP collision hurts SEO.
+
+### Navos
+.com:    Active: **Navos** (navos.eu, German PR / public-dialogue consultancy). Not commerce-adjacent.
+.io:     Not fetched (skipped — `.com` is active).
+.ai:     Active: **Navos AI / Navos Agent** — e-commerce marketing AI agent (navosagent.ai). **Direct commerce-AI collision.**
+SERP:    (1) Naveo Commerce (retail/grocery ecom SaaS — very close name, direct competitor), (2) Naveo Commerce home, (3) **Navos Agent — AI marketing for e-commerce**, (4) NOVAS Commerce (Shopify). **Heavy commerce-ecom pollution; Navos Agent is a direct AI-ecommerce competitor.**
+USPTO:   7 live NAVOS marks. Direct hits: **NAVOS (99515959)** TECDO Technology filed 2025-11-25 — "Recorded computer networking software; downloadable computer programs for internet use" (Class 9). **NAVOS AI (99418933)** Navos AI Inc. filed 2025-09-29 — AI/software. **NAVOSCOPE (78200098)** — performance analysis software. **NAVOS (77385794)** — mental-health org. **Multiple live Class 9 software marks including a 2025-filed NAVOS AI and a 2025 NAVOS software mark.**
+EUIPO:   Could not verify.
+Verdict: **RED** — `.com` taken, `.ai` taken by direct commerce-AI competitor (Navos Agent), two recent (2025) USPTO software filings in Class 9. Blocked.
+
+### Quilo
+.com:    Parked — Afternic/GoDaddy broker: "Quilo.com is for sale. Get a price in less than 24 hours." Premium listing.
+.io:     Not fetched.
+.ai:     Not fetched (active Quilo fintech exists on quilo.ai per prior SERP note).
+SERP:    (1) Kyklo Commerce (Epicor B2B ecom — phonetic near-match), (2) Kalio Commerce (ecom, phonetic), (3) **Quilo (quilocloud.com) — AI-powered network for community FIs to trade loans** (fintech SaaS, direct-adjacent), (4) Kalio cloud hosting, (5) Kibo Commerce blog. **Phonetic collisions with Kyklo/Kalio ecom platforms; Quilo fintech active.**
+USPTO:   21 live QUILO-prefix marks. Direct hits: **QUILO (90600455)** Qoosh Technology — filed 2021; **QUILO (87977436, 87453476)** JMATEK — home cooling appliance (two filings). **QUILO (90152628)** California Spirits — spirits. **QUILO (79341731)** Brickfloor — Australia. Also related: **RELAPP** owned by QUILO TECH CORP (fintech). **Multiple live QUILO marks including tech entities; no direct Class 42 commerce SaaS but Qoosh Technology + Quilo Tech Corp occupy tech/fintech adjacency.**
+EUIPO:   Could not verify.
+Verdict: **YELLOW** — `.com` premium parked (acquirable at cost); crowded TM register including fintech/tech entities; strong phonetic collisions (Kyklo, Kalio) in ecom SERP. Viable only with `.com` acquisition budget and TM clearance.
+
+### Rialto
+.com:    **Could not verify** — Firecrawl upstream proxy timed out on 2 attempts. Per SERP evidence below, `rialto.com` is almost certainly held (common Italian/English word + California city).
+.io:     Not attempted.
+.ai:     Not attempted.
+SERP:    (1) **Rialto (getrialto.com) — sales/marketing automation SaaS for workspace leasing teams** (direct SaaS collision), (2) Rialto Group — business-process consulting, (3) **Rialto Markets + WeSave — ecommerce broker-dealer partnership** (direct ecommerce collision), (4) Atex Rialto — ad self-service portal, (5) Rialto SaaS Development. **Multiple direct SaaS + ecommerce collisions.**
+USPTO:   123 live RIALTO results. Direct Class 9/42 software hits: **RIALTO (87776609)** Rialto Trading Holdings — "Computer software used to place, match, and execute orders for financial instruments" (Class 9, active). **RIALTO (75164549)** Control Data — electronic messaging / computer software. Plus RIALTO Kohler (plumbing), Xerox, Pepperidge Farm, Swisher, etc. **Active Class 9 software mark (Rialto Trading) + very crowded register.**
+EUIPO:   Could not verify.
+Verdict: **RED** — multiple direct SaaS + ecommerce collisions including getrialto.com and Rialto Markets ecommerce; active Class 9 software TM; `.com` not verifiable but almost certainly taken. Blocked.
+
+### Orbix
+.com:    Not re-fetched (cached evidence + SERP shows multiple active Orbix.com companies).
+.io:     Parked — Afternic: "This domain is registered, but may still be available. Get this domain." (broker listing, acquirable).
+.ai:     Not attempted.
+SERP:    (1) **Orbix365 — all-in-one commerce management SaaS platform** (direct commerce SaaS collision — unify inventory/orders/shipping/reporting), (2) Orbix Studio — UI/UX design agency for SaaS startups, (3) **Orbix.world — all-in-one business platform (CRM/WhatsApp AI/inventory/HRM)** (direct collision). **Two direct commerce-ops SaaS collisions on the exact name.**
+USPTO:   50 live ORBIX results. Direct Class 42 SaaS hits: **ORBIX (98711878)** ORBIX NDE Inc filed 2024 — "subscription-based temporary use of non-downloadable cloud-based software" (Class 42 SaaS). **ORBIX (99562742)** Move the Chain Inc filed 2025-12 — "SaaS featuring software for designing, administering, and managing employee engagement" (Class 42). **ORBIX E2A (76328396)** — computer software dev tools. Plus ORBIX Siemens (legacy CORBA), Micro Focus, Hasbro, Exemplis (furniture), healthcare, dental. **Two recent live Class 42 SaaS filings.**
+EUIPO:   Could not verify.
+Verdict: **RED** — Orbix365 and Orbix.world are both live commerce-ops / all-in-one business SaaS platforms (near-direct competitor positioning); two recent Class 42 SaaS TM filings. Blocked.
+
+### Sellgrid
+.com:    Parked/dormant — LiteSpeed Apache default index page showing only `cgi-bin` directory. Likely acquirable.
+.io:     Active: **Sellgrid** — "Coming Soon. The future of digital sales. Building the ultimate platform for creators and developers to sell software, subscriptions, and digital products. Join the waitlist." **Direct commerce SaaS competitor, pre-launch.**
+.ai:     Not attempted.
+SERP:    (1) sellgrid.uno — web/app dev agency, (2) SaaSGrid (saasgrid.com) — SaaS metrics dashboards, (3) sellgrid.space — startup/ecom agency, (4) SaaSGrid multi-persona sales strategy, (5) SaaSGrid PR dashboarding. **Multiple "sellgrid/saasgrid" adjacent businesses; space is crowded.**
+USPTO:   Justia shows **no SELLGRID results** (0 of 0). Clean on that aggregator. (Note: a UK Companies House "SELLGRID LTD" was flagged earlier, not verified live.)
+EUIPO:   Could not verify.
+Verdict: **RED** — `sellgrid.io` is a live pre-launch direct-competitor commerce SaaS platform. Even though `.com` is parked and no US TM hit, the `.io` collision plus descriptive/generic name makes this a non-starter without a rebrand or acquisition.
+
+---
+
+## Summary
+
+Of the eight, **Meridia is the only GREEN** — `.com` appears genuinely available (NXDOMAIN), no direct commerce-SaaS trademark collision, closest SaaS namesake (meridia.co) is a UK consulting tool in a different vertical. **Voro and Quilo are YELLOW** — both have workable paths (`voro.io` available; `quilo.com` acquirable from broker) but carry real TM + SERP friction. **Fulcra, Navos, Rialto, Orbix, Sellgrid are all RED** — blocked either by active direct-competitor domains, multiple live software-class trademarks, or both.
+
+**Fulcra verdict: RED.** The name is blocked on all three primary TLDs (`.com` Enventys crowdfunding, `.io`/`.ai` Fulcra Dynamics personal-data MCP platform) and has multiple live USPTO software-class trademarks including a pending Fulcra Dynamics SaaS mark (98727022) filed September 2024 covering personal-data SaaS — the closest thing to the target category. The metaphor is exact, but the name is not ownable without acquiring the Fulcra Dynamics mark + `.com` from Enventys. Recommend switching the tentative pick to **Meridia** as the only GREEN-path option, with **Voro (.io)** as the fallback if a shorter 4-letter name is preferred.
+
+### What could NOT be verified this run
+- EUIPO TMView — blocked automated access after 2 attempts (all 8 names).
+- Trademarkia — blocked by Vercel security checkpoint (all 8).
+- USPTO TESS direct — fell back to Justia (coverage is USPTO-sourced but not official status; status LIVE vs DEAD on each serial should still be confirmed manually).
+- `rialto.com` domain status — Firecrawl proxy timed out twice.
+- WHOIS ownership / acquisition pricing for `meridia.com`, `voro.io`, `quilo.com`, `sellgrid.com`.
+- Full exact-class filings (Class 9 vs 35 vs 42) for each TM — Justia entries give use-descriptions but do not always surface the filed class number; manual TESS/TSDR lookup needed before filing.
