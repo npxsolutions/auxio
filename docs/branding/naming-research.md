@@ -432,3 +432,180 @@ Both are "acceptable if forced," not "good." Neither is in the Stripe/Linear/Ver
 5. **Non-English words that mean something operationally specific** — Japanese *kaizen* / *takt* / *gemba* (taken, illustrative), Swedish/German industrial vocabulary, nautical terms.
 
 The core structural insight: **every 4–6 letter abstract Latin/Greek word is taken by a 2020s SaaS startup.** A name that survives live verification in 2026 almost has to come from a more concrete, more specific, less-abstract vocabulary than the Stripe/Plaid/Voro shelf the user is currently anchored to.
+
+## Round 4 — feed-management angle (2026-04-14)
+
+Round 4 took the Round 3 advice literally: drop the abstract Latin/Greek shelf and try concrete commerce / trade / connection / flow / navigation vocabulary. Wedge is now "self-serve multichannel feed management for Shopify-led sellers," so names were drawn from shipping, marketplaces, nautical, and logistics registers. 19 candidates probed via cached SERP + selective WHOIS lookups. No new Firecrawl calls were issued — all verdicts are drawn from files already on disk in `.firecrawl/r4-*.json` and `.firecrawl/r4-whois-*.md`.
+
+All 19 cached files were readable and produced a verdict. WHOIS was explicitly cached for `herald`, `isthmus`, `junctor`, `landfall`, `portage`; for the other 14 the `.com` status is inferred from SERP signal and marked "not verified via WHOIS" where it matters.
+
+### Bazaar
+.com:    Active business — Bazaarvoice Inc. owns the ratings/reviews category; `bazaarvoice.com` is the primary asset. `bazaar.com` not verified via WHOIS but the trademark space is dominated by Bazaarvoice.
+SERP:    Bazaarvoice Shopify connector, Bazaarvoice reviews app, Bazaarvoice Shopify Flow. Also a "Bazar Pre Purchase Surveys" Shopify app.
+Category collision: YES — Bazaarvoice is a direct commerce-SaaS incumbent and owns the mindshare.
+Shopify App Store: Multiple apps ship under the Bazaarvoice brand.
+Verdict: RED — phonetic-identical to Bazaarvoice; unusable in commerce SaaS.
+
+### Chandler
+.com:    Not verified via WHOIS; common English surname + Arizona city, likely held.
+SERP:    All hits are Shopify agencies geo-targeting Chandler, AZ (Barrel, Codieshub, 100xelevate). No SaaS collision, but no air either.
+Category collision: NO direct SaaS, but the name reads as a place, not a product.
+Shopify App Store: not verified.
+Verdict: RED — geographic collision (Chandler, AZ is a major Shopify agency target); the name will SEO-lose permanently to the city.
+
+### Consign
+.com:    Not verified via WHOIS; generic English verb, almost certainly held.
+SERP:    ConsignCloud Shopify integration, SimpleConsign Shopify integration, "Best Consignment Software for Shopify 2026" listicles. The consignment-SaaS-for-Shopify subcategory is crowded.
+Category collision: YES — ConsignCloud and SimpleConsign are active Shopify-integrated SaaS.
+Shopify App Store: consignment apps exist under adjacent names.
+Verdict: RED — direct subcategory collision, semantic lock-in to consignment (wrong wedge anyway).
+
+### Draftline
+.com:    Active business — `draftline.com` is Anheuser-Busch's in-house creative agency. `draftlinesoftware.net` is a separate software shop.
+SERP:    Anheuser-Busch draftLine #1 and #2; DraftLine Smart System (beer draft management) on App Store.
+Category collision: NO in commerce SaaS, but the name is owned by a Fortune 500 in-house brand and a beer-logistics app.
+Shopify App Store: not verified.
+Verdict: RED — AB InBev holds the `.com` and the trademark. Non-starter.
+
+### Drayage
+.com:    Not verified via WHOIS; industry term, likely held by a freight operator.
+SERP:    "Top Drayage Software for Shopify 2026" (Slashdot), ClickShip/ShipHawk Shopify freight apps, item.com Drayage module.
+Category collision: YES — drayage is an active freight/Shopify subcategory with multiple incumbents.
+Shopify App Store: ClickShip and ShipHawk are listed.
+Verdict: RED — the word IS a freight category; zero brand distinctiveness, semantic lock-in to trucking.
+
+### Eddy
+.com:    Not verified via WHOIS; 3-letter common name, almost certainly held.
+SERP:    EDICOM Shopify connector, "Shopify in Eddy, ND" geo-page, SPS Commerce EDI app, a growth marketer named Eddy Bastide, and a Shopify SaaS founder case study. No single owner.
+Category collision: YES — EDICOM is a large EDI integration vendor adjacent to feed management; phonetic overlap is a material risk in EDI-heavy conversations.
+Shopify App Store: SPS Commerce (EDI) is adjacent.
+Verdict: RED — EDI/EDICOM adjacency is too close for a feed-management brand that will talk about EDI integrations.
+
+### Fathom
+.com:    Active business — Fathom Analytics (`usefathom.com`) is a funded privacy-analytics SaaS with a documented Shopify integration. `fathom.com` is also held (separate company). FathomRetail is a Shopify AI search app.
+SERP:    Fasfy Shopify app integrating Fathom Analytics, Fathom Analytics Shopify docs, FathomRetail Shopify AI search app.
+Category collision: YES — two active Shopify-integrated SaaS products use the Fathom name.
+Shopify App Store: FathomRetail and Fasfy-for-Fathom both listed.
+Verdict: RED — two in-app-store incumbents, plus the analytics brand owns mindshare.
+
+### Freightly
+.com:    Not verified via WHOIS; likely held.
+SERP:    Shopify freight forwarding guide, Freightify (Sequoia-backed "Shopify for maritime freight") TechCrunch feature, Shipduo Freight Shopify app. The freight-SaaS space is visibly full.
+Category collision: YES — Freightify is a phonetic twin with Sequoia funding. Also multiple Shopify freight apps.
+Shopify App Store: Shipduo Freight & LTL live.
+Verdict: RED — Freightify phonetic twin with a Sequoia-funded freight-SaaS startup. Fulcra-tier mistake in waiting.
+
+### Headway
+.com:    Active business — Headway.io (product agency for B2B SaaS) and headwayapp.co (changelog/customer-update tool) both live. Headway mobile app separately has 150M users per LinkedIn.
+SERP:    Headway.io, Headway changelog app, Headway mobile app (language learning). Multiple big brands under the mark.
+Category collision: NO direct feed-SaaS, but the changelog Headway is a well-known B2B SaaS tool.
+Shopify App Store: not verified.
+Verdict: RED — three established "Headway" brands in tech, one adjacent to B2B SaaS.
+
+### Herald
+.com:    Parked / brand-protection — `herald.com` registered 1993, held under Brandsight Privacy (corporate brand-protection registrar, owned by GoDaddy Corporate). Not for sale in the casual sense.
+SERP:    Press-release dross (heraldnews.com, heraldtimesonline.com, heraldmailmedia.com) — local-newspaper use of the word dominates.
+Category collision: NO in Shopify/feed SaaS, but the word is globally a newspaper word.
+Shopify App Store: not verified.
+Verdict: RED — `.com` held by a corporate-defense registrar (enterprise holder, not a casual speculator), and the SERP is saturated with newspapers. Unrecoverable.
+
+### Isthmus
+.com:    Active business — `isthmus.com` = Isthmus Community Media, Inc., Madison WI alt-weekly newspaper, 50th anniversary in 2026 (actively publishing). Registered 1995, locked (`client delete/renew/transfer/update prohibited`).
+SERP:    The Madison newspaper dominates.
+Category collision: NO in commerce SaaS.
+Shopify App Store: not verified.
+Verdict: RED — 50-year-old active publication owns the `.com` with maximum lock status. Not acquirable.
+
+### Junctor
+.com:    Parked — `junctor.com` registered 1999, on `fabulous.com` nameservers (Fabulous = well-known domain monetization/parking platform). Held by a speculator, not a business.
+SERP:    No Junctor-branded SaaS surfaced; hits are generic SaaS/junction-themed articles (softmaxdata "SaaS at a Junction Point," CJ's "Junction" affiliate platform, localpayments "The Junction").
+Category collision: YELLOW — CJ's "Junction by CJ" is a live affiliate-commerce platform; phonetic overlap with Junctor is non-trivial in e-commerce conversations.
+Shopify App Store: not verified.
+Verdict: YELLOW — `.com` is parked (acquirable via Fabulous broker, likely 4–5 figures), no direct SaaS collision, but Junction/CJ adjacency and the obscurity of "junctor" as a word (it's an electrical-switching term) weaken the payoff. Worth pricing only.
+
+### Landfall
+.com:    Active business — `landfall.com` registered 1997, held under GoDaddy with maximum lock status (`client delete/renew/transfer/update prohibited`). An enterprise holder, not a casual park. A Reddit micro-SaaS founder separately mentioned building "Landfall" for regulatory-translation.
+SERP:    Micro-SaaS founder Reddit thread, Shopify SaaS blog, Shopify Wikipedia. No Landfall-branded commerce SaaS yet.
+Category collision: NO in feed/commerce, but a founder is publicly building under the name in regulatory SaaS.
+Shopify App Store: not verified.
+Verdict: RED — `.com` has maximum-lock corporate holder; name is already being used by an in-progress B2B SaaS.
+
+### Leeway
+.com:    Active business — `leeway.im` is an ERP SaaS for HR/Sales/Admin (TechBehemoths profile). Leeway Fitness is a WhatsApp-commerce case study. `.com` not verified via WHOIS but the mark is in use.
+SERP:    Leeway ERP on .im, Leeway Fitness e-commerce bot case study.
+Category collision: YES — Leeway.im is a live ERP SaaS; phonetic-identical to a feed SaaS named Leeway.
+Shopify App Store: adjacent usage (Leeway Fitness WhatsApp bot).
+Verdict: RED — active ERP SaaS incumbent with the same name.
+
+### Merchantry
+.com:    Active business — `merchantry.io` is a cloud POS & inventory SaaS; `merchantry.shop` is a B2B merchandising-optimization SaaS; Crunchbase lists a third Merchantry (SaaS marketplace/supplier platform).
+SERP:    Three distinct active commerce-SaaS products using the Merchantry name on .io, .shop, Google Play, Crunchbase.
+Category collision: YES — multiple direct-category SaaS incumbents.
+Shopify App Store: not verified but the overlap is severe.
+Verdict: RED — three simultaneous Merchantry commerce-SaaS brands. Worst kind of collision.
+
+### Outpost
+.com:    Active business — multiple "Outpost" brands in commerce infrastructure: `outpost.ai` (programmable global-selling infra / Merchant of Record), `withoutpost.com` (AI sales agent for e-commerce), Outpost Anywhere (UK MoR/tax-of-record), Outpost Boots (DTC brand).
+SERP:    Three commerce-infra Outposts in the top 5 results.
+Category collision: YES — direct commerce-infra SaaS collision on multiple TLDs.
+Shopify App Store: adjacent (withoutpost AI commerce agent).
+Verdict: RED — saturated with commerce-infra incumbents.
+
+### Patchline
+.com:    Not verified via WHOIS.
+SERP:    Patchworks iPaaS (the dominant Shopify integration platform) dominates; Patch Customer Retention Shopify app. Patchline-specific hits absent — but the phonetic overlap with Patchworks (a leading Shopify iPaaS) is the problem.
+Category collision: YES — Patchworks is *the* no-code Shopify integration platform and a direct adjacent to feed management. Patchline/Patchworks phonetic collision is Fulcra-level.
+Shopify App Store: Patchworks and Patch Customer Retention both live.
+Verdict: RED — phonetic twin with the category-leading Shopify iPaaS.
+
+### Portage
+.com:    Active business — `portage.com` is a French portage-salarial (contractor payroll) platform, registered 1995, held by OVH with lock status. Separately a Shopify agency lists Portage, WI.
+SERP:    French portage-salarial site, GoDataFeed (notable — feed-automation competitor), Shopify corporate. "Portage, Wisconsin" agency geo-page.
+Category collision: NO in feed SaaS directly, but the GoDataFeed SERP inclusion is a tell that the term "portage" surfaces adjacent to feed-management queries.
+Shopify App Store: not verified.
+Verdict: RED — `.com` is a live French SaaS (portage.com), unacquirable.
+
+### Relayway
+.com:    Not verified via WHOIS; likely parked or held.
+SERP:    Vendure/Railway deploy pages, Relay Commerce (`relaycommerce.io` — fractional growth team for Klaviyo/Meta/Shoplift/Smartrr — a direct Shopify-ecosystem services brand), Railway (dev infra). No "Relayway" hits.
+Category collision: YES — Relay Commerce is an active Shopify-ecosystem services brand and the phonetic prefix "Relay" is taken in commerce. Railway also owns the "railway/relay" infra register.
+Shopify App Store: Relay Commerce is an adjacent services brand.
+Verdict: RED — Relay Commerce + Railway together own the neighborhood.
+
+### Round 4 summary
+
+- **GREEN count: 0.** No name in this pool cleared `.com` + clean SERP + no ecom/SaaS collision.
+- **YELLOW count: 1** — Junctor (parked .com, obscure word, mild CJ/Junction adjacency).
+- **RED count: 18.**
+
+**Top 3 GREEN candidates:** None. Do not ship a GREEN claim from this pool.
+
+**Ruled out — grouped by reason:**
+
+- **Feedonomics-adjacent / commerce-SaaS incumbent with same mark:** Bazaar (Bazaarvoice), Consign (ConsignCloud/SimpleConsign), Fathom (Fathom Analytics + FathomRetail), Freightly (Freightify, Sequoia-funded), Leeway (Leeway.im ERP), Merchantry (three simultaneous Merchantry commerce-SaaS), Outpost (outpost.ai + withoutpost + Outpost Anywhere), Portage (portage.com French SaaS), Relayway (Relay Commerce).
+- **Shopify App Store / iPaaS phonetic collision:** Patchline (Patchworks), Drayage (ClickShip/ShipHawk own the drayage-for-Shopify category wording), Eddy (EDICOM EDI adjacency).
+- **Enterprise trademark / Fortune 500 in-house:** Draftline (Anheuser-Busch), Headway (three established tech brands).
+- **Active non-tech incumbent holds .com with corporate-lock status:** Herald (Brandsight corporate-defense registrar), Isthmus (50-year Madison newspaper, max lock), Landfall (maxed GoDaddy locks + a founder mid-build).
+- **Geographic / category-word with no distinctiveness:** Chandler (Chandler, AZ Shopify-agency SERP), Drayage (literal freight category word).
+
+**Honest verdict — is there a name worth pursuing here?**
+
+No. The one YELLOW (Junctor) is acquirable in theory, but "junctor" is an electrical-switching term most English speakers don't recognize, the payoff is weak even at a 4-figure price, and there's a CJ "Junction" affiliate-commerce brand in the neighborhood. It's a worse bet than the Round 3 Varn/Drexo fallback, and both of those were already rated "acceptable if forced, not good."
+
+**The Round 3 hypothesis — that concrete commerce vocabulary would have a different blocker profile than abstract Latin/Greek — was correct but did not help.** The register changed (older freight brands, alt-weekly newspapers, Fortune 500 in-house groups, French SaaS companies holding 1995 .coms) but the clearance rate stayed at zero. Concrete words are even *more* likely to be already owned than abstract coinages, because they've been in commerce usage for a century.
+
+**If a name must emerge from this pool — 2 least-risky YELLOWs:**
+
+1. **Junctor** — only parked-but-acquirable name in the set. Acquisition: contact Fabulous.com broker, expect 4–5 figures. Caveats: register Class 9/42 TM clearance against CJ "Junction by CJ"; validate that "junctor" is recognizable enough to work as a brand (it isn't an everyday word — more niche than Auxio was).
+2. **Chandler** (as a distant second, not recommended) — no direct SaaS collision but unrecoverable SEO loss to Chandler, AZ. Mentioned only because every other name has a harder block.
+
+Neither is a pick. Both are "if forced."
+
+**Pattern note — the dominant blocker this round:** active commerce-SaaS incumbents using the exact mark, followed closely by enterprise/1990s `.com` holders with maximum registrar lock. Freight/logistics was a minor blocker (Drayage, Freightly). The prediction in the task brief ("existing freight/logistics/commerce incumbents") was partially right — logistics showed up — but the bigger pattern was that *every* concrete commerce or trade word already has an adjacent Shopify-ecosystem SaaS on it. The commerce-SaaS namespace is denser than the abstract-Latin namespace was in Round 3.
+
+**Strategic recommendation: do NOT pick from Round 4. Two viable paths forward:**
+
+1. **Revert to Auxio** and stop the rebrand. The Round 2 verdict on Auxio was that it was acceptable, and four rounds of "better" hunting have produced zero GREEN candidates against two premature picks that washed out (Fulcra, Meridia). Sunk-cost logic says keep hunting; expected-value logic says the hunt is not converging. Auxio has no known in-category collision, the `.com` is held, the domain problem is already solved. The rebrand is optional; the product is not.
+2. **Round 5 with a different structural approach** — *coined* names, not vocabulary names. Three-syllable invented words with no English etymology (the Vercel / Netlify / Plaid / Figma path). This inverts the Round 3 advice: Round 3 said "go more concrete"; Round 4 proved concrete is even more owned; the remaining move is to abandon vocabulary entirely and coin. Budget for Round 5: 40 generated candidates, same verify-first methodology.
+
+Preferred: **revert to Auxio for now, keep a Round 5 coin-generation pass in the backlog but don't block product work on it.**
