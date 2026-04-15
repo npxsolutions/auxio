@@ -161,6 +161,9 @@ export function HealthDrawer({
   const [loading, setLoading] = useState(false)
   const [validation, setValidation] = useState<any | null>(null)
   const [autofixState, setAutofixState] = useState<Record<string, 'idle' | 'pending' | 'done' | 'error'>>({})
+  const [suggestions, setSuggestions] = useState<Array<{ ebayCategoryId: string; ebayCategoryPath: string; confidence: number; source: string; reason?: string }>>([])
+  const [suggestLoading, setSuggestLoading] = useState(false)
+  const [aspectsLoading, setAspectsLoading] = useState(false)
 
   const load = async () => {
     if (!listingId) return
@@ -170,6 +173,34 @@ export function HealthDrawer({
       const j = await res.json()
       setValidation(j.validation)
     } finally { setLoading(false) }
+  }
+
+  const loadSuggestions = async () => {
+    if (!listingId) return
+    setSuggestLoading(true)
+    try {
+      const res = await fetch(`/api/listings/${listingId}/suggest-category`)
+      const j = await res.json()
+      setSuggestions(j.suggestions ?? [])
+    } finally { setSuggestLoading(false) }
+  }
+
+  const applySuggestion = async (ebayCategoryId: string) => {
+    if (!listingId) return
+    await fetch(`/api/listings/${listingId}/autofix`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rule: 'EBAY_CATEGORY_MAPPED', categoryId: ebayCategoryId }),
+    }).catch(() => {})
+    await load()
+  }
+
+  const enrichAspects = async () => {
+    if (!listingId) return
+    setAspectsLoading(true)
+    try {
+      await fetch(`/api/listings/${listingId}/enrich-aspects?channel=ebay`, { method: 'POST' })
+      await load()
+    } finally { setAspectsLoading(false) }
   }
 
   useEffect(() => {
@@ -266,6 +297,46 @@ export function HealthDrawer({
                   <div style={{ fontSize: 12, color: '#5a6072', marginTop: 4 }}>{i.rule.remediation}</div>
                   {i.detail && (
                     <div style={{ fontSize: 11, color: '#8b8e9a', marginTop: 4, fontFamily: 'monospace' }}>{i.detail}</div>
+                  )}
+                  {i.rule.id === 'EBAY_CATEGORY_MAPPED' && (
+                    <div style={{ marginTop: 10, padding: 10, background: CREAM, borderRadius: 8, border: '1px solid #e6dfce' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                        <div style={{ fontSize: 11, color: '#5a6072', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Suggested categories</div>
+                        <button
+                          onClick={loadSuggestions}
+                          disabled={suggestLoading}
+                          style={{ background: 'transparent', border: 'none', color: COBALT, fontSize: 11, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
+                        >{suggestLoading ? 'Finding…' : suggestions.length ? 'Refresh' : 'Suggest 3'}</button>
+                      </div>
+                      {suggestions.length === 0 && !suggestLoading && (
+                        <div style={{ fontSize: 12, color: '#5a6072' }}>Run suggestions to see the top 3 eBay categories for this listing.</div>
+                      )}
+                      {suggestions.map(s => (
+                        <div key={s.ebayCategoryId} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, padding: '8px 0', borderTop: '1px solid #efe9d9' }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: 13, color: INK, lineHeight: 1.35 }}>{s.ebayCategoryPath}</div>
+                            <div style={{ fontSize: 11, color: '#8b8e9a', marginTop: 2 }}>
+                              id {s.ebayCategoryId} · {s.source} · {Math.round(s.confidence * 100)}% confidence
+                            </div>
+                            {s.reason && <div style={{ fontSize: 11, color: '#5a6072', marginTop: 2, fontStyle: 'italic' }}>{s.reason}</div>}
+                          </div>
+                          <button
+                            onClick={() => applySuggestion(s.ebayCategoryId)}
+                            style={{ padding: '5px 10px', background: COBALT, color: 'white', border: 'none', borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: 'pointer', flexShrink: 0 }}
+                          >Use this</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Aspect rules: show enrichment button */}
+                  {(i.rule.id === 'EBAY_BRAND_ASPECT' || i.rule.id === 'EBAY_CONDITION_SET') && (
+                    <div style={{ marginTop: 8 }}>
+                      <button
+                        onClick={enrichAspects}
+                        disabled={aspectsLoading}
+                        style={{ padding: '6px 12px', background: INK, color: CREAM, border: 'none', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: aspectsLoading ? 'wait' : 'pointer' }}
+                      >{aspectsLoading ? 'Filling…' : 'Fill from Shopify + AI'}</button>
+                    </div>
                   )}
                   <div style={{ marginTop: 8 }}>
                     {i.rule.autoFixable && AUTO_FIX_HANDLERS[i.rule.id] ? (

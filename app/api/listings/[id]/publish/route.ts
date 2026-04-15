@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server'
 import { applyFeedRules, applyFieldMappings } from '@/app/lib/feed-rules'
 import { validateForChannel as preflightValidate } from '@/app/lib/feed/validator'
 import { mapEbayError } from '@/app/lib/feed/ebay-error-dictionary'
+import { extractAspects, aspectMapToPayload } from '@/app/lib/feed/aspects'
 // BUNDLE_C: policies ensure + variant group imports
 import { ensureEbayPolicies, EbayPolicyError, type EbayPolicySet } from '@/app/lib/ebay/policies'
 import { planVariantGroup, upsertInventoryItemGroup, upsertGroupOffer, type ShopifyProduct } from '@/app/lib/ebay/variants'
@@ -514,6 +515,45 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
               status: 'failed', error_message: `Validation: ${validationErrors.join('; ')}`,
             }, { onConflict: 'listing_id,channel_type' })
             return
+          }
+        }
+
+        // BUNDLE_B: aspects enrichment — after pre-flight passes, for eBay only,
+        // deterministically extract aspects (Brand/Size/Colour/…) from the
+        // Shopify record + metafields and merge into aspectValues. Caller-
+        // supplied values from the request body win on conflict.
+        if (channelType === 'ebay') {
+          const lcRow = existingChannelListings?.find(cl => cl.channel_type === 'ebay')
+          const ebayCategoryIdForAspects = (lcRow?.external_category_id ?? lcRow?.category_id ?? mergedCategorySelections['ebay']?.id) as string | undefined
+          if (ebayCategoryIdForAspects) {
+            try {
+              const enriched = await extractAspects(
+                {
+                  title: listing.title,
+                  description: listing.description,
+                  brand: listing.brand,
+                  vendor: (listing as any).vendor ?? listing.brand,
+                  condition: listing.condition,
+                  metafields: (listing as any).metafields ?? [],
+                  options: (listing as any).options ?? [],
+                  product_type: listing.category ?? (listing as any).product_type,
+                },
+                String(ebayCategoryIdForAspects),
+              )
+              const flat = aspectMapToPayload(enriched)
+              for (const [k, v] of Object.entries(flat)) {
+                if (aspectValues[k] == null) aspectValues[k] = v
+              }
+              await adminSupabase.from('listing_channel_aspects').upsert({
+                user_id: user.id, listing_id: id, channel: 'ebay',
+                aspects: enriched as unknown as object,
+                category_id: String(ebayCategoryIdForAspects),
+                last_enriched_at: new Date().toISOString(),
+              }, { onConflict: 'user_id,listing_id,channel' }).then(() => {}, () => {})
+              console.log(`[api/listings/publish] bundle_b aspects enriched listing=${id} keys=${Object.keys(flat).length}`)
+            } catch (err) {
+              console.warn(`[api/listings/publish] bundle_b aspects enrichment failed:`, err)
+            }
           }
         }
 
