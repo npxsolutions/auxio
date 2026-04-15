@@ -5,6 +5,9 @@ import { NextResponse } from 'next/server'
 import { applyFeedRules, applyFieldMappings } from '@/app/lib/feed-rules'
 import { validateForChannel as preflightValidate } from '@/app/lib/feed/validator'
 import { mapEbayError } from '@/app/lib/feed/ebay-error-dictionary'
+// BUNDLE_C: policies ensure + variant group imports
+import { ensureEbayPolicies, EbayPolicyError, type EbayPolicySet } from '@/app/lib/ebay/policies'
+import { planVariantGroup, upsertInventoryItemGroup, upsertGroupOffer, type ShopifyProduct } from '@/app/lib/ebay/variants'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -444,6 +447,41 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     const results: Record<string, { status: string; error?: string; url?: string; validation_errors?: string[] }> = {}
 
+    // BUNDLE_C: policies ensure — run before pre-flight so EBAY_BUSINESS_POLICIES
+    // flips green on first-run sellers. Only fires when eBay is in requestedChannels
+    // and an eBay channel is connected. Failures return a typed 502 early.
+    let ensuredEbayPolicies: EbayPolicySet | null = null
+    if (requestedChannels.includes('ebay')) {
+      const ebayChannel = connectedChannels?.find(c => c.type === 'ebay')
+      if (ebayChannel) {
+        try {
+          const res = await ensureEbayPolicies(ebayChannel, adminSupabase)
+          ensuredEbayPolicies = {
+            paymentPolicyId: res.paymentPolicyId,
+            returnPolicyId: res.returnPolicyId,
+            fulfillmentPolicyId: res.fulfillmentPolicyId,
+          }
+          // Re-hydrate the in-memory channel row so the preflight validator reads
+          // the freshly persisted metadata without another DB round-trip.
+          ebayChannel.metadata = {
+            ...(ebayChannel.metadata ?? {}),
+            ebay_policies: {
+              paymentPolicyId: res.paymentPolicyId, payment_policy_id: res.paymentPolicyId,
+              returnPolicyId: res.returnPolicyId,   return_policy_id:  res.returnPolicyId,
+              fulfillmentPolicyId: res.fulfillmentPolicyId, fulfillment_policy_id: res.fulfillmentPolicyId,
+              provisioned_at: res.provisionedAt,
+            },
+          }
+        } catch (err) {
+          const what = err instanceof EbayPolicyError ? `${err.policy} — ${err.cause}` : (err as Error).message
+          return NextResponse.json(
+            { error: `ebay policies provisioning failed: ${what}` },
+            { status: 502 },
+          )
+        }
+      }
+    }
+
     await Promise.all(
       requestedChannels.map(async (channelType) => {
         // Pre-publish validation: framework first (eBay etc.), legacy fallback for others
@@ -506,7 +544,46 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             )
           } else if (channelType === 'ebay') {
             const ebayCategory = mergedCategorySelections['ebay']
-            published = await withRetry(() => publishToEbay(transformed, channel, ebayCategory?.id, aspectValues))
+            // BUNDLE_C: variant group branch — when the Shopify product under
+            // this listing has >1 distinct-axis variants, publish as one eBay
+            // InventoryItemGroup (single listing with variations) instead of
+            // the default single-listing path.
+            const shopifyProduct = (transformed as { shopify_product?: ShopifyProduct }).shopify_product
+            const variantPlan = shopifyProduct ? planVariantGroup(shopifyProduct) : null
+            if (variantPlan && ensuredEbayPolicies && ebayCategory?.id) {
+              const access_token = await getEbayAccessToken(channel.refresh_token)
+              await upsertInventoryItemGroup(access_token, variantPlan)
+              const { groupExternalId } = await upsertGroupOffer(
+                access_token,
+                variantPlan,
+                ebayCategory.id,
+                ensuredEbayPolicies,
+                { marketplaceId: (channel.metadata?.ebay_marketplace as string) || 'EBAY_US' },
+              )
+              published = {
+                id: groupExternalId || variantPlan.groupSku,
+                url: `https://www.ebay.com/itm/${groupExternalId || variantPlan.groupSku}`,
+              }
+              await adminSupabase.from('listing_channel_groups').upsert({
+                user_id: user.id,
+                listing_id: id,
+                channel: 'ebay',
+                group_sku: variantPlan.groupSku,
+                group_external_id: groupExternalId ?? null,
+                variation_axes: variantPlan.variationSpecifics,
+                child_skus: variantPlan.items.map(it => it.sku),
+                last_published_at: new Date().toISOString(),
+              }, { onConflict: 'user_id,listing_id,channel,group_sku' })
+              // Mark listing_channel row as group-type downstream
+              await adminSupabase.from('listing_channels').upsert({
+                listing_id: id, user_id: user.id, channel_type: 'ebay',
+                channel_listing_id: published.id, channel_url: published.url,
+                status: 'published', published_at: new Date().toISOString(),
+                external_type: 'group', external_group_id: variantPlan.groupSku,
+              }, { onConflict: 'listing_id,channel_type' }).then(() => {}, () => {})
+            } else {
+              published = await withRetry(() => publishToEbay(transformed, channel, ebayCategory?.id, aspectValues))
+            }
           } else if (channelType === 'amazon') {
             published = await withRetry(() => publishToAmazon(transformed, channel))
           } else {

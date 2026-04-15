@@ -72,6 +72,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: '/admin/demos',       label: 'Demos' },
     { href: '/admin/api-keys',    label: 'API keys' },
     { href: '/admin/sync-health', label: 'Sync health' },
+    { href: '/admin/ebay-policies', label: 'eBay policies' },
     { href: '/admin/users',       label: 'Users' },
     { href: '/admin/metrics',     label: 'Metrics' },
   ]
