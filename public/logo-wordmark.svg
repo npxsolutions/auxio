@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" width="420" height="96">
+  <g transform="translate(20 24) scale(2)">
+    <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill="#0b0f1a"/>
+    <rect x="9.2" y="17" width="5.6" height="2.2" fill="#1d5fdb"/>
+  </g>
+  <text x="88" y="64" font-family="'Instrument Serif', Georgia, serif" font-size="52" fill="#0b0f1a" letter-spacing="-0.8">Meridia</text>
+</svg>
