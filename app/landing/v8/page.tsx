@@ -629,7 +629,7 @@ function PriceRow({ p, i, isLast }: { p: typeof PRICE_ROWS[number]; i: number; i
         ))}
       </div>
       <div style={{ textAlign: 'right' }}>
-        <Link href={p.price === null ? '/contact' : '/signup'} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 20px', background: p.flag ? C.ink : 'transparent', color: p.flag ? C.bg : C.ink, border: `1px solid ${C.ink}`, fontSize: 13, fontWeight: 500, letterSpacing: '0.02em', textDecoration: 'none' }}>
+        <Link href={p.price === null ? '/enterprise' : '/signup'} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 20px', background: p.flag ? C.ink : 'transparent', color: p.flag ? C.bg : C.ink, border: `1px solid ${C.ink}`, fontSize: 13, fontWeight: 500, letterSpacing: '0.02em', textDecoration: 'none' }}>
           {p.cta}<span style={{ fontFamily: 'var(--font-mono), monospace' }}>→</span>
         </Link>
       </div>
@@ -647,10 +647,10 @@ const NAV = [
 ]
 
 const PILLARS = [
-  { n: '01', tag: 'One ledger.',           head: 'Inventory',   Diagram: DiagramSync     },
-  { n: '02', tag: 'Orders, auto-routed.',  head: 'Orders',      Diagram: DiagramRoute    },
-  { n: '03', tag: 'Never a stockout.',     head: 'Forecasting', Diagram: DiagramForecast },
-  { n: '04', tag: 'Margin, after everything.', head: 'Profit',  Diagram: DiagramPnL      },
+  { n: '01', tag: 'Pull the catalog.',        head: 'Ingest',    Diagram: DiagramSync     },
+  { n: '02', tag: 'Fix it before it ships.',  head: 'Optimize',  Diagram: DiagramRoute    },
+  { n: '03', tag: 'Push to every channel.',   head: 'Syndicate', Diagram: DiagramForecast },
+  { n: '04', tag: 'Catch rejections early.',  head: 'Monitor',   Diagram: DiagramPnL      },
 ]
 
 const QUOTES = [
@@ -660,10 +660,10 @@ const QUOTES = [
 ]
 
 const PRICE_ROWS = [
-  { name: 'Starter',    price: 59,   tag: 'Founding',     desc: 'Solo operators, 1–2 markets.',            includes: ['2 channels', '1 region', 'Core ledger'],                       cta: 'Start free' },
-  { name: 'Growth',     price: 159,  tag: 'Most adopted', desc: 'Multi-channel across regions.',            includes: ['8 channels', '4 regions', 'Forecasting', 'Multi-currency P&L'], cta: 'Start free', flag: true },
-  { name: 'Scale',      price: 499,  tag: 'Best value',   desc: 'High-volume, multi-warehouse ops.',        includes: ['Unlimited channels', 'Unlimited regions', 'Priority sync', 'Custom reports'], cta: 'Start free' },
-  { name: 'Enterprise', price: null, tag: 'Bespoke',      desc: 'Multi-region, custom SLA, dedicated IR.',  includes: ['Custom SLA', 'Dedicated incident response', 'Audit log exports'], cta: 'Talk to sales' },
+  { name: 'Starter',    price: 59,   tag: 'Shopify + 1',    desc: '$10k–$100k/mo GMV, one extra channel.',          includes: ['1 channel', 'Pre-flight validator', 'Feed health hub'],                             cta: 'Start free' },
+  { name: 'Growth',     price: 159,  tag: 'Most adopted',   desc: '$100k–$500k/mo GMV across 3–5 marketplaces.',     includes: ['5 channels', 'Category suggester', 'Aspects enrichment', 'Per-channel P&L'],        cta: 'Start free', flag: true },
+  { name: 'Scale',      price: 499,  tag: 'Unlimited',      desc: '$500k+/mo GMV, every marketplace that matters.',  includes: ['Unlimited channels', 'Rules engine', 'Priority sync', 'Reconciled payouts'],        cta: 'Start free' },
+  { name: 'Enterprise', price: null, tag: 'From $1,500/mo', desc: 'Multi-region, SSO, SLA, data residency.',         includes: ['SSO / SAML', 'Dedicated solutions architect', 'Custom SLA', 'Data residency'],      cta: 'Talk to sales' },
 ]
 
 // ── Connections — marketplaces + stack ──────────────────────────────────────
@@ -795,9 +795,9 @@ export default function LandingV8() {
           </div>
           <h1 ref={heroPar.ref} style={{ ...heroPar.style, fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(64px, 10vw, 148px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 0.94, color: C.ink, margin: 0 }}>
             {heroHeadlineV2 ? (
-              <>One platform for <em style={{ fontStyle: 'italic', color: C.cobalt }}>global commerce.</em></>
+              <>Send your Shopify catalog <em style={{ fontStyle: 'italic', color: C.cobalt }}>everywhere.</em></>
             ) : (
-              <>The operating system for <em style={{ fontStyle: 'italic', color: C.cobalt }}>modern commerce.</em></>
+              <>Every channel. <em style={{ fontStyle: 'italic', color: C.cobalt }}>One clean feed.</em></>
             )}
           </h1>
 
@@ -811,7 +811,7 @@ export default function LandingV8() {
                 <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, color: C.mutedDk, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Routing now · {ARCS.length} live corridors</span>
               </div>
               <p style={{ marginTop: 20, fontSize: 20, lineHeight: 1.4, color: C.mutedDk, fontFamily: 'var(--font-display-v8), Georgia, serif', fontStyle: 'italic' }}>
-                Inventory, orders, forecasting, and margin — one ledger, every channel.
+                Self-serve multichannel feed management for Shopify-led sellers. Install from the App Store, live in under ten minutes — no enterprise sales call.
               </p>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -921,7 +921,7 @@ export default function LandingV8() {
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 06</span>
           </div>
           <h2 style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.05, color: C.ink, margin: '0 0 40px', maxWidth: 880 }}>
-            Flat. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>Never a cut of revenue.</em>
+            From $59/mo. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>Not $2,500.</em>
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 2fr 0.9fr', padding: '12px 0', borderTop: `1px solid ${C.ink}`, borderBottom: `1px solid ${C.rule}`, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
@@ -943,7 +943,7 @@ export default function LandingV8() {
       {/* Final CTA */}
       <section style={{ padding: '120px 32px', background: C.surface, borderTop: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}`, textAlign: 'center' }}>
         <h2 style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(56px, 7vw, 104px)', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.0, color: C.ink, margin: '0 0 32px' }}>
-          One ledger for every order, every market, <em style={{ color: C.cobalt, fontStyle: 'italic' }}>every margin.</em>
+          Every marketplace, one clean feed, <em style={{ color: C.cobalt, fontStyle: 'italic' }}>ten minutes from install.</em>
         </h2>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <Link href="/signup" style={{ background: C.ink, color: C.bg, padding: '17px 32px', textDecoration: 'none', fontSize: 14, fontWeight: 500 }}>Start free</Link>
@@ -973,12 +973,12 @@ export default function LandingV8() {
               <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
             </div>
             <p style={{ fontSize: 14, color: C.mutedDk, fontFamily: 'var(--font-display-v8), Georgia, serif', fontStyle: 'italic', margin: 0 }}>
-              The operating system for modern commerce.
+              Self-serve multichannel feed management for Shopify-led sellers.
             </p>
           </div>
           {[
             { h: 'Platform', l: [['Atlas', '#atlas'], ['Ledger', '#ledger'], ['Pillars', '#platform'], ['Pricing', '#pricing']] as [string, string][] },
-            { h: 'Compare',  l: [['ChannelAdvisor', '/vs/channelAdvisor'], ['Brightpearl', '/vs/brightpearl'], ['Linnworks', '/vs/linnworks'], ['Feedonomics', '/vs/baselinker']] as [string, string][] },
+            { h: 'Compare',  l: [['Feedonomics', '/vs/feedonomics'], ['Linnworks', '/vs/linnworks'], ['Brightpearl', '/vs/brightpearl'], ['ChannelAdvisor', '/vs/channelAdvisor']] as [string, string][] },
             { h: 'Company',  l: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy'], ['Terms', '/terms']] as [string, string][] },
             { h: 'Resources', l: [['Enterprise', '/enterprise'], ['Security', '/security'], ['Status', 'https://status.fulcra.com'], ['Changelog', '/changelog'], ['Help', '/help'], ['Careers', '/careers']] as [string, string][] },
           ].map(col => (

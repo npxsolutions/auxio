@@ -44,7 +44,7 @@ const PLANS: {
       AUD: { monthly: 149, annual: 119, founding: 89  },
       CAD: { monthly: 135, annual: 109, founding: 79  },
     },
-    desc: 'Perfect for solo sellers getting started on their first marketplace.',
+    desc: 'Shopify-led sellers at $10k–$100k/mo GMV adding their first extra channel.',
     color: '#64748b',
     features: [
       '1 sales channel',
@@ -66,7 +66,7 @@ const PLANS: {
       AUD: { monthly: 379, annual: 299, founding: 239 },
       CAD: { monthly: 339, annual: 269, founding: 219 },
     },
-    desc: 'For sellers scaling across multiple channels who need automation.',
+    desc: 'Shopify-led operators at $100k–$500k/mo GMV running 3–5 marketplaces.',
     color: '#5b52f5',
     features: [
       '3 sales channels',
@@ -89,7 +89,7 @@ const PLANS: {
       AUD: { monthly: 1129, annual: 899, founding: 749 },
       CAD: { monthly: 1019, annual: 819, founding: 679 },
     },
-    desc: 'High-volume operations that need full automation and deep analytics.',
+    desc: 'Shopify Plus merchants at $500k+/mo GMV selling on every marketplace that matters.',
     color: '#059669',
     features: [
       '5 sales channels',
@@ -106,7 +106,7 @@ const PLANS: {
   {
     name: 'Enterprise',
     prices: null,
-    desc: 'Agencies, large catalogues, multi-region rollouts, and custom requirements.',
+    desc: 'Multi-region, 10+ channels, SSO, SLA, and data residency. From $1,500/mo.',
     color: '#d97706',
     features: [
       'Unlimited channels',
@@ -200,10 +200,10 @@ export default function PricingPage() {
         </div>
 
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
-          Simple, transparent pricing
+          Self-serve feed management. From $59/mo.
         </h1>
-        <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '480px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-          No custom quotes. No percentage of revenue. No enterprise sales calls. Start free, upgrade when you're ready.
+        <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
+          Shopify-led multichannel without the $2,500/mo enterprise floor or the 30-day onboarding call. Published in five currencies. Flat monthly, never a cut of revenue.
         </p>
 
         {/* Toggles: billing + currency */}
@@ -302,6 +302,13 @@ export default function PricingPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Reassurance line */}
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 48px 32px', textAlign: 'center' }}>
+        <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6 }}>
+          Talk to sales for &gt;$500k/mo GMV, custom SLA, SSO, or data-residency. Every other tier is pure self-serve — install from the Shopify App Store and go live in under ten minutes.
+        </p>
       </div>
 
       {/* Comparison table */}
