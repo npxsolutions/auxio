@@ -20,6 +20,7 @@
     { "path": "/api/cron/aggregations/listings",      "schedule": "0 3 * * *" },
     { "path": "/api/cron/aggregations/metrics-daily", "schedule": "15 3 * * *" },
     { "path": "/api/cron/apply-credits",              "schedule": "30 2 * * *" },
-    { "path": "/api/cron/report-usage",                "schedule": "0 4 * * *" }
+    { "path": "/api/cron/report-usage",                "schedule": "0 4 * * *" },
+    { "path": "/api/cron/revalidate-listings",         "schedule": "0 5 * * *" }
   ]
 }

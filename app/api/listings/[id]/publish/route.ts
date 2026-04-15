@@ -3,6 +3,8 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { applyFeedRules, applyFieldMappings } from '@/app/lib/feed-rules'
+import { validateForChannel as preflightValidate } from '@/app/lib/feed/validator'
+import { mapEbayError } from '@/app/lib/feed/ebay-error-dictionary'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -444,15 +446,37 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     await Promise.all(
       requestedChannels.map(async (channelType) => {
-        // Pre-publish validation
-        const validationErrors = validateForChannel(listing, channelType)
-        if (validationErrors.length) {
-          results[channelType] = { status: 'failed', validation_errors: validationErrors, error: validationErrors[0] }
-          await adminSupabase.from('listing_channels').upsert({
-            listing_id: id, user_id: user.id, channel_type: channelType,
-            status: 'failed', error_message: `Validation: ${validationErrors.join('; ')}`,
-          }, { onConflict: 'listing_id,channel_type' })
-          return
+        // Pre-publish validation: framework first (eBay etc.), legacy fallback for others
+        if (channelType === 'ebay') {
+          const preflight = await preflightValidate(id, 'ebay')
+          if (!preflight.passed) {
+            const errMsgs = preflight.issues
+              .filter(i => i.rule.severity === 'error')
+              .map(i => i.rule.message)
+            console.warn(`[api/listings/publish] blocked_preflight listing=${id} channel=ebay errors=${errMsgs.length}`)
+            results[channelType] = { status: 'failed', validation_errors: errMsgs, error: errMsgs[0] || 'pre-flight failed' }
+            await adminSupabase.from('listing_channels').upsert({
+              listing_id: id, user_id: user.id, channel_type: channelType,
+              status: 'failed', error_message: `Validation: ${errMsgs.join('; ')}`,
+            }, { onConflict: 'listing_id,channel_type' })
+            await adminSupabase.from('sync_log').insert({
+              user_id: user.id, channel: 'ebay', listing_id: id,
+              level: 'blocked_preflight',
+              message: `pre-flight blocked: ${errMsgs.join('; ')}`,
+              metadata: { validation: preflight },
+            }).then(() => {}, () => {})
+            return
+          }
+        } else {
+          const validationErrors = validateForChannel(listing, channelType)
+          if (validationErrors.length) {
+            results[channelType] = { status: 'failed', validation_errors: validationErrors, error: validationErrors[0] }
+            await adminSupabase.from('listing_channels').upsert({
+              listing_id: id, user_id: user.id, channel_type: channelType,
+              status: 'failed', error_message: `Validation: ${validationErrors.join('; ')}`,
+            }, { onConflict: 'listing_id,channel_type' })
+            return
+          }
         }
 
         const channel = connectedChannels?.find(c => c.type === channelType)
@@ -518,10 +542,26 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           ])
 
         } catch (err: any) {
-          results[channelType] = { status: 'failed', error: err.message }
+          let surfaced = err.message as string
+          if (channelType === 'ebay') {
+            const parsed = mapEbayError(String(err.message || ''))
+            if (parsed.mapped) {
+              surfaced = `${parsed.mapped.plainMessage} — ${parsed.mapped.remediation}`
+              console.warn(`[api/listings/publish] ebay_error_mapped code=${parsed.mapped.code} listing=${id}`)
+            } else {
+              console.warn(`[api/listings/publish] unknown_ebay_error listing=${id} raw=${parsed.raw.slice(0, 200)}`)
+              await adminSupabase.from('sync_log').insert({
+                user_id: user.id, channel: 'ebay', listing_id: id,
+                level: 'unknown_ebay_error',
+                message: parsed.raw.slice(0, 1000),
+                metadata: { errorId: parsed.errorId },
+              }).then(() => {}, () => {})
+            }
+          }
+          results[channelType] = { status: 'failed', error: surfaced }
           await adminSupabase.from('listing_channels').upsert({
             listing_id: id, user_id: user.id, channel_type: channelType,
-            status: 'failed', error_message: err.message,
+            status: 'failed', error_message: surfaced,
           }, { onConflict: 'listing_id,channel_type' })
 
           await adminSupabase.from('channel_sync_state').upsert({

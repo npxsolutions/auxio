@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { validateForChannel as preflightValidate } from '@/app/lib/feed/validator'
+import type { ChannelKey } from '@/app/lib/rate-limit/channel'
 
 const CHANNELS = ['shopify', 'ebay', 'amazon'] as const
 
@@ -125,6 +127,37 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     await supabase.from('feed_health').upsert(upserts, { onConflict: 'listing_id,channel_type' })
 
     return NextResponse.json({ health: results })
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 })
+  }
+}
+
+// POST: trigger pre-flight revalidation via the new validator framework.
+// Body: { channel?: ChannelKey }  default 'ebay'
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params
+    const cookieStore = await cookies()
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
+    )
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    let channel: ChannelKey = 'ebay'
+    try {
+      const body = await req.json().catch(() => ({}))
+      if (body?.channel) channel = body.channel as ChannelKey
+    } catch { /* default */ }
+
+    const { data: ownerCheck } = await supabase
+      .from('listings').select('id').eq('id', id).eq('user_id', user.id).maybeSingle()
+    if (!ownerCheck) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+    const validation = await preflightValidate(id, channel)
+    return NextResponse.json({ ok: true, validation })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })
   }

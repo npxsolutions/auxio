@@ -6,6 +6,7 @@ import AppSidebar from '../components/AppSidebar'
 import TourTrigger from '../components/TourTrigger'
 import { useTour } from '../lib/tours'
 import { createClient as createSupabaseClient } from '../lib/supabase-client'
+import { HealthSummaryStrip, HealthDrawer, HealthBadge, useListingHealth } from './HealthSummaryStrip'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -440,6 +441,11 @@ export default function ListingsPage() {
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS)
   const [filterPanelOpen, setFilterPanelOpen] = useState(false)
 
+  // [feed:validator] listing-health overlay
+  const { byListing: healthByListing, totals: healthTotals, reload: reloadHealth } = useListingHealth()
+  const [healthFilter, setHealthFilter] = useState<'all' | 'errors' | 'warnings' | 'healthy'>('all')
+  const [healthDrawerListing, setHealthDrawerListing] = useState<Listing | null>(null)
+
   // Sorting
   const [sortField, setSortField] = useState<SortField>(null)
   const [sortDir, setSortDir] = useState<SortDir>('asc')
@@ -603,6 +609,15 @@ export default function ListingsPage() {
     if (filters.syncError)    out = out.filter(l => (l.sync_errors_count ?? 0) > 0 || l.listing_channels?.some(lc => lc.error_message))
     if (filters.isBundle)     out = out.filter(l => !!l.is_bundle)
     if (filters.isVariant)    out = out.filter(l => !!l.parent_listing_id)
+    if (healthFilter !== 'all') {
+      out = out.filter(l => {
+        const h = healthByListing.get(l.id)
+        if (healthFilter === 'errors')   return !!h && h.errors_count > 0
+        if (healthFilter === 'warnings') return !!h && h.errors_count === 0 && h.warnings_count > 0
+        if (healthFilter === 'healthy')  return !!h && h.errors_count === 0 && h.warnings_count === 0
+        return true
+      })
+    }
     if (filters.search.trim()) {
       const q = filters.search.toLowerCase()
       out = out.filter(l =>
@@ -637,7 +652,7 @@ export default function ListingsPage() {
     }
 
     return out
-  }, [listings, filters, sortField, sortDir])
+  }, [listings, filters, sortField, sortDir, healthFilter, healthByListing, stats])
 
   // Pagination
   const totalPages = Math.ceil(filtered.length / pageSize)
@@ -943,6 +958,13 @@ export default function ListingsPage() {
               </button>
             </div>
           </div>
+
+          {/* ── Listing health summary strip ── */}
+          <HealthSummaryStrip
+            totals={healthTotals}
+            activeFilter={healthFilter}
+            onFilter={setHealthFilter}
+          />
 
           {/* ── Saved View Tabs ── */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '16px', borderBottom: '1px solid #e8e8e5', paddingBottom: '0' }}>
@@ -1481,7 +1503,14 @@ export default function ListingsPage() {
 
                     {/* Title */}
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</div>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</span>
+                        {(() => {
+                          const h = healthByListing.get(listing.id)
+                          if (!h) return null
+                          return <HealthBadge score={h.health_score} onClick={() => setHealthDrawerListing(listing)} />
+                        })()}
+                      </div>
                       {density !== 'compact' && (
                         <div style={{ fontSize: '11px', color: '#9b9b98', marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {[listing.condition, listing.brand].filter(Boolean).join(' · ')}
@@ -1740,6 +1769,14 @@ export default function ListingsPage() {
           )}
         </div>
       </main>
+
+      {/* [feed:validator] Listing health drawer */}
+      <HealthDrawer
+        open={!!healthDrawerListing}
+        onClose={() => { setHealthDrawerListing(null); reloadHealth() }}
+        listingId={healthDrawerListing?.id ?? null}
+        listingTitle={healthDrawerListing?.title ?? null}
+      />
     </div>
   )
 }

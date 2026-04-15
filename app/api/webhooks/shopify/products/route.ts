@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { verifyShopifyHmac } from '../../../shopify/webhooks/_verify'
+import { validateForChannel } from '@/app/lib/feed/validator'
 
 const getSupabase = () =>
   createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!, {
@@ -164,6 +165,16 @@ export async function POST(request: Request) {
     },
     { onConflict: 'listing_id,channel_type' },
   )
+
+  // Revalidate listing health for any channel mappings on this listing.
+  // Best-effort — never block the webhook ack on validation failures.
+  if (listingId) {
+    try {
+      await validateForChannel(listingId, 'ebay')
+    } catch (err) {
+      console.error('[feed:validator] post-webhook revalidate failed:', err)
+    }
+  }
 
   return NextResponse.json({ ok: true })
 }
