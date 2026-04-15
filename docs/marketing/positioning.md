@@ -1,88 +1,94 @@
 # Positioning Canvas
 
-> Framework: April Dunford's *Obviously Awesome*. This doc is the source of truth for how Meridia is described in every piece of marketing copy. If you are tempted to invent a new phrase on a landing page, check this doc first.
+> Framework: April Dunford's *Obviously Awesome*. Source of truth for how Meridia is described in every piece of marketing copy. If you are tempted to invent a new phrase on a landing page, check this doc first.
+>
+> **Wedge (locked April 2026):** Self-serve multichannel feed management for Shopify-led sellers scaling past their store.
 
 ---
 
 ## 1. Competitive alternatives
 
-What customers compare us to when they are shopping. Not hypothetical — the set they actually have tabs open for.
+What customers compare us to when they are shopping. Ordered by share-of-consideration inside the wedge.
 
-| Alternative | Why they fail |
+| Alternative | Why they fail for the wedge |
 |---|---|
-| **Linnworks** | Enterprise pricing, 6–12 week implementation, UI frozen around 2016. Rep-gated. Doesn't do real P&L. Lock-in via proprietary data model. |
-| **Brightpearl (Sage)** | Positioned as a Retail OS but is really an ERP with a channel bolt-on. Implementation runs 90+ days. Starts at ~$7,500/mo. Entirely wrong shape for operators under $5M/yr. |
-| **ChannelAdvisor / Rithum** | Enterprise-only, % of revenue pricing, requires a managed-services contract. Excellent feed engine, almost nothing below it. |
-| **Feedonomics** | Feed management only. Doesn't touch inventory, orders, or P&L. Needs five other tools stacked around it. |
-| **Baselinker** | Strong in EU, weak in US/UK. Interface translated rather than designed. No real forecasting or profitability layer. |
-| **Spreadsheets + Zapier** | The true incumbent for Tier 1 and half of Tier 2. Free and infinitely flexible, but breaks at 3+ channels and doesn't survive a single oversell. |
-| **Shopify + native channels** | Works for single-region DTC. Falls apart the moment Amazon and eBay are both in the mix. |
+| **Feedonomics** *(primary named competitor)* | Enterprise-only. Quote-form pricing, ~$2,500+/mo floor, managed-services retainer, 30–90 day onboarding. Powerful feed engine, but no self-serve path and no interest in a Shopify merchant doing $25k/mo. |
+| **Rithum (ex-ChannelAdvisor / CommerceHub)** | Quote-only. Historic % of GMV model still present on legacy deals. Built for retailers and brands with dedicated channel-ops teams, not for a Shopify founder who wants to add TikTok Shop on a Tuesday. |
+| **Shopify Marketplace Connect (Codisto)** | Free up to 50 orders/mo, then 1% of synced-order value capped at $99/mo. Perfectly fine for Amazon / eBay / Walmart only. No TikTok Shop, no Etsy, no OnBuy, thin feed-optimisation, no rules engine, no P&L. This is the true floor of the market — we have to be meaningfully better, not just available. |
+| **Baselinker / Base.com** | Strong in EU, weak in US/UK. Interface translated rather than designed. Order-volume pricing from ~€19/mo. Real competitor on price, weak on feed optimisation and Shopify-native workflows. |
+| **Sellbrite (GoDaddy)** | $19–$129/mo, self-serve, SKU + order tiered. Closest peer on shape and price. Product has had minimal investment under GoDaddy ownership; feed rules and channel breadth are thin. |
+| **Veeqo (Amazon-owned)** | Shipping tier free, inventory from $19/mo. Great price, but it's Amazon's tool — many Shopify merchants will not run their multichannel ops inside their biggest marketplace competitor's product. |
+| **Linnworks** | Quote-only, ~$549/mo entry in the US, 40-day implementation. Inventory/warehouse first; feed management is a secondary module. Wrong shape for Shopify-led. |
+| **Brightpearl (Sage)** | ERP with a channel bolt-on. Quote-only, $2k+/mo, 60–90 day implementation. Wrong shape entirely. |
+| **Shopify + manual CSV** | The true incumbent for Tier 1. Free and infinitely flexible until you try to optimise titles per-channel, enforce pricing floors, or catch a feed rejection before it hits the marketplace. |
 
 ---
 
 ## 2. Unique attributes
 
-Five things we have that the alternatives do not.
+Five things we have that the alternatives — specifically Feedonomics — do not.
 
-1. **Full-loop data model.** Supplier → PO → stock → listing → order → fulfillment → fees → P&L, in one schema. Nobody else closes this loop under $3k/mo.
-2. **Multi-currency settled P&L.** We normalize against settlement currency, not invoice currency — so a GBP business selling on amazon.com sees true USD margin after FX, not an accounting fiction.
-3. **10-minute time-to-first-value.** Self-serve OAuth into Shopify + one marketplace, first real number on screen inside ten minutes. Linnworks and Brightpearl take weeks.
-4. **Order-volume pricing.** Flat, predictable, does not scale with GMV. ChannelAdvisor and Rithum charge a percentage of revenue — we do not, and we say so on the pricing page.
-5. **Developer API as a first-class surface.** Full REST + webhooks + a typed SDK, documented publicly at `/developers`. The incumbents treat APIs as a premium SKU; we treat them as the table stakes.
+1. **Self-serve signup from a Shopify App Store install.** First channel live, first feed syndicated, first error surfaced — all inside ten minutes, no sales call. Feedonomics, Rithum, Linnworks, and Brightpearl all require a demo before you see a price.
+2. **Published pricing in five currencies.** $59 / $159 / $499 / Custom, toggleable between USD, GBP, EUR, AUD and CAD. Nobody in the quote-only tier does this. Sellbrite, Baselinker and Veeqo publish but only in USD / EUR.
+3. **Feed optimisation and P&L in one product.** Feedonomics does feeds. A2X does P&L. Shopify Marketplace Connect does neither well. Meridia closes that loop for the Shopify-led operator — the same product that normalises the feed also tells you which SKU on which channel is profitable.
+4. **Shopify-native install and sync.** OAuth via the App Store, two-way sync, sub-minute latency, no middleware. Not a connector bolted onto a generic platform — the Shopify install is the primary install path.
+5. **Channel breadth at this price band.** Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, WooCommerce. Sellbrite and Shopify Marketplace Connect cap out at a narrower set; Baselinker's breadth is EU-skewed.
 
 ---
 
 ## 3. Value (the value, not the attributes)
 
-What the attributes actually produce for the customer.
-
-- **Fewer oversells and stranded stock.** One operator's quarterly oversell rate drops from ~1.8% to under 0.2%. At a $500k/mo business that recovers ~$15k/quarter of margin that would otherwise have become refund and reship cost.
-- **Real margin clarity.** "We thought SKU A was our hero; Meridia showed us SKU C had 3x the net margin after Amazon fees and inbound freight." Operators reallocate ad spend within the first month.
-- **Ops hours reclaimed.** Growing Operator tier reports 8–12 hours/week of spreadsheet work eliminated. That is a fractional hire's worth of time, redeployed to merchandising or sourcing.
-- **Boardroom-ready P&L.** CFO and founder look at the same number. The multi-currency question stops being a monthly argument.
-- **Platform, not a trap.** Because the API is real and data is exportable, nobody has to fear switching — which paradoxically is why they stay.
+- **A Shopify merchant can add a channel on a Tuesday afternoon and have clean listings live by Wednesday.** No 40-day onboarding. No solutions architect. No services retainer.
+- **Feed rejections are caught at ingest, not at the marketplace.** Error hub surfaces missing GTINs, oversize images, category mismatches, and banned-word violations before they hit Amazon / eBay / TikTok Shop, not after a listing gets taken down.
+- **One price structure, no surprise invoices.** Flat monthly, published in five currencies, no percentage of GMV, no per-order fee above plan.
+- **Real margin clarity per channel.** The same tool that pushes the feed also reconciles the payout, so merchants see which channel is actually profitable after fees — not just which one has the most orders.
+- **Exit is survivable.** Feed data is exportable. Nobody is building a trap; paradoxically that is why they stay.
 
 ---
 
 ## 4. Best-fit customer
 
-The Growing Operator (Tier 2 in `icp.md`): $50k–$500k/mo GMV, 3–6 channels, 1–5 person team, either on spreadsheets or actively trying to leave Linnworks. This is the shape of customer our product is tuned to win, expand, and retain.
+The Shopify-led multichannel operator at $10k–$500k/mo GMV, running Shopify plus 1–5 marketplaces, who has either (a) maxed out Shopify Marketplace Connect's channel coverage, or (b) been quoted $2,500/mo by Feedonomics and bounced. See `icp.md` for the three-tier shape.
 
 ---
 
 ## 5. Market category
 
-**Commerce Operations Platform.**
+**Self-serve multichannel feed management.**
 
-We are deliberately claiming this as a category name, not a product name. The category is defined in `/blog/what-is-a-commerce-operations-platform`. Every external asset uses this phrase verbatim. Avoid: "multichannel tool", "listing platform", "inventory SaaS", "ERP". Those are either too small (tool) or too large (ERP) and invite the wrong comparisons.
+Not "operating system for commerce." Not "commerce operations platform." The category is narrower and more legible than either of those, and — critically — it is the category the primary acquisition channel (Shopify App Store) already indexes against.
 
-The secondary, more colloquial version — used on the homepage and in launch copy — is **"The operating system for modern commerce."** Same category, warmer vocabulary.
+Use this phrase verbatim in copy. Avoid: "commerce OS", "operating system for global commerce", "multichannel ERP", "listing tool", "repricer". The first two overclaim; the last three undersell.
+
+The Enterprise tier still serves sellers who grow into SSO / SLA / data-residency / 10+ channel / multi-region needs. That's a distinct product surface (see `app/enterprise/page.tsx`), not the primary pitch.
 
 ---
 
 ## 6. Trends we leverage
 
-- **Multi-marketplace as default.** The Shopify-only seller is now the exception, not the rule. Amazon + eBay + TikTok Shop + Shopify is the baseline stack for anyone doing real volume.
-- **AI in operations.** Every operator has tried ChatGPT on their ops data and found it hallucinates. We are shipping grounded AI — answers derived from their own schema, not an LLM guess.
-- **Multi-currency normalization.** Cross-border ecommerce crossed 30% of global GMV in 2025 (est.). Single-currency dashboards are now actively misleading for most sellers over $500k/yr.
-- **Agency-led commerce.** Growth agencies and fractional ops firms are now the primary channel advisors for Tier 2 operators. Our partner program is designed for them, not for resellers.
-- **Unbundling of Shopify admin.** As Shopify adds surface area, operators are looking for the layer *above* Shopify to make sense of it alongside everything else. That is the slot we fill.
+- **The Shopify App Store is where merchants shop for ops tooling.** Not Google Search, not G2. Ranking well in the App Store is the single highest-leverage channel for the wedge.
+- **Feedonomics' acquisition by BigCommerce in 2022 left a gap.** Shopify-led merchants are structurally the wrong buyer for Feedonomics' motion. That gap has not been filled at a self-serve price point.
+- **Multi-marketplace as default.** Shopify-only sellers are now the exception above $25k/mo. Amazon + eBay + TikTok Shop + Shopify is the baseline stack. The feed is the bottleneck.
+- **AI-drafted listings are table stakes, not a differentiator.** Every vendor has one. The value is in the rules engine that stops the AI draft from getting your listing suppressed on Amazon.
+- **Shopify Marketplace Connect as floor.** A free $0–$99 option from Shopify itself now commoditises the narrowest version of the job. That forces every paid product above it to justify the step up on feed quality, channel breadth, and error handling.
 
 ---
 
 ## 7. Elevator pitch — three lengths
 
 ### 6 words
-> The operating system for modern commerce.
+> Every channel. One clean feed.
 
 ### 30 words
-> Meridia is the Commerce Operations Platform for multichannel sellers. Inventory, orders, forecasting and true multi-currency P&L across every marketplace — in one place, live in ten minutes, priced on order volume not revenue.
+> Meridia is self-serve multichannel feed management for Shopify-led sellers. Sync Amazon, eBay, TikTok Shop, Walmart, Etsy and more in under ten minutes, with real feed optimisation and honest per-channel P&L — from $59/mo, no sales call.
 
 ### 90 seconds
-> Most ecommerce operators today are running five channels on three spreadsheets and a prayer. They sell on Shopify, Amazon, eBay, maybe TikTok Shop and Etsy. Inventory drifts out of sync, so they oversell. Fees eat 30% of revenue but nobody sees the true per-order margin until the accountant files quarterly. And if they're selling across currencies, the dashboard is lying to them by the time the Stripe payout lands.
+> If you run a Shopify store doing $10k a month or more, adding Amazon, eBay and TikTok Shop is the obvious next move. The problem is that the tool market splits into two halves and neither half fits you.
 >
-> The incumbents — Linnworks, Brightpearl, ChannelAdvisor — either cost $5k+ a month with a 90-day implementation, or they're bolted-together listing tools that don't close the loop to P&L.
+> On one side: Shopify Marketplace Connect, free up to fifty orders then 1% capped at $99. It's fine, but it only covers Amazon, eBay and Walmart, and it doesn't really do feed optimisation — it just syncs.
 >
-> Meridia is the Commerce Operations Platform for this shape of business. You connect your channels in minutes, and inside the same product you get live inventory sync, order orchestration, demand forecasting, multi-currency settled P&L, and a real developer API. Order-volume pricing — never a percentage of revenue. From $59/month, live today.
+> On the other side: Feedonomics and Rithum. Enterprise feed management, $2,500 a month before you see a demo, managed-services retainers, thirty-to-ninety day onboarding. Powerful, and completely the wrong shape for a Shopify merchant doing a quarter-million a year.
 >
-> We're building this because commerce has gotten much more complex in the last five years, and the tools for running it haven't. That's the opening.
+> Meridia sits in the gap. Self-serve from the Shopify App Store, up in under ten minutes, covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce and WooCommerce. Real feed rules. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you actually know which marketplace is making money after fees. $59 a month for one channel, $159 for five, $499 for unlimited, published in five currencies, flat, no percentage of revenue.
+>
+> Enterprise sales is still available for sellers doing multi-region, ten-plus channels, SSO, SLA, data residency — but it's a separate path for the top tier, not the whole pitch. The whole pitch is: you're a Shopify founder, you want to be on every marketplace that matters, and you want the feed to be clean. That's the job.

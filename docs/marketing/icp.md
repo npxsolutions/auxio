@@ -1,74 +1,84 @@
 # Ideal Customer Profile
 
-> Company name is currently **Meridia**. If the rename ships, do a find-and-replace across this directory — names are not load-bearing in these docs.
-
-Three named tiers. The middle tier (Growing Operator) is our wedge — we acquire Solos as a volume play and Scale Operators as expansion. Every asset in `docs/marketing/` should map back to one of these tiers.
-
----
-
-## Tier 1 — Solo Operator
-**"1–2 marketplaces · under $50k/mo GMV · no ops hire"**
-
-**Psychographic.** Independent. Suspicious of SaaS bloat. Has quit a corporate job in the last 36 months, or is running the store alongside one. Reads *Hacker News*, subscribes to *2PM*, *Lenny*, or *Trung Phan*. Values transparency over polish. Will cancel within 14 days if a tool feels slow or overbuilt.
-
-**Current toolset.** Shopify + one marketplace (usually eBay, Etsy, or Amazon). A2X for accounting. Google Sheets for everything else. Often no inventory tool at all — just the Shopify admin plus mental arithmetic.
-
-**Top 3 pains.**
-1. Oversells when inventory isn't in sync — especially on weekends.
-2. No visibility into true per-order margin after fees and postage.
-3. Spends Sunday night rebuilding a "real P&L" in a spreadsheet.
-
-**Willingness to pay.** $29–$79/mo. Price-sensitive. Annual pre-pay unlikely in first 30 days. Will pay more once a single oversell has cost them money — the trigger event matters more than the pitch.
-
-**Where they hang out.** r/ecommerce, r/Etsy, r/shopify, Indie Hackers, the `#ecommerce` channel in Starter Story Slack, Shopify community forums, *My First Million* and *The Side Hustle Show* podcasts.
-
-**How they buy.** Pure self-serve. Credit card, 14-day trial, no sales call. If we make them book a demo, we lose them. Documentation quality and a 10-minute time-to-first-value are the entire deal.
+> Rebuilt April 2026 around the locked wedge: self-serve multichannel feed management for Shopify-led sellers.
+>
+> Three tiers, bracketed by Shopify GMV. Every marketing asset in `docs/marketing/` should map back to one of these tiers. Tier 2 is the wedge; Tier 1 is the volume acquisition; Tier 3 is the enterprise upsell served by `app/enterprise/page.tsx`.
 
 ---
 
-## Tier 2 — Growing Operator (**our wedge**)
-**"3–6 channels · $50k–$500k/mo GMV · 1–5 person team"**
+## Tier 1 — Shopify-led Starter
+**"Shopify + 1–2 additional channels · $10k–$100k/mo GMV · solo operator"**
 
-**Psychographic.** The founder still touches ops daily but has hired a VA or ops manager. Aspirational — wants to cross $1M/yr and sees tooling as the lever. Reads *Retention.com*, *Ecommerce Fuel*, *Operators* newsletter. Attends one conference a year (eTail, White Label Expo, or Retail Global). Believes "we should have graduated off spreadsheets by now" and is actively shopping.
+**Psychographic.** Founder-operator, often still working a day job or running the store as a primary income. Shopify native — installed from the App Store, stayed on Shopify by default. First marketplace attempt was usually Etsy or eBay via a free connector; considering Amazon next. Reads *2PM*, *Lenny*, *Trung Phan*, occasional *Shopify Masters*. Values transparency, speed, and a product that doesn't try to eat their entire Tuesday to set up.
 
-**Current toolset.** Shopify + Amazon + eBay (+ sometimes Etsy, TikTok Shop, Faire). Either still on spreadsheets (most common) or stuck on Linnworks and hating it. A2X + Xero/QuickBooks. A repricer (Repricer Express, BQool, or Seller Snap). A 3PL portal they check manually.
+**Current toolset.** Shopify Admin. Shopify Marketplace Connect (free tier, 50 orders/mo cap), or a single-channel app per marketplace. A2X for accounting on the Shopify side. Google Sheets for reconciling payouts. No dedicated feed tool.
 
 **Top 3 pains.**
-1. Inventory is out of sync across channels — they've had at least two oversells this quarter.
-2. They can't answer "which SKU, on which channel, at which price, is actually profitable?" without two hours of spreadsheet work.
-3. Their ops person spends 10+ hours a week on data cleanup that should be automated.
+1. Marketplace Connect caps out at 50 marketplace orders/mo and doesn't cover TikTok Shop or Etsy properly.
+2. Feed rejections show up after a listing goes live — missing GTIN, banned word, image too small — and they only find out from the marketplace.
+3. No visibility into which channel is actually profitable after fees and postage.
 
-**Willingness to pay.** $149–$599/mo. Will happily pay $299/mo if it replaces Linnworks + a repricer + a spreadsheet. Annual contracts viable after 60 days. Expansion revenue is real — they add SKUs, channels, and users.
+**Willingness to pay.** $49–$79/mo. Credit card, 14-day trial, no sales call. Will not fill in a form. Documentation, a Loom demo, and a working install inside 10 minutes are the entire deal.
 
-**Where they hang out.** *Ecommerce Fuel* forum (paywalled, high-intent), *Operators* Slack, r/FulfillmentByAmazon, r/ecommerce, *My Amazon Guy* on YouTube, *The Ecommerce Podcast*, *2x eCommerce*. LinkedIn for vendor research.
+**Acquisition.** Shopify App Store (primary). r/shopify, r/ecommerce, Indie Hackers, *My First Million*. SEO on "Shopify TikTok Shop integration", "Shopify Amazon connector", "Shopify eBay sync".
 
-**How they buy.** Self-serve trial, but expect a sales-assisted onboarding call within the first 7 days. They evaluate 3 tools in parallel. Comparison content and `/vs/*` pages convert them. Reference checks via the *Ecommerce Fuel* forum or a peer Slack DM are the final gate.
+**How they buy.** Pure self-serve via Shopify App Store install → OAuth → trial → auto-convert. If we make them book a demo we lose them.
 
 ---
 
-## Tier 3 — Scale Operator
-**"7+ channels · multi-region · $500k+/mo GMV · 10+ person team"**
+## Tier 2 — Shopify-led Growth Operator (**our wedge**)
+**"Shopify + 3–5 channels · $100k–$500k/mo GMV · small ops team"**
 
-**Psychographic.** Run by a COO or Head of Ecommerce, not the founder. Process-oriented. Has already been burned by a previous platform (Linnworks lock-in, ChannelAdvisor price hikes, or a failed Brightpearl implementation). Skeptical of slide decks. Wants a trial tenant with their real data.
+**Psychographic.** Founder still touches ops but has hired a VA, ops manager, or agency on retainer. Aspirational — wants to cross $5M/yr and sees channel expansion as the lever. Has already tried Shopify Marketplace Connect and hit the channel-coverage wall. Has been quoted by Feedonomics at least once and either bounced on the price or never heard back because the deal was too small. Reads *Ecommerce Fuel*, *Operators*, *2x eCommerce*.
 
-**Current toolset.** Shopify Plus or BigCommerce + Amazon (multiple regions) + Walmart + eBay + 2–3 wholesale/DTC channels. Linnworks, Brightpearl, ChannelAdvisor, or an internal-plus-Zapier Frankenstein. NetSuite or QuickBooks Enterprise. Klaviyo. A real BI tool (Looker, Metabase). Dedicated developer or contracted agency.
+**Current toolset.** Shopify (often Plus) + Amazon Seller Central + eBay + TikTok Shop + Etsy. Shopify Marketplace Connect for the Amazon/eBay/Walmart leg, plus one-off apps or spreadsheets for the rest. A2X + Xero/QuickBooks. A repricer (Repricer Express, BQool, Seller Snap). A 3PL portal.
 
 **Top 3 pains.**
-1. Multi-currency P&L is a lie — their dashboard shows GBP revenue at invoice rate, but true settled USD/EUR margin is materially different.
-2. Channel-specific pricing floors aren't enforced automatically — someone ships an Amazon order at a loss every week.
-3. They've outgrown their current platform but switching costs (historical data, integrations, retraining) feel terrifying.
+1. Feed quality is inconsistent per channel — Amazon listings suppressed for missing attributes, TikTok Shop categories wrong, Etsy tags truncated. No single place to fix it.
+2. Channel-specific pricing rules aren't enforced — someone ships an Amazon order at a loss every week because the repricer doesn't know about true landed cost.
+3. They can't answer "which channel is profitable this quarter?" without a spreadsheet rebuild, because feed management, orders, and P&L live in three different tools.
 
-**Willingness to pay.** $1,500–$10,000+/mo. Expect volume discounts. Annual prepay standard. Budget exists — they just need the business case written for them.
+**Willingness to pay.** $149–$599/mo. Will pay $159/mo cheerfully if it replaces Marketplace Connect + a per-channel app + a feed-optimisation spreadsheet. Annual contracts viable after 60 days. Expansion revenue is real — they add channels, SKUs, and (in year 2) users.
 
-**Where they hang out.** NRF, Shoptalk, eTail (East and West), *Modern Retail*, *Digital Commerce 360*, *The Jason & Scot Show*, private CFO/COO Slacks (Operators, Pavilion). LinkedIn is where they vet vendors.
+**Acquisition.** Shopify App Store (primary). `/vs/feedonomics` and `/vs/linnworks` SEO. Agency partnerships (Eastside Co, Underwaterpistol, Swanky, Blend). *Ecommerce Fuel* forum word-of-mouth.
 
-**How they buy.** Committee. Head of Ecom champions, CFO signs, IT or developer gatekeeps on API quality. 30–90 day cycle. Requires a proof-of-concept, a security questionnaire, and at least one reference call with a similar-size customer. Contract redlines are normal.
+**How they buy.** Self-serve trial, expect a sales-assisted onboarding call within the first 7 days. Evaluate 2–3 tools in parallel. Comparison content and `/vs/*` pages convert them. A peer reference in an ops Slack is the final gate.
+
+---
+
+## Tier 3 — Shopify-led Scale Operator (**enterprise upsell**)
+**"Shopify Plus + multi-region multichannel · $500k+/mo GMV · 10+ person team"**
+
+**Psychographic.** Run by a COO or Head of Ecommerce, not the founder. Process-oriented. Already been burned — Linnworks lock-in, a failed Brightpearl implementation, or a Feedonomics contract that didn't scale economically. Needs a named contact, a security questionnaire response, and a trial tenant with real data.
+
+**Current toolset.** Shopify Plus (often multi-store) + Amazon (multiple regions, sometimes Amazon Vendor) + Walmart + eBay + TikTok Shop + 2–3 DTC / wholesale channels. Feedonomics or Rithum on the feed side, plus Klaviyo, a BI tool (Looker, Metabase), NetSuite or QuickBooks Enterprise, and a contracted dev team.
+
+**Top 3 pains.**
+1. Regional feeds diverge — what's approved on Amazon UK fails on Amazon DE because the attribute schema differs, and nobody catches it until a category manager complains.
+2. SSO, audit logs, and data residency are required for the next security review, and their current feed tool either charges $20k/mo for them or doesn't have them at all.
+3. Managed onboarding and a dedicated solutions architect are the difference between adopting and not — they won't self-serve at this scale.
+
+**Willingness to pay.** $1,500–$10,000+/mo. Annual prepay standard. Budget exists — they just need the business case written for them, ideally against the Feedonomics quote they already have in hand.
+
+**Triggers for the enterprise sales path.** *Any one of the following flips them into Tier 3:*
+- >$500k/mo GMV
+- 10+ sales channels or multi-region same-channel (Amazon US + EU + JP)
+- 2+ Shopify stores under one parent
+- 5+ warehouses or 2+ 3PLs
+- Regulated category (alcohol, CBD, firearms, pharma)
+- Explicit SSO / SAML / SCIM / data-residency / SOC 2 requirement
+- >10 named users on the platform
+
+**Acquisition.** Outbound, partner referral, `/vs/feedonomics` converting the high-intent buyer. `/enterprise` quote form (already shipping into `public.enterprise_quotes`).
+
+**How they buy.** Committee. Head of Ecom champions, CFO signs, IT or developer gatekeeps on API quality and security posture. 30–90 day cycle. Proof-of-concept with real data, security questionnaire, reference call.
 
 ---
 
 ## Anti-profile — who we actively do not sell to
 
-- Pure DTC single-channel Shopify stores under $20k/mo (Shopify + a spreadsheet is fine for them).
-- Big-box retailers with EDI-first supplier relationships (we don't do EDI well yet).
-- Pure B2B wholesale with no marketplace exposure (the loop we close doesn't apply).
-- Agencies reselling our platform white-label (future partner motion, not an ICP).
+- Pure DTC single-channel Shopify stores under $10k/mo — Shopify + a CSV is fine for them.
+- Big-box retailers with EDI-first supplier relationships — we don't do EDI well yet.
+- Non-Shopify-led multichannel sellers (BigCommerce-native, WooCommerce-native, Magento) — we support them, but the Shopify App Store motion is the primary acquisition channel and the product is tuned for it.
+- Pure B2B wholesale with no marketplace exposure — the feed loop we close doesn't apply.
+- Agencies reselling white-label — future partner motion, not an ICP.
