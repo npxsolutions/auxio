@@ -1,0 +1,65 @@
+scheduled_date,scheduled_time,network,text,notes
+2026-04-21,08:30,linkedin,"I spent four months talking to Shopify operators before I wrote a line of Meridia.
+What I found killed the pitch deck I had.
+
+Every single operator I spoke to above 100k a month had tried Feedonomics. Exactly one had bought it. The other nineteen had done the same two things — asked for a price, heard 2,500 a month with a 30-day onboarding, and gone back to a spreadsheet.
+
+The spreadsheet was the problem I thought I was solving. It turned out to be the symptom. The actual problem was that the tier between ""free Shopify Marketplace Connect"" and ""enterprise feed engine with a solutions architect"" didn't exist. Nobody had built a self-serve feed product that respected a Shopify founder's Tuesday afternoon.
+
+So I threw the deck out and rewrote the thesis in one line: self-serve multichannel feed management for Shopify-led sellers scaling past their store. Every feature decision since then has been tested against that sentence. If it fails the sentence, it doesn't ship.
+
+This is week one of eight where I'll share what we're building, why, and the decisions I'm getting wrong.
+
+#Shopify #Ecommerce #Multichannel #BuildInPublic",Week 1 Post 1 — Narrative — Visual: whiteboard sketch Free | ??? | Enterprise
+2026-04-23,09:15,linkedin,"The spreadsheet that runs most Shopify-plus-three-channel businesses breaks at exactly 200 orders a day.
+Here is where it breaks.
+
+I've seen this spreadsheet a dozen times. It's always the same shape:
+
+- Tab 1: product master, one row per SKU, 14 columns including ""Amazon title"", ""eBay title"", ""Etsy tags"".
+- Tab 2: inventory, one row per SKU-warehouse pair, manually refreshed.
+- Tab 3: orders, one tab per channel, pasted from marketplace CSV exports every Monday.
+- Tab 4: a pivot table that is always one week out of date.
+
+At 40 orders a day it is fine. At 200 orders a day it is a liability. Three specific things happen. First, the inventory tab stops matching reality because nobody has time to paste Amazon's inventory report every morning. Second, the pivot cache corrupts because someone opens it on a phone. Third, an Amazon listing gets suppressed for a missing GTIN and nobody notices for nine days because the spreadsheet doesn't surface rejections.
+
+The fix is not a better spreadsheet. The fix is a single ledger that ingests every channel at event time, catches rejections at ingest, and makes the pivot question redundant. That's what we're building.
+
+If you recognise the spreadsheet, you are exactly the operator I want to talk to.
+
+#Shopify #Ecommerce #Operations #Multichannel",Week 1 Post 2 — Tactical — Visual: annotated spreadsheet screenshot
+2026-04-24,10:00,linkedin,"I turned down a 400k seed round last November.
+Best call I made all year.
+
+The term sheet was good. The investor was smart. The problem was the pitch I'd given them.
+
+I'd shown them the 7.6 trillion dollar global commerce number. I'd shown them Shopify, Amazon, Mercado Libre. I'd used the phrase ""operating system for commerce"" three times on a single slide. They bought every word of it and wanted to fund it.
+
+And on the flight home I realised I'd sold them a story I didn't believe. The real business is narrower. It is not a commerce OS. It is a feed-management product for a specific kind of operator — Shopify-led, three to five channels, quoted by Feedonomics and bounced. That business does not need 400k. It needs 60k, twelve months of focus, and the App Store ranking.
+
+So I emailed the investor the next morning, declined, and narrowed the thesis. The landing page got rewritten that weekend. The wedge locked. And the product started shipping in the right direction for the first time in six months.
+
+The lesson I took: a smaller, truer story funds a bigger real business than the reverse.
+
+#Startups #Founders #Shopify #BuildInPublic",Week 1 Post 3 — Narrative — Visual: laptop on plane tray table
+2026-04-28,08:30,linkedin,See linkedin-posts.md Post 4 — Pricing v3 narrative. Hook + body pre-written.,Week 2 Post 4 — Narrative
+2026-04-30,09:15,linkedin,See linkedin-posts.md Post 5 — Five Amazon mistakes tactical. Hook + body pre-written.,Week 2 Post 5 — Tactical
+2026-05-01,10:00,linkedin,See linkedin-posts.md Post 6 — Feedonomics hole POV. Hook + body pre-written.,Week 2 Post 6 — POV
+2026-05-05,08:30,linkedin,See linkedin-posts.md Post 7 — GTIN cost tactical.,Week 3 Post 7 — Tactical
+2026-05-07,09:15,linkedin,See linkedin-posts.md Post 8 — TikTok thesis narrative.,Week 3 Post 8 — Narrative
+2026-05-08,10:00,linkedin,See linkedin-posts.md Post 9 — 417 rejections tactical.,Week 3 Post 9 — Tactical
+2026-05-12,08:30,linkedin,See linkedin-posts.md Post 10 — Per-channel pricing tactical.,Week 4 Post 10 — Tactical
+2026-05-14,09:15,linkedin,See linkedin-posts.md Post 11 — FBA fees tactical.,Week 4 Post 11 — Tactical
+2026-05-15,10:00,linkedin,See linkedin-posts.md Post 12 — Pre-flight validator product.,Week 4 Post 12 — Product
+2026-05-19,08:30,linkedin,See linkedin-posts.md Post 13 — Category suggester product.,Week 5 Post 13 — Product
+2026-05-21,09:15,linkedin,See linkedin-posts.md Post 14 — Fired a customer narrative.,Week 5 Post 14 — Narrative
+2026-05-22,10:00,linkedin,See linkedin-posts.md Post 15 — eBay policy auto-provisioning product.,Week 5 Post 15 — Product
+2026-05-26,08:30,linkedin,See linkedin-posts.md Post 16 — Variant groups product.,Week 6 Post 16 — Product
+2026-05-28,09:15,linkedin,See linkedin-posts.md Post 17 — Five currencies product.,Week 6 Post 17 — Product
+2026-05-29,10:00,linkedin,See linkedin-posts.md Post 18 — One-hour P&L exercise tactical.,Week 6 Post 18 — Tactical
+2026-06-02,08:30,linkedin,See linkedin-posts.md Post 19 — AI drafting vs validating POV.,Week 7 Post 19 — POV
+2026-06-04,09:15,linkedin,See linkedin-posts.md Post 20 — Killed feature narrative.,Week 7 Post 20 — Narrative
+2026-06-05,10:00,linkedin,See linkedin-posts.md Post 21 — App Store is the channel POV.,Week 7 Post 21 — POV
+2026-06-09,08:30,linkedin,See linkedin-posts.md Post 22 — TikTok schema POV.,Week 8 Post 22 — POV
+2026-06-11,09:15,linkedin,See linkedin-posts.md Post 23 — Launch status narrative.,Week 8 Post 23 — Narrative
+2026-06-12,10:00,linkedin,See linkedin-posts.md Post 24 — Spreadsheet is the competitor POV.,Week 8 Post 24 — POV
