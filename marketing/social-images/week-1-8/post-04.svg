@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t04">
+  <title id="t04">Post 04 — pricing v1, v2, v3. only v3 ships</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">04 / 24 — pricing, three attempts</text>
+  </g>
+
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="120" font-size="38">I priced it three times.</text>
+  </g>
+
+  <!-- Card v1 -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <rect x="60" y="170" width="1080" height="110" rx="10"/>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="90" y="205">v1 · flat</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="90" y="250" font-size="40">$99 /mo flat</text>
+    <text x="500" y="250" font-size="20" font-style="italic" fill-opacity="0.55">— priced like the free tier. no one switched.</text>
+  </g>
+  <!-- X mark -->
+  <g stroke="#7d2a1a" stroke-width="2" fill="none" stroke-linecap="round">
+    <circle cx="1080" cy="225" r="20"/>
+    <line x1="1070" y1="215" x2="1090" y2="235"/>
+    <line x1="1090" y1="215" x2="1070" y2="235"/>
+  </g>
+
+  <!-- Card v2 -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <rect x="60" y="300" width="1080" height="110" rx="10"/>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="90" y="335">v2 · usage</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="90" y="380" font-size="40">$0.01 / SKU · $0.01 / order</text>
+    <text x="700" y="380" font-size="20" font-style="italic" fill-opacity="0.55">— nobody could forecast it.</text>
+  </g>
+  <g stroke="#7d2a1a" stroke-width="2" fill="none" stroke-linecap="round">
+    <circle cx="1080" cy="355" r="20"/>
+    <line x1="1070" y1="345" x2="1090" y2="365"/>
+    <line x1="1090" y1="345" x2="1070" y2="365"/>
+  </g>
+
+  <!-- Card v3 (highlighted with cobalt) -->
+  <g stroke="#1d5fdb" stroke-width="2" fill="none">
+    <rect x="60" y="430" width="1080" height="110" rx="10"/>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#1d5fdb">
+    <text x="90" y="465">v3 · shipped</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="90" y="510" font-size="40">59 · 159 · 499</text>
+    <text x="440" y="510" font-size="20" font-style="italic" fill-opacity="0.65">flat · five currencies · no %GMV</text>
+  </g>
+  <!-- check mark -->
+  <g stroke="#1d5fdb" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="1080" cy="485" r="20"/>
+    <path d="M1069 486 L 1077 495 L 1092 478"/>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="595">boring beats clever on pricing, every time</text>
+    <text x="1140" y="595" text-anchor="end">[brand]</text>
+  </g>
+</svg>

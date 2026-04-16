@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t03">
+  <title id="t03">Post 03 — declined the round, closed laptop on a tray table</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <!-- subtle window light wash from the right -->
+  <defs>
+    <linearGradient id="winlight" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0" stop-color="#f3f0ea" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <rect x="700" y="0" width="500" height="627" fill="url(#winlight)"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">03 / 24 — declined the round, Nov 2025</text>
+  </g>
+
+  <!-- tray table surface (isometric top-down feel) -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <!-- tray outline -->
+    <path d="M160 470 L 1060 470 L 1100 540 L 130 540 Z"/>
+    <!-- tray inner edge -->
+    <path d="M180 485 L 1040 485" stroke-opacity="0.25"/>
+  </g>
+
+  <!-- closed laptop: flat-line -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none" stroke-linejoin="round">
+    <!-- laptop outer, rounded rectangle viewed slightly from above -->
+    <path d="M330 220 L 870 220 Q 885 220 885 235 L 885 430 Q 885 445 870 445 L 330 445 Q 315 445 315 430 L 315 235 Q 315 220 330 220 Z"/>
+    <!-- subtle hinge line near the back -->
+    <line x1="315" y1="240" x2="885" y2="240" stroke-opacity="0.35"/>
+    <!-- apple-ish cut-notch accent as a minimal dot -->
+    <circle cx="600" cy="332" r="3" fill="#0b0f1a" stroke="none" fill-opacity="0.2"/>
+    <!-- side seam -->
+    <line x1="315" y1="430" x2="885" y2="430" stroke-opacity="0.35"/>
+  </g>
+
+  <!-- coffee cup, small -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <ellipse cx="970" cy="355" rx="34" ry="10" stroke-opacity="0.9"/>
+    <path d="M936 355 L 942 415 Q 942 428 970 428 Q 998 428 998 415 L 1004 355"/>
+    <path d="M998 370 Q 1020 374 1020 390 Q 1020 406 998 410"/>
+  </g>
+
+  <!-- boarding pass corner -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <path d="M210 370 L 290 370 L 290 432 L 210 432 Z"/>
+    <line x1="210" y1="395" x2="290" y2="395" stroke-opacity="0.4"/>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.65">
+    <text x="218" y="388">LHR → EDI</text>
+    <text x="218" y="412">17:40</text>
+    <text x="218" y="425">seat 14A</text>
+  </g>
+
+  <!-- window hint (small oval on the far right top) -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none" stroke-opacity="0.3">
+    <rect x="1060" y="120" width="80" height="120" rx="40"/>
+  </g>
+
+  <!-- headline -->
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="150" font-size="56">declined</text>
+    <text x="60" y="200" font-size="24" font-style="italic" fill-opacity="0.6">£400k seed · Nov 2025</text>
+  </g>
+
+  <!-- caption footer -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="600">a smaller, truer story · funds a bigger real business</text>
+    <text x="1140" y="600" text-anchor="end">[brand]</text>
+  </g>
+</svg>

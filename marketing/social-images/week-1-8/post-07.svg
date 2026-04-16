@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t07">
+  <title id="t07">Post 07 — the true cost of a missing GTIN, nine days</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">07 / 24 — GTIN missing, 9 days of silence</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="118" font-size="38">Revenue, after a missing check digit.</text>
+  </g>
+
+  <!-- chart area -->
+  <!-- y axis -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <line x1="110" y1="180" x2="110" y2="480"/>
+    <line x1="110" y1="480" x2="1140" y2="480"/>
+  </g>
+  <!-- y labels -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="100" y="185" text-anchor="end">£</text>
+    <text x="100" y="260" text-anchor="end">100%</text>
+    <text x="100" y="335" text-anchor="end">80%</text>
+    <text x="100" y="410" text-anchor="end">60%</text>
+    <text x="100" y="485" text-anchor="end">0</text>
+  </g>
+  <!-- dashed 100% line -->
+  <line x1="110" y1="260" x2="1140" y2="260" stroke="#0b0f1a" stroke-opacity="0.15" stroke-dasharray="3 4"/>
+
+  <!-- revenue line: day0 flat, day2 drop, day5 further, day9 bottom, day11 fix, recovery -->
+  <!-- x: day 0 = 200, day 2 = 380, day 5 = 620, day 9 = 900, day 11 fix = 1020, day 13 recovered = 1120 -->
+  <polyline points="200,260 380,260 380,330 620,380 900,420 900,420 1020,420 1120,265"
+            stroke="#7d2a1a" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- point markers -->
+  <g fill="#7d2a1a" stroke="none">
+    <circle cx="200" cy="260" r="4"/>
+    <circle cx="380" cy="260" r="4"/>
+    <circle cx="620" cy="380" r="4"/>
+    <circle cx="900" cy="420" r="4"/>
+    <circle cx="1020" cy="420" r="4"/>
+    <circle cx="1120" cy="265" r="4"/>
+  </g>
+
+  <!-- vertical markers at days -->
+  <g stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.15">
+    <line x1="200" y1="180" x2="200" y2="480"/>
+    <line x1="380" y1="180" x2="380" y2="480"/>
+    <line x1="620" y1="180" x2="620" y2="480"/>
+    <line x1="900" y1="180" x2="900" y2="480"/>
+    <line x1="1020" y1="180" x2="1020" y2="480"/>
+  </g>
+
+  <!-- day labels under axis -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">
+    <text x="200" y="505" text-anchor="middle">day 0</text>
+    <text x="380" y="505" text-anchor="middle">day 2</text>
+    <text x="620" y="505" text-anchor="middle">day 5</text>
+    <text x="900" y="505" text-anchor="middle">day 9</text>
+    <text x="1020" y="505" text-anchor="middle">day 11</text>
+  </g>
+  <!-- event descriptions -->
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="15" font-style="italic" fill="#0b0f1a" fill-opacity="0.65">
+    <text x="200" y="530" text-anchor="middle">variant pushed</text>
+    <text x="380" y="530" text-anchor="middle">suppressed</text>
+    <text x="620" y="530" text-anchor="middle">ranking drops</text>
+    <text x="900" y="530" text-anchor="middle">−22% w/w</text>
+    <text x="1020" y="530" text-anchor="middle" fill="#1d5fdb">fix &amp; re-index</text>
+  </g>
+
+  <!-- callout -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.65">
+    <text x="880" y="435">-22% ↓</text>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="595">one missing 13-digit identifier · £900–£4,000 per incident</text>
+    <text x="1140" y="595" text-anchor="end">[brand]</text>
+  </g>
+</svg>

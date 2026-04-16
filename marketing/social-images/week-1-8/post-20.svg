@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t20">
+  <title id="t20">Post 20 — feature killed, March 2026, pinned note</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <!-- corkboard wash -->
+  <defs>
+    <pattern id="cork" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="#d9c9a8" fill-opacity="0.35"/>
+      <circle cx="2" cy="3" r="0.6" fill="#0b0f1a" fill-opacity="0.08"/>
+      <circle cx="6" cy="5" r="0.5" fill="#0b0f1a" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="627" fill="url(#cork)"/>
+  <rect width="1200" height="627" fill="#f3f0ea" fill-opacity="0.35"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">20 / 24 — said no to a customer-requested feature</text>
+  </g>
+
+  <!-- Background small notes (ghosted) -->
+  <g opacity="0.55" transform="rotate(-6 200 470)">
+    <rect x="100" y="420" width="220" height="120" fill="#ffffff" stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="120" y="450" font-family="'Instrument Serif', Georgia, serif" font-size="13" fill="#0b0f1a" fill-opacity="0.55">shipping labels?</text>
+    <text x="120" y="472" font-family="'Instrument Serif', Georgia, serif" font-size="13" fill="#0b0f1a" fill-opacity="0.55">rate shopping?</text>
+    <text x="120" y="494" font-family="'Instrument Serif', Georgia, serif" font-size="13" fill="#0b0f1a" fill-opacity="0.55">carrier APIs?</text>
+  </g>
+  <g opacity="0.5" transform="rotate(4 1000 480)">
+    <rect x="920" y="430" width="180" height="110" fill="#faf7f0" stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="938" y="462" font-family="'Instrument Serif', Georgia, serif" font-size="13" fill="#0b0f1a" fill-opacity="0.55">manifesting</text>
+    <text x="938" y="486" font-family="'Instrument Serif', Georgia, serif" font-size="13" fill="#0b0f1a" fill-opacity="0.55">returns portal</text>
+    <text x="938" y="510" font-family="'Instrument Serif', Georgia, serif" font-size="13" fill="#0b0f1a" fill-opacity="0.55">zone skipping</text>
+  </g>
+
+  <!-- Main note, larger, slightly tilted -->
+  <g transform="rotate(-3 600 300)">
+    <!-- paper shadow -->
+    <rect x="340" y="170" width="520" height="280" fill="#0b0f1a" fill-opacity="0.05"/>
+    <!-- paper -->
+    <rect x="336" y="166" width="520" height="280" fill="#faf7f0" stroke="#0b0f1a" stroke-width="1.5"/>
+    <!-- pin -->
+    <circle cx="596" cy="170" r="10" fill="#7d2a1a"/>
+    <circle cx="593" cy="167" r="3" fill="#ffffff" fill-opacity="0.6"/>
+
+    <!-- handwritten text -->
+    <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+      <text x="368" y="240" font-size="30" font-style="italic" fill-opacity="0.55">feature killed</text>
+      <text x="368" y="320" font-size="60">shipping-label</text>
+      <text x="368" y="380" font-size="60">integration.</text>
+      <text x="368" y="425" font-size="18" font-style="italic" fill-opacity="0.6">— March 2026 · not the wedge.</text>
+    </g>
+    <!-- underline, scribbled -->
+    <path d="M368 390 Q 500 396 640 388 Q 760 382 840 390" fill="none" stroke="#0b0f1a" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <g font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-size="22" fill="#0b0f1a" fill-opacity="0.7">
+    <text x="60" y="580">the hardest part of positioning is saying no to customers you like.</text>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="1140" y="600" text-anchor="end">[brand]</text>
+  </g>
+</svg>

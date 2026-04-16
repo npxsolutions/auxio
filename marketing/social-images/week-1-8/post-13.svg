@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t13">
+  <title id="t13">Post 13 — category suggester, three choices per channel</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">13 / 24 — category suggester · 30,000 → 3</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="118" font-size="36">The model narrows. The operator decides.</text>
+  </g>
+
+  <!-- Product row -->
+  <g>
+    <rect x="60" y="160" width="1080" height="120" rx="10" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <!-- product swatch -->
+    <rect x="80" y="180" width="80" height="80" rx="6" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <!-- little illustration: candle -->
+    <rect x="108" y="200" width="24" height="44" fill="#0b0f1a" fill-opacity="0.1" stroke="#0b0f1a" stroke-width="1"/>
+    <path d="M120 200 L 120 190" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="180" y="210" font-family="'Instrument Serif', Georgia, serif" font-size="26" fill="#0b0f1a">Tobacco Vanilla candle · 9oz</text>
+    <text x="180" y="240" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.55">SKU CNDL-TV-9 · vendor Wax &amp; Oak · collection Autumn</text>
+    <text x="180" y="262" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.55">TikTok Shop · category needed</text>
+  </g>
+
+  <!-- Three suggestion cards -->
+  <!-- card width 340, gap 30, start x = 60 -->
+  <g>
+    <rect x="60" y="310" width="340" height="230" rx="10" fill="#ffffff" stroke="#1d5fdb" stroke-width="2"/>
+    <text x="84" y="342" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#1d5fdb">suggestion 01 · top pick</text>
+    <text x="84" y="384" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">Home · Fragrance</text>
+    <text x="84" y="412" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">· Candles</text>
+    <!-- confidence bar -->
+    <text x="84" y="458" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.55">confidence · 92%</text>
+    <rect x="84" y="465" width="280" height="6" fill="#0b0f1a" fill-opacity="0.08"/>
+    <rect x="84" y="465" width="258" height="6" fill="#1d5fdb"/>
+    <text x="84" y="510" font-family="'Instrument Serif', Georgia, serif" font-size="14" font-style="italic" fill="#0b0f1a" fill-opacity="0.7">why · "candle" + wax ingredients + 9oz unit</text>
+  </g>
+
+  <g>
+    <rect x="430" y="310" width="340" height="230" rx="10" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="454" y="342" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.6">suggestion 02</text>
+    <text x="454" y="384" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">Home · Decor</text>
+    <text x="454" y="412" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">· Scented</text>
+    <text x="454" y="458" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.55">confidence · 64%</text>
+    <rect x="454" y="465" width="280" height="6" fill="#0b0f1a" fill-opacity="0.08"/>
+    <rect x="454" y="465" width="179" height="6" fill="#0b0f1a" fill-opacity="0.6"/>
+    <text x="454" y="510" font-family="'Instrument Serif', Georgia, serif" font-size="14" font-style="italic" fill="#0b0f1a" fill-opacity="0.7">why · "vanilla" scent, decor parent node</text>
+  </g>
+
+  <g>
+    <rect x="800" y="310" width="340" height="230" rx="10" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="824" y="342" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.6">suggestion 03</text>
+    <text x="824" y="384" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">Beauty · Wellness</text>
+    <text x="824" y="412" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">· Aromatherapy</text>
+    <text x="824" y="458" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.55">confidence · 31%</text>
+    <rect x="824" y="465" width="280" height="6" fill="#0b0f1a" fill-opacity="0.08"/>
+    <rect x="824" y="465" width="87" height="6" fill="#0b0f1a" fill-opacity="0.6"/>
+    <text x="824" y="510" font-family="'Instrument Serif', Georgia, serif" font-size="14" font-style="italic" fill="#0b0f1a" fill-opacity="0.7">why · scent-based · Beauty v3 beta match</text>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="595">confidence is not acceptance · narrowing the question is the value</text>
+    <text x="1140" y="595" text-anchor="end">[brand]</text>
+  </g>
+</svg>

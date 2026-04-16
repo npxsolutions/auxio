@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t23">
+  <title id="t23">Post 23 — launch checklist, four ticks, one open box for "you"</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <!-- paper texture subtle -->
+  <defs>
+    <linearGradient id="paperFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="60" y="90" width="1080" height="480" rx="6" fill="#faf7f0" stroke="#0b0f1a" stroke-width="1.5"/>
+  <rect x="60" y="90" width="1080" height="480" rx="6" fill="url(#paperFade)"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="86" y="130">23 / 24 — launch · 11 days out</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="86" y="185" font-size="42" font-style="italic">launch checklist</text>
+  </g>
+
+  <!-- 5 rows, handwritten style. checkbox + text. -->
+  <!-- checkbox size 28. y positions: 250, 310, 370, 430, 490 -->
+  <!-- ticks are hand-drawn (SVG path with slight jitter) -->
+
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="30" fill="#0b0f1a">
+
+    <!-- row 1 -->
+    <g>
+      <rect x="120" y="238" width="34" height="34" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+      <!-- jittery tick -->
+      <path d="M122 254 Q 132 266 140 260 Q 150 250 162 232" fill="none" stroke="#0b0f1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="180" y="265">Pre-flight validator · 4 channels</text>
+      <line x1="180" y1="272" x2="680" y2="272" stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.25"/>
+    </g>
+
+    <!-- row 2 -->
+    <g>
+      <rect x="120" y="298" width="34" height="34" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+      <path d="M122 314 Q 132 326 142 320 Q 154 308 162 292" fill="none" stroke="#0b0f1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="180" y="325">Five-currency pricing</text>
+    </g>
+
+    <!-- row 3 -->
+    <g>
+      <rect x="120" y="358" width="34" height="34" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+      <path d="M122 374 Q 131 386 141 380 Q 152 370 163 352" fill="none" stroke="#0b0f1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="180" y="385">eBay policy auto-provisioning</text>
+    </g>
+
+    <!-- row 4 -->
+    <g>
+      <rect x="120" y="418" width="34" height="34" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+      <path d="M122 434 Q 132 446 142 440 Q 153 430 164 412" fill="none" stroke="#0b0f1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="180" y="445">Shopify App Store listing · live</text>
+    </g>
+
+    <!-- row 5 - open box in cobalt -->
+    <g>
+      <rect x="120" y="478" width="34" height="34" fill="none" stroke="#1d5fdb" stroke-width="2.5"/>
+      <text x="180" y="505" fill="#1d5fdb" font-style="italic">you</text>
+      <!-- small handdrawn squiggle by "you" -->
+      <path d="M256 510 Q 268 518 280 505 Q 293 492 310 508" fill="none" stroke="#1d5fdb" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- small side annotations -->
+  <g font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-size="16" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="760" y="265">38 test runs · under 12 min</text>
+    <text x="760" y="325">USD · GBP · EUR · AUD · CAD</text>
+    <text x="760" y="385">one silent failure a month, gone</text>
+    <text x="760" y="445">review pipeline: 150–300 installs / wk1</text>
+  </g>
+
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="20" font-style="italic" fill="#1d5fdb">
+    <text x="760" y="505">reply · DM · install</text>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="605">if the shape fits · we built this for you</text>
+    <text x="1140" y="605" text-anchor="end">[brand] · v1 · 11 days</text>
+  </g>
+</svg>

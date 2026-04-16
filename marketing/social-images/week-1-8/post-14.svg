@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t14">
+  <title id="t14">Post 14 — fired a customer, subscription cancelled dialog</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <!-- subtle overhead vignette -->
+  <defs>
+    <radialGradient id="overhead" cx="0.5" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f3f0ea" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="627" fill="url(#overhead)"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">14 / 24 — fired a customer · March 2026</text>
+  </g>
+
+  <!-- Laptop (shot from above, slight perspective) -->
+  <g>
+    <!-- laptop base -->
+    <path d="M280 520 L 920 520 L 950 560 L 250 560 Z" fill="#0b0f1a" fill-opacity="0.06" stroke="#0b0f1a" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- screen outline -->
+    <path d="M300 140 L 900 140 L 900 520 L 300 520 Z" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Browser frame -->
+  <g>
+    <rect x="300" y="140" width="600" height="40" fill="#0b0f1a" fill-opacity="0.05"/>
+    <circle cx="320" cy="160" r="5" fill="none" stroke="#0b0f1a" stroke-width="1" opacity="0.35"/>
+    <circle cx="340" cy="160" r="5" fill="none" stroke="#0b0f1a" stroke-width="1" opacity="0.35"/>
+    <circle cx="360" cy="160" r="5" fill="none" stroke="#0b0f1a" stroke-width="1" opacity="0.35"/>
+    <rect x="400" y="150" width="480" height="20" rx="3" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.15"/>
+    <text x="412" y="164" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.5">app.[brand] / billing / cancel</text>
+  </g>
+
+  <!-- dimmed page behind dialog -->
+  <rect x="300" y="180" width="600" height="340" fill="#0b0f1a" fill-opacity="0.02"/>
+
+  <!-- Modal dialog -->
+  <g>
+    <rect x="370" y="230" width="460" height="250" rx="10" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <!-- check circle -->
+    <circle cx="600" cy="290" r="28" fill="none" stroke="#1d5fdb" stroke-width="2"/>
+    <path d="M585 290 L 595 300 L 615 280" fill="none" stroke="#1d5fdb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <text x="600" y="355" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="26" fill="#0b0f1a">Subscription cancelled</text>
+    <text x="600" y="385" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.6">March 2026 · March invoice refunded</text>
+
+    <!-- Button -->
+    <rect x="500" y="420" width="200" height="40" rx="2" fill="#0b0f1a"/>
+    <text x="600" y="445" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#f3f0ea">return to dashboard</text>
+  </g>
+
+  <!-- mug next to laptop, overhead -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <circle cx="1050" cy="360" r="40" stroke-opacity="0.7"/>
+    <circle cx="1050" cy="360" r="32" stroke-opacity="0.4"/>
+    <path d="M1086 340 Q 1110 348 1110 360 Q 1110 372 1086 380" stroke-opacity="0.7"/>
+  </g>
+
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="22" font-style="italic" fill="#0b0f1a" fill-opacity="0.7">
+    <text x="60" y="580">the hardest customers to fire are the nice ones who like you</text>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="1140" y="600" text-anchor="end">[brand]</text>
+  </g>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t08">
+  <title id="t08">Post 08 — TikTok Shop GMV, month 1 vs month 3 across five categories</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">08 / 24 — TikTok Shop, 90-day trajectory</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="118" font-size="38">Month 1 → Month 3, every category.</text>
+  </g>
+
+  <!-- axis -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <line x1="110" y1="170" x2="110" y2="490"/>
+    <line x1="110" y1="490" x2="1140" y2="490"/>
+  </g>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="100" y="175" text-anchor="end">GMV £</text>
+    <text x="100" y="495" text-anchor="end">0</text>
+    <text x="100" y="340" text-anchor="end">20k</text>
+    <text x="100" y="190" text-anchor="end">40k</text>
+  </g>
+  <line x1="110" y1="340" x2="1140" y2="340" stroke="#0b0f1a" stroke-opacity="0.12" stroke-dasharray="3 4"/>
+  <line x1="110" y1="190" x2="1140" y2="190" stroke="#0b0f1a" stroke-opacity="0.12" stroke-dasharray="3 4"/>
+
+  <!-- five groups, each with two bars. Each group center at: 220, 410, 600, 790, 980 -->
+  <!-- bars: m1 (ring) width 60 + gap 10 + m3 (filled cobalt) width 60 -->
+  <!-- y axis 490 at baseline. 40k = 300px span. heights chosen so m3 > m1 -->
+
+  <!-- Candles m1=10k, m3=26k -->
+  <g>
+    <rect x="155" y="415" width="60" height="75" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <rect x="225" y="295" width="60" height="195" fill="#1d5fdb"/>
+    <text x="220" y="515" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">candles</text>
+  </g>
+  <!-- Pet m1=8k, m3=22k -->
+  <g>
+    <rect x="345" y="430" width="60" height="60" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <rect x="415" y="325" width="60" height="165" fill="#1d5fdb"/>
+    <text x="410" y="515" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">pet</text>
+  </g>
+  <!-- Kitchen m1=12k, m3=30k -->
+  <g>
+    <rect x="535" y="400" width="60" height="90" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <rect x="605" y="265" width="60" height="225" fill="#1d5fdb"/>
+    <text x="600" y="515" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">kitchen</text>
+  </g>
+  <!-- Stationery m1=6k, m3=18k -->
+  <g>
+    <rect x="725" y="445" width="60" height="45" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <rect x="795" y="355" width="60" height="135" fill="#1d5fdb"/>
+    <text x="790" y="515" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">stationery</text>
+  </g>
+  <!-- Skincare m1=14k, m3=34k -->
+  <g>
+    <rect x="915" y="385" width="60" height="105" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <rect x="985" y="235" width="60" height="255" fill="#1d5fdb"/>
+    <text x="980" y="515" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">skincare</text>
+  </g>
+
+  <!-- legend -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">
+    <rect x="870" y="150" width="18" height="14" fill="none" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="895" y="162">month 1</text>
+    <rect x="1000" y="150" width="18" height="14" fill="#1d5fdb"/>
+    <text x="1025" y="162">month 3</text>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="580">every impulse-priced category under $40 · composite sample, 2025–2026</text>
+    <text x="1140" y="580" text-anchor="end">[brand]</text>
+  </g>
+</svg>

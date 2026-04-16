@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t16">
+  <title id="t16">Post 16 — variant group tree, pet bed across four marketplaces</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">16 / 24 — variant group · 9 leaves × 4 channels</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="115" font-size="32">One suppressed colour doesn't block the parent.</text>
+  </g>
+
+  <!-- Parent -->
+  <g>
+    <rect x="500" y="145" width="200" height="50" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="600" y="177" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="22" fill="#0b0f1a">Pet bed</text>
+  </g>
+
+  <!-- Lines to sizes at y=230 -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <path d="M600 195 L 600 215 L 300 215 L 300 230"/>
+    <path d="M600 215 L 600 230"/>
+    <path d="M600 215 L 900 215 L 900 230"/>
+  </g>
+
+  <!-- Size nodes -->
+  <g>
+    <rect x="240" y="230" width="120" height="40" rx="4" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="300" y="255" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#0b0f1a">small</text>
+    <rect x="540" y="230" width="120" height="40" rx="4" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="600" y="255" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#0b0f1a">medium</text>
+    <rect x="840" y="230" width="120" height="40" rx="4" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="900" y="255" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="13" fill="#0b0f1a">large</text>
+  </g>
+
+  <!-- 9 leaves. x positions (centers): 140,300,460 / 440,600,760 / 740,900,1060 -->
+  <!-- Lines from sizes to leaves, y=270 -> y=310 -->
+  <g stroke="#0b0f1a" stroke-width="1.2" stroke-opacity="0.6" fill="none">
+    <!-- small group -->
+    <path d="M300 270 L 300 290 L 140 290 L 140 310"/>
+    <path d="M300 290 L 300 310"/>
+    <path d="M300 290 L 460 290 L 460 310"/>
+    <!-- medium group -->
+    <path d="M600 270 L 600 290 L 440 290 L 440 310"/>
+    <path d="M600 290 L 600 310"/>
+    <path d="M600 290 L 760 290 L 760 310"/>
+    <!-- large group -->
+    <path d="M900 270 L 900 290 L 740 290 L 740 310"/>
+    <path d="M900 290 L 900 310"/>
+    <path d="M900 290 L 1060 290 L 1060 310"/>
+  </g>
+
+  <!-- Helper: a leaf. Centered box 120x140 with color name, 4 dots. Positions:
+    small:  140, 300, 460  (colours: stone / oat / navy)
+    medium: 440, 600, 760
+    large:  740, 900, 1060 -->
+  <!-- reusable color labels -->
+  <g>
+    <!-- small row -->
+    <g>
+      <rect x="80" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="140" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">S · stone</text>
+      <text x="140" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-S-ST</text>
+      <!-- 4 dots -->
+      <circle cx="100" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="125" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="150" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="175" cy="400" r="7" fill="#0e7c5a"/>
+      <g font-family="'Geist Mono', ui-monospace, monospace" font-size="9" fill="#0b0f1a" fill-opacity="0.5" text-anchor="middle">
+        <text x="100" y="425">az</text><text x="125" y="425">eb</text><text x="150" y="425">tt</text><text x="175" y="425">et</text>
+      </g>
+    </g>
+    <g>
+      <rect x="240" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="300" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">S · oat</text>
+      <text x="300" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-S-OT</text>
+      <circle cx="260" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="285" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="310" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="335" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+    <g>
+      <rect x="400" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="460" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">S · navy</text>
+      <text x="460" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-S-NV</text>
+      <circle cx="420" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="445" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="470" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="495" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+
+    <!-- medium row -->
+    <g>
+      <rect x="380" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5" opacity="0"/>
+    </g>
+    <g>
+      <rect x="540" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="600" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">M · oat</text>
+      <text x="600" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-M-OT</text>
+      <circle cx="560" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="585" cy="400" r="7" fill="#0e7c5a"/>
+      <!-- red dot: single suppressed marketplace -->
+      <circle cx="610" cy="400" r="7" fill="#7d2a1a"/>
+      <circle cx="635" cy="400" r="7" fill="#0e7c5a"/>
+      <g font-family="'Geist Mono', ui-monospace, monospace" font-size="9" fill="#0b0f1a" fill-opacity="0.5" text-anchor="middle">
+        <text x="560" y="425">az</text><text x="585" y="425">eb</text><text x="610" y="425" fill="#7d2a1a">tt</text><text x="635" y="425">et</text>
+      </g>
+    </g>
+    <g>
+      <rect x="700" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="760" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">M · navy</text>
+      <text x="760" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-M-NV</text>
+      <circle cx="720" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="745" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="770" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="795" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+    <!-- medium stone (for 3 cols) -->
+    <g>
+      <rect x="380" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="440" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">M · stone</text>
+      <text x="440" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-M-ST</text>
+      <circle cx="400" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="425" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="450" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="475" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+
+    <!-- large row -->
+    <g>
+      <rect x="680" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5" opacity="0"/>
+    </g>
+    <g>
+      <rect x="840" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="900" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">L · oat</text>
+      <text x="900" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-L-OT</text>
+      <circle cx="860" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="885" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="910" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="935" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+    <g>
+      <rect x="1000" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="1060" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">L · navy</text>
+      <text x="1060" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-L-NV</text>
+      <circle cx="1020" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="1045" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="1070" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="1095" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+    <!-- large stone (lengthened row to 3 cols) -->
+    <g>
+      <rect x="680" y="310" width="120" height="150" rx="6" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+      <text x="740" y="335" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="16" fill="#0b0f1a">L · stone</text>
+      <text x="740" y="355" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#0b0f1a" fill-opacity="0.5">PB-L-ST</text>
+      <circle cx="700" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="725" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="750" cy="400" r="7" fill="#0e7c5a"/>
+      <circle cx="775" cy="400" r="7" fill="#0e7c5a"/>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">
+    <circle cx="80" y="510" r="5" cy="510" fill="#0e7c5a"/>
+    <text x="94" y="514">synced</text>
+    <circle cx="180" y="510" r="5" cy="510" fill="#7d2a1a"/>
+    <text x="194" y="514">quarantined · 1 leaf, 1 marketplace</text>
+  </g>
+
+  <!-- callout -->
+  <g stroke="#7d2a1a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M600 490 Q 610 470 610 438"/>
+    <path d="M604 444 L 610 436 L 616 444"/>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-size="16" fill="#7d2a1a">
+    <text x="475" y="510">one variant suppressed on TikTok</text>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="600">per-channel push · per-variant report · parent never blocked</text>
+    <text x="1140" y="600" text-anchor="end">[brand]</text>
+  </g>
+</svg>

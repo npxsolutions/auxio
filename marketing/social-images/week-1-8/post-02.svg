@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t02">
+  <title id="t02">Post 02 — the spreadsheet breaks at 200 orders a day</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">02 / 24 — the spreadsheet</text>
+  </g>
+
+  <!-- Spreadsheet frame -->
+  <g stroke="#0b0f1a" stroke-width="1.5" fill="none">
+    <rect x="60" y="90" width="1080" height="440" rx="4"/>
+  </g>
+
+  <!-- Header row -->
+  <rect x="60" y="90" width="1080" height="36" fill="#0b0f1a" fill-opacity="0.05"/>
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.65">
+    <text x="80" y="113">SKU</text>
+    <text x="220" y="113">Title</text>
+    <text x="540" y="113">Amazon stock</text>
+    <text x="720" y="113">eBay stock</text>
+    <text x="880" y="113">Pivot total</text>
+    <text x="1030" y="113">Status</text>
+  </g>
+
+  <!-- column separators -->
+  <g stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.15">
+    <line x1="200" y1="90" x2="200" y2="530"/>
+    <line x1="520" y1="90" x2="520" y2="530"/>
+    <line x1="700" y1="90" x2="700" y2="530"/>
+    <line x1="860" y1="90" x2="860" y2="530"/>
+    <line x1="1010" y1="90" x2="1010" y2="530"/>
+  </g>
+
+  <!-- rows -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a">
+    <g opacity="0.9">
+      <text x="80" y="158">PB-L-CHR</text>
+      <text x="220" y="158">Pet bed · large · charcoal</text>
+      <text x="540" y="158">42</text>
+      <text x="720" y="158">18</text>
+      <text x="880" y="158">60</text>
+      <text x="1030" y="158">ok</text>
+    </g>
+    <g opacity="0.9">
+      <text x="80" y="198">PB-M-NAT</text>
+      <text x="220" y="198">Pet bed · medium · natural</text>
+      <text x="540" y="198" fill="#7d2a1a">— </text>
+      <text x="720" y="198">31</text>
+      <text x="880" y="198" fill="#7d2a1a">31</text>
+      <text x="1030" y="198">—</text>
+    </g>
+    <g opacity="0.9">
+      <text x="80" y="238">CNDL-03</text>
+      <text x="220" y="238">Candle · tobacco vanilla 9oz</text>
+      <text x="540" y="238">0</text>
+      <text x="720" y="238">0</text>
+      <text x="880" y="238" fill="#7d2a1a">#REF!</text>
+      <text x="1030" y="238">?</text>
+    </g>
+    <g opacity="0.9">
+      <text x="80" y="278">STATION-K1</text>
+      <text x="220" y="278">Notebook · A5 kraft</text>
+      <text x="540" y="278">112</text>
+      <text x="720" y="278">44</text>
+      <text x="880" y="278">156</text>
+      <text x="1030" y="278">ok</text>
+    </g>
+    <g opacity="0.9">
+      <text x="80" y="318">KITCH-WB</text>
+      <text x="220" y="318">Walnut board · medium</text>
+      <text x="540" y="318" fill="#7d2a1a">suppressed</text>
+      <text x="720" y="318">9</text>
+      <text x="880" y="318">9</text>
+      <text x="1030" y="318">—</text>
+    </g>
+    <g opacity="0.9">
+      <text x="80" y="358">SKN-SERUM</text>
+      <text x="220" y="358">Serum · vitamin C 30ml</text>
+      <text x="540" y="358">61</text>
+      <text x="720" y="358">22</text>
+      <text x="880" y="358">83</text>
+      <text x="1030" y="358">ok</text>
+    </g>
+  </g>
+
+  <!-- tab names at bottom -->
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12">
+    <rect x="60" y="540" width="140" height="30" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="80" y="560" fill="#0b0f1a">products</text>
+    <rect x="200" y="540" width="140" height="30" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="220" y="560" fill="#0b0f1a" fill-opacity="0.7">inventory</text>
+    <rect x="340" y="540" width="140" height="30" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="360" y="560" fill="#0b0f1a" fill-opacity="0.7">orders</text>
+    <rect x="480" y="540" width="140" height="30" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1.5"/>
+    <text x="500" y="560" fill="#0b0f1a" fill-opacity="0.7">pivot</text>
+  </g>
+
+  <!-- Three red annotation arrows -->
+  <!-- Arrow 1: Inventory breaks here (row 2 amazon stock) -->
+  <g stroke="#7d2a1a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M420 200 Q 490 200 530 200"/>
+    <path d="M525 195 L532 200 L525 205"/>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="19" fill="#7d2a1a" font-style="italic">
+    <text x="300" y="205">breaks here</text>
+  </g>
+
+  <!-- Arrow 2: goes stale (row 5 Amazon suppressed) -->
+  <g stroke="#7d2a1a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M420 320 Q 490 320 530 320"/>
+    <path d="M525 315 L532 320 L525 325"/>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="19" fill="#7d2a1a" font-style="italic">
+    <text x="320" y="325">goes stale</text>
+  </g>
+
+  <!-- Arrow 3: pivot corrupts (row 3 pivot #REF!) -->
+  <g stroke="#7d2a1a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1060 500 Q 1000 480 940 260 Q 930 245 912 238"/>
+    <path d="M917 232 L908 238 L917 244"/>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" font-size="19" fill="#7d2a1a" font-style="italic">
+    <text x="1010" y="520">corrupts on mobile</text>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="1140" y="600" text-anchor="end">[brand] · breaks at 200 orders / day</text>
+  </g>
+</svg>

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t18">
+  <title id="t18">Post 18 — one-hour P&amp;L, six columns, top and bottom contributors</title>
+  <rect width="1200" height="627" fill="#f3f0ea"/>
+  <rect x="0.5" y="0.5" width="1199" height="626" fill="none" stroke="#0b0f1a" stroke-opacity="0.08"/>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a" fill-opacity="0.55">
+    <text x="60" y="60">18 / 24 — the one-hour P&amp;L exercise</text>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" fill="#0b0f1a">
+    <text x="60" y="118" font-size="38">Sort by net contribution. Sit with it.</text>
+  </g>
+
+  <!-- Spreadsheet style -->
+  <g>
+    <rect x="60" y="160" width="1080" height="360" rx="4" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
+    <!-- header row -->
+    <rect x="60" y="160" width="1080" height="40" fill="#0b0f1a" fill-opacity="0.05"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.7">
+      <text x="80" y="186">channel</text>
+      <text x="260" y="186">SKU</text>
+      <text x="460" y="186">list</text>
+      <text x="600" y="186">fees</text>
+      <text x="760" y="186">COGS</text>
+      <text x="930" y="186">net contribution</text>
+    </g>
+
+    <!-- col separators -->
+    <g stroke="#0b0f1a" stroke-opacity="0.08" stroke-width="1">
+      <line x1="240" y1="160" x2="240" y2="520"/>
+      <line x1="440" y1="160" x2="440" y2="520"/>
+      <line x1="580" y1="160" x2="580" y2="520"/>
+      <line x1="740" y1="160" x2="740" y2="520"/>
+      <line x1="900" y1="160" x2="900" y2="520"/>
+    </g>
+
+    <!-- row 1: green top contributor -->
+    <rect x="60" y="200" width="1080" height="50" fill="#0e7c5a" fill-opacity="0.08"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a">
+      <text x="80" y="230">Shopify</text>
+      <text x="260" y="230">CNDL-TV-9</text>
+      <text x="460" y="230">£38.00</text>
+      <text x="600" y="230">−£2.20</text>
+      <text x="760" y="230">£11.40</text>
+      <text x="930" y="230" fill="#0e7c5a">+£24.40</text>
+    </g>
+
+    <!-- row 2 -->
+    <rect x="60" y="250" width="1080" height="50" fill="none"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a">
+      <text x="80" y="280">eBay UK</text>
+      <text x="260" y="280">PB-L-CHR</text>
+      <text x="460" y="280">£64.00</text>
+      <text x="600" y="280">−£8.60</text>
+      <text x="760" y="280">£34.00</text>
+      <text x="930" y="280">+£21.40</text>
+    </g>
+
+    <!-- row 3 -->
+    <rect x="60" y="300" width="1080" height="50" fill="#0b0f1a" fill-opacity="0.02"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a">
+      <text x="80" y="330">Amazon UK</text>
+      <text x="260" y="330">CNDL-TV-9</text>
+      <text x="460" y="330">£38.00</text>
+      <text x="600" y="330">−£9.90</text>
+      <text x="760" y="330">£11.40</text>
+      <text x="930" y="330">+£16.70</text>
+    </g>
+
+    <!-- row 4 -->
+    <rect x="60" y="350" width="1080" height="50" fill="none"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a">
+      <text x="80" y="380">TikTok Shop</text>
+      <text x="260" y="380">STATION-K1</text>
+      <text x="460" y="380">£18.00</text>
+      <text x="600" y="380">−£2.70</text>
+      <text x="760" y="380">£8.20</text>
+      <text x="930" y="380">+£7.10</text>
+    </g>
+
+    <!-- row 5: red negative -->
+    <rect x="60" y="400" width="1080" height="50" fill="#7d2a1a" fill-opacity="0.08"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a">
+      <text x="80" y="430">Amazon US</text>
+      <text x="260" y="430">SKN-LIP-4</text>
+      <text x="460" y="430">£9.00</text>
+      <text x="600" y="430">−£6.40</text>
+      <text x="760" y="430">£4.20</text>
+      <text x="930" y="430" fill="#7d2a1a">−£1.60</text>
+    </g>
+
+    <!-- row 6 -->
+    <rect x="60" y="450" width="1080" height="50" fill="none"/>
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="14" fill="#0b0f1a">
+      <text x="80" y="480">Etsy</text>
+      <text x="260" y="480">KITCH-WB</text>
+      <text x="460" y="480">£52.00</text>
+      <text x="600" y="480">−£7.10</text>
+      <text x="760" y="480">£28.00</text>
+      <text x="930" y="480">+£16.90</text>
+    </g>
+  </g>
+
+  <!-- Hand-drawn circle around the red row -->
+  <g fill="none" stroke="#7d2a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M905 395 Q 1130 400 1125 425 Q 1120 445 1010 448 Q 900 448 905 425 Q 905 405 905 395 Z" stroke-dasharray="0"/>
+  </g>
+  <g font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-size="18" fill="#7d2a1a">
+    <text x="950" y="375">you've been paying to ship this</text>
+  </g>
+  <!-- small arrow from note to row -->
+  <g stroke="#7d2a1a" stroke-width="1.5" fill="none" stroke-linecap="round">
+    <path d="M1000 382 L 1010 398"/>
+    <path d="M1008 392 L 1012 398 L 1004 399" stroke-linejoin="round"/>
+  </g>
+
+  <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
+    <text x="60" y="595">do it by hand once · the lesson is a pricing decision worth more than a year of subscription</text>
+    <text x="1140" y="595" text-anchor="end">[brand]</text>
+  </g>
+</svg>
