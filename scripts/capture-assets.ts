@@ -283,6 +283,10 @@ async function main() {
       userAgent:
         'Mozilla/5.0 (Meridia Capture Bot) Chrome/Playwright',
     })
+    // Suppress cookie-consent banner on every page in this context.
+    await ctx.addInitScript(() => {
+      try { localStorage.setItem('cookie_consent', 'accepted') } catch {}
+    })
     if (session) await primeAuthCookies(ctx, session)
 
     for (const target of PUBLIC_TARGETS) {
@@ -335,6 +339,10 @@ async function main() {
           dir: VIDEOS_ROOT,
           size: { width: 1920, height: 1080 },
         },
+      })
+      // Suppress cookie-consent banner in videos too.
+      await ctx.addInitScript(() => {
+        try { localStorage.setItem('cookie_consent', 'accepted') } catch {}
       })
       if (session) await primeAuthCookies(ctx, session)
       const page = await ctx.newPage()
