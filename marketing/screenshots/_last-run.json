@@ -1,0 +1,134 @@
+{
+  "base_url": "https://auxio-lkqv.vercel.app",
+  "captured_at": "2026-04-16T09:55:40.193Z",
+  "authed": false,
+  "screenshots": [
+    {
+      "viewport": "1280x800",
+      "slug": "home"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "landing-v8"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "pricing-usd"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "pricing-gbp"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "vs-feedonomics"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "about"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "help"
+    },
+    {
+      "viewport": "1280x800",
+      "slug": "demo"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "home"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "landing-v8"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "pricing-usd"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "pricing-gbp"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "vs-feedonomics"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "about"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "help"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "demo"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "dashboard"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "listings"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "listings-health-filter"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "channels"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "financials"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "onboarding"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "settings-referral"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "billing"
+    },
+    {
+      "viewport": "1920x1080",
+      "slug": "enterprise"
+    }
+  ],
+  "screenshot_misses": [],
+  "videos": [
+    {
+      "slug": "01-connect-first-marketplace",
+      "file": "marketing\\videos\\01-connect-first-marketplace.webm",
+      "bytes": 2324648,
+      "ms": 23402
+    },
+    {
+      "slug": "02-true-profit-multi-currency",
+      "file": "marketing\\videos\\02-true-profit-multi-currency.webm",
+      "bytes": 1576210,
+      "ms": 16564
+    },
+    {
+      "slug": "03-preflight-validator-missing-gtin",
+      "file": "marketing\\videos\\03-preflight-validator-missing-gtin.webm",
+      "bytes": 295159,
+      "ms": 11197
+    },
+    {
+      "slug": "04-publish-to-ebay",
+      "file": "marketing\\videos\\04-publish-to-ebay.webm",
+      "bytes": 1466055,
+      "ms": 15420
+    }
+  ]
+}
