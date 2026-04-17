@@ -83,6 +83,48 @@ type OptimizationData = {
   categoryCounts: Record<string, { high: number; medium: number; low: number }>
 }
 
+type BenchmarkEntry = {
+  channel: string
+  categoryBucket: string
+  percentiles: { p25: number; p50: number; p75: number; p90: number }
+  avgHealthScore: number
+  avgErrorsPerListing: number
+  totalListings: number
+  sampleMerchants: number
+  topErrorPatterns: Array<{ ruleId: string; message: string; count: number; pctAffected: number }>
+}
+
+type UserComparison = {
+  channel: string
+  categoryBucket: string
+  yourScore: number
+  categoryAvg: number
+  delta: number
+  percentileRank: string
+}
+
+type BestPractice = {
+  channel: string
+  categoryBucket: string
+  patternKind: string
+  recommendation: string
+  evidence: string
+  sampleSize: number
+  outcomeValue: number | null
+}
+
+type BenchmarkData = {
+  benchmarks: BenchmarkEntry[]
+  comparisons: UserComparison[]
+  topErrorPatterns: Array<{ ruleId: string; message: string; count: number; pctAffected: number }>
+}
+
+type PatternData = {
+  bestPractices: BestPractice[]
+  totalObservations: number
+  uniquePatterns: number
+}
+
 // ── Styles ──
 
 const CREAM = '#f5f3ef'
@@ -279,6 +321,106 @@ function ChannelHealthCard({ ch }: { ch: ChannelSummary }) {
   )
 }
 
+function ComparisonCard({ c }: { c: UserComparison }) {
+  const meta = CHANNEL_META[c.channel] ?? { icon: '\uD83C\uDFEA', name: c.channel, color: '#f1f1ef' }
+  const deltaColor = c.delta >= 0 ? EMERALD : OXBLOOD
+  const deltaSign = c.delta >= 0 ? '+' : ''
+  const rankColor = c.percentileRank.includes('top 10') ? EMERALD
+    : c.percentileRank.includes('top 25') ? '#0f8a5b'
+    : c.percentileRank.includes('above') ? AMBER
+    : OXBLOOD
+
+  return (
+    <div style={{ ...CARD, padding: '18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{
+            width: 32, height: 32, background: meta.color, borderRadius: 6,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16,
+          }}>
+            {meta.icon}
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: INK }}>{meta.name}</div>
+            <div style={{ fontSize: 11, color: '#9496b0', textTransform: 'capitalize' }}>
+              {c.categoryBucket.replace(/-/g, ' ')}
+            </div>
+          </div>
+        </div>
+        <span style={{
+          fontSize: 10, fontWeight: 700, color: rankColor, background: `${rankColor}12`,
+          padding: '3px 8px', borderRadius: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
+        }}>
+          {c.percentileRank}
+        </span>
+      </div>
+      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end' }}>
+        <div>
+          <div style={{ fontSize: 10, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Your Score</div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: INK, ...MONO, lineHeight: 1, marginTop: 2 }}>{c.yourScore}</div>
+        </div>
+        <div>
+          <div style={{ fontSize: 10, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Category Avg</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: '#6b6f80', ...MONO, lineHeight: 1, marginTop: 2 }}>{c.categoryAvg}</div>
+        </div>
+        <div style={{
+          fontSize: 16, fontWeight: 800, color: deltaColor, ...MONO,
+          padding: '4px 10px', background: `${deltaColor}10`, borderRadius: 6,
+        }}>
+          {deltaSign}{c.delta}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function BenchmarkCard({ b }: { b: BenchmarkEntry }) {
+  const meta = CHANNEL_META[b.channel] ?? { icon: '\uD83C\uDFEA', name: b.channel, color: '#f1f1ef' }
+  const scoreColor = b.avgHealthScore >= 80 ? EMERALD : b.avgHealthScore >= 50 ? AMBER : OXBLOOD
+
+  return (
+    <div style={{ ...CARD, padding: '18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 16 }}>{meta.icon}</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: INK }}>{meta.name}</span>
+          <span style={{
+            fontSize: 10, color: '#6b6f80', background: '#f4f4f2',
+            padding: '2px 6px', borderRadius: 4, textTransform: 'capitalize',
+          }}>
+            {b.categoryBucket.replace(/-/g, ' ')}
+          </span>
+        </div>
+        <div style={{ fontSize: 20, fontWeight: 800, color: scoreColor, ...MONO }}>{b.avgHealthScore}</div>
+      </div>
+      <div style={{ display: 'flex', gap: 12, fontSize: 11, color: '#6b6f80' }}>
+        <span>p25={b.percentiles.p25}</span>
+        <span>p50={b.percentiles.p50}</span>
+        <span>p75={b.percentiles.p75}</span>
+        <span>p90={b.percentiles.p90}</span>
+      </div>
+      <div style={{ display: 'flex', gap: 16, fontSize: 11, color: '#6b6f80' }}>
+        <span>{b.totalListings.toLocaleString()} listings</span>
+        <span>{b.sampleMerchants} merchants</span>
+        <span>{b.avgErrorsPerListing} avg errors/listing</span>
+      </div>
+    </div>
+  )
+}
+
+function BestPracticeCard({ bp }: { bp: BestPractice }) {
+  const meta = CHANNEL_META[bp.channel] ?? { icon: '\uD83C\uDFEA', name: bp.channel, color: '#f1f1ef' }
+  return (
+    <div style={{ ...CARD, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ fontSize: 14 }}>{meta.icon}</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: INK }}>{bp.recommendation}</span>
+      </div>
+      <div style={{ fontSize: 11, color: '#6b6f80' }}>{bp.evidence}</div>
+    </div>
+  )
+}
+
 function SuggestionCard({ s }: { s: AggregatedSuggestion }) {
   const [expanded, setExpanded] = useState(false)
   const sev = SEVERITY_STYLE[s.severity] ?? SEVERITY_STYLE.low
@@ -394,7 +536,9 @@ export default function FeedHealthPage() {
   const [loading, setLoading] = useState(true)
   const [healthData, setHealthData] = useState<FeedHealthData | null>(null)
   const [optData, setOptData] = useState<OptimizationData | null>(null)
-  const [activeTab, setActiveTab] = useState<'overview' | 'suggestions'>('overview')
+  const [benchData, setBenchData] = useState<BenchmarkData | null>(null)
+  const [patternData, setPatternData] = useState<PatternData | null>(null)
+  const [activeTab, setActiveTab] = useState<'overview' | 'benchmarks' | 'suggestions'>('overview')
   const supabase = createClient()
 
   useEffect(() => {
@@ -406,13 +550,17 @@ export default function FeedHealthPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
 
-      const [healthRes, optRes] = await Promise.all([
+      const [healthRes, optRes, benchRes, patRes] = await Promise.all([
         fetch('/api/feed-health').then(r => r.json()),
         fetch('/api/optimization-suggestions').then(r => r.json()),
+        fetch('/api/benchmarks').then(r => r.json()).catch(() => null),
+        fetch('/api/patterns').then(r => r.json()).catch(() => null),
       ])
 
       if (!healthRes.error) setHealthData(healthRes)
       if (!optRes.error) setOptData(optRes)
+      if (benchRes && !benchRes.error) setBenchData(benchRes)
+      if (patRes && !patRes.error) setPatternData(patRes)
     } catch (error) {
       console.error('[feed-health] load error:', error)
     } finally {
@@ -424,6 +572,8 @@ export default function FeedHealthPage() {
 
   const h = healthData
   const o = optData
+  const bench = benchData
+  const pat = patternData
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: CREAM, fontFamily: 'Inter, -apple-system, sans-serif' }}>
@@ -451,7 +601,7 @@ export default function FeedHealthPage() {
         <div style={{ padding: '24px', maxWidth: 1200 }}>
           {/* Tab switcher */}
           <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
-            {(['overview', 'suggestions'] as const).map(tab => (
+            {(['overview', 'benchmarks', 'suggestions'] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -464,7 +614,7 @@ export default function FeedHealthPage() {
                   transition: 'all 0.15s',
                 }}
               >
-                {tab === 'overview' ? 'Health Overview' : `Optimization Suggestions${o ? ` (${o.totalSuggestions})` : ''}`}
+                {tab === 'overview' ? 'Health Overview' : tab === 'benchmarks' ? 'How You Compare' : `Optimization Suggestions${o ? ` (${o.totalSuggestions})` : ''}`}
               </button>
             ))}
           </div>
@@ -574,6 +724,71 @@ export default function FeedHealthPage() {
                   >
                     Connect a Channel
                   </Link>
+                </div>
+              )}
+            </>
+          )}
+
+          {activeTab === 'benchmarks' && (
+            <>
+              {/* User comparisons */}
+              {bench && bench.comparisons.length > 0 && (
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: INK, marginBottom: 12 }}>Your Score vs. Category Average</div>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                    gap: 12,
+                  }}>
+                    {bench.comparisons.map((c, i) => (
+                      <ComparisonCard key={i} c={c} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Category benchmarks */}
+              {bench && bench.benchmarks.length > 0 && (
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: INK, marginBottom: 12 }}>Category Benchmarks</div>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+                    gap: 12,
+                  }}>
+                    {bench.benchmarks.map((b, i) => (
+                      <BenchmarkCard key={i} b={b} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Best practices from pattern library */}
+              {pat && pat.bestPractices.length > 0 && (
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: INK, marginBottom: 12 }}>
+                    Best Practices (Pattern Library)
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {pat.bestPractices.map((bp, i) => (
+                      <BestPracticeCard key={i} bp={bp} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Empty state */}
+              {(!bench || (bench.benchmarks.length === 0 && bench.comparisons.length === 0)) && (
+                <div style={{
+                  ...CARD, padding: '48px 24px', textAlign: 'center',
+                }}>
+                  <div style={{ fontSize: 32, marginBottom: 8 }}>&#x1F4CA;</div>
+                  <div style={{ fontSize: 16, fontWeight: 600, color: INK, marginBottom: 4 }}>Benchmarks building</div>
+                  <div style={{ fontSize: 13, color: '#6b6f80', maxWidth: 440, margin: '0 auto', lineHeight: 1.5 }}>
+                    We need data from at least 10 merchants per category to generate benchmarks.
+                    As the Palvento community grows, you will see how your feed quality compares
+                    to similar sellers in your categories.
+                  </div>
                 </div>
               )}
             </>

@@ -23,6 +23,7 @@
     { "path": "/api/cron/report-usage",                "schedule": "0 4 * * *" },
     { "path": "/api/cron/revalidate-listings",         "schedule": "0 5 * * *" },
     { "path": "/api/cron/feed-benchmarks",              "schedule": "0 5 * * 1" },
-    { "path": "/api/cron/feed-patterns",                "schedule": "0 6 * * *" }
+    { "path": "/api/cron/feed-patterns",                "schedule": "0 6 * * *" },
+    { "path": "/api/cron/benchmarks",                  "schedule": "0 4 * * *" }
   ]
 }
