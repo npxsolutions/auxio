@@ -31,9 +31,9 @@ export const TIKTOK_ERROR_MAP: MappedTikTokError[] = [
   { code: 'SKU_LIMIT', tiktokCode: 12060, match: /(sku|variant).*(limit|400|exceed)/i, plainMessage: 'TikTok Shop limits products to ~400 SKUs.', remediation: 'Split the product into multiple listings.' },
   { code: 'WARRANTY_INVALID', tiktokCode: 12070, plainMessage: 'Warranty period is invalid for this category.', remediation: 'Set a warranty period supported by the category.' },
   { code: 'SHIPPING_TEMPLATE_REQUIRED', tiktokCode: 12080, match: /shipping.*(template|profile)/i, plainMessage: 'TikTok Shop requires a shipping template.', remediation: 'Create a shipping template in Seller Center.' },
-  { code: 'AUTH_TOKEN_INVALID', tiktokCode: 10001, match: /(access_token|token).*(invalid|expired)/i, plainMessage: 'Your TikTok Shop connection has expired.', remediation: 'Reconnect TikTok Shop in Meridia → Channels.' },
-  { code: 'AUTH_INSUFFICIENT', tiktokCode: 10002, plainMessage: 'Your TikTok Shop app is missing required scopes.', remediation: 'Re-authorize Meridia and grant all requested permissions.' },
-  { code: 'RATE_LIMITED', tiktokCode: 10429, match: /(rate.*limit|429|too.*many)/i, plainMessage: 'TikTok Shop temporarily throttled this request.', remediation: 'Meridia will retry automatically; no action needed.' },
+  { code: 'AUTH_TOKEN_INVALID', tiktokCode: 10001, match: /(access_token|token).*(invalid|expired)/i, plainMessage: 'Your TikTok Shop connection has expired.', remediation: 'Reconnect TikTok Shop in Palvento → Channels.' },
+  { code: 'AUTH_INSUFFICIENT', tiktokCode: 10002, plainMessage: 'Your TikTok Shop app is missing required scopes.', remediation: 'Re-authorize Palvento and grant all requested permissions.' },
+  { code: 'RATE_LIMITED', tiktokCode: 10429, match: /(rate.*limit|429|too.*many)/i, plainMessage: 'TikTok Shop temporarily throttled this request.', remediation: 'Palvento will retry automatically; no action needed.' },
   { code: 'DESCRIPTION_TOO_LONG', tiktokCode: 12090, plainMessage: 'Description exceeds the 10000-character limit.', remediation: 'Shorten description.' },
   { code: 'PROHIBITED_KEYWORD', tiktokCode: 12099, match: /(prohibited|restricted).*(word|keyword|content)/i, plainMessage: 'Title or description contains a prohibited keyword.', remediation: 'Remove restricted terms and republish.' },
 ]

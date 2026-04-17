@@ -1,12 +1,12 @@
 /**
  * AUXIO TRANSACTION INTELLIGENCE ENGINE
  * 
- * This is the core of what Meridia is:
+ * This is the core of what Palvento is:
  * A system that sits in the middle of every eCommerce transaction
  * and multiplies the value of every pound a seller deploys.
  * 
  * Like a bank multiplies deposits 9x through fractional reserve lending,
- * Meridia multiplies transaction data into intelligence that compounds weekly.
+ * Palvento multiplies transaction data into intelligence that compounds weekly.
  * 
  * Architecture:
  * Layer 1: Transaction Capture — every order, ad click, stock movement
@@ -781,8 +781,8 @@ export class ValueMultiplier {
       },
       totalValueCreated: Math.round(totalValueCreated * 100) / 100,
       leverageRatio: Math.round(leverageRatio * 10) / 10,
-      // Like the bank: for every £1 paid, Meridia returns £X
-      message: `For every £1 you pay Meridia, you get £${(Math.round(leverageRatio * 10) / 10).toFixed(1)} in value`,
+      // Like the bank: for every £1 paid, Palvento returns £X
+      message: `For every £1 you pay Palvento, you get £${(Math.round(leverageRatio * 10) / 10).toFixed(1)} in value`,
     }
   }
 
@@ -871,7 +871,7 @@ Total monthly value: £${leverage.totalValueCreated}
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
-      system: `You are the AI brain of Meridia — an eCommerce transaction intelligence platform.
+      system: `You are the AI brain of Palvento — an eCommerce transaction intelligence platform.
 You have access to a seller's complete transaction data, ML model outputs, and network benchmarks.
 Your job is to generate a clear, actionable daily briefing.
 
@@ -917,7 +917,7 @@ Rules:
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
-      system: `You are the AI brain of Meridia with full access to this seller's store data.
+      system: `You are the AI brain of Palvento with full access to this seller's store data.
 Answer questions using their actual data — specific products, specific numbers, specific recommendations.
 Never give generic advice. Always reference their actual performance data.
 Be direct and decisive. End every answer with a specific recommended action.`,
@@ -1008,10 +1008,10 @@ Format: [{"icon":"emoji","title":"short title","body":"one specific sentence wit
 // ────────────────────────────────────────────────────────────────
 // LAYER 5: THE AGENT LAYER
 // Takes actions automatically based on intelligence
-// This is what makes Meridia an OS not just a dashboard
+// This is what makes Palvento an OS not just a dashboard
 // ────────────────────────────────────────────────────────────────
 
-export class MeridiaAgent {
+export class PalventoAgent {
   private intelligence = new ClaudeIntelligenceLayer()
   private engine = new TransactionIntelligenceEngine()
 

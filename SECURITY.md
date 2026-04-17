@@ -1,6 +1,6 @@
 # Security Policy
 
-Meridia is operated by NPX Solutions (UK). We take the security of our platform
+Palvento is operated by NPX Solutions (UK). We take the security of our platform
 and the data our customers entrust to us seriously. If you believe you have
 found a vulnerability, we want to hear from you.
 
@@ -26,14 +26,14 @@ Email **security@fulcra.com**.
 ### In scope
 
 - `fulcra.com` and `*.fulcra.com`
-- The Meridia web application and dashboard
+- The Palvento web application and dashboard
 - Our public API endpoints under `fulcra.com/api/*`
 - Authentication and authorisation flows (Supabase-backed)
 
 ### Out of scope
 
 - Denial-of-service, distributed denial-of-service, or any volumetric load testing
-- Social-engineering attacks against Meridia staff, customers, or vendors
+- Social-engineering attacks against Palvento staff, customers, or vendors
 - Physical attacks against offices or hardware
 - Findings that require physical access to an unlocked device or a rooted / jailbroken device
 - Vulnerabilities in third-party services we depend on (Vercel, Supabase, Stripe, Resend, Sentry, PostHog, Upstash, Apify). Report those directly to the vendor.
@@ -57,14 +57,14 @@ If you are unsure whether a testing activity is in scope or safe, email us **bef
 
 ## Rewards
 
-Meridia does not currently operate a paid bug bounty. We do publish a
+Palvento does not currently operate a paid bug bounty. We do publish a
 hall-of-fame (see below) and will provide a letter of acknowledgement on
 request. We reserve the right to introduce a monetary programme in future and
 will backfill rewards for high-severity, novel reports at our discretion.
 
 ## Hall of fame
 
-Researchers who have made Meridia safer:
+Researchers who have made Palvento safer:
 
 - _(None publicly listed yet — be the first to get credit here.)_
 

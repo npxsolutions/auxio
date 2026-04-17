@@ -24,7 +24,7 @@ const CRITERIA: { key: string; label: string; help: string; weight: number }[] =
   { key: 'gut',        label: 'Gut feel — would you ship it?', help: 'Pure instinct.',                                                weight: 3 },
 ]
 
-const STORAGE_KEY = 'auxio.landing.scores.v1'
+const STORAGE_KEY = 'palvento.landing.scores.v1'
 
 const C = {
   bg: '#fafaf8',
@@ -120,7 +120,7 @@ export default function CompareLandingPage() {
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px', gap: '24px', flexWrap: 'wrap' }}>
           <div>
-            <Link href="/" style={{ fontSize: '13px', color: C.muted, textDecoration: 'none' }}>← Meridia</Link>
+            <Link href="/" style={{ fontSize: '13px', color: C.muted, textDecoration: 'none' }}>← Palvento</Link>
             <h1 style={{ fontSize: '36px', fontWeight: 700, letterSpacing: '-0.025em', marginTop: '8px', marginBottom: '6px' }}>
               Landing-page bake-off
             </h1>

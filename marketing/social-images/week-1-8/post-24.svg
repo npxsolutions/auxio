@@ -127,7 +127,7 @@
     <rect x="660" y="110" width="480" height="440" rx="10" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
     <!-- top bar -->
     <rect x="660" y="110" width="480" height="46" fill="#0b0f1a" fill-opacity="0.04"/>
-    <text x="680" y="138" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.6">[brand] · pre-flight</text>
+    <text x="680" y="138" font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.6">Palvento · pre-flight</text>
     <circle cx="1100" cy="133" r="5" fill="#0e7c5a"/>
 
     <!-- central all checks passed badge -->
@@ -159,6 +159,6 @@
 
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
     <text x="60" y="605">every feature we ship is tested against the spreadsheet first</text>
-    <text x="1140" y="605" text-anchor="end">ship in 7 days · [brand]</text>
+    <text x="1140" y="605" text-anchor="end">ship in 7 days · Palvento</text>
   </g>
 </svg>

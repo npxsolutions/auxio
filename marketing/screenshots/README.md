@@ -1,6 +1,6 @@
-# Meridia — Screenshots
+# Palvento — Screenshots
 
-Captured by `npm run capture` (see `scripts/capture-assets.ts`). Source: `https://auxio-lkqv.vercel.app`.
+Captured by `npm run capture` (see `scripts/capture-assets.ts`). Source: `https://palvento-lkqv.vercel.app`.
 
 Two viewports:
 

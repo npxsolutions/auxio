@@ -11,9 +11,9 @@ const display = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'Meridia vs Feedonomics — Self-serve feed management without the $2,500/mo floor',
-  description: 'Feedonomics is enterprise feed management, quote-only, ~$2,500+/mo, 30-day kickoff. Meridia is self-serve from $59/mo, live in under ten minutes. Honest comparison for Shopify-led sellers.',
-  keywords: ['Feedonomics alternative', 'Feedonomics pricing', 'Feedonomics vs Meridia', 'self-serve feed management', 'Shopify feed management'],
+  title: 'Palvento vs Feedonomics — Self-serve feed management without the $2,500/mo floor',
+  description: 'Feedonomics is enterprise feed management, quote-only, ~$2,500+/mo, 30-day kickoff. Palvento is self-serve from $59/mo, live in under ten minutes. Honest comparison for Shopify-led sellers.',
+  keywords: ['Feedonomics alternative', 'Feedonomics pricing', 'Feedonomics vs Palvento', 'self-serve feed management', 'Shopify feed management'],
 }
 
 const C = {
@@ -30,18 +30,18 @@ const C = {
   cobaltDk:  '#1647a8',
 }
 
-type Row = { feature: string; meridia: string; feedonomics: string; highlight?: boolean }
+type Row = { feature: string; palvento: string; feedonomics: string; highlight?: boolean }
 const ROWS: Row[] = [
-  { feature: 'Pricing',                        meridia: 'From $59/mo, published in 5 currencies', feedonomics: 'Quote-only, ~$2,500+/mo floor', highlight: true },
-  { feature: 'Time to first listing live',     meridia: 'Under 10 minutes',                        feedonomics: '30-day implementation kickoff',  highlight: true },
-  { feature: 'Sales motion',                   meridia: 'Self-serve from Shopify App Store',       feedonomics: 'Sales-led, demo before price' },
-  { feature: 'Contract',                       meridia: 'Monthly, cancel any time',                feedonomics: 'Annual, multi-year standard' },
-  { feature: 'Channels',                       meridia: '9 (Shopify, Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, WooCommerce)', feedonomics: '100+ (enterprise retail breadth)' },
-  { feature: 'Category + aspects enrichment',  meridia: 'Automatic, rules-based',                   feedonomics: 'Concierge, managed-services team' },
-  { feature: 'Onboarding',                     meridia: 'Self-serve, docs + Loom',                  feedonomics: 'Solutions architect, managed' },
-  { feature: 'Best for',                       meridia: 'Shopify-led SMB to mid-market',            feedonomics: 'Enterprise catalog ops teams' },
-  { feature: 'Per-channel P&L',                meridia: 'Built-in, reconciled payouts',             feedonomics: 'Not included' },
-  { feature: 'Pre-flight feed validator',      meridia: 'Built-in, catches before submit',          feedonomics: 'Managed by account team' },
+  { feature: 'Pricing',                        palvento: 'From $59/mo, published in 5 currencies', feedonomics: 'Quote-only, ~$2,500+/mo floor', highlight: true },
+  { feature: 'Time to first listing live',     palvento: 'Under 10 minutes',                        feedonomics: '30-day implementation kickoff',  highlight: true },
+  { feature: 'Sales motion',                   palvento: 'Self-serve from Shopify App Store',       feedonomics: 'Sales-led, demo before price' },
+  { feature: 'Contract',                       palvento: 'Monthly, cancel any time',                feedonomics: 'Annual, multi-year standard' },
+  { feature: 'Channels',                       palvento: '9 (Shopify, Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, WooCommerce)', feedonomics: '100+ (enterprise retail breadth)' },
+  { feature: 'Category + aspects enrichment',  palvento: 'Automatic, rules-based',                   feedonomics: 'Concierge, managed-services team' },
+  { feature: 'Onboarding',                     palvento: 'Self-serve, docs + Loom',                  feedonomics: 'Solutions architect, managed' },
+  { feature: 'Best for',                       palvento: 'Shopify-led SMB to mid-market',            feedonomics: 'Enterprise catalog ops teams' },
+  { feature: 'Per-channel P&L',                palvento: 'Built-in, reconciled payouts',             feedonomics: 'Not included' },
+  { feature: 'Pre-flight feed validator',      palvento: 'Built-in, catches before submit',          feedonomics: 'Managed by account team' },
 ]
 
 const FEEDONOMICS_RIGHT = [
@@ -52,21 +52,21 @@ const FEEDONOMICS_RIGHT = [
 
 const MERIDIA_RIGHT = [
   { h: 'You are Shopify-led and want to stay that way.', b: 'Install from the App Store, OAuth in one click, two-way sync on day one. No middleware, no services retainer, no solutions architect.' },
-  { h: 'Your budget for feed tooling is under $500/mo.', b: 'Feedonomics will not quote you. Shopify Marketplace Connect caps out at three marketplaces. Meridia fits in the $59–$499/mo band where the rest of your stack already lives.' },
+  { h: 'Your budget for feed tooling is under $500/mo.', b: 'Feedonomics will not quote you. Shopify Marketplace Connect caps out at three marketplaces. Palvento fits in the $59–$499/mo band where the rest of your stack already lives.' },
   { h: 'You run under 100 SKUs per channel, 3–5 channels.', b: 'The Shopify-led operator at $10k–$500k/mo GMV is our exact wedge. Feed rules, category suggester, aspects enrichment, per-channel P&L — all without a kickoff meeting.' },
 ]
 
 const FAQ = [
-  { q: 'What happens if I outgrow Meridia?',
+  { q: 'What happens if I outgrow Palvento?',
     a: 'Our Enterprise tier (from $1,500/mo) serves sellers at $500k+/mo GMV with SSO, SLA, and data residency. If you scale past that — say into multi-region with 10+ channels and a 50+ person ops team — we will honestly tell you when Feedonomics or Rithum is the better fit. The handoff is easier than the migration in.' },
   { q: 'Can I export my feed data if I leave?',
     a: 'Yes. Every SKU, every mapping, every rule exports to CSV at any time. No data lock-in, no exit fee, no notice period beyond the standard monthly cancellation.' },
-  { q: 'Do I need a developer to install Meridia?',
+  { q: 'Do I need a developer to install Palvento?',
     a: 'No. Install from the Shopify App Store, authorize OAuth, and the first sync runs automatically. Most merchants are live on their first marketplace in under ten minutes.' },
   { q: 'Why is Feedonomics so much more expensive?',
-    a: 'Feedonomics bundles a managed-services team into every deployment — a Solutions Architect, a dedicated account manager, and 30–90 day onboarding. That team is the product. If you want the team, the price is fair. If you want the software, Meridia is the product.' },
+    a: 'Feedonomics bundles a managed-services team into every deployment — a Solutions Architect, a dedicated account manager, and 30–90 day onboarding. That team is the product. If you want the team, the price is fair. If you want the software, Palvento is the product.' },
   { q: 'What about Shopify Marketplace Connect?',
-    a: 'Free up to 50 marketplace orders/mo, then 1% of synced-order value capped at $99/mo — but only syncs to Amazon, eBay, Walmart, and Target Plus. No TikTok Shop, no Etsy, no OnBuy, thin feed-optimisation, no rules engine. Meridia sits one step above it on channel breadth, feed quality, and error handling.' },
+    a: 'Free up to 50 marketplace orders/mo, then 1% of synced-order value capped at $99/mo — but only syncs to Amazon, eBay, Walmart, and Target Plus. No TikTok Shop, no Etsy, no OnBuy, thin feed-optimisation, no rules engine. Palvento sits one step above it on channel breadth, feed quality, and error handling.' },
 ]
 
 export default function VsFeedonomicsPage() {
@@ -81,7 +81,7 @@ export default function VsFeedonomicsPage() {
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
               <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
             </svg>
-            <span style={{ fontFamily: 'var(--font-display-vs), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Meridia</span>
+            <span style={{ fontFamily: 'var(--font-display-vs), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Palvento</span>
           </Link>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <Link href="/pricing" style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none', padding: '8px 4px' }}>Pricing</Link>
@@ -95,10 +95,10 @@ export default function VsFeedonomicsPage() {
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <span style={{ width: 24, height: 1, background: C.cobalt }} />
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Comparison · Meridia vs Feedonomics</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Comparison · Palvento vs Feedonomics</span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-display-vs), Georgia, serif', fontSize: 'clamp(48px, 7vw, 104px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 0.98, color: C.ink, margin: 0 }}>
-            Meridia vs <em style={{ fontStyle: 'italic', color: C.cobalt }}>Feedonomics.</em>
+            Palvento vs <em style={{ fontStyle: 'italic', color: C.cobalt }}>Feedonomics.</em>
           </h1>
           <p style={{ marginTop: 32, fontSize: 22, lineHeight: 1.4, color: C.mutedDk, fontFamily: 'var(--font-display-vs), Georgia, serif', fontStyle: 'italic', maxWidth: 820 }}>
             Self-serve multichannel feed management for Shopify-led sellers — without the $2,500/mo enterprise floor or the 30-day kickoff.
@@ -125,13 +125,13 @@ export default function VsFeedonomicsPage() {
           <div style={{ border: `1px solid ${C.ink}`, background: C.surface }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1.4fr 1.4fr', borderBottom: `1.5px solid ${C.ink}`, background: C.bg }}>
               <div style={{ padding: '16px 20px', fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Feature</div>
-              <div style={{ padding: '16px 20px', fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 600 }}>Meridia</div>
+              <div style={{ padding: '16px 20px', fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 600 }}>Palvento</div>
               <div style={{ padding: '16px 20px', fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.mutedDk, letterSpacing: '0.02em', fontWeight: 600 }}>Feedonomics</div>
             </div>
             {ROWS.map((r, i) => (
               <div key={r.feature} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1.4fr 1.4fr', borderBottom: i < ROWS.length - 1 ? `1px solid ${C.ruleSoft}` : 'none', background: r.highlight ? 'rgba(29,95,219,0.04)' : C.surface }}>
                 <div style={{ padding: '18px 20px', fontSize: 13, color: C.ink, fontWeight: r.highlight ? 600 : 500, borderRight: `1px solid ${C.ruleSoft}` }}>{r.feature}</div>
-                <div style={{ padding: '18px 20px', fontSize: 13.5, color: C.ink, lineHeight: 1.45, borderRight: `1px solid ${C.ruleSoft}` }}>{r.meridia}</div>
+                <div style={{ padding: '18px 20px', fontSize: 13.5, color: C.ink, lineHeight: 1.45, borderRight: `1px solid ${C.ruleSoft}` }}>{r.palvento}</div>
                 <div style={{ padding: '18px 20px', fontSize: 13.5, color: C.mutedDk, lineHeight: 1.45 }}>{r.feedonomics}</div>
               </div>
             ))}
@@ -162,11 +162,11 @@ export default function VsFeedonomicsPage() {
         </div>
       </section>
 
-      {/* When Meridia is right */}
+      {/* When Palvento is right */}
       <section style={{ padding: '96px 32px', background: C.ink, color: C.bg }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 40 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>When Meridia is the right call</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>When Palvento is the right call</span>
             <div style={{ flex: 1, height: 1, background: 'rgba(243,240,234,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'rgba(243,240,234,0.5)' }}>§ 03</span>
           </div>
@@ -224,7 +224,7 @@ export default function VsFeedonomicsPage() {
 
       <footer style={{ padding: '32px', background: C.bg, borderTop: `1px solid ${C.rule}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>
-          <span>&copy; MMXXVI &middot; Meridia</span>
+          <span>&copy; MMXXVI &middot; Palvento</span>
           <div style={{ display: 'flex', gap: 20 }}>
             <Link href="/pricing" style={{ color: C.muted, textDecoration: 'none' }}>Pricing</Link>
             <Link href="/vs/linnworks" style={{ color: C.muted, textDecoration: 'none' }}>vs Linnworks</Link>

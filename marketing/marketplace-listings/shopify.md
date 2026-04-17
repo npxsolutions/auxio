@@ -1,11 +1,11 @@
-# Shopify App Store — Meridia listing
+# Shopify App Store — Palvento listing
 
 **Status:** Draft, ready for partner-account upload.
-**Submission contact:** distribution@auxio.io
-**App URL:** https://apps.shopify.com/auxio (pending approval)
+**Submission contact:** distribution@palvento.io
+**App URL:** https://apps.shopify.com/palvento (pending approval)
 
 ## App name
-Meridia — Multichannel Inventory & Profit
+Palvento — Multichannel Inventory & Profit
 
 ## Tagline (≤30 chars)
 One stack. Every channel.
@@ -14,7 +14,7 @@ One stack. Every channel.
 Sync inventory, route orders, and see true profit across Amazon, eBay, TikTok Shop, Etsy, Walmart, and Shopify.
 
 ## Long description (≤2,000 chars)
-Meridia is the operating layer for merchants selling on more than one channel. Connect Shopify alongside Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, and run them all from one screen.
+Palvento is the operating layer for merchants selling on more than one channel. Connect Shopify alongside Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, and run them all from one screen.
 
 - **Inventory sync** — A single SKU truth across every channel. Reservations and oversells handled at the source.
 - **Order routing** — Pull orders into one feed, fulfil from one place, push tracking back automatically.
@@ -22,7 +22,7 @@ Meridia is the operating layer for merchants selling on more than one channel. C
 - **Repricer** — Rule-based and ML-assisted price control with full history and rollback.
 - **AI listing agent** — Channel-specific titles and descriptions, generated and tuned per marketplace.
 
-Meridia installs in minutes, syncs your last 24 months of order history, and stays out of the way until you need it. Built for operators who&rsquo;ve outgrown spreadsheets but don&rsquo;t want to live inside an ERP.
+Palvento installs in minutes, syncs your last 24 months of order history, and stays out of the way until you need it. Built for operators who&rsquo;ve outgrown spreadsheets but don&rsquo;t want to live inside an ERP.
 
 ## Categories
 - Primary: **Selling channels · Inventory sync**
@@ -48,7 +48,7 @@ Free 14-day trial · Plans from £79/mo · Pricing matches /pricing.
 60-second walkthrough from `/affiliates/assets`. Shopify-first cut required for review.
 
 ## Support contact
-support@auxio.io · in-app chat · 4-hour response on UK business hours.
+support@palvento.io · in-app chat · 4-hour response on UK business hours.
 
 ## Privacy & data handling
 GDPR-compliant. We store only the order, listing, and inventory data needed to operate the integration. Full DPA available on request.

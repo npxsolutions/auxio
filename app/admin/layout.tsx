@@ -5,7 +5,7 @@ import { isOwner } from './_lib/owner'
 import { theme } from './_lib/theme'
 import Link from 'next/link'
 
-export const metadata = { title: 'Admin — Meridia' }
+export const metadata = { title: 'Admin — Palvento' }
 export const dynamic = 'force-dynamic'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -108,7 +108,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               color: theme.ink,
             }}
           >
-            Meridia
+            Palvento
           </div>
           <div style={{ fontSize: 10, color: theme.inkMuted, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 2 }}>
             Admin

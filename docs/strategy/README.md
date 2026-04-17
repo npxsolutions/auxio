@@ -1,6 +1,6 @@
 # Strategy
 
-Where the *why* behind Meridia lives. Not shipped code — the thinking that guides what we build and ignore.
+Where the *why* behind Palvento lives. Not shipped code — the thinking that guides what we build and ignore.
 
 ## Files
 
@@ -8,7 +8,7 @@ Where the *why* behind Meridia lives. Not shipped code — the thinking that gui
 - `competitor-analysis.md` — internal teardowns of Linnworks, Brightpearl, ChannelAdvisor, Baselinker, Veeqo, Zentail, Sellbrite. Pricing, positioning, weak spots, switching costs.
 - `niche.md` — which slice of the multichannel market we wedge into first (e.g. UK 7-figure DTC on Shopify + Amazon + eBay). Explicit exclusions.
 - `roadmap.md` — rolling 90 / 180 / 365 day view. What ships, what doesn't, what we're deliberately saying no to.
-- `moat.md` — what compounds for Meridia that competitors can't copy in a quarter. Data network effects, integration depth, brand, switching costs.
+- `moat.md` — what compounds for Palvento that competitors can't copy in a quarter. Data network effects, integration depth, brand, switching costs.
 
 ## Key questions each doc must answer
 

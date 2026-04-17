@@ -95,18 +95,18 @@ const PRICE_MATRIX = [
 ]
 
 const LOGOS = [
-  'Northwind Goods', 'Meridian Retail', 'Orbit Commerce', 'Harbor & Co.',
+  'Northwind Goods', 'Palventon Retail', 'Orbit Commerce', 'Harbor & Co.',
   'Lumen Supply', 'Verdant Labs', 'Kite Apparel', 'Ironoak Trading',
 ]
 
 const QUOTES = [
   {
-    quote: 'Meridia replaced three platforms and saved us $84,000 in annual software spend. The P&L module alone has changed how we price across regions.',
+    quote: 'Palvento replaced three platforms and saved us $84,000 in annual software spend. The P&L module alone has changed how we price across regions.',
     name: 'Sarah T.', role: 'Director of Operations, multi-brand retailer',
     metric: '$84K', metricLabel: 'annual software savings',
   },
   {
-    quote: 'We scaled from $400K to $2.1M monthly GMV on Meridia without adding a single ops hire. Forecasting and automated POs do the work of two people.',
+    quote: 'We scaled from $400K to $2.1M monthly GMV on Palvento without adding a single ops hire. Forecasting and automated POs do the work of two people.',
     name: 'Marcus L.', role: 'Founder, consumer electronics',
     metric: '5.2x', metricLabel: 'GMV growth, same headcount',
   },
@@ -169,7 +169,7 @@ export default function LandingV1() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(250,250,250,0.88)', backdropFilter: 'blur(20px)', borderBottom: `1px solid ${C.border}`, padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '26px', height: '26px', background: C.navy, borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '12px', letterSpacing: '-0.02em' }}>A</div>
-          <span style={{ fontWeight: 600, fontSize: '15px', color: C.ink, letterSpacing: '-0.02em' }}>Meridia</span>
+          <span style={{ fontWeight: 600, fontSize: '15px', color: C.ink, letterSpacing: '-0.02em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '28px' }}>
           {NAV.map(n => <Link key={n.href} href={n.href} style={{ fontSize: '13px', color: C.body, textDecoration: 'none', fontWeight: 500, letterSpacing: '-0.005em' }}>{n.label}</Link>)}
@@ -191,7 +191,7 @@ export default function LandingV1() {
             The Operating System for Global Commerce.
           </h1>
           <p style={{ fontSize: '22px', lineHeight: 1.45, color: C.body, maxWidth: '780px', margin: '0 0 40px', fontWeight: 400 }}>
-            Every marketplace, every currency, one platform. Meridia consolidates listings, orders, procurement, and profit analytics for operators selling in 40+ countries.
+            Every marketplace, every currency, one platform. Palvento consolidates listings, orders, procurement, and profit analytics for operators selling in 40+ countries.
           </p>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '28px' }}>
             <Link href="/signup" style={{ padding: '14px 22px', borderRadius: '8px', background: C.navy, color: 'white', textDecoration: 'none', fontWeight: 600, fontSize: '15px', letterSpacing: '-0.01em' }}>
@@ -232,7 +232,7 @@ export default function LandingV1() {
         <div style={eyebrow}>The consolidation play</div>
         <h2 style={h2}>Four platforms. One bill. One truth.</h2>
         <p style={{ ...sub, marginBottom: '48px' }}>
-          Operators stitch together listings tools, ERPs, and feed managers — then reconcile the output in spreadsheets. Meridia replaces the stack.
+          Operators stitch together listings tools, ERPs, and feed managers — then reconcile the output in spreadsheets. Palvento replaces the stack.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '48px', alignItems: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -248,7 +248,7 @@ export default function LandingV1() {
           </div>
           <div style={{ fontSize: '28px', color: C.accent, fontWeight: 400 }}>→</div>
           <div style={{ padding: '40px 32px', background: C.navy, borderRadius: '14px', color: 'white', minHeight: '260px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.text50, marginBottom: '14px' }}>Meridia</div>
+            <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.text50, marginBottom: '14px' }}>Palvento</div>
             <div style={{ fontSize: '32px', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '16px' }}>
               One platform, one data model, one P&L.
             </div>
@@ -291,7 +291,7 @@ export default function LandingV1() {
         <div style={eyebrow}>Priced where your customers shop</div>
         <h2 style={h2}>One SKU. Five currencies. Zero spreadsheets.</h2>
         <p style={{ ...sub, marginBottom: '48px' }}>
-          Meridia prices, bills, and reconciles in the local currency of every market you sell in — with FX locked at order creation.
+          Palvento prices, bills, and reconciles in the local currency of every market you sell in — with FX locked at order creation.
         </p>
         <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: '14px', padding: '40px', display: 'grid', gridTemplateColumns: '260px 1fr', gap: '48px', alignItems: 'center' }}>
           <div>
@@ -320,7 +320,7 @@ export default function LandingV1() {
       <section style={{ background: C.bgAlt, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={section}>
           <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.muted, marginBottom: '28px', textAlign: 'center' }}>
-            Operators running on Meridia
+            Operators running on Palvento
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: C.border, border: `1px solid ${C.border}`, borderRadius: '12px', overflow: 'hidden', marginBottom: '72px' }}>
             {LOGOS.map(l => (
@@ -449,7 +449,7 @@ export default function LandingV1() {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '26px', height: '26px', background: 'white', color: C.navy, borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '12px' }}>A</div>
-                <span style={{ fontWeight: 600, fontSize: '15px', color: 'white' }}>Meridia</span>
+                <span style={{ fontWeight: 600, fontSize: '15px', color: 'white' }}>Palvento</span>
               </div>
               <p style={{ fontSize: '13px', color: C.text70, lineHeight: 1.55, maxWidth: '280px', margin: 0 }}>
                 The operating system for global commerce. Serving operators in 40+ countries.
@@ -472,7 +472,7 @@ export default function LandingV1() {
             ))}
           </div>
           <div style={{ borderTop: `1px solid rgba(255,255,255,0.1)`, paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <div style={{ fontSize: '12px', color: C.text50 }}>© 2026 Meridia. All rights reserved.</div>
+            <div style={{ fontSize: '12px', color: C.text50 }}>© 2026 Palvento. All rights reserved.</div>
             <div style={{ fontSize: '12px', color: C.text50 }}>Serving commerce operators in 40+ countries.</div>
           </div>
         </div>

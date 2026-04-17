@@ -1,4 +1,4 @@
-# Meridia content workflow — one page
+# Palvento content workflow — one page
 
 Post 3× per week on LinkedIn, 5× on X, 3× on TikTok/Reels, 1× blog post per week. Build the founder brand. Compound for 52 weeks. Don't miss a week.
 

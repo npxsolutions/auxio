@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
 
     if (body.type === 'api_key') {
-      const rawKey    = `auxio_${crypto.randomBytes(32).toString('hex')}`
+      const rawKey    = `palvento_${crypto.randomBytes(32).toString('hex')}`
       const keyPrefix = rawKey.slice(0, 14) + '...'
       const keyHash   = crypto.createHash('sha256').update(rawKey).digest('hex')
 

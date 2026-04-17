@@ -77,7 +77,7 @@ export function LifetimeOffer() {
           Lock in lifetime access — $3,999 one-time.
         </div>
         <div style={{ fontSize: 13, color: 'rgba(11,15,26,0.62)', lineHeight: 1.5 }}>
-          You’ve been with us six months. Pay once, use Meridia at the Scale tier forever, no renewals.
+          You’ve been with us six months. Pay once, use Palvento at the Scale tier forever, no renewals.
         </div>
         {err && <div style={{ fontSize: 12, color: '#b4321f', marginTop: 6 }}>{err}</div>}
       </div>

@@ -31,7 +31,7 @@
     <circle cx="340" cy="160" r="5" fill="none" stroke="#0b0f1a" stroke-width="1" opacity="0.35"/>
     <circle cx="360" cy="160" r="5" fill="none" stroke="#0b0f1a" stroke-width="1" opacity="0.35"/>
     <rect x="400" y="150" width="480" height="20" rx="3" fill="#f3f0ea" stroke="#0b0f1a" stroke-width="1" stroke-opacity="0.15"/>
-    <text x="412" y="164" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.5">app.[brand] / billing / cancel</text>
+    <text x="412" y="164" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.5">app.Palvento / billing / cancel</text>
   </g>
 
   <!-- dimmed page behind dialog -->
@@ -63,6 +63,6 @@
     <text x="60" y="580">the hardest customers to fire are the nice ones who like you</text>
   </g>
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
-    <text x="1140" y="600" text-anchor="end">[brand]</text>
+    <text x="1140" y="600" text-anchor="end">Palvento</text>
   </g>
 </svg>

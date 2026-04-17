@@ -29,9 +29,9 @@ export const ETSY_ERROR_MAP: MappedEtsyError[] = [
   { code: 'QUANTITY_INVALID', etsyCode: 'invalid_quantity', plainMessage: 'Quantity must be ≥1 for active listings.', remediation: 'Increase inventory to ≥1.' },
   { code: 'SHIPPING_TEMPLATE_REQUIRED', etsyCode: 'missing_shipping_template', match: /shipping.*(template|profile)/i, plainMessage: 'Etsy requires a shipping profile / template.', remediation: 'Create a shipping profile in Etsy and assign it.' },
   { code: 'SHOP_NOT_READY', etsyCode: 'shop_not_open', plainMessage: 'Your Etsy shop is not open or is in vacation mode.', remediation: 'Re-open the shop in Etsy shop settings.' },
-  { code: 'AUTH_TOKEN_INVALID', etsyCode: 'invalid_token', match: /(token|oauth).*(invalid|expired)/i, plainMessage: 'Your Etsy connection has expired.', remediation: 'Reconnect Etsy in Meridia → Channels.' },
-  { code: 'RATE_LIMITED', etsyCode: 'rate_limit', match: /(rate.*limit|429|too.*many)/i, plainMessage: 'Etsy temporarily throttled this request.', remediation: 'Meridia will retry automatically; no action needed.' },
-  { code: 'DESCRIPTION_REQUIRED', etsyCode: 'missing_description', plainMessage: 'Etsy requires a non-empty description.', remediation: 'Add a description in Shopify or Meridia.' },
+  { code: 'AUTH_TOKEN_INVALID', etsyCode: 'invalid_token', match: /(token|oauth).*(invalid|expired)/i, plainMessage: 'Your Etsy connection has expired.', remediation: 'Reconnect Etsy in Palvento → Channels.' },
+  { code: 'RATE_LIMITED', etsyCode: 'rate_limit', match: /(rate.*limit|429|too.*many)/i, plainMessage: 'Etsy temporarily throttled this request.', remediation: 'Palvento will retry automatically; no action needed.' },
+  { code: 'DESCRIPTION_REQUIRED', etsyCode: 'missing_description', plainMessage: 'Etsy requires a non-empty description.', remediation: 'Add a description in Shopify or Palvento.' },
   { code: 'VARIATION_INVALID', etsyCode: 'invalid_variation', plainMessage: 'A variation property/value pair is invalid for this taxonomy.', remediation: 'Use only variations supported by the taxonomy.' },
   { code: 'MATERIALS_INVALID', etsyCode: 'invalid_materials', plainMessage: 'Materials list contains invalid entries.', remediation: 'Each material must be ≤45 chars, letters/numbers/spaces.' },
 ]

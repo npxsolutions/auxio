@@ -108,7 +108,7 @@ async function runIngestion(
 
   // Trigger processing pipeline
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'}/api/social-intel/process`, {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'}/api/social-intel/process`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-cron-secret': process.env.CRON_SECRET! },
       body: JSON.stringify({ jobId, userId, keyword }),

@@ -65,7 +65,7 @@ export const TOURS: Record<TourId, TourStep[]> = {
       popover: {
         title: 'Connect another channel',
         description:
-          'More channels, more accurate net margin. eBay, Amazon, Shopify, Etsy, Walmart — link them once, Meridia keeps them synced.',
+          'More channels, more accurate net margin. eBay, Amazon, Shopify, Etsy, Walmart — link them once, Palvento keeps them synced.',
         side: 'top',
       },
     },
@@ -112,7 +112,7 @@ export const TOURS: Record<TourId, TourStep[]> = {
       popover: {
         title: 'Add cost prices for true margin',
         description:
-          'Without cost prices, margin is a guess. Add them in bulk via CSV import, and every profit number in Meridia becomes real.',
+          'Without cost prices, margin is a guess. Add them in bulk via CSV import, and every profit number in Palvento becomes real.',
         side: 'bottom',
       },
     },
@@ -123,7 +123,7 @@ export const TOURS: Record<TourId, TourStep[]> = {
       popover: {
         title: 'Live channels',
         description:
-          'Every marketplace currently feeding orders, stock and fees into Meridia. Test or sync any one on demand.',
+          'Every marketplace currently feeding orders, stock and fees into Palvento. Test or sync any one on demand.',
         side: 'bottom',
       },
     },

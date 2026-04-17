@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   try {
     return NextResponse.json({
-      api:     'Meridia API',
+      api:     'Palvento API',
       version: 'v1',
       status:  'live',
       endpoints: {

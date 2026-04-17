@@ -1,6 +1,6 @@
 # Channel Mix
 
-GTM channels ranked by expected leverage for Meridia at current stage (pre-PMF expansion, post-launch v8, <100 paying customers). Ranking is *leverage*, not *volume* — a channel that produces 5 ideal-fit Tier 2 customers beats a channel that produces 50 Tier 1 trials.
+GTM channels ranked by expected leverage for Palvento at current stage (pre-PMF expansion, post-launch v8, <100 paying customers). Ranking is *leverage*, not *volume* — a channel that produces 5 ideal-fit Tier 2 customers beats a channel that produces 50 Tier 1 trials.
 
 Ownership notes assume a team of 2 (founder + part-time content lead) until Day 90.
 
@@ -33,7 +33,7 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 ## 4. Cold outreach — **high leverage early, diminishing returns fast**
 - **CAC estimate.** $150–$300 at 1% reply-to-close.
 - **Time to first customer.** 2–4 weeks.
-- **What works.** Hand-picked lists of Shopify stores doing >$100k/yr on Amazon + Shopify (scraped via Seller Directory + Ahrefs). Editorial, plain-text email. Specific hook per recipient ("Saw you launched on TikTok Shop last month — here's how Meridia would slot in"). Five-touch sequence (see `outreach/cold-email-sequence.md`).
+- **What works.** Hand-picked lists of Shopify stores doing >$100k/yr on Amazon + Shopify (scraped via Seller Directory + Ahrefs). Editorial, plain-text email. Specific hook per recipient ("Saw you launched on TikTok Shop last month — here's how Palvento would slot in"). Five-touch sequence (see `outreach/cold-email-sequence.md`).
 - **What doesn't.** Generic "I'd love to chat" emails. Automation without personalization. Buying Apollo lists.
 - **Weekly cadence.** 100 hand-picked prospects/week, 5-touch sequence, expect 3–5 replies.
 - **Owner.** Founder for first 100 prospects, then contracted SDR.
@@ -41,7 +41,7 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 ## 5. Communities — **moderate leverage, reputation compounding**
 - **CAC estimate.** $0 cash, 2–3 hours/week.
 - **Time to first customer.** 3–6 weeks.
-- **What works.** Helping in *Ecommerce Fuel* forum, *Operators* Slack, r/ecommerce, r/FulfillmentByAmazon. Answering questions with real expertise, mentioning Meridia only when directly relevant. Indie Hackers for build-in-public narrative (Tier 1 reach).
+- **What works.** Helping in *Ecommerce Fuel* forum, *Operators* Slack, r/ecommerce, r/FulfillmentByAmazon. Answering questions with real expertise, mentioning Palvento only when directly relevant. Indie Hackers for build-in-public narrative (Tier 1 reach).
 - **What doesn't.** Drive-by self-promotion. "We just launched!" posts in every Slack. Reddit spam will get the account banned and the brand blacklisted.
 - **Weekly cadence.** 3 meaningful posts/replies per week, across 3 communities max.
 - **Owner.** Founder. Impossible to delegate without losing authenticity.

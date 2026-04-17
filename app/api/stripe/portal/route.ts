@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'No billing account found. Subscribe to a plan first.' }, { status: 400 })
     }
 
-    const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
+    const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
 
     const session = await getStripe().billingPortal.sessions.create({
       customer: userData.stripe_customer_id,

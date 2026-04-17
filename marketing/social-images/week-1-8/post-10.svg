@@ -69,7 +69,7 @@
 
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
     <text x="60" y="555">38% less contribution on Amazon · nobody in the business knows</text>
-    <text x="1140" y="555" text-anchor="end">[brand]</text>
+    <text x="1140" y="555" text-anchor="end">Palvento</text>
   </g>
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.45">
     <text x="60" y="595">fix: per-channel price floors · target net-margin, back out list price</text>

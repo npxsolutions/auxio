@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Meridia — Landing v5
+// Palvento — Landing v5
 // Direction: "Global Map as Product."
 // Hero is a live dot-grid world with animated order-flow arcs between commerce
 // hubs. Cream paper, blue-black ink, deep cobalt accent. Instrument Serif
@@ -216,7 +216,7 @@ function LiveMap() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: C.emerald, boxShadow: `0 0 0 3px ${C.emerald}33` }} />
           <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.mutedDk, fontWeight: 600 }}>
-            Meridia · Live order flow · Global
+            Palvento · Live order flow · Global
           </span>
         </div>
         <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.06em' }}>
@@ -366,7 +366,7 @@ function LiveMap() {
 
       {/* Bottom chrome */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 18px', borderTop: `1px solid ${C.rule}`, background: C.bg, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.06em' }}>
-        <span>auxio.com/atlas · v3.2</span>
+        <span>palvento.com/atlas · v3.2</span>
         <span>40+ countries · multi-currency · finance-grade ledger</span>
       </div>
 
@@ -384,7 +384,7 @@ function LiveMap() {
 const NAV = [
   { label: 'Atlas',        href: '#atlas' },
   { label: 'Platform',     href: '#platform' },
-  { label: 'Why Meridia',    href: '#why' },
+  { label: 'Why Palvento',    href: '#why' },
   { label: 'Pricing',      href: '#pricing' },
   { label: 'Customers',    href: '#customers' },
 ]
@@ -398,7 +398,7 @@ const PILLARS = [
 
 const QUOTES = [
   { metric: '+34%', label: 'net margin · 60 days', q: 'Five marketplaces from four browser tabs became one screen and a P&L we trust.', who: 'Sarah T.', role: 'Apparel · 6 channels' },
-  { metric: '$5,400', label: 'saved vs Linnworks · year', q: 'I knew we were profitable. I did not know we were 8% profitable. Meridia showed the real number.', who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
+  { metric: '$5,400', label: 'saved vs Linnworks · year', q: 'I knew we were profitable. I did not know we were 8% profitable. Palvento showed the real number.', who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
   { metric: '0', label: 'stockouts · Q1', q: 'The forecasting model has paid for the platform twice over. No emergency reorders since November.', who: 'Priya K.', role: 'Beauty · 500 SKUs' },
 ]
 
@@ -435,7 +435,7 @@ export default function LandingV5() {
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
               <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
             </svg>
-            <span style={{ fontFamily: 'var(--font-display-v5), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Meridia</span>
+            <span style={{ fontFamily: 'var(--font-display-v5), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Palvento</span>
           </Link>
           <nav style={{ display: 'flex', gap: 28 }}>
             {NAV.map(n => <a key={n.href} href={n.href} style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none', letterSpacing: '0.005em' }}>{n.label}</a>)}
@@ -460,7 +460,7 @@ export default function LandingV5() {
             <div style={{ maxWidth: 1100 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
                 <span style={{ width: 24, height: 1, background: C.cobalt }} />
-                <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.cobalt, fontWeight: 600 }}>Live · Meridia Atlas</span>
+                <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.cobalt, fontWeight: 600 }}>Live · Palvento Atlas</span>
               </div>
               <h1 style={{
                 fontFamily: 'var(--font-display-v5), Georgia, serif',
@@ -477,7 +477,7 @@ export default function LandingV5() {
               </h1>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 56, alignItems: 'end', marginTop: 36 }}>
                 <p style={{ fontSize: 18, lineHeight: 1.6, color: C.mutedDk, margin: 0, maxWidth: 620 }}>
-                  Meridia is the operating system for global commerce — one ledger, one inventory, one truth across every marketplace, every currency, every region. The map below is live: orders settling right now, in {HUBS.length}+ markets, across {ARCS.length} active routes.
+                  Palvento is the operating system for global commerce — one ledger, one inventory, one truth across every marketplace, every currency, every region. The map below is live: orders settling right now, in {HUBS.length}+ markets, across {ARCS.length} active routes.
                 </p>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
                   <Link href="/signup" style={{
@@ -593,11 +593,11 @@ export default function LandingV5() {
         </div>
       </section>
 
-      {/* ── Why Meridia ───────────────────────────────────────────────────────── */}
+      {/* ── Why Palvento ───────────────────────────────────────────────────────── */}
       <section id="why" style={{ padding: '120px 32px', background: C.ink, color: C.bg }}>
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 48 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.cobalt, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>Why Meridia</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.cobalt, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>Why Palvento</span>
             <div style={{ flex: 1, height: 1, background: 'rgba(243,240,234,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'rgba(243,240,234,0.5)' }}>§ 03 — Versus the incumbents</span>
           </div>
@@ -628,7 +628,7 @@ export default function LandingV5() {
           </div>
 
           <div style={{ marginTop: 64, padding: '32px 32px', borderLeft: `3px solid ${C.cobalt}`, background: 'rgba(29,95,219,0.08)', maxWidth: 920 }}>
-            <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#7BB7FF', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 14 }}>Meridia · est. mmxxvi</div>
+            <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#7BB7FF', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 14 }}>Palvento · est. mmxxvi</div>
             <p style={{ fontFamily: 'var(--font-display-v5), Georgia, serif', fontSize: 22, lineHeight: 1.45, color: C.bg, margin: 0, fontWeight: 400, letterSpacing: '-0.012em' }}>
               One platform. Self-serve in ten minutes. Multi-currency from the first SKU. Procurement, fulfilment, listings, and finance-grade P&amp;L on a single ledger. Founding member rate from <span style={{ color: '#7BB7FF' }}>$59 per month</span>.
             </p>
@@ -757,7 +757,7 @@ export default function LandingV5() {
                 <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
                 <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
               </svg>
-              <span style={{ fontFamily: 'var(--font-display-v5), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
+              <span style={{ fontFamily: 'var(--font-display-v5), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Palvento</span>
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.55, color: C.mutedDk, fontFamily: 'var(--font-display-v5), Georgia, serif', fontStyle: 'italic', margin: 0, maxWidth: 320 }}>
               The operating system for global commerce.

@@ -25,7 +25,7 @@ export default async function ReferralPage() {
   const code = await getOrCreateReferralCode(user.id)
 
   const hdrs = await headers()
-  const host = hdrs.get('x-forwarded-host') || hdrs.get('host') || 'meridia.com'
+  const host = hdrs.get('x-forwarded-host') || hdrs.get('host') || 'palvento.com'
   const proto = hdrs.get('x-forwarded-proto') || 'https'
   const shareUrl = `${proto}://${host}/?ref=${code}`
 
@@ -56,7 +56,7 @@ export default async function ReferralPage() {
           <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Invite friends</span>
         </div>
         <h1 style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1, margin: 0 }}>
-          Share Meridia. <em style={{ fontStyle: 'italic', color: C.cobalt }}>Earn credit.</em>
+          Share Palvento. <em style={{ fontStyle: 'italic', color: C.cobalt }}>Earn credit.</em>
         </h1>
         <p style={{ fontSize: 18, lineHeight: 1.5, color: C.mutedDk, fontFamily: 'var(--font-display-v8), Georgia, serif', fontStyle: 'italic', marginTop: 20, maxWidth: 560 }}>
           Send your friends your link. When they start paying, you get $50 in credit, they get 10% off their first month.
@@ -93,7 +93,7 @@ export default async function ReferralPage() {
           <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 20 }}>
             {[
               { n: '01', t: 'Share your link', d: 'Send it to a friend running a store, or post it anywhere you like.' },
-              { n: '02', t: 'They sign up and start paying', d: 'Meridia attributes them to you for 30 days. They get 10% off month one.' },
+              { n: '02', t: 'They sign up and start paying', d: 'Palvento attributes them to you for 30 days. They get 10% off month one.' },
               { n: '03', t: 'You get $50 credit', d: 'Applied automatically to your next invoice. Stack as many as you want.' },
             ].map(s => (
               <li key={s.n} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 20, paddingBottom: 20, borderBottom: `1px solid ${C.rule}` }}>

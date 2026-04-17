@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
     // Fire-and-forget Slack notification.
     const adminLink = inserted?.id
-      ? `https://auxio-lkqv.vercel.app/admin/partners/${inserted.id}`
+      ? `https://palvento-lkqv.vercel.app/admin/partners/${inserted.id}`
       : `mailto:${email}`
     void notifySlack({
       channel: 'partnerships',

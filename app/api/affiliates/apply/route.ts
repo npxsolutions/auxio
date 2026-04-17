@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     }
 
     const adminLink = inserted?.id
-      ? `https://auxio-lkqv.vercel.app/admin/affiliates/${inserted.id}`
+      ? `https://palvento-lkqv.vercel.app/admin/affiliates/${inserted.id}`
       : `mailto:${email}`
     void notifySlack({
       channel: 'affiliates',

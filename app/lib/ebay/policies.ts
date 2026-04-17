@@ -140,10 +140,10 @@ async function findPolicyByName(
 
 export async function createDefaultPaymentPolicy(accessToken: string, marketplaceId: string): Promise<string> {
   const mkt = resolveMarketplaceId(marketplaceId)
-  const name = 'Meridia default payment'
+  const name = 'Palvento default payment'
   const body = {
     name,
-    description: 'Immediate payment via eBay managed payments. Auto-created by Meridia.',
+    description: 'Immediate payment via eBay managed payments. Auto-created by Palvento.',
     marketplaceId: mkt,
     categoryTypes: [{ name: 'ALL_EXCLUDING_MOTORS_VEHICLES', default: true }],
     paymentMethods: [],
@@ -166,10 +166,10 @@ export async function createDefaultPaymentPolicy(accessToken: string, marketplac
 
 export async function createDefaultReturnPolicy(accessToken: string, marketplaceId: string): Promise<string> {
   const mkt = resolveMarketplaceId(marketplaceId)
-  const name = 'Meridia default returns'
+  const name = 'Palvento default returns'
   const body = {
     name,
-    description: '30-day buyer-paid returns, refund to original method. Auto-created by Meridia.',
+    description: '30-day buyer-paid returns, refund to original method. Auto-created by Palvento.',
     marketplaceId: mkt,
     categoryTypes: [{ name: 'ALL_EXCLUDING_MOTORS_VEHICLES', default: true }],
     returnsAccepted: true,
@@ -219,10 +219,10 @@ export async function createDefaultFulfillmentPolicy(
     }
   }
 
-  const name = 'Meridia default fulfillment'
+  const name = 'Palvento default fulfillment'
   const body = {
     name,
-    description: 'Handling 1 business day, domestic standard service, free shipping over threshold. Auto-created by Meridia.',
+    description: 'Handling 1 business day, domestic standard service, free shipping over threshold. Auto-created by Palvento.',
     marketplaceId: mkt,
     categoryTypes: [{ name: 'ALL_EXCLUDING_MOTORS_VEHICLES', default: true }],
     handlingTime: { value: 1, unit: 'BUSINESS_DAY' },

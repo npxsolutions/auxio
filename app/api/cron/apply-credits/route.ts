@@ -45,7 +45,7 @@ export async function GET(request: Request) {
       await stripe.customers.createBalanceTransaction(customerId, {
         amount: -Math.abs(c.amount_cents), // negative = credit
         currency: 'usd',
-        description: `Meridia credit (${c.source})`,
+        description: `Palvento credit (${c.source})`,
         metadata: { credit_id: c.id, source: c.source, source_ref: c.source_ref || '' },
       })
 

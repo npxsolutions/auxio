@@ -35,7 +35,7 @@ type RoleContent = {
 const CONTENT: Record<string, RoleContent> = {
   'founding-engineer': {
     pitch:
-      `You will be one of the first three engineers on Meridia. The product is a unified commerce operating system — inventory, orders, forecasting, margin, advertising, AI agents — all on a single data model across eBay, Shopify, Amazon, Etsy, Walmart, and a dozen more. Our stack is deliberately boring where it needs to be (Next.js App Router, Supabase Postgres, Stripe, Vercel) and deliberately interesting where it matters (a live cross-channel routing engine, an agent loop that proposes and executes merchandising actions, a forecasting layer that beats a good human on a bad day). ` +
+      `You will be one of the first three engineers on Palvento. The product is a unified commerce operating system — inventory, orders, forecasting, margin, advertising, AI agents — all on a single data model across eBay, Shopify, Amazon, Etsy, Walmart, and a dozen more. Our stack is deliberately boring where it needs to be (Next.js App Router, Supabase Postgres, Stripe, Vercel) and deliberately interesting where it matters (a live cross-channel routing engine, an agent loop that proposes and executes merchandising actions, a forecasting layer that beats a good human on a bad day). ` +
       `You will own product surfaces end-to-end — schema, API, UI, and the analytics that tell you whether what you shipped worked. Expect to pair on architecture, argue against overbuilding, and delete as much code as you add. We ship daily. The test suite is non-negotiable; tasteful types are; dark patterns aren&apos;t. ` +
       `If you have shipped a multi-tenant SaaS product that integrated real money and real third-party APIs, and you have opinions about when to reach for a queue and when a cron is fine, this is a good fit.`,
     ownership: [
@@ -52,7 +52,7 @@ const CONTENT: Record<string, RoleContent> = {
   },
   'head-of-growth': {
     pitch:
-      `Meridia&apos;s growth function is a blank page. You will design it, staff it, and run it. Our ICP is the cross-border commerce operator running 3+ channels, $500k–$20M GMV, who is presently held together by spreadsheets and ops hires. Our moat is a genuinely unified data model and a ruthless point of view on what commerce software should feel like. ` +
+      `Palvento&apos;s growth function is a blank page. You will design it, staff it, and run it. Our ICP is the cross-border commerce operator running 3+ channels, $500k–$20M GMV, who is presently held together by spreadsheets and ops hires. Our moat is a genuinely unified data model and a ruthless point of view on what commerce software should feel like. ` +
       `You will own the whole funnel — SEO, content, paid, partnerships, lifecycle, onboarding activation — and you will own the number (net-new ARR, month over month). You will write the positioning, choose the beachhead, pick the channels to kill, and run the playbook. You will have an engineer and a designer to pair with on every meaningful growth experiment, and tooling (PostHog, Segment, Customer.io, Webflow) already in place. ` +
       `If you&apos;ve run growth at a commerce-adjacent SaaS from $1M to $10M ARR, if you&apos;ve written copy a founder actually shipped, and if you&apos;ve ever sat with an eBay seller and run their repricing tool with them — we should talk.`,
     ownership: [
@@ -69,7 +69,7 @@ const CONTENT: Record<string, RoleContent> = {
   },
   'founding-designer': {
     pitch:
-      `The bar for Meridia&apos;s craft is set somewhere between Linear, Stripe, and Arc. If that reference set makes you roll your eyes, the rest of this post will too. We think design is a load-bearing part of the product — how the data feels, how the empty states read, how a cron-failure banner gets worded — and we hire accordingly. ` +
+      `The bar for Palvento&apos;s craft is set somewhere between Linear, Stripe, and Arc. If that reference set makes you roll your eyes, the rest of this post will too. We think design is a load-bearing part of the product — how the data feels, how the empty states read, how a cron-failure banner gets worded — and we hire accordingly. ` +
       `You will own the system end-to-end: product UI, marketing site, brand, print, on occasion physical objects. You will pair with engineers daily and ship Figma-to-PR yourself when it&apos;s faster. You will write. You will draw. You will fight for white space. ` +
       `Our landing is on its eighth version and counting. We have a cream-and-cobalt palette, an Instrument Serif display face, and a 1.5px SVG stroke discipline. If you look at that and want to tear it down and rebuild it correctly, tell us how. If you look at it and want to refine it to a razor, tell us why. Either answer works — we want conviction.`,
     ownership: [
@@ -100,7 +100,7 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
             </svg>
-            <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
+            <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Palvento</span>
           </Link>
           <Link href="/careers" style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none' }}>← All roles</Link>
         </div>
@@ -132,7 +132,7 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
         <div style={{ marginTop: 48, padding: 28, background: C.surface, border: `1px solid ${C.rule}` }}>
           <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 26, letterSpacing: '-0.02em' }}>How to apply</div>
           <p style={{ marginTop: 10, fontSize: 15, color: C.mutedDk, lineHeight: 1.55 }}>
-            Email <a href={`mailto:careers@meridia-placeholder.com?subject=${encodeURIComponent(role.title)}`} style={{ color: C.cobalt, textDecoration: 'none' }}>careers@meridia-placeholder.com</a> with a short note, links to prior work, and one thing you&apos;d change about Meridia today.
+            Email <a href={`mailto:careers@palvento-placeholder.com?subject=${encodeURIComponent(role.title)}`} style={{ color: C.cobalt, textDecoration: 'none' }}>careers@palvento-placeholder.com</a> with a short note, links to prior work, and one thing you&apos;d change about Palvento today.
           </p>
         </div>
       </article>

@@ -1,6 +1,6 @@
 # Hooks library
 
-100 founder-voice hooks for Meridia. Each hook is the **first two lines** that show before "see more" on LinkedIn or the first tweet in a thread. Pick one, write the 250 words underneath, post.
+100 founder-voice hooks for Palvento. Each hook is the **first two lines** that show before "see more" on LinkedIn or the first tweet in a thread. Pick one, write the 250 words underneath, post.
 
 ## The voice rules
 
@@ -84,7 +84,7 @@
 62. The feed validator catches 32 different rejection types before they hit the marketplace. / That list took six weeks of research, not engineering.
 63. We built a category error dictionary per marketplace. / Updated weekly. I can tell you the last schema change date from memory.
 64. Our multi-channel inventory pattern. / One source of truth. Per-channel buffer. No overselling.
-65. Meridia auto-creates eBay business policies on connect. / It saves the first-time seller a full hour.
+65. Palvento auto-creates eBay business policies on connect. / It saves the first-time seller a full hour.
 66. Our listing-health score: 100 minus 15 per error minus 5 per warning, clamped 0 to 100. / It is the single most-checked number in the product.
 67. Our Shopify inventory integration doesn't poll. It subscribes. / That is one sentence of architecture. It is also the line between "good enough" and "real".
 68. Aspects enrichment. Pulls category-required attributes from Shopify metafields. / Falls back to a small model when the field isn't there.
@@ -147,7 +147,7 @@ Contrast to v1 of this library, which had five name-drops and inadvertently poin
 
 Open a Claude chat, paste this library + `docs/marketing/positioning.md`, and ask:
 
-> Draft 10 new LinkedIn hooks for Meridia matching the voice of this library. Two lines each — an assertion and a follow-up that creates tension. Focus on [narrative | friction | product | POV]. Reference the Shopify operator, not a competitor. Use specific numbers. No exclamation marks. No emoji. No "game-changing" or "10x" or "the future of". The spreadsheet is the incumbent, not a SaaS vendor.
+> Draft 10 new LinkedIn hooks for Palvento matching the voice of this library. Two lines each — an assertion and a follow-up that creates tension. Focus on [narrative | friction | product | POV]. Reference the Shopify operator, not a competitor. Use specific numbers. No exclamation marks. No emoji. No "game-changing" or "10x" or "the future of". The spreadsheet is the incumbent, not a SaaS vendor.
 
 Expect to reject 6 of 10. Keep the 4 that land.
 

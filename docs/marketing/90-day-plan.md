@@ -12,7 +12,7 @@ KPIs reference `kpis.md`.
 - Product Hunt launch (Tuesday 12:01am PT) — kit in `launch/product-hunt-kit.md`.
 - Hacker News "Show HN" post (Tuesday 6am PT, 6 hours after PH) — copy in `launch/hn-post.md`.
 - Founder LinkedIn launch post (see `outreach/linkedin-launch-sequence.md` post 1).
-- Email blast to waitlist (subject: "Meridia is live") — send 7am PT Tuesday.
+- Email blast to waitlist (subject: "Palvento is live") — send 7am PT Tuesday.
 - Three pre-written community pings (Ecommerce Fuel, Indie Hackers, Operators Slack) — drop by 10am PT Tuesday.
 - Two founder tweets/day for five days (bank in `outreach/twitter-thread-bank.md`).
 **KPIs.** 500+ PH upvotes (stretch: top 5 product of the day). 80+ HN points. 250+ waitlist → trial conversions. 1,500 net new site visitors.
@@ -86,7 +86,7 @@ KPIs reference `kpis.md`.
 ## Week 8 — Second webinar
 **Theme.** Repeat the webinar motion with a partner co-host.
 **Deliverables.**
-- Webinar 2 co-hosted with an agency partner (topic: *How agencies run ops for 10+ clients on Meridia*).
+- Webinar 2 co-hosted with an agency partner (topic: *How agencies run ops for 10+ clients on Palvento*).
 - Blog post 5: cornerstone deep-dive on AI in commerce ops (no hype, show grounded examples).
 - Founder LinkedIn post 4.
 - Affiliate program opened to application (not public signup).
@@ -98,7 +98,7 @@ KPIs reference `kpis.md`.
 ## Week 9 — Paid search switched on
 **Theme.** First controlled paid test, branded + competitor terms only.
 **Deliverables.**
-- Google Search campaigns live: "Linnworks alternative", "Brightpearl pricing", "multichannel inventory software", and Meridia-brand defense.
+- Google Search campaigns live: "Linnworks alternative", "Brightpearl pricing", "multichannel inventory software", and Palvento-brand defense.
 - Daily budget capped at $150 for first 14 days.
 - Conversion tracking tight (Vercel Analytics + PostHog + Stripe).
 - Supporting post from calendar.

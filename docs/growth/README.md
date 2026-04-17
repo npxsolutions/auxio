@@ -6,7 +6,7 @@ Product-led loops, referrals, viral mechanics, and the experiment log. Everythin
 
 - `plg-loop.md` — the core product-led loop. What action users take that brings another user? (e.g. invited supplier, shared dashboard, branded customer-facing page.)
 - `referral-program.md` — mechanic (cash / credit / tier), attribution, fraud prevention, payout cadence. Double-sided vs. one-sided.
-- `viral-loops.md` — anything that generates impressions outside the app: public dashboards, embedded widgets, "Powered by Meridia" in customer-facing surfaces.
+- `viral-loops.md` — anything that generates impressions outside the app: public dashboards, embedded widgets, "Powered by Palvento" in customer-facing surfaces.
 - `experiments-log.md` — append-only list of growth experiments. Hypothesis, metric, result, decision. One row per experiment.
 
 ## Key questions

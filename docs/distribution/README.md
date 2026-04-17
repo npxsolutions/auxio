@@ -1,6 +1,6 @@
 # Distribution
 
-How Meridia reaches customers without paying CAC for every one. The product is shipped — distribution is the unlock that turns engineering velocity into compounding revenue.
+How Palvento reaches customers without paying CAC for every one. The product is shipped — distribution is the unlock that turns engineering velocity into compounding revenue.
 
 This doc covers the channel ranking we use to decide what to invest in, the quarterly roadmap, the KPIs we track, who owns what, and the product dependencies that gate each channel.
 
@@ -13,7 +13,7 @@ Leverage = expected accounts won per hour invested over a 12-month window, weigh
 3. **Integrations-as-distribution.** Every new integration is a co-marketing event with the partner's ecosystem. A new Klaviyo, Stripe Tax, or ShipStation integration is a distribution channel before it's a feature.
 4. **Affiliates and content creators.** Lower per-deal ACV, broader reach, easier to scale. The right ecommerce-ops YouTuber or newsletter generates 30–60 trial signups per published piece. See `/app/affiliates`.
 5. **Directories (G2, Capterra, GetApp, AlternativeTo, Product Hunt, SaaSHub).** Compounding once seeded with 25+ honest reviews. See `/app/directories`.
-6. **Developer platform.** Indirect distribution. Each builder who ships an Meridia-powered tool surfaces us to a new audience. ROI is 12–18 months out; worth the patience because retention is exceptional.
+6. **Developer platform.** Indirect distribution. Each builder who ships an Palvento-powered tool surfaces us to a new audience. ROI is 12–18 months out; worth the patience because retention is exceptional.
 7. **Outbound and paid acquisition.** Lowest leverage. We use it to test ICP variants, not as a primary channel.
 
 ## Quarterly distribution roadmap
@@ -39,7 +39,7 @@ Leverage = expected accounts won per hour invested over a 12-month window, weigh
 
 ### Q1 next year
 - TrustRadius Top-Rated submission.
-- First Meridia operator dinners in London, NYC, Berlin, Singapore.
+- First Palvento operator dinners in London, NYC, Berlin, Singapore.
 - Developer platform GA: typed SDKs, OpenAPI spec at /developers/reference, public Postman collection.
 
 ## KPIs
@@ -68,7 +68,7 @@ Distribution waits on the product more than we'd like. The hard sequencing:
 
 - **Shopify App Store listing** depends on Shopify App Bridge embed parity, which depends on the merchant-portal embed (in flight).
 - **BigCommerce App Store** depends on the BigCommerce integration reaching feature parity with Shopify (Q3 commit).
-- **Vercel integration** depends on a published `@auxio/react` package and a typed SDK (Q4 commit).
+- **Vercel integration** depends on a published `@palvento/react` package and a typed SDK (Q4 commit).
 - **G2 Leader badge** depends on net 50 reviews per quarter, which depends on customer-success bandwidth (hire planned for Q3).
 - **Developer platform GA** depends on the OpenAPI spec, which depends on the v1 contract freeze (already shipped) and tooling investment (in flight).
 

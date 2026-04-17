@@ -105,7 +105,7 @@ export default function EnterprisePage() {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.88)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ textDecoration: 'none', color: C.ink, display: 'flex', alignItems: 'center', gap: 10 }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke={C.ink} strokeWidth="1.5"/><rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt}/></svg>
-          <span style={{ fontFamily: SERIF, fontSize: 20, letterSpacing: '-0.015em' }}>Meridia</span>
+          <span style={{ fontFamily: SERIF, fontSize: 20, letterSpacing: '-0.015em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: 24, fontSize: 13 }}>
           <Link href="/pricing" style={{ color: C.inkSoft, textDecoration: 'none' }}>Pricing</Link>
@@ -120,7 +120,7 @@ export default function EnterprisePage() {
           Enterprise
         </div>
         <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(48px, 8vw, 96px)', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 0.96, margin: 0, color: C.ink }}>
-          Meridia for enterprise.
+          Palvento for enterprise.
         </h1>
         <p style={{ fontSize: 19, lineHeight: 1.55, color: C.inkSoft, maxWidth: 640, marginTop: 28 }}>
           The same intelligence engine, wrapped in the governance, support, and isolation that large operations require. Deployed in your region, audited against your standards, priced to your scale.

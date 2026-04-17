@@ -78,7 +78,7 @@ export default function OnboardingClient({
       <aside style={{ width: 300, borderRight: `1px solid ${LINE}`, padding: '40px 28px', position: 'sticky', top: 0, height: '100vh', boxSizing: 'border-box' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 36 }}>
           <div style={{ width: 30, height: 30, background: `linear-gradient(135deg, ${COBALT} 0%, #7c75f8 100%)`, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: 14 }}>A</div>
-          <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.02em' }}>Meridia</span>
+          <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.02em' }}>Palvento</span>
         </div>
 
         <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: MUTE, fontWeight: 700, marginBottom: 18 }}>

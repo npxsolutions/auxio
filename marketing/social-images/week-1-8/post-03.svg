@@ -68,6 +68,6 @@
   <!-- caption footer -->
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12" fill="#0b0f1a" fill-opacity="0.55">
     <text x="60" y="600">a smaller, truer story · funds a bigger real business</text>
-    <text x="1140" y="600" text-anchor="end">[brand]</text>
+    <text x="1140" y="600" text-anchor="end">Palvento</text>
   </g>
 </svg>

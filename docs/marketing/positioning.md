@@ -1,6 +1,6 @@
 # Positioning Canvas
 
-> Framework: April Dunford's *Obviously Awesome*. Source of truth for how Meridia is described in every piece of marketing copy. If you are tempted to invent a new phrase on a landing page, check this doc first.
+> Framework: April Dunford's *Obviously Awesome*. Source of truth for how Palvento is described in every piece of marketing copy. If you are tempted to invent a new phrase on a landing page, check this doc first.
 >
 > **Wedge (locked April 2026):** Self-serve multichannel feed management for Shopify-led sellers scaling past their store.
 
@@ -30,7 +30,7 @@ Five things we have that the alternatives — specifically Feedonomics — do no
 
 1. **Self-serve signup from a Shopify App Store install.** First channel live, first feed syndicated, first error surfaced — all inside ten minutes, no sales call. Feedonomics, Rithum, Linnworks, and Brightpearl all require a demo before you see a price.
 2. **Published pricing in five currencies.** $59 / $159 / $499 / Custom, toggleable between USD, GBP, EUR, AUD and CAD. Nobody in the quote-only tier does this. Sellbrite, Baselinker and Veeqo publish but only in USD / EUR.
-3. **Feed optimisation and P&L in one product.** Feedonomics does feeds. A2X does P&L. Shopify Marketplace Connect does neither well. Meridia closes that loop for the Shopify-led operator — the same product that normalises the feed also tells you which SKU on which channel is profitable.
+3. **Feed optimisation and P&L in one product.** Feedonomics does feeds. A2X does P&L. Shopify Marketplace Connect does neither well. Palvento closes that loop for the Shopify-led operator — the same product that normalises the feed also tells you which SKU on which channel is profitable.
 4. **Shopify-native install and sync.** OAuth via the App Store, two-way sync, sub-minute latency, no middleware. Not a connector bolted onto a generic platform — the Shopify install is the primary install path.
 5. **Channel breadth at this price band.** Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, WooCommerce. Sellbrite and Shopify Marketplace Connect cap out at a narrower set; Baselinker's breadth is EU-skewed.
 
@@ -80,7 +80,7 @@ The Enterprise tier still serves sellers who grow into SSO / SLA / data-residenc
 > Every channel. One clean feed.
 
 ### 30 words
-> Meridia is self-serve multichannel feed management for Shopify-led sellers. Sync Amazon, eBay, TikTok Shop, Walmart, Etsy and more in under ten minutes, with real feed optimisation and honest per-channel P&L — from $59/mo, no sales call.
+> Palvento is self-serve multichannel feed management for Shopify-led sellers. Sync Amazon, eBay, TikTok Shop, Walmart, Etsy and more in under ten minutes, with real feed optimisation and honest per-channel P&L — from $59/mo, no sales call.
 
 ### 90 seconds
 > If you run a Shopify store doing $10k a month or more, adding Amazon, eBay and TikTok Shop is the obvious next move. The problem is that the tool market splits into two halves and neither half fits you.
@@ -89,6 +89,6 @@ The Enterprise tier still serves sellers who grow into SSO / SLA / data-residenc
 >
 > On the other side: Feedonomics and Rithum. Enterprise feed management, $2,500 a month before you see a demo, managed-services retainers, thirty-to-ninety day onboarding. Powerful, and completely the wrong shape for a Shopify merchant doing a quarter-million a year.
 >
-> Meridia sits in the gap. Self-serve from the Shopify App Store, up in under ten minutes, covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce and WooCommerce. Real feed rules. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you actually know which marketplace is making money after fees. $59 a month for one channel, $159 for five, $499 for unlimited, published in five currencies, flat, no percentage of revenue.
+> Palvento sits in the gap. Self-serve from the Shopify App Store, up in under ten minutes, covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce and WooCommerce. Real feed rules. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you actually know which marketplace is making money after fees. $59 a month for one channel, $159 for five, $499 for unlimited, published in five currencies, flat, no percentage of revenue.
 >
 > Enterprise sales is still available for sellers doing multi-region, ten-plus channels, SSO, SLA, data residency — but it's a separate path for the top tier, not the whole pitch. The whole pitch is: you're a Shopify founder, you want to be on every marketplace that matters, and you want the feed to be clean. That's the job.

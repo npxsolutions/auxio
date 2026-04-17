@@ -23,7 +23,7 @@ function HeroStatCard() {
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '9999px', background: 'rgba(163,230,53,0.1)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '14px', color: '#a3e635', fontWeight: 700, marginBottom: '28px' }}>
-          Meridia · Multichannel Platform
+          Palvento · Multichannel Platform
         </div>
         <h1 style={{ fontSize: '88px', fontWeight: 800, letterSpacing: '-0.05em', color: 'white', lineHeight: 1, marginBottom: '16px' }}>
           List once.<br />
@@ -45,7 +45,7 @@ function HeroStatCard() {
       </div>
       <div style={{ position: 'absolute', bottom: '28px', right: '40px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>auxio.io</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.io</span>
       </div>
     </div>
   )
@@ -53,21 +53,21 @@ function HeroStatCard() {
 
 function ComparisonCard() {
   const rows = [
-    { feature: 'Starting price',    auxio: '£49/mo',   feed: 'Custom £1k+', rithum: '$2,000+' },
-    { feature: 'Time to go live',   auxio: '< 10 min', feed: 'Weeks',       rithum: 'Months' },
-    { feature: 'AI optimisation',   auxio: '✓',        feed: '✓',           rithum: '✓' },
-    { feature: 'Profit tracking',   auxio: '✓',        feed: '✗',           rithum: 'Partial' },
-    { feature: 'Social intelligence',auxio: '✓',       feed: '✗',           rithum: '✗' },
-    { feature: 'Self-serve',        auxio: '✓',        feed: 'Managed',     rithum: 'Managed' },
+    { feature: 'Starting price',    palvento: '£49/mo',   feed: 'Custom £1k+', rithum: '$2,000+' },
+    { feature: 'Time to go live',   palvento: '< 10 min', feed: 'Weeks',       rithum: 'Months' },
+    { feature: 'AI optimisation',   palvento: '✓',        feed: '✓',           rithum: '✓' },
+    { feature: 'Profit tracking',   palvento: '✓',        feed: '✗',           rithum: 'Partial' },
+    { feature: 'Social intelligence',palvento: '✓',       feed: '✗',           rithum: '✗' },
+    { feature: 'Self-serve',        palvento: '✓',        feed: 'Managed',     rithum: 'Managed' },
   ]
   return (
     <div style={{ width: '1200px', height: '628px', background: '#f7f3eb', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', system-ui, sans-serif", padding: '60px' }}>
       <div style={{ width: '100%' }}>
-        <h2 style={{ fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', textAlign: 'center', marginBottom: '8px' }}>Why sellers switch to Meridia</h2>
+        <h2 style={{ fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', textAlign: 'center', marginBottom: '8px' }}>Why sellers switch to Palvento</h2>
         <p style={{ textAlign: 'center', fontSize: '16px', color: '#64748b', marginBottom: '36px' }}>Powerful like Feedonomics. Affordable like Baselinker. Faster than both.</p>
         <div style={{ background: 'white', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: '#0f172a' }}>
-            {['', 'Meridia', 'Feedonomics', 'Rithum'].map((h, i) => (
+            {['', 'Palvento', 'Feedonomics', 'Rithum'].map((h, i) => (
               <div key={i} style={{ padding: '12px 16px', textAlign: i > 0 ? 'center' : 'left' }}>
                 <span style={{ fontSize: '13px', fontWeight: 700, color: i === 1 ? '#a3e635' : 'rgba(255,255,255,0.4)' }}>{h}</span>
               </div>
@@ -76,7 +76,7 @@ function ComparisonCard() {
           {rows.map((row, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', borderBottom: i < rows.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
               <div style={{ padding: '11px 16px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
-              {[row.auxio, row.feed, row.rithum].map((val, j) => (
+              {[row.palvento, row.feed, row.rithum].map((val, j) => (
                 <div key={j} style={{ padding: '11px 16px', textAlign: 'center', background: j === 0 ? 'rgba(91,82,245,0.04)' : 'transparent' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: j === 0 ? '#5b52f5' : val === '✗' || val.includes('Months') || val.includes('Weeks') || val.includes('$2,000') || val.includes('Custom') || val === 'Managed' ? '#cbd5e1' : '#94a3b8' }}>{val}</span>
                 </div>
@@ -84,7 +84,7 @@ function ComparisonCard() {
             </div>
           ))}
         </div>
-        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: '#94a3b8' }}>auxio.io · Start free — no credit card required</p>
+        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: '#94a3b8' }}>palvento.io · Start free — no credit card required</p>
       </div>
     </div>
   )
@@ -120,7 +120,7 @@ function FeatureCard() {
         <div style={{ textAlign: 'center', marginTop: '48px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
-            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>auxio.io</span>
+            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.io</span>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@ function TestimonialCard() {
       <div style={{ maxWidth: '800px', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', padding: '8px 20px', borderRadius: '9999px', background: 'rgba(163,230,53,0.15)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '15px', fontWeight: 700, color: '#4d7c0f', marginBottom: '32px' }}>87% time saved</div>
         <p style={{ fontSize: '32px', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, letterSpacing: '-0.02em', marginBottom: '32px', fontStyle: 'italic' }}>
-          &ldquo;We were spending 3 hours a day managing listings across eBay and Amazon. Meridia cut that to under 20 minutes.&rdquo;
+          &ldquo;We were spending 3 hours a day managing listings across eBay and Amazon. Palvento cut that to under 20 minutes.&rdquo;
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
           <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: 700 }}>S</div>
@@ -143,7 +143,7 @@ function TestimonialCard() {
             <div style={{ fontSize: '13px', color: '#64748b' }}>eBay & Amazon seller · 800 SKUs</div>
           </div>
         </div>
-        <p style={{ marginTop: '32px', fontSize: '14px', color: '#94a3b8' }}>auxio.io · Start free — no credit card required</p>
+        <p style={{ marginTop: '32px', fontSize: '14px', color: '#94a3b8' }}>palvento.io · Start free — no credit card required</p>
       </div>
     </div>
   )
@@ -179,7 +179,7 @@ function FoundingCard() {
         </div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ width: '22px', height: '22px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '11px', fontWeight: 800 }}>A</div>
-          <span style={{ fontSize: '16px', color: 'rgba(255,255,255,0.35)', fontWeight: 700 }}>auxio.io/signup</span>
+          <span style={{ fontSize: '16px', color: 'rgba(255,255,255,0.35)', fontWeight: 700 }}>palvento.io/signup</span>
         </div>
       </div>
     </div>
@@ -191,7 +191,7 @@ function VsFeedonomicsCard() {
     <div style={{ width: '1200px', height: '628px', background: '#09090b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', system-ui, sans-serif", padding: '80px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
       <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <p style={{ textAlign: 'center', fontSize: '14px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Feedonomics vs Meridia</p>
+        <p style={{ textAlign: 'center', fontSize: '14px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Feedonomics vs Palvento</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '32px', alignItems: 'center' }}>
           {/* Feedonomics */}
           <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
@@ -207,9 +207,9 @@ function VsFeedonomicsCard() {
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '28px', fontWeight: 800, color: 'rgba(255,255,255,0.15)', letterSpacing: '-0.02em' }}>vs</div>
           </div>
-          {/* Meridia */}
+          {/* Palvento */}
           <div style={{ border: '1px solid rgba(91,82,245,0.4)', borderRadius: '16px', padding: '32px', textAlign: 'center', background: 'rgba(91,82,245,0.08)' }}>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#a3e635', marginBottom: '16px' }}>Meridia</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#a3e635', marginBottom: '16px' }}>Palvento</div>
             {[['£49/mo', 'Starting price'], ['< 10 min', 'To go live'], ['Self-serve', 'Setup'], ['Yes', 'Profit tracking']].map(([v, l]) => (
               <div key={l} style={{ marginBottom: '12px' }}>
                 <div style={{ fontSize: '20px', fontWeight: 700, color: 'white' }}>{v}</div>
@@ -218,7 +218,7 @@ function VsFeedonomicsCard() {
             ))}
           </div>
         </div>
-        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.2)' }}>auxio.io · Start free, no credit card required</p>
+        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.2)' }}>palvento.io · Start free, no credit card required</p>
       </div>
     </div>
   )

@@ -147,7 +147,7 @@ export function NpsPrompt() {
             One quick question
           </div>
           <div style={{ fontSize: 15, lineHeight: 1.45, marginBottom: 14, fontWeight: 500 }}>
-            How likely are you to recommend Meridia to a colleague?
+            How likely are you to recommend Palvento to a colleague?
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(11, 1fr)', gap: 4 }}>
             {Array.from({ length: 11 }).map((_, n) => (

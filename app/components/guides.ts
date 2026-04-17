@@ -135,7 +135,7 @@ export const guides: Record<string, Guide> = {
     description: 'Automatically adjust prices to stay competitive or protect your margins — rules run on every sync.',
     steps: [
       { title: 'Create a repricing rule', description: 'Click "New Rule" and choose a strategy: match lowest, beat by %, or protect margin floor.' },
-      { title: 'Set a floor price', description: 'The floor is the minimum price you\'ll ever sell at. Meridia will never go below it, even in a race to the bottom.' },
+      { title: 'Set a floor price', description: 'The floor is the minimum price you\'ll ever sell at. Palvento will never go below it, even in a race to the bottom.' },
       { title: 'Scope the rule', description: 'Apply rules to a specific channel, category, or set of SKUs — or run them globally.' },
       { title: 'Monitor the activity log', description: 'Every price change is logged with the before/after price and the rule that triggered it.' },
     ],
@@ -250,10 +250,10 @@ export const guides: Record<string, Guide> = {
 
   '/developer': {
     title: 'Developer & API',
-    description: 'Generate API keys to access your Meridia data programmatically, and set up webhooks to receive real-time events.',
+    description: 'Generate API keys to access your Palvento data programmatically, and set up webhooks to receive real-time events.',
     steps: [
       { title: 'Create an API key', description: 'Click "New API Key", choose scopes (read/write per resource), and copy the key — it\'s only shown once.' },
-      { title: 'Use the key', description: 'Pass the key as a Bearer token: Authorization: Bearer auxio_xxxx. All endpoints return JSON.' },
+      { title: 'Use the key', description: 'Pass the key as a Bearer token: Authorization: Bearer palvento_xxxx. All endpoints return JSON.' },
       { title: 'Set up a webhook', description: 'Add a URL and select the events you want (e.g. order.created, listing.synced). We\'ll POST a signed payload.' },
       { title: 'Verify webhook signatures', description: 'Use the signing secret (whsec_xxxx) to verify the HMAC-SHA256 signature on incoming webhook payloads.' },
     ],
@@ -280,7 +280,7 @@ export const guides: Record<string, Guide> = {
 
   '/costs': {
     title: 'Costs & Margins',
-    description: 'Set the cost price for every product so Meridia can calculate real profit across all reports.',
+    description: 'Set the cost price for every product so Palvento can calculate real profit across all reports.',
     steps: [
       { title: 'Fill in missing costs', description: 'Products highlighted in yellow have no cost price set. Click the cost cell and type the value — press Enter to save.' },
       { title: 'Apply a default %', description: 'If you don\'t know exact costs, use "Apply default COGS %" to set a percentage of sell price across all unpriced items.' },
@@ -394,7 +394,7 @@ export const guides: Record<string, Guide> = {
 
   '/onboarding': {
     title: 'Getting Started',
-    description: 'Welcome to Meridia! Follow these steps to get your store fully set up and syncing.',
+    description: 'Welcome to Palvento! Follow these steps to get your store fully set up and syncing.',
     steps: [
       { title: 'Connect your first channel', description: 'Go to Channels and connect eBay, Amazon, Shopify, or wherever you sell most. This imports your listings and orders.' },
       { title: 'Review imported listings', description: 'Head to Listings to check that your products have imported correctly and are all showing as Active.' },

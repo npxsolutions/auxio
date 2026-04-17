@@ -32,7 +32,7 @@ export default function ContactPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Meridia</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -61,9 +61,9 @@ export default function ContactPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {[
-              { icon: '📩', title: 'General enquiries', desc: 'hello@auxio.io' },
-              { icon: '🏢', title: 'Enterprise sales', desc: 'enterprise@auxio.io' },
-              { icon: '🛠️', title: 'Technical support', desc: 'support@auxio.io' },
+              { icon: '📩', title: 'General enquiries', desc: 'hello@palvento.io' },
+              { icon: '🏢', title: 'Enterprise sales', desc: 'enterprise@palvento.io' },
+              { icon: '🛠️', title: 'Technical support', desc: 'support@palvento.io' },
             ].map(c => (
               <div key={c.title} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>{c.icon}</div>
@@ -168,7 +168,7 @@ export default function ContactPage() {
 
       {/* Footer */}
       <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Meridia. All rights reserved.</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Pricing', '/pricing'], ['Login', '/login']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{l}</Link>

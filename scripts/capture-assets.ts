@@ -1,10 +1,10 @@
 /**
- * [capture] — Playwright screenshot + video capture pipeline for Meridia.
+ * [capture] — Playwright screenshot + video capture pipeline for Palvento.
  *
  * Run with:  npm run capture
  *
  * Env:
- *   CAPTURE_BASE_URL        (default: https://auxio-lkqv.vercel.app)
+ *   CAPTURE_BASE_URL        (default: https://palvento-lkqv.vercel.app)
  *   DEMO_USER_EMAIL         (default: info@npxwholesale.co.uk)
  *   DEMO_USER_PASSWORD      (required for auth-gated captures; if absent, only public pages)
  *   NEXT_PUBLIC_SUPABASE_URL        (default: https://oiywxhmhabqjvswdwrzc.supabase.co)
@@ -19,7 +19,7 @@ import path from 'node:path'
 const log = (...args: unknown[]) => console.log('[capture]', ...args)
 const warn = (...args: unknown[]) => console.warn('[capture]', ...args)
 
-const BASE_URL = (process.env.CAPTURE_BASE_URL || 'https://auxio-lkqv.vercel.app').replace(/\/$/, '')
+const BASE_URL = (process.env.CAPTURE_BASE_URL || 'https://palvento-lkqv.vercel.app').replace(/\/$/, '')
 const SUPABASE_URL =
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://oiywxhmhabqjvswdwrzc.supabase.co'
 const DEMO_EMAIL = process.env.DEMO_USER_EMAIL || 'info@npxwholesale.co.uk'
@@ -281,7 +281,7 @@ async function main() {
       viewport: vp.size,
       deviceScaleFactor: 1,
       userAgent:
-        'Mozilla/5.0 (Meridia Capture Bot) Chrome/Playwright',
+        'Mozilla/5.0 (Palvento Capture Bot) Chrome/Playwright',
     })
     // Suppress cookie-consent banner on every page in this context.
     await ctx.addInitScript(() => {

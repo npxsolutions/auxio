@@ -160,7 +160,7 @@ export const EBAY_RULES: RegisteredRule[] = [
     severity: 'error',
     channel: 'ebay',
     message: 'This eBay category requires a GTIN (UPC, EAN, or ISBN).',
-    remediation: 'Set the Shopify variant barcode to a valid GTIN — Meridia can map it automatically.',
+    remediation: 'Set the Shopify variant barcode to a valid GTIN — Palvento can map it automatically.',
     autoFixable: true,
     evaluate: ({ listing, listingChannel }) => {
       const cat = listingChannel?.external_category_id ?? listingChannel?.category_id
@@ -187,7 +187,7 @@ export const EBAY_RULES: RegisteredRule[] = [
     severity: 'error',
     channel: 'ebay',
     message: 'eBay requires a condition (e.g. New, Used).',
-    remediation: 'Set a condition on the listing or via Shopify metafield meridia.condition.',
+    remediation: 'Set a condition on the listing or via Shopify metafield palvento.condition.',
     autoFixable: true,
     evaluate: ({ listing }) => ({ pass: !!listing.condition && String(listing.condition).trim().length > 0 }),
   },
@@ -196,7 +196,7 @@ export const EBAY_RULES: RegisteredRule[] = [
     severity: 'error',
     channel: 'ebay',
     message: 'Connect your eBay business policies (payment, return, fulfillment).',
-    remediation: 'Go to eBay → Account → Business Policies, create them, then re-sync in Meridia.',
+    remediation: 'Go to eBay → Account → Business Policies, create them, then re-sync in Palvento.',
     autoFixable: false,
     evaluate: ({ channelRow }) => {
       const p = channelRow?.metadata?.ebay_policies
@@ -253,7 +253,7 @@ export const EBAY_RULES: RegisteredRule[] = [
     severity: 'warning',
     channel: 'ebay',
     message: 'Package weight is recommended — some categories require it.',
-    remediation: 'Set the Shopify variant weight; Meridia will map it to eBay package dimensions.',
+    remediation: 'Set the Shopify variant weight; Palvento will map it to eBay package dimensions.',
     autoFixable: false,
     evaluate: ({ listing }) => ({
       pass: typeof listing.weight_grams === 'number' && listing.weight_grams > 0,

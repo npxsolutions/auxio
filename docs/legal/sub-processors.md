@@ -1,9 +1,9 @@
-# Meridia Sub-processors
+# Palvento Sub-processors
 
 _Last updated: 2026-04-13._
 
 This list is the authoritative record of third parties that process Personal
-Data on behalf of Meridia customers. Material changes are mirrored to
+Data on behalf of Palvento customers. Material changes are mirrored to
 <https://fulcra.com/security> and — for enterprise plans — announced by email
 at least 30 days before going live.
 
@@ -22,7 +22,7 @@ at least 30 days before going live.
 ### Marketplace integrations (at the user's direction)
 
 When a customer connects a sales channel, that marketplace becomes an
-independent controller of the data transferred to it. Meridia acts only on the
+independent controller of the data transferred to it. Palvento acts only on the
 user's instruction to publish to the channel.
 
 - eBay · <https://www.ebay.com/help/policies/member-behavior-policies/user-privacy-notice?id=4260>

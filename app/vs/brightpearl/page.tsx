@@ -2,47 +2,47 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Meridia vs Brightpearl — Full comparison for multichannel sellers (2026)',
-  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Meridia gives you inventory, procurement, P&L, and AI from $59/mo — live in 10 minutes, for sellers worldwide.',
-  keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Meridia', 'retail operating system alternative', 'global multichannel ecommerce software', 'international inventory management', 'Brightpearl competitor'],
+  title: 'Palvento vs Brightpearl — Full comparison for multichannel sellers (2026)',
+  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Palvento gives you inventory, procurement, P&L, and AI from $59/mo — live in 10 minutes, for sellers worldwide.',
+  keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Palvento', 'retail operating system alternative', 'global multichannel ecommerce software', 'international inventory management', 'Brightpearl competitor'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price',               auxio: 'From $59/mo',    bp: 'Custom quote only',    highlight: true },
-  { feature: 'Time to go live',              auxio: 'Self-serve, <10 min', bp: 'Weeks of onboarding', highlight: true },
-  { feature: 'Free trial',                   auxio: '14 days, no card',   bp: 'Demo only',           highlight: true },
-  { feature: 'Demand forecasting',           auxio: true,              bp: true,                   highlight: false },
-  { feature: 'Purchase orders',             auxio: true,              bp: true,                   highlight: false },
-  { feature: 'True net P&L (not revenue)',  auxio: true,              bp: 'Partial',              highlight: false },
-  { feature: 'AI listing optimisation',     auxio: true,              bp: false,                  highlight: false },
-  { feature: 'AI demand agent',             auxio: true,              bp: false,                  highlight: false },
-  { feature: 'Advertising tracking (PPC)',  auxio: true,              bp: false,                  highlight: false },
-  { feature: 'Developer API + webhooks',    auxio: true,              bp: 'Enterprise only',      highlight: false },
-  { feature: 'eBay integration',            auxio: true,              bp: true,                   highlight: false },
-  { feature: 'Amazon integration',          auxio: true,              bp: true,                   highlight: false },
-  { feature: 'Shopify integration',         auxio: true,              bp: true,                   highlight: false },
-  { feature: 'OnBuy integration',           auxio: true,              bp: false,                  highlight: false },
-  { feature: 'Dedicated support',            auxio: true,              bp: true,                   highlight: false },
-  { feature: 'Revenue % fee',               auxio: 'Never',           bp: 'Never',                highlight: false },
-  { feature: 'Annual contract required',    auxio: false,             bp: 'Yes',                  highlight: false },
+  { feature: 'Starting price',               palvento: 'From $59/mo',    bp: 'Custom quote only',    highlight: true },
+  { feature: 'Time to go live',              palvento: 'Self-serve, <10 min', bp: 'Weeks of onboarding', highlight: true },
+  { feature: 'Free trial',                   palvento: '14 days, no card',   bp: 'Demo only',           highlight: true },
+  { feature: 'Demand forecasting',           palvento: true,              bp: true,                   highlight: false },
+  { feature: 'Purchase orders',             palvento: true,              bp: true,                   highlight: false },
+  { feature: 'True net P&L (not revenue)',  palvento: true,              bp: 'Partial',              highlight: false },
+  { feature: 'AI listing optimisation',     palvento: true,              bp: false,                  highlight: false },
+  { feature: 'AI demand agent',             palvento: true,              bp: false,                  highlight: false },
+  { feature: 'Advertising tracking (PPC)',  palvento: true,              bp: false,                  highlight: false },
+  { feature: 'Developer API + webhooks',    palvento: true,              bp: 'Enterprise only',      highlight: false },
+  { feature: 'eBay integration',            palvento: true,              bp: true,                   highlight: false },
+  { feature: 'Amazon integration',          palvento: true,              bp: true,                   highlight: false },
+  { feature: 'Shopify integration',         palvento: true,              bp: true,                   highlight: false },
+  { feature: 'OnBuy integration',           palvento: true,              bp: false,                  highlight: false },
+  { feature: 'Dedicated support',            palvento: true,              bp: true,                   highlight: false },
+  { feature: 'Revenue % fee',               palvento: 'Never',           bp: 'Never',                highlight: false },
+  { feature: 'Annual contract required',    palvento: false,             bp: 'Yes',                  highlight: false },
 ]
 
 const REASONS = [
   {
     heading: 'You don\'t need a 4-week implementation project',
-    body: 'Brightpearl\'s onboarding takes weeks and requires a dedicated implementation specialist. Meridia is self-serve — connect your first channel in under 10 minutes, and your orders, listings, and inventory are live immediately. No calls, no contracts, no waiting.',
+    body: 'Brightpearl\'s onboarding takes weeks and requires a dedicated implementation specialist. Palvento is self-serve — connect your first channel in under 10 minutes, and your orders, listings, and inventory are live immediately. No calls, no contracts, no waiting.',
   },
   {
     heading: 'Transparent pricing from day one',
-    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Meridia publishes every tier, every feature, and every limit upfront. Start at $59/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
+    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Palvento publishes every tier, every feature, and every limit upfront. Start at $59/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
   },
   {
     heading: 'AI built in — not bolted on',
-    body: 'Brightpearl\'s platform is powerful but doesn\'t include AI-powered listing optimisation, an autonomous AI agent, or demand forecasting driven by machine learning. Meridia\'s AI layer is included on Growth and above — it monitors your store, surfaces actions, and can act on your behalf.',
+    body: 'Brightpearl\'s platform is powerful but doesn\'t include AI-powered listing optimisation, an autonomous AI agent, or demand forecasting driven by machine learning. Palvento\'s AI layer is included on Growth and above — it monitors your store, surfaces actions, and can act on your behalf.',
   },
   {
     heading: 'The full operations stack, not just order management',
-    body: 'Meridia covers the entire commerce operations loop: multichannel listings → inventory sync → order management → procurement → demand forecasting → P&L → advertising tracking → developer API. Brightpearl covers the back half well. Meridia covers all of it.',
+    body: 'Palvento covers the entire commerce operations loop: multichannel listings → inventory sync → order management → procurement → demand forecasting → P&L → advertising tracking → developer API. Brightpearl covers the back half well. Palvento covers all of it.',
   },
 ]
 
@@ -52,7 +52,7 @@ export default function VsBrightpearlPage() {
 
       {/* Nav */}
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, background: '#fff', zIndex: 50 }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none', letterSpacing: '-0.02em' }}>Meridia</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none', letterSpacing: '-0.02em' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/pricing" style={{ padding: '7px 16px', borderRadius: '7px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#64748b', textDecoration: 'none', fontWeight: 500 }}>See pricing</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -69,7 +69,7 @@ export default function VsBrightpearlPage() {
           <span style={{ color: '#5b52f5' }}>live in 10 minutes, from $59/mo.</span>
         </h1>
         <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '36px' }}>
-          Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Meridia gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
+          Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Palvento gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           <Link href="/signup" style={{ padding: '13px 28px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
@@ -86,13 +86,13 @@ export default function VsBrightpearlPage() {
         <h2 style={{ fontSize: '22px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '24px', textAlign: 'center' }}>Side-by-side comparison</h2>
         <div style={{ border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '12px 20px', fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', gap: '8px' }}>
-            <span>Feature</span><span style={{ textAlign: 'center', color: '#5b52f5' }}>Meridia</span><span style={{ textAlign: 'center' }}>Brightpearl</span>
+            <span>Feature</span><span style={{ textAlign: 'center', color: '#5b52f5' }}>Palvento</span><span style={{ textAlign: 'center' }}>Brightpearl</span>
           </div>
           {COMPARISON.map((row, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '12px 20px', borderBottom: i < COMPARISON.length - 1 ? '1px solid #f1f5f9' : 'none', background: row.highlight ? '#fafaf8' : 'white', gap: '8px', alignItems: 'center' }}>
               <span style={{ fontSize: '14px', color: '#334155', fontWeight: row.highlight ? 600 : 400 }}>{row.feature}</span>
-              <span style={{ fontSize: '13px', textAlign: 'center', color: typeof row.auxio === 'boolean' ? (row.auxio ? '#059669' : '#dc2626') : '#5b52f5', fontWeight: 600 }}>
-                {typeof row.auxio === 'boolean' ? (row.auxio ? '✓' : '✗') : row.auxio}
+              <span style={{ fontSize: '13px', textAlign: 'center', color: typeof row.palvento === 'boolean' ? (row.palvento ? '#059669' : '#dc2626') : '#5b52f5', fontWeight: 600 }}>
+                {typeof row.palvento === 'boolean' ? (row.palvento ? '✓' : '✗') : row.palvento}
               </span>
               <span style={{ fontSize: '13px', textAlign: 'center', color: typeof row.bp === 'boolean' ? (row.bp ? '#059669' : '#dc2626') : '#64748b' }}>
                 {typeof row.bp === 'boolean' ? (row.bp ? '✓' : '✗') : row.bp}
@@ -106,7 +106,7 @@ export default function VsBrightpearlPage() {
       <section style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '80px 48px' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>
-            Why multichannel sellers choose Meridia over Brightpearl
+            Why multichannel sellers choose Palvento over Brightpearl
           </h2>
           <div style={{ display: 'grid', gap: '32px' }}>
             {REASONS.map((r, i) => (

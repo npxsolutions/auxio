@@ -1,6 +1,6 @@
 # $1B SaaS social playbook — what they do, what we copy
 
-> Research across Stripe, Linear, Vercel, Notion, Ramp, Mercury, Attio, Figma, Klaviyo, Shopify. Synthesis into a practical 30-day calendar for Meridia (pre-launch, solo-founder, 45 min/day).
+> Research across Stripe, Linear, Vercel, Notion, Ramp, Mercury, Attio, Figma, Klaviyo, Shopify. Synthesis into a practical 30-day calendar for Palvento (pre-launch, solo-founder, 45 min/day).
 
 ## The five things $1B SaaS brands do that pre-launch founders don't
 
@@ -107,7 +107,7 @@
 - Blog: **1–2/week**, published + LinkedIn carousel
 - Newsletter: **1/week**, almost always Tuesday morning
 
-**Takeaway for Meridia**: 3 LinkedIn + 5 X + 2 TikTok + 1 blog per week = 11 pieces/week. This is what a $1B brand at maturity actually ships. Not 550/day.
+**Takeaway for Palvento**: 3 LinkedIn + 5 X + 2 TikTok + 1 blog per week = 11 pieces/week. This is what a $1B brand at maturity actually ships. Not 550/day.
 
 ### Hook patterns that recur
 
@@ -119,7 +119,7 @@
 6. **Named-customer story**: "Company X ran the old way. Then they tried this"
 7. **Re-frame**: "Everyone is talking about Y. The real story is Z"
 
-You already have all 7 of these in the Meridia hooks library.
+You already have all 7 of these in the Palvento hooks library.
 
 ### Length
 
@@ -175,7 +175,7 @@ These rituals are the compound interest of content. One format. Shipped weekly. 
 
 ---
 
-## The Meridia translation
+## The Palvento translation
 
 ### The weekly cadence we can actually sustain (pre-launch)
 

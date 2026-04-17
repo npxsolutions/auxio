@@ -129,7 +129,7 @@ export async function POST(request: Request) {
       })
 
       await resend.emails.send({
-        from: 'Meridia <digest@auxio.app>',
+        from: 'Palvento <digest@palvento.app>',
         to: email,
         subject: orders > 0
           ? `Your ${dateLabel} digest — £${profit.toFixed(0)} profit from ${orders} order${orders !== 1 ? 's' : ''}`
@@ -179,7 +179,7 @@ function buildDigestEmail(d: DigestData): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Your Meridia Daily Digest</title>
+<title>Your Palvento Daily Digest</title>
 </head>
 <body style="margin:0;padding:0;background:#f5f3ef;font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;-webkit-font-smoothing:antialiased;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ef;padding:32px 16px;">
@@ -193,7 +193,7 @@ function buildDigestEmail(d: DigestData): string {
       <td>
         <div style="display:inline-flex;align-items:center;gap:8px;">
           <div style="width:28px;height:28px;background:linear-gradient(135deg,#5b52f5,#7c6af7);border-radius:7px;display:inline-block;"></div>
-          <span style="font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-0.01em;">Meridia</span>
+          <span style="font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-0.01em;">Palvento</span>
         </div>
       </td>
       <td align="right" style="font-size:12px;color:#9b9ea8;">${d.dateLabel}</td>
@@ -281,10 +281,10 @@ function buildDigestEmail(d: DigestData): string {
       <table width="100%" cellpadding="0" cellspacing="0">
       <tr>
         <td>
-          <a href="https://auxio-lkqv.vercel.app/dashboard" style="display:inline-block;background:#0f172a;color:white;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">Open dashboard →</a>
+          <a href="https://palvento-lkqv.vercel.app/dashboard" style="display:inline-block;background:#0f172a;color:white;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">Open dashboard →</a>
         </td>
         <td align="right">
-          <a href="https://auxio-lkqv.vercel.app/agent" style="display:inline-block;border:1px solid #e8e5df;color:#1a1b22;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">AI insights →</a>
+          <a href="https://palvento-lkqv.vercel.app/agent" style="display:inline-block;border:1px solid #e8e5df;color:#1a1b22;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">AI insights →</a>
         </td>
       </tr>
       </table>
@@ -295,11 +295,11 @@ function buildDigestEmail(d: DigestData): string {
   <!-- Footer -->
   <tr><td style="padding:20px 0;text-align:center;">
     <div style="font-size:12px;color:#c0bdb7;">
-      You're receiving this because daily digests are enabled in your Meridia account.
+      You're receiving this because daily digests are enabled in your Palvento account.
       <br>
-      <a href="https://auxio-lkqv.vercel.app/settings" style="color:#9b9ea8;text-decoration:none;">Manage preferences</a>
+      <a href="https://palvento-lkqv.vercel.app/settings" style="color:#9b9ea8;text-decoration:none;">Manage preferences</a>
       &nbsp;·&nbsp;
-      <a href="https://auxio-lkqv.vercel.app/unsubscribe?email=${encodeURIComponent(d.email)}&type=digest" style="color:#9b9ea8;text-decoration:none;">Unsubscribe</a>
+      <a href="https://palvento-lkqv.vercel.app/unsubscribe?email=${encodeURIComponent(d.email)}&type=digest" style="color:#9b9ea8;text-decoration:none;">Unsubscribe</a>
     </div>
   </td></tr>
 

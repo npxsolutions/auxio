@@ -39,7 +39,7 @@
   <!-- cobalt accent dot -->
   <circle cx="600" cy="350" r="8" fill="#1d5fdb"/>
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#1d5fdb">
-    <text x="600" y="400" text-anchor="middle">[brand]</text>
+    <text x="600" y="400" text-anchor="middle">Palvento</text>
   </g>
   <g font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.45">
     <text x="450" y="500">$100k–$500k/mo sellers · 3–5 channels</text>

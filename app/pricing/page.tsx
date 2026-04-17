@@ -137,29 +137,29 @@ const FEEDONOMICS_PRICE: Record<Currency, string> = {
 }
 
 const buildCompare = (currency: Currency) => [
-  { feature: 'Starting price',              auxio: STARTING_PRICE[currency], brightpearl: 'Custom only', linnworks: LINNWORKS_PRICE[currency],  feedonomics: FEEDONOMICS_PRICE[currency] },
-  { feature: 'Pricing model',               auxio: 'Per plan',     brightpearl: 'Bespoke',     linnworks: 'Order vol', feedonomics: 'Custom' },
-  { feature: 'Revenue % fee',               auxio: 'Never',        brightpearl: 'Never',       linnworks: 'Never',     feedonomics: 'Yes' },
-  { feature: 'Multi-currency native',       auxio: '✓',            brightpearl: '✓',           linnworks: '✓',         feedonomics: '✓' },
-  { feature: 'Multi-region rollout',        auxio: '✓',            brightpearl: '✓',           linnworks: 'Limited',   feedonomics: '✓' },
-  { feature: 'Time to go live',             auxio: '< 10 min',     brightpearl: 'Weeks',       linnworks: '40 days',   feedonomics: 'Months' },
-  { feature: 'True P&L (not just revenue)', auxio: '✓',            brightpearl: 'Partial',     linnworks: '✗',         feedonomics: '✗' },
-  { feature: 'Demand forecasting',          auxio: '✓',            brightpearl: '✓',           linnworks: 'Add-on',    feedonomics: '✗' },
-  { feature: 'Purchase orders',             auxio: '✓',            brightpearl: '✓',           linnworks: '✓',         feedonomics: '✗' },
-  { feature: 'AI listing optimisation',     auxio: '✓',            brightpearl: '✗',           linnworks: '✗',         feedonomics: '✗' },
-  { feature: 'Developer API + webhooks',    auxio: '✓',            brightpearl: 'Enterprise',  linnworks: 'Add-on',    feedonomics: 'Enterprise' },
-  { feature: 'Seller-first support',        auxio: '✓',            brightpearl: '✓',           linnworks: 'Partial',   feedonomics: 'Managed' },
-  { feature: 'Self-serve setup',            auxio: '✓',            brightpearl: 'Managed',     linnworks: 'Managed',   feedonomics: 'Managed' },
+  { feature: 'Starting price',              palvento: STARTING_PRICE[currency], brightpearl: 'Custom only', linnworks: LINNWORKS_PRICE[currency],  feedonomics: FEEDONOMICS_PRICE[currency] },
+  { feature: 'Pricing model',               palvento: 'Per plan',     brightpearl: 'Bespoke',     linnworks: 'Order vol', feedonomics: 'Custom' },
+  { feature: 'Revenue % fee',               palvento: 'Never',        brightpearl: 'Never',       linnworks: 'Never',     feedonomics: 'Yes' },
+  { feature: 'Multi-currency native',       palvento: '✓',            brightpearl: '✓',           linnworks: '✓',         feedonomics: '✓' },
+  { feature: 'Multi-region rollout',        palvento: '✓',            brightpearl: '✓',           linnworks: 'Limited',   feedonomics: '✓' },
+  { feature: 'Time to go live',             palvento: '< 10 min',     brightpearl: 'Weeks',       linnworks: '40 days',   feedonomics: 'Months' },
+  { feature: 'True P&L (not just revenue)', palvento: '✓',            brightpearl: 'Partial',     linnworks: '✗',         feedonomics: '✗' },
+  { feature: 'Demand forecasting',          palvento: '✓',            brightpearl: '✓',           linnworks: 'Add-on',    feedonomics: '✗' },
+  { feature: 'Purchase orders',             palvento: '✓',            brightpearl: '✓',           linnworks: '✓',         feedonomics: '✗' },
+  { feature: 'AI listing optimisation',     palvento: '✓',            brightpearl: '✗',           linnworks: '✗',         feedonomics: '✗' },
+  { feature: 'Developer API + webhooks',    palvento: '✓',            brightpearl: 'Enterprise',  linnworks: 'Add-on',    feedonomics: 'Enterprise' },
+  { feature: 'Seller-first support',        palvento: '✓',            brightpearl: '✓',           linnworks: 'Partial',   feedonomics: 'Managed' },
+  { feature: 'Self-serve setup',            palvento: '✓',            brightpearl: 'Managed',     linnworks: 'Managed',   feedonomics: 'Managed' },
 ]
 
 const FAQ = [
   { q: 'Is there a free trial?', a: 'Yes — every plan starts with a 14-day free trial. No credit card required. You get full access to all features on your chosen plan.' },
-  { q: 'What happens after my trial?', a: "You'll be prompted to enter payment details. If you don't, your account moves to read-only mode — your listings on channels stay live, you just can't create new ones or make changes through Meridia." },
+  { q: 'What happens after my trial?', a: "You'll be prompted to enter payment details. If you don't, your account moves to read-only mode — your listings on channels stay live, you just can't create new ones or make changes through Palvento." },
   { q: 'Can I switch plans?', a: 'Yes, upgrade or downgrade at any time. Upgrades take effect immediately. Downgrades take effect at the next billing date.' },
   { q: 'What counts as a "channel"?', a: 'Each marketplace or store counts as one channel — so eBay, Amazon, and Shopify would be three channels. Regional connections within the same platform (e.g. Amazon US + Amazon DE) each count separately.' },
   { q: 'Which currencies and regions do you support?', a: 'Billing is available in USD, GBP, EUR, AUD, and CAD. The platform itself is multi-currency at the listing, order, and P&L level — sell in any marketplace currency and report in your home currency.' },
   { q: 'Do you take a cut of my revenue?', a: "Never. We charge a flat monthly subscription. No percentage of GMV, no per-order fees, no hidden charges. What you see is what you pay." },
-  { q: 'How is this different from ChannelAdvisor or Feedonomics?', a: 'ChannelAdvisor and Feedonomics are built for enterprise teams — dedicated specialists, custom contracts, and prices starting in the thousands per month. Meridia is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at $59/month.' },
+  { q: 'How is this different from ChannelAdvisor or Feedonomics?', a: 'ChannelAdvisor and Feedonomics are built for enterprise teams — dedicated specialists, custom contracts, and prices starting in the thousands per month. Palvento is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at $59/month.' },
 ]
 
 export default function PricingPage() {
@@ -178,7 +178,7 @@ export default function PricingPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Meridia</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -315,13 +315,13 @@ export default function PricingPage() {
       <div style={{ background: '#fafafa', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '8px', textAlign: 'center' }}>How we compare</h2>
-          <p style={{ fontSize: '16px', color: '#64748b', textAlign: 'center', marginBottom: '48px' }}>See why sellers choose Meridia over the enterprise alternatives.</p>
+          <p style={{ fontSize: '16px', color: '#64748b', textAlign: 'center', marginBottom: '48px' }}>See why sellers choose Palvento over the enterprise alternatives.</p>
 
           <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e8e8e5', overflow: 'hidden' }}>
             {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: '2px solid #f1f5f9' }}>
               <div style={{ padding: '16px 20px' }} />
-              {['Meridia', 'Brightpearl', 'Linnworks', 'Feedonomics'].map((name, i) => (
+              {['Palvento', 'Brightpearl', 'Linnworks', 'Feedonomics'].map((name, i) => (
                 <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(91,82,245,0.05)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#5b52f5' : '#0f172a' }}>{name}</div>
                 </div>
@@ -331,7 +331,7 @@ export default function PricingPage() {
             {COMPARE.map((row, i) => (
               <div key={row.feature} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: i < COMPARE.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
                 <div style={{ padding: '14px 20px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
-                {[row.auxio, row.brightpearl, row.linnworks, row.feedonomics].map((val, j) => (
+                {[row.palvento, row.brightpearl, row.linnworks, row.feedonomics].map((val, j) => (
                   <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(91,82,245,0.03)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                     <span style={{ fontSize: '12px', fontWeight: 600, color: j === 0 ? '#5b52f5' : val === '✗' ? '#94a3b8' : '#374151' }}>{val}</span>
                   </div>
@@ -375,7 +375,7 @@ export default function PricingPage() {
 
       {/* Footer */}
       <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Meridia. All rights reserved.</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Integrations', '/integrations'], ['Login', '/login']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{l}</Link>

@@ -14,7 +14,7 @@ function assertShape(r: { subject: string; html: string; text: string }) {
   expect(typeof r.subject).toBe('string')
   expect(r.subject.length).toBeGreaterThan(0)
   expect(r.html).toContain('<!DOCTYPE html>')
-  expect(r.html).toContain('Meridia')
+  expect(r.html).toContain('Palvento')
   expect(r.text.length).toBeGreaterThan(20)
 }
 
@@ -31,7 +31,7 @@ describe('email/lifecycle templates', () => {
   it('welcomeEmail omits comma when firstName is null', () => {
     const r = welcomeEmail({ id: 'u2', email: 'x@y.com', firstName: null })
     expect(r.html).not.toContain(', Sam')
-    expect(r.html).toContain('Welcome to Meridia.')
+    expect(r.html).toContain('Welcome to Palvento.')
   })
 
   it('day1NudgeEmail returns subject/html/text and links onboarding', () => {

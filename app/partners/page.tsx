@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Meridia — Partners
+// Palvento — Partners
 // Production page. v8 palette + Instrument Serif display + Geist body.
 // SVG craft: 1.5px strokes, ring nodes, ink + cobalt only, two colors max.
 // Copy cadence: Stripe / Linear / Notion. Period-terminated sentences.
@@ -54,7 +54,7 @@ type Tier = {
 const TIERS: Tier[] = [
   {
     name: 'Registered',
-    tagline: 'You know one client who could use Meridia.',
+    tagline: 'You know one client who could use Palvento.',
     rev: '20% recurring · 12 months',
     perks: [
       'Co-branded landing page.',
@@ -63,7 +63,7 @@ const TIERS: Tier[] = [
     ],
     needs: [
       'One referred opportunity per quarter.',
-      'Meridia overview certification (45 min, online).',
+      'Palvento overview certification (45 min, online).',
     ],
   },
   {
@@ -77,7 +77,7 @@ const TIERS: Tier[] = [
       'Sandbox accounts for client demos.',
     ],
     needs: [
-      'Three active accounts on Meridia.',
+      'Three active accounts on Palvento.',
       'Two certified consultants on staff.',
     ],
   },
@@ -93,7 +93,7 @@ const TIERS: Tier[] = [
       'Priority engineering escalations.',
     ],
     needs: [
-      'Ten active accounts on Meridia.',
+      'Ten active accounts on Palvento.',
       'Four certified consultants.',
       'One published joint case study annually.',
     ],
@@ -111,7 +111,7 @@ const TIERS: Tier[] = [
       'Dedicated solutions architect.',
     ],
     needs: [
-      'Twenty-five active accounts on Meridia.',
+      'Twenty-five active accounts on Palvento.',
       'Six certified consultants and a delivery lead.',
       'Joint quarterly business review.',
     ],
@@ -134,8 +134,8 @@ const COSELL = [
 
 const TIMELINE = [
   { week: 'Week 0', title: 'Apply',         desc: 'Submit the form. We review weekly and reply within seven days.' },
-  { week: 'Week 1', title: 'Discovery',     desc: 'A 30-minute call to understand your client base and how Meridia fits.' },
-  { week: 'Week 2', title: 'Certification', desc: 'Two consultants complete the Meridia certification. Async, ~3 hours.' },
+  { week: 'Week 1', title: 'Discovery',     desc: 'A 30-minute call to understand your client base and how Palvento fits.' },
+  { week: 'Week 2', title: 'Certification', desc: 'Two consultants complete the Palvento certification. Async, ~3 hours.' },
   { week: 'Week 3', title: 'Launch',        desc: 'Sandbox accounts provisioned. Co-branded landing page goes live.' },
   { week: 'Week 4', title: 'First deal',    desc: 'We co-pitch your first prospect. From there, you have the relationship.' },
 ]
@@ -144,7 +144,7 @@ const FAQ = [
   { q: 'How is commission paid?',         a: 'Monthly via Stripe Connect or wire, in USD, GBP, or EUR. Minimum payout £50. Statements arrive on the 5th, payments clear by the 15th.' },
   { q: 'Do I have to be exclusive?',      a: 'No. Most of our partners also resell competing products. We compete on the work, not on contract clauses.' },
   { q: 'Who owns the client?',            a: 'You do. We do not contact, cross-sell, or upsell your clients without your involvement.' },
-  { q: 'Can I white-label Meridia?',        a: 'Not yet. The Meridia brand stays on the product. Your brand sits on implementation, support, and reporting.' },
+  { q: 'Can I white-label Palvento?',        a: 'Not yet. The Palvento brand stays on the product. Your brand sits on implementation, support, and reporting.' },
   { q: 'What happens if a client churns?', a: 'Commission stops with the subscription. No clawbacks for cancellations after month two.' },
   { q: 'Is there a partner directory?',   a: 'Yes — Silver tier and above. Listed by region, specialism, and certified headcount. We pass inbound leads geographically.' },
 ]
@@ -255,7 +255,7 @@ export default function PartnersPage() {
       <section style={{ ...section, marginBottom: 80 }}>
         <div style={{ background: C.ink, color: C.bg, borderRadius: 18, padding: '64px 48px', display: 'grid', gap: 20 }}>
           <div className={display.className} style={{ fontSize: 'clamp(36px, 5vw, 56px)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-            Build a book on Meridia.
+            Build a book on Palvento.
           </div>
           <p style={{ fontSize: 16, color: 'rgba(243,240,234,0.7)', maxWidth: 560, lineHeight: 1.6 }}>
             The agencies and 3PLs already partnered with us are quietly compounding recurring revenue while their clients consolidate channels.
@@ -283,7 +283,7 @@ function Hero() {
           who run global commerce.
         </h1>
         <p style={{ fontSize: 18, lineHeight: 1.55, color: C.muted, maxWidth: 620, marginTop: 24 }}>
-          Agencies, consultancies, and 3PLs already run their clients&rsquo; back offices on Meridia. Refer one. Resell at scale. Co-build the operating layer for multichannel commerce.
+          Agencies, consultancies, and 3PLs already run their clients&rsquo; back offices on Palvento. Refer one. Resell at scale. Co-build the operating layer for multichannel commerce.
         </p>
         <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
           <a href="#apply" style={btnPrimary}>Apply to partner</a>
@@ -406,7 +406,7 @@ function ApplicationForm() {
       <Field name="clients" label="How many active commerce clients do you support?" placeholder="e.g. 12" />
       <div>
         <label style={fieldLabel} htmlFor="about">Tell us about your practice</label>
-        <textarea id="about" name="about" rows={4} style={{ ...fieldInput, resize: 'vertical', fontFamily: 'inherit' }} placeholder="Specialism, channels you cover, why Meridia fits." />
+        <textarea id="about" name="about" rows={4} style={{ ...fieldInput, resize: 'vertical', fontFamily: 'inherit' }} placeholder="Specialism, channels you cover, why Palvento fits." />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8, flexWrap: 'wrap' }}>
         <button type="submit" disabled={state === 'submitting'} style={{ ...btnPrimary, opacity: state === 'submitting' ? 0.6 : 1, cursor: state === 'submitting' ? 'progress' : 'pointer', border: 'none' }}>
@@ -438,7 +438,7 @@ function Field({ name, label, type = 'text', placeholder, required }: { name: st
 function Nav({ active }: { active: string }) {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none', letterSpacing: '-0.01em' }}>Meridia</Link>
+      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none', letterSpacing: '-0.01em' }}>Palvento</Link>
       <div style={{ display: 'flex', gap: 28 }}>
         {NAV.map(n => (
           <Link key={n.href} href={n.href} style={{ fontSize: 14, color: n.label === active ? C.ink : C.inkSoft, textDecoration: 'none', fontWeight: n.label === active ? 500 : 400 }}>
@@ -485,7 +485,7 @@ export function ResourcesFooter() {
     <footer style={{ borderTop: `1px solid ${C.rule}`, background: C.bg }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 32px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
         <div>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none', letterSpacing: '-0.01em' }}>Meridia</Link>
+          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none', letterSpacing: '-0.01em' }}>Palvento</Link>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.55, marginTop: 12, maxWidth: 240 }}>
             The operating layer for multichannel commerce.
           </p>
@@ -504,7 +504,7 @@ export function ResourcesFooter() {
         ))}
       </div>
       <div style={{ borderTop: `1px solid ${C.ruleSoft}`, padding: '20px 32px', maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Meridia. All rights reserved.</div>
+        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Palvento. All rights reserved.</div>
         <div style={{ fontSize: 12, color: C.muted }}>Built for operators.</div>
       </div>
     </footer>

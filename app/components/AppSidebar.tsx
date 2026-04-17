@@ -292,7 +292,7 @@ export default function AppSidebar() {
           boxShadow: '0 2px 8px rgba(91,82,245,0.4)',
         }}>A</div>
         <span style={{ fontSize: '15px', fontWeight: 600, color: '#f0f0f8', letterSpacing: '-0.01em' }}>
-          Meridia
+          Palvento
         </span>
       </div>
 

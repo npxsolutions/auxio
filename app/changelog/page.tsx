@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Meridia — Changelog
+// Palvento — Changelog
 // Production page. v8 palette. Filter by type. Email subscribe via API.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -87,7 +87,7 @@ const ENTRIES: Entry[] = [
   {
     date: '2026-03-04', version: 'v2.13.0', tag: 'breaking',
     title: 'Webhook signature header renamed',
-    body: 'Header `X-Meridia-Signature-V1` replaces `X-Meridia-Signature`. The old header continues to send for 90 days alongside the new one. Update your verifier before 2026-06-04.',
+    body: 'Header `X-Palvento-Signature-V1` replaces `X-Palvento-Signature`. The old header continues to send for 90 days alongside the new one. Update your verifier before 2026-06-04.',
   },
   {
     date: '2026-02-26', version: 'v2.12.4', tag: 'improvement',
@@ -234,7 +234,7 @@ function Subscribe() {
 function Nav() {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
+      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Palvento</Link>
       <div style={{ display: 'flex', gap: 28 }}>
         {NAV.map(n => (
           <Link key={n.href} href={n.href} style={{ fontSize: 14, color: n.label === 'Changelog' ? C.ink : C.inkSoft, textDecoration: 'none', fontWeight: n.label === 'Changelog' ? 500 : 400 }}>{n.label}</Link>
@@ -256,7 +256,7 @@ function ResourcesFooter() {
     <footer style={{ borderTop: `1px solid ${C.rule}`, background: C.bg }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 32px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
         <div>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
+          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Palvento</Link>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.55, marginTop: 12, maxWidth: 240 }}>The operating layer for multichannel commerce.</p>
         </div>
         {cols.map(col => (
@@ -271,7 +271,7 @@ function ResourcesFooter() {
         ))}
       </div>
       <div style={{ borderTop: `1px solid ${C.ruleSoft}`, padding: '20px 32px', maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Meridia. All rights reserved.</div>
+        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Palvento. All rights reserved.</div>
         <div style={{ fontSize: 12, color: C.muted }}>Built for operators.</div>
       </div>
     </footer>

@@ -20,7 +20,7 @@ Weeks 1–2: founder thesis. Weeks 3–4: tactical. Weeks 5–6: product. Weeks 
 ### Post 1 — Narrative · Tue 08:30 UK
 
 **Hook**
-I spent four months talking to Shopify operators before I wrote a line of Meridia.
+I spent four months talking to Shopify operators before I wrote a line of Palvento.
 What I found killed the pitch deck I had.
 
 **Body**
@@ -98,7 +98,7 @@ A photograph of a closed laptop on a plane tray table, window light. Caption ove
 ### Post 4 — Narrative · Tue 08:30 UK
 
 **Hook**
-I priced Meridia three times before I got it right.
+I priced Palvento three times before I got it right.
 The first two attempts made the product impossible to sell.
 
 **Body**
@@ -187,7 +187,7 @@ Day 9. Revenue on the ASIN is down roughly 22 percent week on week. The seller o
 
 Total damage from one missing 13-digit identifier: eleven days of suppressed revenue on a listing that was otherwise working. I have seen this cost operators 900 to 4,000 in a single incident.
 
-The fix is trivial. Catch the missing GTIN at ingest, before the feed is pushed to Amazon. Surface it to the operator with the exact variant and the suggested fix. That is one of the first things Meridia's pre-flight validator does and it is the single feature every trialist has commented on.
+The fix is trivial. Catch the missing GTIN at ingest, before the feed is pushed to Amazon. Surface it to the operator with the exact variant and the suggested fix. That is one of the first things Palvento's pre-flight validator does and it is the single feature every trialist has commented on.
 
 **Hashtags**
 #Amazon #Ecommerce #Operations #Shopify
@@ -236,7 +236,7 @@ Out of 417 feed rejections across all four marketplaces, the top four causes wer
 
 Nineteen remaining error types accounted for the other 19 percent. Four error classes, fixed at ingest, would have eliminated more than 300 rejections over two months. That is real revenue and real operator time.
 
-When we talk about feed validation at Meridia, this is the list the validator is trained on. Not academic. Actual rejections from actual sellers.
+When we talk about feed validation at Palvento, this is the list the validator is trained on. Not academic. Actual rejections from actual sellers.
 
 **Hashtags**
 #Ecommerce #Amazon #TikTokShop #Operations
@@ -312,7 +312,7 @@ The pre-flight validator is the first thing we built and the last thing I would 
 Here is why.
 
 **Body**
-Before any listing goes to Amazon, eBay, TikTok Shop or Etsy, Meridia runs it through a per-channel validator. The validator checks exactly the things each marketplace will check — and the specific things that cause silent suppressions the operator will not see for days.
+Before any listing goes to Amazon, eBay, TikTok Shop or Etsy, Palvento runs it through a per-channel validator. The validator checks exactly the things each marketplace will check — and the specific things that cause silent suppressions the operator will not see for days.
 
 For Amazon: GTIN format, UPC check-digit, variation theme consistency, image pixel floor, category-required attributes, restricted words in title and bullets, brand name registration status.
 
@@ -339,7 +339,7 @@ A UI mockup of a "pre-flight check" panel. Four rows, each a channel, with a cou
 ### Post 13 — Product · Tue 08:30 UK
 
 **Hook**
-Meridia's category suggester started as a 90-minute experiment.
+Palvento's category suggester started as a 90-minute experiment.
 It is now the feature operators mention first on onboarding calls.
 
 **Body**
@@ -370,7 +370,7 @@ They were doing roughly 9k a month, single channel, no plans to add a second for
 
 They were also not our customer.
 
-Every support ticket took an hour because the questions were about Shopify, not about Meridia. Every feature request pushed us toward single-channel convenience, not multichannel quality. Every month I compared their usage to the 159-dollar price and felt ridiculous.
+Every support ticket took an hour because the questions were about Shopify, not about Palvento. Every feature request pushed us toward single-channel convenience, not multichannel quality. Every month I compared their usage to the 159-dollar price and felt ridiculous.
 
 I wrote them an email. I said the honest thing — you are too early for us, we are too heavy for you, here are three alternatives that fit your shape better. I cancelled their subscription and refunded the month. They thanked me and left a positive review unprompted.
 
@@ -387,13 +387,13 @@ A photo of a laptop screen showing a single "Subscription cancelled" confirmatio
 ### Post 15 — Product · Fri 10:00 UK
 
 **Hook**
-eBay policy auto-provisioning is the most boring feature on the Meridia roadmap.
+eBay policy auto-provisioning is the most boring feature on the Palvento roadmap.
 It is also the one operators in the UK cite as the reason they stayed.
 
 **Body**
 If you sell on eBay, you know this pain. Every single listing requires three policy IDs — payment, shipping, and returns. These policies live in eBay's Seller Hub, have to be created per marketplace (UK vs DE vs US), and their IDs change if the underlying policy is edited. Every bulk listing tool I have seen handles this as "please paste in your policy ID". Operators paste the wrong one. Listings fail. Operators lose an hour.
 
-Meridia's integration reads your existing eBay business policies on connect, maps them per marketplace, and offers a single policy profile per channel per shop. When you edit a policy in eBay's Seller Hub, we re-read the ID. When a listing goes out, the correct ID is attached. You never see an ID again.
+Palvento's integration reads your existing eBay business policies on connect, maps them per marketplace, and offers a single policy profile per channel per shop. When you edit a policy in eBay's Seller Hub, we re-read the ID. When a listing goes out, the correct ID is attached. You never see an ID again.
 
 This is five days of engineering work for what sounds, on the roadmap, like a checkbox. It saves the average UK eBay seller roughly one full hour a week and — more importantly — one silent failure a month where a listing goes out with the wrong returns policy and the operator only finds out when a buyer opens a case.
 
@@ -412,7 +412,7 @@ A UI mock showing three policy dropdowns (payment, shipping, returns) all set to
 ### Post 16 — Product · Tue 08:30 UK
 
 **Hook**
-Variant groups in Meridia look like a catalogue setting.
+Variant groups in Palvento look like a catalogue setting.
 They are actually the hardest product decision I've made.
 
 **Body**
@@ -420,7 +420,7 @@ Every marketplace treats variants differently. Amazon wants a parent-child ASIN 
 
 The naive approach is to push each marketplace whatever it expects. The problem: when an operator edits the parent in Shopify, three channels need to re-sync the whole variant group, and if any single marketplace rejects one variant, you have to decide whether to block the group or let partial syncs through.
 
-Meridia treats variant groups as a first-class entity, separate from individual SKUs. The operator edits a variant group. We push per-channel. We report back per-variant. Rejections are quarantined to the offending variant without blocking the parent. A suppressed colour on Amazon does not take down the size-chart on Etsy.
+Palvento treats variant groups as a first-class entity, separate from individual SKUs. The operator edits a variant group. We push per-channel. We report back per-variant. Rejections are quarantined to the offending variant without blocking the parent. A suppressed colour on Amazon does not take down the size-chart on Etsy.
 
 This sounds obvious written down. It is not obvious in the database schema. Almost every multichannel tool I have reverse-engineered gets this wrong in a subtle way — usually by treating each variant as a fully independent listing, which works until the moment you rename the parent product.
 
@@ -441,7 +441,7 @@ We publish prices in five currencies.
 Nobody else at this tier of the market does.
 
 **Body**
-Meridia has three tiers: 59, 159, 499. You can toggle the page into USD, GBP, EUR, AUD or CAD. What you see is the price you pay. No conversion fees pushed to the invoice. No "contact us for local pricing". No quote form.
+Palvento has three tiers: 59, 159, 499. You can toggle the page into USD, GBP, EUR, AUD or CAD. What you see is the price you pay. No conversion fees pushed to the invoice. No "contact us for local pricing". No quote form.
 
 I thought this was a table-stakes decision when I made it. I was wrong. Every enterprise competitor hides their price behind a form. Every self-serve peer publishes in USD only. The entire middle band of the market — operators in London, Sydney, Toronto, Berlin, Milan — is asked to do currency math and accept foreign-exchange risk as a pre-condition of signing up.
 
@@ -476,7 +476,7 @@ Two. At least one channel will have at least one SKU contributing negatively. Al
 
 Three. Your hero SKU — the one you tell yourself is the business — will contribute less than you think, because ad spend and returns have not been allocated to it.
 
-This exercise is the P&L the platform replaces. Running Meridia means you don't rebuild this spreadsheet every quarter. But do it once by hand, because what you learn is usually a pricing decision worth more than a year of subscription.
+This exercise is the P&L the platform replaces. Running Palvento means you don't rebuild this spreadsheet every quarter. But do it once by hand, because what you learn is usually a pricing decision worth more than a year of subscription.
 
 **Hashtags**
 #Ecommerce #Margins #Shopify #Operations
@@ -495,7 +495,7 @@ Everyone is talking about AI-drafted listings.
 The real feed bottleneck in 2026 is not the drafting. It is the validating.
 
 **Body**
-Every feed tool in the market has an AI listing drafter now. Meridia does too. So does Helium 10, so does Zentail, so does every competitor within three clicks of a Google search. It is table stakes.
+Every feed tool in the market has an AI listing drafter now. Palvento does too. So does Helium 10, so does Zentail, so does every competitor within three clicks of a Google search. It is table stakes.
 
 The problem is that a perfectly drafted listing still gets rejected. AI-drafted or human-drafted, the feed has to pass per-marketplace compliance — GTIN format, category attribute completeness, image specs, banned words, policy IDs, condition values, ship-from address validation. A listing can be beautifully written and still get suppressed for a 13-digit identifier missing a check digit.
 
@@ -576,7 +576,7 @@ If you were a seller in that category and your feed tool had not updated its val
 
 TikTok Shop will do this again. So will Amazon. So will eBay. Marketplace schemas are not a one-time integration. They are a quarterly maintenance burden. The validator inside the feed tool has to be updated by someone whose job is to read policy notes and translate them into schema code.
 
-At Meridia, category-schema monitoring is on a named engineer's calendar every week. Not because it is glamorous. Because if the validator drifts, the product is broken in a way the user will not discover until they list a new product and are silently rejected.
+At Palvento, category-schema monitoring is on a named engineer's calendar every week. Not because it is glamorous. Because if the validator drifts, the product is broken in a way the user will not discover until they list a new product and are silently rejected.
 
 When you are evaluating a feed tool, the question to ask is not "does it support TikTok Shop". The question is "who updates the TikTok Shop schema when it changes, and how quickly".
 
@@ -636,7 +636,7 @@ We ship in 7 days. If you are still running a spreadsheet and you are tired of i
 #Shopify #Ecommerce #Launch #Multichannel
 
 **Visual brief**
-A split-screen image. Left: a chaotic spreadsheet with red cells. Right: a clean Meridia-style interface card with a green "all checks passed" badge. Arrow between them.
+A split-screen image. Left: a chaotic spreadsheet with red cells. Right: a clean Palvento-style interface card with a green "all checks passed" badge. Arrow between them.
 
 ---
 

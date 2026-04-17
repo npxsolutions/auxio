@@ -54,7 +54,7 @@ export default function HelpIndex() {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: `${C.bg}cc`, backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.ruleSoft}`, padding: '0 32px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
           <div style={{ width: 26, height: 26, background: C.ink, borderRadius: 6 }} />
-          <span style={{ fontWeight: 600, fontSize: 15, color: C.ink, letterSpacing: '-0.01em' }}>Meridia</span>
+          <span style={{ fontWeight: 600, fontSize: 15, color: C.ink, letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: 28 }}>
           {NAV.map(n => (
@@ -71,7 +71,7 @@ export default function HelpIndex() {
       <section style={{ maxWidth: 1040, margin: '0 auto', padding: '72px 32px 32px' }}>
         <div style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.cobalt }}>Help centre</div>
         <h1 className={display.className} style={{ fontSize: 'clamp(44px, 6vw, 68px)', lineHeight: 1.04, letterSpacing: '-0.02em', fontWeight: 400, margin: '12px 0 24px' }}>
-          Meridia help
+          Palvento help
         </h1>
         <div style={{ position: 'relative', maxWidth: 520 }}>
           <input
@@ -134,7 +134,7 @@ export default function HelpIndex() {
       </section>
 
       <footer style={{ background: C.ink, color: C.bg, padding: '28px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <span style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)' }}>© {new Date().getFullYear()} Meridia.</span>
+        <span style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)' }}>© {new Date().getFullYear()} Palvento.</span>
         <div style={{ display: 'flex', gap: 20 }}>
           {[['Pricing', '/pricing'], ['Partners', '/partners'], ['Help', '/help'], ['Contact', '/contact']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: 13, color: 'rgba(243,240,234,0.45)', textDecoration: 'none' }}>{l}</Link>

@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Meridia — Landing v8
+// Palvento — Landing v8
 // Delta from v7: surgical copy rewrites (Stripe/Linear/Vercel-grade) + SVG
 // craft pass (1.5px stroke discipline, two-color limit, ring nodes, motion
 // discipline). Section structure unchanged from v7.
@@ -207,7 +207,7 @@ function LiveMap() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 18px', borderBottom: `1px solid ${C.rule}`, background: C.bg }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: C.cobalt }} />
-          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.02em', color: C.mutedDk, fontWeight: 500 }}>Meridia Atlas — live across 42 markets</span>
+          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.02em', color: C.mutedDk, fontWeight: 500 }}>Palvento Atlas — live across 42 markets</span>
         </div>
         <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.06em' }}>
           <span>{HUBS.length} markets</span><span>·</span><span>{ARCS.length} active routes</span>
@@ -449,7 +449,7 @@ function LedgerSurface() {
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'transparent', border: `1.5px solid ${C.ink}`, opacity: 0.5 }} />
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'transparent', border: `1.5px solid ${C.ink}`, opacity: 0.5 }} />
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'transparent', border: `1.5px solid ${C.ink}`, opacity: 0.5 }} />
-        <span style={{ marginLeft: 14, fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.mutedDk, letterSpacing: '0.06em' }}>auxio.app / ledger / revenue</span>
+        <span style={{ marginLeft: 14, fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.mutedDk, letterSpacing: '0.06em' }}>palvento.app / ledger / revenue</span>
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: C.cobalt }} />
           Synced · 2s ago
@@ -655,7 +655,7 @@ const PILLARS = [
 
 const QUOTES = [
   { metric: '+34%',   label: 'net margin · 60d',   q: 'One screen. A P&L we trust.',              who: 'Sarah T.',  role: 'Apparel · 6 channels' },
-  { metric: '$5,400', label: 'saved · year',       q: 'Meridia showed me my real margin.',         who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
+  { metric: '$5,400', label: 'saved · year',       q: 'Palvento showed me my real margin.',         who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
   { metric: '0',      label: 'stockouts · Q1',     q: 'No emergency reorders since November.',    who: 'Priya K.',  role: 'Beauty · 500 SKUs' },
 ]
 
@@ -774,7 +774,7 @@ export default function LandingV8() {
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
               <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
             </svg>
-            <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Meridia</span>
+            <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Palvento</span>
           </Link>
           <nav style={{ display: 'flex', gap: 28 }}>
             {NAV.map(n => <a key={n.href} href={n.href} style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none' }}>{n.label}</a>)}
@@ -791,7 +791,7 @@ export default function LandingV8() {
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <span style={{ width: 24, height: 1, background: C.cobalt }} />
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Meridia Atlas — live across 42 markets</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Palvento Atlas — live across 42 markets</span>
           </div>
           <h1 ref={heroPar.ref} style={{ ...heroPar.style, fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(64px, 10vw, 148px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 0.94, color: C.ink, margin: 0 }}>
             {heroHeadlineV2 ? (
@@ -883,7 +883,7 @@ export default function LandingV8() {
       <section id="why" style={{ padding: '120px 32px', background: C.ink, color: C.bg }}>
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 48 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>Why Meridia</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>Why Palvento</span>
             <div style={{ flex: 1, height: 1, background: 'rgba(243,240,234,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'rgba(243,240,234,0.5)' }}>§ 04</span>
           </div>
@@ -970,7 +970,7 @@ export default function LandingV8() {
                 <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
                 <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt} />
               </svg>
-              <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
+              <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Palvento</span>
             </div>
             <p style={{ fontSize: 14, color: C.mutedDk, fontFamily: 'var(--font-display-v8), Georgia, serif', fontStyle: 'italic', margin: 0 }}>
               Self-serve multichannel feed management for Shopify-led sellers.

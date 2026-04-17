@@ -2,7 +2,7 @@
 
 > Primary research, April 2026. Pricing pages scraped live via Firecrawl and summarised here (no verbatim copy). Source URLs below each row. Numbers are as advertised to the public; quoted enterprise deals are noted as **quote-only** where the vendor does not publish a floor.
 
-This doc exists to back one decision: **what should Meridia's pricing look like for the Shopify-led multichannel feed management wedge?** Everything else follows.
+This doc exists to back one decision: **what should Palvento's pricing look like for the Shopify-led multichannel feed management wedge?** Everything else follows.
 
 ---
 
@@ -98,7 +98,7 @@ Every competitor above $500/mo gates pricing behind a form. Every competitor bel
 
 ---
 
-## 3. Where Meridia sits today
+## 3. Where Palvento sits today
 
 | Tier | Current USD | Band |
 |---|---|---|
@@ -116,7 +116,7 @@ Every competitor above $500/mo gates pricing behind a form. Every competitor bel
 Keep the numbers. Rework the positioning.
 
 ### Keep
-1. **$59 / $159 / $499 / Custom** — these land in the exact band where Shopify merchants at $10k–$500k+/mo GMV expect to pay for a serious multichannel tool. Sellbrite's $29–$129, Veeqo's $19–$350 and Baselinker's €19–€99 all map into this range; Meridia sits a click above them on promise (feed quality + optimisation + P&L depth).
+1. **$59 / $159 / $499 / Custom** — these land in the exact band where Shopify merchants at $10k–$500k+/mo GMV expect to pay for a serious multichannel tool. Sellbrite's $29–$129, Veeqo's $19–$350 and Baselinker's €19–€99 all map into this range; Palvento sits a click above them on promise (feed quality + optimisation + P&L depth).
 2. **Flat monthly, no percentage of GMV.** This is a genuine differentiator against Rithum (historic) and against any quote-led incumbent that tacks on services fees. Feedonomics itself uses this line, so we have to say it better.
 3. **Founding-member anchor.** Valid for now. Sunset when list gets to ~150 customers; the discount gets stale otherwise.
 4. **5-currency toggle.** Rare at this price point. Keep it visible on the pricing page.
@@ -126,13 +126,13 @@ Keep the numbers. Rework the positioning.
 2. **Add a visible "Enterprise — from $1,500/mo" affordance on the Custom tier.** Keeps the sales path alive for >$500k/mo GMV accounts, but stops the tier feeling like a mystery box. Currently "Custom" with no anchor trains visitors that there's no number; a "from" number converts more enterprise leads because it signals seriousness without committing.
 3. **Retire the "% of revenue" FUD comparison against ChannelAdvisor** (they rebranded to Rithum; the % model is being phased out on new contracts). Keep one line on the comparison table — don't repeat it three times.
 4. **Reframe the comparison table** so Feedonomics is column 2 (primary), then Rithum, Linnworks, Brightpearl. Current order puts Brightpearl first, which is the wrong primary.
-5. **Name the overage model explicitly.** Linnworks and Veeqo win trust by being explicit that they're order-volume tiered; Meridia's "up to N channels" language is cleaner, but the pricing page should state that above-plan channel count triggers an automatic upsell proposal — not a surprise bill.
+5. **Name the overage model explicitly.** Linnworks and Veeqo win trust by being explicit that they're order-volume tiered; Palvento's "up to N channels" language is cleaner, but the pricing page should state that above-plan channel count triggers an automatic upsell proposal — not a surprise bill.
 
 ### Common upsell mechanics seen across the market
 - **Order-volume overage** — Linnworks, Veeqo, Baselinker. Linear, transparent, boring — and works.
-- **Channel-count gates** — every self-serve vendor. Meridia already does this.
-- **AI features as upsell** — Feedonomics AI agents, Brightpearl Inventory Planning. Meridia currently bundles AI into Growth, which is a sharper move than the incumbents.
-- **Concierge onboarding as enterprise-only** — universal above $1,500/mo. Meridia should make this visible as the one thing that does gate the Enterprise tier.
+- **Channel-count gates** — every self-serve vendor. Palvento already does this.
+- **AI features as upsell** — Feedonomics AI agents, Brightpearl Inventory Planning. Palvento currently bundles AI into Growth, which is a sharper move than the incumbents.
+- **Concierge onboarding as enterprise-only** — universal above $1,500/mo. Palvento should make this visible as the one thing that does gate the Enterprise tier.
 - **Multi-entity / multi-region** — Shopify Plus merchants asking for region-specific feeds. Real Scale-tier trigger.
 
 ---

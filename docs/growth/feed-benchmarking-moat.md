@@ -1,4 +1,4 @@
-# Feed-benchmarking moat (Meridia)
+# Feed-benchmarking moat (Palvento)
 
 Foundation doc for the multi-tenant feed-data aggregation layer that will back
 cross-merchant benchmarks. This is an internal doc — nothing here ships to

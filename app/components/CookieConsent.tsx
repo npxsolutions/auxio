@@ -58,7 +58,7 @@ export function CookieConsent() {
           We use cookies
         </div>
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.6 }}>
-          We use analytics cookies (PostHog) to understand how you use Meridia and improve the product. No advertising cookies. No selling your data.{' '}
+          We use analytics cookies (PostHog) to understand how you use Palvento and improve the product. No advertising cookies. No selling your data.{' '}
           <a href="/privacy" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'underline' }}>
             Privacy policy
           </a>

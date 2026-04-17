@@ -50,7 +50,7 @@ export function ChannelOptimisationInfographic() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px', gap: '0' }}>
         <div style={{ width: '2px', height: '20px', background: '#e8e8e5' }} />
         <div style={{ background: '#f0f7ff', border: '1.5px solid #c7dff7', borderRadius: '100px', padding: '5px 14px', fontSize: '12px', fontWeight: 700, color: '#2383e2' }}>
-          🤖 Meridia AI optimises per channel
+          🤖 Palvento AI optimises per channel
         </div>
         <div style={{ width: '2px', height: '16px', background: '#e8e8e5' }} />
         {/* Spread line */}
@@ -152,7 +152,7 @@ export function TrueProfitWaterfall() {
       <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f7f7f5', borderRadius: '8px', border: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ fontSize: '16px' }}>💡</span>
         <div style={{ fontSize: '12px', color: '#787774', lineHeight: 1.5 }}>
-          Most sellers think they made £100. Meridia shows you made <strong style={{ color: '#0f7b6c' }}>£23</strong> — and which channel, product, and ad spend drove it.
+          Most sellers think they made £100. Palvento shows you made <strong style={{ color: '#0f7b6c' }}>£23</strong> — and which channel, product, and ad spend drove it.
         </div>
       </div>
     </div>
@@ -162,12 +162,12 @@ export function TrueProfitWaterfall() {
 // ── 3. TIME SAVED COMPARISON ─────────────────────────────────────────────────
 export function TimeSavedInfographic() {
   const tasks = [
-    { task: 'Write eBay listing',     manual: 45, auxio: 0,  auxioNote: 'AI writes it' },
-    { task: 'Write Shopify listing',  manual: 40, auxio: 0,  auxioNote: 'AI writes it' },
-    { task: 'Write Amazon listing',   manual: 50, auxio: 0,  auxioNote: 'AI writes it' },
-    { task: 'Upload & format images', manual: 20, auxio: 5,  auxioNote: '1 upload' },
-    { task: 'Set pricing & stock',    manual: 10, auxio: 3,  auxioNote: 'Once, syncs everywhere' },
-    { task: 'Validate & fix errors',  manual: 30, auxio: 2,  auxioNote: 'Feed health catches it' },
+    { task: 'Write eBay listing',     manual: 45, palvento: 0,  palventoNote: 'AI writes it' },
+    { task: 'Write Shopify listing',  manual: 40, palvento: 0,  palventoNote: 'AI writes it' },
+    { task: 'Write Amazon listing',   manual: 50, palvento: 0,  palventoNote: 'AI writes it' },
+    { task: 'Upload & format images', manual: 20, palvento: 5,  palventoNote: '1 upload' },
+    { task: 'Set pricing & stock',    manual: 10, palvento: 3,  palventoNote: 'Once, syncs everywhere' },
+    { task: 'Validate & fix errors',  manual: 30, palvento: 2,  palventoNote: 'Feed health catches it' },
   ]
 
   const maxManual = Math.max(...tasks.map(t => t.manual))
@@ -180,7 +180,7 @@ export function TimeSavedInfographic() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#c9372c' }} />
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>Without Meridia</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>Without Palvento</div>
           </div>
           {tasks.map(t => (
             <div key={t.task} style={{ marginBottom: '10px' }}>
@@ -203,21 +203,21 @@ export function TimeSavedInfographic() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0f7b6c' }} />
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>With Meridia</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919' }}>With Palvento</div>
           </div>
           {tasks.map(t => (
             <div key={t.task} style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                <span style={{ fontSize: '11px', color: '#787774' }}>{t.auxioNote}</span>
-                <span style={{ fontSize: '11px', fontWeight: 600, color: t.auxio === 0 ? '#0f7b6c' : '#0f7b6c' }}>
-                  {t.auxio === 0 ? '✓ auto' : `${t.auxio}m`}
+                <span style={{ fontSize: '11px', color: '#787774' }}>{t.palventoNote}</span>
+                <span style={{ fontSize: '11px', fontWeight: 600, color: t.palvento === 0 ? '#0f7b6c' : '#0f7b6c' }}>
+                  {t.palvento === 0 ? '✓ auto' : `${t.palvento}m`}
                 </span>
               </div>
               <div style={{ height: '8px', background: '#f7f7f5', borderRadius: '4px', overflow: 'hidden' }}>
                 <div style={{
                   height: '100%',
-                  width: t.auxio === 0 ? '4%' : `${t.auxio / maxManual * 100}%`,
-                  background: t.auxio === 0 ? '#b7e4d8' : '#0f7b6c',
+                  width: t.palvento === 0 ? '4%' : `${t.palvento / maxManual * 100}%`,
+                  background: t.palvento === 0 ? '#b7e4d8' : '#0f7b6c',
                   borderRadius: '4px',
                 }} />
               </div>
@@ -233,7 +233,7 @@ export function TimeSavedInfographic() {
       {/* Summary */}
       <div style={{ marginTop: '20px', background: '#191919', borderRadius: '10px', padding: '18px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
         <div style={{ fontSize: '14px', color: '#888', lineHeight: 1.5 }}>
-          If you launch <strong style={{ color: 'white' }}>5 products a week</strong>, Meridia saves you
+          If you launch <strong style={{ color: 'white' }}>5 products a week</strong>, Palvento saves you
         </div>
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
           <div style={{ fontSize: '28px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>15+ hours</div>

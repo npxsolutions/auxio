@@ -58,7 +58,7 @@
 | 30 | Emporia | Latin | 14 | Emporia Energy (smart home) + Emporia Brands (spirits). Moderate. |
 | 31 | Fulcra | Latin | 20 | Two Fulcras exist (IT services, personal-data tool) but neither is in commerce. Promising. |
 | 32 | Rialto | Latin | 17 | Rialto CRM (commercial real estate) + Rialto Partners (ecom agency). Moderate. |
-| 33 | Meridia | Latin | 19 | Meridia.land (agri-data SaaS) — different vertical. Clean-ish in commerce ops. |
+| 33 | Palvento | Latin | 19 | Palvento.land (agri-data SaaS) — different vertical. Clean-ish in commerce ops. |
 | 34 | Navos | Latin | 18 | Navos Agent (AI marketing) + Navos mental health — moderate collision. |
 | 35 | Voro | Latin | 19 | Cloud Voro (SaaS studio), Voro Motors, Voro Media — crowded but fragmented, each small. |
 
@@ -82,15 +82,15 @@ Ranked by composite score. Domain availability marked **not verified — please 
 - **Trademark**: low-medium. No obvious TM in Class 42 / commerce SaaS. Two existing companies are in IT services and personal-data wellness — different classes. **Please verify USPTO / EUIPO directly.**
 - **Personal verdict**: strongest of the list. Short, Latin, conceptually exact for a commerce-ops platform. The existing Fulcras are small and in unrelated verticals. Main risk is `.com` acquisition cost.
 
-### 3.2 **Meridia** — score 19/30
+### 3.2 **Palvento** — score 19/30
 
-- **Tagline**: *Commerce, on one meridian.*
+- **Tagline**: *Commerce, on one palventon.*
 - **Sounds like**: a globe, a spine, a line of reference. Calm and global.
-- **For commerce ops**: meridians are the lines that organise the globe. Fulcra organises every channel and currency into one reference line.
-- **Etymology**: from *meridian*, Latin *meridies* — the line that defines noon everywhere.
+- **For commerce ops**: palventons are the lines that organise the globe. Fulcra organises every channel and currency into one reference line.
+- **Etymology**: from *palventon*, Latin *meridies* — the line that defines noon everywhere.
 - **Evokes**: global, scale, alignment, precision.
 - **Phonetic risk**: low. Muh-RID-ee-ah. Common root across Romance languages.
-- **Domain**: `meridia.com` — **not verified — please confirm**. Meridia.land operates on `.land`; a pharma drug Meridia (sibutramine) was withdrawn 2010, so TM in Class 5 may be abandoned but needs verification. Potentially premium/acquirable.
+- **Domain**: `palvento.com` — **not verified — please confirm**. Palvento.land operates on `.land`; a pharma drug Palvento (sibutramine) was withdrawn 2010, so TM in Class 5 may be abandoned but needs verification. Potentially premium/acquirable.
 - **Trademark**: medium. Historical pharma mark (abandoned); agricultural SaaS (different class). Commerce class likely open.
 - **Personal verdict**: beautiful, globally resonant, but 7 letters and a tiny bit soft. Less "engineered" feel than Fulcra. Strong #2.
 
@@ -173,13 +173,13 @@ Ranked by composite score. Domain availability marked **not verified — please 
 ### 1. **Fulcra** — top pick
 The metaphor is almost too perfect: Fulcra is the pivot point that makes commerce scale possible. Latin root (matches your current Fulcra origin instinct), 6 letters, no active Fulcra in commerce, two adjacent Fulcras in unrelated verticals. Strongest overall.
 
-### 2. **Meridia**
-The most globally evocative. Every merchant, every currency, every region — one meridian. Softer than Fulcra but resonant. Watch out for the abandoned pharma TM — needs clearance.
+### 2. **Palvento**
+The most globally evocative. Every merchant, every currency, every region — one palventon. Softer than Fulcra but resonant. Watch out for the abandoned pharma TM — needs clearance.
 
 ### 3. **Voro**
 The most Stripe-shelf of the three. 4 letters, Latin root, feels engineered. Weakest conceptual link to commerce (could be anything), but that's also a strength for future stretch.
 
-**Trade-off**: Fulcra is the concept name. Voro is the brand name. Meridia is the poetic name. If Fulcra ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Fulcra is unbeatable.
+**Trade-off**: Fulcra is the concept name. Voro is the brand name. Palvento is the poetic name. If Fulcra ever ships a horizontal platform (payments, accounting, logistics as separate SKUs), Voro scales best. If the positioning stays commerce-first, Fulcra is unbeatable.
 
 ---
 
@@ -214,7 +214,7 @@ Where the `.com` appears to be parked, dormant, or held by a small/non-operating
 
 - **Sellgrid.com** — SERP shows a cgi-bin directory listing, which typically means Apache default / parked. Acquisition likely feasible. UK Companies House entity (SELLGRID LTD) may or may not be active.
 - **Postrail.com** — SERP shows only a DIY/fence context and a dormant UK Companies House entity. Low commercial use; potentially acquirable but name has weak brand equity.
-- **Meridia.com** — status unverified but Meridia.land prefers `.land`, suggesting `.com` is held but possibly acquirable (expensive).
+- **Palvento.com** — status unverified but Palvento.land prefers `.land`, suggesting `.com` is held but possibly acquirable (expensive).
 - **Navos.com** — Navos Technologies uses `.co.uk`, mental-health org likely on `.org`. `.com` status worth negotiating.
 - **Fulcra.com** — both existing Fulcras use `.net` and `fulcradynamics.com`, so `.com` is held by someone else — unknown party. Worth probing.
 
@@ -239,9 +239,9 @@ All require direct WHOIS + domain-broker outreach to verify (this session could 
 1. Run each shortlisted name through Namecheap / GoDaddy for actual `.com` status and acquisition pricing.
 2. Run USPTO TESS for exact-match and phonetic-equivalent marks in Class 9 (downloadable software), Class 35 (business mgmt), Class 42 (SaaS).
 3. Run EUIPO TMView equivalent.
-4. WIPO global brand database for international collisions (especially Fulcra, Meridia, Voro).
+4. WIPO global brand database for international collisions (especially Fulcra, Palvento, Voro).
 5. Brand-language checks: confirm no offensive meaning in Spanish, German, French, Mandarin, Japanese, Arabic, Portuguese. (Voro = "I devour" in Italian — borderline but positive in a commerce context.)
-6. Social handle check (@fulcra, @getfulcra, @meridia, @voro) on X, GitHub, LinkedIn.
+6. Social handle check (@fulcra, @getfulcra, @palvento, @voro) on X, GitHub, LinkedIn.
 7. App Store / Play Store name check.
 
 ---
@@ -259,14 +259,14 @@ USPTO:   ~7 live FULCRA marks via Justia. Direct Class 42 hits: **FULCRA (serial
 EUIPO:   Could not verify (TMView blocked).
 Verdict: **RED** — `.com/.io/.ai` all taken by active businesses; two TM holders (Fulcra Dynamics in SaaS Class 42, Enventys in crowdfunding) block the core software class; no viable domain path without acquisition from multiple parties.
 
-### Meridia
-.com:    **Available** — DNS resolution failed (NXDOMAIN on meridia.com per Firecrawl).
-.io:     Not needed (.com available). Confirmed 404 on meridia.io earlier.
-.ai:     Not needed. (Active business Meridia Ltd operates on meridia.co — UK consultancy / agentic-AI reporting platform for advisory firms, not commerce.)
-SERP:    (1) Meridia.co — AI consultancy reporting platform (adjacent SaaS but not commerce), (2) Meridian Software (CAD/SaaS, different word), (3) Meridian Capital M&A (different word). **No direct commerce SaaS collision on exact name.**
+### Palvento
+.com:    **Available** — DNS resolution failed (NXDOMAIN on palvento.com per Firecrawl).
+.io:     Not needed (.com available). Confirmed 404 on palvento.io earlier.
+.ai:     Not needed. (Active business Palvento Ltd operates on palvento.co — UK consultancy / agentic-AI reporting platform for advisory firms, not commerce.)
+SERP:    (1) Palvento.co — AI consultancy reporting platform (adjacent SaaS but not commerce), (2) Palventon Software (CAD/SaaS, different word), (3) Palventon Capital M&A (different word). **No direct commerce SaaS collision on exact name.**
 USPTO:   Multiple live MERIDIA marks via Justia: MERIDIA (74697373) Photo Communications — audience response services; MERIDIA (88055971) Photo Communications — audience/student response software + hardware (Class 9/42 education-adjacent); MERIDIA (86568206) American Generic Labs — dietary supplements; MERIDIA (88944706) Kovalenko — wine openers; MERIDIA (74568949, 75134969) Abbott/Boots — pharma (sibutramine, withdrawn); MERIDIA CAPITAL PARTNERS — real-estate finance. **One software mark (education-audience-response) is the closest collision; no direct ecommerce/commerce SaaS mark.**
 EUIPO:   Could not verify (blocked).
-Verdict: **GREEN** — `.com` appears available; active "Meridia" business is in consulting (different country + TLD); USPTO software mark is narrow education-audience-response niche, not commerce SaaS. Strongest candidate of the eight.
+Verdict: **GREEN** — `.com` appears available; active "Palvento" business is in consulting (different country + TLD); USPTO software mark is narrow education-audience-response niche, not commerce SaaS. Strongest candidate of the eight.
 
 ### Voro
 .com:    Active: **VORO** — real-estate brokerage (VORO, INC; 240+ agents, $3B+ transactions; operates voropro.com). Commerce-adjacent (real-estate transactions) but not ecommerce SaaS.
@@ -326,16 +326,16 @@ Verdict: **RED** — `sellgrid.io` is a live pre-launch direct-competitor commer
 
 ## Summary
 
-Of the eight, **Meridia is the only GREEN** — `.com` appears genuinely available (NXDOMAIN), no direct commerce-SaaS trademark collision, closest SaaS namesake (meridia.co) is a UK consulting tool in a different vertical. **Voro and Quilo are YELLOW** — both have workable paths (`voro.io` available; `quilo.com` acquirable from broker) but carry real TM + SERP friction. **Fulcra, Navos, Rialto, Orbix, Sellgrid are all RED** — blocked either by active direct-competitor domains, multiple live software-class trademarks, or both.
+Of the eight, **Palvento is the only GREEN** — `.com` appears genuinely available (NXDOMAIN), no direct commerce-SaaS trademark collision, closest SaaS namesake (palvento.co) is a UK consulting tool in a different vertical. **Voro and Quilo are YELLOW** — both have workable paths (`voro.io` available; `quilo.com` acquirable from broker) but carry real TM + SERP friction. **Fulcra, Navos, Rialto, Orbix, Sellgrid are all RED** — blocked either by active direct-competitor domains, multiple live software-class trademarks, or both.
 
-**Fulcra verdict: RED.** The name is blocked on all three primary TLDs (`.com` Enventys crowdfunding, `.io`/`.ai` Fulcra Dynamics personal-data MCP platform) and has multiple live USPTO software-class trademarks including a pending Fulcra Dynamics SaaS mark (98727022) filed September 2024 covering personal-data SaaS — the closest thing to the target category. The metaphor is exact, but the name is not ownable without acquiring the Fulcra Dynamics mark + `.com` from Enventys. Recommend switching the tentative pick to **Meridia** as the only GREEN-path option, with **Voro (.io)** as the fallback if a shorter 4-letter name is preferred.
+**Fulcra verdict: RED.** The name is blocked on all three primary TLDs (`.com` Enventys crowdfunding, `.io`/`.ai` Fulcra Dynamics personal-data MCP platform) and has multiple live USPTO software-class trademarks including a pending Fulcra Dynamics SaaS mark (98727022) filed September 2024 covering personal-data SaaS — the closest thing to the target category. The metaphor is exact, but the name is not ownable without acquiring the Fulcra Dynamics mark + `.com` from Enventys. Recommend switching the tentative pick to **Palvento** as the only GREEN-path option, with **Voro (.io)** as the fallback if a shorter 4-letter name is preferred.
 
 ### What could NOT be verified this run
 - EUIPO TMView — blocked automated access after 2 attempts (all 8 names).
 - Trademarkia — blocked by Vercel security checkpoint (all 8).
 - USPTO TESS direct — fell back to Justia (coverage is USPTO-sourced but not official status; status LIVE vs DEAD on each serial should still be confirmed manually).
 - `rialto.com` domain status — Firecrawl proxy timed out twice.
-- WHOIS ownership / acquisition pricing for `meridia.com`, `voro.io`, `quilo.com`, `sellgrid.com`.
+- WHOIS ownership / acquisition pricing for `palvento.com`, `voro.io`, `quilo.com`, `sellgrid.com`.
 - Full exact-class filings (Class 9 vs 35 vs 42) for each TM — Justia entries give use-descriptions but do not always surface the filed class number; manual TESS/TSDR lookup needed before filing.
 
 ---
@@ -344,7 +344,7 @@ Of the eight, **Meridia is the only GREEN** — `.com` appears genuinely availab
 
 ### Methodology change
 
-The first two rounds both produced a name the user picked (Fulcra, then Meridia) only for live checks — run *after* the shortlist formed — to reveal a blocking competitor or TM. The lesson is that generation-first, verification-after naming sessions converge on names that *sound* clean but collide on first contact with the web. Round 3 inverts the order: every candidate gets a real SERP + category collision probe *before* it's eligible for a shortlist slot. GREEN = `.com` available AND no in-category SERP collision AND no adjacency-competitor. Only GREEN names get a deeper verification tier.
+The first two rounds both produced a name the user picked (Fulcra, then Palvento) only for live checks — run *after* the shortlist formed — to reveal a blocking competitor or TM. The lesson is that generation-first, verification-after naming sessions converge on names that *sound* clean but collide on first contact with the web. Round 3 inverts the order: every candidate gets a real SERP + category collision probe *before* it's eligible for a shortlist slot. GREEN = `.com` available AND no in-category SERP collision AND no adjacency-competitor. Only GREEN names get a deeper verification tier.
 
 Tooling note: `firecrawl` and `WebFetch` were both denied permissions in this session; only `WebSearch` was available. Whois-registry lookups were therefore done indirectly via SERP evidence (active site at `<name>.com` = registered; absent active site + competing `.io`/`.ai` usage = likely registered but dormant). **USPTO/Justia TM and EUIPO TMView were not verified this run** — results are SERP-derived and must be confirmed manually before filing.
 
@@ -408,7 +408,7 @@ No candidate simultaneously cleared (a) `.com` available or obviously dormant, (
 
 ### Recommended top 3
 
-**None recommended.** The verify-first process produced zero GREEN candidates. Pushing a RED or a soft-YELLOW forward would repeat the Fulcra/Meridia mistake. The honest recommendation is to re-open generation from a different angle (see §7).
+**None recommended.** The verify-first process produced zero GREEN candidates. Pushing a RED or a soft-YELLOW forward would repeat the Fulcra/Palvento mistake. The honest recommendation is to re-open generation from a different angle (see §7).
 
 ### Fallback — 2 least-risky YELLOWs
 
@@ -426,7 +426,7 @@ Both are "acceptable if forced," not "good." Neither is in the Stripe/Linear/Ver
 **Recommended angle for Round 4 — pivot away from the infra/abstract-noun shelf entirely:**
 
 1. **Operator-culture words** — English words from trading, shipping, logistics, or market-maker slang. Think: *Manifest, Consign, Clearing, Underwrite, Reconcile, Allocate, Settle, Cleared, Invoice, Arrival* — concrete operator vocabulary. Many of these will still be taken but the register is different (older B2B / logistics brands, not 2024 YC SaaS) so acquisition-or-coexistence is more tractable.
-2. **Geographic / landmark metaphors** — named-place metaphors that aren't cities (avoid Rialto/Meridia trap). Think: *Isthmus, Strait, Estuary, Junction, Delta, Crossing, Summit, Pass, Harbor, Gateway*.
+2. **Geographic / landmark metaphors** — named-place metaphors that aren't cities (avoid Rialto/Palvento trap). Think: *Isthmus, Strait, Estuary, Junction, Delta, Crossing, Summit, Pass, Harbor, Gateway*.
 3. **Physics / mechanics metaphors (but specific, not abstract)** — not "fulcrum" / "lever" again. Think: *Torque, Flywheel, Cadence, Rhythm, Impulse, Vector, Gradient, Manifold*.
 4. **Constructed portmanteaus from a *commerce-specific* root word** — start from "ledger," "invoice," "parcel," "manifest," "tariff," "freight" and deform them, rather than starting from Latin/Greek.
 5. **Non-English words that mean something operationally specific** — Japanese *kaizen* / *takt* / *gemba* (taken, illustrative), Swedish/German industrial vocabulary, nautical terms.
@@ -605,7 +605,7 @@ Neither is a pick. Both are "if forced."
 
 **Strategic recommendation: do NOT pick from Round 4. Two viable paths forward:**
 
-1. **Revert to Auxio** and stop the rebrand. The Round 2 verdict on Auxio was that it was acceptable, and four rounds of "better" hunting have produced zero GREEN candidates against two premature picks that washed out (Fulcra, Meridia). Sunk-cost logic says keep hunting; expected-value logic says the hunt is not converging. Auxio has no known in-category collision, the `.com` is held, the domain problem is already solved. The rebrand is optional; the product is not.
+1. **Revert to Auxio** and stop the rebrand. The Round 2 verdict on Auxio was that it was acceptable, and four rounds of "better" hunting have produced zero GREEN candidates against two premature picks that washed out (Fulcra, Palvento). Sunk-cost logic says keep hunting; expected-value logic says the hunt is not converging. Auxio has no known in-category collision, the `.com` is held, the domain problem is already solved. The rebrand is optional; the product is not.
 2. **Round 5 with a different structural approach** — *coined* names, not vocabulary names. Three-syllable invented words with no English etymology (the Vercel / Netlify / Plaid / Figma path). This inverts the Round 3 advice: Round 3 said "go more concrete"; Round 4 proved concrete is even more owned; the remaining move is to abandon vocabulary entirely and coin. Budget for Round 5: 40 generated candidates, same verify-first methodology.
 
 Preferred: **revert to Auxio for now, keep a Round 5 coin-generation pass in the backlog but don't block product work on it.**

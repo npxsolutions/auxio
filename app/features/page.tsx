@@ -14,7 +14,7 @@ const FEATURES = [
   {
     tag: 'Listings',
     headline: 'Create once. Publish to every channel.',
-    body: 'Write a product listing one time and push it to eBay, Amazon, Shopify, TikTok Shop, and more — simultaneously, across every region you sell in. Meridia handles format differences, title character limits, required attributes, and category mapping for every platform automatically.',
+    body: 'Write a product listing one time and push it to eBay, Amazon, Shopify, TikTok Shop, and more — simultaneously, across every region you sell in. Palvento handles format differences, title character limits, required attributes, and category mapping for every platform automatically.',
     bullets: [
       'Channel-specific formatting applied automatically',
       'Bulk CSV import with intelligent column mapping',
@@ -27,7 +27,7 @@ const FEATURES = [
   {
     tag: 'AI Agent',
     headline: 'Your listings, written and optimised by AI.',
-    body: "Meridia's AI Agent writes channel-specific titles, bullet points, and descriptions trained on each platform's ranking signals. eBay keywords, Amazon A9 bullet points, Shopify brand copy — generated in seconds, not hours.",
+    body: "Palvento's AI Agent writes channel-specific titles, bullet points, and descriptions trained on each platform's ranking signals. eBay keywords, Amazon A9 bullet points, Shopify brand copy — generated in seconds, not hours.",
     bullets: [
       'eBay: keyword-rich titles within 80-character limit',
       'Amazon: A9-optimised bullet points and descriptions',
@@ -79,7 +79,7 @@ const FEATURES = [
   {
     tag: 'Error Hub',
     headline: "Fix listing errors before they go live.",
-    body: "Meridia's Error Hub flags every issue blocking a listing from going live — missing images, title too long, required category attributes empty, price below minimum. Fix in one place, republish in one click.",
+    body: "Palvento's Error Hub flags every issue blocking a listing from going live — missing images, title too long, required category attributes empty, price below minimum. Fix in one place, republish in one click.",
     bullets: [
       'Per-channel error breakdown',
       'Missing attribute detection with suggested fixes',
@@ -233,7 +233,7 @@ export default function FeaturesPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Meridia</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -255,7 +255,7 @@ export default function FeaturesPage() {
           Everything you need to<br />sell smarter, not harder
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-          From first listing to every marketplace — Meridia handles the complexity so you can focus on finding product.
+          From first listing to every marketplace — Palvento handles the complexity so you can focus on finding product.
         </p>
         <Link href="/signup" style={{ display: 'inline-block', padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(91,82,245,0.35)' }}>
           Start free — no card required →
@@ -291,7 +291,7 @@ export default function FeaturesPage() {
       {/* CTA */}
       <div style={{ background: '#0f172a', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '40px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Ready to simplify your multichannel selling?</h2>
-        <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '32px' }}>Join sellers already using Meridia to list faster, profit clearly, and grow without the chaos.</p>
+        <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '32px' }}>Join sellers already using Palvento to list faster, profit clearly, and grow without the chaos.</p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
           <Link href="/pricing" style={{ padding: '14px 28px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>View pricing</Link>
@@ -300,7 +300,7 @@ export default function FeaturesPage() {
 
       {/* Footer */}
       <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Meridia. All rights reserved.</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Pricing', '/pricing'], ['Login', '/login']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{l}</Link>

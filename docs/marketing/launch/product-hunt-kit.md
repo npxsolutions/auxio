@@ -8,7 +8,7 @@
 > **The operating system for modern commerce.** *(47 chars — leaves room for translated variants)*
 
 ## Description (260 chars max)
-> Meridia is the Commerce Operations Platform for multichannel sellers. Inventory, orders, forecasting and true multi-currency P&L across Shopify, Amazon, eBay, TikTok Shop and more — one ledger, live in ten minutes. Order-volume pricing, never a % of revenue.
+> Palvento is the Commerce Operations Platform for multichannel sellers. Inventory, orders, forecasting and true multi-currency P&L across Shopify, Amazon, eBay, TikTok Shop and more — one ledger, live in ten minutes. Order-volume pricing, never a % of revenue.
 > *(258 chars)*
 
 ---
@@ -17,18 +17,18 @@
 
 Hey Product Hunt,
 
-I&apos;ve been building Meridia for the last two years because I got tired of watching operators lose money to the seam between their channel manager and their P&L.
+I&apos;ve been building Palvento for the last two years because I got tired of watching operators lose money to the seam between their channel manager and their P&L.
 
 Every multichannel ecommerce business I&apos;ve worked with hits the same wall somewhere between the third and fifth channel. They sell on Shopify and Amazon fine. They bolt on eBay. Then TikTok Shop or Etsy. Inventory drifts, oversells start, and nobody can give an honest answer to &quot;what did we actually make last week?&quot; — because gross revenue is in Stripe, fees are scattered across five dashboards, and the dashboard in the middle is lying about FX.
 
-Meridia is the Commerce Operations Platform built for this shape of business. Connect your channels, see live inventory sync, real multi-currency settled P&L, demand forecasting built from actual sales velocity, and a developer API that isn&apos;t gated behind a sales call. Order-volume pricing — flat, predictable, never a percentage of your revenue.
+Palvento is the Commerce Operations Platform built for this shape of business. Connect your channels, see live inventory sync, real multi-currency settled P&L, demand forecasting built from actual sales velocity, and a developer API that isn&apos;t gated behind a sales call. Order-volume pricing — flat, predictable, never a percentage of your revenue.
 
-Demo: [https://auxio-lkqv.vercel.app/demo](https://auxio-lkqv.vercel.app/demo). You can be live with your first channel connected in about ten minutes.
+Demo: [https://palvento-lkqv.vercel.app/demo](https://palvento-lkqv.vercel.app/demo). You can be live with your first channel connected in about ten minutes.
 
 The three things I&apos;d love honest feedback on:
 1. Is the onboarding fast enough? Target is first real number under ten minutes.
 2. Is the multi-currency P&L view clear? This is where I&apos;ve thrown the most design effort.
-3. What tool in your current stack would Meridia need to kill for you to consider switching?
+3. What tool in your current stack would Palvento need to kill for you to consider switching?
 
 I&apos;ll be here all day answering every comment. Thanks for looking.
 
@@ -117,7 +117,7 @@ Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, se
 
 ## Sample tweets (3)
 
-1. **Launch tweet.** *&quot;After two years of building: Meridia is live on Product Hunt today. It&apos;s the Commerce Operations Platform for multichannel sellers — one ledger across Shopify, Amazon, eBay, and every other channel you run. If you&apos;ve ever had an oversell on a Sunday morning, this is for you. [link]&quot;*
+1. **Launch tweet.** *&quot;After two years of building: Palvento is live on Product Hunt today. It&apos;s the Commerce Operations Platform for multichannel sellers — one ledger across Shopify, Amazon, eBay, and every other channel you run. If you&apos;ve ever had an oversell on a Sunday morning, this is for you. [link]&quot;*
 
 2. **Demo tweet (hours 3–5).** *&quot;Quick demo of the multi-currency P&L view — the thing I&apos;ve spent the most time on. If you sell cross-border and your dashboard gives you a clean revenue number, it&apos;s lying to you. Here&apos;s what honest looks like. [30-sec clip]&quot;*
 
@@ -135,6 +135,6 @@ Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, se
 
 1. **Ecommerce Fuel forum.** *&quot;Hey all — if you run multiple channels and have been frustrated by the Linnworks/ChannelAdvisor/spreadsheet tradeoff, I launched something today that might be useful. It&apos;s built around a single ledger model and order-volume pricing. Happy to give any EcomFuel member free access to the top tier for 30 days. [link]&quot;*
 
-2. **Operators Slack (DM host first).** *&quot;Quick one — I&apos;ve been building Meridia for two years and it went live on Product Hunt at midnight. If it&apos;s ok with [host] I&apos;d love to share. If you&apos;d like a personal demo walkthrough, reply and I&apos;ll book a 20-minute slot this week.&quot;*
+2. **Operators Slack (DM host first).** *&quot;Quick one — I&apos;ve been building Palvento for two years and it went live on Product Hunt at midnight. If it&apos;s ok with [host] I&apos;d love to share. If you&apos;d like a personal demo walkthrough, reply and I&apos;ll book a 20-minute slot this week.&quot;*
 
-3. **Indie Hackers #launches.** *&quot;Shipped Meridia today on Product Hunt after two years of build. It&apos;s a Commerce Operations Platform for multichannel sellers — category I&apos;ve been banging on about for a while. Happy to answer any build-in-public questions here, and if you&apos;re an IH member and want extended trial, DM me. [link]&quot;*
+3. **Indie Hackers #launches.** *&quot;Shipped Palvento today on Product Hunt after two years of build. It&apos;s a Commerce Operations Platform for multichannel sellers — category I&apos;ve been banging on about for a while. Happy to answer any build-in-public questions here, and if you&apos;re an IH member and want extended trial, DM me. [link]&quot;*

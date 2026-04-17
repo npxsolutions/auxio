@@ -491,9 +491,9 @@ export default function ListingsPage() {
   // ── Bootstrap from localStorage ──────────────────────────────────────────────
 
   useEffect(() => {
-    setDensity(lsGet('auxio_density', 'comfortable'))
-    setVisibleColumns(lsGet('auxio_columns', DEFAULT_COLUMNS))
-    const saved = lsGet<SavedView[]>('auxio_views', [])
+    setDensity(lsGet('palvento_density', 'comfortable'))
+    setVisibleColumns(lsGet('palvento_columns', DEFAULT_COLUMNS))
+    const saved = lsGet<SavedView[]>('palvento_views', [])
     if (saved.length > 0) {
       setViews([...DEFAULT_VIEWS, ...saved])
     }
@@ -714,7 +714,7 @@ export default function ListingsPage() {
     }
     const userViews = [...views.filter(v => v.id !== '__all__'), view]
     setViews([DEFAULT_VIEWS[0], ...userViews])
-    lsSet('auxio_views', userViews)
+    lsSet('palvento_views', userViews)
     setActiveViewId(view.id)
     setNewViewName('')
     setSaveViewOpen(false)
@@ -724,7 +724,7 @@ export default function ListingsPage() {
   function deleteView(id: string) {
     const userViews = views.filter(v => v.id !== '__all__' && v.id !== id)
     setViews([DEFAULT_VIEWS[0], ...userViews])
-    lsSet('auxio_views', userViews)
+    lsSet('palvento_views', userViews)
     if (activeViewId === id) applyView(DEFAULT_VIEWS[0])
   }
 
@@ -733,7 +733,7 @@ export default function ListingsPage() {
   function toggleColumn(col: string) {
     setVisibleColumns(prev => {
       const next = prev.includes(col) ? prev.filter(c => c !== col) : [...prev, col]
-      lsSet('auxio_columns', next)
+      lsSet('palvento_columns', next)
       return next
     })
   }
@@ -742,7 +742,7 @@ export default function ListingsPage() {
 
   function setDensityAndSave(d: DensityMode) {
     setDensity(d)
-    lsSet('auxio_density', d)
+    lsSet('palvento_density', d)
     setDensityOpen(false)
   }
 

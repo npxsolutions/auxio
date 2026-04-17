@@ -14,7 +14,7 @@ function verifyEbaySignature(request: Request, rawBody: string): boolean {
   if (!signatureHeader) return false
 
   try {
-    const endpointUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'}/api/ebay/notifications/account-deletion`
+    const endpointUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'}/api/ebay/notifications/account-deletion`
     const hash = createHmac('sha256', process.env.EBAY_CLIENT_SECRET!)
       .update(endpointUrl + rawBody)
       .digest('base64')
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
   }
 
   // eBay expects: SHA256(challengeCode + verificationToken + endpointUrl)
-  const endpointUrl = 'https://auxio-lkqv.vercel.app/api/ebay/notifications/account-deletion'
+  const endpointUrl = 'https://palvento-lkqv.vercel.app/api/ebay/notifications/account-deletion'
   const verificationToken = process.env.EBAY_VERIFICATION_TOKEN
 
   if (!verificationToken) {

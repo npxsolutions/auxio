@@ -1,7 +1,7 @@
-# Meridia — Videos
+# Palvento — Videos
 
 Captured by `npm run capture` (see `scripts/capture-assets.ts`). Source:
-`https://auxio-lkqv.vercel.app`.
+`https://palvento-lkqv.vercel.app`.
 
 Output format: WebM (VP9), 1920×1080, recorded via Playwright's `context.recordVideo`.
 

@@ -22,8 +22,8 @@ const C = {
 }
 
 export const metadata = {
-  title: 'Careers — Meridia',
-  description: 'Build the operating system for global commerce. Open roles at Meridia.',
+  title: 'Careers — Palvento',
+  description: 'Build the operating system for global commerce. Open roles at Palvento.',
 }
 
 export default function CareersPage() {
@@ -35,7 +35,7 @@ export default function CareersPage() {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink} />
             </svg>
-            <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Meridia</span>
+            <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 22, letterSpacing: '-0.015em' }}>Palvento</span>
           </Link>
           <Link href="/" style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none' }}>← Home</Link>
         </div>
@@ -52,7 +52,7 @@ export default function CareersPage() {
             Build the operating system for <em style={{ fontStyle: 'italic', color: C.cobalt }}>global commerce.</em>
           </h1>
           <p style={{ marginTop: 28, fontSize: 20, lineHeight: 1.5, color: C.mutedDk, fontFamily: 'var(--font-display-v8), Georgia, serif', fontStyle: 'italic', maxWidth: 700 }}>
-            Meridia unifies inventory, orders, forecasting, and margin across every channel a modern commerce operator runs. We're small, remote, and early. If you want equity in the outcome and autonomy over your area, keep reading.
+            Palvento unifies inventory, orders, forecasting, and margin across every channel a modern commerce operator runs. We're small, remote, and early. If you want equity in the outcome and autonomy over your area, keep reading.
           </p>
         </div>
       </section>
@@ -116,7 +116,7 @@ export default function CareersPage() {
           <p style={{ marginTop: 10, fontSize: 15, color: C.mutedDk, lineHeight: 1.55, maxWidth: 640 }}>
             If you think you&apos;d be a missing piece, tell us. Send a short note about what you&apos;ve built and what you want to build next.
           </p>
-          <a href="mailto:careers@meridia-placeholder.com" style={{ display: 'inline-block', marginTop: 16, fontFamily: 'var(--font-mono), monospace', fontSize: 13, color: C.cobalt, textDecoration: 'none', letterSpacing: '0.04em' }}>careers@meridia-placeholder.com →</a>
+          <a href="mailto:careers@palvento-placeholder.com" style={{ display: 'inline-block', marginTop: 16, fontFamily: 'var(--font-mono), monospace', fontSize: 13, color: C.cobalt, textDecoration: 'none', letterSpacing: '0.04em' }}>careers@palvento-placeholder.com →</a>
         </div>
       </section>
     </main>

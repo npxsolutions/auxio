@@ -6,7 +6,7 @@
  *
  *   1. shopify_field  — direct field on the listing (vendor, brand, etc.)
  *   2. metafield      — structured metafields namespaced under `custom.*` or
- *                       `meridia.*`
+ *                       `palvento.*`
  *   3. inferred       — deterministic inference from variant option values or
  *                       title regex (e.g. pull a colour out of "Red Dress")
  *   4. ai             — Anthropic fallback (lazy SDK, behind
@@ -99,7 +99,7 @@ const DETERMINISTIC: Record<string, Mapper> = {
     return v ? { value: String(v), source: 'shopify_field', confidence: 0.95 } : null
   },
   Condition: l => {
-    const meta = metaGet(l.metafields, ['custom.condition', 'meridia.condition'])
+    const meta = metaGet(l.metafields, ['custom.condition', 'palvento.condition'])
     if (meta) return { value: meta, source: 'metafield', confidence: 0.95 }
     if (l.condition) return { value: String(l.condition), source: 'shopify_field', confidence: 0.9 }
     return { value: 'New', source: 'inferred', confidence: 0.6 }

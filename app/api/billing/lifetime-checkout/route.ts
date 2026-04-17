@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     await supabase.from('users').upsert({ id: user.id, stripe_customer_id: customerId })
   }
 
-  const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
+  const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
 
   try {
     const session = await stripe.checkout.sessions.create({

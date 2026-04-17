@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
         // Referral attribution — read cookie, insert signed_up row (idempotent).
         try {
-          const ref = cookieStore.get('meridia_ref')?.value
+          const ref = cookieStore.get('palvento_ref')?.value
           if (ref) {
             const referrerId = await referrerUserIdForCode(ref)
             if (referrerId && referrerId !== user.id) {
@@ -59,7 +59,7 @@ export async function GET(request: Request) {
               }, { onConflict: 'referred_user_id' })
             }
             // Clear the cookie post-attribution.
-            cookieStore.set('meridia_ref', '', { maxAge: 0, path: '/' })
+            cookieStore.set('palvento_ref', '', { maxAge: 0, path: '/' })
           }
         } catch (err) {
           console.error('[auth/callback] referral attribution failed:', err)

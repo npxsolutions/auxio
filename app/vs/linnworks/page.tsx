@@ -2,27 +2,27 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Meridia vs Linnworks — A better option for multichannel sellers (2026)',
-  description: 'Linnworks starts at $549/month. Meridia starts at $59. Compare features, pricing, and AI capabilities for global multichannel sellers in 2026.',
-  keywords: ['Linnworks alternative', 'Linnworks alternative cheaper', 'Linnworks vs Meridia', 'cheaper than Linnworks', 'global multichannel software', 'multichannel software small business', 'international ecommerce operations platform'],
+  title: 'Palvento vs Linnworks — A better option for multichannel sellers (2026)',
+  description: 'Linnworks starts at $549/month. Palvento starts at $59. Compare features, pricing, and AI capabilities for global multichannel sellers in 2026.',
+  keywords: ['Linnworks alternative', 'Linnworks alternative cheaper', 'Linnworks vs Palvento', 'cheaper than Linnworks', 'global multichannel software', 'multichannel software small business', 'international ecommerce operations platform'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price', auxio: '$59/mo', lw: '$549/mo', highlight: true },
-  { feature: 'Free trial', auxio: '14 days (no card)', lw: 'Demo only', highlight: true },
-  { feature: 'AI listing writer', auxio: true, lw: false, highlight: false },
-  { feature: 'True profit tracking (after fees)', auxio: true, lw: false, highlight: false },
-  { feature: 'OnBuy integration', auxio: true, lw: false, highlight: false },
-  { feature: 'Social intelligence', auxio: true, lw: false, highlight: false },
-  { feature: 'AI daily briefings', auxio: true, lw: false, highlight: false },
-  { feature: 'Profit-floor repricing', auxio: true, lw: 'Add-on', highlight: false },
-  { feature: 'Built for multichannel sellers', auxio: true, lw: false, highlight: false },
-  { feature: 'Feed rules engine', auxio: true, lw: true, highlight: false },
-  { feature: 'eBay integration', auxio: true, lw: true, highlight: false },
-  { feature: 'Amazon integration', auxio: true, lw: true, highlight: false },
-  { feature: 'Shopify integration', auxio: true, lw: true, highlight: false },
-  { feature: 'Contract required', auxio: false, lw: 'Annual', highlight: false },
-  { feature: 'Onboarding time', auxio: 'Self-serve, <10 min', lw: 'Weeks of setup', highlight: false },
+  { feature: 'Starting price', palvento: '$59/mo', lw: '$549/mo', highlight: true },
+  { feature: 'Free trial', palvento: '14 days (no card)', lw: 'Demo only', highlight: true },
+  { feature: 'AI listing writer', palvento: true, lw: false, highlight: false },
+  { feature: 'True profit tracking (after fees)', palvento: true, lw: false, highlight: false },
+  { feature: 'OnBuy integration', palvento: true, lw: false, highlight: false },
+  { feature: 'Social intelligence', palvento: true, lw: false, highlight: false },
+  { feature: 'AI daily briefings', palvento: true, lw: false, highlight: false },
+  { feature: 'Profit-floor repricing', palvento: true, lw: 'Add-on', highlight: false },
+  { feature: 'Built for multichannel sellers', palvento: true, lw: false, highlight: false },
+  { feature: 'Feed rules engine', palvento: true, lw: true, highlight: false },
+  { feature: 'eBay integration', palvento: true, lw: true, highlight: false },
+  { feature: 'Amazon integration', palvento: true, lw: true, highlight: false },
+  { feature: 'Shopify integration', palvento: true, lw: true, highlight: false },
+  { feature: 'Contract required', palvento: false, lw: 'Annual', highlight: false },
+  { feature: 'Onboarding time', palvento: 'Self-serve, <10 min', lw: 'Weeks of setup', highlight: false },
 ]
 
 export default function VsLinnworksPage() {
@@ -32,7 +32,7 @@ export default function VsLinnworksPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Meridia</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
@@ -47,17 +47,17 @@ export default function VsLinnworksPage() {
             COMPARISON
           </div>
           <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
-            Meridia vs Linnworks
+            Palvento vs Linnworks
           </h1>
           <p style={{ fontSize: '18px', color: '#64748b', lineHeight: 1.7, marginBottom: '16px' }}>
-            Linnworks is a powerful platform — built for warehouse operations teams at $549+/month. Meridia is built for independent multichannel sellers worldwide who want the same capabilities without the enterprise price tag or the 6-week onboarding.
+            Linnworks is a powerful platform — built for warehouse operations teams at $549+/month. Palvento is built for independent multichannel sellers worldwide who want the same capabilities without the enterprise price tag or the 6-week onboarding.
           </p>
           <div style={{ display: 'inline-flex', gap: '8px', padding: '12px 20px', background: 'rgba(220, 38, 38, 0.06)', border: '1px solid rgba(220, 38, 38, 0.15)', borderRadius: '10px', marginBottom: '32px' }}>
             <span style={{ fontSize: '14px', color: '#dc2626', fontWeight: 600 }}>Linnworks starts at $549/month.</span>
-            <span style={{ fontSize: '14px', color: '#64748b' }}>Meridia starts at $59.</span>
+            <span style={{ fontSize: '14px', color: '#64748b' }}>Palvento starts at $59.</span>
           </div>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <Link href="/signup" style={{ padding: '13px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Try Meridia free →</Link>
+            <Link href="/signup" style={{ padding: '13px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Try Palvento free →</Link>
             <Link href="/pricing" style={{ padding: '13px 24px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#374151', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>See pricing</Link>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function VsLinnworksPage() {
       <div style={{ maxWidth: '900px', margin: '40px auto 0', padding: '0 48px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', background: '#fafaf9', border: '1px solid #f1f1ef', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
           <div>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Meridia Starter</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Palvento Starter</div>
             <div style={{ fontSize: '56px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.03em', lineHeight: 1 }}>$59</div>
             <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px' }}>per month · all channels · no contract · billed in USD / GBP / EUR / AUD / CAD</div>
             <div style={{ fontSize: '13px', color: '#5b52f5', marginTop: '8px', fontWeight: 500 }}>Founding rate available →</div>
@@ -89,7 +89,7 @@ export default function VsLinnworksPage() {
             <thead>
               <tr style={{ background: '#0f172a' }}>
                 <th style={{ padding: '14px 20px', textAlign: 'left', fontWeight: 600, color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Feature</th>
-                <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635', fontSize: '13px' }}>Meridia</th>
+                <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635', fontSize: '13px' }}>Palvento</th>
                 <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>Linnworks</th>
               </tr>
             </thead>
@@ -98,9 +98,9 @@ export default function VsLinnworksPage() {
                 <tr key={row.feature} style={{ borderTop: '1px solid #f1f1ef', background: row.highlight ? 'rgba(91,82,245,0.03)' : i % 2 === 0 ? 'white' : '#fafaf9' }}>
                   <td style={{ padding: '13px 20px', color: '#374151', fontWeight: row.highlight ? 700 : 500 }}>{row.feature}</td>
                   <td style={{ padding: '13px 20px', textAlign: 'center' }}>
-                    {row.auxio === true ? <span style={{ color: '#16a34a', fontWeight: 700 }}>✓</span>
-                      : row.auxio === false ? <span style={{ color: '#dc2626' }}>✗</span>
-                      : <span style={{ color: '#0f172a', fontWeight: row.highlight ? 700 : 400 }}>{row.auxio}</span>}
+                    {row.palvento === true ? <span style={{ color: '#16a34a', fontWeight: 700 }}>✓</span>
+                      : row.palvento === false ? <span style={{ color: '#dc2626' }}>✗</span>
+                      : <span style={{ color: '#0f172a', fontWeight: row.highlight ? 700 : 400 }}>{row.palvento}</span>}
                   </td>
                   <td style={{ padding: '13px 20px', textAlign: 'center' }}>
                     {row.lw === true ? <span style={{ color: '#16a34a', fontWeight: 700 }}>✓</span>
@@ -120,7 +120,7 @@ export default function VsLinnworksPage() {
           <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0f172a' }}>Who is each platform for?</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
             <div style={{ padding: '28px', background: 'white', border: '2px solid #5b52f5', borderRadius: '14px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Meridia is for you if…</div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Palvento is for you if…</div>
               {[
                 'You\'re an independent or small-team multichannel seller (1–50 staff)',
                 'You want to be live on a new channel in under 10 minutes',
@@ -175,7 +175,7 @@ export default function VsLinnworksPage() {
       </div>
 
       <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Meridia. All rights reserved.</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Pricing', '/pricing'], ['vs Baselinker', '/vs/baselinker'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (
             <Link key={l} href={h} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{l}</Link>

@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Meridia — Developers
+// Palvento — Developers
 // Production page. v8 palette + Instrument Serif display + Geist body + mono.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -39,7 +39,7 @@ const QUICKSTARTS: { title: string; blurb: string; lang: string; code: string }[
     title: '01 · Authenticate',
     blurb: 'Bearer tokens, scoped per integration. Generate keys in the developer dashboard.',
     lang: 'bash',
-    code: `curl https://api.auxio.io/v1 \\
+    code: `curl https://api.palvento.io/v1 \\
   -H "Authorization: Bearer sk_live_a3f2..." \\
   -H "Accept: application/json"`,
   },
@@ -47,14 +47,14 @@ const QUICKSTARTS: { title: string; blurb: string; lang: string; code: string }[
     title: '02 · List products',
     blurb: 'Unified listings across every connected channel. Filter by SKU, channel, or status.',
     lang: 'bash',
-    code: `curl "https://api.auxio.io/v1/listings?channel=amazon_uk&status=live" \\
+    code: `curl "https://api.palvento.io/v1/listings?channel=amazon_uk&status=live" \\
   -H "Authorization: Bearer sk_live_a3f2..."`,
   },
   {
     title: '03 · Manage orders',
     blurb: 'Pull orders from any channel; mark fulfilled; trigger refunds; attach tracking.',
     lang: 'bash',
-    code: `curl -X POST https://api.auxio.io/v1/orders/ord_8821/fulfill \\
+    code: `curl -X POST https://api.palvento.io/v1/orders/ord_8821/fulfill \\
   -H "Authorization: Bearer sk_live_a3f2..." \\
   -H "Content-Type: application/json" \\
   -d '{ "carrier": "royal_mail", "tracking": "AB123456789GB" }'`,
@@ -63,11 +63,11 @@ const QUICKSTARTS: { title: string; blurb: string; lang: string; code: string }[
     title: '04 · Receive webhooks',
     blurb: 'Subscribe once, receive every event. Verify signatures, replay any missed delivery.',
     lang: 'bash',
-    code: `curl -X POST https://api.auxio.io/v1/webhooks \\
+    code: `curl -X POST https://api.palvento.io/v1/webhooks \\
   -H "Authorization: Bearer sk_live_a3f2..." \\
   -H "Content-Type: application/json" \\
   -d '{
-    "url": "https://yourapp.com/hooks/auxio",
+    "url": "https://yourapp.com/hooks/palvento",
     "events": ["order.created", "inventory.low_stock"]
   }'`,
   },
@@ -92,9 +92,9 @@ const EVENTS = [
 ]
 
 const SDKS = [
-  { name: 'Node.js / TypeScript', status: 'beta',  install: 'npm i @auxio/node' },
-  { name: 'Python',               status: 'soon',  install: 'pip install auxio (Q3)' },
-  { name: 'Ruby',                 status: 'soon',  install: 'gem install auxio (Q4)' },
+  { name: 'Node.js / TypeScript', status: 'beta',  install: 'npm i @palvento/node' },
+  { name: 'Python',               status: 'soon',  install: 'pip install palvento (Q3)' },
+  { name: 'Ruby',                 status: 'soon',  install: 'gem install palvento (Q4)' },
   { name: 'Go',                   status: 'soon',  install: 'On the roadmap.' },
 ]
 
@@ -115,7 +115,7 @@ export default function DevelopersPage() {
         <div style={{ maxWidth: 1040, margin: '0 auto', padding: '120px 32px 64px', position: 'relative', zIndex: 2 }}>
           <div style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.cobalt }}>Developers</div>
           <h1 className={display.className} style={{ fontSize: 'clamp(48px, 7vw, 88px)', lineHeight: 1.02, letterSpacing: '-0.02em', fontWeight: 400, margin: '20px 0 0' }}>
-            Build on <em style={{ fontStyle: 'italic', color: C.cobalt }}>Meridia</em>.<br />
+            Build on <em style={{ fontStyle: 'italic', color: C.cobalt }}>Palvento</em>.<br />
             One API. Every channel.
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, color: C.muted, maxWidth: 640, marginTop: 24 }}>
@@ -215,13 +215,13 @@ export default function DevelopersPage() {
 
       <section style={{ ...section, marginBottom: 80 }}>
         <div style={{ background: C.ink, color: C.bg, borderRadius: 18, padding: '64px 48px' }}>
-          <div className={display.className} style={{ fontSize: 'clamp(36px, 5vw, 56px)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>Build on Meridia.</div>
+          <div className={display.className} style={{ fontSize: 'clamp(36px, 5vw, 56px)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>Build on Palvento.</div>
           <p style={{ fontSize: 16, color: 'rgba(243,240,234,0.7)', maxWidth: 560, marginTop: 16, lineHeight: 1.6 }}>
             Early builders get white-glove support, a direct line to the platform team, and listing placement in the integrations gallery on day one.
           </p>
           <div style={{ marginTop: 24, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Link href="/developer" style={{ ...btnPrimary, background: C.bg, color: C.ink }}>Get an API key</Link>
-            <a href="mailto:developers@auxio.io" style={{ ...btnGhost, color: C.bg, borderColor: 'rgba(243,240,234,0.25)' }}>Email the platform team</a>
+            <a href="mailto:developers@palvento.io" style={{ ...btnGhost, color: C.bg, borderColor: 'rgba(243,240,234,0.25)' }}>Email the platform team</a>
           </div>
         </div>
       </section>
@@ -281,7 +281,7 @@ function BackdropGrid() {
 function Nav() {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
+      <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Palvento</Link>
       <div style={{ display: 'flex', gap: 28 }}>
         {NAV.map(n => (
           <Link key={n.href} href={n.href} style={{ fontSize: 14, color: n.label === 'Developers' ? C.ink : C.inkSoft, textDecoration: 'none', fontWeight: n.label === 'Developers' ? 500 : 400 }}>{n.label}</Link>
@@ -303,7 +303,7 @@ function ResourcesFooter() {
     <footer style={{ borderTop: `1px solid ${C.rule}`, background: C.bg }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 32px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
         <div>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
+          <Link href="/" style={{ fontSize: 18, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Palvento</Link>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.55, marginTop: 12, maxWidth: 240 }}>The operating layer for multichannel commerce.</p>
         </div>
         {cols.map(col => (
@@ -318,7 +318,7 @@ function ResourcesFooter() {
         ))}
       </div>
       <div style={{ borderTop: `1px solid ${C.ruleSoft}`, padding: '20px 32px', maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Meridia. All rights reserved.</div>
+        <div style={{ fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Palvento. All rights reserved.</div>
         <div style={{ fontSize: 12, color: C.muted }}>Built for operators.</div>
       </div>
     </footer>

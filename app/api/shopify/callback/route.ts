@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   const code  = searchParams.get('code')
   const shop  = searchParams.get('shop')
   const state = searchParams.get('state')
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
 
   if (!code || !shop) {
     return NextResponse.redirect(new URL('/onboarding?error=missing_params', request.url))

@@ -121,7 +121,7 @@ Columns: **KW** = primary keyword. **Vol.** = est. monthly US+UK search volume. 
 - KW: "future of ecommerce operations" · Vol est. ~250 · KD est. 20
 - Intent: I · CTA: Join the newsletter · WC: 1,800 · Day: Tuesday
 
-**Supporting (CP).** *90 days of building Meridia in public: what the numbers say.*
+**Supporting (CP).** *90 days of building Palvento in public: what the numbers say.*
 - KW: "build in public ecommerce saas" · Vol est. ~150 · KD est. 12
 - Intent: I · CTA: Start free trial · WC: 1,400 · Day: Friday
 

@@ -3,15 +3,15 @@
 Six naming rounds. 400+ candidates generated, ~70 live-verified. This is the honest ranked top 10 after analysing:
 
 - `naming-research.md` (Rounds 1–4 verified)
-- `meridia-availability.md` (handle + domain)
+- `palvento-availability.md` (handle + domain)
 - `sound-pool.md`, `job-to-name.md`, `process-names.md`, `coined-pool.md` (generation)
 - `random-100.md`, `klaviyo-family.md` (latest)
 - Live Firecrawl checks across Forge, Helm, and 12 coined candidates
 
 ## The patterns we saw across rounds
 
-1. **Every abstract Latin/Greek noun is taken** by a funded 2022-2025 SaaS (Fulcra, Meridia, Rialto, Orbix, Sellgrid all hit this)
-2. **Every metaphor-word is claimed** by an incumbent with bigger SEO weight (Forge → Forge Global, Helm → Kubernetes, Meridia → meridia.co)
+1. **Every abstract Latin/Greek noun is taken** by a funded 2022-2025 SaaS (Fulcra, Palvento, Rialto, Orbix, Sellgrid all hit this)
+2. **Every metaphor-word is claimed** by an incumbent with bigger SEO weight (Forge → Forge Global, Helm → Kubernetes, Palvento → palvento.co)
 3. **Short coined words at 4-5 chars** are broker-listed and expensive (Pren, Klip, Lumo all parked for sale)
 4. **The only genuinely clean paths** are (a) your original name Auxio, (b) 6-letter+ coined words, (c) paid acquisition of a brokered 4-letter name
 
@@ -92,7 +92,7 @@ Stop researching. Pick.
 
 Reply with one word:
 
-- **"Auxio"** — I revert the Meridia sed sweep in 5 min, you ship today
+- **"Auxio"** — I revert the Palvento sed sweep in 5 min, you ship today
 - **"Verify X"** (where X = one of the 10, or "top 3") — I run live checks, back in 10 min
 - **"Buy Pren"** — I draft the Fruits.co inquiry email now
 - **"One more round"** — I generate another 40 *and* we burn another day

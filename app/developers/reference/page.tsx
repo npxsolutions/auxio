@@ -18,7 +18,7 @@ export default function ReferencePage() {
   return (
     <div style={{ background: C.bg, color: C.ink, minHeight: '100vh', fontFamily: "'Geist', system-ui, sans-serif" }}>
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(243,240,234,0.85)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${C.rule}`, padding: '0 32px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Meridia</Link>
+        <Link href="/" style={{ fontSize: 16, fontWeight: 600, color: C.ink, textDecoration: 'none' }}>Palvento</Link>
         <Link href="/developers" style={{ fontSize: 14, color: C.inkSoft, textDecoration: 'none' }}>Developers</Link>
       </nav>
 
@@ -38,12 +38,12 @@ export default function ReferencePage() {
           <p style={{ fontSize: 15, color: C.inkSoft, lineHeight: 1.65, marginTop: 12 }}>
             Hit <code style={{ fontFamily: "'Geist Mono', ui-monospace, monospace", background: C.raised, padding: '2px 8px', borderRadius: 6, fontSize: 13 }}>GET /api/v1</code> for a live index of every current endpoint, with descriptions, scopes, and rate limits.
           </p>
-          <pre style={{ marginTop: 16, background: C.ink, color: '#e4e9f2', padding: '16px 20px', fontSize: 13, lineHeight: 1.6, fontFamily: "'Geist Mono', ui-monospace, monospace", borderRadius: 10, overflowX: 'auto' }}>{`curl https://api.auxio.io/v1 \\
+          <pre style={{ marginTop: 16, background: C.ink, color: '#e4e9f2', padding: '16px 20px', fontSize: 13, lineHeight: 1.6, fontFamily: "'Geist Mono', ui-monospace, monospace", borderRadius: 10, overflowX: 'auto' }}>{`curl https://api.palvento.io/v1 \\
   -H "Accept: application/json"`}</pre>
         </div>
 
         <div style={{ marginTop: 24, padding: 24, border: `1px dashed ${C.rule}`, borderRadius: 14, fontSize: 13, color: C.muted, lineHeight: 1.65 }}>
-          Want early access to the spec, the Postman collection, or a typed SDK? Email <a href="mailto:developers@auxio.io" style={{ color: C.cobalt }}>developers@auxio.io</a>.
+          Want early access to the spec, the Postman collection, or a typed SDK? Email <a href="mailto:developers@palvento.io" style={{ color: C.cobalt }}>developers@palvento.io</a>.
         </div>
 
         <div style={{ marginTop: 32 }}>

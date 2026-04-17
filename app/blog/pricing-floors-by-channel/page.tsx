@@ -12,7 +12,7 @@ export default function BlogPostPage() {
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Meridia</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -119,8 +119,8 @@ export default function BlogPostPage() {
         </div>
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
-          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Per-channel floors, computed and enforced in Meridia</strong>
-          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Meridia calculates your floor from live landed cost + real fee schedule per channel, and pushes it into your repricer or channel listing automatically. From $59/mo, connect Shopify and Amazon in under ten minutes.</p>
+          <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Per-channel floors, computed and enforced in Palvento</strong>
+          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Palvento calculates your floor from live landed cost + real fee schedule per channel, and pushes it into your repricer or channel listing automatically. From $59/mo, connect Shopify and Amazon in under ten minutes.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 

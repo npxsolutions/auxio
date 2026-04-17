@@ -1,18 +1,18 @@
-# Zapier — Meridia integration brief
+# Zapier — Palvento integration brief
 
 **Status:** Submission-ready. Awaiting partner-account approval from Zapier.
-**Submission contact:** developers@auxio.io
+**Submission contact:** developers@palvento.io
 **Internal owner:** Platform team
 
 ## Integration name
-Meridia
+Palvento
 
 ## Short description (≤140 chars)
-Trigger Zaps from any Meridia event — new orders, listing changes, low stock, profit thresholds — across every marketplace you sell on.
+Trigger Zaps from any Palvento event — new orders, listing changes, low stock, profit thresholds — across every marketplace you sell on.
 
 ## Authentication
 - Type: **API Key (Bearer token)**
-- Endpoint: `https://api.auxio.io/v1`
+- Endpoint: `https://api.palvento.io/v1`
 - Test endpoint: `GET /v1/me`
 - Scopes requested: `read`, `webhooks:write`
 
@@ -39,6 +39,6 @@ Trigger Zaps from any Meridia event — new orders, listing changes, low stock, 
 - Listing error on Etsy → Linear ticket → assigned to the merchandising lead.
 
 ## Submission notes
-- Test account credentials provisioned on `sandbox.auxio.io`.
+- Test account credentials provisioned on `sandbox.palvento.io`.
 - Demo video walkthrough at `/marketing/marketplace-listings/zapier-demo.mp4` (TODO — record).
 - Categories: **Commerce · eCommerce**.

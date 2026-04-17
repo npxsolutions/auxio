@@ -204,7 +204,7 @@ export async function GET(request: Request) {
 
     // Kick off the processing pipeline for this user's new posts.
     try {
-      const base = process.env.NEXT_PUBLIC_APP_URL || 'https://auxio-lkqv.vercel.app'
+      const base = process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
       await fetch(`${base}/api/social-intel/process`, {
         method: 'POST',
         headers: {

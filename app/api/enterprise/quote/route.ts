@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   }
 
   const adminLink = data?.id
-    ? `https://auxio-lkqv.vercel.app/admin/enterprise/${data.id}`
+    ? `https://palvento-lkqv.vercel.app/admin/enterprise/${data.id}`
     : `mailto:${email}`
 
   void notifySlack({

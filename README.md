@@ -1,6 +1,6 @@
-# Meridia
+# Palvento
 
-[![CI](https://github.com/npxsolutions/auxio/actions/workflows/ci.yml/badge.svg)](https://github.com/npxsolutions/auxio/actions/workflows/ci.yml)
+[![CI](https://github.com/npxsolutions/palvento/actions/workflows/ci.yml/badge.svg)](https://github.com/npxsolutions/palvento/actions/workflows/ci.yml)
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
@@ -35,7 +35,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Testing
 
-Meridia has two test layers:
+Palvento has two test layers:
 
 ### Unit tests (Vitest)
 
