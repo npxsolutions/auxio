@@ -630,7 +630,7 @@ export default function LandingV5() {
           <div style={{ marginTop: 64, padding: '32px 32px', borderLeft: `3px solid ${C.cobalt}`, background: 'rgba(29,95,219,0.08)', maxWidth: 920 }}>
             <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#7BB7FF', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 14 }}>Palvento · est. mmxxvi</div>
             <p style={{ fontFamily: 'var(--font-display-v5), Georgia, serif', fontSize: 22, lineHeight: 1.45, color: C.bg, margin: 0, fontWeight: 400, letterSpacing: '-0.012em' }}>
-              One platform. Self-serve in ten minutes. Multi-currency from the first SKU. Procurement, fulfilment, listings, and finance-grade P&amp;L on a single ledger. Founding member rate from <span style={{ color: '#7BB7FF' }}>$59 per month</span>.
+              One platform. Self-serve in ten minutes. Multi-currency from the first SKU. Procurement, fulfilment, listings, and finance-grade P&amp;L on a single ledger. Founding member rate from <span style={{ color: '#7BB7FF' }}>$99 per month</span>.
             </p>
           </div>
         </div>

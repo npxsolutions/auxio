@@ -18,7 +18,7 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 5/ So I rewrote the thesis in one line: self-serve multichannel feed management for Shopify-led sellers scaling past their store. Every feature decision since then has been tested against that sentence. If it fails the sentence, it doesn't ship.
 
-> 6/ This is week one of eight where I'll share what we're building, why, and the decisions I'm getting wrong. Palvento is live — $59/mo, no sales call. palvento-lkqv.vercel.app
+> 6/ This is week one of eight where I'll share what we're building, why, and the decisions I'm getting wrong. Palvento is live — $149/mo, no sales call. palvento-lkqv.vercel.app
 
 ---
 
@@ -34,7 +34,7 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 5/ The fix is not a better spreadsheet. The fix is a feed engine that ingests every channel at event time, catches rejections at ingest, and makes the pivot question redundant. That's what Palvento does.
 
-> 6/ If you recognise the spreadsheet, you are exactly the operator we built this for. $59/mo, live in ten minutes. palvento-lkqv.vercel.app
+> 6/ If you recognise the spreadsheet, you are exactly the operator we built this for. $149/mo, live in ten minutes. palvento-lkqv.vercel.app
 
 ---
 
@@ -46,7 +46,7 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 3/ Version 2: per-SKU pricing. Logical on paper. In practice, a merchant with 12,000 SKUs and $30k/mo GMV would pay more than a merchant with 200 SKUs and $500k/mo GMV. The pricing penalised the wrong axis.
 
-> 4/ Version 3: order-volume tiers. $59/mo (Starter), $159/mo (Growth), $499/mo (Scale), Enterprise from $1,500/mo. Published in five currencies. Flat. Predictable. Reflects the actual cost of serving each tier — API calls, sync events, storage.
+> 4/ Version 3: order-volume tiers. $149/mo (Starter), $349/mo (Growth), $799/mo (Scale), Enterprise from $2,000/mo. Published in five currencies. Flat. Predictable. Reflects the actual cost of serving each tier — API calls, sync events, storage.
 
 > 5/ The insight: operators don't object to paying. They object to not knowing what they'll pay. Feedonomics doesn't publish pricing. Rithum doesn't publish pricing. Linnworks doesn't publish pricing. We do.
 
@@ -68,7 +68,7 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 6/ Mistake 5: no feed-level error monitoring. Marketplace Seller Central shows errors. Eventually. A feed tool should surface them at ingest, before the listing hits the marketplace, with a clear remediation path.
 
-> 7/ Palvento catches all five at the feed level. Error hub surfaces what's wrong, why, and how to fix it — before submission. $59/mo. palvento-lkqv.vercel.app
+> 7/ Palvento catches all five at the feed level. Error hub surfaces what's wrong, why, and how to fix it — before submission. $149/mo. palvento-lkqv.vercel.app
 
 ---
 
@@ -82,7 +82,7 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 4/ Meanwhile, the floor of the market got covered. Shopify Marketplace Connect (Codisto) is free up to 50 orders. Covers Amazon, eBay, Walmart. Good enough for the first channel. Not good enough for serious feed optimisation.
 
-> 5/ The gap: self-serve feed management with real rules, real error handling, and real per-channel P&L, at a price point between $59 and $499/mo. That's the gap Palvento fills.
+> 5/ The gap: self-serve feed management with real rules, real error handling, and real per-channel P&L, at a price point between $149 and $799/mo. That's the gap Palvento fills.
 
 > 6/ If you've been quoted $2,500/mo by Feedonomics and bounced, or outgrown Marketplace Connect's channel coverage — we built this for you. palvento-lkqv.vercel.app
 
@@ -116,7 +116,7 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 4/ The argument for percentage pricing is "alignment." But alignment with what? The merchant's goal is to grow margin. The vendor's goal under % pricing is to grow the merchant's top line. Those are not the same thing.
 
-> 5/ Palvento charges flat tiers indexed to order volume. $59/mo, $159/mo, $499/mo, Enterprise from $1,500/mo. A high-AOV luxury brand and a low-AOV consumables brand pay similarly at similar volume. That reflects actual cost of service.
+> 5/ Palvento charges flat tiers indexed to order volume. $149/mo, $349/mo, $799/mo, Enterprise from $2,000/mo. A high-AOV luxury brand and a low-AOV consumables brand pay similarly at similar volume. That reflects actual cost of service.
 
 > 6/ If your feed tool charges a percentage of your revenue, do the maths at your 12-month projection. Then check what Palvento costs. The difference is your tax.
 
@@ -136,4 +136,4 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 6/ What's next: BigCommerce and WooCommerce connectors. Partner program for Shopify agencies. And a longer piece on what "self-serve multichannel feed management" looks like at the $1M/mo GMV tier.
 
-> 7/ If you've been following along — thank you. If you want to try what we've built: palvento-lkqv.vercel.app. $59/mo, live in ten minutes, no sales call.
+> 7/ If you've been following along — thank you. If you want to try what we've built: palvento-lkqv.vercel.app. $149/mo, live in ten minutes, no sales call.

@@ -5,7 +5,7 @@ Post Tuesday 6am PT (~6 hours after PH launch so the two traffic sources don&apo
 ---
 
 ## Title (under 80 chars)
-> **Show HN: Palvento – Self-serve multichannel feed management from $59/mo**
+> **Show HN: Palvento – Self-serve multichannel feed management from $149/mo**
 > *(74 chars)*
 
 ## Body (under 1500 chars)
@@ -14,7 +14,7 @@ Post Tuesday 6am PT (~6 hours after PH launch so the two traffic sources don&apo
 >
 > I built it because the multichannel feed-management market has a hole in it. On one side: Shopify Marketplace Connect, free up to 50 orders, covers Amazon/eBay/Walmart, no real feed optimisation. On the other: Feedonomics, $2,500+/mo, 30–90 day onboarding, managed services. Nothing in between for a Shopify merchant doing $25k–$500k/mo who wants to add TikTok Shop on a Tuesday afternoon.
 >
-> Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, first feed live in under ten minutes. Real feed rules, error hub that catches GTIN mismatches and banned words before they hit the marketplace, per-channel P&L so you know which marketplace is profitable after fees. $59/mo for one channel, $159 for five, $499 for unlimited — published pricing, no percentage of revenue.
+> Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, first feed live in under ten minutes. Real feed rules, error hub that catches GTIN mismatches and banned words before they hit the marketplace, per-channel P&L so you know which marketplace is profitable after fees. $149/mo for one channel, $349 for five, $799 for unlimited — published pricing, no percentage of revenue.
 >
 > Tech: Next.js 16 on Vercel, Postgres via Supabase, Node worker jobs on Railway for the marketplace sync fan-out, PostHog for product analytics, Stripe for billing. Developer API is REST + webhooks, typed SDK published to npm; everything in the UI is available over API.
 >

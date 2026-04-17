@@ -102,10 +102,10 @@ Every competitor above $500/mo gates pricing behind a form. Every competitor bel
 
 | Tier | Current USD | Band |
 |---|---|---|
-| Starter | $59 (founding) / $99 (list) | Self-serve SMB — aggressively competitive |
-| Growth | $159 (founding) / $249 (list) | Self-serve SMB — right on the median for 3–5 channel Shopify sellers |
-| Scale | $499 (founding) / $749 (list) | Upper self-serve SMB — near the ceiling before the buyer expects a sales call |
-| Enterprise | Custom | Correct shape, needs a visible "from" anchor |
+| Starter | $99 (founding) / $149 (list) | Self-serve SMB — owns the empty mid-market gap above commodity tools |
+| Growth | $249 (founding) / $349 (list) | Self-serve SMB — right on the median for 3–5 channel Shopify sellers |
+| Scale | $599 (founding) / $799 (list) | Upper self-serve SMB — near the ceiling before the buyer expects a sales call |
+| Enterprise | From $2,000/mo | Visible anchor, sales-led |
 
 **Diagnosis.** The numbers are right. The shape is right. What's wrong is the pitch around them — they're currently defended against Linnworks and Brightpearl (wrong wedge) instead of anchored against Feedonomics and the Shopify Marketplace Connect floor.
 
@@ -113,17 +113,17 @@ Every competitor above $500/mo gates pricing behind a form. Every competitor bel
 
 ## 4. Pricing recommendation (Shopify-led feed-management wedge)
 
-Keep the numbers. Rework the positioning.
+Rework the positioning around the new price points.
 
 ### Keep
-1. **$59 / $159 / $499 / Custom** — these land in the exact band where Shopify merchants at $10k–$500k+/mo GMV expect to pay for a serious multichannel tool. Sellbrite's $29–$129, Veeqo's $19–$350 and Baselinker's €19–€99 all map into this range; Palvento sits a click above them on promise (feed quality + optimisation + P&L depth).
+1. **$149 / $349 / $799 / $2,000** — these land in the empty mid-market gap between commodity self-serve tools (Sellbrite's $29–$129, Veeqo's $19–$350, Baselinker's €19–€99) and enterprise quote-only vendors ($2,500+). Higher price signals commitment and lowers churn.
 2. **Flat monthly, no percentage of GMV.** This is a genuine differentiator against Rithum (historic) and against any quote-led incumbent that tacks on services fees. Feedonomics itself uses this line, so we have to say it better.
 3. **Founding-member anchor.** Valid for now. Sunset when list gets to ~150 customers; the discount gets stale otherwise.
 4. **5-currency toggle.** Rare at this price point. Keep it visible on the pricing page.
 
 ### Change
 1. **Anchor every tier against Feedonomics' $2,500/mo floor,** not against Linnworks. Feedonomics is the category name for feed management. Linnworks is the category name for inventory management. The wedge is feed.
-2. **Add a visible "Enterprise — from $1,500/mo" affordance on the Custom tier.** Keeps the sales path alive for >$500k/mo GMV accounts, but stops the tier feeling like a mystery box. Currently "Custom" with no anchor trains visitors that there's no number; a "from" number converts more enterprise leads because it signals seriousness without committing.
+2. **Enterprise — from $2,000/mo is now visible on the pricing page.** Keeps the sales path alive for >$500k/mo GMV accounts, signals seriousness without committing to a fixed number.
 3. **Retire the "% of revenue" FUD comparison against ChannelAdvisor** (they rebranded to Rithum; the % model is being phased out on new contracts). Keep one line on the comparison table — don't repeat it three times.
 4. **Reframe the comparison table** so Feedonomics is column 2 (primary), then Rithum, Linnworks, Brightpearl. Current order puts Brightpearl first, which is the wrong primary.
 5. **Name the overage model explicitly.** Linnworks and Veeqo win trust by being explicit that they're order-volume tiered; Palvento's "up to N channels" language is cleaner, but the pricing page should state that above-plan channel count triggers an automatic upsell proposal — not a surprise bill.
@@ -132,13 +132,13 @@ Keep the numbers. Rework the positioning.
 - **Order-volume overage** — Linnworks, Veeqo, Baselinker. Linear, transparent, boring — and works.
 - **Channel-count gates** — every self-serve vendor. Palvento already does this.
 - **AI features as upsell** — Feedonomics AI agents, Brightpearl Inventory Planning. Palvento currently bundles AI into Growth, which is a sharper move than the incumbents.
-- **Concierge onboarding as enterprise-only** — universal above $1,500/mo. Palvento should make this visible as the one thing that does gate the Enterprise tier.
+- **Concierge onboarding as enterprise-only** — universal above $2,000/mo. Palvento should make this visible as the one thing that does gate the Enterprise tier.
 - **Multi-entity / multi-region** — Shopify Plus merchants asking for region-specific feeds. Real Scale-tier trigger.
 
 ---
 
 ## 5. One-sentence positioning the pricing is meant to support
 
-> *Self-serve multichannel feed management for Shopify-led sellers — from $59/mo, without the $2,500/mo enterprise floor or the sales call that comes with it.*
+> *Self-serve multichannel feed management for Shopify-led sellers — from $149/mo, without the $2,500/mo enterprise floor or the sales call that comes with it.*
 
 Every element on the pricing page should prove one of those four claims: **self-serve**, **multichannel**, **feed management**, **without the enterprise floor**.

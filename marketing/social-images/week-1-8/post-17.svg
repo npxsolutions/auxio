@@ -29,7 +29,7 @@
     <rect x="68" y="170" width="200" height="340" rx="10" fill="#ffffff" stroke="#0b0f1a" stroke-width="1.5"/>
     <text x="168" y="210" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.55">USD</text>
     <text x="168" y="255" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="18" fill="#0b0f1a">Team</text>
-    <text x="168" y="310" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="52" fill="#0b0f1a">$159</text>
+    <text x="168" y="310" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="52" fill="#0b0f1a">$349</text>
     <text x="168" y="332" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#0b0f1a" fill-opacity="0.55">per month · 5 channels</text>
     <line x1="88" y1="360" x2="248" y2="360" stroke="#0b0f1a" stroke-opacity="0.1"/>
     <g font-family="'Instrument Serif', Georgia, serif" font-size="14" fill="#0b0f1a">

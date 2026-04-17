@@ -12,7 +12,7 @@ const display = Instrument_Serif({
 
 export const metadata: Metadata = {
   title: 'Palvento vs Feedonomics — Self-serve feed management without the $2,500/mo floor',
-  description: 'Feedonomics is enterprise feed management, quote-only, ~$2,500+/mo, 30-day kickoff. Palvento is self-serve from $59/mo, live in under ten minutes. Honest comparison for Shopify-led sellers.',
+  description: 'Feedonomics is enterprise feed management, quote-only, ~$2,500+/mo, 30-day kickoff. Palvento is self-serve from $149/mo, live in under ten minutes. Honest comparison for Shopify-led sellers.',
   keywords: ['Feedonomics alternative', 'Feedonomics pricing', 'Feedonomics vs Palvento', 'self-serve feed management', 'Shopify feed management'],
 }
 
@@ -32,7 +32,7 @@ const C = {
 
 type Row = { feature: string; palvento: string; feedonomics: string; highlight?: boolean }
 const ROWS: Row[] = [
-  { feature: 'Pricing',                        palvento: 'From $59/mo, published in 5 currencies', feedonomics: 'Quote-only, ~$2,500+/mo floor', highlight: true },
+  { feature: 'Pricing',                        palvento: 'From $149/mo, published in 5 currencies', feedonomics: 'Quote-only, ~$2,500+/mo floor', highlight: true },
   { feature: 'Time to first listing live',     palvento: 'Under 10 minutes',                        feedonomics: '30-day implementation kickoff',  highlight: true },
   { feature: 'Sales motion',                   palvento: 'Self-serve from Shopify App Store',       feedonomics: 'Sales-led, demo before price' },
   { feature: 'Contract',                       palvento: 'Monthly, cancel any time',                feedonomics: 'Annual, multi-year standard' },
@@ -52,13 +52,13 @@ const FEEDONOMICS_RIGHT = [
 
 const MERIDIA_RIGHT = [
   { h: 'You are Shopify-led and want to stay that way.', b: 'Install from the App Store, OAuth in one click, two-way sync on day one. No middleware, no services retainer, no solutions architect.' },
-  { h: 'Your budget for feed tooling is under $500/mo.', b: 'Feedonomics will not quote you. Shopify Marketplace Connect caps out at three marketplaces. Palvento fits in the $59–$499/mo band where the rest of your stack already lives.' },
+  { h: 'Your budget for feed tooling is under $500/mo.', b: 'Feedonomics will not quote you. Shopify Marketplace Connect caps out at three marketplaces. Palvento fits in the $149–$799/mo band where the rest of your stack already lives.' },
   { h: 'You run under 100 SKUs per channel, 3–5 channels.', b: 'The Shopify-led operator at $10k–$500k/mo GMV is our exact wedge. Feed rules, category suggester, aspects enrichment, per-channel P&L — all without a kickoff meeting.' },
 ]
 
 const FAQ = [
   { q: 'What happens if I outgrow Palvento?',
-    a: 'Our Enterprise tier (from $1,500/mo) serves sellers at $500k+/mo GMV with SSO, SLA, and data residency. If you scale past that — say into multi-region with 10+ channels and a 50+ person ops team — we will honestly tell you when Feedonomics or Rithum is the better fit. The handoff is easier than the migration in.' },
+    a: 'Our Enterprise tier (from $2,000/mo) serves sellers at $500k+/mo GMV with SSO, SLA, and data residency. If you scale past that — say into multi-region with 10+ channels and a 50+ person ops team — we will honestly tell you when Feedonomics or Rithum is the better fit. The handoff is easier than the migration in.' },
   { q: 'Can I export my feed data if I leave?',
     a: 'Yes. Every SKU, every mapping, every rule exports to CSV at any time. No data lock-in, no exit fee, no notice period beyond the standard monthly cancellation.' },
   { q: 'Do I need a developer to install Palvento?',
@@ -218,7 +218,7 @@ export default function VsFeedonomicsPage() {
           <span style={{ color: C.rule }}>·</span>
           <span>Cancel any time</span>
           <span style={{ color: C.rule }}>·</span>
-          <span>Enterprise from $1,500/mo</span>
+          <span>Enterprise from $2,000/mo</span>
         </div>
       </section>
 

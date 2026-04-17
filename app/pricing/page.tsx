@@ -38,11 +38,11 @@ const PLANS: {
   {
     name: 'Starter',
     prices: {
-      USD: { monthly: 99,  annual: 79,  founding: 59  },
-      GBP: { monthly: 79,  annual: 63,  founding: 49  },
-      EUR: { monthly: 89,  annual: 71,  founding: 55  },
-      AUD: { monthly: 149, annual: 119, founding: 89  },
-      CAD: { monthly: 135, annual: 109, founding: 79  },
+      USD: { monthly: 149, annual: 119, founding: 99  },
+      GBP: { monthly: 119, annual: 95,  founding: 79  },
+      EUR: { monthly: 135, annual: 109, founding: 89  },
+      AUD: { monthly: 225, annual: 179, founding: 149 },
+      CAD: { monthly: 199, annual: 159, founding: 129 },
     },
     desc: 'Shopify-led sellers at $10k–$100k/mo GMV adding their first extra channel.',
     color: '#64748b',
@@ -60,11 +60,11 @@ const PLANS: {
   {
     name: 'Growth',
     prices: {
-      USD: { monthly: 249, annual: 199, founding: 159 },
-      GBP: { monthly: 199, annual: 159, founding: 129 },
-      EUR: { monthly: 229, annual: 179, founding: 145 },
-      AUD: { monthly: 379, annual: 299, founding: 239 },
-      CAD: { monthly: 339, annual: 269, founding: 219 },
+      USD: { monthly: 349, annual: 279, founding: 249 },
+      GBP: { monthly: 279, annual: 225, founding: 199 },
+      EUR: { monthly: 319, annual: 255, founding: 229 },
+      AUD: { monthly: 529, annual: 425, founding: 379 },
+      CAD: { monthly: 469, annual: 375, founding: 339 },
     },
     desc: 'Shopify-led operators at $100k–$500k/mo GMV running 3–5 marketplaces.',
     color: '#5b52f5',
@@ -83,11 +83,11 @@ const PLANS: {
   {
     name: 'Scale',
     prices: {
-      USD: { monthly: 749, annual: 599, founding: 499 },
-      GBP: { monthly: 599, annual: 479, founding: 399 },
-      EUR: { monthly: 679, annual: 539, founding: 449 },
-      AUD: { monthly: 1129, annual: 899, founding: 749 },
-      CAD: { monthly: 1019, annual: 819, founding: 679 },
+      USD: { monthly: 799, annual: 639, founding: 599 },
+      GBP: { monthly: 639, annual: 509, founding: 479 },
+      EUR: { monthly: 729, annual: 579, founding: 539 },
+      AUD: { monthly: 1199, annual: 959, founding: 899 },
+      CAD: { monthly: 1079, annual: 859, founding: 799 },
     },
     desc: 'Shopify Plus merchants at $500k+/mo GMV selling on every marketplace that matters.',
     color: '#059669',
@@ -106,7 +106,7 @@ const PLANS: {
   {
     name: 'Enterprise',
     prices: null,
-    desc: 'Multi-region, 10+ channels, SSO, SLA, and data residency. From $1,500/mo.',
+    desc: 'Multi-region, 10+ channels, SSO, SLA, and data residency. From $2,000/mo.',
     color: '#d97706',
     features: [
       'Unlimited channels',
@@ -123,11 +123,11 @@ const PLANS: {
 ]
 
 const STARTING_PRICE: Record<Currency, string> = {
-  USD: 'From $59/mo',
-  GBP: 'From £49/mo',
-  EUR: 'From €55/mo',
-  AUD: 'From A$89/mo',
-  CAD: 'From C$79/mo',
+  USD: 'From $149/mo',
+  GBP: 'From £119/mo',
+  EUR: 'From €135/mo',
+  AUD: 'From A$225/mo',
+  CAD: 'From C$199/mo',
 }
 const LINNWORKS_PRICE: Record<Currency, string> = {
   USD: '$549+/mo', GBP: '£449+/mo', EUR: '€499+/mo', AUD: 'A$829+/mo', CAD: 'C$749+/mo',
@@ -159,7 +159,7 @@ const FAQ = [
   { q: 'What counts as a "channel"?', a: 'Each marketplace or store counts as one channel — so eBay, Amazon, and Shopify would be three channels. Regional connections within the same platform (e.g. Amazon US + Amazon DE) each count separately.' },
   { q: 'Which currencies and regions do you support?', a: 'Billing is available in USD, GBP, EUR, AUD, and CAD. The platform itself is multi-currency at the listing, order, and P&L level — sell in any marketplace currency and report in your home currency.' },
   { q: 'Do you take a cut of my revenue?', a: "Never. We charge a flat monthly subscription. No percentage of GMV, no per-order fees, no hidden charges. What you see is what you pay." },
-  { q: 'How is this different from ChannelAdvisor or Feedonomics?', a: 'ChannelAdvisor and Feedonomics are built for enterprise teams — dedicated specialists, custom contracts, and prices starting in the thousands per month. Palvento is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at $59/month.' },
+  { q: 'How is this different from ChannelAdvisor or Feedonomics?', a: 'ChannelAdvisor and Feedonomics are built for enterprise teams — dedicated specialists, custom contracts, and prices starting in the thousands per month. Palvento is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at $99/month.' },
 ]
 
 export default function PricingPage() {
@@ -200,7 +200,7 @@ export default function PricingPage() {
         </div>
 
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
-          Self-serve feed management. From $59/mo.
+          Self-serve feed management. From $149/mo.
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
           Shopify-led multichannel without the $2,500/mo enterprise floor or the 30-day onboarding call. Published in five currencies. Flat monthly, never a cut of revenue.

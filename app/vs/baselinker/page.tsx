@@ -17,7 +17,7 @@ const COMPARISON = [
   { feature: 'Feed rules engine', palvento: true, bl: 'partial', note: '' },
   { feature: 'Profit-floor repricing', palvento: true, bl: false, note: '' },
   { feature: 'AI daily briefings', palvento: true, bl: false, note: '' },
-  { feature: 'Starter price', palvento: '$59/mo', bl: '~$45/mo', note: 'Baselinker prices based on orders processed' },
+  { feature: 'Starter price', palvento: '$149/mo', bl: '~$45/mo', note: 'Baselinker prices based on orders processed' },
   { feature: 'Free trial (no card)', palvento: true, bl: true, note: '' },
   { feature: 'Dedicated support', palvento: true, bl: false, note: '' },
   { feature: 'In-app AI chat', palvento: true, bl: false, note: '' },
@@ -160,7 +160,7 @@ export default function VsBaselinkerPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
           <div style={{ padding: '28px', border: '2px solid #5b52f5', borderRadius: '14px', background: 'rgba(91,82,245,0.03)' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', marginBottom: '8px' }}>Palvento</div>
-            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>$59<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>$149<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>Starter — all channels included</div>
             {['All channels included', 'True profit tracking', 'AI listing writer', 'Global support', '14-day free trial'].map(f => (
               <div key={f} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>

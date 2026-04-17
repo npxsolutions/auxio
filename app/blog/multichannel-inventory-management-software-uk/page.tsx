@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 const TOOLS = [
-  { name: 'Palvento', verdict: 'Best for global multichannel sellers who want the full operations stack', price: 'From $59/mo', trial: true, globalFocus: true, aiBuiltIn: true, procurementLoop: true, trueProfit: true, highlight: true },
+  { name: 'Palvento', verdict: 'Best for global multichannel sellers who want the full operations stack', price: 'From $149/mo', trial: true, globalFocus: true, aiBuiltIn: true, procurementLoop: true, trueProfit: true, highlight: true },
   { name: 'Linnworks', verdict: 'Established mid-market platform, strong warehouse management', price: '$549+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
   { name: 'Brightpearl by Sage', verdict: 'Powerful retail OS for larger operations — but expensive and slow to set up', price: 'Custom only', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: true, trueProfit: false, highlight: false },
   { name: 'ChannelAdvisor (Rithum)', verdict: 'Enterprise commerce network — broad channel coverage, months to implement', price: '$2,500+/mo', trial: false, globalFocus: true, aiBuiltIn: false, procurementLoop: false, trueProfit: false, highlight: false },
@@ -51,7 +51,7 @@ export default function BlogPostPage() {
         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '20px 24px', marginBottom: '40px' }}>
           <strong style={{ fontSize: '13px', fontWeight: 700, display: 'block', marginBottom: '12px', color: '#334155' }}>Quick summary</strong>
           <ul style={{ margin: 0, padding: '0 0 0 18px', fontSize: '14px', color: '#475569', lineHeight: 1.9 }}>
-            <li><strong>Best overall for global multichannel sellers:</strong> Palvento — full operations stack, AI included, from $59/mo</li>
+            <li><strong>Best overall for global multichannel sellers:</strong> Palvento — full operations stack, AI included, from $149/mo</li>
             <li><strong>Best for mid-market / high volume:</strong> Linnworks — established, strong WMS, from $549/mo</li>
             <li><strong>Best for larger retailers:</strong> Brightpearl by Sage — enterprise retail OS, custom pricing</li>
             <li><strong>Best for enterprise channel breadth:</strong> ChannelAdvisor (Rithum) — broadest marketplace coverage, $2,500+/mo</li>
@@ -103,7 +103,7 @@ export default function BlogPostPage() {
           Most multichannel tools solve half the problem: they sync inventory and pull in orders. But they stop short of the full operations picture. You still need separate tools for purchase orders, demand forecasting, P&amp;L reporting, and advertising tracking.
         </p>
         <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, marginBottom: '16px' }}>
-          Palvento is built as a Commerce Operations Platform — the single layer that manages the entire loop from supplier purchase order to channel listing to net profit. It's what Linnworks, Brightpearl, and ChannelAdvisor are evolving towards, but available to global sellers from $59/month today, with a self-serve setup that takes under 10 minutes and multi-currency billing in USD, GBP, EUR, AUD or CAD.
+          Palvento is built as a Commerce Operations Platform — the single layer that manages the entire loop from supplier purchase order to channel listing to net profit. It's what Linnworks, Brightpearl, and ChannelAdvisor are evolving towards, but available to global sellers from $149/month today, with a self-serve setup that takes under 10 minutes and multi-currency billing in USD, GBP, EUR, AUD or CAD.
         </p>
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>

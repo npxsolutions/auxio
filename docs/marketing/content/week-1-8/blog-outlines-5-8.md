@@ -37,7 +37,7 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
 5. **The market landscape** — Brief, honest positioning:
    - Floor: Shopify Marketplace Connect (free, 3 channels, no feed optimisation)
    - Ceiling: Feedonomics ($2,500+/mo, managed services, 30-day onboarding)
-   - Middle: Palvento ($59–$499/mo, self-serve, 8+ channels, feed rules, P&L) (~300 words)
+   - Middle: Palvento ($149–$799/mo, self-serve, 8+ channels, feed rules, P&L) (~300 words)
 
 6. **CTA** — "If you're a Shopify merchant selling on more than one channel, try Palvento free for 14 days. First feed live in under ten minutes." (~100 words)
 
@@ -62,7 +62,7 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
 2. **The three approaches** — Compare them honestly:
    - **Manual CSV export/import.** Free, slow, error-prone. Works for <50 SKUs. Breaks above that.
    - **Shopify Marketplace Connect.** Free up to 50 orders/mo. Covers eBay. No feed rules, no error hub, no P&L.
-   - **Dedicated feed management (Palvento).** $59/mo. Feed rules, title/description optimisation per channel, GTIN validation, error hub, per-channel P&L. (~400 words)
+   - **Dedicated feed management (Palvento).** $149/mo. Feed rules, title/description optimisation per channel, GTIN validation, error hub, per-channel P&L. (~400 words)
 
 3. **Step-by-step with Palvento** — Walkthrough:
    - Step 1: Install from Shopify App Store (OAuth, 2 minutes)
@@ -82,7 +82,7 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
 5. **Pricing comparison** — What each option costs at 500 orders/mo:
    - Manual: $0 + ~8 hours/week of labour
    - Marketplace Connect: ~$50/mo (1% capped)
-   - Palvento Starter: $59/mo flat (~200 words)
+   - Palvento Starter: $149/mo flat (~200 words)
 
 6. **CTA** — "Connect Shopify to eBay in under ten minutes. Start your free trial." (~50 words)
 
@@ -135,7 +135,7 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
 
 ## Post 8 — Week 8
 
-### Feedonomics alternative: self-serve feed management from $59/mo
+### Feedonomics alternative: self-serve feed management from $149/mo
 
 **Primary keyword:** "feedonomics alternative"
 **Secondary keywords:** "feedonomics pricing", "feedonomics competitor", "feedonomics vs"
@@ -164,7 +164,7 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
    |---|---|---|
    | Signup | Demo required | Self-serve from Shopify App Store |
    | Time to first feed | 30+ days | Under 10 minutes |
-   | Pricing | Quote-only (~$2,500+/mo) | Published: $59 / $159 / $499 / $1,500+/mo |
+   | Pricing | Quote-only (~$2,500+/mo) | Published: $149 / $349 / $799 / $2,000+/mo |
    | Feed rules | Managed by feed specialist | Self-serve rules engine |
    | Error handling | Managed | Error hub with pre-submission validation |
    | Per-channel P&L | No | Yes |
@@ -173,6 +173,6 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
 
 5. **Who should still use Feedonomics** — Be direct. If you need managed services, 200+ channels, or Google Shopping feed management at enterprise scale, Feedonomics is the right tool. Palvento is not trying to replace Feedonomics for enterprise. We're filling the gap below it. (~150 words)
 
-6. **CTA** — "If you've been quoted $2,500/mo and bounced, try Palvento. $59/mo, live in ten minutes, no sales call. 14-day free trial." (~100 words)
+6. **CTA** — "If you've been quoted $2,500/mo and bounced, try Palvento. $149/mo, live in ten minutes, no sales call. 14-day free trial." (~100 words)
 
 **Internal links:** `/pricing`, `/vs/feedonomics`, `/blog/multichannel-feed-management`

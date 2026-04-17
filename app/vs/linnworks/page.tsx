@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Palvento vs Linnworks — A better option for multichannel sellers (2026)',
-  description: 'Linnworks starts at $549/month. Palvento starts at $59. Compare features, pricing, and AI capabilities for global multichannel sellers in 2026.',
+  description: 'Linnworks starts at $549/month. Palvento starts at $149. Compare features, pricing, and AI capabilities for global multichannel sellers in 2026.',
   keywords: ['Linnworks alternative', 'Linnworks alternative cheaper', 'Linnworks vs Palvento', 'cheaper than Linnworks', 'global multichannel software', 'multichannel software small business', 'international ecommerce operations platform'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price', palvento: '$59/mo', lw: '$549/mo', highlight: true },
+  { feature: 'Starting price', palvento: '$149/mo', lw: '$549/mo', highlight: true },
   { feature: 'Free trial', palvento: '14 days (no card)', lw: 'Demo only', highlight: true },
   { feature: 'AI listing writer', palvento: true, lw: false, highlight: false },
   { feature: 'True profit tracking (after fees)', palvento: true, lw: false, highlight: false },
@@ -54,7 +54,7 @@ export default function VsLinnworksPage() {
           </p>
           <div style={{ display: 'inline-flex', gap: '8px', padding: '12px 20px', background: 'rgba(220, 38, 38, 0.06)', border: '1px solid rgba(220, 38, 38, 0.15)', borderRadius: '10px', marginBottom: '32px' }}>
             <span style={{ fontSize: '14px', color: '#dc2626', fontWeight: 600 }}>Linnworks starts at $549/month.</span>
-            <span style={{ fontSize: '14px', color: '#64748b' }}>Palvento starts at $59.</span>
+            <span style={{ fontSize: '14px', color: '#64748b' }}>Palvento starts at $149.</span>
           </div>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <Link href="/signup" style={{ padding: '13px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Try Palvento free →</Link>
@@ -68,7 +68,7 @@ export default function VsLinnworksPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', background: '#fafaf9', border: '1px solid #f1f1ef', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
           <div>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Palvento Starter</div>
-            <div style={{ fontSize: '56px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.03em', lineHeight: 1 }}>$59</div>
+            <div style={{ fontSize: '56px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.03em', lineHeight: 1 }}>$149</div>
             <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px' }}>per month · all channels · no contract · billed in USD / GBP / EUR / AUD / CAD</div>
             <div style={{ fontSize: '13px', color: '#5b52f5', marginTop: '8px', fontWeight: 500 }}>Founding rate available →</div>
           </div>

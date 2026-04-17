@@ -8,7 +8,7 @@
 > **Every channel. One clean feed.** *(33 chars — leaves room for translated variants)*
 
 ## Description (260 chars max)
-> Palvento is self-serve multichannel feed management for Shopify-led sellers. Sync Amazon, eBay, TikTok Shop, Etsy, Walmart and more — real feed rules, error hub, per-channel P&L. Live in under ten minutes, from $59/mo, no sales call.
+> Palvento is self-serve multichannel feed management for Shopify-led sellers. Sync Amazon, eBay, TikTok Shop, Etsy, Walmart and more — real feed rules, error hub, per-channel P&L. Live in under ten minutes, from $149/mo, no sales call.
 > *(233 chars)*
 
 ---
@@ -21,7 +21,7 @@ I&apos;ve been building Palvento for the last two years because the multichannel
 
 If you run a Shopify store and want to add Amazon, eBay, and TikTok Shop, your options are: (a) Shopify Marketplace Connect — free, covers three channels, no real feed optimisation; or (b) Feedonomics — $2,500+/mo, 30–90 day onboarding, managed services retainer. Nothing in between for the Shopify merchant doing $25k–$500k/mo who wants clean feeds on a Tuesday afternoon.
 
-Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect your channels, first feed live in under ten minutes. Real feed rules engine. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you know which marketplace is actually profitable after fees. $59/mo for one channel, $159 for five, $499 for unlimited — published pricing, no percentage of revenue, no sales call.
+Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect your channels, first feed live in under ten minutes. Real feed rules engine. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you know which marketplace is actually profitable after fees. $149/mo for one channel, $349 for five, $799 for unlimited — published pricing, no percentage of revenue, no sales call.
 
 Demo: [https://palvento-lkqv.vercel.app/demo](https://palvento-lkqv.vercel.app/demo). You can be live with your first channel connected in about ten minutes.
 
@@ -60,7 +60,7 @@ Use real hunters only. Message via Twitter/X DM or email where available.
 | 4 | **Max Stoiber** | Dev-tool-adjacent hunter. Hook: Pitch the Developer API angle — real REST + typed SDK — and ask if he&apos;d hunt as a dev audience play. |
 | 5 | **Calum Webb** | UK commerce indie scene. Hook: Lean into the UK/EU multi-currency story, which is underserved. |
 | 6 | **Ben Tossell** | Indie-hacker-adjacent, hunts tools with strong narrative. Hook: Offer him the founder narrative — two-year build, friend of the cause. |
-| 7 | **Ryan Hoover** | PH founder. Long shot but historically hunts a few /month. Hook: Short, no pitch deck, just &quot;self-serve feed management for Shopify sellers — $59/mo vs the $2,500/mo incumbents. Would you hunt it?&quot; |
+| 7 | **Ryan Hoover** | PH founder. Long shot but historically hunts a few /month. Hook: Short, no pitch deck, just &quot;self-serve feed management for Shopify sellers — $149/mo vs the $2,500/mo incumbents. Would you hunt it?&quot; |
 | 8 | **Harry Stebbings** | More VC than hunter, but has hunted ecom adjacent. Hook: Category formation angle, tie to SaaStr thesis he&apos;s written about. |
 
 Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, self-hunt — a good first-comment from the founder is worth more than a tepid hunt from a celebrity.
@@ -117,7 +117,7 @@ Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, se
 
 ## Sample tweets (3)
 
-1. **Launch tweet.** *&quot;After two years of building: Palvento is live on Product Hunt today. Self-serve multichannel feed management for Shopify-led sellers — sync Amazon, eBay, TikTok Shop, and every other channel you run, live in under ten minutes. From $59/mo, no sales call. [link]&quot;*
+1. **Launch tweet.** *&quot;After two years of building: Palvento is live on Product Hunt today. Self-serve multichannel feed management for Shopify-led sellers — sync Amazon, eBay, TikTok Shop, and every other channel you run, live in under ten minutes. From $149/mo, no sales call. [link]&quot;*
 
 2. **Demo tweet (hours 3–5).** *&quot;Quick demo of the per-channel P&L view — the thing I&apos;ve spent the most time on. If you sell on three channels and your dashboard gives you a blended margin number, it&apos;s lying to you. Here&apos;s what honest looks like. [30-sec clip]&quot;*
 

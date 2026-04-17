@@ -416,7 +416,7 @@ export default function LandingV4() {
             </div>
             <div>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: C.ink, margin: 0, fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 380, letterSpacing: '-0.012em' }}>
-                One platform. Self-serve in ten minutes. Multi-currency from the first SKU. Procurement, fulfilment, listings, and finance-grade P&amp;L on a single ledger. Founding member rate from <span style={{ color: C.accent }}>$59 per month</span>.
+                One platform. Self-serve in ten minutes. Multi-currency from the first SKU. Procurement, fulfilment, listings, and finance-grade P&amp;L on a single ledger. Founding member rate from <span style={{ color: C.accent }}>$99 per month</span>.
               </p>
             </div>
           </div>

@@ -157,7 +157,7 @@ export default function BlogPostPage() {
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
           <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Run your 5+ marketplaces on one ledger with Palvento</strong>
-          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Inventory, orders, forecasting, procurement, and true multi-currency P&amp;L in one place. Connect in ten minutes. From $59/mo, order-volume pricing, never a percentage of revenue.</p>
+          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Inventory, orders, forecasting, procurement, and true multi-currency P&amp;L in one place. Connect in ten minutes. From $149/mo, order-volume pricing, never a percentage of revenue.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 

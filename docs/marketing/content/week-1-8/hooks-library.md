@@ -155,7 +155,7 @@ Expect to reject 6 of 10. Keep the 4 that land.
 
 Every time you catch yourself writing "[competitor] doesn't" or "[competitor] charges" — stop. Rewrite around the operator's pain instead.
 
-- Weak: "Feedonomics charges $2,500/mo. We charge $59."
+- Weak: "Feedonomics charges $2,500/mo. We charge $149."
 - Strong: "You want a clean feed on three marketplaces. You don't want a kickoff call. Here is the product that ships that."
 
 The operator is the subject of every sentence. Always.

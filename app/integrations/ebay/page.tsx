@@ -151,7 +151,7 @@ export default function EbayIntegrationPage() {
                   ['Built for independent multichannel sellers', '✓', '✗', '✗'],
                   ['OnBuy integration', '✓', '✗', '✗'],
                   ['Social intelligence', '✓', '✗', '✗'],
-                  ['Starting price', '$59/mo', '$549+/mo', '$2,500+/mo'],
+                  ['Starting price', '$149/mo', '$549+/mo', '$2,500+/mo'],
                   ['Free trial (no card)', '✓', '✗', '✗'],
                   ['Self-serve setup', '✓', '✗', '✗'],
                 ].map(([feat, a, l, b], i) => (

@@ -110,7 +110,7 @@ Unified week-by-week schedule across all channels. All times UK unless noted. Li
 |---|---|---|---|
 | Tue 10 | LinkedIn | Post 22: TikTok schema (POV) | linkedin-posts.md #22 |
 | Tue 10 | X | Thread 8: What we shipped in 8 weeks | x-threads.md #8 |
-| Tue 10 | Blog | Pillar: "Feedonomics alternative: self-serve feed management from $59/mo" | blog-outlines-5-8.md #8 |
+| Tue 10 | Blog | Pillar: "Feedonomics alternative: self-serve feed management from $149/mo" | blog-outlines-5-8.md #8 |
 | Wed 11 | Webinar | Webinar 2: How agencies run ops for 10+ clients on Palvento | 90-day-plan.md |
 | Thu 12 | LinkedIn | Post 23: Launch status (Narrative) | linkedin-posts.md #23 |
 | Fri 13 | LinkedIn | Post 24: Spreadsheet is the competitor (POV) | linkedin-posts.md #24 |

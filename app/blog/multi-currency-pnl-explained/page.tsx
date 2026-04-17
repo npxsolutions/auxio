@@ -133,7 +133,7 @@ export default function BlogPostPage() {
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
           <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Palvento shows settled and invoice-rate P&amp;L side by side</strong>
-          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Across every channel and every currency. FX spread broken out as a first-class line. Priced in USD, GBP, EUR, AUD, or CAD. From $59/mo.</p>
+          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Across every channel and every currency. FX spread broken out as a first-class line. Priced in USD, GBP, EUR, AUD, or CAD. From $149/mo.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 

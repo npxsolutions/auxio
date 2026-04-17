@@ -11,7 +11,7 @@ Target: agencies that serve Shopify merchants doing $10k–$500k/mo GMV and expa
 ### Email 1 — Cold intro
 
 **Subject:** `Shopify + marketplace expansion — a gap your clients hit`
-**Preview:** `the $59/mo tier between free Marketplace Connect and $2,500/mo Feedonomics`
+**Preview:** `the $149/mo tier between free Marketplace Connect and $2,500/mo Feedonomics`
 
 Hi {{firstName}},
 
@@ -19,7 +19,7 @@ I'm Nick, founder of Palvento. We make self-serve multichannel feed management f
 
 I'm reaching out because {{agencyName}} serves exactly the kind of operator who hits this wall: Shopify merchants doing $10k–$500k/mo who want to add Amazon, eBay, TikTok Shop, or Etsy, and find that Marketplace Connect's three-channel ceiling isn't enough, but Feedonomics' price and onboarding timeline are wrong.
 
-Palvento installs from the Shopify App Store, first feed live in under ten minutes, $59/mo for one channel, $159 for five, $499 for unlimited. Feed rules engine, error hub, per-channel P&L.
+Palvento installs from the Shopify App Store, first feed live in under ten minutes, $149/mo for one channel, $349 for five, $799 for unlimited. Feed rules engine, error hub, per-channel P&L.
 
 I'd like to explore whether a partnership makes sense — revenue share on referrals, co-marketing, or just an introduction to your clients who are in this gap. Would a 20-minute call this week or next work?
 
@@ -66,7 +66,7 @@ Target: independent consultants and small firms that help sellers expand to Amaz
 ### Email 1 — Cold intro
 
 **Subject:** `a tool that executes the feed strategy you advise on`
-**Preview:** `self-serve feed rules + error hub + per-channel P&L — from $59/mo`
+**Preview:** `self-serve feed rules + error hub + per-channel P&L — from $149/mo`
 
 Hi {{firstName}},
 
@@ -78,7 +78,7 @@ I'm writing because your work advising sellers on marketplace expansion is exact
 - Error hub: catches feed rejections before they hit the marketplace.
 - Per-channel P&L: true margin after fees, shipping, returns, and FX.
 
-$59/mo for one channel, $159 for five, $499 for unlimited. Self-serve from the Shopify App Store.
+$149/mo for one channel, $349 for five, $799 for unlimited. Self-serve from the Shopify App Store.
 
 I'd like to explore a referral or co-delivery arrangement — your strategy, our tool. Would 20 minutes this week work?
 

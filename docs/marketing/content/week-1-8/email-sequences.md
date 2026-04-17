@@ -117,7 +117,7 @@ Your 14-day trial ends on {{trialEndDate}}. Here is what you've set up:
 - **Feed errors caught:** {{errorCount}}
 - **Orders processed:** {{orderCount}}
 
-If this is working for you, upgrading takes 30 seconds: Dashboard > Billing > Pick a plan. Starter is $59/mo for one channel, Growth is $159/mo for up to five, Scale is $499/mo for unlimited. All plans include the feed rules engine, error hub, and per-channel P&L.
+If this is working for you, upgrading takes 30 seconds: Dashboard > Billing > Pick a plan. Starter is $149/mo for one channel, Growth is $349/mo for up to five, Scale is $799/mo for unlimited. All plans include the feed rules engine, error hub, and per-channel P&L.
 
 If it's not working — or if something is missing — reply and tell me. I'd rather fix the product than lose you.
 
@@ -190,7 +190,7 @@ This is the last email in this sequence. Three things in case the timing changes
 
 1. **Your data is still there.** We retain account data for 90 days post-expiry. After that, it's deleted per our privacy policy.
 
-2. **Pricing may have changed.** We update pricing quarterly based on what we've learned. Current plans: Starter $59/mo, Growth $159/mo, Scale $499/mo. Check palvento-lkqv.vercel.app/pricing.
+2. **Pricing may have changed.** We update pricing quarterly based on what we've learned. Current plans: Starter $149/mo, Growth $349/mo, Scale $799/mo. Check palvento-lkqv.vercel.app/pricing.
 
 3. **If you went with a competitor and it's not working**, I'm happy to do a side-by-side. No pitch — just an honest comparison against your actual data.
 

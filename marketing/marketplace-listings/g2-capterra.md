@@ -29,7 +29,7 @@ Self-serve multichannel feed management for Shopify-led sellers.
 - Secondary: Inventory Management Software · Multichannel Retail Software
 
 ## Short description (≤200 chars)
-Palvento syncs product feeds across Amazon, eBay, Shopify, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, and WooCommerce — with real feed rules, error hub, and per-channel P&L. From $59/mo.
+Palvento syncs product feeds across Amazon, eBay, Shopify, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, and WooCommerce — with real feed rules, error hub, and per-channel P&L. From $149/mo.
 
 ## Long description (~1,200 chars)
 Palvento is self-serve multichannel feed management for Shopify-led sellers scaling past their store. Install from the Shopify App Store, connect Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, and have your first feed live in under ten minutes — no sales call, no implementation consultant.
@@ -38,7 +38,7 @@ The feed rules engine catches GTIN mismatches, oversize images, category errors,
 
 Per-channel P&L shows true margin after fees, shipping, returns, and VAT/sales tax, so operators see which channel is actually profitable — not just which one has the most orders. Inventory propagates in under a minute. Orders land in one feed.
 
-Pricing starts at $59/mo (Starter), $159/mo (Growth), $499/mo (Scale), with Enterprise from $1,500/mo. Published in five currencies. No percentage of revenue. No per-order fee above plan.
+Pricing starts at $149/mo (Starter), $349/mo (Growth), $799/mo (Scale), with Enterprise from $2,000/mo. Published in five currencies. No percentage of revenue. No per-order fee above plan.
 
 ## Key features (≤8 bullets)
 1. Feed rules engine — catches errors before they hit the marketplace, not after suppression.
@@ -54,7 +54,7 @@ Pricing starts at $59/mo (Starter), $159/mo (Growth), $499/mo (Scale), with Ente
 Director of Operations, Head of Ecommerce, Founder/CEO at brands doing £500k–£50m GMV across 3+ channels.
 
 ## Pricing on listing
-From $59/mo (Starter). Growth $159/mo. Scale $499/mo. Enterprise from $1,500/mo. Free 14-day trial. Annual discount. Published in USD, GBP, EUR, AUD, CAD.
+From $149/mo (Starter). Growth $349/mo. Scale $799/mo. Enterprise from $2,000/mo. Free 14-day trial. Annual discount. Published in USD, GBP, EUR, AUD, CAD.
 
 ## Screenshot order (5)
 1. Multichannel inventory grid.

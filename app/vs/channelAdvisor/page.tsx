@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Palvento vs ChannelAdvisor (Rithum) — global alternative comparison (2026)',
-  description: 'ChannelAdvisor/Rithum starts at $2,500+/mo and targets enterprise brands. Palvento gives multichannel sellers worldwide the same channel breadth, plus AI and true P&L, from $59/mo.',
+  description: 'ChannelAdvisor/Rithum starts at $2,500+/mo and targets enterprise brands. Palvento gives multichannel sellers worldwide the same channel breadth, plus AI and true P&L, from $149/mo.',
   keywords: ['ChannelAdvisor alternative', 'Rithum alternative', 'ChannelAdvisor vs Palvento', 'cheaper ChannelAdvisor', 'global multichannel ecommerce software', 'international commerce operations platform'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price',              palvento: 'From $59/mo',       ca: '$2,500+/mo',         highlight: true },
+  { feature: 'Starting price',              palvento: 'From $149/mo',      ca: '$2,500+/mo',         highlight: true },
   { feature: 'Time to go live',             palvento: '<10 min self-serve', ca: 'Months',              highlight: true },
   { feature: 'Free trial',                  palvento: '14 days, no card',   ca: 'Demo only',           highlight: true },
   { feature: 'Independent multichannel seller focus', palvento: true,                 ca: false,                 highlight: false },

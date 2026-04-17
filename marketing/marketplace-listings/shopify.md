@@ -22,7 +22,7 @@ Palvento is self-serve multichannel feed management for Shopify-led sellers. Ins
 - **AI listing agent** — Channel-specific titles and descriptions, validated against each marketplace&rsquo;s schema before syndication.
 - **Order routing** — Pull orders into one feed, fulfil from one place, push tracking back automatically.
 
-Plans from $59/mo (Starter), $159/mo (Growth), $499/mo (Scale). Published pricing in five currencies. No percentage of revenue, no per-order fee above plan. Built for the Shopify operator who&rsquo;s been quoted $2,500/mo by Feedonomics and bounced — or outgrown Shopify Marketplace Connect&rsquo;s channel coverage.
+Plans from $149/mo (Starter), $349/mo (Growth), $799/mo (Scale). Published pricing in five currencies. No percentage of revenue, no per-order fee above plan. Built for the Shopify operator who&rsquo;s been quoted $2,500/mo by Feedonomics and bounced — or outgrown Shopify Marketplace Connect&rsquo;s channel coverage.
 
 ## Categories
 - Primary: **Selling channels · Inventory sync**
@@ -35,7 +35,7 @@ Plans from $59/mo (Starter), $159/mo (Growth), $499/mo (Scale). Published pricin
 4. AI listing agent and rule-based repricer included.
 
 ## Pricing on listing
-Free 14-day trial · Starter $59/mo · Growth $159/mo · Scale $499/mo · Pricing matches /pricing.
+Free 14-day trial · Starter $149/mo · Growth $349/mo · Scale $799/mo · Pricing matches /pricing.
 
 ## Screenshots required (1280×800)
 1. Multichannel inventory grid.

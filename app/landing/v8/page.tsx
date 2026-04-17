@@ -660,10 +660,10 @@ const QUOTES = [
 ]
 
 const PRICE_ROWS = [
-  { name: 'Starter',    price: 59,   tag: 'Shopify + 1',    desc: '$10k–$100k/mo GMV, one extra channel.',          includes: ['1 channel', 'Pre-flight validator', 'Feed health hub'],                             cta: 'Start free' },
-  { name: 'Growth',     price: 159,  tag: 'Most adopted',   desc: '$100k–$500k/mo GMV across 3–5 marketplaces.',     includes: ['5 channels', 'Category suggester', 'Aspects enrichment', 'Per-channel P&L'],        cta: 'Start free', flag: true },
-  { name: 'Scale',      price: 499,  tag: 'Unlimited',      desc: '$500k+/mo GMV, every marketplace that matters.',  includes: ['Unlimited channels', 'Rules engine', 'Priority sync', 'Reconciled payouts'],        cta: 'Start free' },
-  { name: 'Enterprise', price: null, tag: 'From $1,500/mo', desc: 'Multi-region, SSO, SLA, data residency.',         includes: ['SSO / SAML', 'Dedicated solutions architect', 'Custom SLA', 'Data residency'],      cta: 'Talk to sales' },
+  { name: 'Starter',    price: 149,  tag: 'Shopify + 1',    desc: '$10k–$100k/mo GMV, one extra channel.',          includes: ['1 channel', 'Pre-flight validator', 'Feed health hub'],                             cta: 'Start free' },
+  { name: 'Growth',     price: 349,  tag: 'Most adopted',   desc: '$100k–$500k/mo GMV across 3–5 marketplaces.',     includes: ['5 channels', 'Category suggester', 'Aspects enrichment', 'Per-channel P&L'],        cta: 'Start free', flag: true },
+  { name: 'Scale',      price: 799,  tag: 'Unlimited',      desc: '$500k+/mo GMV, every marketplace that matters.',  includes: ['Unlimited channels', 'Rules engine', 'Priority sync', 'Reconciled payouts'],        cta: 'Start free' },
+  { name: 'Enterprise', price: null, tag: 'From $2,000/mo', desc: 'Multi-region, SSO, SLA, data residency.',         includes: ['SSO / SAML', 'Dedicated solutions architect', 'Custom SLA', 'Data residency'],      cta: 'Talk to sales' },
 ]
 
 // ── Connections — marketplaces + stack ──────────────────────────────────────
@@ -925,7 +925,7 @@ export default function LandingV8() {
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 06</span>
           </div>
           <h2 style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.05, color: C.ink, margin: '0 0 40px', maxWidth: 880 }}>
-            From $59/mo. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>Not $2,500.</em>
+            From $149/mo. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>Not $2,500.</em>
           </h2>
 
           <div className="v8-price-header" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 2fr 0.9fr', padding: '12px 0', borderTop: `1px solid ${C.ink}`, borderBottom: `1px solid ${C.rule}`, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>

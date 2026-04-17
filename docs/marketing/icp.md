@@ -38,7 +38,7 @@
 2. Channel-specific pricing rules aren't enforced — someone ships an Amazon order at a loss every week because the repricer doesn't know about true landed cost.
 3. They can't answer "which channel is profitable this quarter?" without a spreadsheet rebuild, because feed management, orders, and P&L live in three different tools.
 
-**Willingness to pay.** $149–$599/mo. Will pay $159/mo cheerfully if it replaces Marketplace Connect + a per-channel app + a feed-optimisation spreadsheet. Annual contracts viable after 60 days. Expansion revenue is real — they add channels, SKUs, and (in year 2) users.
+**Willingness to pay.** $149–$799/mo. Will pay $349/mo cheerfully if it replaces Marketplace Connect + a per-channel app + a feed-optimisation spreadsheet. Annual contracts viable after 60 days. Expansion revenue is real — they add channels, SKUs, and (in year 2) users.
 
 **Acquisition.** Shopify App Store (primary). `/vs/feedonomics` and `/vs/linnworks` SEO. Agency partnerships (Eastside Co, Underwaterpistol, Swanky, Blend). *Ecommerce Fuel* forum word-of-mouth.
 
@@ -58,7 +58,7 @@
 2. SSO, audit logs, and data residency are required for the next security review, and their current feed tool either charges $20k/mo for them or doesn't have them at all.
 3. Managed onboarding and a dedicated solutions architect are the difference between adopting and not — they won't self-serve at this scale.
 
-**Willingness to pay.** $1,500–$10,000+/mo. Annual prepay standard. Budget exists — they just need the business case written for them, ideally against the Feedonomics quote they already have in hand.
+**Willingness to pay.** $2,000–$10,000+/mo. Annual prepay standard. Budget exists — they just need the business case written for them, ideally against the Feedonomics quote they already have in hand.
 
 **Triggers for the enterprise sales path.** *Any one of the following flips them into Tier 3:*
 - >$500k/mo GMV

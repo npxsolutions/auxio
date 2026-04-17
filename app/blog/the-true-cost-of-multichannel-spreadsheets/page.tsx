@@ -148,7 +148,7 @@ export default function BlogPostPage() {
 
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
           <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>See the $81,000 in your own numbers</strong>
-          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Palvento is a Commerce Operations Platform that replaces the middle of your ops stack with one ledger, one P&amp;L, and real forecasting. Connect two channels in under ten minutes and see the numbers for yourself. From $59/mo.</p>
+          <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Palvento is a Commerce Operations Platform that replaces the middle of your ops stack with one ledger, one P&amp;L, and real forecasting. Connect two channels in under ten minutes and see the numbers for yourself. From $149/mo.</p>
           <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 

@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Palvento vs Brightpearl — Full comparison for multichannel sellers (2026)',
-  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Palvento gives you inventory, procurement, P&L, and AI from $59/mo — live in 10 minutes, for sellers worldwide.',
+  description: 'Brightpearl requires a custom quote, weeks of onboarding, and an enterprise contract. Palvento gives you inventory, procurement, P&L, and AI from $149/mo — live in 10 minutes, for sellers worldwide.',
   keywords: ['Brightpearl alternative', 'Brightpearl alternative cheaper', 'Brightpearl vs Palvento', 'retail operating system alternative', 'global multichannel ecommerce software', 'international inventory management', 'Brightpearl competitor'],
 }
 
 const COMPARISON = [
-  { feature: 'Starting price',               palvento: 'From $59/mo',    bp: 'Custom quote only',    highlight: true },
+  { feature: 'Starting price',               palvento: 'From $149/mo',   bp: 'Custom quote only',    highlight: true },
   { feature: 'Time to go live',              palvento: 'Self-serve, <10 min', bp: 'Weeks of onboarding', highlight: true },
   { feature: 'Free trial',                   palvento: '14 days, no card',   bp: 'Demo only',           highlight: true },
   { feature: 'Demand forecasting',           palvento: true,              bp: true,                   highlight: false },
@@ -34,7 +34,7 @@ const REASONS = [
   },
   {
     heading: 'Transparent pricing from day one',
-    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Palvento publishes every tier, every feature, and every limit upfront. Start at $59/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
+    body: 'Brightpearl\'s pricing is "bespoke" — which means you don\'t know what you\'ll pay until after a sales call. Palvento publishes every tier, every feature, and every limit upfront. Start at $149/mo, billed in USD, GBP, EUR, AUD or CAD. Cancel any time. No surprises.',
   },
   {
     heading: 'AI built in — not bolted on',
@@ -66,7 +66,7 @@ export default function VsBrightpearlPage() {
         </div>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
           Everything Brightpearl does —<br />
-          <span style={{ color: '#5b52f5' }}>live in 10 minutes, from $59/mo.</span>
+          <span style={{ color: '#5b52f5' }}>live in 10 minutes, from $149/mo.</span>
         </h1>
         <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '36px' }}>
           Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Palvento gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
