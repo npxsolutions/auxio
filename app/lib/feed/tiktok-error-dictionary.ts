@@ -36,6 +36,9 @@ export const TIKTOK_ERROR_MAP: MappedTikTokError[] = [
   { code: 'RATE_LIMITED', tiktokCode: 10429, match: /(rate.*limit|429|too.*many)/i, plainMessage: 'TikTok Shop temporarily throttled this request.', remediation: 'Palvento will retry automatically; no action needed.' },
   { code: 'DESCRIPTION_TOO_LONG', tiktokCode: 12090, plainMessage: 'Description exceeds the 10000-character limit.', remediation: 'Shorten description.' },
   { code: 'PROHIBITED_KEYWORD', tiktokCode: 12099, match: /(prohibited|restricted).*(word|keyword|content)/i, plainMessage: 'Title or description contains a prohibited keyword.', remediation: 'Remove restricted terms and republish.' },
+  { code: 'BRAND_REQUIRED', tiktokCode: 12031, match: /brand.*required/i, plainMessage: 'TikTok Shop requires a brand name.', remediation: 'Set Vendor in Shopify to the brand name.' },
+  { code: 'INVENTORY_REQUIRED', tiktokCode: 12052, match: /(stock|inventory|quantity).*required/i, plainMessage: 'Inventory must be at least 1 for active listings.', remediation: 'Increase inventory to ≥1.' },
+  { code: 'IMAGES_RECOMMENDED', tiktokCode: 12003, plainMessage: 'TikTok Shop listings with 3+ images convert better.', remediation: 'Add more product photos.' },
 ]
 
 export interface ParsedTikTokError {

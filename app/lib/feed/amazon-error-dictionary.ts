@@ -38,6 +38,10 @@ export const AMAZON_ERROR_MAP: MappedAmazonError[] = [
   { code: 'ASIN_MISMATCH', amazonCode: 'AsinMismatch', plainMessage: 'The supplied ASIN does not match the product identifiers.', remediation: 'Remove the ASIN, or ensure GTIN/brand match the catalog entry.' },
   { code: 'RESTRICTED_CATEGORY', amazonCode: 'CategoryApprovalRequired', plainMessage: 'This category requires seller approval on Amazon.', remediation: 'Apply for approval in Seller Central → Add a Product.' },
   { code: 'COMPLIANCE_DOC_REQUIRED', amazonCode: 'MissingComplianceDoc', plainMessage: 'Amazon requires a compliance document (safety / CE) for this product.', remediation: 'Upload the required document in Seller Central.' },
+  { code: 'TITLE_ALL_CAPS', amazonCode: 'TitleAllCaps', match: /title.*(all caps|capitalize|case)/i, plainMessage: 'Title is in ALL CAPS — Amazon may suppress the listing.', remediation: 'Use title case instead of all-uppercase.' },
+  { code: 'SEARCH_TERMS_TOO_LONG', amazonCode: 'SearchTermsTooLong', match: /search.*(term|keyword).*(exceed|250|too long)/i, plainMessage: 'Search terms (generic_keyword) exceed the 250-byte limit.', remediation: 'Shorten search terms to ≤250 bytes.' },
+  { code: 'DESCRIPTION_CONTAINS_HTML', amazonCode: 'DescriptionContainsHtml', match: /description.*(html|tag)/i, plainMessage: 'Description contains HTML tags — Amazon requires plain text.', remediation: 'Remove all HTML tags from the description.' },
+  { code: 'IMAGE_DIMENSIONS', amazonCode: 'ImageDimensionsTooSmall', match: /image.*(dimension|1000|small|pixel)/i, plainMessage: 'Main image must be at least 1000×1000 pixels.', remediation: 'Upload a higher-resolution main image.' },
 ]
 
 export interface ParsedAmazonError {

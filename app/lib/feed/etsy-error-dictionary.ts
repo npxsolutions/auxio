@@ -34,6 +34,9 @@ export const ETSY_ERROR_MAP: MappedEtsyError[] = [
   { code: 'DESCRIPTION_REQUIRED', etsyCode: 'missing_description', plainMessage: 'Etsy requires a non-empty description.', remediation: 'Add a description in Shopify or Palvento.' },
   { code: 'VARIATION_INVALID', etsyCode: 'invalid_variation', plainMessage: 'A variation property/value pair is invalid for this taxonomy.', remediation: 'Use only variations supported by the taxonomy.' },
   { code: 'MATERIALS_INVALID', etsyCode: 'invalid_materials', plainMessage: 'Materials list contains invalid entries.', remediation: 'Each material must be ≤45 chars, letters/numbers/spaces.' },
+  { code: 'DESCRIPTION_TOO_LONG', etsyCode: 'description_too_long', match: /description.*(10000|too long|exceed)/i, plainMessage: 'Description exceeds the 10,000-character Etsy limit.', remediation: 'Shorten the description to ≤10,000 characters.' },
+  { code: 'MATERIALS_RECOMMENDED', etsyCode: 'materials_missing', plainMessage: 'Adding materials improves Etsy search ranking.', remediation: 'Add materials to the listing (e.g. cotton, silver, wood).' },
+  { code: 'IMAGE_LIMIT_MIN', etsyCode: 'listing_image_minimum', plainMessage: 'Etsy requires at least one listing image.', remediation: 'Add at least one product image.' },
 ]
 
 export interface ParsedEtsyError {
