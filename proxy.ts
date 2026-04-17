@@ -10,6 +10,21 @@ const ONBOARDING_EXEMPT = ['/onboarding', '/billing', '/api']
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
+  // Referral attribution: capture ?ref=CODE into httpOnly cookie for 30d
+  const ref = request.nextUrl.searchParams.get('ref')
+  if (ref && /^[A-Z0-9]{4,24}$/i.test(ref)) {
+    const existing = request.cookies.get('palvento_ref')?.value
+    if (!existing) {
+      supabaseResponse.cookies.set('palvento_ref', ref, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/',
+      })
+    }
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
