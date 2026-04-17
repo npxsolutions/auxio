@@ -5,11 +5,11 @@
 ---
 
 ## Tagline (60 chars max)
-> **The operating system for modern commerce.** *(47 chars — leaves room for translated variants)*
+> **Every channel. One clean feed.** *(33 chars — leaves room for translated variants)*
 
 ## Description (260 chars max)
-> Palvento is the Commerce Operations Platform for multichannel sellers. Inventory, orders, forecasting and true multi-currency P&L across Shopify, Amazon, eBay, TikTok Shop and more — one ledger, live in ten minutes. Order-volume pricing, never a % of revenue.
-> *(258 chars)*
+> Palvento is self-serve multichannel feed management for Shopify-led sellers. Sync Amazon, eBay, TikTok Shop, Etsy, Walmart and more — real feed rules, error hub, per-channel P&L. Live in under ten minutes, from $59/mo, no sales call.
+> *(233 chars)*
 
 ---
 
@@ -17,18 +17,18 @@
 
 Hey Product Hunt,
 
-I&apos;ve been building Palvento for the last two years because I got tired of watching operators lose money to the seam between their channel manager and their P&L.
+I&apos;ve been building Palvento for the last two years because the multichannel feed-management market has a hole in it.
 
-Every multichannel ecommerce business I&apos;ve worked with hits the same wall somewhere between the third and fifth channel. They sell on Shopify and Amazon fine. They bolt on eBay. Then TikTok Shop or Etsy. Inventory drifts, oversells start, and nobody can give an honest answer to &quot;what did we actually make last week?&quot; — because gross revenue is in Stripe, fees are scattered across five dashboards, and the dashboard in the middle is lying about FX.
+If you run a Shopify store and want to add Amazon, eBay, and TikTok Shop, your options are: (a) Shopify Marketplace Connect — free, covers three channels, no real feed optimisation; or (b) Feedonomics — $2,500+/mo, 30–90 day onboarding, managed services retainer. Nothing in between for the Shopify merchant doing $25k–$500k/mo who wants clean feeds on a Tuesday afternoon.
 
-Palvento is the Commerce Operations Platform built for this shape of business. Connect your channels, see live inventory sync, real multi-currency settled P&L, demand forecasting built from actual sales velocity, and a developer API that isn&apos;t gated behind a sales call. Order-volume pricing — flat, predictable, never a percentage of your revenue.
+Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect your channels, first feed live in under ten minutes. Real feed rules engine. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you know which marketplace is actually profitable after fees. $59/mo for one channel, $159 for five, $499 for unlimited — published pricing, no percentage of revenue, no sales call.
 
 Demo: [https://palvento-lkqv.vercel.app/demo](https://palvento-lkqv.vercel.app/demo). You can be live with your first channel connected in about ten minutes.
 
 The three things I&apos;d love honest feedback on:
-1. Is the onboarding fast enough? Target is first real number under ten minutes.
-2. Is the multi-currency P&L view clear? This is where I&apos;ve thrown the most design effort.
-3. What tool in your current stack would Palvento need to kill for you to consider switching?
+1. Is the onboarding fast enough? Target is first feed syndicated in under ten minutes.
+2. Is the per-channel P&L view clear? This is where I&apos;ve thrown the most design effort.
+3. What would Palvento need to do to replace the spreadsheet / Linnworks / your current stack?
 
 I&apos;ll be here all day answering every comment. Thanks for looking.
 
@@ -54,13 +54,13 @@ Use real hunters only. Message via Twitter/X DM or email where available.
 
 | # | Hunter | Hook |
 |---|---|---|
-| 1 | **Chris Messina** | Original PH community. Has hunted fintech/commerce tools before. Hook: &quot;Commerce Operations Platform as a new category — want to pitch you on this as a category launch, not a product launch.&quot; |
+| 1 | **Chris Messina** | Original PH community. Has hunted fintech/commerce tools before. Hook: &quot;Self-serve multichannel feed management — the gap between free Shopify Marketplace Connect and $2,500/mo Feedonomics. Want to pitch you on this.&quot; |
 | 2 | **Kevin William David** | Prolific hunter, ecommerce and SaaS sweet spot. Hook: Reference his previous hunts of multichannel tools; offer early access for his audience. |
 | 3 | **Tom Osman** | Growth/indie founder hunter. Active on PH through 2025. Hook: Share build-in-public receipts; he indexes on those. |
 | 4 | **Max Stoiber** | Dev-tool-adjacent hunter. Hook: Pitch the Developer API angle — real REST + typed SDK — and ask if he&apos;d hunt as a dev audience play. |
 | 5 | **Calum Webb** | UK commerce indie scene. Hook: Lean into the UK/EU multi-currency story, which is underserved. |
 | 6 | **Ben Tossell** | Indie-hacker-adjacent, hunts tools with strong narrative. Hook: Offer him the founder narrative — two-year build, friend of the cause. |
-| 7 | **Ryan Hoover** | PH founder. Long shot but historically hunts a few /month. Hook: Short, no pitch deck, just &quot;we think Commerce Operations Platform is a real category — would you hunt it?&quot; |
+| 7 | **Ryan Hoover** | PH founder. Long shot but historically hunts a few /month. Hook: Short, no pitch deck, just &quot;self-serve feed management for Shopify sellers — $59/mo vs the $2,500/mo incumbents. Would you hunt it?&quot; |
 | 8 | **Harry Stebbings** | More VC than hunter, but has hunted ecom adjacent. Hook: Category formation angle, tie to SaaStr thesis he&apos;s written about. |
 
 Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, self-hunt — a good first-comment from the founder is worth more than a tepid hunt from a celebrity.
@@ -117,9 +117,9 @@ Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, se
 
 ## Sample tweets (3)
 
-1. **Launch tweet.** *&quot;After two years of building: Palvento is live on Product Hunt today. It&apos;s the Commerce Operations Platform for multichannel sellers — one ledger across Shopify, Amazon, eBay, and every other channel you run. If you&apos;ve ever had an oversell on a Sunday morning, this is for you. [link]&quot;*
+1. **Launch tweet.** *&quot;After two years of building: Palvento is live on Product Hunt today. Self-serve multichannel feed management for Shopify-led sellers — sync Amazon, eBay, TikTok Shop, and every other channel you run, live in under ten minutes. From $59/mo, no sales call. [link]&quot;*
 
-2. **Demo tweet (hours 3–5).** *&quot;Quick demo of the multi-currency P&L view — the thing I&apos;ve spent the most time on. If you sell cross-border and your dashboard gives you a clean revenue number, it&apos;s lying to you. Here&apos;s what honest looks like. [30-sec clip]&quot;*
+2. **Demo tweet (hours 3–5).** *&quot;Quick demo of the per-channel P&L view — the thing I&apos;ve spent the most time on. If you sell on three channels and your dashboard gives you a blended margin number, it&apos;s lying to you. Here&apos;s what honest looks like. [30-sec clip]&quot;*
 
 3. **Retro tweet (end of day).** *&quot;Day 1 on Product Hunt: [X] upvotes, [Y] trials, [Z] demos booked. Thank you to everyone who showed up. Replying to every comment tonight. The receipts: [link to retro post].&quot;*
 
@@ -137,4 +137,4 @@ Ask one at a time. Don&apos;t promise exclusivity. If the first four decline, se
 
 2. **Operators Slack (DM host first).** *&quot;Quick one — I&apos;ve been building Palvento for two years and it went live on Product Hunt at midnight. If it&apos;s ok with [host] I&apos;d love to share. If you&apos;d like a personal demo walkthrough, reply and I&apos;ll book a 20-minute slot this week.&quot;*
 
-3. **Indie Hackers #launches.** *&quot;Shipped Palvento today on Product Hunt after two years of build. It&apos;s a Commerce Operations Platform for multichannel sellers — category I&apos;ve been banging on about for a while. Happy to answer any build-in-public questions here, and if you&apos;re an IH member and want extended trial, DM me. [link]&quot;*
+3. **Indie Hackers #launches.** *&quot;Shipped Palvento today on Product Hunt after two years of build. Self-serve multichannel feed management for Shopify-led sellers — the gap between free Marketplace Connect and $2,500/mo Feedonomics. Happy to answer any build-in-public questions here, and if you&apos;re an IH member and want extended trial, DM me. [link]&quot;*

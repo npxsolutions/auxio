@@ -17,9 +17,9 @@ Most Palvento customers ship a custom merchant portal for their own resellers, b
 On install, the integration:
 
 1. Provisions environment variables on the linked Vercel project:
-   - `AUXIO_API_KEY` (scoped, read-only by default)
-   - `AUXIO_PROJECT_ID`
-   - `AUXIO_THEME` (light | dark | match)
+   - `PALVENTO_API_KEY` (scoped, read-only by default)
+   - `PALVENTO_PROJECT_ID`
+   - `PALVENTO_THEME` (light | dark | match)
 2. Installs `@palvento/react` from npm via the project&rsquo;s package manager.
 3. Adds an example route at `app/palvento/page.tsx` rendering the embedded orders dashboard.
 

@@ -21,7 +21,7 @@ We built Palvento because spreadsheets stop being honest around 200 orders a day
 Would a 20-minute walkthrough against your real data be useful this week or next?
 
 — <FOUNDER_NAME>
-Palvento — the operating system for modern commerce
+Palvento — self-serve multichannel feed management
 
 ---
 
@@ -39,7 +39,7 @@ Palvento is one ledger across every channel and currency, with a settled P&L tha
 Worth 20 minutes against your real data this week or next?
 
 — <FOUNDER_NAME>
-Palvento — the operating system for modern commerce
+Palvento — self-serve multichannel feed management
 
 ---
 
@@ -107,7 +107,7 @@ Hi {{firstName}},
 
 I've written four times, which is the threshold where it stops being useful to write a fifth.
 
-Closing this thread. If a Commerce Operations Platform is ever on your list — replacing {{competitor_inferred}}, or graduating off spreadsheets — the door is open and the trial is self-serve at palvento-lkqv.vercel.app. No demo gate.
+Closing this thread. If self-serve feed management is ever on your list — replacing {{competitor_inferred}}, or graduating off spreadsheets — the door is open and the trial is self-serve at palvento-lkqv.vercel.app. No demo gate.
 
 Wishing {{shopify_store}} a strong quarter either way.
 

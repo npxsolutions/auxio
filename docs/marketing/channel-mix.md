@@ -9,7 +9,7 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 ## 1. SEO / content — **highest leverage, slowest to compound**
 - **CAC estimate.** $40–$120 blended once ranking, effectively $0 at the margin once the post exists.
 - **Time to first customer.** 8–14 weeks. First ranked post around week 6, first trial from organic around week 10.
-- **What works.** Category-defining essays ("What is a Commerce Operations Platform?"), head-to-head `/vs/*` pages (we have four, need eight), tactical guides with real numbers (pricing-floors, P&L worked examples).
+- **What works.** Category-defining essays ("What is multichannel feed management?"), head-to-head `/vs/*` pages (we have four, need eight), tactical guides with real numbers (pricing-floors, P&L worked examples).
 - **What doesn't.** Generic listicles ("10 Best Inventory Tools"). AI-generated filler. Keyword-stuffed content that reads like 2018.
 - **Weekly cadence.** 2 posts/week (1 pillar + 1 supporting). See `content/seo-calendar.md`.
 - **Owner.** Founder writes the opinionated pieces. Contract writer (Upwork, ~$400/post) drafts supporting posts, founder edits.

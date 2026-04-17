@@ -1,6 +1,6 @@
 # Marketing System — Index
 
-> Company name reference: **Palvento** (subject to rename). Every file in this directory is find-and-replaceable on the company name. Nothing is load-bearing on the string "Palvento".
+> Company name reference: **Palvento**. Italian architectural term — a wind-shelter wall in Mediterranean farmhouses. "We shelter your commerce from multichannel chaos."
 
 The marketing function is organized as four layers: **strategy**, **operating cadence**, **assets**, and **distribution**. This doc indexes all of them plus the sibling directories.
 

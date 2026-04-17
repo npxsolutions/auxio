@@ -14,15 +14,15 @@ One stack. Every channel.
 Sync inventory, route orders, and see true profit across Amazon, eBay, TikTok Shop, Etsy, Walmart, and Shopify.
 
 ## Long description (≤2,000 chars)
-Palvento is the operating layer for merchants selling on more than one channel. Connect Shopify alongside Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, and run them all from one screen.
+Palvento is self-serve multichannel feed management for Shopify-led sellers. Install, connect your first channel, and have a clean feed live in under ten minutes — no sales call, no implementation consultant.
 
-- **Inventory sync** — A single SKU truth across every channel. Reservations and oversells handled at the source.
+- **Feed rules engine** — Catches GTIN mismatches, oversize images, category errors, and banned-word violations before they hit the marketplace. Errors surface at ingest, not after suppression.
+- **Multichannel feed sync** — Push optimised listings to Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, and WooCommerce from one screen. Sub-minute inventory propagation.
+- **Per-channel P&L** — True profit per SKU, per channel, after fees, shipping, returns, and VAT/sales tax. Know which marketplace is actually making money.
+- **AI listing agent** — Channel-specific titles and descriptions, validated against each marketplace&rsquo;s schema before syndication.
 - **Order routing** — Pull orders into one feed, fulfil from one place, push tracking back automatically.
-- **True profit** — Per-SKU, per-channel margin after fees, shipping, returns, and VAT/sales tax.
-- **Repricer** — Rule-based and ML-assisted price control with full history and rollback.
-- **AI listing agent** — Channel-specific titles and descriptions, generated and tuned per marketplace.
 
-Palvento installs in minutes, syncs your last 24 months of order history, and stays out of the way until you need it. Built for operators who&rsquo;ve outgrown spreadsheets but don&rsquo;t want to live inside an ERP.
+Plans from $59/mo (Starter), $159/mo (Growth), $499/mo (Scale). Published pricing in five currencies. No percentage of revenue, no per-order fee above plan. Built for the Shopify operator who&rsquo;s been quoted $2,500/mo by Feedonomics and bounced — or outgrown Shopify Marketplace Connect&rsquo;s channel coverage.
 
 ## Categories
 - Primary: **Selling channels · Inventory sync**
@@ -35,7 +35,7 @@ Palvento installs in minutes, syncs your last 24 months of order history, and st
 4. AI listing agent and rule-based repricer included.
 
 ## Pricing on listing
-Free 14-day trial · Plans from £79/mo · Pricing matches /pricing.
+Free 14-day trial · Starter $59/mo · Growth $159/mo · Scale $499/mo · Pricing matches /pricing.
 
 ## Screenshots required (1280×800)
 1. Multichannel inventory grid.

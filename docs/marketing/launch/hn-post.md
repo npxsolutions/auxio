@@ -5,29 +5,27 @@ Post Tuesday 6am PT (~6 hours after PH launch so the two traffic sources don&apo
 ---
 
 ## Title (under 80 chars)
-> **Show HN: Palvento – Commerce Operations Platform for multichannel sellers**
-> *(71 chars)*
+> **Show HN: Palvento – Self-serve multichannel feed management from $59/mo**
+> *(74 chars)*
 
 ## Body (under 1500 chars)
 
 > Hi HN — I&apos;m Nick, and this is Palvento.
 >
-> I built it because multichannel ecommerce operators are running businesses on a stack that doesn&apos;t exist: a channel manager that doesn&apos;t know their fees, an accounting tool that doesn&apos;t know their stock, and five spreadsheets holding the seam together. It breaks somewhere around the fifth channel, usually during a weekend sale, usually with an oversell.
+> I built it because the multichannel feed-management market has a hole in it. On one side: Shopify Marketplace Connect, free up to 50 orders, covers Amazon/eBay/Walmart, no real feed optimisation. On the other: Feedonomics, $2,500+/mo, 30–90 day onboarding, managed services. Nothing in between for a Shopify merchant doing $25k–$500k/mo who wants to add TikTok Shop on a Tuesday afternoon.
 >
-> Palvento is the layer that closes the loop. Inventory, orders, forecasting, procurement, and true multi-currency settled P&L across Shopify, Amazon, eBay, TikTok Shop, Etsy, and more — in one schema, with one canonical SKU. Order-volume pricing, never a percentage of revenue (the current enterprise incumbents all charge a % and we think that&apos;s wrong on principle).
+> Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, or WooCommerce, first feed live in under ten minutes. Real feed rules, error hub that catches GTIN mismatches and banned words before they hit the marketplace, per-channel P&L so you know which marketplace is profitable after fees. $59/mo for one channel, $159 for five, $499 for unlimited — published pricing, no percentage of revenue.
 >
-> Tech: Next.js 16 on Vercel, Postgres via Supabase, Node worker jobs on Railway for the marketplace sync fan-out, PostHog for product analytics, Stripe for billing. The Developer API is REST + webhooks, typed SDK published to npm; everything you can see in the UI you can hit over API.
+> Tech: Next.js 16 on Vercel, Postgres via Supabase, Node worker jobs on Railway for the marketplace sync fan-out, PostHog for product analytics, Stripe for billing. Developer API is REST + webhooks, typed SDK published to npm; everything in the UI is available over API.
 >
 > Live demo: https://palvento-lkqv.vercel.app
 >
 > Honest feedback welcome. Three things I&apos;d love to hear on:
-> 1. Is the Commerce Operations Platform category worth claiming, or is it unnecessary vocabulary?
-> 2. Multi-currency settled P&L — is the design clear?
-> 3. What would we need to break to make you switch off Linnworks / a spreadsheet / your Frankenstein?
+> 1. Is the self-serve feed management positioning clear, or does it undersell what you&apos;d want from a product like this?
+> 2. Per-channel P&L — is the design legible?
+> 3. What would we need to ship to make you switch off a spreadsheet / Linnworks / your Frankenstein stack?
 >
 > Happy to answer anything technical or commercial.
->
-> *(1,476 chars)*
 
 ---
 
@@ -51,6 +49,6 @@ Post Tuesday 6am PT (~6 hours after PH launch so the two traffic sources don&apo
 
 > It&apos;s a tiered flat fee indexed to order count, not revenue. So a high-AOV luxury brand and a low-AOV consumables brand pay similarly at similar volume, which reflects the actual cost of serving them (API calls, sync events, storage) rather than punishing the profitable ones. Abuse mitigation: if you exceed the tier by more than 20% two months running, we auto-upgrade; you never get surprise-billed. Overage on API calls above a generous ceiling is charged at cost. Pricing page is public.
 
-### 5. "The landing page uses 'the operating system for modern commerce' — isn't that just category marketing fluff?"
+### 5. "Why not just call it a 'listing tool' or a 'multichannel connector'?"
 
-> Yes and no. It&apos;s category marketing — deliberately. &quot;Commerce Operations Platform&quot; is the technical category, &quot;operating system for modern commerce&quot; is the colloquial framing. We&apos;re choosing to claim the category name rather than invent a made-up one, because the existing vocabulary (&quot;multichannel tool&quot;, &quot;listing platform&quot;) invites the wrong comparisons and makes customers underestimate what they&apos;re buying. April Dunford&apos;s *Obviously Awesome* is the playbook we&apos;re following. Whether the category claim sticks depends on whether we ship work that justifies it.
+> Because those labels undersell the job. A listing tool pushes titles and images. A connector syncs inventory. Palvento does both — but also runs a feed rules engine that catches errors before they hit the marketplace, and shows per-channel P&L after fees, shipping, and FX. "Self-serve multichannel feed management" is the category we use: it&apos;s precise, it&apos;s the phrase operators already search for, and it maps to the Shopify App Store taxonomy. We deliberately avoid "commerce OS" or "operating system for commerce" — those overclaim and invite the wrong comparison set. April Dunford&apos;s *Obviously Awesome* is the playbook.

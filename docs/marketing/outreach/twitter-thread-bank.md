@@ -57,7 +57,7 @@
 
 > 7/ The through-line on all five: they are visibility problems, not strategy problems. The operator already knows what to do if they can see the right number. The reason they can't see it is that the data lives in seven places.
 
-> 8/ Fixing four of these in the same tool is the entire argument for a Commerce Operations Platform. Fixing one of them at a time in four separate tools is the argument against SaaS sprawl.
+> 8/ Fixing four of these in the same tool is the entire argument for self-serve feed management that closes the loop to P&L. Fixing one of them at a time in four separate tools is the argument against SaaS sprawl.
 
 **Close:**
 > 9/ Essay version of this with the diagrams and numbers sits here: palvento-lkqv.vercel.app/blog/the-true-cost-of-multichannel-spreadsheets
