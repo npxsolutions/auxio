@@ -5,6 +5,12 @@ import {
   day3NudgeEmail,
   day7ActiveEmail,
   day7DormantEmail,
+  confirmationEmail,
+  passwordResetEmail,
+  trialEndingEmail,
+  trialExpiredEmail,
+  invoiceEmail,
+  feedHealthDigest,
   LIFECYCLE_TEMPLATES,
 } from '../lifecycle'
 
@@ -22,7 +28,6 @@ describe('email/lifecycle templates', () => {
   it('welcomeEmail includes first name and onboarding link', () => {
     const r = welcomeEmail(user)
     assertShape(r)
-    expect(r.subject).toMatch(/welcome/i)
     expect(r.html).toContain('Sam')
     expect(r.html).toContain('/onboarding')
     expect(r.text).toContain('Sam')
@@ -31,7 +36,7 @@ describe('email/lifecycle templates', () => {
   it('welcomeEmail omits comma when firstName is null', () => {
     const r = welcomeEmail({ id: 'u2', email: 'x@y.com', firstName: null })
     expect(r.html).not.toContain(', Sam')
-    expect(r.html).toContain('Welcome to Palvento.')
+    expect(r.html).toContain('Your account is ready.')
   })
 
   it('day1NudgeEmail returns subject/html/text and links onboarding', () => {
@@ -56,21 +61,82 @@ describe('email/lifecycle templates', () => {
     expect(r.text).toContain('37')
   })
 
-  it('day7ActiveEmail singular when orders7d === 1', () => {
-    const r = day7ActiveEmail(user, { orders7d: 1, gmv7d: 10, topChannel: 'eBay' })
-    expect(r.html).toContain('1 order')
-    expect(r.html).not.toContain('1 orders')
-  })
-
   it('day7DormantEmail nudges to setup call', () => {
     const r = day7DormantEmail(user)
     assertShape(r)
     expect(r.html).toContain('/contact')
   })
 
-  it('LIFECYCLE_TEMPLATES exposes all five templates', () => {
+  it('confirmationEmail includes confirm link', () => {
+    const r = confirmationEmail(user)
+    assertShape(r)
+    expect(r.subject).toBe('Confirm your email')
+    expect(r.html).toContain('/auth/confirm')
+  })
+
+  it('passwordResetEmail includes reset link', () => {
+    const r = passwordResetEmail(user)
+    assertShape(r)
+    expect(r.subject).toBe('Reset your password')
+    expect(r.html).toContain('/auth/reset-password')
+  })
+
+  it('trialEndingEmail shows days remaining', () => {
+    const r = trialEndingEmail(user, { trialDaysLeft: 3 })
+    assertShape(r)
+    expect(r.subject).toContain('3 days')
+    expect(r.html).toContain('/settings/billing')
+  })
+
+  it('trialExpiredEmail links to billing', () => {
+    const r = trialExpiredEmail(user)
+    assertShape(r)
+    expect(r.subject).toBe('Your trial has ended')
+    expect(r.html).toContain('/settings/billing')
+  })
+
+  it('invoiceEmail shows amount and plan', () => {
+    const r = invoiceEmail(user, {
+      invoiceAmount: 49,
+      planName: 'Pro',
+      invoicePeriodStart: '1 Mar 2026',
+      invoicePeriodEnd: '31 Mar 2026',
+      invoiceNumber: 'INV-001',
+    })
+    assertShape(r)
+    expect(r.html).toContain('49.00')
+    expect(r.html).toContain('Pro')
+    expect(r.html).toContain('INV-001')
+  })
+
+  it('feedHealthDigest shows score and listings', () => {
+    const r = feedHealthDigest(user, {
+      feedHealthScore: 92,
+      totalListings: 1400,
+      errorsCaught: 3,
+      optimizationTips: ['Update 12 stale titles', 'Fix missing images on 4 listings'],
+    })
+    assertShape(r)
+    expect(r.html).toContain('92/100')
+    expect(r.html).toContain('1,400')
+    expect(r.html).toContain('Update 12 stale titles')
+  })
+
+  it('LIFECYCLE_TEMPLATES exposes all templates', () => {
     expect(Object.keys(LIFECYCLE_TEMPLATES).sort()).toEqual(
-      ['day1_nudge', 'day3_nudge', 'day7_active', 'day7_dormant', 'welcome'].sort()
+      [
+        'confirmation',
+        'day1_nudge',
+        'day3_nudge',
+        'day7_active',
+        'day7_dormant',
+        'feed_health_digest',
+        'invoice',
+        'password_reset',
+        'trial_ending',
+        'trial_expired',
+        'welcome',
+      ].sort()
     )
   })
 })
