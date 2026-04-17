@@ -69,6 +69,6 @@ export async function POST(req: Request) {
     status: data.status,
     requested_at: data.requested_at,
     message:
-      'Your deletion request has been received. We will process it within 30 days (GDPR SLA) and email confirmation at security@fulcra.com when complete. You can continue using your account until then, or sign out now.',
+      'Your deletion request has been received. We will process it within 30 days (GDPR SLA) and email confirmation at security@palvento.com when complete. You can continue using your account until then, or sign out now.',
   })
 }

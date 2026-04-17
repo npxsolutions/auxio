@@ -74,13 +74,13 @@ export async function POST() {
 
   const body = {
     _meta: {
-      format: 'fulcra.dsar.v1',
+      format: 'palvento.dsar.v1',
       exported_at: new Date().toISOString(),
       user_id: userId,
       user_email: user.email,
       counts,
       notice:
-        'This archive contains all personal and operational data Palvento holds about you under GDPR Art. 15 (right of access) and Art. 20 (right to portability). Questions: security@fulcra.com.',
+        'This archive contains all personal and operational data Palvento holds about you under GDPR Art. 15 (right of access) and Art. 20 (right to portability). Questions: security@palvento.com.',
     },
     ...dump,
   }
@@ -90,7 +90,7 @@ export async function POST() {
     status: 200,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Content-Disposition': `attachment; filename="fulcra-export-${userId}-${stamp}.json"`,
+      'Content-Disposition': `attachment; filename="palvento-export-${userId}-${stamp}.json"`,
       'Cache-Control': 'no-store',
     },
   })

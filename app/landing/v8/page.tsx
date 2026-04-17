@@ -280,7 +280,7 @@ function LiveMap() {
           </div>
         </div>
 
-        <div style={{ position: 'absolute', right: 18, top: 18, display: 'flex', gap: 14 }}>
+        <div className="v8-map-stats" style={{ position: 'absolute', right: 18, top: 18, display: 'flex', gap: 14 }}>
           {[{ k: 'Today', v: '4,218' }, { k: 'Routes', v: '92' }, { k: 'GMV', v: '$612k' }].map(s => (
             <div key={s.k} style={{ background: 'rgba(255,255,255,0.92)', border: `1px solid ${C.rule}`, padding: '8px 12px' }}>
               <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9, color: C.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s.k}</div>
@@ -456,7 +456,7 @@ function LedgerSurface() {
         </span>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 0, padding: '0', borderBottom: `1px solid ${C.rule}`, background: C.surface }}>
+      <div className="v8-ledger-filters" style={{ display: 'flex', alignItems: 'center', gap: 0, padding: '0', borderBottom: `1px solid ${C.rule}`, background: C.surface }}>
         {[
           { k: 'Channel',  v: 'All channels',  active: true  },
           { k: 'Period',   v: 'Last 30 days',  active: true  },
@@ -475,7 +475,7 @@ function LedgerSurface() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2.2fr 1.4fr 0.7fr 1.2fr 0.9fr 0.8fr', padding: '10px 20px', borderBottom: `1px solid ${C.rule}`, background: C.bg, fontFamily: 'var(--font-mono), monospace', fontSize: 9.5, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+      <div className="v8-ledger-head" style={{ display: 'grid', gridTemplateColumns: '1.1fr 2.2fr 1.4fr 0.7fr 1.2fr 0.9fr 0.8fr', padding: '10px 20px', borderBottom: `1px solid ${C.rule}`, background: C.bg, fontFamily: 'var(--font-mono), monospace', fontSize: 9.5, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
         <span>SKU</span>
         <span>Item</span>
         <span>Channel</span>
@@ -486,7 +486,7 @@ function LedgerSurface() {
       </div>
 
       {LEDGER_ROWS.map((r, i) => (
-        <div key={r.sku} className="ledger-row" style={{ display: 'grid', gridTemplateColumns: '1.1fr 2.2fr 1.4fr 0.7fr 1.2fr 0.9fr 0.8fr', alignItems: 'center', padding: '12px 20px', borderBottom: i < LEDGER_ROWS.length - 1 ? `1px solid ${C.ruleSoft}` : 'none', fontSize: 13, color: C.ink, transition: 'background 180ms ease' }}>
+        <div key={r.sku} className="ledger-row v8-ledger-row-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 2.2fr 1.4fr 0.7fr 1.2fr 0.9fr 0.8fr', alignItems: 'center', padding: '12px 20px', borderBottom: i < LEDGER_ROWS.length - 1 ? `1px solid ${C.ruleSoft}` : 'none', fontSize: 13, color: C.ink, transition: 'background 180ms ease' }}>
           <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, color: C.cobalt, letterSpacing: '0.04em' }}>{r.sku}</span>
           <span style={{ color: C.ink }}>{r.title}</span>
           <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, color: C.mutedDk, letterSpacing: '0.02em' }}>{r.channel}</span>
@@ -519,7 +519,7 @@ const VERSUS_PAIRS = [
 function VersusRow({ p, i }: { p: typeof VERSUS_PAIRS[number]; i: number }) {
   const rev = useReveal<HTMLDivElement>(i * 90)
   return (
-    <div ref={rev.ref} style={{ ...rev.style, display: 'grid', gridTemplateColumns: '1.3fr 1.4fr 0.2fr 1.4fr', alignItems: 'stretch', borderRight: `1px solid rgba(243,240,234,0.2)`, borderBottom: `1px solid rgba(243,240,234,0.2)` }}>
+    <div ref={rev.ref} className="v8-versus-row" style={{ ...rev.style, display: 'grid', gridTemplateColumns: '1.3fr 1.4fr 0.2fr 1.4fr', alignItems: 'stretch', borderRight: `1px solid rgba(243,240,234,0.2)`, borderBottom: `1px solid rgba(243,240,234,0.2)` }}>
       <div style={{ padding: '28px 28px', borderRight: `1px solid rgba(243,240,234,0.12)`, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: 'rgba(243,240,234,0.5)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 6 }}>{p.est}</div>
         <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 30, color: C.bg, letterSpacing: '-0.02em', lineHeight: 1 }}>{p.who}</div>
@@ -603,7 +603,7 @@ function QuoteCard({ q, i }: { q: typeof QUOTES[number]; i: number }) {
 function PriceRow({ p, i, isLast }: { p: typeof PRICE_ROWS[number]; i: number; isLast: boolean }) {
   const rev = useReveal<HTMLDivElement>(i * 80)
   return (
-    <div ref={rev.ref} className="price-row" style={{ ...rev.style, display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 2fr 0.9fr', alignItems: 'center', padding: '28px 0', borderBottom: !isLast ? `1px solid ${C.rule}` : `1px solid ${C.ink}`, position: 'relative', transition: 'background 220ms ease, transform 220ms ease' }}>
+    <div ref={rev.ref} className="price-row v8-price-row" style={{ ...rev.style, display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 2fr 0.9fr', alignItems: 'center', padding: '28px 0', borderBottom: !isLast ? `1px solid ${C.rule}` : `1px solid ${C.ink}`, position: 'relative', transition: 'background 220ms ease, transform 220ms ease' }}>
       {p.flag && <span style={{ position: 'absolute', left: -14, top: '50%', transform: 'translateY(-50%)', width: 4, height: 48, background: C.cobalt }} />}
       <div>
         <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 40, fontWeight: 400, color: C.ink, letterSpacing: '-0.022em', lineHeight: 1 }}>{p.name}</div>
@@ -620,7 +620,7 @@ function PriceRow({ p, i, isLast }: { p: typeof PRICE_ROWS[number]; i: number; i
           <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 40, fontWeight: 400, letterSpacing: '-0.02em', color: C.ink }}>Bespoke</div>
         )}
       </div>
-      <div style={{ paddingLeft: 32, display: 'flex', flexWrap: 'wrap', gap: '6px 18px' }}>
+      <div className="v8-price-includes" style={{ paddingLeft: 32, display: 'flex', flexWrap: 'wrap', gap: '6px 18px' }}>
         {p.includes.map(item => (
           <span key={item} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: C.mutedDk }}>
             <span style={{ width: 4, height: 4, background: C.cobalt, display: 'inline-block' }} />
@@ -735,7 +735,7 @@ function ConnectionsSection() {
         </h2>
 
         <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 16 }}>Sell on</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid ${C.rule}`, borderLeft: `1px solid ${C.rule}`, marginBottom: 48 }}>
+        <div className="v8-brands-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid ${C.rule}`, borderLeft: `1px solid ${C.rule}`, marginBottom: 48 }}>
           {COMMERCE_BRANDS.map(b => (
             <div key={b.name} style={{ borderRight: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}` }}>
               <BrandTile b={b} />
@@ -744,7 +744,7 @@ function ConnectionsSection() {
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 16 }}>Built on</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid ${C.rule}`, borderLeft: `1px solid ${C.rule}` }}>
+        <div className="v8-brands-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid ${C.rule}`, borderLeft: `1px solid ${C.rule}` }}>
           {STACK_BRANDS.map(b => (
             <div key={b.name} style={{ borderRight: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}` }}>
               <BrandTile b={b} />
@@ -776,9 +776,13 @@ export default function LandingV8() {
             </svg>
             <span style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 24, lineHeight: 1, letterSpacing: '-0.015em' }}>Palvento</span>
           </Link>
-          <nav style={{ display: 'flex', gap: 28 }}>
+          <nav className="v8-nav-links" style={{ display: 'flex', gap: 28 }}>
             {NAV.map(n => <a key={n.href} href={n.href} style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none' }}>{n.label}</a>)}
           </nav>
+          {/* Mobile menu button */}
+          <button className="v8-mobile-menu" style={{ display: 'none', background: 'none', border: 'none', padding: 8, cursor: 'pointer' }} aria-label="Menu">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round"/></svg>
+          </button>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <Link href="/login" style={{ fontSize: 13, color: C.mutedDk, textDecoration: 'none', padding: '8px 4px' }}>Sign in</Link>
             <Link href="/signup" style={{ fontSize: 13, color: C.bg, background: C.ink, padding: '10px 18px', textDecoration: 'none', fontWeight: 500 }}>Start free</Link>
@@ -801,7 +805,7 @@ export default function LandingV8() {
             )}
           </h1>
 
-          <div style={{ marginTop: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
+          <div className="v8-hero-flex" style={{ marginTop: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
             <div style={{ maxWidth: 620 }}>
               <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(28px, 3.2vw, 44px)', lineHeight: 1.05, color: C.ink, fontWeight: 400, letterSpacing: '-0.02em' }}>
                 <LiveGMV /> <em style={{ fontStyle: 'italic', color: C.muted, fontSize: '0.68em' }}>GMV this month</em>
@@ -832,7 +836,7 @@ export default function LandingV8() {
 
       {/* Numbers */}
       <section style={{ padding: '64px 32px', borderTop: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}`, background: C.surface }}>
-        <div style={{ maxWidth: 1320, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0 }}>
+        <div className="v8-numbers-grid" style={{ maxWidth: 1320, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0 }}>
           {[
             { v: 3200000, p: '$', s: '+', label: 'GMV / mo' },
             { v: 40,      s: '+', label: 'Countries' },
@@ -873,7 +877,7 @@ export default function LandingV8() {
             <div style={{ flex: 1, height: 1, background: C.rule }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 03 — Four primitives</span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0, borderTop: `1px solid ${C.ink}`, borderLeft: `1px solid ${C.ink}` }}>
+          <div className="v8-pillars-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0, borderTop: `1px solid ${C.ink}`, borderLeft: `1px solid ${C.ink}` }}>
             {PILLARS.map((p, i) => <PillarCard key={p.n} p={p} i={i} />)}
           </div>
         </div>
@@ -906,7 +910,7 @@ export default function LandingV8() {
             <div style={{ flex: 1, height: 1, background: C.rule }} />
             <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 05</span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+          <div className="v8-quotes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
             {QUOTES.map((q, i) => <QuoteCard key={i} q={q} i={i} />)}
           </div>
         </div>
@@ -924,7 +928,7 @@ export default function LandingV8() {
             From $59/mo. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>Not $2,500.</em>
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 2fr 0.9fr', padding: '12px 0', borderTop: `1px solid ${C.ink}`, borderBottom: `1px solid ${C.rule}`, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+          <div className="v8-price-header" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 2fr 0.9fr', padding: '12px 0', borderTop: `1px solid ${C.ink}`, borderBottom: `1px solid ${C.rule}`, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
             <span>Plan</span>
             <span style={{ textAlign: 'right' }}>Rate / mo</span>
             <span style={{ paddingLeft: 32 }}>Includes</span>
@@ -963,7 +967,7 @@ export default function LandingV8() {
 
       {/* Footer */}
       <footer style={{ padding: '48px 32px 32px', background: C.bg }}>
-        <div style={{ maxWidth: 1320, margin: '0 auto', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 48 }}>
+        <div className="v8-footer-grid" style={{ maxWidth: 1320, margin: '0 auto', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 48 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -980,7 +984,7 @@ export default function LandingV8() {
             { h: 'Platform', l: [['Atlas', '#atlas'], ['Ledger', '#ledger'], ['Pillars', '#platform'], ['Pricing', '#pricing']] as [string, string][] },
             { h: 'Compare',  l: [['Feedonomics', '/vs/feedonomics'], ['Linnworks', '/vs/linnworks'], ['Brightpearl', '/vs/brightpearl'], ['ChannelAdvisor', '/vs/channelAdvisor']] as [string, string][] },
             { h: 'Company',  l: [['About', '/about'], ['Contact', '/contact'], ['Privacy', '/privacy'], ['Terms', '/terms']] as [string, string][] },
-            { h: 'Resources', l: [['Enterprise', '/enterprise'], ['Security', '/security'], ['Status', 'https://status.fulcra.com'], ['Changelog', '/changelog'], ['Help', '/help'], ['Careers', '/careers']] as [string, string][] },
+            { h: 'Resources', l: [['Enterprise', '/enterprise'], ['Security', '/security'], ['Status', '/status'], ['Changelog', '/changelog'], ['Help', '/help'], ['Careers', '/careers']] as [string, string][] },
           ].map(col => (
             <div key={col.h}>
               <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.cobalt, letterSpacing: '0.16em', fontWeight: 700, textTransform: 'uppercase', marginBottom: 12 }}>{col.h}</div>
@@ -1003,6 +1007,47 @@ export default function LandingV8() {
         .quote-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -24px rgba(11,15,26,0.22); }
         .price-row:hover { background: rgba(29,95,219,0.04); transform: translateX(4px); }
         .ledger-row:hover { background: rgba(29,95,219,0.05); }
+
+        /* ── Mobile responsive ── */
+        @media (max-width: 1024px) {
+          .v8-numbers-grid { grid-template-columns: repeat(3, 1fr) !important; row-gap: 32px !important; }
+          .v8-pillars-grid { grid-template-columns: 1fr !important; }
+          .v8-quotes-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+          .v8-brands-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .v8-versus-row { grid-template-columns: 1fr !important; }
+          .v8-versus-row > div:nth-child(3) { display: none; }
+          .v8-price-row { grid-template-columns: 1fr !important; gap: 16px !important; text-align: left !important; }
+          .v8-price-row > div:nth-child(2) { text-align: left !important; }
+          .v8-price-row > div:nth-child(4) { text-align: left !important; }
+          .v8-ledger-head, .v8-ledger-row-grid { grid-template-columns: 1fr 2fr 1fr 1fr !important; }
+          .v8-ledger-head > span:nth-child(3),
+          .v8-ledger-head > span:nth-child(4),
+          .v8-ledger-row-grid > span:nth-child(3),
+          .v8-ledger-row-grid > span:nth-child(4) { display: none; }
+          .v8-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+          .v8-footer-grid > div:first-child { grid-column: 1 / -1; }
+          .v8-hero-flex { flex-direction: column !important; align-items: flex-start !important; }
+          .v8-nav-links { display: none !important; }
+          .v8-mobile-menu { display: block !important; }
+          .v8-ledger-filters { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+          .v8-map-stats { display: none !important; }
+          .v8-price-header { grid-template-columns: 1fr !important; }
+          .v8-price-header > span:nth-child(2),
+          .v8-price-header > span:nth-child(3),
+          .v8-price-header > span:nth-child(4) { display: none; }
+        }
+        @media (max-width: 640px) {
+          section { padding-left: 16px !important; padding-right: 16px !important; }
+          header > div { padding-left: 16px !important; padding-right: 16px !important; }
+          footer > div { padding-left: 16px !important; padding-right: 16px !important; }
+          .v8-numbers-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .v8-brands-grid { grid-template-columns: 1fr !important; }
+          .v8-footer-grid { grid-template-columns: 1fr !important; }
+          .v8-ledger-head, .v8-ledger-row-grid { grid-template-columns: 1fr 1.5fr 1fr !important; }
+          .v8-ledger-head > span:nth-child(2),
+          .v8-ledger-row-grid > span:nth-child(2) { display: none; }
+          .v8-price-includes { display: none !important; }
+        }
       `}</style>
     </div>
   )

@@ -168,12 +168,12 @@ export default function SettingsPage() {
       a.href = url
       const cd = res.headers.get('content-disposition') || ''
       const m = /filename="([^"]+)"/.exec(cd)
-      a.download = m ? m[1] : `fulcra-export-${new Date().toISOString().slice(0,10)}.json`
+      a.download = m ? m[1] : `palvento-export-${new Date().toISOString().slice(0,10)}.json`
       document.body.appendChild(a); a.click(); a.remove()
       URL.revokeObjectURL(url)
       showToast('Export downloaded')
     } catch {
-      showToast('Export failed — email security@fulcra.com')
+      showToast('Export failed — email security@palvento.com')
     } finally {
       setExporting(false)
     }

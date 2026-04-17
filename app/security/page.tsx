@@ -98,7 +98,7 @@ export default function SecurityPage() {
           <div style={{ display: 'flex', gap: 20, fontSize: 13, color: C.mutedDk }}>
             <Link href="/privacy" style={{ color: C.mutedDk, textDecoration: 'none' }}>Privacy</Link>
             <Link href="/terms" style={{ color: C.mutedDk, textDecoration: 'none' }}>Terms</Link>
-            <a href="mailto:security@fulcra.com" style={{ color: C.cobalt, textDecoration: 'none', fontWeight: 600 }}>security@fulcra.com</a>
+            <a href="mailto:security@palvento.com" style={{ color: C.cobalt, textDecoration: 'none', fontWeight: 600 }}>security@palvento.com</a>
           </div>
         </div>
       </nav>
@@ -127,7 +127,7 @@ export default function SecurityPage() {
       {/* Compliance posture */}
       <Section id="compliance" label="01 / Compliance" title="Where we stand, honestly." C={C}>
         <p style={paraStyle(C)}>
-          We publish the real state of each framework — not the aspirational one. If something says <em>in progress</em>, the observation window is live but the attestation is not yet in hand. Ask security@fulcra.com for the latest evidence package.
+          We publish the real state of each framework — not the aspirational one. If something says <em>in progress</em>, the observation window is live but the attestation is not yet in hand. Ask security@palvento.com for the latest evidence package.
         </p>
         <div style={{ marginTop: 28, border: `1px solid ${C.rule}`, borderRadius: 12, overflow: 'hidden', background: C.surface }}>
           {COMPLIANCE.map((c, i) => {
@@ -168,7 +168,7 @@ export default function SecurityPage() {
       <Section id="handling" label="03 / Data handling" title="Encryption, backups, residency." C={C}>
         <div style={twoCol}>
           <Block C={C} title="Encryption in transit">
-            TLS 1.3 enforced end-to-end. HSTS preloaded on fulcra.com. Channel OAuth flows use PKCE where the marketplace supports it.
+            TLS 1.3 enforced end-to-end. HSTS preloaded on palvento.com. Channel OAuth flows use PKCE where the marketplace supports it.
           </Block>
           <Block C={C} title="Encryption at rest">
             AES-256 on Supabase managed Postgres volumes and on Vercel build artefacts. OAuth refresh tokens are additionally wrapped with a key scoped per environment.
@@ -224,10 +224,10 @@ export default function SecurityPage() {
             If personal data is affected, we notify the ICO within 72 hours (UK GDPR Art. 33) and the affected customers without undue delay.
           </Block>
           <Block C={C} title="Status page">
-            Live incidents are posted at <a href="https://status.fulcra.com" target="_blank" rel="noreferrer noopener" style={{ color: C.cobalt, textDecoration: 'none' }}>status.fulcra.com</a>. Post-mortems are published after resolution for material incidents.
+            Live incidents are posted at <a href="https://status.palvento.com" target="_blank" rel="noreferrer noopener" style={{ color: C.cobalt, textDecoration: 'none' }}>status.palvento.com</a>. Post-mortems are published after resolution for material incidents.
           </Block>
           <Block C={C} title="Contact">
-            Security <a href="mailto:security@fulcra.com" style={{ color: C.cobalt, textDecoration: 'none' }}>security@fulcra.com</a> · Press <a href="mailto:info@npx-solutions.com" style={{ color: C.cobalt, textDecoration: 'none' }}>info@npx-solutions.com</a>
+            Security <a href="mailto:security@palvento.com" style={{ color: C.cobalt, textDecoration: 'none' }}>security@palvento.com</a> · Press <a href="mailto:info@npx-solutions.com" style={{ color: C.cobalt, textDecoration: 'none' }}>info@npx-solutions.com</a>
           </Block>
         </div>
       </Section>
@@ -235,11 +235,11 @@ export default function SecurityPage() {
       {/* Bug bounty */}
       <Section id="bounty" label="07 / Responsible disclosure" title="Report a vulnerability." C={C}>
         <p style={paraStyle(C)}>
-          We welcome reports from the security community. Email <a href="mailto:security@fulcra.com" style={{ color: C.cobalt, textDecoration: 'none', fontWeight: 600 }}>security@fulcra.com</a> — PGP available on request. We respond within two business days and provide a fix timeline within ten.
+          We welcome reports from the security community. Email <a href="mailto:security@palvento.com" style={{ color: C.cobalt, textDecoration: 'none', fontWeight: 600 }}>security@palvento.com</a> — PGP available on request. We respond within two business days and provide a fix timeline within ten.
         </p>
         <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
           <Block C={C} title="In scope">
-            <code style={codeStyle(C)}>fulcra.com</code>, <code style={codeStyle(C)}>*.fulcra.com</code>, the Palvento web app, our public API, and our marketing site.
+            <code style={codeStyle(C)}>palvento.com</code>, <code style={codeStyle(C)}>*.palvento.com</code>, the Palvento web app, our public API, and our marketing site.
           </Block>
           <Block C={C} title="Out of scope">
             Denial-of-service, volumetric testing, social engineering, physical attacks, third-party infrastructure (Vercel, Supabase, Stripe), and findings that require a rooted device.
@@ -268,8 +268,8 @@ export default function SecurityPage() {
           />
           <RightCard C={C} title="DPA &amp; documents" subtitle="Available on request"
             body="Standard SCC-backed Data Processing Agreement, sub-processor list, and data-retention schedule. We will sign mutual NDAs for enterprise evaluation."
-            ctaLabel="Email security@fulcra.com"
-            ctaHref="mailto:security@fulcra.com?subject=Palvento%20DPA%20request"
+            ctaLabel="Email security@palvento.com"
+            ctaHref="mailto:security@palvento.com?subject=Palvento%20DPA%20request"
           />
         </div>
       </Section>
@@ -281,7 +281,7 @@ export default function SecurityPage() {
             If your procurement team needs something specific — a SIG lite, a custom DPA, or a security review call — reach out. We will reply the same working day.
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <a href="mailto:security@fulcra.com" style={btnPrimary(C)}>Contact security →</a>
+            <a href="mailto:security@palvento.com" style={btnPrimary(C)}>Contact security →</a>
             <Link href="/privacy" style={btnGhost(C)}>Privacy policy</Link>
           </div>
         </div>

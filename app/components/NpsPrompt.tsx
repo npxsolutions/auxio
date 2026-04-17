@@ -51,7 +51,7 @@ export function NpsPrompt() {
         if (Date.now() - createdAt < 30 * 24 * 60 * 60 * 1000) return
 
         // localstorage dismiss (90 day cooldown)
-        const dismissKey = `fulcra-nps-dismissed-${user.id}`
+        const dismissKey = `palvento-nps-dismissed-${user.id}`
         const dismissedAt = Number(localStorage.getItem(dismissKey) || '0')
         if (dismissedAt && Date.now() - dismissedAt < 90 * 24 * 60 * 60 * 1000) return
 
@@ -78,7 +78,7 @@ export function NpsPrompt() {
 
   function dismiss() {
     if (userId) {
-      localStorage.setItem(`fulcra-nps-dismissed-${userId}`, String(Date.now()))
+      localStorage.setItem(`palvento-nps-dismissed-${userId}`, String(Date.now()))
     }
     setOpen(false)
   }
@@ -93,7 +93,7 @@ export function NpsPrompt() {
         body: JSON.stringify({ score, reason }),
       })
       if (!res.ok) throw new Error(`status ${res.status}`)
-      if (userId) localStorage.setItem(`fulcra-nps-dismissed-${userId}`, String(Date.now()))
+      if (userId) localStorage.setItem(`palvento-nps-dismissed-${userId}`, String(Date.now()))
       setSubmitted(true)
       setTimeout(() => setOpen(false), 1500)
     } catch (err) {
