@@ -16,14 +16,23 @@ export const runtime = 'nodejs'
 
 const ENRICHMENT_QUOTAS: Record<Plan, number> = {
   free:           0,
-  starter:        50,
-  growth:         500,
-  scale:          Infinity,
-  enterprise:     Infinity,
-  lifetime_scale: Infinity,
+  starter:        10,
+  growth:         200,
+  scale:          99999,
+  enterprise:     99999,
+  lifetime_scale: 99999,
 }
 
-const MAX_BATCH_SIZE = 25
+const BATCH_LIMITS: Record<Plan, number> = {
+  free:           0,
+  starter:        1,
+  growth:         10,
+  scale:          50,
+  enterprise:     25,
+  lifetime_scale: 50,
+}
+
+const MAX_BATCH_SIZE = 50
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -96,12 +105,6 @@ export async function POST(request: Request) {
     if (!fields || !Array.isArray(fields) || fields.length === 0) {
       return NextResponse.json({ error: 'fields array is required' }, { status: 400 })
     }
-    if (listingIds.length > MAX_BATCH_SIZE) {
-      return NextResponse.json({
-        error: `Maximum batch size is ${MAX_BATCH_SIZE}. Got ${listingIds.length}.`,
-      }, { status: 400 })
-    }
-
     // Check plan quota
     const { data: userRow } = await supabase
       .from('users')
@@ -116,6 +119,25 @@ export async function POST(request: Request) {
       return NextResponse.json({
         error: 'Enrichment is not available on the free plan.',
       }, { status: 403 })
+    }
+
+    const batchLimit = BATCH_LIMITS[plan] ?? 1
+    if (listingIds.length > batchLimit) {
+      const upgradeHint = plan === 'starter'
+        ? ' Upgrade to Growth for up to 10 at a time.'
+        : plan === 'growth'
+          ? ' Upgrade to Scale for up to 50 at a time.'
+          : ''
+      return NextResponse.json({
+        error: `Your plan allows ${batchLimit} listing${batchLimit !== 1 ? 's' : ''} per bulk request. Got ${listingIds.length}.${upgradeHint}`,
+        batchLimit,
+      }, { status: 400 })
+    }
+
+    if (listingIds.length > MAX_BATCH_SIZE) {
+      return NextResponse.json({
+        error: `Maximum batch size is ${MAX_BATCH_SIZE}. Got ${listingIds.length}.`,
+      }, { status: 400 })
     }
 
     // Check current month usage

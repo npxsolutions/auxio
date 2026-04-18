@@ -41,6 +41,13 @@ type FieldState = {
   editedValue?: unknown
 }
 
+type QuotaInfo = {
+  plan: string
+  used: number
+  quota: number | 'unlimited'
+  remaining: number | 'unlimited'
+}
+
 type EnrichmentPanelProps = {
   open: boolean
   onClose: () => void
@@ -124,7 +131,10 @@ export default function EnrichmentPanel({
   // Applying state
   const [applying, setApplying] = useState(false)
 
-  // Reset on open
+  // Quota info
+  const [quotaInfo, setQuotaInfo] = useState<QuotaInfo | null>(null)
+
+  // Reset on open + fetch quota
   useEffect(() => {
     if (open) {
       setResult(null)
@@ -134,6 +144,20 @@ export default function EnrichmentPanel({
       setError(null)
       setLoading(false)
       setProgress(0)
+      // Fetch current quota info
+      fetch('/api/enrichment')
+        .then(r => r.json())
+        .then(data => {
+          if (data.plan) {
+            setQuotaInfo({
+              plan: data.plan,
+              used: data.usage?.used ?? 0,
+              quota: data.usage?.quota ?? 0,
+              remaining: data.usage?.remaining ?? 0,
+            })
+          }
+        })
+        .catch(() => {})
     }
   }, [open, listingIds.join(',')])
 
@@ -380,6 +404,75 @@ export default function EnrichmentPanel({
               </div>
             </div>
 
+            {/* Quota usage display */}
+            {quotaInfo && (
+              <div style={{
+                ...CARD, padding: '10px 12px', marginBottom: '12px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <div style={{ ...MONO, fontSize: '11px', color: P.muted }}>
+                  {typeof quotaInfo.quota === 'number'
+                    ? `${quotaInfo.used} of ${quotaInfo.quota} enrichments used this month`
+                    : `${quotaInfo.used} enrichments used this month`
+                  }
+                </div>
+                <div style={{
+                  ...MONO, fontSize: '10px', fontWeight: 600,
+                  color: quotaInfo.remaining === 'unlimited' ? P.emerald
+                    : typeof quotaInfo.remaining === 'number' && quotaInfo.remaining > 0 ? P.cobalt
+                    : P.oxblood,
+                }}>
+                  {quotaInfo.remaining === 'unlimited' ? 'unlimited' : `${quotaInfo.remaining} left`}
+                </div>
+              </div>
+            )}
+
+            {/* Quota exceeded upgrade prompt */}
+            {quotaInfo && typeof quotaInfo.remaining === 'number' && quotaInfo.remaining <= 0 && (
+              <div style={{
+                padding: '12px', borderRadius: '2px',
+                background: P.amberSft, color: P.ink,
+                fontSize: '12px', marginBottom: '16px', lineHeight: 1.5,
+              }}>
+                <div style={{ fontWeight: 600, marginBottom: '4px' }}>
+                  You&apos;ve used all {quotaInfo.quota} enrichments this month.
+                </div>
+                <div style={{ color: P.muted }}>
+                  {quotaInfo.plan === 'starter'
+                    ? 'Upgrade to Growth for 200/mo, plus image analysis and alt text generation.'
+                    : quotaInfo.plan === 'growth'
+                      ? 'Upgrade to Scale for unlimited AI enrichment.'
+                      : 'Contact sales to increase your quota.'
+                  }
+                </div>
+                <a
+                  href={quotaInfo.plan === 'enterprise' ? '/enterprise' : '/settings/billing'}
+                  style={{
+                    display: 'inline-block', marginTop: '8px',
+                    ...MONO, fontSize: '11px', fontWeight: 600,
+                    color: P.cobalt, textDecoration: 'none',
+                  }}
+                >
+                  Upgrade plan &rarr;
+                </a>
+              </div>
+            )}
+
+            {/* Bulk limit notice for starter */}
+            {isBulk && quotaInfo?.plan === 'starter' && listingIds.length > 1 && (
+              <div style={{
+                padding: '10px 12px', borderRadius: '2px',
+                background: P.amberSft, color: P.ink,
+                fontSize: '12px', marginBottom: '12px', lineHeight: 1.5,
+              }}>
+                <span style={{ fontWeight: 600 }}>Starter plan:</span> bulk enrichment processes 1 listing at a time.{' '}
+                <a href="/settings/billing" style={{ color: P.cobalt, textDecoration: 'none', fontWeight: 600 }}>
+                  Upgrade to Growth
+                </a>{' '}
+                for up to 10 at a time.
+              </div>
+            )}
+
             {error && (
               <div style={{
                 padding: '10px 12px', borderRadius: '2px',
@@ -392,12 +485,12 @@ export default function EnrichmentPanel({
 
             <button
               onClick={runEnrichment}
-              disabled={selectedFields.length === 0}
+              disabled={selectedFields.length === 0 || (quotaInfo !== null && typeof quotaInfo.remaining === 'number' && quotaInfo.remaining <= 0)}
               style={{
                 ...BTN_PRIMARY,
                 width: '100%',
                 padding: '10px',
-                opacity: selectedFields.length === 0 ? 0.5 : 1,
+                opacity: selectedFields.length === 0 || (quotaInfo !== null && typeof quotaInfo.remaining === 'number' && quotaInfo.remaining <= 0) ? 0.5 : 1,
                 background: P.cobalt,
                 color: 'white',
               }}

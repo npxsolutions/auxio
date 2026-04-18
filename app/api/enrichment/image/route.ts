@@ -22,12 +22,21 @@ import type { ChannelKey } from '@/app/lib/rate-limit/channel'
 export const runtime = 'nodejs'
 
 const ENRICHMENT_QUOTAS: Record<Plan, number> = {
-  free: 0,
-  starter: 50,
-  growth: 500,
-  scale: Infinity,
-  enterprise: Infinity,
-  lifetime_scale: Infinity,
+  free:           0,
+  starter:        10,
+  growth:         200,
+  scale:          99999,
+  enterprise:     99999,
+  lifetime_scale: 99999,
+}
+
+const IMAGE_ANALYSIS_QUOTAS: Record<Plan, number> = {
+  free:           0,
+  starter:        0,
+  growth:         50,
+  scale:          99999,
+  enterprise:     99999,
+  lifetime_scale: 99999,
 }
 
 // Simple in-memory rate limiter: 10 analyses per minute per user
@@ -191,13 +200,23 @@ export async function POST(request: Request) {
       .maybeSingle()
 
     const plan = (userRow?.plan ?? 'free') as Plan
-    const quota = ENRICHMENT_QUOTAS[plan] ?? 0
+    const imageQuota = IMAGE_ANALYSIS_QUOTAS[plan] ?? 0
 
-    if (quota === 0) {
+    if (plan === 'free') {
       return NextResponse.json(
         {
           error:
-            'Image analysis is not available on the free plan. Upgrade to Starter or above.',
+            'Image analysis is not available on the free plan. Upgrade to Growth or above.',
+        },
+        { status: 403 },
+      )
+    }
+
+    if (plan === 'starter') {
+      return NextResponse.json(
+        {
+          error:
+            'AI image analysis is available on Growth and above. Upgrade to unlock.',
         },
         { status: 403 },
       )
@@ -216,16 +235,17 @@ export async function POST(request: Request) {
       .from('enrichment_usage')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id)
+      .eq('fields_requested', '{image_analysis}')
       .gte('created_at', periodStart)
       .lt('created_at', periodEnd)
 
     const used = usedCount ?? 0
-    if (quota !== Infinity && used >= quota) {
+    if (imageQuota !== 99999 && used >= imageQuota) {
       return NextResponse.json(
         {
-          error: `Monthly enrichment quota reached (${used}/${quota}). Upgrade your plan for more.`,
+          error: `Monthly image analysis quota reached (${used}/${imageQuota}). Upgrade your plan for more.`,
           used,
-          quota,
+          quota: imageQuota,
         },
         { status: 429 },
       )
@@ -355,9 +375,9 @@ export async function POST(request: Request) {
       },
       usage: {
         used: used + 1,
-        quota: quota === Infinity ? 'unlimited' : quota,
+        quota: imageQuota === 99999 ? 'unlimited' : imageQuota,
         remaining:
-          quota === Infinity ? 'unlimited' : quota - used - 1,
+          imageQuota === 99999 ? 'unlimited' : imageQuota - used - 1,
       },
     })
   } catch (error: unknown) {

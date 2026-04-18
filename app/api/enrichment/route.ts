@@ -17,11 +17,11 @@ export const runtime = 'nodejs'
 
 const ENRICHMENT_QUOTAS: Record<Plan, number> = {
   free:           0,
-  starter:        50,
-  growth:         500,
-  scale:          Infinity,
-  enterprise:     Infinity,
-  lifetime_scale: Infinity,
+  starter:        10,
+  growth:         200,
+  scale:          99999,
+  enterprise:     99999,
+  lifetime_scale: 99999,
 }
 
 const VALID_FIELDS = [

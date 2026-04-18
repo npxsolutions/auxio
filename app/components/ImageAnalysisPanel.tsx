@@ -170,6 +170,17 @@ export default function ImageAnalysisPanel({
   const [data, setData] = useState<AnalysisResponse | null>(null)
   const [selectedIdx, setSelectedIdx] = useState<number>(0)
   const [channel, setChannel] = useState<string>('amazon')
+  const [userPlan, setUserPlan] = useState<string | null>(null)
+
+  // Fetch user plan on open
+  useState(() => {
+    fetch('/api/enrichment')
+      .then(r => r.json())
+      .then(d => { if (d.plan) setUserPlan(d.plan) })
+      .catch(() => {})
+  })
+
+  const isStarterOrFree = userPlan === 'starter' || userPlan === 'free'
 
   const runAnalysis = useCallback(async () => {
     setLoading(true)
@@ -324,17 +335,41 @@ export default function ImageAnalysisPanel({
               </div>
             )}
 
-            <button
-              onClick={runAnalysis}
-              disabled={images.length === 0}
-              style={{
-                ...BTN_PRIMARY, width: '100%', padding: 10,
-                opacity: images.length === 0 ? 0.5 : 1,
-                background: P.cobalt, color: 'white',
-              }}
-            >
-              Analyze {images.length} image{images.length !== 1 ? 's' : ''} with AI
-            </button>
+            {isStarterOrFree ? (
+              <div style={{
+                padding: 16, borderRadius: 2,
+                background: P.amberSft, textAlign: 'center',
+              }}>
+                <div style={{ ...HEADING, fontSize: 14, color: P.ink, marginBottom: 6 }}>
+                  AI image analysis is available on Growth and above
+                </div>
+                <div style={{ fontSize: 12, color: P.muted, lineHeight: 1.5, marginBottom: 12 }}>
+                  Deterministic rules (feed validation + image compliance) run free on all plans. Upgrade to Growth to unlock AI vision analysis, alt text generation, and hero image suggestions.
+                </div>
+                <a
+                  href="/settings/billing"
+                  style={{
+                    ...BTN_PRIMARY, display: 'inline-block',
+                    padding: '8px 20px', textDecoration: 'none',
+                    background: P.cobalt, color: 'white',
+                  }}
+                >
+                  Upgrade to Growth &rarr;
+                </a>
+              </div>
+            ) : (
+              <button
+                onClick={runAnalysis}
+                disabled={images.length === 0}
+                style={{
+                  ...BTN_PRIMARY, width: '100%', padding: 10,
+                  opacity: images.length === 0 ? 0.5 : 1,
+                  background: P.cobalt, color: 'white',
+                }}
+              >
+                Analyze {images.length} image{images.length !== 1 ? 's' : ''} with AI
+              </button>
+            )}
           </>
         )}
 
@@ -635,6 +670,23 @@ export default function ImageAnalysisPanel({
                         </div>
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {/* Hero recommendation locked for starter */}
+                {isStarterOrFree && (
+                  <div style={{
+                    ...CARD, padding: 12, marginBottom: 12,
+                    background: P.bg, opacity: 0.7,
+                  }}>
+                    <div style={{ ...LABEL, marginBottom: 6, color: P.muted }}>Hero Image Suggestion</div>
+                    <div style={{ fontSize: 12, color: P.muted, lineHeight: 1.5 }}>
+                      AI found potential hero image candidates.{' '}
+                      <a href="/settings/billing" style={{ color: P.cobalt, textDecoration: 'none', fontWeight: 600 }}>
+                        Upgrade to Growth
+                      </a>{' '}
+                      to see AI-powered hero image suggestions.
+                    </div>
                   </div>
                 )}
 

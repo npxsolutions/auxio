@@ -660,10 +660,10 @@ const QUOTES = [
 ]
 
 const PRICE_ROWS = [
-  { name: 'Starter',    price: 149,  tag: 'Shopify + 1',    desc: '$10k–$100k/mo GMV, one extra channel.',          includes: ['1 channel', 'Pre-flight validator', 'Feed health hub'],                             cta: 'Start free' },
-  { name: 'Growth',     price: 349,  tag: 'Most adopted',   desc: '$100k–$500k/mo GMV across 3–5 marketplaces.',     includes: ['5 channels', 'Category suggester', 'Aspects enrichment', 'Per-channel P&L'],        cta: 'Start free', flag: true },
-  { name: 'Scale',      price: 799,  tag: 'Unlimited',      desc: '$500k+/mo GMV, every marketplace that matters.',  includes: ['Unlimited channels', 'Rules engine', 'Priority sync', 'Reconciled payouts'],        cta: 'Start free' },
-  { name: 'Enterprise', price: null, tag: 'From $2,000/mo', desc: 'Multi-region, SSO, SLA, data residency.',         includes: ['SSO / SAML', 'Dedicated solutions architect', 'Custom SLA', 'Data residency'],      cta: 'Talk to sales' },
+  { name: 'Starter',    price: 149,  tag: 'Shopify + 1',    desc: '$10k–$100k/mo GMV, one extra channel.',          includes: ['1 channel', 'Pre-flight validator', 'Feed health hub', '10 AI enrichments/mo'],                                                        cta: 'Start free' },
+  { name: 'Growth',     price: 349,  tag: 'Most adopted',   desc: '$100k–$500k/mo GMV across 3–5 marketplaces.',     includes: ['5 channels', 'Category suggester', 'Aspects enrichment', 'Per-channel P&L', '200 AI enrichments/mo', 'Image analysis', 'Alt text generation'], cta: 'Start free', flag: true },
+  { name: 'Scale',      price: 799,  tag: 'Unlimited',      desc: '$500k+/mo GMV, every marketplace that matters.',  includes: ['Unlimited channels', 'Rules engine', 'Priority sync', 'Reconciled payouts', 'Unlimited AI enrichment', 'Unlimited image analysis'],            cta: 'Start free' },
+  { name: 'Enterprise', price: null, tag: 'From $2,000/mo', desc: 'Multi-region, SSO, SLA, data residency.',         includes: ['SSO / SAML', 'Dedicated solutions architect', 'Custom SLA', 'Data residency', 'Custom AI prompts', 'Brand voice training'],                   cta: 'Talk to sales' },
 ]
 
 // ── Connections — marketplaces + stack ──────────────────────────────────────
