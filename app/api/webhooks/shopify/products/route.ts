@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { verifyShopifyHmac } from '../../../shopify/webhooks/_verify'
 import { validateForChannel } from '@/app/lib/feed/validator'
+import { onShopifyProductChange } from '@/app/lib/sync/sync-engine'
 
 const getSupabase = () =>
   createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!, {
@@ -174,6 +175,12 @@ export async function POST(request: Request) {
     } catch (err) {
       console.error('[feed:validator] post-webhook revalidate failed:', err)
     }
+
+    // Auto-push to eBay if the listing is already published there.
+    // Fire-and-forget so we don't block the webhook 200 response to Shopify.
+    onShopifyProductChange({ userId, listingId }).catch(err => {
+      console.error('[sync:engine] post-webhook eBay re-push failed:', err)
+    })
   }
 
   return NextResponse.json({ ok: true })
