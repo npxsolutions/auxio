@@ -11,17 +11,24 @@ const getSupabase = async () => {
   )
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const supabase = await getSupabase()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data, error } = await supabase
+    let query = supabase
       .from('feed_rules')
       .select('*')
       .eq('user_id', user.id)
       .order('priority', { ascending: true })
+
+    const channel = request.nextUrl.searchParams.get('channel')
+    if (channel && channel !== 'all') {
+      query = query.or(`channel.eq.${channel},channel.eq.all,channel.is.null`)
+    }
+
+    const { data, error } = await query
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ rules: data })

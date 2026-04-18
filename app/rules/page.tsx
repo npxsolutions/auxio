@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import AppSidebar from '../components/AppSidebar'
+import { P, CARD, MONO, HEADING, LABEL, BTN_PRIMARY, BTN_SECONDARY, SECTION_HEADER } from '@/app/lib/design-system'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -109,10 +110,12 @@ const CALC_OPERATORS = [
 ]
 
 const CHANNELS = [
-  { value: 'all',     label: 'All Channels' },
-  { value: 'ebay',    label: 'eBay' },
-  { value: 'shopify', label: 'Shopify' },
-  { value: 'amazon',  label: 'Amazon' },
+  { value: 'all',         label: 'All Channels' },
+  { value: 'amazon',      label: 'Amazon' },
+  { value: 'ebay',        label: 'eBay' },
+  { value: 'etsy',        label: 'Etsy' },
+  { value: 'shopify',     label: 'Shopify' },
+  { value: 'tiktok_shop', label: 'TikTok Shop' },
 ]
 
 const RULE_PHASES: { value: RulePhase; label: string; desc: string; color: string }[] = [
@@ -122,10 +125,12 @@ const RULE_PHASES: { value: RulePhase; label: string; desc: string; color: strin
 ]
 
 const CHANNEL_COLOR: Record<string, { bg: string; text: string; dot: string }> = {
-  all:     { bg: '#f1f1ef', text: '#787774', dot: '#b8b8b5' },
-  ebay:    { bg: '#fff0e6', text: '#c05621', dot: '#e07a38' },
-  shopify: { bg: '#e8f1fb', text: '#1d5fa8', dot: '#2383e2' },
-  amazon:  { bg: '#fdf3e8', text: '#b7600a', dot: '#d9730d' },
+  all:         { bg: P.raised, text: P.muted, dot: '#b8b8b5' },
+  amazon:      { bg: '#fdf3e8', text: '#b7600a', dot: '#d9730d' },
+  ebay:        { bg: '#fff0e6', text: '#c05621', dot: '#e07a38' },
+  etsy:        { bg: P.emeraldSft, text: P.emerald, dot: P.emerald },
+  shopify:     { bg: P.cobaltSft, text: P.cobaltDk, dot: P.cobalt },
+  tiktok_shop: { bg: '#f0e8f8', text: '#6b3fa0', dot: '#8b5cf6' },
 }
 
 const SAMPLE_LISTING: Record<string, string> = {
@@ -446,9 +451,10 @@ function ChannelBadge({ channel }: { channel: string }) {
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
       background: colors.bg, color: colors.text,
-      fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 20,
+      fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: '2px',
+      letterSpacing: '0.02em',
     }}>
-      <span style={{ width: 6, height: 6, borderRadius: '50%', background: colors.dot, flexShrink: 0, display: 'inline-block' }} />
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: colors.dot, flexShrink: 0, display: 'inline-block' }} />
       {label}
     </span>
   )
@@ -905,11 +911,12 @@ export default function RulesPage() {
   const filteredRules = tabFilter === 'all' ? rules : rules.filter(r => r.channel === tabFilter)
 
   const tabStyle = (tab: string): React.CSSProperties => ({
-    padding: '6px 14px', borderRadius: 6, border: 'none',
-    background: tabFilter === tab ? '#191919' : 'transparent',
-    color: tabFilter === tab ? 'white' : '#787774',
+    padding: '6px 14px', borderRadius: '2px', border: 'none',
+    background: tabFilter === tab ? P.ink : 'transparent',
+    color: tabFilter === tab ? P.bg : P.muted,
     fontSize: 12, fontWeight: tabFilter === tab ? 600 : 400,
-    cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif', transition: 'all 0.1s',
+    cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.1s',
+    letterSpacing: '0.02em',
   })
 
   // Phase stats
@@ -917,7 +924,7 @@ export default function RulesPage() {
   rules.forEach(r => { phaseCounts[r.rule_phase ?? 'business']++ })
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: P.bg, WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -931,11 +938,12 @@ export default function RulesPage() {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 24 }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: '#191919', letterSpacing: '-0.02em', margin: 0, marginBottom: 4 }}>Feed Rules</h1>
-            <p style={{ fontSize: 13, color: '#787774', margin: 0 }}>Transform your product data before it reaches each channel</p>
+            <div style={{ ...SECTION_HEADER, marginBottom: 6 }}>TRANSFORMATION</div>
+            <h1 style={{ ...HEADING, fontSize: 28, fontWeight: 400, color: P.ink, letterSpacing: '-0.02em', margin: 0, marginBottom: 4 }}>Feed Rules</h1>
+            <p style={{ fontSize: 13, color: P.muted, margin: 0 }}>Transform your product data before it reaches each channel</p>
           </div>
           {!showForm && (
-            <button onClick={openNew} style={{ background: '#191919', color: 'white', border: 'none', borderRadius: 8, padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <button onClick={openNew} style={{ ...BTN_PRIMARY, borderRadius: '2px', padding: '10px 18px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ fontSize: 16, fontWeight: 400, lineHeight: 1 }}>+</span> New Rule
             </button>
           )}
@@ -979,11 +987,11 @@ export default function RulesPage() {
 
         {/* Channel filter tabs */}
         {!showForm && (
-          <div style={{ display: 'flex', gap: 2, marginBottom: 16, background: '#ededea', padding: 3, borderRadius: 8, width: 'fit-content' }}>
-            {[{ value: 'all', label: 'All' }, { value: 'ebay', label: 'eBay' }, { value: 'shopify', label: 'Shopify' }, { value: 'amazon', label: 'Amazon' }].map(tab => (
+          <div style={{ display: 'flex', gap: 2, marginBottom: 16, background: P.raised, padding: 3, borderRadius: '2px', width: 'fit-content' }}>
+            {[{ value: 'all', label: 'All' }, { value: 'amazon', label: 'Amazon' }, { value: 'ebay', label: 'eBay' }, { value: 'etsy', label: 'Etsy' }, { value: 'shopify', label: 'Shopify' }, { value: 'tiktok_shop', label: 'TikTok' }].map(tab => (
               <button key={tab.value} onClick={() => setTabFilter(tab.value)} style={tabStyle(tab.value)}>
                 {tab.label}
-                <span style={{ marginLeft: 5, fontSize: 10, color: tabFilter === tab.value ? 'rgba(255,255,255,0.65)' : '#b8b8b5', fontWeight: 500 }}>
+                <span style={{ marginLeft: 5, fontSize: 10, color: tabFilter === tab.value ? 'rgba(255,255,255,0.65)' : P.muted, fontWeight: 500 }}>
                   {tab.value === 'all' ? rules.length : rules.filter(r => r.channel === tab.value).length}
                 </span>
               </button>
@@ -995,18 +1003,18 @@ export default function RulesPage() {
         {loading ? (
           <div style={{ textAlign: 'center', padding: '60px 0', color: '#b8b8b5', fontSize: 14 }}>Loading…</div>
         ) : !showForm && rules.length === 0 ? (
-          <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: 12, padding: '64px 40px', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 16 }}>⚙️</div>
-            <div style={{ fontSize: 15, fontWeight: 600, color: '#191919', marginBottom: 8 }}>No feed rules yet</div>
-            <div style={{ fontSize: 13, color: '#787774', marginBottom: 24, maxWidth: 340, margin: '0 auto 24px' }}>
-              Feed rules transform your product data before it's published. Use them to truncate titles, remap values, adjust prices, and more.
+          <div style={{ ...CARD, padding: '64px 40px', textAlign: 'center' }}>
+            <div style={{ ...MONO, fontSize: 28, marginBottom: 16, color: P.muted }}>{'{ }'}</div>
+            <div style={{ fontSize: 15, fontWeight: 600, color: P.ink, marginBottom: 8 }}>No feed rules yet</div>
+            <div style={{ fontSize: 13, color: P.muted, marginBottom: 24, maxWidth: 340, margin: '0 auto 24px' }}>
+              Feed rules transform your product data before it reaches each channel. Truncate titles, remap categories, adjust prices, generate bullet points.
             </div>
-            <button onClick={openNew} style={{ background: '#191919', color: 'white', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif' }}>
+            <button onClick={openNew} style={{ ...BTN_PRIMARY, padding: '10px 20px', fontSize: 13 }}>
               Create your first rule
             </button>
           </div>
         ) : !showForm && (
-          <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: 12, overflow: 'hidden' }}>
+          <div style={{ ...CARD, overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: '#f9f9f7', borderBottom: '1px solid #ededea' }}>
