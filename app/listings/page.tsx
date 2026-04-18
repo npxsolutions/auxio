@@ -54,7 +54,8 @@ type Listing = {
 type DensityMode = 'compact' | 'comfortable' | 'spacious'
 type SortField = 'title' | 'price' | 'quantity' | 'status' | 'created_at' | 'velocity' | 'revenue_30d' | 'margin_30d' | 'days_supply' | null
 type SortDir = 'asc' | 'desc'
-type SidePanelTab = 'details' | 'channels' | 'errors'
+type SidePanelTab = 'details' | 'channels' | 'errors' | 'analytics'
+type ViewMode = 'product' | 'listing'
 
 type ListingStats = {
   units_7d:     number
@@ -103,19 +104,19 @@ const ALL_COLUMNS = [
   'performance', 'velocity', 'revenue_30d', 'margin', 'supply', 'trend',
   // v2 columns
   'margin_pct', 'sold_30d', 'primary_channel', 'channel_count', 'last_sync_at', 'tags', 'msrp',
-  'competitor_price', 'days_of_cover',
+  'competitor_price', 'days_of_cover', 'health',
 ]
 
+// Research-recommended 9 default columns: checkbox, image, product, status, channels, price, stock, health, revenue_30d
 const DEFAULT_COLUMNS = [
-  'sku', 'primary_channel', 'channel_count', 'stock', 'price', 'margin_pct', 'sold_30d', 'last_sync_at', 'status',
-  'image', 'trend',
+  'image', 'status', 'channels', 'price', 'stock', 'health', 'revenue_30d', 'trend',
 ]
 
 const COLUMN_LABELS: Record<string, string> = {
   image:       'Image',
   sku:         'SKU',
   price:       'Price',
-  stock:       'Stock',
+  stock:       'Inventory',
   condition:   'Condition',
   brand:       'Brand',
   category:    'Category',
@@ -128,6 +129,7 @@ const COLUMN_LABELS: Record<string, string> = {
   margin:      'Margin',
   supply:      'Days Supply',
   trend:       'Sales Trend',
+  health:      'Health',
   // v2
   margin_pct:       'Margin %',
   sold_30d:         'Sold (30d)',
@@ -136,7 +138,7 @@ const COLUMN_LABELS: Record<string, string> = {
   last_sync_at:     'Last sync',
   tags:             'Tags',
   msrp:             'MSRP',
-  competitor_price: 'Competitor £',
+  competitor_price: 'Competitor price',
   days_of_cover:    'Cover (d)',
 }
 
@@ -148,21 +150,31 @@ const DENSITY_ROW_HEIGHT: Record<DensityMode, number> = {
 
 const STATUS_COLOUR: Record<string, string> = {
   published: P.emerald,
+  active: P.emerald,
   failed: P.oxblood,
-  pending: P.muted,
+  error: P.oxblood,
+  pending: P.amber,
+  syncing: P.amber,
   draft: P.muted,
+  archived: P.muted,
 }
 
 const CHANNEL_LABELS: Record<string, string> = {
   shopify: 'Shopify',
   amazon: 'Amazon',
   ebay: 'eBay',
+  tiktok_shop: 'TikTok Shop',
+  etsy: 'Etsy',
 }
+
+const ALL_CHANNEL_KEYS = ['shopify', 'ebay', 'amazon', 'tiktok_shop', 'etsy']
 
 const CHANNEL_STYLE: Record<string, { bg: string; color: string }> = {
   shopify: { bg: P.cobaltSft, color: P.cobalt },
   ebay: { bg: P.amberSft, color: P.amber },
   amazon: { bg: P.amberSft, color: P.amber },
+  tiktok_shop: { bg: P.cobaltSft, color: P.cobalt },
+  etsy: { bg: P.amberSft, color: P.amber },
 }
 
 const DEFAULT_FILTERS: FilterState = {
@@ -199,7 +211,7 @@ function fmtPrice(n: number) {
 }
 
 function fmtDate(s: string) {
-  if (!s) return '—'
+  if (!s) return '--'
   return new Date(s).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
@@ -218,6 +230,14 @@ function lsSet(key: string, val: unknown) {
   try {
     localStorage.setItem(key, JSON.stringify(val))
   } catch {}
+}
+
+function channelStatusColor(status: string | undefined): string {
+  if (!status) return P.muted
+  if (status === 'published' || status === 'active') return P.emerald
+  if (status === 'pending' || status === 'syncing') return P.amber
+  if (status === 'failed' || status === 'error') return P.oxblood
+  return P.muted
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -248,26 +268,42 @@ function StatusBadge({ status }: { status: string }) {
   )
 }
 
-function ChannelDot({ channel, cs }: { channel: string; cs?: ChannelStatus }) {
-  const colour = cs ? (STATUS_COLOUR[cs.status] || P.muted) : P.rule
-  const chStyle = CHANNEL_STYLE[channel]
+// ── Channel icon with colored status dot overlay ─────────────────────────────
+function ChannelIcon({ channel, cs }: { channel: string; cs?: ChannelStatus }) {
+  const dotColor = cs ? channelStatusColor(cs.status) : P.muted
+  const label = cs
+    ? `${CHANNEL_LABELS[channel] || channel}: ${cs.status}`
+    : `${CHANNEL_LABELS[channel] || channel}: not listed`
+
   return (
     <div
-      title={cs ? `${CHANNEL_LABELS[channel] || channel}: ${cs.status}` : `${CHANNEL_LABELS[channel] || channel}: not published`}
+      title={label}
       style={{
-        width: '22px',
-        height: '22px',
-        borderRadius: '2px',
-        background: cs && chStyle ? chStyle.bg : P.ruleSoft,
-        border: `1px solid ${colour}`,
+        position: 'relative',
+        width: '20px',
+        height: '20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: P.ink,
+        color: cs ? P.ink : P.rule,
         flexShrink: 0,
+        opacity: cs ? 1 : 0.35,
       }}
     >
       {CHANNEL_SVG[channel] || null}
+      {/* Status dot overlay (bottom-right) */}
+      <span
+        style={{
+          position: 'absolute',
+          bottom: '-1px',
+          right: '-1px',
+          width: '6px',
+          height: '6px',
+          borderRadius: '50%',
+          background: dotColor,
+          border: `1px solid ${P.surface}`,
+        }}
+      />
     </div>
   )
 }
@@ -336,6 +372,49 @@ function DaysSupply({ days }: { days: number | null }) {
   )
 }
 
+// ── Health score badge ────────────────────────────────────────────────────────
+function HealthScoreBadge({ score, errorCount, onClick }: { score?: number; errorCount?: number; onClick?: () => void }) {
+  if (errorCount && errorCount > 0) {
+    return (
+      <span
+        onClick={e => { e.stopPropagation(); onClick?.() }}
+        style={{
+          ...MONO,
+          display: 'inline-flex', alignItems: 'center', gap: 4,
+          fontSize: 10, fontWeight: 600,
+          color: P.oxblood,
+          background: P.oxbloodSft,
+          padding: '2px 7px', borderRadius: 2,
+          cursor: onClick ? 'pointer' : 'default',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {errorCount} {errorCount === 1 ? 'error' : 'errors'}
+      </span>
+    )
+  }
+  if (score != null) {
+    const color = score >= 80 ? P.emerald : score >= 50 ? P.amber : P.oxblood
+    const bg = score >= 80 ? P.emeraldSft : score >= 50 ? P.amberSft : P.oxbloodSft
+    return (
+      <span
+        onClick={e => { e.stopPropagation(); onClick?.() }}
+        style={{
+          ...MONO,
+          display: 'inline-flex', alignItems: 'center', gap: 4,
+          fontSize: 10, fontWeight: 600, color, background: bg,
+          padding: '2px 7px', borderRadius: 2,
+          cursor: onClick ? 'pointer' : 'default',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {score}
+      </span>
+    )
+  }
+  return <span style={{ fontSize: 11, color: P.rule }}>--</span>
+}
+
 function EditableCell({
   value,
   onSave,
@@ -378,8 +457,8 @@ function EditableCell({
         style={{
           width: '72px',
           padding: '2px 6px',
-          border: '1px solid #2383e2',
-          borderRadius: '4px',
+          border: `1px solid ${P.cobalt}`,
+          borderRadius: '2px',
           fontSize: '13px',
           fontFamily: 'inherit',
           color: P.ink,
@@ -400,7 +479,7 @@ function EditableCell({
         color: P.ink,
         cursor: 'text',
         padding: '1px 4px',
-        borderRadius: '3px',
+        borderRadius: '2px',
         border: '1px solid transparent',
         display: 'inline-block',
         minWidth: '40px',
@@ -408,7 +487,18 @@ function EditableCell({
       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(11,15,26,0.10)' }}
       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'transparent' }}
     >
-      {prefix}{type === 'number' && prefix === '£' ? Number(value).toFixed(2) : value}
+      {prefix}{type === 'number' && prefix === '\u00a3' ? Number(value).toFixed(2) : value}
+    </div>
+  )
+}
+
+// ── Inventory indicator with color ───────────────────────────────────────────
+function InventoryCell({ qty, onSave }: { qty: number; onSave: (v: string) => void }) {
+  const color = qty === 0 ? P.oxblood : qty <= 10 ? P.amber : P.emerald
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }} onClick={e => e.stopPropagation()}>
+      <span style={STATUS_DOT(color)} />
+      <EditableCell value={qty} type="number" onSave={onSave} />
     </div>
   )
 }
@@ -462,6 +552,7 @@ export default function ListingsPage() {
   const [densityOpen, setDensityOpen] = useState(false)
   const [visibleColumns, setVisibleColumns] = useState<string[]>(DEFAULT_COLUMNS)
   const [colMenuOpen, setColMenuOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<ViewMode>('product')
 
   // Pagination
   const [pageSize, setPageSize] = useState(50)
@@ -580,8 +671,8 @@ export default function ListingsPage() {
     const chips: { label: string; key: keyof FilterState }[] = []
     if (filters.status !== 'all') chips.push({ label: `Status: ${filters.status}`, key: 'status' })
     if (filters.channel !== 'all') chips.push({ label: `Channel: ${CHANNEL_LABELS[filters.channel] || filters.channel}`, key: 'channel' })
-    if (filters.priceMin) chips.push({ label: `Min price: £${filters.priceMin}`, key: 'priceMin' })
-    if (filters.priceMax) chips.push({ label: `Max price: £${filters.priceMax}`, key: 'priceMax' })
+    if (filters.priceMin) chips.push({ label: `Min price: \u00a3${filters.priceMin}`, key: 'priceMin' })
+    if (filters.priceMax) chips.push({ label: `Max price: \u00a3${filters.priceMax}`, key: 'priceMax' })
     if (filters.hasErrors) chips.push({ label: 'Has errors', key: 'hasErrors' })
     if (filters.health === 'incomplete') chips.push({ label: 'Not published', key: 'health' })
     if (filters.missingImage) chips.push({ label: 'Missing image', key: 'missingImage' })
@@ -654,6 +745,29 @@ export default function ListingsPage() {
 
     return out
   }, [listings, filters, sortField, sortDir, healthFilter, healthByListing, stats])
+
+  // ── Listing view: flatten products into per-channel rows ──────────────────────
+
+  type ListingRow = {
+    listing: Listing
+    channelListing?: ChannelStatus
+    isGroupHeader: boolean
+  }
+
+  const listingViewRows = useMemo<ListingRow[]>(() => {
+    if (viewMode !== 'listing') return []
+    const rows: ListingRow[] = []
+    for (const product of filtered) {
+      rows.push({ listing: product, isGroupHeader: true })
+      const channels = product.listing_channels || []
+      if (channels.length > 0) {
+        for (const cl of channels) {
+          rows.push({ listing: product, channelListing: cl, isGroupHeader: false })
+        }
+      }
+    }
+    return rows
+  }, [filtered, viewMode])
 
   // Pagination
   const totalPages = Math.ceil(filtered.length / pageSize)
@@ -783,6 +897,62 @@ export default function ListingsPage() {
     showToast(`Deleted ${selected.size} listing${selected.size !== 1 ? 's' : ''}`)
   }
 
+  async function bulkChangeStatus(newStatus: string) {
+    if (!selected.size) return
+    let count = 0
+    for (const id of selected) {
+      try {
+        await fetch(`/api/listings/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus }),
+        })
+        count++
+      } catch {}
+    }
+    const data = await fetch('/api/listings').then(r => r.json())
+    setListings(data.listings || [])
+    showToast(`Updated status on ${count} product${count !== 1 ? 's' : ''}`)
+  }
+
+  async function bulkSyncNow() {
+    if (!selected.size) return
+    let count = 0
+    for (const id of selected) {
+      try {
+        await fetch(`/api/listings/${id}/publish`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ channels: Array.from(bulkChannels) }),
+        })
+        count++
+      } catch {}
+    }
+    showToast(`Syncing ${count} listing${count !== 1 ? 's' : ''}`)
+  }
+
+  async function bulkExportCSV() {
+    const selectedListings = listings.filter(l => selected.has(l.id))
+    const headers = ['Title', 'SKU', 'Price', 'Quantity', 'Status', 'Channels']
+    const rows = selectedListings.map(l => [
+      `"${l.title.replace(/"/g, '""')}"`,
+      l.sku || '',
+      l.price,
+      l.quantity,
+      l.status,
+      (l.listing_channels || []).map(c => c.channel_type).join('; '),
+    ])
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `palvento-listings-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+    showToast(`Exported ${selectedListings.length} listings`)
+  }
+
   async function applyBulkEdit() {
     if (!bulkEditField || !bulkEditValue || !selected.size) return
     let count = 0
@@ -817,7 +987,7 @@ export default function ListingsPage() {
         body: JSON.stringify({ [field]: parsed }),
       })
     } catch {
-      showToast('Failed to save — please try again')
+      showToast('Failed to save -- please try again')
     }
   }
 
@@ -833,24 +1003,26 @@ export default function ListingsPage() {
   // ── Grid template ─────────────────────────────────────────────────────────────
 
   function buildGridCols() {
-    const parts: string[] = ['36px']
+    const parts: string[] = ['36px']                            // checkbox
     if (visibleColumns.includes('image'))       parts.push('44px')
-    parts.push('1fr') // title always visible
+    parts.push('1fr')                                           // title + SKU always visible
+    if (visibleColumns.includes('status'))      parts.push('100px')
+    if (visibleColumns.includes('channels'))    parts.push('120px')
+    if (visibleColumns.includes('price'))       parts.push('90px')
+    if (visibleColumns.includes('stock'))       parts.push('80px')
+    if (visibleColumns.includes('health'))      parts.push('80px')
+    if (visibleColumns.includes('revenue_30d')) parts.push('110px')
+    if (visibleColumns.includes('trend'))       parts.push('70px')
+    // legacy / optional columns
     if (visibleColumns.includes('sku'))         parts.push('90px')
-    if (visibleColumns.includes('price'))       parts.push('80px')
-    if (visibleColumns.includes('stock'))       parts.push('65px')
     if (visibleColumns.includes('condition'))   parts.push('100px')
     if (visibleColumns.includes('brand'))       parts.push('100px')
     if (visibleColumns.includes('category'))    parts.push('110px')
-    if (visibleColumns.includes('channels'))    parts.push('100px')
-    if (visibleColumns.includes('status'))      parts.push('100px')
     if (visibleColumns.includes('created'))     parts.push('110px')
     if (visibleColumns.includes('performance')) parts.push('110px')
     if (visibleColumns.includes('velocity'))    parts.push('90px')
-    if (visibleColumns.includes('revenue_30d')) parts.push('100px')
     if (visibleColumns.includes('margin'))      parts.push('80px')
     if (visibleColumns.includes('supply'))      parts.push('90px')
-    if (visibleColumns.includes('trend'))       parts.push('70px')
     if (visibleColumns.includes('margin_pct'))       parts.push('80px')
     if (visibleColumns.includes('sold_30d'))         parts.push('80px')
     if (visibleColumns.includes('primary_channel'))  parts.push('110px')
@@ -869,8 +1041,8 @@ export default function ListingsPage() {
   // ── Sort indicator ────────────────────────────────────────────────────────────
 
   function SortIcon({ field }: { field: SortField }) {
-    if (sortField !== field) return <span style={{ color: '#ccc', fontSize: '10px', marginLeft: '4px' }}>↕</span>
-    return <span style={{ color: P.ink, fontSize: '10px', marginLeft: '4px' }}>{sortDir === 'asc' ? '↑' : '↓'}</span>
+    if (sortField !== field) return <span style={{ color: '#ccc', fontSize: '10px', marginLeft: '4px' }}>&#8597;</span>
+    return <span style={{ color: P.ink, fontSize: '10px', marginLeft: '4px' }}>{sortDir === 'asc' ? '\u2191' : '\u2193'}</span>
   }
 
   // ── Side panel listing (keep in sync) ─────────────────────────────────────────
@@ -881,6 +1053,15 @@ export default function ListingsPage() {
       if (updated) setSelectedListing(updated)
     }
   }, [listings])
+
+  // ── Price range display ───────────────────────────────────────────────────────
+
+  function priceDisplay(listing: Listing): string {
+    if (listing.min_price != null && listing.max_price != null && listing.min_price !== listing.max_price) {
+      return `\u00a3${Number(listing.min_price).toFixed(2)} -- \u00a3${Number(listing.max_price).toFixed(2)}`
+    }
+    return `\u00a3${Number(listing.price).toFixed(2)}`
+  }
 
   // ── Render ────────────────────────────────────────────────────────────────────
 
@@ -903,7 +1084,7 @@ export default function ListingsPage() {
           top: 0,
           right: 0,
           bottom: 0,
-          width: '420px',
+          width: '440px',
           background: P.surface,
           borderLeft: `1px solid ${P.rule}`,
           zIndex: 100,
@@ -928,6 +1109,9 @@ export default function ListingsPage() {
               }
             }}
             connectedChannels={connectedChannels}
+            stats={selectedListing.sku ? stats[selectedListing.sku] || null : null}
+            healthData={healthByListing.get(selectedListing.id) || null}
+            onHealthClick={() => setHealthDrawerListing(selectedListing)}
           />
         )}
       </div>
@@ -941,10 +1125,46 @@ export default function ListingsPage() {
             <div>
               <h1 style={{ ...HEADING, fontSize: '24px', fontWeight: 400, color: P.ink, margin: 0, letterSpacing: '-0.01em' }}>Listings</h1>
               <p style={{ ...MONO, fontSize: '11px', color: P.muted, margin: '4px 0 0', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                {listings.length} listing{listings.length !== 1 ? 's' : ''} -- create once, publish everywhere
+                {listings.length} product{listings.length !== 1 ? 's' : ''} -- create once, publish everywhere
               </p>
             </div>
-            <div data-tour="listings-cost" style={{ display: 'flex', gap: '8px' }}>
+            <div data-tour="listings-cost" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              {/* Product / Listing view toggle */}
+              <div style={{ display: 'flex', border: `1px solid ${P.rule}`, borderRadius: '2px', overflow: 'hidden' }}>
+                <button
+                  onClick={() => setViewMode('product')}
+                  style={{
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    background: viewMode === 'product' ? P.ink : 'white',
+                    color: viewMode === 'product' ? P.bg : P.muted,
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  Product View
+                </button>
+                <button
+                  onClick={() => setViewMode('listing')}
+                  style={{
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    background: viewMode === 'listing' ? P.ink : 'white',
+                    color: viewMode === 'listing' ? P.bg : P.muted,
+                    border: 'none',
+                    borderLeft: `1px solid ${P.rule}`,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  Listing View
+                </button>
+              </div>
               <button
                 onClick={() => router.push('/listings/import')}
                 style={{ ...BTN_SECONDARY, padding: '9px 16px' }}
@@ -995,7 +1215,7 @@ export default function ListingsPage() {
                     title="Delete view"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '12px', padding: '0 4px', marginLeft: '-6px' }}
                   >
-                    ×
+                    x
                   </button>
                 )}
               </div>
@@ -1011,18 +1231,18 @@ export default function ListingsPage() {
               </button>
               {saveViewOpen && (
                 <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '12px', zIndex: 50, boxShadow: '0 4px 16px rgba(0,0,0,0.08)', width: '220px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Save current view</div>
+                  <div style={{ ...LABEL, marginBottom: '8px' }}>Save current view</div>
                   <input
                     autoFocus
                     value={newViewName}
                     onChange={e => setNewViewName(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && saveCurrentView()}
                     placeholder="View name..."
-                    style={{ width: '100%', padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }}
+                    style={{ width: '100%', padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }}
                   />
                   <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
-                    <button onClick={saveCurrentView} style={{ flex: 1, padding: '6px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
-                    <button onClick={() => setSaveViewOpen(false)} style={{ flex: 1, padding: '6px', background: 'white', color: P.muted, border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                    <button onClick={saveCurrentView} style={{ ...BTN_PRIMARY, flex: 1, padding: '6px', fontSize: '12px' }}>Save</button>
+                    <button onClick={() => setSaveViewOpen(false)} style={{ ...BTN_SECONDARY, flex: 1, padding: '6px', fontSize: '12px' }}>Cancel</button>
                   </div>
                 </div>
               )}
@@ -1033,12 +1253,14 @@ export default function ListingsPage() {
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
             {/* Search */}
             <div style={{ position: 'relative', flex: '1 1 220px', maxWidth: '280px' }}>
-              <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: P.muted, fontSize: '13px' }}>⌕</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={P.muted} strokeWidth="2" strokeLinecap="round" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+              </svg>
               <input
                 value={filters.search}
                 onChange={e => updateFilter('search', e.target.value)}
                 placeholder="Search title, SKU, brand..."
-                style={{ width: '100%', padding: '8px 12px 8px 30px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', color: P.ink, outline: 'none', background: 'white', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '8px 12px 8px 32px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', color: P.ink, outline: 'none', background: 'white', boxSizing: 'border-box' }}
               />
             </div>
 
@@ -1061,12 +1283,13 @@ export default function ListingsPage() {
                   gap: '6px',
                 }}
               >
-                Filter{activeFilterChips.length > 0 ? ` (${activeFilterChips.length})` : ''} ▾
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
+                Filter{activeFilterChips.length > 0 ? ` (${activeFilterChips.length})` : ''}
               </button>
 
               {filterPanelOpen && (
                 <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '16px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', width: '280px', minWidth: '260px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Filters</div>
+                  <div style={{ ...LABEL, marginBottom: '12px' }}>Filters</div>
 
                   {/* Status */}
                   <div style={{ marginBottom: '12px' }}>
@@ -1080,7 +1303,7 @@ export default function ListingsPage() {
                             padding: '4px 10px',
                             fontSize: '12px',
                             border: `1px solid ${filters.status === s ? P.ink : P.rule}`,
-                            borderRadius: '5px',
+                            borderRadius: '2px',
                             background: filters.status === s ? P.ink : 'white',
                             color: filters.status === s ? 'white' : P.muted,
                             cursor: 'pointer',
@@ -1098,7 +1321,7 @@ export default function ListingsPage() {
                   <div style={{ marginBottom: '12px' }}>
                     <label style={{ fontSize: '12px', fontWeight: 600, color: P.ink, display: 'block', marginBottom: '6px' }}>Channel</label>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                      {['all', 'shopify', 'ebay', 'amazon'].map(ch => (
+                      {['all', ...ALL_CHANNEL_KEYS].map(ch => (
                         <button
                           key={ch}
                           onClick={() => updateFilter('channel', ch)}
@@ -1106,7 +1329,7 @@ export default function ListingsPage() {
                             padding: '4px 10px',
                             fontSize: '12px',
                             border: `1px solid ${filters.channel === ch ? P.ink : P.rule}`,
-                            borderRadius: '5px',
+                            borderRadius: '2px',
                             background: filters.channel === ch ? P.ink : 'white',
                             color: filters.channel === ch ? 'white' : P.muted,
                             cursor: 'pointer',
@@ -1126,18 +1349,18 @@ export default function ListingsPage() {
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <input
                         type="number"
-                        placeholder="Min £"
+                        placeholder="Min"
                         value={filters.priceMin}
                         onChange={e => updateFilter('priceMin', e.target.value)}
-                        style={{ flex: 1, padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', outline: 'none' }}
+                        style={{ flex: 1, padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '12px', fontFamily: 'inherit', outline: 'none' }}
                       />
-                      <span style={{ color: P.muted, fontSize: '12px' }}>–</span>
+                      <span style={{ color: P.muted, fontSize: '12px' }}>--</span>
                       <input
                         type="number"
-                        placeholder="Max £"
+                        placeholder="Max"
                         value={filters.priceMax}
                         onChange={e => updateFilter('priceMax', e.target.value)}
-                        style={{ flex: 1, padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', outline: 'none' }}
+                        style={{ flex: 1, padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '12px', fontFamily: 'inherit', outline: 'none' }}
                       />
                     </div>
                   </div>
@@ -1174,11 +1397,11 @@ export default function ListingsPage() {
                 onClick={() => setColMenuOpen(v => !v)}
                 style={{ padding: '8px 14px', background: 'white', color: P.ink, border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
               >
-                Columns ▾
+                Columns
               </button>
               {colMenuOpen && (
                 <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '12px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', minWidth: '170px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Columns</div>
+                  <div style={{ ...LABEL, marginBottom: '10px' }}>Columns</div>
                   {ALL_COLUMNS.map(col => (
                     <label key={col} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', cursor: 'pointer', fontSize: '13px', color: P.ink }}>
                       <input type="checkbox" checked={visibleColumns.includes(col)} onChange={() => toggleColumn(col)} style={{ accentColor: P.ink }} />
@@ -1196,7 +1419,7 @@ export default function ListingsPage() {
                 title="Row density"
                 style={{ padding: '8px 12px', background: 'white', color: P.ink, border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
               >
-                ☰
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
               </button>
               {densityOpen && (
                 <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '8px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', minWidth: '150px' }}>
@@ -1219,7 +1442,7 @@ export default function ListingsPage() {
                         cursor: 'pointer',
                       }}
                     >
-                      {density === d ? '● ' : '○ '}{d.charAt(0).toUpperCase() + d.slice(1)}
+                      {density === d ? '> ' : '  '}{d.charAt(0).toUpperCase() + d.slice(1)}
                     </button>
                   ))}
                 </div>
@@ -1227,8 +1450,64 @@ export default function ListingsPage() {
             </div>
           </div>
 
-          {/* ── Quick filter chips (v2) ── */}
+          {/* ── Quick filter pills ── */}
           <div data-tour="listings-filters" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '10px' }}>
+            {/* Status quick filters */}
+            {['all', 'published', 'draft', 'failed'].map(s => {
+              const on = filters.status === s
+              const label = s === 'all' ? `All (${counts.all})` : s === 'published' ? `Active (${counts.published})` : s === 'draft' ? `Draft (${counts.draft})` : `Has Errors (${counts.failed})`
+              return (
+                <button
+                  key={s}
+                  onClick={() => updateFilter('status', s)}
+                  style={{
+                    padding: '4px 11px',
+                    fontSize: '12px',
+                    border: `1px solid ${on ? P.ink : P.rule}`,
+                    borderRadius: '2px',
+                    background: on ? P.ink : 'white',
+                    color: on ? 'white' : P.muted,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    fontWeight: 500,
+                  }}
+                >
+                  {label}
+                </button>
+              )
+            })}
+            <span style={{ width: '1px', height: '16px', background: P.rule, margin: '0 4px' }} />
+            {/* Channel quick filters */}
+            {connectedChannels.length > 0 && connectedChannels.map(ch => {
+              const on = filters.channel === ch
+              return (
+                <button
+                  key={ch}
+                  onClick={() => updateFilter('channel', on ? 'all' : ch)}
+                  style={{
+                    padding: '4px 11px',
+                    fontSize: '12px',
+                    border: `1px solid ${on ? P.ink : P.rule}`,
+                    borderRadius: '2px',
+                    background: on ? P.ink : 'white',
+                    color: on ? 'white' : P.muted,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    fontWeight: 500,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <span style={{ display: 'inline-flex', color: on ? 'white' : P.ink }}>{CHANNEL_SVG[ch] || null}</span>
+                  {CHANNEL_LABELS[ch] || ch}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* ── v2 chip filters ── */}
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '10px' }}>
             {([
               { key: 'missingImage', label: 'Missing image' },
               { key: 'lowStock',     label: 'Low stock' },
@@ -1289,7 +1568,7 @@ export default function ListingsPage() {
                     }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '14px', lineHeight: 1, padding: '0', display: 'flex', alignItems: 'center' }}
                   >
-                    ×
+                    x
                   </button>
                 </span>
               ))}
@@ -1299,120 +1578,37 @@ export default function ListingsPage() {
             </div>
           )}
 
-          {/* ── Bulk action bar ── */}
-          {someSelected && (
-            <div style={{ background: P.ink, color: 'white', borderRadius: '9px', padding: '10px 16px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap' }}>{selected.size} selected</span>
-
-              {/* Select all results */}
-              {selected.size < filtered.length && (
-                <button
-                  onClick={selectAllResults}
-                  style={{ fontSize: '12px', color: P.muted, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}
-                >
-                  Select all {filtered.length} results
-                </button>
-              )}
-
-              <div style={{ width: '1px', height: '16px', background: '#444' }} />
-
-              {/* Channel toggles */}
-              {connectedChannels.length > 0 && (
-                <div style={{ display: 'flex', gap: '5px' }}>
-                  {connectedChannels.map(ch => {
-                    const on = bulkChannels.has(ch)
-                    return (
-                      <button
-                        key={ch}
-                        onClick={() => setBulkChannels(prev => { const n = new Set(prev); on ? n.delete(ch) : n.add(ch); return n })}
-                        style={{ padding: '4px 9px', background: on ? 'rgba(255,255,255,0.15)' : 'transparent', color: on ? 'white' : '#666', border: `1px solid ${on ? 'rgba(255,255,255,0.3)' : '#444'}`, borderRadius: '5px', fontSize: '11px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}
-                      >
-                        {CHANNEL_LABELS[ch] || ch}
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
-
-              {/* Bulk Edit dropdown */}
-              <div ref={bulkEditRef} style={{ position: 'relative' }}>
-                <button
-                  onClick={() => setBulkEditMenuOpen(v => !v)}
-                  style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
-                >
-                  Edit Field ▾
-                </button>
-                {bulkEditMenuOpen && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '8px', zIndex: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.15)', minWidth: '200px' }}>
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, padding: '4px 8px 8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Edit field</div>
-                    {(['price', 'quantity', 'condition', 'brand', 'category'] as BulkEditField[]).map(f => (
-                      <button
-                        key={f!}
-                        onClick={() => { setBulkEditField(f); setBulkEditValue('') }}
-                        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', background: bulkEditField === f ? P.bg : 'none', border: 'none', borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', color: P.ink, cursor: 'pointer', fontWeight: bulkEditField === f ? 600 : 400 }}
-                      >
-                        {f!.charAt(0).toUpperCase() + f!.slice(1)}
-                      </button>
-                    ))}
-                    {bulkEditField && (
-                      <div style={{ borderTop: '1px solid #f1f1ef', paddingTop: '8px', marginTop: '4px', padding: '8px' }}>
-                        <input
-                          autoFocus
-                          type={bulkEditField === 'price' || bulkEditField === 'quantity' ? 'number' : 'text'}
-                          placeholder={`New ${bulkEditField}...`}
-                          value={bulkEditValue}
-                          onChange={e => setBulkEditValue(e.target.value)}
-                          onKeyDown={e => e.key === 'Enter' && applyBulkEdit()}
-                          style={{ width: '100%', padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }}
-                        />
-                        <button
-                          onClick={applyBulkEdit}
-                          style={{ width: '100%', marginTop: '6px', padding: '7px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
-                        >
-                          Apply to {selected.size} product{selected.size !== 1 ? 's' : ''}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-                <button
-                  onClick={bulkPublish}
-                  disabled={bulkPublishing || bulkChannels.size === 0}
-                  style={{ padding: '7px 14px', background: P.emerald, color: 'white', border: 'none', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: (bulkPublishing || bulkChannels.size === 0) ? 'wait' : 'pointer', fontFamily: 'inherit', opacity: bulkChannels.size === 0 ? 0.5 : 1 }}
-                >
-                  {bulkPublishing ? 'Publishing...' : `Publish${bulkChannels.size ? ' to ' + Array.from(bulkChannels).map(c => CHANNEL_LABELS[c] || c).join(' + ') : '…'}`}
-                </button>
-                <button
-                  onClick={bulkDelete}
-                  disabled={bulkDeleting}
-                  style={{ padding: '7px 14px', background: P.oxblood, color: 'white', border: 'none', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: bulkDeleting ? 'wait' : 'pointer', fontFamily: 'inherit' }}
-                >
-                  {bulkDeleting ? 'Deleting...' : `Delete (${selected.size})`}
-                </button>
-                <button
-                  onClick={() => setSelected(new Set())}
-                  style={{ padding: '7px 12px', background: 'none', color: P.muted, border: '1px solid #444', borderRadius: '2px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* ── Table / Empty states ── */}
           {loading ? (
             <div style={{ textAlign: 'center', padding: '80px 0', color: P.muted, fontSize: '14px' }}>Loading...</div>
           ) : filtered.length === 0 && listings.length === 0 ? (
-            <div style={{ ...CARD, padding: '60px', textAlign: 'center' }}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke={P.muted} strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: '16px' }}><path d="M6 8h20M6 14h20M6 20h12"/></svg>
-              <h2 style={{ fontSize: '16px', fontWeight: 600, color: P.ink, margin: '0 0 8px' }}>No listings yet</h2>
-              <p style={{ fontSize: '13px', color: P.muted, margin: '0 0 24px' }}>Create your first listing and publish it to Shopify, eBay, and Amazon in one go.</p>
+            /* ── Empty state (no listings at all) ── */
+            <div style={{ ...CARD, padding: '80px 40px', textAlign: 'center' }}>
+              <h2 style={{ ...HEADING, fontSize: '28px', fontWeight: 400, color: P.ink, margin: '0 0 12px', letterSpacing: '-0.01em' }}>
+                Your catalog starts here.
+              </h2>
+              <p style={{ fontSize: '14px', color: P.muted, margin: '0 0 32px', maxWidth: '360px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
+                Connect a channel to import your first products, or create a listing manually.
+              </p>
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                <button onClick={() => router.push('/listings/import')} style={{ padding: '10px 18px', background: 'white', color: P.ink, border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Import CSV</button>
-                <button onClick={() => router.push('/listings/new')} style={{ padding: '10px 20px', background: P.ink, color: 'white', border: 'none', borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Create listing</button>
+                <button
+                  onClick={() => router.push('/onboarding')}
+                  style={{ ...BTN_PRIMARY, padding: '12px 24px', fontSize: '13px' }}
+                >
+                  Connect channel
+                </button>
+                <button
+                  onClick={() => router.push('/listings/import')}
+                  style={{ ...BTN_SECONDARY, padding: '12px 20px', fontSize: '13px' }}
+                >
+                  Import CSV
+                </button>
+                <button
+                  onClick={() => router.push('/listings/new')}
+                  style={{ ...BTN_SECONDARY, padding: '12px 20px', fontSize: '13px' }}
+                >
+                  Create listing
+                </button>
               </div>
             </div>
           ) : filtered.length === 0 ? (
@@ -1420,7 +1616,128 @@ export default function ListingsPage() {
               <div style={{ fontSize: '13px', color: P.muted }}>No listings match these filters</div>
               <button onClick={clearAllFilters} style={{ marginTop: '10px', fontSize: '13px', color: P.cobalt, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Clear all filters</button>
             </div>
+          ) : viewMode === 'listing' ? (
+            /* ── Listing View: one row per channel listing ── */
+            <div style={{ ...CARD, overflow: 'hidden' }}>
+              {/* Listing view header */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '36px 44px 1fr 120px 100px 90px 80px 80px',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '0 16px',
+                height: '36px',
+                borderBottom: `1px solid ${P.rule}`,
+                background: P.bg,
+                position: 'sticky',
+                top: 0,
+                zIndex: 10,
+              }}>
+                <div />
+                <div />
+                <div style={{ ...LABEL, fontSize: '9px', letterSpacing: '0.12em' }}>Product / Channel</div>
+                <div style={{ ...LABEL, fontSize: '9px', letterSpacing: '0.12em' }}>Channel</div>
+                <div style={{ ...LABEL, fontSize: '9px', letterSpacing: '0.12em' }}>Status</div>
+                <div style={{ ...LABEL, fontSize: '9px', letterSpacing: '0.12em' }}>Price</div>
+                <div style={{ ...LABEL, fontSize: '9px', letterSpacing: '0.12em' }}>Inventory</div>
+                <div style={{ ...LABEL, fontSize: '9px', letterSpacing: '0.12em' }}>Last Sync</div>
+              </div>
+
+              {listingViewRows.map((row, i) => {
+                if (row.isGroupHeader) {
+                  const listing = row.listing
+                  const channelCount = listing.listing_channels?.length || 0
+                  return (
+                    <div
+                      key={`group-${listing.id}`}
+                      onClick={() => { setSelectedListing(listing); setSidePanelTab('details') }}
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: '36px 44px 1fr 120px 100px 90px 80px 80px',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '0 16px',
+                        minHeight: '40px',
+                        borderBottom: `1px solid ${P.rule}`,
+                        background: P.bg,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div onClick={e => toggleOne(listing.id, e)}>
+                        <input type="checkbox" checked={selected.has(listing.id)} onChange={() => {}} style={{ accentColor: P.ink, cursor: 'pointer' }} />
+                      </div>
+                      <div style={{ width: '36px', height: '36px', borderRadius: '2px', background: P.ruleSoft, overflow: 'hidden', flexShrink: 0 }}>
+                        {listing.images?.[0] && <img src={listing.images[0]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+                      </div>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontSize: '13px', fontWeight: 600, color: P.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</div>
+                        <div style={{ ...MONO, fontSize: '11px', color: P.muted, marginTop: '1px' }}>{listing.sku || '--'}</div>
+                      </div>
+                      <div style={{ ...MONO, fontSize: '11px', color: P.muted }}>{channelCount} channel{channelCount !== 1 ? 's' : ''}</div>
+                      <div><StatusBadge status={listing.status} /></div>
+                      <div style={{ ...NUMBER, fontSize: '13px', fontWeight: 600, color: P.ink }}>{priceDisplay(listing)}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={STATUS_DOT(listing.quantity === 0 ? P.oxblood : listing.quantity <= 10 ? P.amber : P.emerald)} />
+                        <span style={{ ...NUMBER, fontSize: '13px', fontWeight: 600, color: P.ink }}>{listing.quantity}</span>
+                      </div>
+                      <div />
+                    </div>
+                  )
+                }
+
+                // Channel sub-row
+                const { listing, channelListing } = row
+                const ch = channelListing!.channel_type
+                const dotColor = channelStatusColor(channelListing!.status)
+                return (
+                  <div
+                    key={`ch-${listing.id}-${ch}`}
+                    onClick={() => { setSelectedListing(listing); setSidePanelTab('channels') }}
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '36px 44px 1fr 120px 100px 90px 80px 80px',
+                      alignItems: 'center',
+                      gap: '10px',
+                      padding: '0 16px 0 52px',
+                      minHeight: '34px',
+                      borderBottom: `1px solid ${P.ruleSoft}`,
+                      background: P.surface,
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(29,95,219,0.04)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = P.surface }}
+                  >
+                    <div />
+                    <div />
+                    <div style={{ fontSize: '12px', color: P.muted, paddingLeft: '8px' }}>
+                      {channelListing!.error_message && <span style={STATUS_DOT(P.oxblood)} />}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ color: P.ink, display: 'flex' }}>{CHANNEL_SVG[ch] || null}</span>
+                      <span style={{ fontSize: '12px', fontWeight: 500, color: P.ink }}>{CHANNEL_LABELS[ch] || ch}</span>
+                    </div>
+                    <div>
+                      <span style={{ ...MONO, display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 600, color: dotColor }}>
+                        <span style={STATUS_DOT(dotColor)} />
+                        {channelListing!.status}
+                      </span>
+                    </div>
+                    <div style={{ ...NUMBER, fontSize: '12px', color: P.ink }}>{fmtPrice(listing.price)}</div>
+                    <div style={{ ...NUMBER, fontSize: '12px', color: P.muted }}>{listing.quantity}</div>
+                    <div style={{ fontSize: '11px', color: P.muted }}>{channelListing!.last_synced_at ? fmtDate(channelListing!.last_synced_at) : '--'}</div>
+                  </div>
+                )
+              })}
+
+              {/* Pagination for listing view */}
+              <PaginationBar
+                page={page} setPage={setPage}
+                pageSize={pageSize} setPageSize={(n) => { setPageSize(n); setPage(1) }}
+                totalPages={totalPages} filteredCount={filtered.length}
+              />
+            </div>
           ) : (
+            /* ── Product View (default): one row per product ── */
             <div style={{ ...CARD, overflow: 'hidden' }}>
 
               {/* Sticky header */}
@@ -1442,21 +1759,23 @@ export default function ListingsPage() {
                 </div>
                 {visibleColumns.includes('image') && <div />}
                 <HeaderCell label="Product" field="title" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
-                {visibleColumns.includes('sku') && <HeaderCell label="SKU" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('price') && <HeaderCell label="Price" field="price" sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('stock') && <HeaderCell label="Stock" field="quantity" sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('condition') && <HeaderCell label="Condition" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('brand') && <HeaderCell label="Brand" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('category') && <HeaderCell label="Category" field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('channels')    && <HeaderCell label="Channels"      field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('status')      && <HeaderCell label="Status"         field="status"         sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('channels')    && <HeaderCell label="Channels"      field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('price')       && <HeaderCell label="Price"          field="price"          sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('stock')       && <HeaderCell label="Inventory"      field="quantity"       sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('health')      && <HeaderCell label="Health"         field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('revenue_30d') && <HeaderCell label="Revenue 30d"    field="revenue_30d"    sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('trend')       && <HeaderCell label="Trend"          field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {/* Legacy / optional columns */}
+                {visibleColumns.includes('sku')         && <HeaderCell label="SKU"            field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('condition')   && <HeaderCell label="Condition"      field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('brand')       && <HeaderCell label="Brand"          field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
+                {visibleColumns.includes('category')    && <HeaderCell label="Category"       field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('created')     && <HeaderCell label="Created"        field="created_at"     sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('performance') && <HeaderCell label="Performance"    field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('velocity')    && <HeaderCell label="Velocity (7d)"  field="velocity"       sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('revenue_30d') && <HeaderCell label="30d Revenue"    field="revenue_30d"    sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('margin')      && <HeaderCell label="Margin"         field="margin_30d"     sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('supply')      && <HeaderCell label="Days Supply"    field="days_supply"    sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
-                {visibleColumns.includes('trend')       && <HeaderCell label="Trend (7d)"     field={null}           sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('margin_pct')      && <HeaderCell label="Margin %"       field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('sold_30d')        && <HeaderCell label="Sold (30d)"     field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
                 {visibleColumns.includes('primary_channel') && <HeaderCell label="Primary"        field={null} sortField={sortField} sortDir={sortDir} onSort={handleSort} />}
@@ -1471,6 +1790,10 @@ export default function ListingsPage() {
               {/* Rows */}
               {paged.map((listing, i) => {
                 const isSelected = selected.has(listing.id)
+                const h = healthByListing.get(listing.id)
+                const s = listing.sku ? stats[listing.sku] : null
+                const daysSupply = s && s.velocity > 0 ? listing.quantity / s.velocity : null
+
                 return (
                   <div
                     key={listing.id}
@@ -1482,7 +1805,7 @@ export default function ListingsPage() {
                       gap: '10px',
                       padding: `0 16px`,
                       minHeight: `${rowH}px`,
-                      borderBottom: i < paged.length - 1 ? '1px solid #f7f7f5' : 'none',
+                      borderBottom: i < paged.length - 1 ? `1px solid ${P.ruleSoft}` : 'none',
                       background: isSelected ? P.cobaltSft : selectedListing?.id === listing.id ? P.ruleSoft : P.surface,
                       cursor: 'pointer',
                       transition: 'background 0.1s',
@@ -1495,209 +1818,207 @@ export default function ListingsPage() {
                       <input type="checkbox" checked={isSelected} onChange={() => {}} style={{ accentColor: P.ink, cursor: 'pointer' }} />
                     </div>
 
-                    {/* Thumbnail */}
+                    {/* Thumbnail (40x40) */}
                     {visibleColumns.includes('image') && (
-                      <div style={{ width: '36px', height: '36px', borderRadius: '2px', background: P.ruleSoft, overflow: 'hidden', flexShrink: 0 }}>
+                      <div style={{ width: '40px', height: '40px', borderRadius: '2px', background: P.ruleSoft, overflow: 'hidden', flexShrink: 0 }}>
                         {listing.images?.[0] && <img src={listing.images[0]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                       </div>
                     )}
 
-                    {/* Title */}
+                    {/* Product: Title (bold) + SKU underneath in muted monospace */}
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 600, color: P.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</span>
-                        {(() => {
-                          const h = healthByListing.get(listing.id)
-                          if (!h) return null
-                          return <HealthBadge score={h.health_score} onClick={() => setHealthDrawerListing(listing)} />
-                        })()}
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: P.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.title}
                       </div>
-                      {density !== 'compact' && (
-                        <div style={{ fontSize: '11px', color: P.muted, marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {[listing.condition, listing.brand].filter(Boolean).join(' · ')}
-                        </div>
-                      )}
+                      <div style={{ ...MONO, fontSize: '11px', color: P.muted, marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.sku || '--'}
+                      </div>
                     </div>
 
-                    {/* SKU */}
-                    {visibleColumns.includes('sku') && (
-                      <div style={{ fontSize: '12px', color: P.muted, fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {listing.sku || '—'}
-                      </div>
-                    )}
-
-                    {/* Price */}
-                    {visibleColumns.includes('price') && (
-                      <div onClick={e => e.stopPropagation()}>
-                        <EditableCell
-                          value={listing.price}
-                          type="number"
-                          prefix="£"
-                          onSave={v => saveCellField(listing.id, 'price', v)}
-                        />
-                      </div>
-                    )}
-
-                    {/* Stock */}
-                    {visibleColumns.includes('stock') && (
-                      <div onClick={e => e.stopPropagation()}>
-                        <EditableCell
-                          value={listing.quantity}
-                          type="number"
-                          onSave={v => saveCellField(listing.id, 'quantity', v)}
-                        />
-                      </div>
-                    )}
-
-                    {/* Condition */}
-                    {visibleColumns.includes('condition') && (
-                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {listing.condition || '—'}
-                      </div>
-                    )}
-
-                    {/* Brand */}
-                    {visibleColumns.includes('brand') && (
-                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {listing.brand || '—'}
-                      </div>
-                    )}
-
-                    {/* Category */}
-                    {visibleColumns.includes('category') && (
-                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {listing.category || '—'}
-                      </div>
-                    )}
-
-                    {/* Channels */}
-                    {visibleColumns.includes('channels') && (
-                      <div style={{ display: 'flex', gap: '4px' }}>
-                        {['shopify', 'ebay', 'amazon'].map(ch => (
-                          <ChannelDot
-                            key={ch}
-                            channel={ch}
-                            cs={listing.listing_channels?.find(lc => lc.channel_type === ch)}
-                          />
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Status */}
+                    {/* Status: dot + label */}
                     {visibleColumns.includes('status') && <StatusBadge status={listing.status} />}
 
-                    {/* Created */}
+                    {/* Channels: small SVG icons with colored status dots */}
+                    {visibleColumns.includes('channels') && (
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        {ALL_CHANNEL_KEYS.map(ch => {
+                          const cs = listing.listing_channels?.find(lc => lc.channel_type === ch)
+                          if (!cs && !connectedChannels.includes(ch)) return null
+                          return (
+                            <ChannelIcon key={ch} channel={ch} cs={cs} />
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {/* Price: show range if variants differ */}
+                    {visibleColumns.includes('price') && (
+                      <div onClick={e => e.stopPropagation()}>
+                        {listing.min_price != null && listing.max_price != null && listing.min_price !== listing.max_price ? (
+                          <span style={{ ...NUMBER, fontSize: '13px', fontWeight: 600, color: P.ink }}>
+                            {`\u00a3${Number(listing.min_price).toFixed(0)}--\u00a3${Number(listing.max_price).toFixed(0)}`}
+                          </span>
+                        ) : (
+                          <EditableCell
+                            value={listing.price}
+                            type="number"
+                            prefix={'\u00a3'}
+                            onSave={v => saveCellField(listing.id, 'price', v)}
+                          />
+                        )}
+                      </div>
+                    )}
+
+                    {/* Inventory: stock count with color indicator */}
+                    {visibleColumns.includes('stock') && (
+                      <InventoryCell
+                        qty={listing.quantity}
+                        onSave={v => saveCellField(listing.id, 'quantity', v)}
+                      />
+                    )}
+
+                    {/* Health: score badge or error count */}
+                    {visibleColumns.includes('health') && (
+                      <HealthScoreBadge
+                        score={h?.health_score}
+                        errorCount={h?.errors_count}
+                        onClick={() => setHealthDrawerListing(listing)}
+                      />
+                    )}
+
+                    {/* Revenue 30d with sparkline */}
+                    {visibleColumns.includes('revenue_30d') && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ ...NUMBER, fontSize: 12, fontWeight: 600, color: s && s.revenue_30d > 0 ? P.emerald : P.muted, whiteSpace: 'nowrap' }}>
+                          {s && s.revenue_30d > 0 ? `\u00a3${s.revenue_30d.toFixed(0)}` : '--'}
+                        </span>
+                        {s && s.sparkline && density !== 'compact' && (
+                          <Sparkline
+                            data={s.sparkline}
+                            color={s.revenue_30d > 0 ? P.cobalt : P.ruleSoft}
+                          />
+                        )}
+                      </div>
+                    )}
+
+                    {/* Trend (sparkline only) */}
+                    {visibleColumns.includes('trend') && (
+                      <div>
+                        {s ? (
+                          <Sparkline
+                            data={s.sparkline}
+                            color={s.units_7d >= 3 ? P.emerald : s.units_7d > 0 ? P.cobalt : P.ruleSoft}
+                          />
+                        ) : (
+                          <Sparkline data={[0,0,0,0,0,0,0]} color={P.ruleSoft} />
+                        )}
+                      </div>
+                    )}
+
+                    {/* ── Legacy / optional columns ── */}
+                    {visibleColumns.includes('sku') && (
+                      <div style={{ ...MONO, fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.sku || '--'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('condition') && (
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.condition || '--'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('brand') && (
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.brand || '--'}
+                      </div>
+                    )}
+                    {visibleColumns.includes('category') && (
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {listing.category || '--'}
+                      </div>
+                    )}
                     {visibleColumns.includes('created') && (
                       <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap' }}>{fmtDate(listing.created_at)}</div>
                     )}
 
                     {/* ── Performance stats (SKU-linked from transactions) ── */}
-                    {(() => {
-                      const s = listing.sku ? stats[listing.sku] : null
-                      const daysSupply = s && s.velocity > 0 ? listing.quantity / s.velocity : null
+                    {visibleColumns.includes('performance') && (
+                      <div>
+                        {s ? (
+                          <PerfTier velocity={s.velocity} units30d={s.units_30d} />
+                        ) : (
+                          <span style={{ fontSize: 11, color: P.rule }}>No data</span>
+                        )}
+                      </div>
+                    )}
 
-                      return (
-                        <>
-                          {visibleColumns.includes('performance') && (
-                            <div>
-                              {s ? (
-                                <PerfTier velocity={s.velocity} units30d={s.units_30d} />
-                              ) : (
-                                <span style={{ fontSize: 11, color: P.rule }}>No data</span>
-                              )}
-                            </div>
-                          )}
+                    {visibleColumns.includes('velocity') && (
+                      <div style={{ ...NUMBER, fontSize: 12, fontWeight: 600, color: P.ink, whiteSpace: 'nowrap' }}>
+                        {s ? (
+                          <>
+                            <span>{s.units_7d}</span>
+                            <span style={{ fontSize: 10, color: P.muted, fontWeight: 400 }}> units</span>
+                          </>
+                        ) : <span style={{ color: P.rule }}>--</span>}
+                      </div>
+                    )}
 
-                          {visibleColumns.includes('velocity') && (
-                            <div style={{ fontSize: 12, fontWeight: 600, color: P.ink, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-                              {s ? (
-                                <>
-                                  <span>{s.units_7d}</span>
-                                  <span style={{ fontSize: 10, color: P.muted, fontWeight: 400 }}> units</span>
-                                </>
-                              ) : <span style={{ color: P.rule }}>—</span>}
-                            </div>
-                          )}
+                    {visibleColumns.includes('margin') && (
+                      <div style={{ ...NUMBER, fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
+                        color: s?.margin_30d != null ? (s.margin_30d >= 20 ? P.emerald : s.margin_30d >= 10 ? P.amber : P.oxblood) : P.muted }}>
+                        {s?.margin_30d != null ? `${s.margin_30d.toFixed(1)}%` : '--'}
+                      </div>
+                    )}
 
-                          {visibleColumns.includes('revenue_30d') && (
-                            <div style={{ fontSize: 12, fontWeight: 600, color: s && s.revenue_30d > 0 ? P.emerald : '#9b9b98', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-                              {s && s.revenue_30d > 0 ? `£${s.revenue_30d.toFixed(0)}` : '—'}
-                            </div>
-                          )}
-
-                          {visibleColumns.includes('margin') && (
-                            <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
-                              color: s?.margin_30d != null ? (s.margin_30d >= 20 ? P.emerald : s.margin_30d >= 10 ? P.amber : P.oxblood) : '#9b9b98' }}>
-                              {s?.margin_30d != null ? `${s.margin_30d.toFixed(1)}%` : '—'}
-                            </div>
-                          )}
-
-                          {visibleColumns.includes('supply') && (
-                            <DaysSupply days={daysSupply} />
-                          )}
-
-                          {visibleColumns.includes('trend') && (
-                            <div>
-                              {s ? (
-                                <Sparkline
-                                  data={s.sparkline}
-                                  color={s.units_7d >= 3 ? P.emerald : s.units_7d > 0 ? P.cobalt : P.ruleSoft}
-                                />
-                              ) : (
-                                <Sparkline data={[0,0,0,0,0,0,0]} color={P.ruleSoft} />
-                              )}
-                            </div>
-                          )}
-                        </>
-                      )
-                    })()}
+                    {visibleColumns.includes('supply') && (
+                      <DaysSupply days={daysSupply} />
+                    )}
 
                     {/* ── v2 columns ── */}
                     {visibleColumns.includes('margin_pct') && (
-                      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
-                        color: listing.margin_pct != null ? (Number(listing.margin_pct) >= 20 ? P.emerald : Number(listing.margin_pct) >= 10 ? P.amber : P.oxblood) : '#9b9b98' }}>
-                        {listing.margin_pct != null ? `${Number(listing.margin_pct).toFixed(1)}%` : '—'}
+                      <div style={{ ...NUMBER, fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
+                        color: listing.margin_pct != null ? (Number(listing.margin_pct) >= 20 ? P.emerald : Number(listing.margin_pct) >= 10 ? P.amber : P.oxblood) : P.muted }}>
+                        {listing.margin_pct != null ? `${Number(listing.margin_pct).toFixed(1)}%` : '--'}
                       </div>
                     )}
                     {visibleColumns.includes('sold_30d') && (
-                      <div style={{ fontSize: 12, fontWeight: 600, color: P.ink, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                      <div style={{ ...NUMBER, fontSize: 12, fontWeight: 600, color: P.ink, whiteSpace: 'nowrap' }}>
                         {listing.sold_30d ?? 0}
                       </div>
                     )}
                     {visibleColumns.includes('primary_channel') && (
                       <div style={{ fontSize: 12, color: P.muted, whiteSpace: 'nowrap' }}>
-                        {listing.primary_channel ? (CHANNEL_LABELS[listing.primary_channel] || listing.primary_channel) : '—'}
+                        {listing.primary_channel ? (CHANNEL_LABELS[listing.primary_channel] || listing.primary_channel) : '--'}
                       </div>
                     )}
                     {visibleColumns.includes('channel_count') && (
-                      <div style={{ fontSize: 12, fontWeight: 600, color: P.ink, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                      <div style={{ ...NUMBER, fontSize: 12, fontWeight: 600, color: P.ink, whiteSpace: 'nowrap' }}>
                         {listing.channel_count ?? 0}
                       </div>
                     )}
                     {visibleColumns.includes('last_sync_at') && (
                       <div style={{ fontSize: 11, color: P.muted, whiteSpace: 'nowrap' }}>
-                        {listing.last_sync_at ? fmtDate(listing.last_sync_at) : '—'}
+                        {listing.last_sync_at ? fmtDate(listing.last_sync_at) : '--'}
                       </div>
                     )}
                     {visibleColumns.includes('tags') && (
                       <div style={{ fontSize: 11, color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {listing.tags && listing.tags.length > 0 ? listing.tags.slice(0, 3).join(', ') + (listing.tags.length > 3 ? ` +${listing.tags.length - 3}` : '') : '—'}
+                        {listing.tags && listing.tags.length > 0 ? listing.tags.slice(0, 3).join(', ') + (listing.tags.length > 3 ? ` +${listing.tags.length - 3}` : '') : '--'}
                       </div>
                     )}
                     {visibleColumns.includes('msrp') && (
-                      <div style={{ fontSize: 12, color: P.muted, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-                        {listing.msrp != null ? `£${Number(listing.msrp).toFixed(2)}` : '—'}
+                      <div style={{ ...NUMBER, fontSize: 12, color: P.muted, whiteSpace: 'nowrap' }}>
+                        {listing.msrp != null ? `\u00a3${Number(listing.msrp).toFixed(2)}` : '--'}
                       </div>
                     )}
                     {visibleColumns.includes('competitor_price') && (
-                      <div style={{ fontSize: 12, color: P.muted, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-                        {listing.competitor_price != null ? `£${Number(listing.competitor_price).toFixed(2)}` : '—'}
+                      <div style={{ ...NUMBER, fontSize: 12, color: P.muted, whiteSpace: 'nowrap' }}>
+                        {listing.competitor_price != null ? `\u00a3${Number(listing.competitor_price).toFixed(2)}` : '--'}
                       </div>
                     )}
                     {visibleColumns.includes('days_of_cover') && (
-                      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
-                        color: listing.days_of_cover != null ? (listing.days_of_cover < 7 ? P.oxblood : listing.days_of_cover < 21 ? P.amber : P.emerald) : '#9b9b98' }}>
-                        {listing.days_of_cover != null ? `${listing.days_of_cover}d` : '—'}
+                      <div style={{ ...NUMBER, fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
+                        color: listing.days_of_cover != null ? (listing.days_of_cover < 7 ? P.oxblood : listing.days_of_cover < 21 ? P.amber : P.emerald) : P.muted }}>
+                        {listing.days_of_cover != null ? `${listing.days_of_cover}d` : '--'}
                       </div>
                     )}
                   </div>
@@ -1705,71 +2026,130 @@ export default function ListingsPage() {
               })}
 
               {/* Pagination */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderTop: `1px solid ${P.rule}`, background: P.bg }}>
-                <div style={{ fontSize: '13px', color: P.muted }}>
-                  Showing {((page - 1) * pageSize) + 1}–{Math.min(page * pageSize, filtered.length)} of {filtered.length} listings
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <select
-                    value={pageSize}
-                    onChange={e => { setPageSize(Number(e.target.value)); setPage(1) }}
-                    style={{ padding: '4px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', color: P.ink, background: 'white', cursor: 'pointer' }}
-                  >
-                    {[25, 50, 100].map(n => <option key={n} value={n}>{n} per page</option>)}
-                  </select>
-                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                    <button
-                      onClick={() => setPage(p => Math.max(1, p - 1))}
-                      disabled={page === 1}
-                      style={{ padding: '5px 10px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', cursor: page === 1 ? 'default' : 'pointer', background: 'white', color: page === 1 ? '#ccc' : P.ink }}
-                    >
-                      Previous
-                    </button>
-                    {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-                      const pageNum = totalPages <= 7 ? i + 1 :
-                        page <= 4 ? i + 1 :
-                        page >= totalPages - 3 ? totalPages - 6 + i :
-                        page - 3 + i
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => setPage(pageNum)}
-                          style={{
-                            padding: '5px 9px',
-                            border: `1px solid ${page === pageNum ? P.ink : P.rule}`,
-                            borderRadius: '5px',
-                            fontSize: '12px',
-                            fontFamily: 'inherit',
-                            cursor: 'pointer',
-                            background: page === pageNum ? P.ink : 'white',
-                            color: page === pageNum ? 'white' : P.ink,
-                            fontWeight: page === pageNum ? 600 : 400,
-                          }}
-                        >
-                          {pageNum}
-                        </button>
-                      )
-                    })}
-                    {totalPages > 7 && page < totalPages - 3 && (
-                      <>
-                        <span style={{ color: P.muted, fontSize: '12px' }}>...</span>
-                        <button onClick={() => setPage(totalPages)} style={{ padding: '5px 9px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', cursor: 'pointer', background: 'white', color: P.ink }}>{totalPages}</button>
-                      </>
-                    )}
-                    <button
-                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                      disabled={page === totalPages}
-                      style={{ padding: '5px 10px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', cursor: page === totalPages ? 'default' : 'pointer', background: 'white', color: page === totalPages ? '#ccc' : P.ink }}
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <PaginationBar
+                page={page} setPage={setPage}
+                pageSize={pageSize} setPageSize={(n) => { setPageSize(n); setPage(1) }}
+                totalPages={totalPages} filteredCount={filtered.length}
+              />
             </div>
           )}
         </div>
       </main>
+
+      {/* ── Floating Bulk Action Bar ── */}
+      {someSelected && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: P.ink,
+          color: P.bg,
+          borderRadius: '2px',
+          padding: '10px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          zIndex: 200,
+          boxShadow: '0 8px 32px rgba(11,15,26,0.28)',
+          flexWrap: 'wrap',
+          maxWidth: '720px',
+        }}>
+          <span style={{ ...MONO, fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap', color: P.bg }}>
+            {selected.size} selected
+          </span>
+
+          {selected.size < filtered.length && (
+            <button
+              onClick={selectAllResults}
+              style={{ fontSize: '12px', color: 'rgba(243,240,234,0.6)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}
+            >
+              Select all {filtered.length}
+            </button>
+          )}
+
+          <span style={{ width: '1px', height: '16px', background: 'rgba(243,240,234,0.2)' }} />
+
+          {/* Bulk Edit dropdown */}
+          <div ref={bulkEditRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => setBulkEditMenuOpen(v => !v)}
+              style={{ padding: '6px 12px', background: 'rgba(243,240,234,0.1)', color: P.bg, border: '1px solid rgba(243,240,234,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              Edit fields
+            </button>
+            {bulkEditMenuOpen && (
+              <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '8px', zIndex: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.15)', minWidth: '200px' }}>
+                <div style={{ ...LABEL, padding: '4px 8px 8px' }}>Edit field</div>
+                {(['price', 'quantity', 'condition', 'brand', 'category'] as BulkEditField[]).map(f => (
+                  <button
+                    key={f!}
+                    onClick={() => { setBulkEditField(f); setBulkEditValue('') }}
+                    style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', background: bulkEditField === f ? P.bg : 'none', border: 'none', borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', color: P.ink, cursor: 'pointer', fontWeight: bulkEditField === f ? 600 : 400 }}
+                  >
+                    {f!.charAt(0).toUpperCase() + f!.slice(1)}
+                  </button>
+                ))}
+                {bulkEditField && (
+                  <div style={{ borderTop: `1px solid ${P.rule}`, paddingTop: '8px', marginTop: '4px', padding: '8px' }}>
+                    <input
+                      autoFocus
+                      type={bulkEditField === 'price' || bulkEditField === 'quantity' ? 'number' : 'text'}
+                      placeholder={`New ${bulkEditField}...`}
+                      value={bulkEditValue}
+                      onChange={e => setBulkEditValue(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && applyBulkEdit()}
+                      style={{ width: '100%', padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }}
+                    />
+                    <button
+                      onClick={applyBulkEdit}
+                      style={{ ...BTN_PRIMARY, width: '100%', marginTop: '6px', padding: '7px' }}
+                    >
+                      Apply to {selected.size} product{selected.size !== 1 ? 's' : ''}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={() => bulkChangeStatus('published')}
+            style={{ padding: '6px 12px', background: 'rgba(243,240,234,0.1)', color: P.bg, border: '1px solid rgba(243,240,234,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Change status
+          </button>
+
+          <button
+            onClick={bulkSyncNow}
+            style={{ padding: '6px 12px', background: 'rgba(243,240,234,0.1)', color: P.bg, border: '1px solid rgba(243,240,234,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Sync now
+          </button>
+
+          <button
+            onClick={bulkExportCSV}
+            style={{ padding: '6px 12px', background: 'rgba(243,240,234,0.1)', color: P.bg, border: '1px solid rgba(243,240,234,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Export CSV
+          </button>
+
+          <button
+            onClick={bulkDelete}
+            disabled={bulkDeleting}
+            style={{ padding: '6px 12px', background: P.oxblood, color: 'white', border: 'none', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: bulkDeleting ? 'wait' : 'pointer', fontFamily: 'inherit' }}
+          >
+            {bulkDeleting ? 'Deleting...' : 'Delete'}
+          </button>
+
+          <button
+            onClick={() => setSelected(new Set())}
+            style={{ padding: '6px 10px', background: 'none', color: 'rgba(243,240,234,0.5)', border: '1px solid rgba(243,240,234,0.15)', borderRadius: '2px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit', marginLeft: 'auto' }}
+          >
+            Clear
+          </button>
+        </div>
+      )}
 
       {/* [feed:validator] Listing health drawer */}
       <HealthDrawer
@@ -1778,6 +2158,80 @@ export default function ListingsPage() {
         listingId={healthDrawerListing?.id ?? null}
         listingTitle={healthDrawerListing?.title ?? null}
       />
+    </div>
+  )
+}
+
+// ─── Pagination Bar ──────────────────────────────────────────────────────────
+
+function PaginationBar({
+  page, setPage, pageSize, setPageSize, totalPages, filteredCount,
+}: {
+  page: number; setPage: (p: number) => void
+  pageSize: number; setPageSize: (n: number) => void
+  totalPages: number; filteredCount: number
+}) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderTop: `1px solid ${P.rule}`, background: P.bg }}>
+      <div style={{ ...MONO, fontSize: '12px', color: P.muted }}>
+        {((page - 1) * pageSize) + 1}--{Math.min(page * pageSize, filteredCount)} of {filteredCount}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <select
+          value={pageSize}
+          onChange={e => setPageSize(Number(e.target.value))}
+          style={{ padding: '4px 8px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '12px', fontFamily: 'inherit', color: P.ink, background: 'white', cursor: 'pointer' }}
+        >
+          {[25, 50, 100].map(n => <option key={n} value={n}>{n} per page</option>)}
+        </select>
+        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          <button
+            onClick={() => setPage(Math.max(1, page - 1))}
+            disabled={page === 1}
+            style={{ ...BTN_SECONDARY, padding: '5px 10px', fontSize: '12px', opacity: page === 1 ? 0.4 : 1 }}
+          >
+            Previous
+          </button>
+          {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+            const pageNum = totalPages <= 7 ? i + 1 :
+              page <= 4 ? i + 1 :
+              page >= totalPages - 3 ? totalPages - 6 + i :
+              page - 3 + i
+            return (
+              <button
+                key={pageNum}
+                onClick={() => setPage(pageNum)}
+                style={{
+                  padding: '5px 9px',
+                  border: `1px solid ${page === pageNum ? P.ink : P.rule}`,
+                  borderRadius: '2px',
+                  fontSize: '12px',
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                  background: page === pageNum ? P.ink : 'white',
+                  color: page === pageNum ? 'white' : P.ink,
+                  fontWeight: page === pageNum ? 600 : 400,
+                }}
+              >
+                {pageNum}
+              </button>
+            )
+          })}
+          {totalPages > 7 && page < totalPages - 3 && (
+            <>
+              <span style={{ color: P.muted, fontSize: '12px' }}>...</span>
+              <button onClick={() => setPage(totalPages)} style={{ ...BTN_SECONDARY, padding: '5px 9px', fontSize: '12px' }}>{totalPages}</button>
+            </>
+          )}
+          <button
+            onClick={() => setPage(Math.min(totalPages, page + 1))}
+            disabled={page === totalPages}
+            style={{ ...BTN_SECONDARY, padding: '5px 10px', fontSize: '12px', opacity: page === totalPages ? 0.4 : 1 }}
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -1804,6 +2258,7 @@ function HeaderCell({
       style={{
         ...LABEL,
         fontSize: '9px',
+        letterSpacing: '0.12em',
         color: active ? P.ink : P.muted,
         cursor: field ? 'pointer' : 'default',
         display: 'flex',
@@ -1816,7 +2271,7 @@ function HeaderCell({
       {label}
       {field && (
         <span style={{ color: active ? P.ink : P.rule, fontSize: '9px' }}>
-          {active ? (sortDir === 'asc' ? '↑' : '↓') : '↕'}
+          {active ? (sortDir === 'asc' ? '\u2191' : '\u2193') : '\u2195'}
         </span>
       )}
     </div>
@@ -1833,6 +2288,9 @@ function SidePanel({
   onNavigate,
   onSave,
   connectedChannels,
+  stats,
+  healthData,
+  onHealthClick,
 }: {
   listing: Listing
   tab: SidePanelTab
@@ -1841,15 +2299,18 @@ function SidePanel({
   onNavigate: () => void
   onSave: (field: string, value: string | number) => Promise<void>
   connectedChannels: string[]
+  stats: ListingStats | null
+  healthData: any
+  onHealthClick: () => void
 }) {
   const errors = listing.listing_channels?.filter(lc => lc.error_message) || []
 
   const tabStyle = (t: SidePanelTab): React.CSSProperties => ({
     ...MONO,
-    padding: '10px 16px',
-    fontSize: '11px',
+    padding: '10px 14px',
+    fontSize: '10px',
     fontWeight: 600,
-    letterSpacing: '0.06em',
+    letterSpacing: '0.08em',
     textTransform: 'uppercase',
     color: tab === t ? P.ink : P.muted,
     background: 'none',
@@ -1866,36 +2327,44 @@ function SidePanel({
       <div style={{ padding: '16px 20px 0', borderBottom: `1px solid ${P.rule}` }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: P.ink, lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</div>
-            {listing.sku && <div style={{ fontSize: '12px', color: P.muted, marginTop: '2px', fontFamily: 'monospace' }}>{listing.sku}</div>}
+            <div style={{ ...HEADING, fontSize: '18px', fontWeight: 400, color: P.ink, lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</div>
+            {listing.sku && <div style={{ ...MONO, fontSize: '12px', color: P.muted, marginTop: '2px' }}>{listing.sku}</div>}
           </div>
           <div style={{ display: 'flex', gap: '8px', flexShrink: 0, marginLeft: '12px' }}>
-            <button onClick={onNavigate} title="Open full page" style={{ background: 'none', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '4px 8px', cursor: 'pointer', fontSize: '12px', color: P.muted, fontFamily: 'inherit' }}>↗</button>
-            <button onClick={onClose} style={{ background: 'none', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '4px 8px', cursor: 'pointer', fontSize: '14px', color: P.muted }}>×</button>
+            <button onClick={onNavigate} title="Open full page" style={{ ...BTN_SECONDARY, padding: '4px 8px', fontSize: '12px' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
+            </button>
+            <button onClick={onClose} style={{ ...BTN_SECONDARY, padding: '4px 8px', fontSize: '14px' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </button>
           </div>
         </div>
-        {/* Tabs */}
+        {/* Tabs: Details | Channels | Errors | Analytics */}
         <div style={{ display: 'flex', borderBottom: 'none' }}>
           <button style={tabStyle('details')} onClick={() => setTab('details')}>Details</button>
           <button style={tabStyle('channels')} onClick={() => setTab('channels')}>
-            Channels {listing.listing_channels?.length > 0 && <span style={{ fontSize: '11px', color: P.muted, marginLeft: '3px' }}>({listing.listing_channels.length})</span>}
+            Channels {listing.listing_channels?.length > 0 && <span style={{ fontSize: '10px', color: P.muted, marginLeft: '3px' }}>({listing.listing_channels.length})</span>}
           </button>
           <button style={tabStyle('errors')} onClick={() => setTab('errors')}>
-            Errors {errors.length > 0 && <span style={{ fontSize: '11px', background: 'rgba(125,42,26,0.10)', color: P.oxblood, padding: '1px 5px', borderRadius: '2px', marginLeft: '4px' }}>{errors.length}</span>}
+            Errors {errors.length > 0 && <span style={{ fontSize: '10px', background: P.oxbloodSft, color: P.oxblood, padding: '1px 5px', borderRadius: '2px', marginLeft: '4px' }}>{errors.length}</span>}
           </button>
+          <button style={tabStyle('analytics')} onClick={() => setTab('analytics')}>Analytics</button>
         </div>
       </div>
 
       {/* Body */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
         {tab === 'details' && (
-          <DetailsTab listing={listing} onSave={onSave} />
+          <DetailsTab listing={listing} onSave={onSave} healthData={healthData} onHealthClick={onHealthClick} />
         )}
         {tab === 'channels' && (
           <ChannelsTab listing={listing} connectedChannels={connectedChannels} />
         )}
         {tab === 'errors' && (
           <ErrorsTab errors={errors} />
+        )}
+        {tab === 'analytics' && (
+          <AnalyticsTab listing={listing} stats={stats} />
         )}
       </div>
     </>
@@ -1904,7 +2373,7 @@ function SidePanel({
 
 // ─── Details Tab ──────────────────────────────────────────────────────────────
 
-function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: string, value: string | number) => Promise<void> }) {
+function DetailsTab({ listing, onSave, healthData, onHealthClick }: { listing: Listing; onSave: (field: string, value: string | number) => Promise<void>; healthData: any; onHealthClick: () => void }) {
   const [editPrice, setEditPrice] = useState(false)
   const [editStock, setEditStock] = useState(false)
   const [priceVal, setPriceVal] = useState(String(listing.price))
@@ -1915,24 +2384,17 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
     setStockVal(String(listing.quantity))
   }, [listing.price, listing.quantity])
 
-  function labelStyle() {
-    return { fontSize: '11px', fontWeight: 700, color: P.muted, textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '3px' }
-  }
-  function valStyle() {
-    return { fontSize: '13px', color: P.ink, fontWeight: 500 }
-  }
-  function rowStyle() {
-    return { marginBottom: '16px' }
-  }
+  const labelSt: React.CSSProperties = { ...LABEL, fontSize: '10px', marginBottom: '3px' }
+  const valSt: React.CSSProperties = { fontSize: '13px', color: P.ink, fontWeight: 500 }
 
   return (
     <div>
-      {/* Images */}
+      {/* Images gallery */}
       {listing.images?.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            {listing.images.slice(0, 6).map((img, i) => (
-              <div key={i} style={{ width: '72px', height: '72px', borderRadius: '2px', overflow: 'hidden', background: P.ruleSoft, border: `1px solid ${P.rule}` }}>
+            {listing.images.map((img, i) => (
+              <div key={i} style={{ width: i === 0 ? '100%' : '72px', height: i === 0 ? '200px' : '72px', borderRadius: '2px', overflow: 'hidden', background: P.ruleSoft, border: `1px solid ${P.rule}` }}>
                 <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             ))}
@@ -1940,9 +2402,17 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
         </div>
       )}
 
+      {/* Health badge */}
+      {healthData && (
+        <div style={{ marginBottom: '16px' }}>
+          <div style={labelSt}>Health</div>
+          <HealthScoreBadge score={healthData.health_score} errorCount={healthData.errors_count} onClick={onHealthClick} />
+        </div>
+      )}
+
       {/* Price */}
-      <div style={rowStyle()}>
-        <div style={labelStyle()}>Price</div>
+      <div style={{ marginBottom: '16px' }}>
+        <div style={labelSt}>Price</div>
         {editPrice ? (
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <input
@@ -1954,22 +2424,22 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
                 if (e.key === 'Enter') { onSave('price', parseFloat(priceVal)); setEditPrice(false) }
                 if (e.key === 'Escape') { setEditPrice(false); setPriceVal(String(listing.price)) }
               }}
-              style={{ padding: '5px 8px', border: '1px solid #2383e2', borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', width: '100px' }}
+              style={{ padding: '5px 8px', border: `1px solid ${P.cobalt}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', width: '100px' }}
             />
-            <button onClick={() => { onSave('price', parseFloat(priceVal)); setEditPrice(false) }} style={{ padding: '5px 10px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
-            <button onClick={() => { setEditPrice(false); setPriceVal(String(listing.price)) }} style={{ padding: '5px 10px', background: 'none', color: P.muted, border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+            <button onClick={() => { onSave('price', parseFloat(priceVal)); setEditPrice(false) }} style={{ ...BTN_PRIMARY, padding: '5px 10px', fontSize: '12px' }}>Save</button>
+            <button onClick={() => { setEditPrice(false); setPriceVal(String(listing.price)) }} style={{ ...BTN_SECONDARY, padding: '5px 10px', fontSize: '12px' }}>Cancel</button>
           </div>
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ ...valStyle(), fontSize: '16px', fontWeight: 700 }}>£{Number(listing.price).toFixed(2)}</span>
+            <span style={{ ...valSt, ...NUMBER, fontSize: '16px', fontWeight: 700 }}>{`\u00a3${Number(listing.price).toFixed(2)}`}</span>
             <button onClick={() => setEditPrice(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '12px', fontFamily: 'inherit', textDecoration: 'underline' }}>Edit</button>
           </div>
         )}
       </div>
 
       {/* Stock */}
-      <div style={rowStyle()}>
-        <div style={labelStyle()}>Stock</div>
+      <div style={{ marginBottom: '16px' }}>
+        <div style={labelSt}>Inventory</div>
         {editStock ? (
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <input
@@ -1981,14 +2451,15 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
                 if (e.key === 'Enter') { onSave('quantity', parseFloat(stockVal)); setEditStock(false) }
                 if (e.key === 'Escape') { setEditStock(false); setStockVal(String(listing.quantity)) }
               }}
-              style={{ padding: '5px 8px', border: '1px solid #2383e2', borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', width: '80px' }}
+              style={{ padding: '5px 8px', border: `1px solid ${P.cobalt}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', width: '80px' }}
             />
-            <button onClick={() => { onSave('quantity', parseFloat(stockVal)); setEditStock(false) }} style={{ padding: '5px 10px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
-            <button onClick={() => { setEditStock(false); setStockVal(String(listing.quantity)) }} style={{ padding: '5px 10px', background: 'none', color: P.muted, border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+            <button onClick={() => { onSave('quantity', parseFloat(stockVal)); setEditStock(false) }} style={{ ...BTN_PRIMARY, padding: '5px 10px', fontSize: '12px' }}>Save</button>
+            <button onClick={() => { setEditStock(false); setStockVal(String(listing.quantity)) }} style={{ ...BTN_SECONDARY, padding: '5px 10px', fontSize: '12px' }}>Cancel</button>
           </div>
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ ...valStyle(), color: listing.quantity === 0 ? P.oxblood : P.ink, fontWeight: listing.quantity === 0 ? 700 : 500 }}>
+            <span style={STATUS_DOT(listing.quantity === 0 ? P.oxblood : listing.quantity <= 10 ? P.amber : P.emerald)} />
+            <span style={{ ...valSt, color: listing.quantity === 0 ? P.oxblood : P.ink, fontWeight: listing.quantity === 0 ? 700 : 500 }}>
               {listing.quantity === 0 ? 'Out of stock' : `${listing.quantity} units`}
             </span>
             <button onClick={() => setEditStock(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '12px', fontFamily: 'inherit', textDecoration: 'underline' }}>Edit</button>
@@ -1997,7 +2468,7 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
       </div>
 
       {/* Metadata grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', borderTop: '1px solid #f1f1ef', paddingTop: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', borderTop: `1px solid ${P.rule}`, paddingTop: '16px' }}>
         {[
           { label: 'Condition', value: listing.condition },
           { label: 'Brand', value: listing.brand },
@@ -2006,8 +2477,8 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
           { label: 'Status', value: <StatusBadge status={listing.status} /> },
         ].map(({ label, value }) => (
           <div key={label}>
-            <div style={labelStyle()}>{label}</div>
-            <div style={valStyle()}>{value || <span style={{ color: '#ccc' }}>—</span>}</div>
+            <div style={labelSt}>{label}</div>
+            <div style={valSt}>{value || <span style={{ color: P.muted }}>--</span>}</div>
           </div>
         ))}
       </div>
@@ -2018,48 +2489,60 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
 // ─── Channels Tab ─────────────────────────────────────────────────────────────
 
 function ChannelsTab({ listing, connectedChannels }: { listing: Listing; connectedChannels: string[] }) {
-  const allChannels = ['shopify', 'ebay', 'amazon']
   return (
     <div>
-      {allChannels.map(ch => {
+      {ALL_CHANNEL_KEYS.map(ch => {
         const cs = listing.listing_channels?.find(lc => lc.channel_type === ch)
-        const style = CHANNEL_STYLE[ch] || { bg: P.ruleSoft, color: P.ink }
         const connected = connectedChannels.includes(ch)
+        if (!cs && !connected) return null
+        const dotColor = cs ? channelStatusColor(cs.status) : P.muted
+
         return (
           <div
             key={ch}
             style={{
-              border: `1px solid ${P.rule}`,
-              borderRadius: '2px',
+              ...CARD,
               padding: '14px',
               marginBottom: '10px',
-              background: cs ? '#fafafa' : 'white',
+              background: cs ? P.surface : P.bg,
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: cs ? '8px' : '0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: cs ? '10px' : '0' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '28px', height: '28px', borderRadius: '2px', background: style.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: P.ink }}>
-                  {CHANNEL_SVG[ch] || null}
-                </div>
+                <span style={{ color: P.ink, display: 'flex' }}>{CHANNEL_SVG[ch] || null}</span>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: P.ink }}>{CHANNEL_LABELS[ch] || ch}</span>
                 {!connected && <span style={{ fontSize: '11px', color: P.muted }}>(not connected)</span>}
               </div>
               {cs ? (
-                <StatusBadge status={cs.status} />
+                <span style={{ ...MONO, display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 600, color: dotColor, background: dotColor + '14', padding: '2px 7px', borderRadius: 2 }}>
+                  <span style={STATUS_DOT(dotColor)} />
+                  {cs.status}
+                </span>
               ) : (
-                <span style={{ fontSize: '12px', color: P.muted }}>Not published</span>
+                <span style={{ fontSize: '12px', color: P.muted }}>Not listed</span>
               )}
             </div>
             {cs && (
               <div style={{ fontSize: '12px', color: P.muted }}>
-                {cs.last_synced_at && <div>Last sync: {fmtDate(cs.last_synced_at)}</div>}
+                {/* Per-channel details */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
+                  <div>
+                    <div style={{ ...LABEL, fontSize: '9px', marginBottom: '2px' }}>Price</div>
+                    <div style={{ ...NUMBER, fontSize: '13px', color: P.ink, fontWeight: 600 }}>{`\u00a3${Number(listing.price).toFixed(2)}`}</div>
+                  </div>
+                  <div>
+                    <div style={{ ...LABEL, fontSize: '9px', marginBottom: '2px' }}>Inventory</div>
+                    <div style={{ ...NUMBER, fontSize: '13px', color: P.ink, fontWeight: 600 }}>{listing.quantity}</div>
+                  </div>
+                </div>
+                {cs.last_synced_at && <div style={{ marginBottom: '4px' }}>Last sync: {fmtDate(cs.last_synced_at)}</div>}
                 {cs.channel_url && (
-                  <a href={cs.channel_url} target="_blank" rel="noopener noreferrer" style={{ color: P.cobalt, textDecoration: 'none', marginTop: '3px', display: 'inline-block' }}>
-                    View on {CHANNEL_LABELS[ch]} →
+                  <a href={cs.channel_url} target="_blank" rel="noopener noreferrer" style={{ color: P.cobalt, textDecoration: 'none', display: 'inline-block' }}>
+                    View on {CHANNEL_LABELS[ch] || ch}
                   </a>
                 )}
                 {cs.error_message && (
-                  <div style={{ marginTop: '6px', padding: '6px 8px', background: 'rgba(125,42,26,0.06)', border: '1px solid rgba(125,42,26,0.12)', borderRadius: '5px', color: P.oxblood, fontSize: '12px' }}>
+                  <div style={{ marginTop: '8px', padding: '8px 10px', background: P.oxbloodSft, border: `1px solid ${P.oxblood}20`, borderRadius: '2px', color: P.oxblood, fontSize: '12px' }}>
                     {cs.error_message}
                   </div>
                 )}
@@ -2078,8 +2561,9 @@ function ErrorsTab({ errors }: { errors: ChannelStatus[] }) {
   if (errors.length === 0) {
     return (
       <div style={{ textAlign: 'center', padding: '40px 20px', color: P.muted }}>
-        <div style={{ fontSize: '28px', marginBottom: '8px' }}>✓</div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={P.emerald} strokeWidth="2" strokeLinecap="round" style={{ marginBottom: '8px' }}><path d="M20 6L9 17l-5-5" /></svg>
         <div style={{ fontSize: '13px' }}>No errors on this listing</div>
+        <div style={{ fontSize: '12px', color: P.muted, marginTop: '4px' }}>All channel listings are healthy</div>
       </div>
     )
   }
@@ -2089,7 +2573,7 @@ function ErrorsTab({ errors }: { errors: ChannelStatus[] }) {
       {errors.map((e, i) => (
         <div
           key={i}
-          style={{ border: '1px solid rgba(125,42,26,0.12)', borderRadius: '2px', padding: '14px', marginBottom: '10px', background: 'rgba(125,42,26,0.04)' }}
+          style={{ ...CARD, border: `1px solid ${P.oxblood}20`, padding: '14px', marginBottom: '10px', background: P.oxbloodSft }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -2098,14 +2582,104 @@ function ErrorsTab({ errors }: { errors: ChannelStatus[] }) {
             </div>
             <StatusBadge status={e.status} />
           </div>
-          <div style={{ fontSize: '12px', color: P.oxblood, lineHeight: 1.5, marginBottom: '10px' }}>{e.error_message}</div>
+          <div style={{ fontSize: '12px', color: P.oxblood, lineHeight: 1.5, marginBottom: '8px' }}>{e.error_message}</div>
+          <div style={{ ...LABEL, fontSize: '9px', marginBottom: '4px' }}>Suggested fix</div>
+          <div style={{ fontSize: '12px', color: P.muted, marginBottom: '10px', lineHeight: 1.4 }}>
+            Check that all required fields are filled and the listing meets channel requirements.
+          </div>
           <button
-            style={{ padding: '6px 12px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ ...BTN_PRIMARY, padding: '6px 12px', fontSize: '12px' }}
           >
-            Fix →
+            Fix
           </button>
         </div>
       ))}
+    </div>
+  )
+}
+
+// ─── Analytics Tab ────────────────────────────────────────────────────────────
+
+function AnalyticsTab({ listing, stats }: { listing: Listing; stats: ListingStats | null }) {
+  const labelSt: React.CSSProperties = { ...LABEL, fontSize: '9px', marginBottom: '4px' }
+
+  return (
+    <div>
+      {stats ? (
+        <>
+          {/* Revenue + units metrics */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+            <div>
+              <div style={labelSt}>Revenue (30d)</div>
+              <div style={{ ...NUMBER, fontSize: '20px', fontWeight: 800, color: stats.revenue_30d > 0 ? P.emerald : P.muted, letterSpacing: '-0.02em' }}>
+                {stats.revenue_30d > 0 ? `\u00a3${stats.revenue_30d.toFixed(0)}` : '--'}
+              </div>
+            </div>
+            <div>
+              <div style={labelSt}>Revenue (7d)</div>
+              <div style={{ ...NUMBER, fontSize: '20px', fontWeight: 800, color: stats.revenue_7d > 0 ? P.ink : P.muted, letterSpacing: '-0.02em' }}>
+                {stats.revenue_7d > 0 ? `\u00a3${stats.revenue_7d.toFixed(0)}` : '--'}
+              </div>
+            </div>
+            <div>
+              <div style={labelSt}>Units sold (30d)</div>
+              <div style={{ ...NUMBER, fontSize: '20px', fontWeight: 800, color: P.ink }}>{stats.units_30d}</div>
+            </div>
+            <div>
+              <div style={labelSt}>Velocity</div>
+              <div style={{ ...NUMBER, fontSize: '20px', fontWeight: 800, color: P.ink }}>{stats.velocity.toFixed(1)}<span style={{ fontSize: '12px', color: P.muted, fontWeight: 400 }}>/day</span></div>
+            </div>
+          </div>
+
+          {/* Margin */}
+          {stats.margin_30d != null && (
+            <div style={{ marginBottom: '20px' }}>
+              <div style={labelSt}>Margin (30d)</div>
+              <div style={{
+                ...NUMBER,
+                fontSize: '20px', fontWeight: 800,
+                color: stats.margin_30d >= 20 ? P.emerald : stats.margin_30d >= 10 ? P.amber : P.oxblood,
+              }}>
+                {stats.margin_30d.toFixed(1)}%
+              </div>
+            </div>
+          )}
+
+          {/* Days supply */}
+          {stats.velocity > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <div style={labelSt}>Days of supply</div>
+              <DaysSupply days={listing.quantity / stats.velocity} />
+            </div>
+          )}
+
+          {/* Sparkline */}
+          <div style={{ marginBottom: '20px' }}>
+            <div style={labelSt}>Sales trend (7d)</div>
+            <Sparkline data={stats.sparkline} color={stats.units_7d > 0 ? P.cobalt : P.ruleSoft} />
+          </div>
+
+          {/* Channels contributing */}
+          {stats.channels_30d.length > 0 && (
+            <div>
+              <div style={labelSt}>Revenue by channel</div>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {stats.channels_30d.map(ch => (
+                  <span key={ch} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '12px', color: P.ink }}>
+                    <span style={{ display: 'flex', color: P.ink }}>{CHANNEL_SVG[ch] || null}</span>
+                    {CHANNEL_LABELS[ch] || ch}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: P.muted }}>
+          <div style={{ fontSize: '13px' }}>No sales data yet</div>
+          <div style={{ fontSize: '12px', color: P.muted, marginTop: '4px' }}>Sales data will appear once orders come in</div>
+        </div>
+      )}
     </div>
   )
 }
