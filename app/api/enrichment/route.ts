@@ -102,6 +102,10 @@ export function computeEnrichmentScore(listing: Record<string, unknown>): number
   total++
   if (imgs >= 3) filled++
 
+  // Image count quality bonus (5+ images)
+  total++
+  if (imgs >= 5) filled++
+
   // Attributes: brand
   total++
   if (listing.brand && String(listing.brand).trim().length > 0) filled++

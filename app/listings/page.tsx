@@ -8,6 +8,7 @@ import { useTour } from '../lib/tours'
 import { createClient as createSupabaseClient } from '../lib/supabase-client'
 import { HealthSummaryStrip, HealthDrawer, HealthBadge, useListingHealth } from './HealthSummaryStrip'
 import EnrichmentPanel from '../components/EnrichmentPanel'
+import ImageAnalysisPanel from '../components/ImageAnalysisPanel'
 import { P, CARD, MONO, LABEL, HEADING, NUMBER, BTN_PRIMARY, BTN_SECONDARY, SECTION_HEADER, STATUS_DOT, CHANNEL_SVG } from '../lib/design-system'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -544,6 +545,10 @@ export default function ListingsPage() {
   const [enrichmentTitle, setEnrichmentTitle] = useState<string | undefined>(undefined)
   const [enrichmentScores, setEnrichmentScores] = useState<Map<string, number>>(new Map())
 
+  // [image-analysis] AI image analysis panel
+  const [imageAnalysisOpen, setImageAnalysisOpen] = useState(false)
+  const [imageAnalysisListing, setImageAnalysisListing] = useState<Listing | null>(null)
+
   // Sorting
   const [sortField, setSortField] = useState<SortField>(null)
   const [sortDir, setSortDir] = useState<SortDir>('asc')
@@ -996,6 +1001,11 @@ export default function ListingsPage() {
     setEnrichmentOpen(true)
   }
 
+  function openImageAnalysis(listing: Listing) {
+    setImageAnalysisListing(listing)
+    setImageAnalysisOpen(true)
+  }
+
   async function applyEnrichment(listingId: string, fields: Record<string, unknown>) {
     // Map enrichment field names to listing column names
     const patch: Record<string, unknown> = {}
@@ -1032,6 +1042,8 @@ export default function ListingsPage() {
       total++; if (String(l.title ?? '').length >= 20) filled++
       total++; if (l.images?.length >= 1) filled++
       total++; if (l.images?.length >= 3) filled++
+      // Image quality bonus: 5+ images is a strong signal
+      total++; if (l.images?.length >= 5) filled++
       total++; if (l.brand && l.brand.trim().length > 0) filled++
       total++; if (l.condition && l.condition.trim().length > 0) filled++
       total++; if (l.category && l.category.trim().length > 0) filled++
@@ -1966,6 +1978,20 @@ export default function ListingsPage() {
                             {enrichmentScores.get(listing.id)}%
                           </span>
                         )}
+                        {listing.images?.length > 0 && (
+                          <span
+                            onClick={e => { e.stopPropagation(); openImageAnalysis(listing) }}
+                            title="Analyze images with AI"
+                            style={{
+                              ...MONO, fontSize: 9, fontWeight: 600,
+                              color: P.muted, background: P.ruleSoft,
+                              padding: '2px 5px', borderRadius: 2,
+                              cursor: 'pointer', whiteSpace: 'nowrap' as const,
+                            }}
+                          >
+                            IMG
+                          </span>
+                        )}
                       </div>
                     )}
 
@@ -2256,6 +2282,15 @@ export default function ListingsPage() {
         listingIds={enrichmentListingIds}
         listingTitle={enrichmentTitle}
         onApply={applyEnrichment}
+      />
+
+      {/* [image-analysis] AI image analysis panel */}
+      <ImageAnalysisPanel
+        open={imageAnalysisOpen}
+        onClose={() => { setImageAnalysisOpen(false); setImageAnalysisListing(null) }}
+        listingId={imageAnalysisListing?.id ?? ''}
+        listingTitle={imageAnalysisListing?.title}
+        images={imageAnalysisListing?.images ?? []}
       />
     </div>
   )
