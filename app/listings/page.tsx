@@ -7,6 +7,7 @@ import TourTrigger from '../components/TourTrigger'
 import { useTour } from '../lib/tours'
 import { createClient as createSupabaseClient } from '../lib/supabase-client'
 import { HealthSummaryStrip, HealthDrawer, HealthBadge, useListingHealth } from './HealthSummaryStrip'
+import { P, CARD, MONO, LABEL, HEADING, NUMBER, BTN_PRIMARY, BTN_SECONDARY, SECTION_HEADER, STATUS_DOT, CHANNEL_SVG } from '../lib/design-system'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -146,10 +147,10 @@ const DENSITY_ROW_HEIGHT: Record<DensityMode, number> = {
 }
 
 const STATUS_COLOUR: Record<string, string> = {
-  published: '#0f7b6c',
-  failed: '#c9372c',
-  pending: '#9b9b98',
-  draft: '#9b9b98',
+  published: P.emerald,
+  failed: P.oxblood,
+  pending: P.muted,
+  draft: P.muted,
 }
 
 const CHANNEL_LABELS: Record<string, string> = {
@@ -159,15 +160,9 @@ const CHANNEL_LABELS: Record<string, string> = {
 }
 
 const CHANNEL_STYLE: Record<string, { bg: string; color: string }> = {
-  shopify: { bg: '#e8f1fb', color: '#2383e2' },
-  ebay: { bg: '#fff0e6', color: '#d9730d' },
-  amazon: { bg: '#fff3e6', color: '#d9730d' },
-}
-
-const CHANNEL_ICONS: Record<string, string> = {
-  shopify: '🛍️',
-  amazon: '📦',
-  ebay: '🛒',
+  shopify: { bg: P.cobaltSft, color: P.cobalt },
+  ebay: { bg: P.amberSft, color: P.amber },
+  amazon: { bg: P.amberSft, color: P.amber },
 }
 
 const DEFAULT_FILTERS: FilterState = {
@@ -228,52 +223,57 @@ function lsSet(key: string, val: unknown) {
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: string }) {
-  const color = STATUS_COLOUR[status] || '#9b9b98'
+  const color = STATUS_COLOUR[status] || P.muted
   return (
     <span
       style={{
-        display: 'inline-block',
-        fontSize: '11px',
+        ...MONO,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '4px',
+        fontSize: '10px',
         fontWeight: 600,
         color,
-        background: color + '18',
+        background: color + '14',
         padding: '2px 7px',
-        borderRadius: '4px',
+        borderRadius: '2px',
         whiteSpace: 'nowrap',
-        letterSpacing: '0.02em',
+        letterSpacing: '0.06em',
+        textTransform: 'uppercase',
       }}
     >
-      {status.replace('_', ' ').toUpperCase()}
+      <span style={STATUS_DOT(color)} />
+      {status.replace('_', ' ')}
     </span>
   )
 }
 
 function ChannelDot({ channel, cs }: { channel: string; cs?: ChannelStatus }) {
-  const colour = cs ? (STATUS_COLOUR[cs.status] || '#9b9b98') : '#e0e0dc'
-  const style = CHANNEL_STYLE[channel]
+  const colour = cs ? (STATUS_COLOUR[cs.status] || P.muted) : P.rule
+  const chStyle = CHANNEL_STYLE[channel]
   return (
     <div
       title={cs ? `${CHANNEL_LABELS[channel] || channel}: ${cs.status}` : `${CHANNEL_LABELS[channel] || channel}: not published`}
       style={{
         width: '22px',
         height: '22px',
-        borderRadius: '5px',
-        background: cs && style ? style.bg : '#f1f1ef',
-        border: `1px solid ${colour}50`,
+        borderRadius: '2px',
+        background: cs && chStyle ? chStyle.bg : P.ruleSoft,
+        border: `1px solid ${colour}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '11px',
+        color: P.ink,
         flexShrink: 0,
       }}
     >
-      {CHANNEL_ICONS[channel]}
+      {CHANNEL_SVG[channel] || null}
     </div>
   )
 }
 
 // ── Sparkline: 7-bar mini chart ───────────────────────────────────────────────
-function Sparkline({ data, color = '#5b52f5' }: { data: number[]; color?: string }) {
+function Sparkline({ data, color = P.cobalt }: { data: number[]; color?: string }) {
   const max = Math.max(...data, 1)
   const W = 56, H = 22, BAR = 5, GAP = 3
   return (
@@ -288,7 +288,7 @@ function Sparkline({ data, color = '#5b52f5' }: { data: number[]; color?: string
             width={BAR}
             height={barH}
             rx={1.5}
-            fill={v > 0 ? color : '#e8e8e5'}
+            fill={v > 0 ? color : P.ruleSoft}
             opacity={v > 0 ? (0.4 + 0.6 * (v / max)) : 1}
           />
         )
@@ -299,26 +299,27 @@ function Sparkline({ data, color = '#5b52f5' }: { data: number[]; color?: string
 
 // ── Performance tier badge ────────────────────────────────────────────────────
 function PerfTier({ velocity, units30d }: { velocity: number; units30d: number }) {
-  let label: string, bg: string, color: string, dot: string
+  let label: string, bg: string, color: string
 
   if (velocity >= 3) {
-    label = 'Top Seller'; bg = '#ecfdf5'; color = '#059669'; dot = '#059669'
+    label = 'Top Seller'; bg = P.emeraldSft; color = P.emerald
   } else if (velocity >= 0.5 || units30d >= 3) {
-    label = 'Active'; bg = '#eff6ff'; color = '#2563eb'; dot = '#2563eb'
+    label = 'Active'; bg = P.cobaltSft; color = P.cobalt
   } else if (units30d > 0) {
-    label = 'Slow'; bg = '#fffbeb'; color = '#d97706'; dot = '#d97706'
+    label = 'Slow'; bg = P.amberSft; color = P.amber
   } else {
-    label = 'Stale'; bg = '#f9f9f8'; color = '#9b9b98'; dot = '#d4d4d0'
+    label = 'Stale'; bg = P.ruleSoft; color = P.muted
   }
 
   return (
     <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 5,
-      fontSize: 11, fontWeight: 600, color,
-      background: bg, padding: '3px 8px', borderRadius: 5,
-      whiteSpace: 'nowrap',
+      ...MONO,
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      fontSize: 10, fontWeight: 600, color,
+      background: bg, padding: '2px 7px', borderRadius: 2,
+      whiteSpace: 'nowrap', letterSpacing: '0.04em', textTransform: 'uppercase',
     }}>
-      <span style={{ width: 6, height: 6, borderRadius: '50%', background: dot, display: 'inline-block', flexShrink: 0 }} />
+      <span style={STATUS_DOT(color)} />
       {label}
     </span>
   )
@@ -326,10 +327,10 @@ function PerfTier({ velocity, units30d }: { velocity: number; units30d: number }
 
 // ── Days supply indicator ─────────────────────────────────────────────────────
 function DaysSupply({ days }: { days: number | null }) {
-  if (days === null) return <span style={{ fontSize: 12, color: '#9b9b98' }}>—</span>
-  const color = days < 7 ? '#dc2626' : days < 21 ? '#d97706' : '#059669'
+  if (days === null) return <span style={{ fontSize: 12, color: P.muted }}>--</span>
+  const color = days < 7 ? P.oxblood : days < 21 ? P.amber : P.emerald
   return (
-    <span style={{ fontSize: 12, fontWeight: 600, color, fontFamily: 'monospace' }}>
+    <span style={{ ...NUMBER, fontSize: 12, fontWeight: 600, color }}>
       {days > 999 ? '999+' : Math.round(days)}d
     </span>
   )
@@ -380,8 +381,8 @@ function EditableCell({
           border: '1px solid #2383e2',
           borderRadius: '4px',
           fontSize: '13px',
-          fontFamily: 'Inter, sans-serif',
-          color: '#191919',
+          fontFamily: 'inherit',
+          color: P.ink,
           outline: 'none',
           background: 'white',
         }}
@@ -396,7 +397,7 @@ function EditableCell({
       style={{
         fontSize: '13px',
         fontWeight: 600,
-        color: '#191919',
+        color: P.ink,
         cursor: 'text',
         padding: '1px 4px',
         borderRadius: '3px',
@@ -404,7 +405,7 @@ function EditableCell({
         display: 'inline-block',
         minWidth: '40px',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#e8e8e5' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(11,15,26,0.10)' }}
       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'transparent' }}
     >
       {prefix}{type === 'number' && prefix === '£' ? Number(value).toFixed(2) : value}
@@ -869,7 +870,7 @@ export default function ListingsPage() {
 
   function SortIcon({ field }: { field: SortField }) {
     if (sortField !== field) return <span style={{ color: '#ccc', fontSize: '10px', marginLeft: '4px' }}>↕</span>
-    return <span style={{ color: '#191919', fontSize: '10px', marginLeft: '4px' }}>{sortDir === 'asc' ? '↑' : '↓'}</span>
+    return <span style={{ color: P.ink, fontSize: '10px', marginLeft: '4px' }}>{sortDir === 'asc' ? '↑' : '↓'}</span>
   }
 
   // ── Side panel listing (keep in sync) ─────────────────────────────────────────
@@ -884,13 +885,13 @@ export default function ListingsPage() {
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: P.bg, WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <TourTrigger tourId="listings" userId={tourUserId} />
 
       {/* Toast */}
       {toast && (
-        <div style={{ position: 'fixed', bottom: '24px', right: '24px', background: '#191919', color: 'white', padding: '12px 18px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, zIndex: 500, boxShadow: '0 4px 16px rgba(0,0,0,0.18)' }}>
+        <div style={{ position: 'fixed', bottom: '24px', right: '24px', background: P.ink, color: P.bg, padding: '12px 18px', borderRadius: '2px', fontSize: '13px', fontWeight: 500, zIndex: 500, boxShadow: '0 4px 16px rgba(11,15,26,0.18)' }}>
           {toast}
         </div>
       )}
@@ -903,8 +904,8 @@ export default function ListingsPage() {
           right: 0,
           bottom: 0,
           width: '420px',
-          background: 'white',
-          borderLeft: '1px solid #e8e8e5',
+          background: P.surface,
+          borderLeft: `1px solid ${P.rule}`,
           zIndex: 100,
           padding: 0,
           transform: selectedListing ? 'translateX(0)' : 'translateX(100%)',
@@ -938,21 +939,21 @@ export default function ListingsPage() {
           {/* ── Header ── */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
             <div>
-              <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#191919', margin: 0, letterSpacing: '-0.02em' }}>Listings</h1>
-              <p style={{ fontSize: '13px', color: '#787774', margin: '4px 0 0' }}>
-                {listings.length} listing{listings.length !== 1 ? 's' : ''} · create once, publish everywhere
+              <h1 style={{ ...HEADING, fontSize: '24px', fontWeight: 400, color: P.ink, margin: 0, letterSpacing: '-0.01em' }}>Listings</h1>
+              <p style={{ ...MONO, fontSize: '11px', color: P.muted, margin: '4px 0 0', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                {listings.length} listing{listings.length !== 1 ? 's' : ''} -- create once, publish everywhere
               </p>
             </div>
             <div data-tour="listings-cost" style={{ display: 'flex', gap: '8px' }}>
               <button
                 onClick={() => router.push('/listings/import')}
-                style={{ padding: '9px 16px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{ ...BTN_SECONDARY, padding: '9px 16px' }}
               >
                 Import CSV
               </button>
               <button
                 onClick={() => router.push('/listings/new')}
-                style={{ padding: '9px 18px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{ ...BTN_PRIMARY, padding: '9px 18px' }}
               >
                 + New listing
               </button>
@@ -967,7 +968,7 @@ export default function ListingsPage() {
           />
 
           {/* ── Saved View Tabs ── */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '16px', borderBottom: '1px solid #e8e8e5', paddingBottom: '0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '16px', borderBottom: `1px solid ${P.rule}`, paddingBottom: '0' }}>
             {views.map(view => (
               <div key={view.id} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                 <button
@@ -976,12 +977,12 @@ export default function ListingsPage() {
                     padding: '7px 14px',
                     fontSize: '13px',
                     fontWeight: activeViewId === view.id ? 600 : 500,
-                    color: activeViewId === view.id ? '#191919' : '#787774',
+                    color: activeViewId === view.id ? P.ink : P.muted,
                     background: 'none',
                     border: 'none',
-                    borderBottom: activeViewId === view.id ? '2px solid #191919' : '2px solid transparent',
+                    borderBottom: activeViewId === view.id ? `2px solid ${P.cobalt}` : '2px solid transparent',
                     cursor: 'pointer',
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'inherit',
                     marginBottom: '-1px',
                     borderRadius: '0',
                   }}
@@ -992,7 +993,7 @@ export default function ListingsPage() {
                   <button
                     onClick={() => deleteView(view.id)}
                     title="Delete view"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9b9b98', fontSize: '12px', padding: '0 4px', marginLeft: '-6px' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '12px', padding: '0 4px', marginLeft: '-6px' }}
                   >
                     ×
                   </button>
@@ -1004,24 +1005,24 @@ export default function ListingsPage() {
             <div ref={saveViewRef} style={{ position: 'relative', marginLeft: '8px' }}>
               <button
                 onClick={() => setSaveViewOpen(v => !v)}
-                style={{ padding: '6px 10px', fontSize: '12px', color: '#787774', background: 'none', border: '1px dashed #e8e8e5', borderRadius: '6px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
+                style={{ padding: '6px 10px', fontSize: '12px', color: P.muted, background: 'none', border: `1px dashed ${P.rule}`, borderRadius: '2px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}
               >
                 + Save view
               </button>
               {saveViewOpen && (
-                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: '1px solid #e8e8e5', borderRadius: '8px', padding: '12px', zIndex: 50, boxShadow: '0 4px 16px rgba(0,0,0,0.08)', width: '220px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#787774', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Save current view</div>
+                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '12px', zIndex: 50, boxShadow: '0 4px 16px rgba(0,0,0,0.08)', width: '220px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Save current view</div>
                   <input
                     autoFocus
                     value={newViewName}
                     onChange={e => setNewViewName(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && saveCurrentView()}
                     placeholder="View name..."
-                    style={{ width: '100%', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '13px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box' }}
+                    style={{ width: '100%', padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }}
                   />
                   <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
-                    <button onClick={saveCurrentView} style={{ flex: 1, padding: '6px', background: '#191919', color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Save</button>
-                    <button onClick={() => setSaveViewOpen(false)} style={{ flex: 1, padding: '6px', background: 'white', color: '#787774', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Cancel</button>
+                    <button onClick={saveCurrentView} style={{ flex: 1, padding: '6px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
+                    <button onClick={() => setSaveViewOpen(false)} style={{ flex: 1, padding: '6px', background: 'white', color: P.muted, border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
                   </div>
                 </div>
               )}
@@ -1032,12 +1033,12 @@ export default function ListingsPage() {
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
             {/* Search */}
             <div style={{ position: 'relative', flex: '1 1 220px', maxWidth: '280px' }}>
-              <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#9b9b98', fontSize: '13px' }}>⌕</span>
+              <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: P.muted, fontSize: '13px' }}>⌕</span>
               <input
                 value={filters.search}
                 onChange={e => updateFilter('search', e.target.value)}
                 placeholder="Search title, SKU, brand..."
-                style={{ width: '100%', padding: '8px 12px 8px 30px', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', outline: 'none', background: 'white', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '8px 12px 8px 30px', border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', color: P.ink, outline: 'none', background: 'white', boxSizing: 'border-box' }}
               />
             </div>
 
@@ -1047,14 +1048,14 @@ export default function ListingsPage() {
                 onClick={() => setFilterPanelOpen(v => !v)}
                 style={{
                   padding: '8px 14px',
-                  background: activeFilterChips.length > 0 ? '#191919' : 'white',
-                  color: activeFilterChips.length > 0 ? 'white' : '#191919',
-                  border: '1px solid #e8e8e5',
-                  borderRadius: '7px',
+                  background: activeFilterChips.length > 0 ? P.ink : 'white',
+                  color: activeFilterChips.length > 0 ? 'white' : P.ink,
+                  border: `1px solid ${P.rule}`,
+                  borderRadius: '2px',
                   fontSize: '13px',
                   fontWeight: 600,
                   cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'inherit',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
@@ -1064,12 +1065,12 @@ export default function ListingsPage() {
               </button>
 
               {filterPanelOpen && (
-                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '16px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', width: '280px', minWidth: '260px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#787774', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Filters</div>
+                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '16px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', width: '280px', minWidth: '260px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Filters</div>
 
                   {/* Status */}
                   <div style={{ marginBottom: '12px' }}>
-                    <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '6px' }}>Status</label>
+                    <label style={{ fontSize: '12px', fontWeight: 600, color: P.ink, display: 'block', marginBottom: '6px' }}>Status</label>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                       {['all', 'draft', 'published', 'failed', 'missing_images'].map(s => (
                         <button
@@ -1078,12 +1079,12 @@ export default function ListingsPage() {
                           style={{
                             padding: '4px 10px',
                             fontSize: '12px',
-                            border: `1px solid ${filters.status === s ? '#191919' : '#e8e8e5'}`,
+                            border: `1px solid ${filters.status === s ? P.ink : P.rule}`,
                             borderRadius: '5px',
-                            background: filters.status === s ? '#191919' : 'white',
-                            color: filters.status === s ? 'white' : '#787774',
+                            background: filters.status === s ? P.ink : 'white',
+                            color: filters.status === s ? 'white' : P.muted,
                             cursor: 'pointer',
-                            fontFamily: 'Inter, sans-serif',
+                            fontFamily: 'inherit',
                             fontWeight: 500,
                           }}
                         >
@@ -1095,7 +1096,7 @@ export default function ListingsPage() {
 
                   {/* Channel */}
                   <div style={{ marginBottom: '12px' }}>
-                    <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '6px' }}>Channel</label>
+                    <label style={{ fontSize: '12px', fontWeight: 600, color: P.ink, display: 'block', marginBottom: '6px' }}>Channel</label>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                       {['all', 'shopify', 'ebay', 'amazon'].map(ch => (
                         <button
@@ -1104,12 +1105,12 @@ export default function ListingsPage() {
                           style={{
                             padding: '4px 10px',
                             fontSize: '12px',
-                            border: `1px solid ${filters.channel === ch ? '#191919' : '#e8e8e5'}`,
+                            border: `1px solid ${filters.channel === ch ? P.ink : P.rule}`,
                             borderRadius: '5px',
-                            background: filters.channel === ch ? '#191919' : 'white',
-                            color: filters.channel === ch ? 'white' : '#787774',
+                            background: filters.channel === ch ? P.ink : 'white',
+                            color: filters.channel === ch ? 'white' : P.muted,
                             cursor: 'pointer',
-                            fontFamily: 'Inter, sans-serif',
+                            fontFamily: 'inherit',
                             fontWeight: 500,
                           }}
                         >
@@ -1121,45 +1122,45 @@ export default function ListingsPage() {
 
                   {/* Price range */}
                   <div style={{ marginBottom: '12px' }}>
-                    <label style={{ fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '6px' }}>Price Range</label>
+                    <label style={{ fontSize: '12px', fontWeight: 600, color: P.ink, display: 'block', marginBottom: '6px' }}>Price Range</label>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <input
                         type="number"
                         placeholder="Min £"
                         value={filters.priceMin}
                         onChange={e => updateFilter('priceMin', e.target.value)}
-                        style={{ flex: 1, padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', outline: 'none' }}
+                        style={{ flex: 1, padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', outline: 'none' }}
                       />
-                      <span style={{ color: '#9b9b98', fontSize: '12px' }}>–</span>
+                      <span style={{ color: P.muted, fontSize: '12px' }}>–</span>
                       <input
                         type="number"
                         placeholder="Max £"
                         value={filters.priceMax}
                         onChange={e => updateFilter('priceMax', e.target.value)}
-                        style={{ flex: 1, padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', outline: 'none' }}
+                        style={{ flex: 1, padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', outline: 'none' }}
                       />
                     </div>
                   </div>
 
                   {/* Has errors + Not published */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: '#191919' }}>
-                      <input type="checkbox" checked={filters.hasErrors} onChange={e => updateFilter('hasErrors', e.target.checked)} style={{ accentColor: '#191919' }} />
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: P.ink }}>
+                      <input type="checkbox" checked={filters.hasErrors} onChange={e => updateFilter('hasErrors', e.target.checked)} style={{ accentColor: P.ink }} />
                       Has channel errors
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: '#191919' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: P.ink }}>
                       <input
                         type="checkbox"
                         checked={filters.health === 'incomplete'}
                         onChange={e => updateFilter('health', e.target.checked ? 'incomplete' : 'all')}
-                        style={{ accentColor: '#191919' }}
+                        style={{ accentColor: P.ink }}
                       />
                       Not published anywhere
                     </label>
                   </div>
 
                   {activeFilterChips.length > 0 && (
-                    <button onClick={clearAllFilters} style={{ fontSize: '12px', color: '#c9372c', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 500, padding: '0' }}>
+                    <button onClick={clearAllFilters} style={{ fontSize: '12px', color: P.oxblood, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500, padding: '0' }}>
                       Clear all filters
                     </button>
                   )}
@@ -1171,16 +1172,16 @@ export default function ListingsPage() {
             <div ref={colMenuRef} data-tour="listings-columns" style={{ position: 'relative' }}>
               <button
                 onClick={() => setColMenuOpen(v => !v)}
-                style={{ padding: '8px 14px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{ padding: '8px 14px', background: 'white', color: P.ink, border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
               >
                 Columns ▾
               </button>
               {colMenuOpen && (
-                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '12px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', minWidth: '170px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#787774', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Columns</div>
+                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '12px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', minWidth: '170px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Columns</div>
                   {ALL_COLUMNS.map(col => (
-                    <label key={col} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', cursor: 'pointer', fontSize: '13px', color: '#191919' }}>
-                      <input type="checkbox" checked={visibleColumns.includes(col)} onChange={() => toggleColumn(col)} style={{ accentColor: '#191919' }} />
+                    <label key={col} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', cursor: 'pointer', fontSize: '13px', color: P.ink }}>
+                      <input type="checkbox" checked={visibleColumns.includes(col)} onChange={() => toggleColumn(col)} style={{ accentColor: P.ink }} />
                       {COLUMN_LABELS[col] || col}
                     </label>
                   ))}
@@ -1193,12 +1194,12 @@ export default function ListingsPage() {
               <button
                 onClick={() => setDensityOpen(v => !v)}
                 title="Row density"
-                style={{ padding: '8px 12px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '7px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{ padding: '8px 12px', background: 'white', color: P.ink, border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
               >
                 ☰
               </button>
               {densityOpen && (
-                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '8px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', minWidth: '150px' }}>
+                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '8px', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.10)', minWidth: '150px' }}>
                   {(['compact', 'comfortable', 'spacious'] as DensityMode[]).map(d => (
                     <button
                       key={d}
@@ -1208,13 +1209,13 @@ export default function ListingsPage() {
                         width: '100%',
                         textAlign: 'left',
                         padding: '8px 12px',
-                        background: density === d ? '#f5f3ef' : 'none',
+                        background: density === d ? P.bg : 'none',
                         border: 'none',
-                        borderRadius: '6px',
+                        borderRadius: '2px',
                         fontSize: '13px',
-                        fontFamily: 'Inter, sans-serif',
+                        fontFamily: 'inherit',
                         fontWeight: density === d ? 600 : 400,
-                        color: '#191919',
+                        color: P.ink,
                         cursor: 'pointer',
                       }}
                     >
@@ -1244,12 +1245,12 @@ export default function ListingsPage() {
                   style={{
                     padding: '4px 11px',
                     fontSize: '12px',
-                    border: `1px solid ${on ? '#191919' : '#e8e8e5'}`,
-                    borderRadius: '20px',
-                    background: on ? '#191919' : 'white',
-                    color: on ? 'white' : '#787774',
+                    border: `1px solid ${on ? P.ink : P.rule}`,
+                    borderRadius: '2px',
+                    background: on ? P.ink : 'white',
+                    color: on ? 'white' : P.muted,
                     cursor: 'pointer',
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'inherit',
                     fontWeight: 500,
                   }}
                 >
@@ -1270,11 +1271,11 @@ export default function ListingsPage() {
                     alignItems: 'center',
                     gap: '5px',
                     padding: '4px 10px 4px 10px',
-                    background: '#f1f1ef',
-                    border: '1px solid #e8e8e5',
-                    borderRadius: '20px',
+                    background: P.ruleSoft,
+                    border: `1px solid ${P.rule}`,
+                    borderRadius: '2px',
                     fontSize: '12px',
-                    color: '#191919',
+                    color: P.ink,
                     fontWeight: 500,
                   }}
                 >
@@ -1286,13 +1287,13 @@ export default function ListingsPage() {
                       else if (chip.key === 'health') updateFilter('health', 'all')
                       else updateFilter(chip.key, chip.key === 'status' || chip.key === 'channel' ? 'all' : '')
                     }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#787774', fontSize: '14px', lineHeight: 1, padding: '0', display: 'flex', alignItems: 'center' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '14px', lineHeight: 1, padding: '0', display: 'flex', alignItems: 'center' }}
                   >
                     ×
                   </button>
                 </span>
               ))}
-              <button onClick={clearAllFilters} style={{ fontSize: '12px', color: '#787774', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>
+              <button onClick={clearAllFilters} style={{ fontSize: '12px', color: P.muted, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}>
                 Clear all
               </button>
             </div>
@@ -1300,14 +1301,14 @@ export default function ListingsPage() {
 
           {/* ── Bulk action bar ── */}
           {someSelected && (
-            <div style={{ background: '#191919', color: 'white', borderRadius: '9px', padding: '10px 16px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{ background: P.ink, color: 'white', borderRadius: '9px', padding: '10px 16px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap' }}>{selected.size} selected</span>
 
               {/* Select all results */}
               {selected.size < filtered.length && (
                 <button
                   onClick={selectAllResults}
-                  style={{ fontSize: '12px', color: '#9b9b98', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}
+                  style={{ fontSize: '12px', color: P.muted, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}
                 >
                   Select all {filtered.length} results
                 </button>
@@ -1324,9 +1325,9 @@ export default function ListingsPage() {
                       <button
                         key={ch}
                         onClick={() => setBulkChannels(prev => { const n = new Set(prev); on ? n.delete(ch) : n.add(ch); return n })}
-                        style={{ padding: '4px 9px', background: on ? 'rgba(255,255,255,0.15)' : 'transparent', color: on ? 'white' : '#666', border: `1px solid ${on ? 'rgba(255,255,255,0.3)' : '#444'}`, borderRadius: '5px', fontSize: '11px', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
+                        style={{ padding: '4px 9px', background: on ? 'rgba(255,255,255,0.15)' : 'transparent', color: on ? 'white' : '#666', border: `1px solid ${on ? 'rgba(255,255,255,0.3)' : '#444'}`, borderRadius: '5px', fontSize: '11px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}
                       >
-                        {CHANNEL_ICONS[ch]} {CHANNEL_LABELS[ch] || ch}
+                        {CHANNEL_LABELS[ch] || ch}
                       </button>
                     )
                   })}
@@ -1337,18 +1338,18 @@ export default function ListingsPage() {
               <div ref={bulkEditRef} style={{ position: 'relative' }}>
                 <button
                   onClick={() => setBulkEditMenuOpen(v => !v)}
-                  style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                  style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
                 >
                   Edit Field ▾
                 </button>
                 {bulkEditMenuOpen && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '8px', zIndex: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.15)', minWidth: '200px' }}>
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#787774', padding: '4px 8px 8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Edit field</div>
+                  <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, background: 'white', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '8px', zIndex: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.15)', minWidth: '200px' }}>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: P.muted, padding: '4px 8px 8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Edit field</div>
                     {(['price', 'quantity', 'condition', 'brand', 'category'] as BulkEditField[]).map(f => (
                       <button
                         key={f!}
                         onClick={() => { setBulkEditField(f); setBulkEditValue('') }}
-                        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', background: bulkEditField === f ? '#f5f3ef' : 'none', border: 'none', borderRadius: '6px', fontSize: '13px', fontFamily: 'Inter, sans-serif', color: '#191919', cursor: 'pointer', fontWeight: bulkEditField === f ? 600 : 400 }}
+                        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', background: bulkEditField === f ? P.bg : 'none', border: 'none', borderRadius: '2px', fontSize: '13px', fontFamily: 'inherit', color: P.ink, cursor: 'pointer', fontWeight: bulkEditField === f ? 600 : 400 }}
                       >
                         {f!.charAt(0).toUpperCase() + f!.slice(1)}
                       </button>
@@ -1362,11 +1363,11 @@ export default function ListingsPage() {
                           value={bulkEditValue}
                           onChange={e => setBulkEditValue(e.target.value)}
                           onKeyDown={e => e.key === 'Enter' && applyBulkEdit()}
-                          style={{ width: '100%', padding: '6px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '13px', fontFamily: 'Inter, sans-serif', outline: 'none', boxSizing: 'border-box' }}
+                          style={{ width: '100%', padding: '6px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }}
                         />
                         <button
                           onClick={applyBulkEdit}
-                          style={{ width: '100%', marginTop: '6px', padding: '7px', background: '#191919', color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                          style={{ width: '100%', marginTop: '6px', padding: '7px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
                         >
                           Apply to {selected.size} product{selected.size !== 1 ? 's' : ''}
                         </button>
@@ -1380,20 +1381,20 @@ export default function ListingsPage() {
                 <button
                   onClick={bulkPublish}
                   disabled={bulkPublishing || bulkChannels.size === 0}
-                  style={{ padding: '7px 14px', background: '#0f7b6c', color: 'white', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: (bulkPublishing || bulkChannels.size === 0) ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif', opacity: bulkChannels.size === 0 ? 0.5 : 1 }}
+                  style={{ padding: '7px 14px', background: P.emerald, color: 'white', border: 'none', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: (bulkPublishing || bulkChannels.size === 0) ? 'wait' : 'pointer', fontFamily: 'inherit', opacity: bulkChannels.size === 0 ? 0.5 : 1 }}
                 >
                   {bulkPublishing ? 'Publishing...' : `Publish${bulkChannels.size ? ' to ' + Array.from(bulkChannels).map(c => CHANNEL_LABELS[c] || c).join(' + ') : '…'}`}
                 </button>
                 <button
                   onClick={bulkDelete}
                   disabled={bulkDeleting}
-                  style={{ padding: '7px 14px', background: '#c9372c', color: 'white', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: bulkDeleting ? 'wait' : 'pointer', fontFamily: 'Inter, sans-serif' }}
+                  style={{ padding: '7px 14px', background: P.oxblood, color: 'white', border: 'none', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: bulkDeleting ? 'wait' : 'pointer', fontFamily: 'inherit' }}
                 >
                   {bulkDeleting ? 'Deleting...' : `Delete (${selected.size})`}
                 </button>
                 <button
                   onClick={() => setSelected(new Set())}
-                  style={{ padding: '7px 12px', background: 'none', color: '#9b9b98', border: '1px solid #444', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                  style={{ padding: '7px 12px', background: 'none', color: P.muted, border: '1px solid #444', borderRadius: '2px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}
                 >
                   Clear
                 </button>
@@ -1403,24 +1404,24 @@ export default function ListingsPage() {
 
           {/* ── Table / Empty states ── */}
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '80px 0', color: '#9b9b98', fontSize: '14px' }}>Loading...</div>
+            <div style={{ textAlign: 'center', padding: '80px 0', color: P.muted, fontSize: '14px' }}>Loading...</div>
           ) : filtered.length === 0 && listings.length === 0 ? (
-            <div style={{ background: 'white', borderRadius: '14px', border: '1px solid #e8e8e5', padding: '60px', textAlign: 'center' }}>
-              <div style={{ fontSize: '40px', marginBottom: '16px' }}>📋</div>
-              <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#191919', margin: '0 0 8px' }}>No listings yet</h2>
-              <p style={{ fontSize: '13px', color: '#787774', margin: '0 0 24px' }}>Create your first listing and publish it to Shopify, eBay, and Amazon in one go.</p>
+            <div style={{ ...CARD, padding: '60px', textAlign: 'center' }}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke={P.muted} strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: '16px' }}><path d="M6 8h20M6 14h20M6 20h12"/></svg>
+              <h2 style={{ fontSize: '16px', fontWeight: 600, color: P.ink, margin: '0 0 8px' }}>No listings yet</h2>
+              <p style={{ fontSize: '13px', color: P.muted, margin: '0 0 24px' }}>Create your first listing and publish it to Shopify, eBay, and Amazon in one go.</p>
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                <button onClick={() => router.push('/listings/import')} style={{ padding: '10px 18px', background: 'white', color: '#191919', border: '1px solid #e8e8e5', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Import CSV</button>
-                <button onClick={() => router.push('/listings/new')} style={{ padding: '10px 20px', background: '#191919', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Create listing</button>
+                <button onClick={() => router.push('/listings/import')} style={{ padding: '10px 18px', background: 'white', color: P.ink, border: `1px solid ${P.rule}`, borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Import CSV</button>
+                <button onClick={() => router.push('/listings/new')} style={{ padding: '10px 20px', background: P.ink, color: 'white', border: 'none', borderRadius: '2px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Create listing</button>
               </div>
             </div>
           ) : filtered.length === 0 ? (
-            <div style={{ background: 'white', borderRadius: '10px', border: '1px solid #e8e8e5', padding: '40px', textAlign: 'center' }}>
-              <div style={{ fontSize: '13px', color: '#9b9b98' }}>No listings match these filters</div>
-              <button onClick={clearAllFilters} style={{ marginTop: '10px', fontSize: '13px', color: '#2383e2', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Clear all filters</button>
+            <div style={{ ...CARD, padding: '40px', textAlign: 'center' }}>
+              <div style={{ fontSize: '13px', color: P.muted }}>No listings match these filters</div>
+              <button onClick={clearAllFilters} style={{ marginTop: '10px', fontSize: '13px', color: P.cobalt, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Clear all filters</button>
             </div>
           ) : (
-            <div style={{ background: 'white', borderRadius: '10px', border: '1px solid #e8e8e5', overflow: 'hidden' }}>
+            <div style={{ ...CARD, overflow: 'hidden' }}>
 
               {/* Sticky header */}
               <div style={{
@@ -1430,14 +1431,14 @@ export default function ListingsPage() {
                 gap: '10px',
                 padding: '0 16px',
                 height: '36px',
-                borderBottom: '1px solid #e8e8e5',
-                background: '#fafafa',
+                borderBottom: `1px solid ${P.rule}`,
+                background: P.bg,
                 position: 'sticky',
                 top: 0,
                 zIndex: 10,
               }}>
                 <div data-tour="listings-bulk" onClick={e => e.stopPropagation()}>
-                  <input type="checkbox" checked={allPageSelected} onChange={toggleAll} style={{ accentColor: '#191919', cursor: 'pointer' }} />
+                  <input type="checkbox" checked={allPageSelected} onChange={toggleAll} style={{ accentColor: P.ink, cursor: 'pointer' }} />
                 </div>
                 {visibleColumns.includes('image') && <div />}
                 <HeaderCell label="Product" field="title" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
@@ -1482,28 +1483,28 @@ export default function ListingsPage() {
                       padding: `0 16px`,
                       minHeight: `${rowH}px`,
                       borderBottom: i < paged.length - 1 ? '1px solid #f7f7f5' : 'none',
-                      background: isSelected ? '#f0f4ff' : selectedListing?.id === listing.id ? '#fafafa' : 'white',
+                      background: isSelected ? P.cobaltSft : selectedListing?.id === listing.id ? P.ruleSoft : P.surface,
                       cursor: 'pointer',
                       transition: 'background 0.1s',
                     }}
-                    onMouseEnter={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = '#fafafa' }}
-                    onMouseLeave={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = 'white' }}
+                    onMouseEnter={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = 'rgba(29,95,219,0.04)' }}
+                    onMouseLeave={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = P.surface }}
                   >
                     {/* Checkbox */}
                     <div onClick={e => toggleOne(listing.id, e)}>
-                      <input type="checkbox" checked={isSelected} onChange={() => {}} style={{ accentColor: '#191919', cursor: 'pointer' }} />
+                      <input type="checkbox" checked={isSelected} onChange={() => {}} style={{ accentColor: P.ink, cursor: 'pointer' }} />
                     </div>
 
                     {/* Thumbnail */}
                     {visibleColumns.includes('image') && (
-                      <div style={{ width: '36px', height: '36px', borderRadius: '6px', background: '#f1f1ef', overflow: 'hidden', flexShrink: 0 }}>
+                      <div style={{ width: '36px', height: '36px', borderRadius: '2px', background: P.ruleSoft, overflow: 'hidden', flexShrink: 0 }}>
                         {listing.images?.[0] && <img src={listing.images[0]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                       </div>
                     )}
 
                     {/* Title */}
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#191919', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: P.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</span>
                         {(() => {
                           const h = healthByListing.get(listing.id)
@@ -1512,7 +1513,7 @@ export default function ListingsPage() {
                         })()}
                       </div>
                       {density !== 'compact' && (
-                        <div style={{ fontSize: '11px', color: '#9b9b98', marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <div style={{ fontSize: '11px', color: P.muted, marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {[listing.condition, listing.brand].filter(Boolean).join(' · ')}
                         </div>
                       )}
@@ -1520,7 +1521,7 @@ export default function ListingsPage() {
 
                     {/* SKU */}
                     {visibleColumns.includes('sku') && (
-                      <div style={{ fontSize: '12px', color: '#787774', fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ fontSize: '12px', color: P.muted, fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {listing.sku || '—'}
                       </div>
                     )}
@@ -1550,21 +1551,21 @@ export default function ListingsPage() {
 
                     {/* Condition */}
                     {visibleColumns.includes('condition') && (
-                      <div style={{ fontSize: '12px', color: '#787774', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {listing.condition || '—'}
                       </div>
                     )}
 
                     {/* Brand */}
                     {visibleColumns.includes('brand') && (
-                      <div style={{ fontSize: '12px', color: '#787774', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {listing.brand || '—'}
                       </div>
                     )}
 
                     {/* Category */}
                     {visibleColumns.includes('category') && (
-                      <div style={{ fontSize: '12px', color: '#787774', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {listing.category || '—'}
                       </div>
                     )}
@@ -1587,7 +1588,7 @@ export default function ListingsPage() {
 
                     {/* Created */}
                     {visibleColumns.includes('created') && (
-                      <div style={{ fontSize: '12px', color: '#9b9b98', whiteSpace: 'nowrap' }}>{fmtDate(listing.created_at)}</div>
+                      <div style={{ fontSize: '12px', color: P.muted, whiteSpace: 'nowrap' }}>{fmtDate(listing.created_at)}</div>
                     )}
 
                     {/* ── Performance stats (SKU-linked from transactions) ── */}
@@ -1602,31 +1603,31 @@ export default function ListingsPage() {
                               {s ? (
                                 <PerfTier velocity={s.velocity} units30d={s.units_30d} />
                               ) : (
-                                <span style={{ fontSize: 11, color: '#d4d4d0' }}>No data</span>
+                                <span style={{ fontSize: 11, color: P.rule }}>No data</span>
                               )}
                             </div>
                           )}
 
                           {visibleColumns.includes('velocity') && (
-                            <div style={{ fontSize: 12, fontWeight: 600, color: '#191919', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                            <div style={{ fontSize: 12, fontWeight: 600, color: P.ink, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
                               {s ? (
                                 <>
                                   <span>{s.units_7d}</span>
-                                  <span style={{ fontSize: 10, color: '#9b9b98', fontWeight: 400 }}> units</span>
+                                  <span style={{ fontSize: 10, color: P.muted, fontWeight: 400 }}> units</span>
                                 </>
-                              ) : <span style={{ color: '#d4d4d0' }}>—</span>}
+                              ) : <span style={{ color: P.rule }}>—</span>}
                             </div>
                           )}
 
                           {visibleColumns.includes('revenue_30d') && (
-                            <div style={{ fontSize: 12, fontWeight: 600, color: s && s.revenue_30d > 0 ? '#059669' : '#9b9b98', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                            <div style={{ fontSize: 12, fontWeight: 600, color: s && s.revenue_30d > 0 ? P.emerald : '#9b9b98', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
                               {s && s.revenue_30d > 0 ? `£${s.revenue_30d.toFixed(0)}` : '—'}
                             </div>
                           )}
 
                           {visibleColumns.includes('margin') && (
                             <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
-                              color: s?.margin_30d != null ? (s.margin_30d >= 20 ? '#059669' : s.margin_30d >= 10 ? '#d97706' : '#dc2626') : '#9b9b98' }}>
+                              color: s?.margin_30d != null ? (s.margin_30d >= 20 ? P.emerald : s.margin_30d >= 10 ? P.amber : P.oxblood) : '#9b9b98' }}>
                               {s?.margin_30d != null ? `${s.margin_30d.toFixed(1)}%` : '—'}
                             </div>
                           )}
@@ -1640,10 +1641,10 @@ export default function ListingsPage() {
                               {s ? (
                                 <Sparkline
                                   data={s.sparkline}
-                                  color={s.units_7d >= 3 ? '#059669' : s.units_7d > 0 ? '#5b52f5' : '#e8e8e5'}
+                                  color={s.units_7d >= 3 ? P.emerald : s.units_7d > 0 ? P.cobalt : P.ruleSoft}
                                 />
                               ) : (
-                                <Sparkline data={[0,0,0,0,0,0,0]} color="#e8e8e5" />
+                                <Sparkline data={[0,0,0,0,0,0,0]} color={P.ruleSoft} />
                               )}
                             </div>
                           )}
@@ -1654,48 +1655,48 @@ export default function ListingsPage() {
                     {/* ── v2 columns ── */}
                     {visibleColumns.includes('margin_pct') && (
                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
-                        color: listing.margin_pct != null ? (Number(listing.margin_pct) >= 20 ? '#059669' : Number(listing.margin_pct) >= 10 ? '#d97706' : '#dc2626') : '#9b9b98' }}>
+                        color: listing.margin_pct != null ? (Number(listing.margin_pct) >= 20 ? P.emerald : Number(listing.margin_pct) >= 10 ? P.amber : P.oxblood) : '#9b9b98' }}>
                         {listing.margin_pct != null ? `${Number(listing.margin_pct).toFixed(1)}%` : '—'}
                       </div>
                     )}
                     {visibleColumns.includes('sold_30d') && (
-                      <div style={{ fontSize: 12, fontWeight: 600, color: '#191919', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: P.ink, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
                         {listing.sold_30d ?? 0}
                       </div>
                     )}
                     {visibleColumns.includes('primary_channel') && (
-                      <div style={{ fontSize: 12, color: '#787774', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 12, color: P.muted, whiteSpace: 'nowrap' }}>
                         {listing.primary_channel ? (CHANNEL_LABELS[listing.primary_channel] || listing.primary_channel) : '—'}
                       </div>
                     )}
                     {visibleColumns.includes('channel_count') && (
-                      <div style={{ fontSize: 12, fontWeight: 600, color: '#191919', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: P.ink, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
                         {listing.channel_count ?? 0}
                       </div>
                     )}
                     {visibleColumns.includes('last_sync_at') && (
-                      <div style={{ fontSize: 11, color: '#9b9b98', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 11, color: P.muted, whiteSpace: 'nowrap' }}>
                         {listing.last_sync_at ? fmtDate(listing.last_sync_at) : '—'}
                       </div>
                     )}
                     {visibleColumns.includes('tags') && (
-                      <div style={{ fontSize: 11, color: '#787774', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ fontSize: 11, color: P.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {listing.tags && listing.tags.length > 0 ? listing.tags.slice(0, 3).join(', ') + (listing.tags.length > 3 ? ` +${listing.tags.length - 3}` : '') : '—'}
                       </div>
                     )}
                     {visibleColumns.includes('msrp') && (
-                      <div style={{ fontSize: 12, color: '#787774', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 12, color: P.muted, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
                         {listing.msrp != null ? `£${Number(listing.msrp).toFixed(2)}` : '—'}
                       </div>
                     )}
                     {visibleColumns.includes('competitor_price') && (
-                      <div style={{ fontSize: 12, color: '#787774', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 12, color: P.muted, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
                         {listing.competitor_price != null ? `£${Number(listing.competitor_price).toFixed(2)}` : '—'}
                       </div>
                     )}
                     {visibleColumns.includes('days_of_cover') && (
                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'monospace', whiteSpace: 'nowrap',
-                        color: listing.days_of_cover != null ? (listing.days_of_cover < 7 ? '#dc2626' : listing.days_of_cover < 21 ? '#d97706' : '#059669') : '#9b9b98' }}>
+                        color: listing.days_of_cover != null ? (listing.days_of_cover < 7 ? P.oxblood : listing.days_of_cover < 21 ? P.amber : P.emerald) : '#9b9b98' }}>
                         {listing.days_of_cover != null ? `${listing.days_of_cover}d` : '—'}
                       </div>
                     )}
@@ -1704,15 +1705,15 @@ export default function ListingsPage() {
               })}
 
               {/* Pagination */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderTop: '1px solid #f1f1ef', background: '#fafafa' }}>
-                <div style={{ fontSize: '13px', color: '#787774' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderTop: `1px solid ${P.rule}`, background: P.bg }}>
+                <div style={{ fontSize: '13px', color: P.muted }}>
                   Showing {((page - 1) * pageSize) + 1}–{Math.min(page * pageSize, filtered.length)} of {filtered.length} listings
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <select
                     value={pageSize}
                     onChange={e => { setPageSize(Number(e.target.value)); setPage(1) }}
-                    style={{ padding: '4px 8px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', color: '#191919', background: 'white', cursor: 'pointer' }}
+                    style={{ padding: '4px 8px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', color: P.ink, background: 'white', cursor: 'pointer' }}
                   >
                     {[25, 50, 100].map(n => <option key={n} value={n}>{n} per page</option>)}
                   </select>
@@ -1720,7 +1721,7 @@ export default function ListingsPage() {
                     <button
                       onClick={() => setPage(p => Math.max(1, p - 1))}
                       disabled={page === 1}
-                      style={{ padding: '5px 10px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', cursor: page === 1 ? 'default' : 'pointer', background: 'white', color: page === 1 ? '#ccc' : '#191919' }}
+                      style={{ padding: '5px 10px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', cursor: page === 1 ? 'default' : 'pointer', background: 'white', color: page === 1 ? '#ccc' : P.ink }}
                     >
                       Previous
                     </button>
@@ -1735,13 +1736,13 @@ export default function ListingsPage() {
                           onClick={() => setPage(pageNum)}
                           style={{
                             padding: '5px 9px',
-                            border: `1px solid ${page === pageNum ? '#191919' : '#e8e8e5'}`,
+                            border: `1px solid ${page === pageNum ? P.ink : P.rule}`,
                             borderRadius: '5px',
                             fontSize: '12px',
-                            fontFamily: 'Inter, sans-serif',
+                            fontFamily: 'inherit',
                             cursor: 'pointer',
-                            background: page === pageNum ? '#191919' : 'white',
-                            color: page === pageNum ? 'white' : '#191919',
+                            background: page === pageNum ? P.ink : 'white',
+                            color: page === pageNum ? 'white' : P.ink,
                             fontWeight: page === pageNum ? 600 : 400,
                           }}
                         >
@@ -1751,14 +1752,14 @@ export default function ListingsPage() {
                     })}
                     {totalPages > 7 && page < totalPages - 3 && (
                       <>
-                        <span style={{ color: '#9b9b98', fontSize: '12px' }}>...</span>
-                        <button onClick={() => setPage(totalPages)} style={{ padding: '5px 9px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', cursor: 'pointer', background: 'white', color: '#191919' }}>{totalPages}</button>
+                        <span style={{ color: P.muted, fontSize: '12px' }}>...</span>
+                        <button onClick={() => setPage(totalPages)} style={{ padding: '5px 9px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', cursor: 'pointer', background: 'white', color: P.ink }}>{totalPages}</button>
                       </>
                     )}
                     <button
                       onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                       disabled={page === totalPages}
-                      style={{ padding: '5px 10px', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', fontFamily: 'Inter, sans-serif', cursor: page === totalPages ? 'default' : 'pointer', background: 'white', color: page === totalPages ? '#ccc' : '#191919' }}
+                      style={{ padding: '5px 10px', border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', fontFamily: 'inherit', cursor: page === totalPages ? 'default' : 'pointer', background: 'white', color: page === totalPages ? '#ccc' : P.ink }}
                     >
                       Next
                     </button>
@@ -1801,11 +1802,9 @@ function HeaderCell({
     <div
       onClick={() => field && onSort(field)}
       style={{
-        fontSize: '11px',
-        fontWeight: 700,
-        color: active ? '#191919' : '#787774',
-        textTransform: 'uppercase',
-        letterSpacing: '0.04em',
+        ...LABEL,
+        fontSize: '9px',
+        color: active ? P.ink : P.muted,
         cursor: field ? 'pointer' : 'default',
         display: 'flex',
         alignItems: 'center',
@@ -1816,7 +1815,7 @@ function HeaderCell({
     >
       {label}
       {field && (
-        <span style={{ color: active ? '#191919' : '#ccc', fontSize: '10px' }}>
+        <span style={{ color: active ? P.ink : P.rule, fontSize: '9px' }}>
           {active ? (sortDir === 'asc' ? '↑' : '↓') : '↕'}
         </span>
       )}
@@ -1845,41 +1844,44 @@ function SidePanel({
 }) {
   const errors = listing.listing_channels?.filter(lc => lc.error_message) || []
 
-  const tabStyle = (t: SidePanelTab) => ({
+  const tabStyle = (t: SidePanelTab): React.CSSProperties => ({
+    ...MONO,
     padding: '10px 16px',
-    fontSize: '13px',
-    fontWeight: tab === t ? 600 : 500,
-    color: tab === t ? '#191919' : '#787774',
+    fontSize: '11px',
+    fontWeight: 600,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    color: tab === t ? P.ink : P.muted,
     background: 'none',
     border: 'none',
-    borderBottom: `2px solid ${tab === t ? '#191919' : 'transparent'}`,
+    borderBottom: `2px solid ${tab === t ? P.cobalt : 'transparent'}`,
     cursor: 'pointer',
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: 'inherit',
     marginBottom: '-1px',
   })
 
   return (
     <>
       {/* Header */}
-      <div style={{ padding: '16px 20px 0', borderBottom: '1px solid #e8e8e5' }}>
+      <div style={{ padding: '16px 20px 0', borderBottom: `1px solid ${P.rule}` }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#191919', lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</div>
-            {listing.sku && <div style={{ fontSize: '12px', color: '#9b9b98', marginTop: '2px', fontFamily: 'monospace' }}>{listing.sku}</div>}
+            <div style={{ fontSize: '14px', fontWeight: 700, color: P.ink, lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listing.title}</div>
+            {listing.sku && <div style={{ fontSize: '12px', color: P.muted, marginTop: '2px', fontFamily: 'monospace' }}>{listing.sku}</div>}
           </div>
           <div style={{ display: 'flex', gap: '8px', flexShrink: 0, marginLeft: '12px' }}>
-            <button onClick={onNavigate} title="Open full page" style={{ background: 'none', border: '1px solid #e8e8e5', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', fontSize: '12px', color: '#787774', fontFamily: 'Inter, sans-serif' }}>↗</button>
-            <button onClick={onClose} style={{ background: 'none', border: '1px solid #e8e8e5', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', fontSize: '14px', color: '#787774' }}>×</button>
+            <button onClick={onNavigate} title="Open full page" style={{ background: 'none', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '4px 8px', cursor: 'pointer', fontSize: '12px', color: P.muted, fontFamily: 'inherit' }}>↗</button>
+            <button onClick={onClose} style={{ background: 'none', border: `1px solid ${P.rule}`, borderRadius: '2px', padding: '4px 8px', cursor: 'pointer', fontSize: '14px', color: P.muted }}>×</button>
           </div>
         </div>
         {/* Tabs */}
         <div style={{ display: 'flex', borderBottom: 'none' }}>
           <button style={tabStyle('details')} onClick={() => setTab('details')}>Details</button>
           <button style={tabStyle('channels')} onClick={() => setTab('channels')}>
-            Channels {listing.listing_channels?.length > 0 && <span style={{ fontSize: '11px', color: '#9b9b98', marginLeft: '3px' }}>({listing.listing_channels.length})</span>}
+            Channels {listing.listing_channels?.length > 0 && <span style={{ fontSize: '11px', color: P.muted, marginLeft: '3px' }}>({listing.listing_channels.length})</span>}
           </button>
           <button style={tabStyle('errors')} onClick={() => setTab('errors')}>
-            Errors {errors.length > 0 && <span style={{ fontSize: '11px', background: '#c9372c18', color: '#c9372c', padding: '1px 5px', borderRadius: '10px', marginLeft: '4px' }}>{errors.length}</span>}
+            Errors {errors.length > 0 && <span style={{ fontSize: '11px', background: 'rgba(125,42,26,0.10)', color: P.oxblood, padding: '1px 5px', borderRadius: '2px', marginLeft: '4px' }}>{errors.length}</span>}
           </button>
         </div>
       </div>
@@ -1914,10 +1916,10 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
   }, [listing.price, listing.quantity])
 
   function labelStyle() {
-    return { fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '3px' }
+    return { fontSize: '11px', fontWeight: 700, color: P.muted, textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '3px' }
   }
   function valStyle() {
-    return { fontSize: '13px', color: '#191919', fontWeight: 500 }
+    return { fontSize: '13px', color: P.ink, fontWeight: 500 }
   }
   function rowStyle() {
     return { marginBottom: '16px' }
@@ -1930,7 +1932,7 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
         <div style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {listing.images.slice(0, 6).map((img, i) => (
-              <div key={i} style={{ width: '72px', height: '72px', borderRadius: '8px', overflow: 'hidden', background: '#f1f1ef', border: '1px solid #e8e8e5' }}>
+              <div key={i} style={{ width: '72px', height: '72px', borderRadius: '2px', overflow: 'hidden', background: P.ruleSoft, border: `1px solid ${P.rule}` }}>
                 <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             ))}
@@ -1952,15 +1954,15 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
                 if (e.key === 'Enter') { onSave('price', parseFloat(priceVal)); setEditPrice(false) }
                 if (e.key === 'Escape') { setEditPrice(false); setPriceVal(String(listing.price)) }
               }}
-              style={{ padding: '5px 8px', border: '1px solid #2383e2', borderRadius: '5px', fontSize: '13px', fontFamily: 'Inter, sans-serif', outline: 'none', width: '100px' }}
+              style={{ padding: '5px 8px', border: '1px solid #2383e2', borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', width: '100px' }}
             />
-            <button onClick={() => { onSave('price', parseFloat(priceVal)); setEditPrice(false) }} style={{ padding: '5px 10px', background: '#191919', color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Save</button>
-            <button onClick={() => { setEditPrice(false); setPriceVal(String(listing.price)) }} style={{ padding: '5px 10px', background: 'none', color: '#787774', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Cancel</button>
+            <button onClick={() => { onSave('price', parseFloat(priceVal)); setEditPrice(false) }} style={{ padding: '5px 10px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
+            <button onClick={() => { setEditPrice(false); setPriceVal(String(listing.price)) }} style={{ padding: '5px 10px', background: 'none', color: P.muted, border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
           </div>
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ ...valStyle(), fontSize: '16px', fontWeight: 700 }}>£{Number(listing.price).toFixed(2)}</span>
-            <button onClick={() => setEditPrice(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9b9b98', fontSize: '12px', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>Edit</button>
+            <button onClick={() => setEditPrice(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '12px', fontFamily: 'inherit', textDecoration: 'underline' }}>Edit</button>
           </div>
         )}
       </div>
@@ -1979,17 +1981,17 @@ function DetailsTab({ listing, onSave }: { listing: Listing; onSave: (field: str
                 if (e.key === 'Enter') { onSave('quantity', parseFloat(stockVal)); setEditStock(false) }
                 if (e.key === 'Escape') { setEditStock(false); setStockVal(String(listing.quantity)) }
               }}
-              style={{ padding: '5px 8px', border: '1px solid #2383e2', borderRadius: '5px', fontSize: '13px', fontFamily: 'Inter, sans-serif', outline: 'none', width: '80px' }}
+              style={{ padding: '5px 8px', border: '1px solid #2383e2', borderRadius: '5px', fontSize: '13px', fontFamily: 'inherit', outline: 'none', width: '80px' }}
             />
-            <button onClick={() => { onSave('quantity', parseFloat(stockVal)); setEditStock(false) }} style={{ padding: '5px 10px', background: '#191919', color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Save</button>
-            <button onClick={() => { setEditStock(false); setStockVal(String(listing.quantity)) }} style={{ padding: '5px 10px', background: 'none', color: '#787774', border: '1px solid #e8e8e5', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Cancel</button>
+            <button onClick={() => { onSave('quantity', parseFloat(stockVal)); setEditStock(false) }} style={{ padding: '5px 10px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
+            <button onClick={() => { setEditStock(false); setStockVal(String(listing.quantity)) }} style={{ padding: '5px 10px', background: 'none', color: P.muted, border: `1px solid ${P.rule}`, borderRadius: '5px', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
           </div>
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ ...valStyle(), color: listing.quantity === 0 ? '#c9372c' : '#191919', fontWeight: listing.quantity === 0 ? 700 : 500 }}>
+            <span style={{ ...valStyle(), color: listing.quantity === 0 ? P.oxblood : P.ink, fontWeight: listing.quantity === 0 ? 700 : 500 }}>
               {listing.quantity === 0 ? 'Out of stock' : `${listing.quantity} units`}
             </span>
-            <button onClick={() => setEditStock(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9b9b98', fontSize: '12px', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>Edit</button>
+            <button onClick={() => setEditStock(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: P.muted, fontSize: '12px', fontFamily: 'inherit', textDecoration: 'underline' }}>Edit</button>
           </div>
         )}
       </div>
@@ -2021,14 +2023,14 @@ function ChannelsTab({ listing, connectedChannels }: { listing: Listing; connect
     <div>
       {allChannels.map(ch => {
         const cs = listing.listing_channels?.find(lc => lc.channel_type === ch)
-        const style = CHANNEL_STYLE[ch] || { bg: '#f1f1ef', color: '#191919' }
+        const style = CHANNEL_STYLE[ch] || { bg: P.ruleSoft, color: P.ink }
         const connected = connectedChannels.includes(ch)
         return (
           <div
             key={ch}
             style={{
-              border: '1px solid #e8e8e5',
-              borderRadius: '8px',
+              border: `1px solid ${P.rule}`,
+              borderRadius: '2px',
               padding: '14px',
               marginBottom: '10px',
               background: cs ? '#fafafa' : 'white',
@@ -2036,28 +2038,28 @@ function ChannelsTab({ listing, connectedChannels }: { listing: Listing; connect
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: cs ? '8px' : '0' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: style.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px' }}>
-                  {CHANNEL_ICONS[ch]}
+                <div style={{ width: '28px', height: '28px', borderRadius: '2px', background: style.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: P.ink }}>
+                  {CHANNEL_SVG[ch] || null}
                 </div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{CHANNEL_LABELS[ch] || ch}</span>
-                {!connected && <span style={{ fontSize: '11px', color: '#9b9b98' }}>(not connected)</span>}
+                <span style={{ fontSize: '13px', fontWeight: 600, color: P.ink }}>{CHANNEL_LABELS[ch] || ch}</span>
+                {!connected && <span style={{ fontSize: '11px', color: P.muted }}>(not connected)</span>}
               </div>
               {cs ? (
                 <StatusBadge status={cs.status} />
               ) : (
-                <span style={{ fontSize: '12px', color: '#9b9b98' }}>Not published</span>
+                <span style={{ fontSize: '12px', color: P.muted }}>Not published</span>
               )}
             </div>
             {cs && (
-              <div style={{ fontSize: '12px', color: '#787774' }}>
+              <div style={{ fontSize: '12px', color: P.muted }}>
                 {cs.last_synced_at && <div>Last sync: {fmtDate(cs.last_synced_at)}</div>}
                 {cs.channel_url && (
-                  <a href={cs.channel_url} target="_blank" rel="noopener noreferrer" style={{ color: '#2383e2', textDecoration: 'none', marginTop: '3px', display: 'inline-block' }}>
+                  <a href={cs.channel_url} target="_blank" rel="noopener noreferrer" style={{ color: P.cobalt, textDecoration: 'none', marginTop: '3px', display: 'inline-block' }}>
                     View on {CHANNEL_LABELS[ch]} →
                   </a>
                 )}
                 {cs.error_message && (
-                  <div style={{ marginTop: '6px', padding: '6px 8px', background: '#c9372c10', border: '1px solid #c9372c20', borderRadius: '5px', color: '#c9372c', fontSize: '12px' }}>
+                  <div style={{ marginTop: '6px', padding: '6px 8px', background: 'rgba(125,42,26,0.06)', border: '1px solid rgba(125,42,26,0.12)', borderRadius: '5px', color: P.oxblood, fontSize: '12px' }}>
                     {cs.error_message}
                   </div>
                 )}
@@ -2075,7 +2077,7 @@ function ChannelsTab({ listing, connectedChannels }: { listing: Listing; connect
 function ErrorsTab({ errors }: { errors: ChannelStatus[] }) {
   if (errors.length === 0) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px 20px', color: '#9b9b98' }}>
+      <div style={{ textAlign: 'center', padding: '40px 20px', color: P.muted }}>
         <div style={{ fontSize: '28px', marginBottom: '8px' }}>✓</div>
         <div style={{ fontSize: '13px' }}>No errors on this listing</div>
       </div>
@@ -2087,18 +2089,18 @@ function ErrorsTab({ errors }: { errors: ChannelStatus[] }) {
       {errors.map((e, i) => (
         <div
           key={i}
-          style={{ border: '1px solid #c9372c20', borderRadius: '8px', padding: '14px', marginBottom: '10px', background: '#c9372c08' }}
+          style={{ border: '1px solid rgba(125,42,26,0.12)', borderRadius: '2px', padding: '14px', marginBottom: '10px', background: 'rgba(125,42,26,0.04)' }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '14px' }}>{CHANNEL_ICONS[e.channel_type] || '❌'}</span>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#191919' }}>{CHANNEL_LABELS[e.channel_type] || e.channel_type}</span>
+              <span style={{ color: P.ink, display: 'flex', alignItems: 'center' }}>{CHANNEL_SVG[e.channel_type] || null}</span>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: P.ink }}>{CHANNEL_LABELS[e.channel_type] || e.channel_type}</span>
             </div>
             <StatusBadge status={e.status} />
           </div>
-          <div style={{ fontSize: '12px', color: '#c9372c', lineHeight: 1.5, marginBottom: '10px' }}>{e.error_message}</div>
+          <div style={{ fontSize: '12px', color: P.oxblood, lineHeight: 1.5, marginBottom: '10px' }}>{e.error_message}</div>
           <button
-            style={{ padding: '6px 12px', background: '#191919', color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+            style={{ padding: '6px 12px', background: P.ink, color: 'white', border: 'none', borderRadius: '5px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
           >
             Fix →
           </button>

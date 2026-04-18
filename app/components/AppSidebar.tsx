@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '../lib/supabase-client'
+import { P, MONO } from '../lib/design'
 
 /* ─────────────────────────────────────────
    SVG ICON SET  (15 × 15, stroke-based)
@@ -11,10 +12,10 @@ import { createClient } from '../lib/supabase-client'
 const Icon = {
   dashboard: (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1.5" y="1.5" width="5" height="5" rx="1.25"/>
-      <rect x="8.5" y="1.5" width="5" height="5" rx="1.25"/>
-      <rect x="1.5" y="8.5" width="5" height="5" rx="1.25"/>
-      <rect x="8.5" y="8.5" width="5" height="5" rx="1.25"/>
+      <rect x="1.5" y="1.5" width="5" height="5"/>
+      <rect x="8.5" y="1.5" width="5" height="5"/>
+      <rect x="1.5" y="8.5" width="5" height="5"/>
+      <rect x="8.5" y="8.5" width="5" height="5"/>
     </svg>
   ),
   products: (
@@ -98,9 +99,9 @@ const Icon = {
       <path d="M2 3.5h11"/>
       <path d="M2 7.5h11"/>
       <path d="M2 11.5h11"/>
-      <circle cx="5" cy="3.5" r="1.5" fill="var(--sidebar-bg)" stroke="currentColor"/>
-      <circle cx="10" cy="7.5" r="1.5" fill="var(--sidebar-bg)" stroke="currentColor"/>
-      <circle cx="6" cy="11.5" r="1.5" fill="var(--sidebar-bg)" stroke="currentColor"/>
+      <circle cx="5" cy="3.5" r="1.5" fill={P.surface} stroke="currentColor"/>
+      <circle cx="10" cy="7.5" r="1.5" fill={P.surface} stroke="currentColor"/>
+      <circle cx="6" cy="11.5" r="1.5" fill={P.surface} stroke="currentColor"/>
     </svg>
   ),
   agent: (
@@ -124,7 +125,7 @@ const Icon = {
   ),
   billing: (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1.5" y="3.5" width="12" height="8" rx="1.25"/>
+      <rect x="1.5" y="3.5" width="12" height="8"/>
       <path d="M1.5 6.5h12"/>
       <circle cx="4.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/>
       <path d="M7.5 9.5h3"/>
@@ -141,12 +142,12 @@ const Icon = {
 /* ─────────────────────────────────────────
    PLAN BADGES
 ───────────────────────────────────────── */
-const PLAN_STYLE: Record<string, { bg: string; text: string; label: string }> = {
-  starter:    { bg: 'rgba(255,255,255,0.07)', text: '#7a7d96', label: 'Starter' },
-  growth:     { bg: 'rgba(91,82,245,0.2)',    text: '#a89ef8', label: 'Growth' },
-  scale:      { bg: 'rgba(5,150,105,0.2)',    text: '#6ee7b7', label: 'Scale' },
-  enterprise: { bg: 'rgba(217,119,6,0.2)',    text: '#fcd34d', label: 'Enterprise' },
-  free:       { bg: 'rgba(255,255,255,0.07)', text: '#7a7d96', label: 'Free' },
+const PLAN_STYLE: Record<string, { color: string; label: string }> = {
+  starter:    { color: P.muted,   label: 'Starter' },
+  growth:     { color: P.cobalt,  label: 'Growth' },
+  scale:      { color: P.emerald, label: 'Scale' },
+  enterprise: { color: P.amber,   label: 'Enterprise' },
+  free:       { color: P.muted,   label: 'Free' },
 }
 
 /* ─────────────────────────────────────────
@@ -209,7 +210,7 @@ export default function AppSidebar() {
         { href: '/returns',   icon: Icon.returns,   label: 'Returns' },
         { href: '/shipping',  icon: Icon.shipping,  label: 'Shipping' },
         { href: '/channels',  icon: Icon.channels,  label: 'Channels' },
-        { href: '/errors',    icon: Icon.errors,    label: 'Errors',     badge: errorCount,   badgeColor: '#ef4444' },
+        { href: '/errors',    icon: Icon.errors,    label: 'Errors',     badge: errorCount,   badgeColor: P.oxblood },
         { href: '/inventory', icon: Icon.inventory, label: 'Inventory' },
         { href: '/inventory/buffers', icon: Icon.buffers, label: 'Buffers' },
         { href: '/costs',     icon: Icon.costs,     label: 'Costs & Margins' },
@@ -243,7 +244,7 @@ export default function AppSidebar() {
     {
       label: 'AI',
       items: [
-        { href: '/agent',        icon: Icon.agent,       label: 'AI Agent',   badge: pendingCount, badgeColor: '#f59e0b' },
+        { href: '/agent',        icon: Icon.agent,       label: 'AI Agent',   badge: pendingCount, badgeColor: P.amber },
         { href: '/social-intel', icon: Icon.socialIntel, label: 'Social Intel' },
       ],
     },
@@ -264,7 +265,8 @@ export default function AppSidebar() {
   return (
     <aside style={{
       width: '220px',
-      background: '#0f1117',
+      background: P.bg,
+      borderRight: `1px solid ${P.rule}`,
       position: 'fixed',
       top: 0, left: 0, bottom: 0,
       display: 'flex',
@@ -279,19 +281,13 @@ export default function AppSidebar() {
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: `1px solid ${P.rule}`,
       }}>
-        <div style={{
-          width: '28px', height: '28px',
-          background: 'linear-gradient(135deg, #5b52f5 0%, #7c6af7 100%)',
-          borderRadius: '7px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: 'white', fontSize: '13px', fontWeight: 700,
-          letterSpacing: '-0.02em',
-          flexShrink: 0,
-          boxShadow: '0 2px 8px rgba(91,82,245,0.4)',
-        }}>A</div>
-        <span style={{ fontSize: '15px', fontWeight: 600, color: '#f0f0f8', letterSpacing: '-0.01em' }}>
+        <svg width="22" height="22" viewBox="0 0 60 60" fill="none" style={{ flexShrink: 0 }}>
+          <polygon points="30,6 54,50 6,50" stroke={P.ink} strokeWidth="3" fill="none"/>
+          <polygon points="30,20 42,44 18,44" stroke={P.ink} strokeWidth="2" fill="none" opacity="0.35"/>
+        </svg>
+        <span style={{ fontSize: '15px', fontWeight: 600, color: P.ink, letterSpacing: '-0.01em', fontFamily: "'Instrument Serif', Georgia, serif" }}>
           Palvento
         </span>
       </div>
@@ -303,9 +299,12 @@ export default function AppSidebar() {
 
             {group.label && (
               <div style={{
-                fontSize: '10px', fontWeight: 600,
-                color: 'rgba(255,255,255,0.2)',
-                textTransform: 'uppercase', letterSpacing: '0.08em',
+                ...MONO,
+                fontSize: '9px',
+                fontWeight: 600,
+                color: P.muted,
+                textTransform: 'uppercase',
+                letterSpacing: '0.12em',
                 padding: '10px 8px 4px',
               }}>
                 {group.label}
@@ -324,35 +323,25 @@ export default function AppSidebar() {
                     alignItems: 'center',
                     gap: '9px',
                     padding: '7px 8px',
-                    borderRadius: '6px',
+                    borderRadius: '0',
                     cursor: 'pointer',
-                    color: active ? '#f0f0f8' : 'rgba(255,255,255,0.45)',
-                    background: active ? 'rgba(255,255,255,0.07)' : 'transparent',
+                    color: active ? P.ink : P.muted,
+                    background: active ? P.cobaltSft : 'transparent',
                     fontSize: '13px',
                     fontWeight: active ? 500 : 400,
                     marginBottom: '1px',
                     transition: 'color 0.15s, background 0.15s',
                     position: 'relative',
+                    borderLeft: active ? `2px solid ${P.cobalt}` : '2px solid transparent',
+                    marginLeft: '-2px',
                   }}
                   onMouseEnter={e => {
-                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.7)'
+                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = P.inkSoft
                   }}
                   onMouseLeave={e => {
-                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.45)'
+                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = P.muted
                   }}
                 >
-                  {/* Active indicator */}
-                  {active && (
-                    <div style={{
-                      position: 'absolute',
-                      left: 0, top: '50%',
-                      transform: 'translateY(-50%)',
-                      width: '3px', height: '16px',
-                      background: 'linear-gradient(180deg, #5b52f5, #7c6af7)',
-                      borderRadius: '0 2px 2px 0',
-                    }}/>
-                  )}
-
                   <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
                     {item.icon}
                   </span>
@@ -361,11 +350,12 @@ export default function AppSidebar() {
 
                   {(item as any).badge > 0 && (
                     <span style={{
-                      background: (item as any).badgeColor || '#ef4444',
-                      color: 'white',
-                      fontSize: '10px', fontWeight: 600,
-                      padding: '1px 5px',
-                      borderRadius: '10px',
+                      ...MONO,
+                      background: 'transparent',
+                      color: (item as any).badgeColor || P.oxblood,
+                      fontSize: '10px',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
                       lineHeight: '16px',
                       minWidth: '18px',
                       textAlign: 'center',
@@ -380,7 +370,7 @@ export default function AppSidebar() {
             {gi < navGroups.length - 1 && (
               <div style={{
                 height: '1px',
-                background: 'rgba(255,255,255,0.06)',
+                background: P.rule,
                 margin: '8px 4px',
               }}/>
             )}
@@ -391,63 +381,62 @@ export default function AppSidebar() {
       {/* ── User footer ── */}
       <div style={{
         padding: '10px 8px 12px',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        borderTop: `1px solid ${P.rule}`,
       }}>
-        {/* Trust links — small, unobtrusive, above plan badge */}
         <div style={{ padding: '0 4px 8px', display: 'flex', gap: '10px' }}>
-          <Link href="/security" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', letterSpacing: '0.02em' }}>Security</Link>
-          <Link href="/privacy" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', letterSpacing: '0.02em' }}>Privacy</Link>
-          <Link href="/settings#privacy" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', letterSpacing: '0.02em' }}>Your data</Link>
+          <Link href="/security" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Security</Link>
+          <Link href="/privacy" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Privacy</Link>
+          <Link href="/settings#privacy" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Your data</Link>
         </div>
-        {/* Plan badge */}
         <div style={{ padding: '0 4px 8px' }}>
           <span style={{
-            background: planStyle.bg,
-            color: planStyle.text,
-            fontSize: '10px', fontWeight: 600,
-            padding: '2px 8px',
-            borderRadius: '4px',
-            letterSpacing: '0.02em',
+            ...MONO,
+            color: planStyle.color,
+            fontSize: '9px',
+            fontWeight: 600,
+            letterSpacing: '0.10em',
+            textTransform: 'uppercase',
           }}>
             {planStyle.label}
           </span>
         </div>
 
-        {/* User row */}
         <div
           onClick={signOut}
           style={{
             display: 'flex', alignItems: 'center', gap: '9px',
-            padding: '7px 8px', borderRadius: '6px',
+            padding: '7px 8px',
             cursor: 'pointer',
-            transition: 'background 0.15s',
+            transition: 'opacity 0.15s',
           }}
-          onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.05)'}
-          onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = 'transparent'}
+          onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.opacity = '0.7'}
+          onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.opacity = '1'}
         >
           <div style={{
-            width: '26px', height: '26px',
-            background: 'linear-gradient(135deg, #5b52f5, #7c6af7)',
-            borderRadius: '50%',
+            width: '24px', height: '24px',
+            border: `1px solid ${P.rule}`,
+            borderRadius: '0',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'white', fontSize: '11px', fontWeight: 600,
+            color: P.ink, fontSize: '10px', fontWeight: 600,
             flexShrink: 0,
+            ...MONO,
+            letterSpacing: '0.04em',
           }}>
             {initials}
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{
               fontSize: '12px', fontWeight: 500,
-              color: 'rgba(255,255,255,0.75)',
+              color: P.inkSoft,
               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             }}>
               {username}
             </div>
-            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>
+            <div style={{ ...MONO, fontSize: '10px', color: P.muted, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               Sign out
             </div>
           </div>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={P.muted} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M8 6H2M10 4l2 2-2 2M7 2H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h4"/>
           </svg>
         </div>
