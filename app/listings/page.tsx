@@ -7,6 +7,7 @@ import TourTrigger from '../components/TourTrigger'
 import { useTour } from '../lib/tours'
 import { createClient as createSupabaseClient } from '../lib/supabase-client'
 import { HealthSummaryStrip, HealthDrawer, HealthBadge, useListingHealth } from './HealthSummaryStrip'
+import EnrichmentPanel from '../components/EnrichmentPanel'
 import { P, CARD, MONO, LABEL, HEADING, NUMBER, BTN_PRIMARY, BTN_SECONDARY, SECTION_HEADER, STATUS_DOT, CHANNEL_SVG } from '../lib/design-system'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -537,6 +538,12 @@ export default function ListingsPage() {
   const [healthFilter, setHealthFilter] = useState<'all' | 'errors' | 'warnings' | 'healthy'>('all')
   const [healthDrawerListing, setHealthDrawerListing] = useState<Listing | null>(null)
 
+  // [enrichment] AI enrichment panel
+  const [enrichmentOpen, setEnrichmentOpen] = useState(false)
+  const [enrichmentListingIds, setEnrichmentListingIds] = useState<string[]>([])
+  const [enrichmentTitle, setEnrichmentTitle] = useState<string | undefined>(undefined)
+  const [enrichmentScores, setEnrichmentScores] = useState<Map<string, number>>(new Map())
+
   // Sorting
   const [sortField, setSortField] = useState<SortField>(null)
   const [sortDir, setSortDir] = useState<SortDir>('asc')
@@ -973,6 +980,66 @@ export default function ListingsPage() {
     setBulkEditMenuOpen(false)
     showToast(`Updated ${count} product${count !== 1 ? 's' : ''}`)
   }
+
+  // ── Enrichment helpers ──────────────────────────────────────────────────────
+
+  function openEnrichSingle(listing: Listing) {
+    setEnrichmentListingIds([listing.id])
+    setEnrichmentTitle(listing.title)
+    setEnrichmentOpen(true)
+  }
+
+  function openEnrichBulk() {
+    if (!selected.size) return
+    setEnrichmentListingIds(Array.from(selected))
+    setEnrichmentTitle(undefined)
+    setEnrichmentOpen(true)
+  }
+
+  async function applyEnrichment(listingId: string, fields: Record<string, unknown>) {
+    // Map enrichment field names to listing column names
+    const patch: Record<string, unknown> = {}
+    if (fields.title) patch.title = fields.title
+    if (fields.description) patch.description = fields.description
+    if (fields.bulletPoints) patch.bullet_points = fields.bulletPoints
+    if (fields.attributes) patch.attributes = fields.attributes
+    if (fields.searchTerms) patch.search_terms = fields.searchTerms
+    if (fields.category) patch.category = fields.category
+    if (fields.tags) patch.tags = fields.tags
+
+    if (Object.keys(patch).length === 0) return
+
+    await fetch(`/api/listings/${listingId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(patch),
+    })
+
+    // Refresh listing in local state
+    setListings(prev => prev.map(l =>
+      l.id === listingId ? { ...l, ...patch } as Listing : l
+    ))
+    showToast('Enrichment applied')
+  }
+
+  // Fetch enrichment scores for visible listings
+  useEffect(() => {
+    if (listings.length === 0) return
+    const ids = listings.slice(0, 100).map(l => l.id)
+    const scores = new Map<string, number>()
+    for (const l of listings.slice(0, 100)) {
+      let total = 0, filled = 0
+      total++; if (String(l.title ?? '').length >= 20) filled++
+      total++; if (l.images?.length >= 1) filled++
+      total++; if (l.images?.length >= 3) filled++
+      total++; if (l.brand && l.brand.trim().length > 0) filled++
+      total++; if (l.condition && l.condition.trim().length > 0) filled++
+      total++; if (l.category && l.category.trim().length > 0) filled++
+      total++; if (typeof l.price === 'number' && l.price > 0) filled++
+      scores.set(l.id, Math.round((filled / total) * 100))
+    }
+    setEnrichmentScores(scores)
+  }, [listings])
 
   // ── Inline cell save ──────────────────────────────────────────────────────────
 
@@ -1877,13 +1944,29 @@ export default function ListingsPage() {
                       />
                     )}
 
-                    {/* Health: score badge or error count */}
+                    {/* Health: score badge + enrichment score */}
                     {visibleColumns.includes('health') && (
-                      <HealthScoreBadge
-                        score={h?.health_score}
-                        errorCount={h?.errors_count}
-                        onClick={() => setHealthDrawerListing(listing)}
-                      />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <HealthScoreBadge
+                          score={h?.health_score}
+                          errorCount={h?.errors_count}
+                          onClick={() => setHealthDrawerListing(listing)}
+                        />
+                        {enrichmentScores.has(listing.id) && (
+                          <span
+                            onClick={e => { e.stopPropagation(); openEnrichSingle(listing) }}
+                            title={`${enrichmentScores.get(listing.id)}% enriched — click to enrich with AI`}
+                            style={{
+                              ...MONO, fontSize: 9, fontWeight: 600,
+                              color: P.cobalt, background: P.cobaltSft,
+                              padding: '2px 5px', borderRadius: 2,
+                              cursor: 'pointer', whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {enrichmentScores.get(listing.id)}%
+                          </span>
+                        )}
+                      </div>
                     )}
 
                     {/* Revenue 30d with sparkline */}
@@ -2114,6 +2197,13 @@ export default function ListingsPage() {
           </div>
 
           <button
+            onClick={openEnrichBulk}
+            style={{ padding: '6px 12px', background: 'rgba(29,95,219,0.25)', color: '#c5d5f5', border: '1px solid rgba(29,95,219,0.4)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Enrich with AI
+          </button>
+
+          <button
             onClick={() => bulkChangeStatus('published')}
             style={{ padding: '6px 12px', background: 'rgba(243,240,234,0.1)', color: P.bg, border: '1px solid rgba(243,240,234,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
           >
@@ -2157,6 +2247,15 @@ export default function ListingsPage() {
         onClose={() => { setHealthDrawerListing(null); reloadHealth() }}
         listingId={healthDrawerListing?.id ?? null}
         listingTitle={healthDrawerListing?.title ?? null}
+      />
+
+      {/* [enrichment] AI enrichment panel */}
+      <EnrichmentPanel
+        open={enrichmentOpen}
+        onClose={() => setEnrichmentOpen(false)}
+        listingIds={enrichmentListingIds}
+        listingTitle={enrichmentTitle}
+        onApply={applyEnrichment}
       />
     </div>
   )
