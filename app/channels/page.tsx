@@ -193,9 +193,9 @@ const CHANNELS: ChannelDef[] = [
 
   // ── Shopping Feeds & CSE ────────────────────────────────────────────────────
   {
-    id: 'google_shopping', name: 'Google Shopping', category: 'Shopping Feeds',
+    id: 'google', name: 'Google Shopping', category: 'Shopping Feeds',
     description: 'Sync your product feed to Google Merchant Center for Shopping and Performance Max ads.',
-    color: '#eff6ff', accent: '#4285F4', textColor: '#fff', status: 'soon',
+    color: '#eff6ff', accent: '#4285F4', textColor: '#fff', status: 'live',
     logo: 'google',
   },
   {
@@ -439,7 +439,7 @@ const CHANNEL_META: Record<string, ChannelMeta> = {
     connectPath: '/api/facebook/connect',
     note: 'Use Facebook test users & test Catalogs in Meta Developer console',
   },
-  google_shopping: {
+  google: {
     authType: 'oauth', sandbox: false, devLink: 'https://console.cloud.google.com',
     envVars: ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REDIRECT_URI'],
     connectPath: '/api/google/connect',

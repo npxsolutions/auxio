@@ -5,10 +5,12 @@ import { NextResponse } from 'next/server'
 import { applyFeedRules, applyFieldMappings } from '@/app/lib/feed-rules'
 import { validateForChannel as preflightValidate } from '@/app/lib/feed/validator'
 import { mapEbayError } from '@/app/lib/feed/ebay-error-dictionary'
+import { mapGoogleError } from '@/app/lib/feed/google-error-dictionary'
 import { extractAspects, aspectMapToPayload } from '@/app/lib/feed/aspects'
 // BUNDLE_C: policies ensure + variant group imports
 import { ensureEbayPolicies, EbayPolicyError, type EbayPolicySet } from '@/app/lib/ebay/policies'
 import { planVariantGroup, upsertInventoryItemGroup, upsertGroupOffer, type ShopifyProduct } from '@/app/lib/ebay/variants'
+import { publishToGoogle, type GooglePushListing, type GooglePushChannel } from '@/app/lib/google/products'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -74,6 +76,19 @@ function validateForChannel(listing: any, channelType: string): string[] {
     if (!listing.barcode?.trim()) errors.push('Amazon requires a barcode (UPC or EAN)')
     if (!listing.brand?.trim())   errors.push('Amazon requires a brand name')
     if (!listing.description?.trim()) errors.push('Amazon requires a description')
+  }
+
+  if (channelType === 'google') {
+    if (listing.title.length > 150)
+      errors.push(`Google title must be ≤150 characters (currently ${listing.title.length})`)
+    if (!listing.description?.trim()) errors.push('Google requires a description')
+    if (!listing.images?.length)      errors.push('Google requires at least one image_link')
+    const gtin  = listing.barcode ?? listing.gtin
+    const brand = String(listing.brand ?? '').trim()
+    const mpn   = String(listing.mpn ?? listing.sku ?? '').trim()
+    if (!gtin && !(brand && mpn)) {
+      errors.push('Google requires a GTIN, or both brand and MPN/SKU')
+    }
   }
 
   return errors
@@ -626,6 +641,38 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             }
           } else if (channelType === 'amazon') {
             published = await withRetry(() => publishToAmazon(transformed, channel))
+          } else if (channelType === 'google') {
+            const googleListing: GooglePushListing = {
+              id:           transformed.id,
+              title:        transformed.title,
+              description:  transformed.description ?? '',
+              price:        Number(transformed.price ?? 0),
+              quantity:     Number(transformed.quantity ?? 0),
+              sku:          transformed.sku ?? null,
+              condition:    transformed.condition ?? null,
+              images:       Array.isArray(transformed.images) ? transformed.images : [],
+              brand:        transformed.brand ?? null,
+              barcode:      transformed.barcode ?? null,
+              mpn:          transformed.mpn ?? null,
+              product_url:  transformed.product_url ?? transformed.shopify_handle ?? null,
+              shopify_handle: transformed.shopify_handle ?? null,
+              product_type: transformed.product_type ?? null,
+              google_product_category:
+                (mergedCategorySelections['google']?.id as string | undefined) ??
+                transformed.google_product_category ??
+                null,
+              attributes:   transformed.attributes ?? {},
+            }
+            const googleChannel: GooglePushChannel = {
+              user_id:          channel.user_id,
+              access_token:     channel.refresh_token ?? channel.access_token ?? null,
+              metadata:         (channel.metadata as Record<string, unknown> | null) ?? {},
+              shop_domain:      channel.shop_domain ?? null,
+              feed_label:       (channel.metadata?.feed_label as string | undefined) ?? null,
+              content_language: (channel.metadata?.content_language as string | undefined) ?? null,
+              currency:         (channel.metadata?.currency as string | undefined) ?? null,
+            }
+            published = await withRetry(() => publishToGoogle(googleListing, googleChannel, adminSupabase))
           } else {
             throw new Error(`Unknown channel: ${channelType}`)
           }
@@ -672,6 +719,20 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
                 level: 'unknown_ebay_error',
                 message: parsed.raw.slice(0, 1000),
                 metadata: { errorId: parsed.errorId },
+              }).then(() => {}, () => {})
+            }
+          } else if (channelType === 'google') {
+            const parsed = mapGoogleError(String(err.message || ''))
+            if (parsed.mapped) {
+              surfaced = `${parsed.mapped.plainMessage} — ${parsed.mapped.remediation}`
+              console.warn(`[api/listings/publish] google_error_mapped code=${parsed.mapped.code} listing=${id}`)
+            } else {
+              console.warn(`[api/listings/publish] unknown_google_error listing=${id} raw=${parsed.raw.slice(0, 200)}`)
+              await adminSupabase.from('sync_log').insert({
+                user_id: user.id, channel: 'google', listing_id: id,
+                level: 'unknown_google_error',
+                message: parsed.raw.slice(0, 1000),
+                metadata: { reason: parsed.googleReason },
               }).then(() => {}, () => {})
             }
           }

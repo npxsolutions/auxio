@@ -51,7 +51,7 @@ export async function GET(request: Request) {
 
     // Fetch merchant ID and name from Content API
     let shopName   = 'Google Merchant Center'
-    let shopDomain = ''
+    let merchantId = ''
     try {
       const merchantRes = await fetch('https://shoppingcontent.googleapis.com/content/v2.1/accounts/authinfo', {
         headers: { Authorization: `Bearer ${access_token}` },
@@ -59,30 +59,41 @@ export async function GET(request: Request) {
       if (merchantRes.ok) {
         const data = await merchantRes.json()
         const acct = data.accountIdentifiers?.[0]
-        if (acct?.merchantId) shopDomain = String(acct.merchantId)
-        // Fetch account name
-        const acctRes = await fetch(`https://shoppingcontent.googleapis.com/content/v2.1/${acct.merchantId}/accounts/${acct.merchantId}`, {
-          headers: { Authorization: `Bearer ${access_token}` },
-        })
-        if (acctRes.ok) {
-          const acctData = await acctRes.json()
-          shopName = acctData.name || shopName
+        if (acct?.merchantId) merchantId = String(acct.merchantId)
+        if (merchantId) {
+          const acctRes = await fetch(`https://shoppingcontent.googleapis.com/content/v2.1/${merchantId}/accounts/${merchantId}`, {
+            headers: { Authorization: `Bearer ${access_token}` },
+          })
+          if (acctRes.ok) {
+            const acctData = await acctRes.json()
+            shopName = acctData.name || shopName
+          }
         }
       }
     } catch { /* non-fatal */ }
 
+    // Metadata fields are what app/lib/google/auth.ts and /api/sync/google/products read.
+    // Column duplication (shop_domain, refresh_token) kept for UI + legacy compatibility.
+    const tokenExpiresAt = Date.now() + 55 * 60 * 1000 // cache ~55min; auth helper refreshes when <60s left
+
     await supabase.from('channels').upsert({
       user_id:       user.id,
-      type:          'google_shopping',
+      type:          'google',
       active:        true,
       access_token,
       refresh_token: refresh_token || null,
       shop_name:     shopName,
-      shop_domain:   shopDomain,
+      shop_domain:   merchantId,
       connected_at:  new Date().toISOString(),
+      metadata: {
+        merchant_id:             merchantId,
+        google_refresh_token:    refresh_token || null,
+        google_access_token:     access_token,
+        google_token_expires_at: tokenExpiresAt,
+      },
     }, { onConflict: 'user_id,type' })
 
-    const response = NextResponse.redirect(new URL('/channels?connected=google_shopping', request.url))
+    const response = NextResponse.redirect(new URL('/channels?connected=google', request.url))
     response.cookies.delete('google_oauth_state')
     return response
   } catch (err: any) {

@@ -12,7 +12,7 @@ const display = Instrument_Serif({
   display: 'swap',
 })
 
-const MARKETPLACES = ['Amazon', 'eBay', 'Etsy', 'TikTok Shop', 'Walmart', 'Other'] as const
+const MARKETPLACES = ['eBay', 'Google Shopping', 'Amazon (coming soon)', 'Etsy (coming soon)', 'TikTok Shop (coming soon)', 'Walmart (coming soon)', 'Other'] as const
 const GMV_RANGES = ['< $10k', '$10k – $50k', '$50k – $100k', '$100k – $500k', '$500k+'] as const
 
 type FormState = {

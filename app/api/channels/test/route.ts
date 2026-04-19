@@ -50,7 +50,7 @@ const CHANNEL_TESTS: Record<string, (token: string, domain: string) => Promise<{
     return { ok: res.ok, detail: res.ok ? undefined : `HTTP ${res.status}` }
   },
 
-  google_shopping: async (token) => {
+  google: async (token) => {
     const res = await fetch('https://shoppingcontent.googleapis.com/content/v2.1/accounts/authinfo', {
       headers: { Authorization: `Bearer ${token}` },
     })
