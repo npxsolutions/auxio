@@ -52,12 +52,13 @@ type TemplateField = {
 }
 
 const CHANNELS = [
-  { id: 'shopify', icon: '🛍️', name: 'Shopify', colour: '#96BF48' },
-  { id: 'ebay',   icon: '🛒', name: 'eBay',    colour: '#E53238' },
-  { id: 'amazon', icon: '📦', name: 'Amazon',  colour: '#FF9900', stub: true },
+  { id: 'shopify', icon: '🛍️', name: 'Shopify',         colour: '#96BF48' },
+  { id: 'ebay',    icon: '🛒', name: 'eBay',            colour: '#E53238' },
+  { id: 'google',  icon: '🔍', name: 'Google Shopping', colour: '#4285F4' },
+  { id: 'amazon',  icon: '📦', name: 'Amazon',          colour: '#FF9900', stub: true },
 ]
 
-const CHANNEL_ICONS: Record<string, string> = { shopify: '🛍️', amazon: '📦', ebay: '🛒' }
+const CHANNEL_ICONS: Record<string, string> = { shopify: '🛍️', amazon: '📦', ebay: '🛒', google: '🔍' }
 
 const STATUS_COLOUR: Record<string, string> = {
   published: '#0f7b6c',
@@ -299,7 +300,7 @@ export default function ListingDetailPage() {
     if (!listing?.category && listing !== null) return
     const category = listing?.category || 'general'
     Promise.all(
-      ['ebay', 'amazon', 'shopify'].map(ch =>
+      ['ebay', 'amazon', 'shopify', 'google'].map(ch =>
         fetch(`/api/templates?channel_type=${ch}&category=${encodeURIComponent(category)}`)
           .then(r => r.json())
           .then(d => ({ ch, fields: (d.template?.fields as TemplateField[] ?? []).filter(f => f.attribute) }))
@@ -438,7 +439,7 @@ export default function ListingDetailPage() {
     try {
       const res  = await fetch(`/api/listings/${id}/optimize`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ channels: ['shopify', 'ebay', 'amazon'] }),
+        body: JSON.stringify({ channels: ['shopify', 'ebay', 'google', 'amazon'] }),
       })
       const data = await res.json()
       if (res.ok) setOptimised(data.optimised)

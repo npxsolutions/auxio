@@ -169,11 +169,12 @@ const CHANNEL_LABELS: Record<string, string> = {
   etsy: 'Etsy',
 }
 
-const ALL_CHANNEL_KEYS = ['shopify', 'ebay', 'amazon', 'tiktok_shop', 'etsy']
+const ALL_CHANNEL_KEYS = ['shopify', 'ebay', 'google', 'amazon', 'tiktok_shop', 'etsy']
 
 const CHANNEL_STYLE: Record<string, { bg: string; color: string }> = {
   shopify: { bg: P.cobaltSft, color: P.cobalt },
   ebay: { bg: P.amberSft, color: P.amber },
+  google: { bg: P.cobaltSft, color: P.cobalt },
   amazon: { bg: P.amberSft, color: P.amber },
   tiktok_shop: { bg: P.cobaltSft, color: P.cobalt },
   etsy: { bg: P.amberSft, color: P.amber },
