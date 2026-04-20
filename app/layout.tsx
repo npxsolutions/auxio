@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const dynamic = 'force-dynamic';
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "./components/PostHogProvider";
 import { CookieConsent } from "./components/CookieConsent";
@@ -13,6 +13,16 @@ import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-mono' });
+// Instrument Serif is the Palvento editorial display face. Loaded globally so
+// every page inherits it via `var(--font-display)` — eliminates the per-page
+// next/font import boilerplate and fixes the /enterprise fallback-to-Times bug.
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-display',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -51,7 +61,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${geist.className} ${geistMono.variable}`} style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif' }}>
+      <body className={`${geist.className} ${geistMono.variable} ${instrumentSerif.variable}`} style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif' }}>
         <PostHogProvider>
           <TrialBanner />
           {children}

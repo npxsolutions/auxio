@@ -111,17 +111,20 @@ const DOT_FIELD: { x: number; y: number; r: number }[] = (() => {
   return dots
 })()
 type Arc = { from: string; to: string; chFrom: string; chTo: string; curFrom: string; curTo: string; amount: string; sku: string }
+// Illustrative routing using only live channels (Shopify · eBay · Google Shopping)
+// across the 42 markets Palvento's Atlas targets. The sample popup is labelled
+// "route preview · sample" in the UI — no real-time order data is claimed.
 const ARCS: Arc[] = [
-  { from: 'nyc', to: 'lon', chFrom: 'eBay US',     chTo: 'Amazon UK',  curFrom: '$',  curTo: '£',  amount: '142.18', sku: 'A-2204-K' },
-  { from: 'ber', to: 'syd', chFrom: 'Amazon DE',   chTo: 'Shopify AU', curFrom: '€',  curTo: 'A$', amount: '88.40',  sku: 'D-9912-Z' },
-  { from: 'tok', to: 'lax', chFrom: 'Rakuten JP',  chTo: 'Amazon US',  curFrom: '¥',  curTo: '$',  amount: '24,808', sku: 'J-0017-B' },
-  { from: 'lon', to: 'tor', chFrom: 'eBay UK',     chTo: 'Shopify CA', curFrom: '£',  curTo: 'C$', amount: '54.90',  sku: 'B-3380-A' },
-  { from: 'mil', to: 'nyc', chFrom: 'Etsy IT',     chTo: 'Etsy US',    curFrom: '€',  curTo: '$',  amount: '218.00', sku: 'I-7741-R' },
-  { from: 'sin', to: 'syd', chFrom: 'Lazada SG',   chTo: 'Amazon AU',  curFrom: 'S$', curTo: 'A$', amount: '312.05', sku: 'S-2102-X' },
-  { from: 'par', to: 'mum', chFrom: 'Cdiscount FR',chTo: 'Flipkart IN',curFrom: '€',  curTo: '₹',  amount: '6,142',  sku: 'F-1199-Q' },
-  { from: 'sao', to: 'mex', chFrom: 'Mercado BR',  chTo: 'Mercado MX', curFrom: 'R$', curTo: 'M$', amount: '482.10', sku: 'M-3340-V' },
-  { from: 'ams', to: 'ber', chFrom: 'Bol.com NL',  chTo: 'Otto DE',    curFrom: '€',  curTo: '€',  amount: '74.30',  sku: 'N-9981-D' },
-  { from: 'hkg', to: 'lon', chFrom: 'Amazon HK',   chTo: 'eBay UK',    curFrom: 'HK$',curTo: '£',  amount: '38.40',  sku: 'H-4452-T' },
+  { from: 'nyc', to: 'lon', chFrom: 'Shopify',         chTo: 'eBay',            curFrom: '$',   curTo: '£',   amount: 'sample', sku: 'SKU-0001' },
+  { from: 'ber', to: 'syd', chFrom: 'Shopify',         chTo: 'Google Shopping', curFrom: '€',   curTo: 'A$',  amount: 'sample', sku: 'SKU-0002' },
+  { from: 'tok', to: 'lax', chFrom: 'Shopify',         chTo: 'eBay',            curFrom: '¥',   curTo: '$',   amount: 'sample', sku: 'SKU-0003' },
+  { from: 'lon', to: 'tor', chFrom: 'Shopify',         chTo: 'Google Shopping', curFrom: '£',   curTo: 'C$',  amount: 'sample', sku: 'SKU-0004' },
+  { from: 'mil', to: 'nyc', chFrom: 'Shopify',         chTo: 'eBay',            curFrom: '€',   curTo: '$',   amount: 'sample', sku: 'SKU-0005' },
+  { from: 'sin', to: 'syd', chFrom: 'Shopify',         chTo: 'Google Shopping', curFrom: 'S$',  curTo: 'A$',  amount: 'sample', sku: 'SKU-0006' },
+  { from: 'par', to: 'mum', chFrom: 'Shopify',         chTo: 'eBay',            curFrom: '€',   curTo: '₹',   amount: 'sample', sku: 'SKU-0007' },
+  { from: 'sao', to: 'mex', chFrom: 'Shopify',         chTo: 'Google Shopping', curFrom: 'R$',  curTo: 'M$',  amount: 'sample', sku: 'SKU-0008' },
+  { from: 'ams', to: 'ber', chFrom: 'Shopify',         chTo: 'eBay',            curFrom: '€',   curTo: '€',   amount: 'sample', sku: 'SKU-0009' },
+  { from: 'hkg', to: 'lon', chFrom: 'Shopify',         chTo: 'Google Shopping', curFrom: 'HK$', curTo: '£',   amount: 'sample', sku: 'SKU-0010' },
 ]
 const arcPath = (a: { x: number; y: number }, b: { x: number; y: number }) => {
   const mx = (a.x + b.x) / 2; const my = (a.y + b.y) / 2
@@ -269,11 +272,11 @@ function LiveMap() {
         </svg>
 
         <div style={{ position: 'absolute', left: 18, bottom: 18, background: 'rgba(11,15,26,0.95)', color: C.bg, padding: '10px 14px', minWidth: 320, borderLeft: `2px solid ${C.cobalt}` }}>
-          <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(243,240,234,0.55)', marginBottom: 6 }}>Order received · just now</div>
+          <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(243,240,234,0.55)', marginBottom: 6 }}>Route preview · sample</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 18 }}>
-            <span style={{ color: C.bg }}>{ARCS[activeIdx].curFrom}{ARCS[activeIdx].amount}</span>
+            <span style={{ color: C.bg, textTransform: 'uppercase', fontFamily: 'var(--font-mono), monospace', fontSize: 13, letterSpacing: '0.04em' }}>{hubMap[ARCS[activeIdx].from]?.city}</span>
             <span style={{ color: 'rgba(243,240,234,0.4)', fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>→</span>
-            <span style={{ color: C.bg, opacity: 0.7 }}>{ARCS[activeIdx].curTo}</span>
+            <span style={{ color: C.bg, opacity: 0.85, textTransform: 'uppercase', fontFamily: 'var(--font-mono), monospace', fontSize: 13, letterSpacing: '0.04em' }}>{hubMap[ARCS[activeIdx].to]?.city}</span>
           </div>
           <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: 'rgba(243,240,234,0.65)', letterSpacing: '0.05em', marginTop: 4 }}>
             {ARCS[activeIdx].chFrom} <span style={{ color: C.cobalt }}>→</span> {ARCS[activeIdx].chTo}
@@ -337,7 +340,7 @@ function DiagramRoute() {
       {/* Order box: ring only */}
       <rect x="14" y="120" width="100" height="40" fill={C.surface} stroke={C.ink} strokeWidth="1.5" />
       <text x="64" y="138" fontSize="10" fontFamily='var(--font-mono), monospace' fill={C.ink} textAnchor="middle" letterSpacing="0.1em" style={{ textTransform: 'uppercase' }}>Order</text>
-      <text x="64" y="152" fontSize="10" fontFamily='var(--font-mono), monospace' fill={C.cobalt} textAnchor="middle" letterSpacing="0.1em" style={{ textTransform: 'uppercase' }}>$142.18</text>
+      <text x="64" y="152" fontSize="10" fontFamily='var(--font-mono), monospace' fill={C.cobalt} textAnchor="middle" letterSpacing="0.1em" style={{ textTransform: 'uppercase' }}>Sample</text>
       {/* Decision diamond: ring only */}
       <path d="M 160 140 L 200 110 L 240 140 L 200 170 Z" fill="none" stroke={C.ink} strokeWidth="1.5" />
       <text x="200" y="138" fontSize="9" fontFamily='var(--font-mono), monospace' fill={C.ink} textAnchor="middle" letterSpacing="0.08em" style={{ textTransform: 'uppercase' }}>Region</text>

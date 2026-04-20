@@ -189,7 +189,7 @@ export default function PricingPage() {
   const COMPARE = buildCompare(currency)
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: 'var(--font-geist), -apple-system, system-ui, sans-serif', background: '#ffffff', color: '#0f172a' }}>
 
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -216,8 +216,8 @@ export default function PricingPage() {
           {remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life
         </div>
 
-        <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
-          Self-serve feed management. From $149/mo.
+        <h1 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(48px, 6vw, 88px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.02, margin: '0 0 24px', color: '#0f172a' }}>
+          Self-serve feed management. <em style={{ fontStyle: 'italic', color: '#1d5fdb' }}>From $149/mo.</em>
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
           Shopify-led multichannel without the $2,500/mo enterprise floor or the 30-day onboarding call. Published in five currencies. Flat monthly, never a cut of revenue.
@@ -331,7 +331,7 @@ export default function PricingPage() {
       {/* Comparison table */}
       <div style={{ background: '#fafafa', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '8px', textAlign: 'center' }}>How we compare</h2>
+          <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '8px', textAlign: 'center' }}>How we <em style={{ fontStyle: 'italic', color: '#1d5fdb' }}>compare.</em></h2>
           <p style={{ fontSize: '16px', color: '#64748b', textAlign: 'center', marginBottom: '48px' }}>See why sellers choose Palvento over the enterprise alternatives.</p>
 
           <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e8e8e5', overflow: 'hidden' }}>
@@ -361,7 +361,7 @@ export default function PricingPage() {
 
       {/* FAQ */}
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>Frequently asked questions</h2>
+        <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '48px', textAlign: 'center' }}>Frequently <em style={{ fontStyle: 'italic', color: '#1d5fdb' }}>asked.</em></h2>
         {FAQ.map((item, i) => (
           <div key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
             <button
@@ -382,7 +382,7 @@ export default function PricingPage() {
 
       {/* CTA */}
       <div style={{ background: '#0f172a', padding: '80px 48px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '40px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Start your free trial today</h2>
+        <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, color: 'white', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '16px' }}>Start your <em style={{ fontStyle: 'italic', color: '#7BB7FF' }}>free trial today.</em></h2>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>14 days free. No credit card required. Cancel any time.</p>
         <p style={{ fontSize: '14px', color: '#d97706', fontWeight: 600, marginBottom: '32px' }}>{remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life.</p>
         <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '10px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '16px', fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 24px rgba(91,82,245,0.4)' }}>
