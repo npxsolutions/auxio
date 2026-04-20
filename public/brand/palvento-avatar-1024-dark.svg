@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Palvento">
+  <title>Palvento avatar dark — 1024 square (for dark-mode profiles, night-mode contexts)</title>
+  <rect width="1024" height="1024" rx="180" fill="#0b0f1a"/>
+  <g transform="translate(205 205) scale(2.4)">
+    <path d="M24 232 L128 24 L232 232 L184 232 L128 124 L72 232 Z" fill="#f3f0ea"/>
+    <rect x="88" y="188" width="80" height="20" rx="1" fill="#7bb7ff"/>
+  </g>
+</svg>

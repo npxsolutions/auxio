@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none" role="img" aria-label="Palvento">
-  <title>Palvento mark</title>
+  <title>Palvento mark — monochrome black (for print, stamps, single-colour use)</title>
   <path d="M24 232 L128 24 L232 232 L184 232 L128 124 L72 232 Z" fill="#0b0f1a"/>
-  <rect x="88" y="188" width="80" height="20" rx="1" fill="#1d5fdb"/>
+  <rect x="88" y="188" width="80" height="20" rx="1" fill="#0b0f1a"/>
 </svg>

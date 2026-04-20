@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none" role="img" aria-label="Palvento">
+  <title>Palvento mark — inverse (for dark backgrounds)</title>
+  <path d="M24 232 L128 24 L232 232 L184 232 L128 124 L72 232 Z" fill="#f3f0ea"/>
+  <rect x="88" y="188" width="80" height="20" rx="1" fill="#7bb7ff"/>
+</svg>
