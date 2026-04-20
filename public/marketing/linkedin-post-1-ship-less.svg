@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-label="Palvento — Shipping less, meaning it. Planned 14 integrations, shipped 3.">
+  <defs>
+    <style><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;600&display=swap');
+
+      .serif    { font-family: 'Instrument Serif', 'Fraunces', Georgia, 'Times New Roman', serif; font-weight: 400; }
+      .serif-i  { font-family: 'Instrument Serif', 'Fraunces', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 400; }
+      .mono     { font-family: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace; }
+
+      .display       { font-size: 112px; fill: #0b0f1a;  letter-spacing: -0.02em; }
+      .display-i     { font-size: 72px;  fill: #0b0f1a;  letter-spacing: -0.01em; }
+      .quote         { font-size: 38px;  fill: #0b0f1a;  letter-spacing: -0.005em; }
+      .tag           { font-size: 18px;  fill: #5a6171;  letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+      .mark          { font-size: 20px;  fill: #0b0f1a;  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+
+      .square-open   { fill: none; stroke: #0b0f1a; stroke-width: 1.8; }
+      .strike        { stroke: #0b0f1a; stroke-width: 1.8; stroke-linecap: round; }
+      .square-live   { fill: #1d5fdb; }
+      .rule          { stroke: rgba(11,15,26,0.10); stroke-width: 1; }
+      .dot-mark      { fill: #1d5fdb; }
+    ]]></style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1200" fill="#f3f0ea"/>
+
+  <!-- Top rule + eyebrow -->
+  <line x1="120" y1="120" x2="1080" y2="120" class="rule"/>
+  <text x="120" y="106" class="mono tag">Palvento · Roadmap notes</text>
+  <text x="1080" y="106" text-anchor="end" class="mono tag">No. 1</text>
+
+  <!-- Headline -->
+  <text x="600" y="320" text-anchor="middle" class="serif display">Shipping less.</text>
+  <text x="600" y="430" text-anchor="middle" class="serif-i display-i">Meaning it.</text>
+
+  <!-- Ticker: 14 squares, 11 crossed (planned), 3 filled cobalt (live) -->
+  <!--
+       14 squares, 22x22 each, 18px gap between. Extra 44px gap between
+       the 11th and 12th square to visually separate "planned" from "live".
+       Row width = 14*22 + 13*18 + 44 (extra) = 308 + 234 + 44 = 586.
+       Centered on x=600 → start x = 600 - 293 = 307.
+  -->
+  <g transform="translate(307, 630)">
+    <!-- Crossed (planned) — 11 squares, i = 0..10 -->
+    <!-- x for square i = i * (22 + 18) = i * 40 -->
+    <g>
+      <!-- i=0 -->  <rect x="0"    y="0" width="22" height="22" class="square-open"/>  <line x1="0"    y1="0" x2="22"  y2="22" class="strike"/>
+      <!-- i=1 -->  <rect x="40"   y="0" width="22" height="22" class="square-open"/>  <line x1="40"   y1="0" x2="62"  y2="22" class="strike"/>
+      <!-- i=2 -->  <rect x="80"   y="0" width="22" height="22" class="square-open"/>  <line x1="80"   y1="0" x2="102" y2="22" class="strike"/>
+      <!-- i=3 -->  <rect x="120"  y="0" width="22" height="22" class="square-open"/>  <line x1="120"  y1="0" x2="142" y2="22" class="strike"/>
+      <!-- i=4 -->  <rect x="160"  y="0" width="22" height="22" class="square-open"/>  <line x1="160"  y1="0" x2="182" y2="22" class="strike"/>
+      <!-- i=5 -->  <rect x="200"  y="0" width="22" height="22" class="square-open"/>  <line x1="200"  y1="0" x2="222" y2="22" class="strike"/>
+      <!-- i=6 -->  <rect x="240"  y="0" width="22" height="22" class="square-open"/>  <line x1="240"  y1="0" x2="262" y2="22" class="strike"/>
+      <!-- i=7 -->  <rect x="280"  y="0" width="22" height="22" class="square-open"/>  <line x1="280"  y1="0" x2="302" y2="22" class="strike"/>
+      <!-- i=8 -->  <rect x="320"  y="0" width="22" height="22" class="square-open"/>  <line x1="320"  y1="0" x2="342" y2="22" class="strike"/>
+      <!-- i=9 -->  <rect x="360"  y="0" width="22" height="22" class="square-open"/>  <line x1="360"  y1="0" x2="382" y2="22" class="strike"/>
+      <!-- i=10 --> <rect x="400"  y="0" width="22" height="22" class="square-open"/>  <line x1="400"  y1="0" x2="422" y2="22" class="strike"/>
+    </g>
+    <!-- Live (shipped) — 3 squares, shifted right by 44px gap -->
+    <g transform="translate(486, 0)">
+      <!-- i=11 --> <rect x="0"  y="0" width="22" height="22" class="square-live"/>
+      <!-- i=12 --> <rect x="40" y="0" width="22" height="22" class="square-live"/>
+      <!-- i=13 --> <rect x="80" y="0" width="22" height="22" class="square-live"/>
+    </g>
+  </g>
+
+  <!-- Ticker labels -->
+  <text x="518" y="710" text-anchor="middle" class="mono tag">11 planned</text>
+  <text x="830" y="710" text-anchor="middle" class="mono tag" fill="#1d5fdb">3 live</text>
+
+  <!-- Pull quote -->
+  <text x="600" y="870" text-anchor="middle" class="serif-i quote">&#8220;Coming soon&#8221; is more credible</text>
+  <text x="600" y="920" text-anchor="middle" class="serif-i quote">than a broken connector.</text>
+
+  <!-- Bottom rule + wordmark -->
+  <line x1="120" y1="1080" x2="1080" y2="1080" class="rule"/>
+  <circle cx="120" cy="1110" r="5" class="dot-mark"/>
+  <text x="140" y="1117" class="mono mark">PALVENTO</text>
+  <text x="1080" y="1117" text-anchor="end" class="mono tag">palvento.com</text>
+</svg>
