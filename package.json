@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
-    "capture": "tsx scripts/capture-assets.ts"
+    "capture": "tsx scripts/capture-assets.ts",
+    "prospect:enrich": "tsx scripts/prospect-enrichment.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
