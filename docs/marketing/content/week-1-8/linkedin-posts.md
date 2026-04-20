@@ -32,6 +32,8 @@ So I threw the deck out and rewrote the thesis in one line: self-serve multichan
 
 This is week one of eight where I'll share what we're building, why, and the decisions I'm getting wrong.
 
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
+
 **Hashtags**
 #Shopify #Ecommerce #Multichannel #BuildInPublic
 
@@ -60,6 +62,8 @@ The fix is not a better spreadsheet. The fix is a single ledger that ingests eve
 
 If you recognise the spreadsheet, you are exactly the operator I want to talk to.
 
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
+
 **Hashtags**
 #Shopify #Ecommerce #Operations #Multichannel
 
@@ -85,6 +89,8 @@ So I emailed the investor the next morning, declined, and narrowed the thesis. T
 
 The lesson I took: a smaller, truer story funds a bigger real business than the reverse.
 
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
+
 **Hashtags**
 #Startups #Founders #Shopify #BuildInPublic
 
@@ -109,6 +115,8 @@ Version two was usage-based. One cent per synced SKU, one cent per order. Elegan
 Version three is what ships: 59 for one channel, 159 for five, 499 for unlimited, flat, published in five currencies, no percentage of GMV. It is boring and legible and every operator I've shown it to nods at 159 and says "that's what I'd expect to pay". Boring beats clever on pricing every single time.
 
 The lesson: you can be creative on the product and strict on the price. The reverse gets you nowhere. Every competitor in the enterprise tier that hides a price is telling you they haven't figured out their own business yet.
+
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
 
 **Hashtags**
 #Pricing #SaaS #Shopify #Founders
@@ -137,6 +145,8 @@ Five. Treating the feed as a one-time setup. It isn't. Category schemas change. 
 
 None of this is glamorous. All of it is margin.
 
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
+
 **Hashtags**
 #Amazon #Shopify #Ecommerce #Multichannel
 
@@ -159,6 +169,8 @@ They are not running an enterprise retail operation. They don't have a channel-o
 That is the exact shape Palvento is cut to. Self-serve install from the Shopify App Store. Live on the first channel in under ten minutes. Nine target channels. Pre-flight feed validation that catches missing GTINs, image-resolution failures, banned words, and category-attribute gaps before the feed hits the marketplace. Per-channel pricing floors. Per-channel P&L with line-item fee attribution. Published pricing in five currencies — 59, 159, 499, flat.
 
 Everything else is a distraction until this operator is served well. That is the whole thesis. That is the whole roadmap.
+
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
 
 **Hashtags**
 #Ecommerce #Shopify #SaaS #Commerce
@@ -191,6 +203,8 @@ Total damage from one missing 13-digit identifier: eleven days of suppressed rev
 
 The fix is trivial. Catch the missing GTIN at ingest, before the feed is pushed to Amazon. Surface it to the operator with the exact variant and the suggested fix. That is one of the first things Palvento's pre-flight validator does and it is the single feature every trialist has commented on.
 
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
+
 **Hashtags**
 #Amazon #Ecommerce #Operations #Shopify
 
@@ -211,6 +225,8 @@ In the Shopify operators I've surveyed, TikTok Shop is the single highest-growth
 The friction is not the channel. The friction is the feed. TikTok Shop's category schema has different required attributes than Amazon, different image ratios, different compliance checks for any product touching beauty or wellness. The free first-party Shopify sync does not cover TikTok Shop. Most one-off TikTok Shop apps do not enforce feed quality. So operators list, get rejected, manually fix, list again, get rejected, give up.
 
 We support TikTok Shop because it is the fastest-growing legitimate sales channel for our ICP and because the feed problem there is worse, not better, than on Amazon. "Fashion thing" is the story of 2022. The 2026 story is that TikTok Shop is where a Shopify founder doing 30k a month gets to 60k in a quarter, if the feed is clean.
+
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
 
 **Hashtags**
 #TikTokShop #Shopify #Ecommerce #Multichannel
@@ -239,6 +255,8 @@ Out of 417 feed rejections across all four marketplaces, the top four causes wer
 Nineteen remaining error types accounted for the other 19 percent. Four error classes, fixed at ingest, would have eliminated more than 300 rejections over two months. That is real revenue and real operator time.
 
 When we talk about feed validation at Palvento, this is the list the validator is trained on. Not academic. Actual rejections from actual sellers.
+
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
 
 **Hashtags**
 #Ecommerce #Amazon #TikTokShop #Operations
@@ -271,6 +289,8 @@ The fix is to set a target net-margin per channel and let the pricing engine bac
 
 This is unglamorous. It is also usually worth 1,800 to 4,500 a month on a mid-seven-figure run rate.
 
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
+
 **Hashtags**
 #Ecommerce #Pricing #Amazon #Shopify
 
@@ -298,6 +318,8 @@ Returns processing fee — 610, because 23 units were returned and disposed, eac
 Total: 1,340 in a single month, invisible. Annualised: 16k. On a business doing 1.8M, that is a full percentage point of margin going into a fee line that nobody in the company could name.
 
 Tracking this is not difficult. It is tedious. Any feed platform worth its price ought to ingest the payout report at line-item grain and attribute every fee to the SKU it belongs to. If yours does not, you are leaving the ability to make a good reorder decision on the table.
+
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
 
 **Hashtags**
 #Amazon #FBA #Ecommerce #Margins
@@ -328,6 +350,8 @@ The result is surfaced as a single pre-flight panel before any push. You see the
 
 The simplest product pitch I've written: we stop you shipping bad data to the marketplace that was going to embarrass you anyway.
 
+Live at palvento.com. 10 founding-partner spots open at 40% off for life.
+
 **Hashtags**
 #Shopify #Ecommerce #Feed #Product
 
@@ -352,6 +376,8 @@ The category suggester runs the product title, description, attributes, and imag
 What surprised me in user research: the three-choice UI matters more than the accuracy. Operators do not want a single auto-chosen category, even when the model is right. They want the model to narrow 30,000 options to three, and to keep the decision theirs. The product learned a lesson here — confidence is not acceptance. Narrowing the question is the value.
 
 It is one of the features I'm proudest of, and one of the smallest product surfaces we ship.
+
+Live at palvento.com. 10 founding-partner spots open at 40% off for life.
 
 **Hashtags**
 #Shopify #Ecommerce #AI #Product
@@ -378,6 +404,8 @@ I wrote them an email. I said the honest thing — you are too early for us, we 
 
 Two lessons. One — the hardest customers to fire are the nice ones who like you. Two — a wedge only works if you defend it against everyone outside it, including the ones who would pay you money to pull you off it. The 24 who stayed are Shopify operators running three to five channels. Every product decision since has been better because the 25th customer is no longer in the room.
 
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
+
 **Hashtags**
 #Founders #SaaS #Startups #Shopify
 
@@ -400,6 +428,8 @@ Palvento's integration reads your existing eBay business policies on connect, ma
 This is five days of engineering work for what sounds, on the roadmap, like a checkbox. It saves the average UK eBay seller roughly one full hour a week and — more importantly — one silent failure a month where a listing goes out with the wrong returns policy and the operator only finds out when a buyer opens a case.
 
 Boring features are usually the ones that retain users. This is one of them.
+
+Live at palvento.com. 10 founding-partner spots open at 40% off for life.
 
 **Hashtags**
 #eBay #Ecommerce #Shopify #Product
@@ -428,6 +458,8 @@ This sounds obvious written down. It is not obvious in the database schema. Almo
 
 This was a hard week of decisions. It is also the feature that makes a three-variant pet bed listing, with 9 colour-size combinations, stay consistent across four channels without manual stitching.
 
+Live at palvento.com. 10 founding-partner spots open at 40% off for life.
+
 **Hashtags**
 #Shopify #Ecommerce #Product #Engineering
 
@@ -450,6 +482,8 @@ I thought this was a table-stakes decision when I made it. I was wrong. Every en
 We are a UK-registered company selling mostly in USD. There is no particular reason this should be easier for a London seller than a New York one. So we built the currency toggle into the pricing page, made it sticky across the site, and priced each currency to a clean number in that currency — 159 USD becomes 129 GBP, 149 EUR, 249 AUD, 219 CAD. Not a conversion. A price.
 
 This took two days to build and has become a line item at every discovery call. "You're the first tool that actually tells me the GBP price". Small detail, high signal. Boring choices compound.
+
+Live at palvento.com. 10 founding-partner spots open at 40% off for life.
 
 **Hashtags**
 #Pricing #SaaS #Shopify #Global
@@ -480,6 +514,8 @@ Three. Your hero SKU — the one you tell yourself is the business — will cont
 
 This exercise is the P&L the platform replaces. Running Palvento means you don't rebuild this spreadsheet every quarter. But do it once by hand, because what you learn is usually a pricing decision worth more than a year of subscription.
 
+If you recognise the shape — Shopify-led, three to five channels — DM me. 10 founding-partner spots open at palvento.com, 40% off for life.
+
 **Hashtags**
 #Ecommerce #Margins #Shopify #Operations
 
@@ -505,6 +541,8 @@ So the differentiator in 2026 is not "we can write a title". Everyone can write 
 
 If a feed product is only pitching AI drafting, they are pitching the easy half of the problem. Ask about the validator. Ask when the schemas were last updated. Ask which rejection patterns they catch at ingest. That is where the real engineering lives.
 
+Following the 8-week build in public — palvento.com for the full thesis.
+
 **Hashtags**
 #AI #Ecommerce #Shopify #Commerce
 
@@ -529,6 +567,8 @@ If we had shipped a bad shipping feature, three things would have happened. One 
 I almost built it anyway. The thing that saved me was a 90-minute call with an operator who said "honestly I just want the feed to be clean, I will buy ShipStation separately". That one sentence killed the feature.
 
 The hardest part of positioning is saying no to customers you like.
+
+10 founding-partner spots open at 40% off for life. palvento.com — or DM me.
 
 **Hashtags**
 #Product #SaaS #Shopify #Founders
@@ -557,6 +597,8 @@ Five. Weekly iteration. The listing ships updates every week for the first 90 da
 
 This is not a growth hack. It is the basic, unglamorous work of taking the App Store seriously as the top-of-funnel for Shopify-led operators. The target is top three for "multichannel feed management" and "Shopify multichannel sync" by day 60. Every other acquisition channel is a supplement to this one.
 
+Following the 8-week build in public — palvento.com for the full thesis.
+
 **Hashtags**
 #Shopify #AppStore #SaaS #Commerce
 
@@ -583,6 +625,8 @@ TikTok Shop will do this again. So will Amazon. So will eBay. Marketplace schema
 At Palvento, category-schema monitoring is on a named engineer's calendar every week. Not because it is glamorous. Because if the validator drifts, the product is broken in a way the user will not discover until they list a new product and are silently rejected.
 
 When you are evaluating a feed tool, the question to ask is not "does it support TikTok Shop". The question is "who updates the TikTok Shop schema when it changes, and how quickly".
+
+Following the 8-week build in public — palvento.com for the full thesis.
 
 **Hashtags**
 #TikTokShop #Ecommerce #Shopify #Compliance
