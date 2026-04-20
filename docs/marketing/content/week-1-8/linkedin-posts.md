@@ -79,7 +79,7 @@ The term sheet was good. The investor was smart. The problem was the pitch I'd g
 
 I'd shown them the 7.6 trillion dollar global commerce number. I'd shown them Shopify, Amazon, Mercado Libre. I'd used the phrase "operating system for commerce" three times on a single slide. They bought every word of it and wanted to fund it.
 
-And on the flight home I realised I'd sold them a story I didn't believe. The real business is narrower. It is not a commerce OS. It is a feed-management product for a specific kind of operator — Shopify-led, three to five channels, quoted by Feedonomics and bounced. That business does not need 400k. It needs 60k, twelve months of focus, and the App Store ranking.
+And on the flight home I realised I'd sold them a story I didn't believe. The real business is narrower. It is not a commerce OS. It is a feed-management product for a specific kind of operator — Shopify-led, three to five channels, quoted by the enterprise feed vendors and bounced. That business does not need 400k. It needs 60k, twelve months of focus, and the App Store ranking.
 
 So I emailed the investor the next morning, declined, and narrowed the thesis. The landing page got rewritten that weekend. The wedge locked. And the product started shipping in the right direction for the first time in six months.
 
@@ -102,7 +102,7 @@ I priced Palvento three times before I got it right.
 The first two attempts made the product impossible to sell.
 
 **Body**
-Version one was 99 a month flat. Too cheap to fund the engineering, too expensive for the Starter tier, and priced exactly like Shopify Marketplace Connect — so every prospect asked why they'd switch.
+Version one was 99 a month flat. Too cheap to fund the engineering, too expensive for the Starter tier, and priced exactly where Shopify's own first-party sync already sat — so every prospect asked why they'd switch.
 
 Version two was usage-based. One cent per synced SKU, one cent per order. Elegant on a spreadsheet, hostile to a founder trying to forecast their March invoice. Three trialists told me the same thing — "I can't approve this because I don't know what it'll cost".
 
@@ -148,13 +148,13 @@ A clean 5-row checklist, each row with a red strike-through and a green-tick fix
 ### Post 6 — POV · Fri 10:00 UK
 
 **Hook**
-Feedonomics' acquisition by BigCommerce in 2022 left a hole nobody has filled.
+The acquisition of the leading enterprise feed platform by a storefront vendor in 2022 left a hole nobody has filled.
 Here is what the hole actually looks like.
 
 **Body**
-Before the acquisition, Feedonomics served a mixed market — enterprise retailers and ambitious mid-market Shopify operators. After, the product tilted harder toward BigCommerce's strategic accounts. The quote-form floor moved up. The onboarding moved out. The Shopify-merchant-doing-250k-a-year stopped being a customer Feedonomics wanted.
+Before the acquisition, the enterprise feed leader served a mixed market — large retailers and ambitious mid-market Shopify operators. After, the product tilted harder toward the acquiring storefront's strategic accounts. The quote-form floor moved up. The onboarding moved out. The Shopify-merchant-doing-250k-a-year stopped being a customer the platform wanted.
 
-That operator did not disappear. They are still on Shopify, still selling through three to five marketplaces, still getting Amazon listings suppressed for missing attributes. They just stopped having a product that matched their shape. Shopify Marketplace Connect is a fine floor but it covers three channels and doesn't optimise feeds. Sellbrite and Codisto are adjacent but under-invested. Linnworks and Brightpearl are a different category of software entirely — ERP first, feed management as a bolt-on, 40-day onboardings.
+That operator did not disappear. They are still on Shopify, still selling through three to five marketplaces, still getting Amazon listings suppressed for missing attributes. They just stopped having a product that matched their shape. The free Shopify-native sync is a fine floor but it covers three channels and doesn't optimise feeds. The adjacent self-serve peers are under-invested. The legacy inventory platforms are a different category of software entirely — ERP first, feed management as a bolt-on, 40-day onboardings.
 
 The hole is about 30,000 Shopify operators globally doing 100k to 500k a month, running three-plus channels, and not being served by anyone at a self-serve price point. That is the wedge. That is the whole thesis. Everything else is a distraction until the wedge is won.
 
@@ -162,7 +162,7 @@ The hole is about 30,000 Shopify operators globally doing 100k to 500k a month, 
 #Ecommerce #Shopify #SaaS #Commerce
 
 **Visual brief**
-A two-column market map. Left column: "Free / cheap — Shopify MC, Codisto, Sellbrite". Right column: "Enterprise — Feedonomics, Rithum, Linnworks". Middle column labelled "?" in a large serif font, with a small red dot in the centre.
+A two-column market map. Left column: "Free / cheap — first-party sync, self-serve peers". Right column: "Enterprise — quote-only feed engines, legacy ERPs". Middle column labelled "?" in a large serif font, with a small red dot in the centre.
 
 ---
 
@@ -206,7 +206,7 @@ Here is what the data says.
 **Body**
 In the Shopify operators I've surveyed, TikTok Shop is the single highest-growth channel for anyone selling consumer product under 40 dollars. Not clothing specifically. Not even gifting specifically. Any impulse-priced item with a visual story. Candles, pet accessories, kitchen gadgets, stationery, skincare, desk hardware — every one of these categories has at least one operator in my network doing 20k a month or more on TikTok Shop, usually inside the first 90 days of listing.
 
-The friction is not the channel. The friction is the feed. TikTok Shop's category schema has different required attributes than Amazon, different image ratios, different compliance checks for any product touching beauty or wellness. Shopify Marketplace Connect does not cover TikTok Shop. Most one-off TikTok Shop apps do not enforce feed quality. So operators list, get rejected, manually fix, list again, get rejected, give up.
+The friction is not the channel. The friction is the feed. TikTok Shop's category schema has different required attributes than Amazon, different image ratios, different compliance checks for any product touching beauty or wellness. The free first-party Shopify sync does not cover TikTok Shop. Most one-off TikTok Shop apps do not enforce feed quality. So operators list, get rejected, manually fix, list again, get rejected, give up.
 
 We support TikTok Shop because it is the fastest-growing legitimate sales channel for our ICP and because the feed problem there is worse, not better, than on Amazon. "Fashion thing" is the story of 2022. The 2026 story is that TikTok Shop is where a Shopify founder doing 30k a month gets to 60k in a quarter, if the feed is clean.
 
@@ -495,7 +495,7 @@ Everyone is talking about AI-drafted listings.
 The real feed bottleneck in 2026 is not the drafting. It is the validating.
 
 **Body**
-Every feed tool in the market has an AI listing drafter now. Palvento does too. So does Helium 10, so does Zentail, so does every competitor within three clicks of a Google search. It is table stakes.
+Every feed tool in the market has an AI listing drafter now. Palvento does too. So does every competitor within three clicks of a Google search. It is table stakes.
 
 The problem is that a perfectly drafted listing still gets rejected. AI-drafted or human-drafted, the feed has to pass per-marketplace compliance — GTIN format, category attribute completeness, image specs, banned words, policy IDs, condition values, ship-from address validation. A listing can be beautifully written and still get suppressed for a 13-digit identifier missing a check digit.
 
@@ -547,7 +547,7 @@ Every Shopify operator I have spoken to — every single one — found at least 
 
 This should be obvious. Shopify builds a tightly-curated catalogue of apps, ranks them on install volume and review quality, surfaces them at the exact moment an operator is in the admin considering a new workflow. The intent signal is as clean as it gets in software.
 
-And yet. Most multichannel tools I have audited rank poorly in the App Store. Some do not appear at all. Some have listings from 2022 with outdated screenshots. Feedonomics does not have a current App Store presence. Rithum does not. The entire enterprise tier has decided the App Store is below them. Meanwhile Shopify Marketplace Connect, which is Shopify's own product, ranks first on nearly every multichannel query.
+And yet. Most multichannel tools I have audited rank poorly in the App Store. Some do not appear at all. Some have listings from 2022 with outdated screenshots. The enterprise feed platforms do not have a current App Store presence. Not one of them. The entire enterprise tier has decided the App Store is below them. Meanwhile Shopify's own first-party sync ranks first on nearly every multichannel query — because nothing at the paid tier is contesting it.
 
 For the wedge we are targeting — Shopify-led operators running three-plus channels — ranking in the App Store is worth more than an enterprise sales team. We are investing in the listing, the reviews, the onboarding video, the uninstall-to-support conversion flow. Every week the App Store is the top traffic source on the site. Every other acquisition channel is a supplement.
 
@@ -603,7 +603,7 @@ Still nervous. Support capacity. A good Shopify App Store launch attracts 150 to
 
 What I'm most proud of. The pricing page in five currencies. The validator catching missing GTINs at ingest. The onboarding flow that gets a Shopify install to a live Amazon sync inside twelve minutes measured on 38 test runs. Every one of those was a small decision that compounded.
 
-If you are reading this and you fit the shape — Shopify-led, three to five channels, somewhere between "Marketplace Connect is not enough" and "Feedonomics just quoted me 2,500 a month" — reply or DM. You are exactly the operator we built this for.
+If you are reading this and you fit the shape — Shopify-led, three to five channels, somewhere between "the free first-party sync is not enough" and "the enterprise tier just quoted me 2,500 a month" — reply or DM. You are exactly the operator we built this for.
 
 **Hashtags**
 #Launch #Shopify #BuildInPublic #SaaS
@@ -616,17 +616,17 @@ A handwritten-style launch checklist on cream paper. Four boxes ticked. One box 
 ### Post 24 — POV · Fri 10:00 UK
 
 **Hook**
-Feedonomics is not our competitor.
+The enterprise feed vendors are not our competitor.
 The spreadsheet is our competitor.
 
 **Body**
-Every time I talk about positioning, someone asks what happens if Feedonomics drops their price. The honest answer is nothing meaningful. Feedonomics is not the incumbent we have to beat. The incumbent is the Google Sheet.
+Every time I talk about positioning, someone asks what happens if the enterprise tier drops their price. The honest answer is nothing meaningful. The enterprise tier is not the incumbent we have to beat. The incumbent is the Google Sheet.
 
-Roughly 60 percent of Shopify operators running three-plus channels are managing their feed in a spreadsheet. Another 15 percent are running Shopify Marketplace Connect plus one-off apps and stitching the gaps in a spreadsheet. The remaining quarter is split between Feedonomics, Codisto, Sellbrite, Linnworks, Veeqo, and a long tail of single-channel apps.
+Roughly 60 percent of Shopify operators running three-plus channels are managing their feed in a spreadsheet. Another 15 percent are running the free first-party channel sync plus one-off apps and stitching the gaps in a spreadsheet. The remaining quarter is split between the enterprise feed engines, the self-serve peers, the legacy inventory platforms, and a long tail of single-channel apps.
 
 The spreadsheet is free. It is flexible. It scales with the operator's willingness to spend a Sunday morning on it. It breaks at exactly the point we described in post two — 200 orders a day, four channels, one missed GTIN.
 
-To win the wedge we do not need to beat Feedonomics on features. Feedonomics is in a different buying committee. We need to beat the spreadsheet on three axes: faster to set up, catches errors the spreadsheet cannot, and surfaces margin decisions the spreadsheet cannot ask.
+To win the wedge we do not need to beat the enterprise tier on features. They are in a different buying committee. We need to beat the spreadsheet on three axes: faster to set up, catches errors the spreadsheet cannot, and surfaces margin decisions the spreadsheet cannot ask.
 
 Every feature we ship is tested against the spreadsheet first. If it does not beat the spreadsheet, it is not ready. If it clearly beats the spreadsheet, we usually beat the rest of the market by proxy.
 
@@ -645,7 +645,7 @@ A split-screen image. Left: a chaotic spreadsheet with red cells. Right: a clean
 | Week | Tue | Thu | Fri |
 |---|---|---|---|
 | 1 | Narrative — thesis | Tactical — spreadsheet breaks | Narrative — declined round |
-| 2 | Narrative — pricing v3 | Tactical — 5 mistakes | POV — Feedonomics hole |
+| 2 | Narrative — pricing v3 | Tactical — 5 mistakes | POV — enterprise-tier hole |
 | 3 | Tactical — GTIN cost | Narrative — TikTok thesis | Tactical — 417 rejections |
 | 4 | Tactical — per-channel pricing | Tactical — FBA fees | Product — validator |
 | 5 | Product — category suggester | Narrative — fired a customer | Product — eBay policies |
