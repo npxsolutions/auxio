@@ -43,30 +43,30 @@
   <g transform="translate(120, 400)">
     <rect x="0" y="0" width="380" height="420" fill="none" stroke="#0b0f1a" stroke-width="1.8"/>
     <text x="28"  y="50"  class="mono col-label">Free</text>
-    <text x="28"  y="130" class="serif col-name">Shopify</text>
-    <text x="28"  y="180" class="serif col-name">Marketplace</text>
-    <text x="28"  y="230" class="serif col-name">Connect</text>
+    <text x="28"  y="140" class="serif col-name">Basic</text>
+    <text x="28"  y="195" class="serif col-name">channel sync</text>
 
-    <line x1="28" y1="278" x2="100" y2="278" stroke="rgba(11,15,26,0.25)" stroke-width="1"/>
+    <line x1="28" y1="248" x2="100" y2="248" stroke="rgba(11,15,26,0.25)" stroke-width="1"/>
 
-    <text x="28"  y="320" class="mono col-detail">3-channel cap</text>
-    <text x="28"  y="352" class="mono col-detail">50 orders/mo ceiling</text>
-    <text x="28"  y="384" class="mono col-detail">No feed rules, no validator</text>
+    <text x="28"  y="292" class="mono col-detail">3-channel cap</text>
+    <text x="28"  y="324" class="mono col-detail">50 orders/mo ceiling</text>
+    <text x="28"  y="356" class="mono col-detail">No feed rules</text>
+    <text x="28"  y="388" class="mono col-detail">No pre-flight validator</text>
   </g>
 
   <!-- RIGHT column — Enterprise tier -->
   <g transform="translate(700, 400)">
     <rect x="0" y="0" width="380" height="420" fill="none" stroke="#0b0f1a" stroke-width="1.8"/>
     <text x="28"  y="50"  class="mono col-label">Enterprise</text>
-    <text x="28"  y="130" class="serif col-name">Feedonomics</text>
+    <text x="28"  y="140" class="serif col-name">Managed</text>
+    <text x="28"  y="195" class="serif col-name">feed services</text>
 
-    <line x1="28" y1="178" x2="100" y2="178" stroke="rgba(11,15,26,0.25)" stroke-width="1"/>
+    <line x1="28" y1="248" x2="100" y2="248" stroke="rgba(11,15,26,0.25)" stroke-width="1"/>
 
-    <text x="28" y="222" class="mono price-tag">$2,500 / MONTH</text>
-    <text x="28" y="264" class="mono col-detail">30-day onboarding</text>
-    <text x="28" y="296" class="mono col-detail">Dedicated solutions arch.</text>
-    <text x="28" y="328" class="mono col-detail">Quote-gated; sales call first</text>
-    <text x="28" y="384" class="mono col-detail">Tilted to BigCommerce since 2022</text>
+    <text x="28" y="292" class="mono price-tag">$2,500 / MONTH</text>
+    <text x="28" y="324" class="mono col-detail">30-day onboarding</text>
+    <text x="28" y="356" class="mono col-detail">Dedicated solutions arch.</text>
+    <text x="28" y="388" class="mono col-detail">Quote-gated; sales call first</text>
   </g>
 
   <!-- CENTER — "here." + handwritten arrow -->

@@ -24,9 +24,9 @@ I spent four months talking to Shopify operators before I wrote a line of Palven
 What I found killed the pitch deck I had.
 
 **Body**
-Every single operator I spoke to above 100k a month had tried Feedonomics. Exactly one had bought it. The other nineteen had done the same two things — asked for a price, heard 2,500 a month with a 30-day onboarding, and gone back to a spreadsheet.
+Every single operator I spoke to above 100k a month had looked at the enterprise feed tools. Exactly one had bought. The other nineteen had done the same two things — asked for a price, heard 2,500 a month with a 30-day onboarding, and gone back to a spreadsheet.
 
-The spreadsheet was the problem I thought I was solving. It turned out to be the symptom. The actual problem was that the tier between "free Shopify Marketplace Connect" and "enterprise feed engine with a solutions architect" didn't exist. Nobody had built a self-serve feed product that respected a Shopify founder's Tuesday afternoon.
+The spreadsheet was the problem I thought I was solving. It turned out to be the symptom. The actual problem was that the tier between the free channel add-ons and the enterprise feed engines didn't exist. Nobody had built a self-serve feed product that respected a Shopify founder's Tuesday afternoon.
 
 So I threw the deck out and rewrote the thesis in one line: self-serve multichannel feed management for Shopify-led sellers scaling past their store. Every feature decision since then has been tested against that sentence. If it fails the sentence, it doesn't ship.
 
@@ -36,7 +36,7 @@ This is week one of eight where I'll share what we're building, why, and the dec
 #Shopify #Ecommerce #Multichannel #BuildInPublic
 
 **Visual brief**
-Whiteboard sketch photograph. Left column: "Free (Shopify MC)". Right column: "Enterprise ($2.5k/mo Feedonomics)". A hand-drawn arrow pointing into the gap in between with the word "here".
+Market-map illustration. Left column: "Free · Basic channel sync" with 3-channel cap / 50 orders/mo / no feed rules. Right column: "Enterprise · Managed feed services" with 2,500/mo / 30-day onboarding / quote-gated. Centre gap claimed by a cobalt italic "here." with Palvento wordmark.
 
 ---
 
