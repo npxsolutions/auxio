@@ -88,7 +88,7 @@ Hi {{firstName}},
 
 Not a sales note. Wrote this piece last month and it keeps coming up in conversations with operators in the {{monthly_gmv_band}} range selling into the US from the UK, or vice versa:
 
-https://palvento-lkqv.vercel.app/blog/multi-currency-pnl-explained
+https://palvento.com/blog/multi-currency-pnl-explained
 
 The short version: if your dashboard normalises FX at invoice rate rather than settlement rate, it's lying by 2–4 points of margin on every cross-border order. That's the difference between a profitable SKU and a loss-leader, and it compounds quietly.
 
@@ -107,7 +107,7 @@ Hi {{firstName}},
 
 I've written four times, which is the threshold where it stops being useful to write a fifth.
 
-Closing this thread. If self-serve feed management is ever on your list — replacing {{competitor_inferred}}, or graduating off spreadsheets — the door is open and the trial is self-serve at palvento-lkqv.vercel.app. No demo gate.
+Closing this thread. If self-serve feed management is ever on your list — replacing {{competitor_inferred}}, or graduating off spreadsheets — the door is open and the trial is self-serve at palvento.com. No demo gate.
 
 Wishing {{shopify_store}} a strong quarter either way.
 
@@ -127,7 +127,7 @@ Wishing {{shopify_store}} a strong quarter either way.
 
 ## Deliverability notes
 
-- Send from a warmed secondary domain (e.g. `getfulcra.com`), not the primary `palvento-lkqv.vercel.app` root. Primary domain stays clean for transactional mail.
+- Send from a warmed secondary domain (e.g. `getpalvento.com` or `trypalvento.com` — register one and warm for 2 weeks before first send), not the primary `palvento.com` root. Primary domain stays clean for transactional mail.
 - SPF, DKIM, and DMARC records must resolve green before first send. Verify with `mxtoolbox` and Google Postmaster.
 - Ramp slowly: 20 sends/day for week 1, 40/day week 2, 60/day week 3, cap at 80/day per mailbox. Spread across two mailboxes before exceeding 80 total.
 - Keep HTML out of the body. Plain text only, one inline link maximum per touch (Touch 4 is the only link in the whole sequence).
