@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-label="Palvento market map: Shopify Marketplace Connect on the free tier, Feedonomics at 2500 dollars a month on the enterprise tier, and a gap in the middle labeled here.">
+  <defs>
+    <style><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;600&display=swap');
+
+      .serif      { font-family: 'Instrument Serif', 'Fraunces', Georgia, 'Times New Roman', serif; font-weight: 400; }
+      .serif-i    { font-family: 'Instrument Serif', 'Fraunces', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 400; }
+      .mono       { font-family: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace; }
+
+      .display    { font-size: 88px;  fill: #0b0f1a; letter-spacing: -0.02em; }
+      .col-label  { font-size: 14px;  fill: #5a6171; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+      .col-name   { font-size: 46px;  fill: #0b0f1a; letter-spacing: -0.01em; }
+      .col-detail { font-size: 18px;  fill: #5a6171; letter-spacing: 0.01em; }
+      .here       { font-size: 128px; fill: #1d5fdb; letter-spacing: -0.02em; }
+      .here-sub   { font-size: 18px;  fill: #1d5fdb; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+      .tag        { font-size: 18px;  fill: #5a6171; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+      .mark       { font-size: 20px;  fill: #0b0f1a; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+      .price-tag  { font-size: 20px;  fill: #7d2a1a; letter-spacing: 0.08em; font-weight: 600; }
+    ]]></style>
+
+    <!-- Filter for subtle hand-drawn jitter on the arrow -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="1" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1200" fill="#f3f0ea"/>
+
+  <!-- Top rule + eyebrow -->
+  <line x1="120" y1="120" x2="1080" y2="120" stroke="rgba(11,15,26,0.10)" stroke-width="1"/>
+  <text x="120"  y="106" class="mono tag">Palvento · Post №1 · Week 1</text>
+  <text x="1080" y="106" text-anchor="end" class="mono tag">Where we're building</text>
+
+  <!-- Headline -->
+  <text x="600" y="260" text-anchor="middle" class="serif display">The tier that didn&#8217;t exist.</text>
+
+  <!-- ─── Market map ─────────────────────────────────────────────────────── -->
+
+  <!-- LEFT column — Free tier -->
+  <g transform="translate(120, 400)">
+    <rect x="0" y="0" width="380" height="420" fill="none" stroke="#0b0f1a" stroke-width="1.8"/>
+    <text x="28"  y="50"  class="mono col-label">Free</text>
+    <text x="28"  y="130" class="serif col-name">Shopify</text>
+    <text x="28"  y="180" class="serif col-name">Marketplace</text>
+    <text x="28"  y="230" class="serif col-name">Connect</text>
+
+    <line x1="28" y1="278" x2="100" y2="278" stroke="rgba(11,15,26,0.25)" stroke-width="1"/>
+
+    <text x="28"  y="320" class="mono col-detail">3-channel cap</text>
+    <text x="28"  y="352" class="mono col-detail">50 orders/mo ceiling</text>
+    <text x="28"  y="384" class="mono col-detail">No feed rules, no validator</text>
+  </g>
+
+  <!-- RIGHT column — Enterprise tier -->
+  <g transform="translate(700, 400)">
+    <rect x="0" y="0" width="380" height="420" fill="none" stroke="#0b0f1a" stroke-width="1.8"/>
+    <text x="28"  y="50"  class="mono col-label">Enterprise</text>
+    <text x="28"  y="130" class="serif col-name">Feedonomics</text>
+
+    <line x1="28" y1="178" x2="100" y2="178" stroke="rgba(11,15,26,0.25)" stroke-width="1"/>
+
+    <text x="28" y="222" class="mono price-tag">$2,500 / MONTH</text>
+    <text x="28" y="264" class="mono col-detail">30-day onboarding</text>
+    <text x="28" y="296" class="mono col-detail">Dedicated solutions arch.</text>
+    <text x="28" y="328" class="mono col-detail">Quote-gated; sales call first</text>
+    <text x="28" y="384" class="mono col-detail">Tilted to BigCommerce since 2022</text>
+  </g>
+
+  <!-- CENTER — "here." + handwritten arrow -->
+  <!--
+       The gap spans x=500..700. Center line at x=600.
+       The word "here." sits at y≈620 (above column vertical center).
+       A loose arrow sweeps from the word down-and-into the gap below.
+  -->
+  <g>
+    <text x="600" y="620" text-anchor="middle" class="serif-i here">here.</text>
+    <text x="600" y="660" text-anchor="middle" class="mono here-sub">Palvento</text>
+
+    <!-- Hand-drawn arrow: curves from below the word down into the vertical center of the gap -->
+    <g filter="url(#rough)" fill="none" stroke="#1d5fdb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Descending swoop -->
+      <path d="M 600 690 C 560 740, 560 790, 600 820"/>
+      <!-- Arrowhead pointing down -->
+      <path d="M 586 808 L 600 822 L 614 808"/>
+    </g>
+  </g>
+
+  <!-- Footer caption — the thesis line from Post #1 -->
+  <text x="600" y="950" text-anchor="middle" class="serif-i" font-size="34" fill="#0b0f1a">
+    Self-serve multichannel feed management
+  </text>
+  <text x="600" y="995" text-anchor="middle" class="serif-i" font-size="34" fill="#0b0f1a">
+    for Shopify-led sellers scaling past their store.
+  </text>
+
+  <!-- Bottom rule + wordmark -->
+  <line x1="120" y1="1080" x2="1080" y2="1080" stroke="rgba(11,15,26,0.10)" stroke-width="1"/>
+  <circle cx="120" cy="1110" r="5" fill="#1d5fdb"/>
+  <text x="140" y="1117" class="mono mark">PALVENTO</text>
+  <text x="1080" y="1117" text-anchor="end" class="mono tag">palvento.com</text>
+</svg>
