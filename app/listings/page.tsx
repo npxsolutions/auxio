@@ -171,6 +171,14 @@ const CHANNEL_LABELS: Record<string, string> = {
 
 const ALL_CHANNEL_KEYS = ['shopify', 'ebay', 'google', 'amazon', 'tiktok_shop', 'etsy']
 
+// Channels that support publish. Stubbed ones render disabled with a "coming soon" hint.
+const PUBLISHABLE_CHANNELS: Array<{ id: string; label: string; stub?: boolean }> = [
+  { id: 'shopify', label: 'Shopify' },
+  { id: 'ebay',    label: 'eBay' },
+  { id: 'google',  label: 'Google Shopping' },
+  { id: 'amazon',  label: 'Amazon', stub: true },
+]
+
 const CHANNEL_STYLE: Record<string, { bg: string; color: string }> = {
   shopify: { bg: P.cobaltSft, color: P.cobalt },
   ebay: { bg: P.amberSft, color: P.amber },
@@ -582,6 +590,7 @@ export default function ListingsPage() {
   const [bulkEditField, setBulkEditField] = useState<BulkEditField>(null)
   const [bulkEditValue, setBulkEditValue] = useState('')
   const [bulkEditMenuOpen, setBulkEditMenuOpen] = useState(false)
+  const [bulkPublishMenuOpen, setBulkPublishMenuOpen] = useState(false)
 
   // Toast
   const [toast, setToast] = useState('')
@@ -879,22 +888,41 @@ export default function ListingsPage() {
   async function bulkPublish() {
     if (!selected.size || !bulkChannels.size) return
     setBulkPublishing(true)
-    let succeeded = 0
+    setBulkPublishMenuOpen(false)
+    const channels = Array.from(bulkChannels)
+    const totals: Record<string, { ok: number; fail: number }> =
+      Object.fromEntries(channels.map(c => [c, { ok: 0, fail: 0 }]))
+
     for (const id of selected) {
       try {
-        await fetch(`/api/listings/${id}/publish`, {
-          method: 'POST',
+        const res = await fetch(`/api/listings/${id}/publish`, {
+          method:  'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ channels: Array.from(bulkChannels) }),
+          body:    JSON.stringify({ channels }),
         })
-        succeeded++
-      } catch {}
+        const data = await res.json().catch(() => ({}))
+        const results = (data.results ?? {}) as Record<string, { status: string }>
+        for (const ch of channels) {
+          const status = results[ch]?.status
+          if (status === 'published') totals[ch].ok++
+          else                        totals[ch].fail++
+        }
+      } catch {
+        for (const ch of channels) totals[ch].fail++
+      }
     }
-    const data = await fetch('/api/listings').then(r => r.json())
-    setListings(data.listings || [])
+
+    const listingsData = await fetch('/api/listings').then(r => r.json()).catch(() => ({}))
+    if (listingsData.listings) setListings(listingsData.listings)
     setSelected(new Set())
     setBulkPublishing(false)
-    showToast(`Published ${succeeded} listing${succeeded !== 1 ? 's' : ''}`)
+
+    const summary = channels.map(ch => {
+      const { ok, fail } = totals[ch]
+      const label = PUBLISHABLE_CHANNELS.find(p => p.id === ch)?.label ?? ch
+      return fail === 0 ? `${label} ${ok}/${ok}` : `${label} ${ok}/${ok + fail}`
+    }).join(' · ')
+    showToast(`Published ${selected.size} listing${selected.size !== 1 ? 's' : ''} — ${summary}`)
   }
 
   async function bulkDelete() {
@@ -926,22 +954,6 @@ export default function ListingsPage() {
     const data = await fetch('/api/listings').then(r => r.json())
     setListings(data.listings || [])
     showToast(`Updated status on ${count} product${count !== 1 ? 's' : ''}`)
-  }
-
-  async function bulkSyncNow() {
-    if (!selected.size) return
-    let count = 0
-    for (const id of selected) {
-      try {
-        await fetch(`/api/listings/${id}/publish`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ channels: Array.from(bulkChannels) }),
-        })
-        count++
-      } catch {}
-    }
-    showToast(`Syncing ${count} listing${count !== 1 ? 's' : ''}`)
   }
 
   async function bulkExportCSV() {
@@ -2237,12 +2249,71 @@ export default function ListingsPage() {
             Change status
           </button>
 
-          <button
-            onClick={bulkSyncNow}
-            style={{ padding: '6px 12px', background: 'rgba(243,240,234,0.1)', color: P.bg, border: '1px solid rgba(243,240,234,0.2)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
-          >
-            Sync now
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setBulkPublishMenuOpen(v => !v)}
+              disabled={bulkPublishing}
+              style={{ padding: '6px 12px', background: 'rgba(29,95,219,0.25)', color: '#c5d5f5', border: '1px solid rgba(29,95,219,0.4)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: bulkPublishing ? 'wait' : 'pointer', fontFamily: 'inherit' }}
+            >
+              {bulkPublishing ? 'Publishing…' : `Publish to channels ▾`}
+            </button>
+            {bulkPublishMenuOpen && (
+              <div style={{
+                position: 'absolute', bottom: 'calc(100% + 6px)', left: 0,
+                minWidth: 260, background: '#1a1b22', color: P.bg,
+                border: '1px solid rgba(243,240,234,0.15)', borderRadius: '4px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)', padding: '10px', zIndex: 40,
+                fontFamily: 'inherit',
+              }}>
+                <div style={{ fontSize: 11, color: 'rgba(243,240,234,0.6)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Publish {selected.size} listing{selected.size !== 1 ? 's' : ''} to:
+                </div>
+                {PUBLISHABLE_CHANNELS.map(ch => {
+                  const connected = connectedChannels.includes(ch.id)
+                  const disabled  = !!ch.stub || !connected
+                  const checked   = bulkChannels.has(ch.id) && !disabled
+                  return (
+                    <label
+                      key={ch.id}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 8, padding: '6px 4px',
+                        cursor: disabled ? 'not-allowed' : 'pointer',
+                        opacity: disabled ? 0.45 : 1, fontSize: 13,
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        disabled={disabled}
+                        onChange={e => {
+                          setBulkChannels(prev => {
+                            const next = new Set(prev)
+                            if (e.target.checked) next.add(ch.id)
+                            else                  next.delete(ch.id)
+                            return next
+                          })
+                        }}
+                      />
+                      <span style={{ flex: 1 }}>{ch.label}</span>
+                      {ch.stub && <span style={{ fontSize: 10, color: 'rgba(243,240,234,0.4)' }}>coming soon</span>}
+                      {!ch.stub && !connected && <span style={{ fontSize: 10, color: 'rgba(243,240,234,0.4)' }}>not connected</span>}
+                    </label>
+                  )
+                })}
+                <button
+                  onClick={bulkPublish}
+                  disabled={bulkPublishing || bulkChannels.size === 0}
+                  style={{
+                    ...BTN_PRIMARY, width: '100%', marginTop: 8, padding: '7px',
+                    opacity: (bulkPublishing || bulkChannels.size === 0) ? 0.5 : 1,
+                    cursor: (bulkPublishing || bulkChannels.size === 0) ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {bulkPublishing ? 'Publishing…' : `Publish to ${bulkChannels.size} channel${bulkChannels.size !== 1 ? 's' : ''}`}
+                </button>
+              </div>
+            )}
+          </div>
 
           <button
             onClick={bulkExportCSV}
