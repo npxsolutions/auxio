@@ -148,21 +148,23 @@ A clean 5-row checklist, each row with a red strike-through and a green-tick fix
 ### Post 6 — POV · Fri 10:00 UK
 
 **Hook**
-The acquisition of the leading enterprise feed platform by a storefront vendor in 2022 left a hole nobody has filled.
-Here is what the hole actually looks like.
+30,000 Shopify operators globally are running three to five marketplaces on a spreadsheet.
+That is the operator we built Palvento for.
 
 **Body**
-Before the acquisition, the enterprise feed leader served a mixed market — large retailers and ambitious mid-market Shopify operators. After, the product tilted harder toward the acquiring storefront's strategic accounts. The quote-form floor moved up. The onboarding moved out. The Shopify-merchant-doing-250k-a-year stopped being a customer the platform wanted.
+They're doing 100,000 to 500,000 a month in GMV. They started on Shopify and they're staying on Shopify — marketplaces are additive, not replacement. They added Amazon first. Then eBay. Then TikTok Shop. By the time they hit three channels the catalogue has quietly turned into a Google Sheet with one tab per marketplace and a pivot table that's always a week out of date.
 
-That operator did not disappear. They are still on Shopify, still selling through three to five marketplaces, still getting Amazon listings suppressed for missing attributes. They just stopped having a product that matched their shape. The free Shopify-native sync is a fine floor but it covers three channels and doesn't optimise feeds. The adjacent self-serve peers are under-invested. The legacy inventory platforms are a different category of software entirely — ERP first, feed management as a bolt-on, 40-day onboardings.
+They are not running an enterprise retail operation. They don't have a channel-ops team. They don't need a solutions architect, a 30-day onboarding, a custom SLA, or a percentage-of-GMV deal. What they need is the feed to be clean, every marketplace that matters to be live, and a price they can forecast to a line item.
 
-The hole is about 30,000 Shopify operators globally doing 100k to 500k a month, running three-plus channels, and not being served by anyone at a self-serve price point. That is the wedge. That is the whole thesis. Everything else is a distraction until the wedge is won.
+That is the exact shape Palvento is cut to. Self-serve install from the Shopify App Store. Live on the first channel in under ten minutes. Nine target channels. Pre-flight feed validation that catches missing GTINs, image-resolution failures, banned words, and category-attribute gaps before the feed hits the marketplace. Per-channel pricing floors. Per-channel P&L with line-item fee attribution. Published pricing in five currencies — 59, 159, 499, flat.
+
+Everything else is a distraction until this operator is served well. That is the whole thesis. That is the whole roadmap.
 
 **Hashtags**
 #Ecommerce #Shopify #SaaS #Commerce
 
 **Visual brief**
-A two-column market map. Left column: "Free / cheap — first-party sync, self-serve peers". Right column: "Enterprise — quote-only feed engines, legacy ERPs". Middle column labelled "?" in a large serif font, with a small red dot in the centre.
+An ICP portrait card. Title "Who we built Palvento for". Four rows: "Shopify-led · 100k–500k/mo GMV · 3–5 channels · small ops team." Cobalt accent on the title. Cream background.
 
 ---
 
@@ -539,25 +541,27 @@ A photograph-style note pinned to a corkboard, reading "feature killed, March 20
 ### Post 21 — POV · Fri 10:00 UK
 
 **Hook**
-Shopify App Store is the single highest-leverage acquisition channel for multichannel tools in 2026.
-Most vendors are underinvesting in it.
+The Shopify App Store is our primary acquisition channel.
+Here is the five-part playbook we're running to rank inside the top three by day 60.
 
 **Body**
-Every Shopify operator I have spoken to — every single one — found at least two of their current tools through the App Store. Not Google. Not G2. Not LinkedIn ads. The App Store.
+One. Listing copy. Tight headline, two-line value prop, three specific product screenshots with captions written for the App Store's own search algorithm. Function-first, keyword-clean. No brochure language.
 
-This should be obvious. Shopify builds a tightly-curated catalogue of apps, ranks them on install volume and review quality, surfaces them at the exact moment an operator is in the admin considering a new workflow. The intent signal is as clean as it gets in software.
+Two. Onboarding video. A 75-second walkthrough that goes from install to a live Amazon listing, shot on a real test store. No music, no narrator. Operators watch it, see that the product is real, install in the same breath.
 
-And yet. Most multichannel tools I have audited rank poorly in the App Store. Some do not appear at all. Some have listings from 2022 with outdated screenshots. The enterprise feed platforms do not have a current App Store presence. Not one of them. The entire enterprise tier has decided the App Store is below them. Meanwhile Shopify's own first-party sync ranks first on nearly every multichannel query — because nothing at the paid tier is contesting it.
+Three. Review velocity. Every founding partner gets a direct email 14 days after install asking for an honest review. No incentives, no scripts. The ask is "if this saved you time, say so publicly — if it didn't, reply to me." Review quality and velocity both matter to the ranking algorithm.
 
-For the wedge we are targeting — Shopify-led operators running three-plus channels — ranking in the App Store is worth more than an enterprise sales team. We are investing in the listing, the reviews, the onboarding video, the uninstall-to-support conversion flow. Every week the App Store is the top traffic source on the site. Every other acquisition channel is a supplement.
+Four. Uninstall feedback loop. Every uninstall triggers a short email — one question, no funnel. Uninstalls tell us more about product-market fit than installs do.
 
-The App Store is where the wedge is won or lost.
+Five. Weekly iteration. The listing ships updates every week for the first 90 days — new screenshots, updated copy, fresh changelog entries. Shopify's ranking is recency-weighted. Nothing gets to stay static.
+
+This is not a growth hack. It is the basic, unglamorous work of taking the App Store seriously as the top-of-funnel for Shopify-led operators. The target is top three for "multichannel feed management" and "Shopify multichannel sync" by day 60. Every other acquisition channel is a supplement to this one.
 
 **Hashtags**
 #Shopify #AppStore #SaaS #Commerce
 
 **Visual brief**
-A mocked-up App Store screen with four app tiles. One tile highlighted with a subtle glow. Caption: "ranking #3 for multichannel".
+A five-box checklist diagram, each box labelled: "Listing · Video · Reviews · Uninstall loop · Weekly iteration". Each box has a one-line metric underneath. Cobalt banner at the top reading "Top 3 by day 60." Cream background.
 
 ---
 
@@ -616,27 +620,31 @@ A handwritten-style launch checklist on cream paper. Four boxes ticked. One box 
 ### Post 24 — POV · Fri 10:00 UK
 
 **Hook**
-The enterprise feed vendors are not our competitor.
-The spreadsheet is our competitor.
+The Google Sheet is the product Palvento replaces.
+Not a competitor. The incumbent.
 
 **Body**
-Every time I talk about positioning, someone asks what happens if the enterprise tier drops their price. The honest answer is nothing meaningful. The enterprise tier is not the incumbent we have to beat. The incumbent is the Google Sheet.
+Roughly 60 percent of Shopify operators running three-plus channels are managing their feed in a spreadsheet. The spreadsheet is free, flexible, and scales exactly as far as the operator is willing to spend a Sunday morning on it. It works until it doesn't.
 
-Roughly 60 percent of Shopify operators running three-plus channels are managing their feed in a spreadsheet. Another 15 percent are running the free first-party channel sync plus one-off apps and stitching the gaps in a spreadsheet. The remaining quarter is split between the enterprise feed engines, the self-serve peers, the legacy inventory platforms, and a long tail of single-channel apps.
+It breaks at the point we described in post two — 200 orders a day, four channels, one missed GTIN. After that, three things happen every quarter. A listing gets suppressed for a missing attribute and nobody notices for nine days. The pivot table stops matching the payout report. The operator realises they can't answer "which channel was profitable last month" without rebuilding the sheet.
 
-The spreadsheet is free. It is flexible. It scales with the operator's willingness to spend a Sunday morning on it. It breaks at exactly the point we described in post two — 200 orders a day, four channels, one missed GTIN.
+Palvento beats the spreadsheet on three axes.
 
-To win the wedge we do not need to beat the enterprise tier on features. They are in a different buying committee. We need to beat the spreadsheet on three axes: faster to set up, catches errors the spreadsheet cannot, and surfaces margin decisions the spreadsheet cannot ask.
+One. Setup. A Shopify App Store install to a live marketplace listing in under ten minutes. No tab-building. No formula debugging. No pasting CSV exports every Monday morning.
 
-Every feature we ship is tested against the spreadsheet first. If it does not beat the spreadsheet, it is not ready. If it clearly beats the spreadsheet, we usually beat the rest of the market by proxy.
+Two. Rejections. Every listing passes a per-channel pre-flight check before it ships — GTIN format, image resolution, banned words, category attributes. The spreadsheet cannot do this. The marketplace surfaces the rejection after the damage is done. Palvento catches it at ingest.
 
-We ship in 7 days. If you are still running a spreadsheet and you are tired of it — reply, DM, install. Whatever is easiest. See you on the other side.
+Three. Margin. Per-channel P&L with line-item fee attribution — FBA removal fees, eBay insertion costs, TikTok Shop commission — all reconciled into the contribution margin per SKU per channel. The spreadsheet can approximate this with three tabs and a weekend. Palvento surfaces it as one screen.
+
+Every feature on the roadmap is tested against the spreadsheet. If it does not beat the spreadsheet clearly, it is not ready.
+
+We ship in 7 days. If you are still running the spreadsheet and you are tired of it — reply, DM, or install. See you on the other side.
 
 **Hashtags**
 #Shopify #Ecommerce #Launch #Multichannel
 
 **Visual brief**
-A split-screen image. Left: a chaotic spreadsheet with red cells. Right: a clean Palvento-style interface card with a green "all checks passed" badge. Arrow between them.
+A split-screen image. Left: a chaotic Google Sheet with red cells and one highlighted "GTIN missing". Right: a clean Palvento panel showing the same SKU flagged with a green "fix suggested: enter 13-digit UPC". Cobalt arrow between them.
 
 ---
 
