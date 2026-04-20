@@ -207,7 +207,7 @@ function LiveMap() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 18px', borderBottom: `1px solid ${C.rule}`, background: C.bg }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: C.cobalt }} />
-          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.02em', color: C.mutedDk, fontWeight: 500 }}>Palvento Atlas — live across 42 markets</span>
+          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.02em', color: C.mutedDk, fontWeight: 500 }}>Palvento Atlas — illustrative preview · 42 markets targeted</span>
         </div>
         <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.06em' }}>
           <span>{HUBS.length} markets</span><span>·</span><span>{ARCS.length} active routes</span>
@@ -281,12 +281,10 @@ function LiveMap() {
         </div>
 
         <div className="v8-map-stats" style={{ position: 'absolute', right: 18, top: 18, display: 'flex', gap: 14 }}>
-          {[{ k: 'Today', v: '4,218' }, { k: 'Routes', v: '92' }, { k: 'GMV', v: '$612k' }].map(s => (
-            <div key={s.k} style={{ background: 'rgba(255,255,255,0.92)', border: `1px solid ${C.rule}`, padding: '8px 12px' }}>
-              <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9, color: C.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s.k}</div>
-              <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 18, color: C.ink, lineHeight: 1, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{s.v}</div>
-            </div>
-          ))}
+          <div style={{ background: 'rgba(255,255,255,0.92)', border: `1px solid ${C.rule}`, padding: '8px 12px' }}>
+            <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 9, color: C.cobalt, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Preview</div>
+            <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 14, color: C.mutedDk, lineHeight: 1.1, marginTop: 2, fontStyle: 'italic', maxWidth: 180 }}>Illustrative routing · real flows launch with partners</div>
+          </div>
         </div>
       </div>
     </div>
@@ -653,10 +651,12 @@ const PILLARS = [
   { n: '04', tag: 'Catch rejections early.',  head: 'Monitor',   Diagram: DiagramPnL      },
 ]
 
+// Founding principles, not customer testimonials. Pre-launch: zero paying customers.
+// These swap in for real operator quotes once the first 10 design partners are live.
 const QUOTES = [
-  { metric: '+34%',   label: 'net margin · 60d',   q: 'One screen. A P&L we trust.',              who: 'Sarah T.',  role: 'Apparel · 6 channels' },
-  { metric: '$5,400', label: 'saved · year',       q: 'Palvento showed me my real margin.',         who: 'Marcus L.', role: 'Electronics · US/UK/EU' },
-  { metric: '0',      label: 'stockouts · Q1',     q: 'No emergency reorders since November.',    who: 'Priya K.',  role: 'Beauty · 500 SKUs' },
+  { metric: '10 min', label: 'install to first listing',  q: 'Self-serve from the Shopify App Store. No 40-day kickoff, no solutions architect, no retainer.', who: 'Motion',  role: 'How Palvento lands' },
+  { metric: '$149',   label: 'flat · 5 currencies',       q: 'Published pricing. No percentage of GMV, ever. No per-order fee above plan.',                   who: 'Price',   role: 'How Palvento charges' },
+  { metric: 'before', label: 'not after the marketplace', q: 'Error hub catches GTINs, banned words, category mismatches before they hit Amazon or eBay.',     who: 'Loop',    role: 'What Palvento solves' },
 ]
 
 const PRICE_ROWS = [
@@ -667,20 +667,24 @@ const PRICE_ROWS = [
 ]
 
 // ── Connections — marketplaces + stack ──────────────────────────────────────
-type Brand = { name: string; tag: string; mark: (s: number) => React.ReactElement; status?: 'live' | 'beta' }
+type Brand = { name: string; tag: string; mark: (s: number) => React.ReactElement; status?: 'live' | 'beta' | 'soon' }
 const BRAND_MARK = (paths: React.ReactNode) => (s: number) => (
   <svg width={s} height={s} viewBox="0 0 32 32" fill="none" aria-hidden>{paths}</svg>
 )
+// Channel status reflects live reality as of 2026-04-20:
+// LIVE = production ready, user can connect today: Shopify (source), eBay, Google Shopping
+// SOON = in development, not yet connectable
 const COMMERCE_BRANDS: Brand[] = [
-  { name: 'Shopify',      tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><path d="M10 11 Q16 6 22 11 L24 26 L8 26 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><path d="M13 14 V18" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round"/></>) },
-  { name: 'eBay',         tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><rect x="6" y="10" width="20" height="14" rx="2" stroke={C.ink} strokeWidth="1.5"/><path d="M6 14 L26 14" stroke={C.ink} strokeWidth="1.5"/><circle cx="10" cy="12" r="0.9" fill={C.cobalt}/></>) },
-  { name: 'Amazon',       tag: 'Marketplace',  status: 'beta',  mark: BRAND_MARK(<><path d="M6 19 Q16 25 26 19" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M22 19 L26 19 L26 15" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round"/></>) },
-  { name: 'Etsy',         tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><path d="M16 6 L26 12 L26 22 L16 28 L6 22 L6 12 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><circle cx="16" cy="17" r="3" stroke={C.cobalt} strokeWidth="1.5"/></>) },
-  { name: 'TikTok Shop',  tag: 'Marketplace',  status: 'beta',  mark: BRAND_MARK(<><path d="M14 8 V20 A4 4 0 1 1 10 16" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M14 8 Q18 12 22 12" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round" fill="none"/></>) },
-  { name: 'Walmart',      tag: 'Marketplace',  status: 'beta',  mark: BRAND_MARK(<><circle cx="16" cy="16" r="2.5" fill={C.cobalt}/>{[0,60,120,180,240,300].map(a=>(<line key={a} x1="16" y1="16" x2={16+10*Math.cos(a*Math.PI/180)} y2={16+10*Math.sin(a*Math.PI/180)} stroke={C.ink} strokeWidth="1.5" strokeLinecap="round"/>))}</>) },
-  { name: 'OnBuy',        tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><path d="M6 12 H9 L12 22 H24 L26 14 H11" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><circle cx="14" cy="26" r="1.5" fill={C.cobalt}/><circle cx="22" cy="26" r="1.5" fill={C.cobalt}/></>) },
-  { name: 'BigCommerce',  tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><circle cx="16" cy="16" r="10" stroke={C.ink} strokeWidth="1.5"/><circle cx="16" cy="16" r="6" stroke={C.ink} strokeWidth="1.5" strokeOpacity="0.5"/><circle cx="16" cy="16" r="2" fill={C.cobalt}/></>) },
-  { name: 'WooCommerce',  tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><path d="M4 10 L10 22 L16 12 L22 22 L28 10" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><circle cx="16" cy="26" r="1.5" fill={C.cobalt}/></>) },
+  { name: 'Shopify',         tag: 'Storefront',   status: 'live',  mark: BRAND_MARK(<><path d="M10 11 Q16 6 22 11 L24 26 L8 26 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><path d="M13 14 V18" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round"/></>) },
+  { name: 'eBay',            tag: 'Marketplace',  status: 'live',  mark: BRAND_MARK(<><rect x="6" y="10" width="20" height="14" rx="2" stroke={C.ink} strokeWidth="1.5"/><path d="M6 14 L26 14" stroke={C.ink} strokeWidth="1.5"/><circle cx="10" cy="12" r="0.9" fill={C.cobalt}/></>) },
+  { name: 'Google Shopping', tag: 'Feed',         status: 'live',  mark: BRAND_MARK(<><rect x="8" y="10" width="16" height="16" stroke={C.ink} strokeWidth="1.5"/><path d="M12 10 Q12 6 16 6 Q20 6 20 10" stroke={C.ink} strokeWidth="1.5" fill="none"/><circle cx="16" cy="19" r="3" fill={C.cobalt}/></>) },
+  { name: 'Amazon',          tag: 'Marketplace',  status: 'soon',  mark: BRAND_MARK(<><path d="M6 19 Q16 25 26 19" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M22 19 L26 19 L26 15" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round"/></>) },
+  { name: 'Etsy',            tag: 'Marketplace',  status: 'soon',  mark: BRAND_MARK(<><path d="M16 6 L26 12 L26 22 L16 28 L6 22 L6 12 Z" stroke={C.ink} strokeWidth="1.5" strokeLinejoin="round"/><circle cx="16" cy="17" r="3" stroke={C.cobalt} strokeWidth="1.5"/></>) },
+  { name: 'TikTok Shop',     tag: 'Marketplace',  status: 'soon',  mark: BRAND_MARK(<><path d="M14 8 V20 A4 4 0 1 1 10 16" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M14 8 Q18 12 22 12" stroke={C.cobalt} strokeWidth="1.5" strokeLinecap="round" fill="none"/></>) },
+  { name: 'Walmart',         tag: 'Marketplace',  status: 'soon',  mark: BRAND_MARK(<><circle cx="16" cy="16" r="2.5" fill={C.cobalt}/>{[0,60,120,180,240,300].map(a=>(<line key={a} x1="16" y1="16" x2={16+10*Math.cos(a*Math.PI/180)} y2={16+10*Math.sin(a*Math.PI/180)} stroke={C.ink} strokeWidth="1.5" strokeLinecap="round"/>))}</>) },
+  { name: 'OnBuy',           tag: 'Marketplace',  status: 'soon',  mark: BRAND_MARK(<><path d="M6 12 H9 L12 22 H24 L26 14 H11" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><circle cx="14" cy="26" r="1.5" fill={C.cobalt}/><circle cx="22" cy="26" r="1.5" fill={C.cobalt}/></>) },
+  { name: 'BigCommerce',     tag: 'Storefront',   status: 'soon',  mark: BRAND_MARK(<><circle cx="16" cy="16" r="10" stroke={C.ink} strokeWidth="1.5"/><circle cx="16" cy="16" r="6" stroke={C.ink} strokeWidth="1.5" strokeOpacity="0.5"/><circle cx="16" cy="16" r="2" fill={C.cobalt}/></>) },
+  { name: 'WooCommerce',     tag: 'Storefront',   status: 'soon',  mark: BRAND_MARK(<><path d="M4 10 L10 22 L16 12 L22 22 L28 10" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><circle cx="16" cy="26" r="1.5" fill={C.cobalt}/></>) },
 ]
 const STACK_BRANDS: Brand[] = [
   { name: 'Stripe',    tag: 'Billing',       mark: BRAND_MARK(<><path d="M20 11 Q14 10 14 13 Q14 15 18 16 Q22 17 22 19 Q22 22 16 21 Q12 20 10 19" stroke={C.ink} strokeWidth="1.5" strokeLinecap="round" fill="none"/><circle cx="18" cy="14" r="0.9" fill={C.cobalt}/></>) },
@@ -795,7 +799,7 @@ export default function LandingV8() {
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <span style={{ width: 24, height: 1, background: C.cobalt }} />
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Palvento Atlas — live across 42 markets</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.02em', color: C.cobalt, fontWeight: 500 }}>Founding design partners — 10 spots open</span>
           </div>
           <h1 ref={heroPar.ref} style={{ ...heroPar.style, fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(64px, 10vw, 148px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 0.94, color: C.ink, margin: 0 }}>
             {heroHeadlineV2 ? (
@@ -808,14 +812,14 @@ export default function LandingV8() {
           <div className="v8-hero-flex" style={{ marginTop: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
             <div style={{ maxWidth: 620 }}>
               <div style={{ fontFamily: 'var(--font-display-v8), Georgia, serif', fontSize: 'clamp(28px, 3.2vw, 44px)', lineHeight: 1.05, color: C.ink, fontWeight: 400, letterSpacing: '-0.02em' }}>
-                <LiveGMV /> <em style={{ fontStyle: 'italic', color: C.muted, fontSize: '0.68em' }}>GMV this month</em>
+                3 channels live. <em style={{ fontStyle: 'italic', color: C.muted, fontSize: '0.68em' }}>Six more shipping with design partners.</em>
               </div>
               <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ width: 4, height: 4, borderRadius: '50%', background: C.cobalt }} />
-                <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, color: C.mutedDk, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Routing now · {ARCS.length} live corridors</span>
+                <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, color: C.mutedDk, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Shopify · eBay · Google Shopping — live today</span>
               </div>
               <p style={{ marginTop: 20, fontSize: 20, lineHeight: 1.4, color: C.mutedDk, fontFamily: 'var(--font-display-v8), Georgia, serif', fontStyle: 'italic' }}>
-                Self-serve multichannel feed management for Shopify-led sellers. Install from the App Store, live in under ten minutes — no enterprise sales call.
+                Self-serve multichannel feed management for Shopify-led sellers. Install from the App Store, live in under ten minutes — no enterprise sales call. Founding-partner pricing locked in for the first 10.
               </p>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -834,15 +838,15 @@ export default function LandingV8() {
         </div>
       </section>
 
-      {/* Numbers */}
+      {/* Numbers — reflects honest pre-launch state. Updates as design partners go live. */}
       <section style={{ padding: '64px 32px', borderTop: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}`, background: C.surface }}>
         <div className="v8-numbers-grid" style={{ maxWidth: 1320, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0 }}>
           {[
-            { v: 3200000, p: '$', s: '+', label: 'GMV / mo' },
-            { v: 40,      s: '+', label: 'Countries' },
-            { v: 12,      label: 'Marketplaces' },
-            { v: 65,      s: '%', label: 'Fewer errors' },
+            { v: 3,       label: 'Channels live' },
+            { v: 6,       s: '+', label: 'Channels shipping' },
+            { v: 5,       label: 'Currencies published' },
             { v: 10,      s: ' min', label: 'To live' },
+            { v: 10,      label: 'Design-partner spots' },
           ].map((m, i) => <NumberCell key={i} m={m} i={i} />)}
         </div>
       </section>
@@ -906,9 +910,9 @@ export default function LandingV8() {
       <section style={{ padding: '120px 32px', background: C.bg, borderBottom: `1px solid ${C.rule}` }}>
         <div style={{ maxWidth: 1320, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 56 }}>
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>From operators</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: C.cobalt, letterSpacing: '0.02em', fontWeight: 500 }}>Founding principles</span>
             <div style={{ flex: 1, height: 1, background: C.rule }} />
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 05</span>
+            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.muted }}>§ 05 — pre-launch, operator quotes land here with the first 10 design partners</span>
           </div>
           <div className="v8-quotes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
             {QUOTES.map((q, i) => <QuoteCard key={i} q={q} i={i} />)}

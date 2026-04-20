@@ -36,7 +36,7 @@ const ROWS: Row[] = [
   { feature: 'Time to first listing live',     palvento: 'Under 10 minutes',                        feedonomics: '30-day implementation kickoff',  highlight: true },
   { feature: 'Sales motion',                   palvento: 'Self-serve from Shopify App Store',       feedonomics: 'Sales-led, demo before price' },
   { feature: 'Contract',                       palvento: 'Monthly, cancel any time',                feedonomics: 'Annual, multi-year standard' },
-  { feature: 'Channels',                       palvento: '9 (Shopify, Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, WooCommerce)', feedonomics: '100+ (enterprise retail breadth)' },
+  { feature: 'Channels',                       palvento: '3 live today (Shopify, eBay, Google Shopping); Amazon, Etsy, TikTok Shop, Walmart, OnBuy, BigCommerce, WooCommerce shipping with design partners', feedonomics: '100+ (enterprise retail breadth)' },
   { feature: 'Category + aspects enrichment',  palvento: 'Automatic, rules-based',                   feedonomics: 'Concierge, managed-services team' },
   { feature: 'Onboarding',                     palvento: 'Self-serve, docs + Loom',                  feedonomics: 'Solutions architect, managed' },
   { feature: 'Best for',                       palvento: 'Shopify-led SMB to mid-market',            feedonomics: 'Enterprise catalog ops teams' },

@@ -13,7 +13,10 @@ const NAV = [
   { label: 'Help',         href: '/help' },
 ]
 
-const FOUNDING_CLAIMED = 23
+// Founding partners: 10 spots total, locked at founding rates for life.
+// Updated as design partners sign. Zero claimed 2026-04-20.
+const FOUNDING_TOTAL = 10
+const FOUNDING_CLAIMED = 0
 
 type Currency = 'USD' | 'GBP' | 'EUR' | 'AUD' | 'CAD'
 const CURRENCIES: { code: Currency; symbol: string; label: string }[] = [
@@ -173,7 +176,7 @@ const FAQ = [
   { q: 'What counts as a "channel"?', a: 'Each marketplace or store counts as one channel — so Shopify, eBay, and Google Shopping would be three channels. Regional connections within the same platform (e.g. Shopify US + Shopify DE) each count separately.' },
   { q: 'Which currencies and regions do you support?', a: 'Billing is available in USD, GBP, EUR, AUD, and CAD. The platform itself is multi-currency at the listing, order, and P&L level — sell in any marketplace currency and report in your home currency.' },
   { q: 'Do you take a cut of my revenue?', a: "Never. We charge a flat monthly subscription. No percentage of GMV, no per-order fees, no hidden charges. What you see is what you pay." },
-  { q: 'How is this different from ChannelAdvisor or Feedonomics?', a: 'ChannelAdvisor and Feedonomics are built for enterprise teams — dedicated specialists, custom contracts, and prices starting in the thousands per month. Palvento is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding member pricing starts at $99/month.' },
+  { q: 'How is this different from enterprise feed platforms?', a: 'Enterprise feed platforms are built for retail ops teams — dedicated specialists, custom contracts, and prices starting in the thousands per month, with 30–90 day onboarding. Palvento is fully self-serve: connect your channels, import your products, and go live in under 10 minutes. Founding-partner pricing starts at $99/month, locked for life.' },
 ]
 
 export default function PricingPage() {
@@ -181,7 +184,7 @@ export default function PricingPage() {
   const [currency, setCurrency] = useState<Currency>('USD')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  const remaining = 50 - FOUNDING_CLAIMED
+  const remaining = FOUNDING_TOTAL - FOUNDING_CLAIMED
   const currencySymbol = CURRENCIES.find(c => c.code === currency)!.symbol
   const COMPARE = buildCompare(currency)
 
@@ -210,7 +213,7 @@ export default function PricingPage() {
         {/* Founding member banner */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '20px', background: 'rgba(217,119,6,0.08)', border: '1px solid rgba(217,119,6,0.2)', fontSize: '13px', color: '#d97706', fontWeight: 600, marginBottom: '24px' }}>
           <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#d97706', display: 'inline-block', animation: 'pulse 2s ease-in-out infinite' }} />
-          {remaining} founding member spots remaining at up to 40% off
+          {remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life
         </div>
 
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
@@ -381,7 +384,7 @@ export default function PricingPage() {
       <div style={{ background: '#0f172a', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '40px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Start your free trial today</h2>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>14 days free. No credit card required. Cancel any time.</p>
-        <p style={{ fontSize: '14px', color: '#d97706', fontWeight: 600, marginBottom: '32px' }}>{remaining} founding member spots left at up to 40% off.</p>
+        <p style={{ fontSize: '14px', color: '#d97706', fontWeight: 600, marginBottom: '32px' }}>{remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life.</p>
         <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '10px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '16px', fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 24px rgba(91,82,245,0.4)' }}>
           Claim your founding rate →
         </Link>
