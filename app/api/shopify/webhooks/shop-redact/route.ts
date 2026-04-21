@@ -2,6 +2,10 @@ import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { verifyShopifyHmac } from '../_verify'
 
+// Must run on Node.js runtime (Edge has no crypto.createHmac).
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 const getSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!

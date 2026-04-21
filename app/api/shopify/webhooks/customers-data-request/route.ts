@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server'
 import { verifyShopifyHmac } from '../_verify'
 
+// Must run on Node.js runtime (Edge has no crypto.createHmac).
+// force-dynamic prevents Next from caching the webhook response.
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 // Shopify GDPR: a customer requested to see what data you hold about them.
 // Palvento stores order/transaction data but no personal PII beyond what
 // Shopify provides. Acknowledge receipt — Shopify requires a 200 response.
