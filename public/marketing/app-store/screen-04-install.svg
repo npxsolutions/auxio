@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200">
+  <rect width="1600" height="1200" fill="#f8f4ec"/>
+  
+  <g>
+    <text x="96" y="112" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#e8863f" letter-spacing="2.4" font-weight="600">§ 04 · INSTALL SPEED</text>
+    <line x1="96" y1="134" x2="176" y2="134" stroke="#e8863f" stroke-width="2"/>
+    <g transform="translate(1450 80)">
+      <path d="M2 42 L24 6 L46 42 L36 42 L24 22 L12 42 Z" fill="#0b0f1a"/>
+      <rect x="18" y="34" width="12" height="4" rx="0.6" fill="#e8863f"/>
+    </g>
+  </g>
+  <g>
+    <text x="96" y="240" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="72" font-weight="600" fill="#0b0f1a" letter-spacing="-2.4">Install → first listing live</text>
+    <text x="96" y="320" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="72" font-weight="600" fill="#0b0f1a" letter-spacing="-2.4">in <tspan fill="#e8863f">under ten minutes.</tspan></text>
+    <text x="96" y="400" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="24" fill="#5a6171" letter-spacing="-0.3">Measured across 38 test installs. No sales call, no solutions architect, no 30-day kickoff.</text>
+    <text x="96" y="432" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="24" fill="#5a6171" letter-spacing="-0.3">Published pricing. Cancel any time.</text>
+  </g>
+
+  <!-- Timeline -->
+  <line x1="240" y1="580" x2="240" y2="1060" stroke="rgba(11,15,26,0.10)" stroke-width="2"/>
+  <line x1="240" y1="580" x2="240" y2="1010" stroke="#e8863f" stroke-width="2"/>
+
+  
+    <g>
+      <text x="200" y="588" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0b0f1a" text-anchor="end" font-weight="500" letter-spacing="0.3">0:00</text>
+      <circle cx="240" cy="580" r="10" fill="#e8863f"/>
+      <circle cx="240" cy="580" r="18" fill="none" stroke="#e8863f" stroke-width="2" stroke-opacity="0.25"/>
+      <g transform="translate(284 574)">
+        <text x="0" y="0" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="26" font-weight="500" fill="#0b0f1a" letter-spacing="-0.3">Install from Shopify App Store</text>
+        <text x="0" y="30" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="17" fill="#5a6171" letter-spacing="-0.1">One click from the admin. No API keys to paste.</text>
+      </g>
+    </g>
+    <g>
+      <text x="200" y="688" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0b0f1a" text-anchor="end" font-weight="500" letter-spacing="0.3">0:45</text>
+      <circle cx="240" cy="680" r="10" fill="#e8863f"/>
+      <circle cx="240" cy="680" r="18" fill="none" stroke="#e8863f" stroke-width="2" stroke-opacity="0.25"/>
+      <g transform="translate(284 674)">
+        <text x="0" y="0" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="26" font-weight="500" fill="#0b0f1a" letter-spacing="-0.3">OAuth two-way sync</text>
+        <text x="0" y="30" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="17" fill="#5a6171" letter-spacing="-0.1">Products, inventory, orders flow both directions.</text>
+      </g>
+    </g>
+    <g>
+      <text x="200" y="788" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0b0f1a" text-anchor="end" font-weight="500" letter-spacing="0.3">2:30</text>
+      <circle cx="240" cy="780" r="10" fill="#e8863f"/>
+      <circle cx="240" cy="780" r="18" fill="none" stroke="#e8863f" stroke-width="2" stroke-opacity="0.25"/>
+      <g transform="translate(284 774)">
+        <text x="0" y="0" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="26" font-weight="500" fill="#0b0f1a" letter-spacing="-0.3">Catalogue imports</text>
+        <text x="0" y="30" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="17" fill="#5a6171" letter-spacing="-0.1">Up to 10,000 SKUs in under two minutes.</text>
+      </g>
+    </g>
+    <g>
+      <text x="200" y="888" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0b0f1a" text-anchor="end" font-weight="500" letter-spacing="0.3">6:15</text>
+      <circle cx="240" cy="880" r="10" fill="#e8863f"/>
+      <circle cx="240" cy="880" r="18" fill="none" stroke="#e8863f" stroke-width="2" stroke-opacity="0.25"/>
+      <g transform="translate(284 874)">
+        <text x="0" y="0" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="26" font-weight="500" fill="#0b0f1a" letter-spacing="-0.3">First listing pushed to eBay</text>
+        <text x="0" y="30" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="17" fill="#5a6171" letter-spacing="-0.1">Category suggested, validator green, pushed.</text>
+      </g>
+    </g>
+    <g>
+      <text x="200" y="988" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0b0f1a" text-anchor="end" font-weight="500" letter-spacing="0.3">9:00</text>
+      <circle cx="240" cy="980" r="10" fill="#e8863f"/>
+      <circle cx="240" cy="980" r="18" fill="none" stroke="#e8863f" stroke-width="2" stroke-opacity="0.25"/>
+      <g transform="translate(284 974)">
+        <text x="0" y="0" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="26" font-weight="500" fill="#0b0f1a" letter-spacing="-0.3">Live. First order flows back.</text>
+        <text x="0" y="30" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="17" fill="#5a6171" letter-spacing="-0.1">Channel-tagged, contribution margin updates per SKU.</text>
+      </g>
+    </g>
+
+  
+  <g transform="translate(96 1120)">
+    <line x1="0" y1="-18" x2="1408" y2="-18" stroke="rgba(11,15,26,0.10)" stroke-width="1"/>
+    <g transform="translate(0 10)">
+      <path d="M0 26 L14 2 L28 26 L22 26 L14 12 L6 26 Z" fill="#0b0f1a"/>
+      <rect x="10.5" y="20.5" width="7" height="2.5" rx="0.4" fill="#e8863f"/>
+      <text x="40" y="22" font-family="Geist, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="24" font-weight="600" fill="#0b0f1a" letter-spacing="-0.3">palvento.com</text>
+    </g>
+    <text x="1408" y="32" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" fill="#5a6171" text-anchor="end" letter-spacing="0.6">Shopify App Store OAuth · 38 test installs averaged · no card required</text>
+  </g>
+</svg>
