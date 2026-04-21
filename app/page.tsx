@@ -1,5 +1,5 @@
-// Palvento homepage — renders the v8 landing.
-// The old hand-authored page is preserved in git history (pre-2026-04-13).
-// To change the homepage: edit `app/landing/v8/page.tsx` or build a new variant
-// at `app/landing/vN/page.tsx` and switch the re-export below.
-export { default } from './landing/v8/page'
+// Palvento homepage — renders the v9 landing (2026-04-21).
+// Hard pivot from v8's cream + Instrument Serif editorial to ink + sans
+// dark-default, data-forward, Vercel/Linear/Mercury/Ramp territory.
+// v8 kept in git history at app/landing/v8/page.tsx if we need to A/B.
+export { default } from './landing/v9/page'
