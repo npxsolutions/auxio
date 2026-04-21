@@ -81,7 +81,7 @@ Unified week-by-week schedule across all channels. All times UK unless noted. Li
 | Day | Channel | Asset | Reference |
 |---|---|---|---|
 | Tue 27 | LinkedIn | Post 16: Variant groups (Product) | linkedin-posts.md #16 |
-| Tue 27 | X | Thread 6: **NEEDS REWRITE** — was "What the App Store rewards"; retarget to "What Capterra rewards" or "What agency partners reward" | x-threads.md #6 |
+| Tue 27 | X | Thread 6: What direct-install discovery actually rewards | x-threads.md #6 |
 | Tue 27 | Blog | Pillar: "How to sync Shopify products to eBay" | blog-outlines-5-8.md #6 |
 | Thu 29 | LinkedIn | Post 17: Five currencies (Product) | linkedin-posts.md #17 |
 | Fri 30 | LinkedIn | Post 18: One-hour P&L exercise (Tactical) | linkedin-posts.md #18 |
@@ -98,7 +98,7 @@ Unified week-by-week schedule across all channels. All times UK unless noted. Li
 | Tue 3 | X | Thread 7: Why revenue-percentage pricing is a tax on growth | x-threads.md #7 |
 | Tue 3 | Blog | Pillar: "Product feed optimization: the rules that move the needle" | blog-outlines-5-8.md #7 |
 | Thu 5 | LinkedIn | Post 20: Killed feature (Narrative) | linkedin-posts.md #20 |
-| Fri 6 | LinkedIn | Post 21: **NEEDS REWRITE** — was "App Store is the channel"; retarget to "Capterra is the channel" or "Direct-install is the channel" | linkedin-posts.md #21 |
+| Fri 6 | LinkedIn | Post 21: We are not on the App Store — direct-install motion (POV) | linkedin-posts.md #21 |
 | Fri 6 | Blog | Supporting: "Walmart Marketplace integration: what to know" | seo-calendar.md Week 7 |
 | Fri 6 | Email | Customer story blog post promoted to list | 90-day-plan.md |
 

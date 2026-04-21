@@ -4,10 +4,7 @@ One thread per week. Five to seven tweets each. Published Tuesday or Wednesday, 
 
 Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
-> **⚠️ 2026-04-21 — REWRITE PENDING.** App Store distribution is closed (direct-install via palvento.com). Do **NOT publish** the following without rewriting first:
->
-> - **Thread 6** (line ~91) — entire thread is *"What the Shopify App Store actually rewards"*. Retarget to *"What Capterra actually rewards"* or *"What a direct-install growth motion rewards"*. Same structure works with substituted specifics.
-> - **Thread 8** (line ~127) — launch retro lists "Shopify App Store listing live" as a shipped outcome and names App Store as the top-performing channel. Remove that outcome and re-rank channels (Capterra + LinkedIn + agency partners are now the top three).
+> **2026-04-21 — App Store sweep complete.** Threads 6 and 8 retargeted to direct-install + Capterra motion. Rival-name sweep (Feedonomics / Shopify Marketplace Connect / Linnworks by brand) is still pending across all 8 threads.
 
 ---
 
@@ -93,21 +90,21 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 ---
 
-## Thread 6 — Week 6 · What the Shopify App Store actually rewards
+## Thread 6 — Week 6 · What direct-install discovery actually rewards
 
-> 1/ We launched on the Shopify App Store this week. Here's what I've learned about what the algorithm actually rewards — and what it doesn't.
+> 1/ We are deliberately not on the Shopify App Store. Here is what the direct-install motion actually rewards for a mid-market Shopify SaaS — and what the App Store would have cost us at this stage.
 
-> 2/ What it rewards: review velocity. Not total reviews — velocity. An app with 15 reviews in the last 30 days outranks an app with 200 reviews and none in 90 days. This means launch momentum matters more than cumulative reputation.
+> 2/ What it rewards: the receiving asset. Every outbound touch — cold DM, cold email, agency pitch, /vs page — converges on one landing page with one tracked parameter. That page is a listing with ten times the conversion levers an App Store template has.
 
-> 3/ What it rewards: recency of listing updates. Updating your screenshots, changelog, or description signals active development. The algorithm notices. We update something every week.
+> 3/ What it rewards: Capterra and G2 listing density. Mid-market Shopify operators research tooling on Capterra before the App Store. Publicly displayed pricing auto-includes us in pricing-transparent filtered searches — zero feed-management vendors currently do this.
 
-> 4/ What it rewards: install-to-active ratio. Downloads alone don't help if merchants install and churn in 48 hours. The algorithm tracks activation. This is why our onboarding targets first feed live in under ten minutes.
+> 4/ What it rewards: review velocity on Capterra, not the App Store. Every founding partner at day 45 post-install gets a direct email asking for an honest review. Review quality and velocity are what move the category badge.
 
-> 5/ What it doesn't reward: paid reviews, keyword stuffing in the description, or gaming the category taxonomy. Shopify's review team catches these and the penalty is delisting.
+> 5/ What it doesn't reward: the 2-4 week App Store review queue, the Billing API rewrite an embedded listing would require, the listing-copy game against 15,000 competing apps. None of that earns us a mid-market customer this quarter.
 
-> 6/ The Shopify App Store is where Shopify merchants shop for ops tooling. Not Google. Not G2. Ranking well here is the single highest-leverage channel for our wedge.
+> 6/ Shopify operators in the 100k-500k/mo band buy where they research — Capterra, /vs pages, DMs from operators they trust, direct signup. Not the App Store. That's a Tier 1 SMB channel. It's not where this wedge lives.
 
-> 7/ If you're building for Shopify merchants and not treating the App Store as your primary distribution channel, you're leaving the best leads on the table.
+> 7/ If you're building for the mid-market Shopify operator and defaulting to the App Store, ask whether your ICP actually shops there. For ours, they don't. palvento.com — direct install, ten minutes, $149/mo.
 
 ---
 
@@ -131,13 +128,13 @@ Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
 > 1/ Eight weeks ago I started posting here about what we're building and why. Here's the honest scorecard — what shipped, what didn't, and what's next.
 
-> 2/ What shipped: Shopify App Store listing live. Feed rules engine covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy. Error hub with pre-submission validation. Per-channel P&L with FX spread. Sub-minute inventory sync.
+> 2/ What shipped: direct-install Shopify OAuth live at palvento.com. Feed rules engine covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy. Error hub with pre-submission validation. Per-channel P&L with FX spread. Sub-minute inventory sync.
 
 > 3/ What shipped that I didn't expect to matter: the onboarding. We spent three iterations getting "first feed live in under ten minutes" right. Turns out the ten-minute promise is the single highest-converting line in every piece of copy we run.
 
 > 4/ What didn't ship: the WooCommerce and BigCommerce connectors are behind schedule. Both need another two weeks. I underestimated the schema complexity on BigCommerce's V3 catalog API.
 
-> 5/ What I got wrong: I thought cold outreach would be our second-best channel. It's fifth. The Shopify App Store and organic content are doing the work. Cold email converts, but the volume isn't there yet at our list quality bar.
+> 5/ What I got wrong: I thought cold outreach would be our second-best channel. It's third — behind agency partnerships and Capterra organic. Cold email converts, but the volume isn't there yet at our list quality bar.
 
 > 6/ What's next: BigCommerce and WooCommerce connectors. Partner program for Shopify agencies. And a longer piece on what "self-serve multichannel feed management" looks like at the $1M/mo GMV tier.
 

@@ -4,16 +4,7 @@ Three posts per week. Cadence: Tuesday, Thursday, Friday. Times tuned for UK ope
 Voice rules: no exclamation marks, no emoji, no "game-changing" / "supercharge" / "10x" / "the future of".
 Founder voice, first person. Specific numbers. Labelled composites when a customer story appears.
 
-> **⚠️ 2026-04-21 — REWRITE PENDING.** App Store distribution is closed (decision: direct install via palvento.com). Do **NOT publish** the following without rewriting first:
->
-> - **Post #3** (line ~86) — references "App Store ranking" as the go-forward business. Swap to "Capterra ranking + direct-install motion".
-> - **Post #11** (line ~169) — "Self-serve install from the Shopify App Store" in the product pitch. Swap to "Self-serve install direct from palvento.com".
-> - **Post #21** (line ~584) — whole post is *"App Store is the primary acquisition channel"*. Entire post needs retargeting to *"Capterra is the primary acquisition channel"* or *"Direct install is the primary channel"*. See `task-breakdown.md` Play 3 for the new framing.
-> - **Post #23** (line ~646) — "Shopify App Store install" in the product description. Swap to "Direct Shopify OAuth from palvento.com".
-> - **Post cadence table** (line ~705) — Week 7 Friday is listed as "POV — App Store". Retarget to "POV — why direct install beats App Store for a bootstrapped wedge" or similar.
-> - **Post #24** (line ~677) — "Shopify App Store install to a live marketplace listing" in the final retro post. Swap to "palvento.com signup to a live marketplace listing".
->
-> Rival-name sweep for Posts 2–24 is also still pending per `project_current_state.md`. Bundle both sweeps into one pass.
+> **2026-04-21 — App Store sweep complete.** Posts 3, 6, 21, 23, 24 + cadence table retargeted to direct-install motion. **Rival-name sweep for Posts 2–24 is still pending** per `project_current_state.md` memory (remove Feedonomics / Shopify Marketplace Connect / Linnworks by brand). If `buffer-bulk-import.csv` has already been uploaded, delete the affected weeks and re-upload after the rival sweep.
 
 Legend on the content mix:
 
@@ -94,7 +85,7 @@ The term sheet was good. The investor was smart. The problem was the pitch I'd g
 
 I'd shown them the 7.6 trillion dollar global commerce number. I'd shown them Shopify, Amazon, Mercado Libre. I'd used the phrase "operating system for commerce" three times on a single slide. They bought every word of it and wanted to fund it.
 
-And on the flight home I realised I'd sold them a story I didn't believe. The real business is narrower. It is not a commerce OS. It is a feed-management product for a specific kind of operator — Shopify-led, three to five channels, quoted by the enterprise feed vendors and bounced. That business does not need 400k. It needs 60k, twelve months of focus, and the App Store ranking.
+And on the flight home I realised I'd sold them a story I didn't believe. The real business is narrower. It is not a commerce OS. It is a feed-management product for a specific kind of operator — Shopify-led, three to five channels, quoted by the enterprise feed vendors and bounced. That business does not need 400k. It needs 60k, twelve months of focus, and a tight direct-install motion through the one place the mid-market actually buys.
 
 So I emailed the investor the next morning, declined, and narrowed the thesis. The landing page got rewritten that weekend. The wedge locked. And the product started shipping in the right direction for the first time in six months.
 
@@ -177,7 +168,7 @@ They're doing 100,000 to 500,000 a month in GMV. They started on Shopify and the
 
 They are not running an enterprise retail operation. They don't have a channel-ops team. They don't need a solutions architect, a 30-day onboarding, a custom SLA, or a percentage-of-GMV deal. What they need is the feed to be clean, every marketplace that matters to be live, and a price they can forecast to a line item.
 
-That is the exact shape Palvento is cut to. Self-serve install from the Shopify App Store. Live on the first channel in under ten minutes. Nine target channels. Pre-flight feed validation that catches missing GTINs, image-resolution failures, banned words, and category-attribute gaps before the feed hits the marketplace. Per-channel pricing floors. Per-channel P&L with line-item fee attribution. Published pricing in five currencies — 59, 159, 499, flat.
+That is the exact shape Palvento is cut to. Self-serve install direct from palvento.com — Shopify OAuth in one click. Live on the first channel in under ten minutes. Nine target channels. Pre-flight feed validation that catches missing GTINs, image-resolution failures, banned words, and category-attribute gaps before the feed hits the marketplace. Per-channel pricing floors. Per-channel P&L with line-item fee attribution. Published pricing in five currencies — 59, 159, 499, flat.
 
 Everything else is a distraction until this operator is served well. That is the whole thesis. That is the whole roadmap.
 
@@ -592,29 +583,31 @@ A photograph-style note pinned to a corkboard, reading "feature killed, March 20
 ### Post 21 — POV · Fri 10:00 UK
 
 **Hook**
-The Shopify App Store is our primary acquisition channel.
-Here is the five-part playbook we're running to rank inside the top three by day 60.
+We are not on the Shopify App Store.
+For this wedge, that is the unlock — not the constraint.
 
 **Body**
-One. Listing copy. Tight headline, two-line value prop, three specific product screenshots with captions written for the App Store's own search algorithm. Function-first, keyword-clean. No brochure language.
+Every playbook for Shopify-adjacent SaaS says the App Store is the channel. For operators in the 100k-500k/mo GMV band running three to five marketplaces, it isn't — they research tooling on Capterra and /vs pages before they ever open the App Store. Here is the five-part direct-install motion we're running instead.
 
-Two. Onboarding video. A 75-second walkthrough that goes from install to a live Amazon listing, shot on a real test store. No music, no narrator. Operators watch it, see that the product is real, install in the same breath.
+One. The landing page is the listing. palvento.com/founding-partners is our front door. Every outbound DM, cold email, agency pitch, and /vs page converges on one URL with one tracked parameter, so we know which channel earned the install. The landing page is a listing with ten times the conversion levers an App Store template would give us.
 
-Three. Review velocity. Every founding partner gets a direct email 14 days after install asking for an honest review. No incentives, no scripts. The ask is "if this saved you time, say so publicly — if it didn't, reply to me." Review quality and velocity both matter to the ranking algorithm.
+Two. Capterra is the discovery engine. Mid-market Shopify operators compare tooling on Capterra, G2, and GetApp before the App Store — pricing filters, feature filters, category badges. We display all four pricing tiers publicly. Zero feed-management vendors do this, which auto-includes us in every pricing-transparent filtered search a serious buyer runs.
 
-Four. Uninstall feedback loop. Every uninstall triggers a short email — one question, no funnel. Uninstalls tell us more about product-market fit than installs do.
+Three. Review velocity — measured on Capterra, not in the App Store. Every founding partner at day 45 post-install gets a direct email asking for an honest review. No incentives, no scripts. "If this saved you time, say so publicly. If it didn't, reply to me." Review quality and velocity are what earn the category badge.
 
-Five. Weekly iteration. The listing ships updates every week for the first 90 days — new screenshots, updated copy, fresh changelog entries. Shopify's ranking is recency-weighted. Nothing gets to stay static.
+Four. Agency partnerships as the compounding layer. Ten specific Shopify Plus agencies, individual partnerships-lead conversations, 20% rev-share for the first 12 months. Each signed agency averages two to three client trials per quarter. Three signed agencies is more durable than a top-three App Store slot that's recency-weighted and one algorithm change from disappearing.
 
-This is not a growth hack. It is the basic, unglamorous work of taking the App Store seriously as the top-of-funnel for Shopify-led operators. The target is top three for "multichannel feed management" and "Shopify multichannel sync" by day 60. Every other acquisition channel is a supplement to this one.
+Five. Weekly iteration on the receiving asset. The founding-partner landing page ships updates every week for the first 90 days — new screenshots, new operator quotes, refreshed copy. The page is the product of attention, not the last thing the buyer sees.
+
+This is not a rejection of the App Store on principle. It is the right sequence for a bootstrapped wedge with a specific mid-market ICP who doesn't buy there. We revisit at 100 paying customers.
 
 Following the 8-week build in public — palvento.com for the full thesis.
 
 **Hashtags**
-#Shopify #AppStore #SaaS #Commerce
+#Shopify #SaaS #Commerce #BuildInPublic
 
 **Visual brief**
-A five-box checklist diagram, each box labelled: "Listing · Video · Reviews · Uninstall loop · Weekly iteration". Each box has a one-line metric underneath. Cobalt banner at the top reading "Top 3 by day 60." Cream background.
+A five-box checklist diagram, each labelled: "Landing page · Capterra · Reviews · Agencies · Weekly iteration". Each box has a one-line metric underneath. Cobalt banner at the top reading "Direct-install, Y1." Cream background.
 
 ---
 
@@ -654,11 +647,11 @@ We ship v1 publicly in 11 days.
 Here is what made the cut, what did not, and what I am still nervous about.
 
 **Body**
-In the cut. Eight channels. Pre-flight validator for Amazon, eBay, TikTok Shop, Etsy. Category suggester. Per-channel pricing floors. Variant groups. Five-currency pricing. eBay policy auto-provisioning. Per-channel P&L with line-item fee attribution. Shopify App Store install.
+In the cut. Eight channels. Pre-flight validator for Amazon, eBay, TikTok Shop, Etsy. Category suggester. Per-channel pricing floors. Variant groups. Five-currency pricing. eBay policy auto-provisioning. Per-channel P&L with line-item fee attribution. Direct Shopify OAuth install from palvento.com.
 
 Not in the cut. Shipping-label integration. Automated repricing. A mobile app. Native Amazon PPC management. A public API beyond the read-only reporting endpoints. These are fair follow-up asks. None of them fit the wedge sentence.
 
-Still nervous. Support capacity. A good Shopify App Store launch attracts 150 to 300 installs in week one, and roughly 40 percent of them will ask a question within 72 hours. I have one founder, two contract engineers, a support doc, and a fast Intercom. If we ship above 200 installs and a single bug creeps into week one, we will feel it.
+Still nervous. Support capacity. A good founder-led outbound launch at our list quality brings 80 to 150 trial starts in week one, and roughly 40 percent of them will ask a question within 72 hours. I have one founder, two contract engineers, a support doc, and a fast Intercom. If we ship above 100 trial starts and a single bug creeps into week one, we will feel it.
 
 What I'm most proud of. The pricing page in five currencies. The validator catching missing GTINs at ingest. The onboarding flow that gets a Shopify install to a live Amazon sync inside twelve minutes measured on 38 test runs. Every one of those was a small decision that compounded.
 
@@ -685,7 +678,7 @@ It breaks at the point we described in post two — 200 orders a day, four chann
 
 Palvento beats the spreadsheet on three axes.
 
-One. Setup. A Shopify App Store install to a live marketplace listing in under ten minutes. No tab-building. No formula debugging. No pasting CSV exports every Monday morning.
+One. Setup. A palvento.com signup to a live marketplace listing in under ten minutes. No tab-building. No formula debugging. No pasting CSV exports every Monday morning.
 
 Two. Rejections. Every listing passes a per-channel pre-flight check before it ships — GTIN format, image resolution, banned words, category attributes. The spreadsheet cannot do this. The marketplace surfaces the rejection after the damage is done. Palvento catches it at ingest.
 
@@ -713,5 +706,5 @@ A split-screen image. Left: a chaotic Google Sheet with red cells and one highli
 | 4 | Tactical — per-channel pricing | Tactical — FBA fees | Product — validator |
 | 5 | Product — category suggester | Narrative — fired a customer | Product — eBay policies |
 | 6 | Product — variant groups | Product — 5 currencies | Tactical — one-hour P&L |
-| 7 | POV — AI drafting vs validating | Narrative — killed feature | POV — App Store |
+| 7 | POV — AI drafting vs validating | Narrative — killed feature | POV — direct-install motion |
 | 8 | POV — TikTok schema | Narrative — launch status | POV — spreadsheet is the competitor |
