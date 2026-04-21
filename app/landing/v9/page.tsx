@@ -15,32 +15,41 @@
  *   05 Pricing             — 4 tiers, dark cards, cobalt on recommended
  *   06 Final CTA           — founding-partner ask
  *
- * Palette: #0a0a12 ink, #3d7cff cobalt (amplified for glow on dark),
- * #f3f0ea cream used sparingly for contrast cards only, status dots in
- * emerald / amber / red. Type: Geist (sans) via --font-geist, Geist Mono
- * via --font-mono. No Instrument Serif anywhere.
+ * Palette (2026-04-21 pivot): Ramp-style — warm cream #f8f4ec bg, white
+ * #ffffff for card contrast, warm burnished orange #e8863f as single
+ * accent, near-black #0b0f1a for text. Status dots in darker emerald /
+ * burnt amber / deep red (tuned for light-bg readability). Type: Geist
+ * (sans) via --font-geist, Geist Mono via --font-mono. No Instrument
+ * Serif anywhere.
  */
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
 // ── Palette ──────────────────────────────────────────────────────────────────
+// Ramp-style warm cream + orange. Light-default. Variable names kept from the
+// prior dark palette (ink / text / cobalt) so the rest of the file cascades —
+// but the values have swapped semantics:
+//   ink / inkSoft / inkRaised → cream page bg / white cards / warm raised
+//   text / textMuted / textFaint → dark ink / muted gray / fainter gray
+//   cobalt / cobaltSoft / cobaltGlow → warm burnished orange (single accent)
+// Rename to bg/surface/accent when the palette propagates to other pages.
 const C = {
-  ink:        '#0a0a12',
-  inkSoft:    '#12131c',
-  inkRaised:  '#1a1b28',
-  border:     'rgba(255,255,255,0.08)',
-  borderBright: 'rgba(255,255,255,0.16)',
-  text:       '#e8e9ed',
-  textMuted:  '#8b8e9d',
-  textFaint:  '#5a5d6e',
-  cobalt:     '#3d7cff',
-  cobaltSoft: 'rgba(61,124,255,0.14)',
-  cobaltGlow: 'rgba(61,124,255,0.35)',
-  cream:      '#f3f0ea',
-  emerald:    '#34d399',
-  amber:      '#f59e0b',
-  red:        '#f87171',
+  ink:        '#f8f4ec',   // page bg — warm cream
+  inkSoft:    '#ffffff',   // card bg — pure white for contrast islands
+  inkRaised:  '#fdfaf2',   // elevated surface — slightly warmer white
+  border:     'rgba(11,15,26,0.10)',
+  borderBright: 'rgba(11,15,26,0.22)',
+  text:       '#0b0f1a',   // primary text — near-black ink
+  textMuted:  '#5a6171',   // secondary text
+  textFaint:  '#8b8e9d',   // eyebrow / meta
+  cobalt:     '#e8863f',   // accent — warm burnished orange
+  cobaltSoft: 'rgba(232,134,63,0.12)',
+  cobaltGlow: 'rgba(232,134,63,0.30)',
+  cream:      '#f8f4ec',
+  emerald:    '#0e7c5a',   // status — darker emerald for light-bg readability
+  amber:      '#b5651d',   // status — burnt amber
+  red:        '#b32718',   // status — deeper red
 }
 
 const mono = 'var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace'
@@ -96,7 +105,7 @@ function Counter({ to, prefix = '', suffix = '', decimals = 0 }: { to: number; p
 // ── Nav ──────────────────────────────────────────────────────────────────────
 function Nav() {
   return (
-    <header style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(10,10,18,0.72)', backdropFilter: 'saturate(140%) blur(16px)', borderBottom: `1px solid ${C.border}` }}>
+    <header style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(248,244,236,0.82)', backdropFilter: 'saturate(140%) blur(16px)', borderBottom: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '14px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: C.text }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -135,7 +144,7 @@ function Hero() {
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '80px 32px 40px', position: 'relative' }}>
         <div ref={r.ref} style={{ ...r.style, maxWidth: 900 }}>
           {/* Eyebrow */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '6px 12px', borderRadius: 100, background: C.cobaltSoft, border: `1px solid rgba(61,124,255,0.2)`, marginBottom: 28 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '6px 12px', borderRadius: 100, background: C.cobaltSoft, border: `1px solid rgba(232,134,63,0.28)`, marginBottom: 28 }}>
             <span style={{ width: 6, height: 6, borderRadius: 3, background: C.cobalt, boxShadow: `0 0 8px ${C.cobalt}` }} />
             <span style={{ fontFamily: mono, fontSize: 11.5, color: C.cobalt, letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 500 }}>
               Founding partners · 10 spots · 40% off for life
@@ -203,7 +212,7 @@ function HeroProductMock() {
         border: `1px solid ${C.border}`,
         borderRadius: 14,
         padding: 1,
-        boxShadow: `0 24px 64px -24px rgba(0,0,0,0.8), 0 0 0 1px ${C.border}`,
+        boxShadow: `0 24px 64px -28px rgba(11,15,26,0.22), 0 2px 8px -2px rgba(11,15,26,0.08)`,
         overflow: 'hidden',
       }}>
         {/* Fake window chrome */}
@@ -452,7 +461,7 @@ function TimelineStep({ step, index, total, pct }: { step: { t: string; title: s
         borderRadius: 8,
         background: active ? C.cobalt : C.inkRaised,
         border: active ? 'none' : `1.5px solid ${C.border}`,
-        boxShadow: active ? `0 0 16px ${C.cobalt}, 0 0 0 3px rgba(10,10,18,0.8)` : 'none',
+        boxShadow: active ? `0 0 16px ${C.cobaltGlow}, 0 0 0 3px ${C.ink}` : 'none',
         marginLeft: active ? 7 : 9,
         position: 'relative',
         zIndex: 1,
@@ -570,7 +579,7 @@ function DashboardMock() {
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           {['Day', 'Week', 'Month', 'YTD'].map((l, i) => (
-            <button key={l} style={{ background: i === 2 ? C.cobaltSoft : 'transparent', color: i === 2 ? C.cobalt : C.textMuted, border: `1px solid ${i === 2 ? 'rgba(61,124,255,0.3)' : C.border}`, fontFamily: mono, fontSize: 11, letterSpacing: '0.04em', padding: '6px 12px', borderRadius: 6, cursor: 'pointer' }}>{l}</button>
+            <button key={l} style={{ background: i === 2 ? C.cobaltSoft : 'transparent', color: i === 2 ? C.cobalt : C.textMuted, border: `1px solid ${i === 2 ? 'rgba(232,134,63,0.35)' : C.border}`, fontFamily: mono, fontSize: 11, letterSpacing: '0.04em', padding: '6px 12px', borderRadius: 6, cursor: 'pointer' }}>{l}</button>
           ))}
         </div>
       </div>
@@ -649,7 +658,7 @@ function PriceCard({ t, index }: { t: { name: string; price: number; tag: string
     <div ref={r.ref} style={{
       ...r.style,
       background: t.popular ? `linear-gradient(180deg, ${C.cobaltSoft} 0%, ${C.inkSoft} 60%)` : C.ink,
-      border: `1px solid ${t.popular ? 'rgba(61,124,255,0.4)' : C.border}`,
+      border: `1px solid ${t.popular ? 'rgba(232,134,63,0.45)' : C.border}`,
       borderRadius: 14,
       padding: '28px 24px',
       position: 'relative',
@@ -659,7 +668,7 @@ function PriceCard({ t, index }: { t: { name: string; price: number; tag: string
     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)' }}
     >
       {t.popular && (
-        <div style={{ position: 'absolute', top: -10, left: 20, fontFamily: mono, fontSize: 10, color: C.cobalt, background: C.ink, border: `1px solid rgba(61,124,255,0.5)`, padding: '3px 10px', borderRadius: 100, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
+        <div style={{ position: 'absolute', top: -10, left: 20, fontFamily: mono, fontSize: 10, color: C.cobalt, background: C.ink, border: `1px solid rgba(232,134,63,0.55)`, padding: '3px 10px', borderRadius: 100, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
           Most adopted
         </div>
       )}
