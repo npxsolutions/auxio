@@ -149,8 +149,8 @@ function Hero() {
           </h1>
 
           {/* Sub */}
-          <p style={{ fontFamily: sans, fontSize: 19, lineHeight: 1.5, color: C.textMuted, margin: '0 0 36px', maxWidth: 640, fontWeight: 400 }}>
-            Self-serve multichannel feed management for Shopify-led sellers. Install from the App Store, live in under ten minutes — with per-channel P&amp;L, pre-flight validation, and published pricing in five currencies.
+          <p style={{ fontFamily: sans, fontSize: 19, lineHeight: 1.5, color: C.textMuted, margin: '0 0 36px', maxWidth: 560, fontWeight: 400 }}>
+            Self-serve multichannel feed management for Shopify-led sellers. Live in under ten minutes.
           </p>
 
           {/* CTAs */}
@@ -230,45 +230,112 @@ function HeroProductMock() {
 }
 
 function FeedValidatorPanel() {
-  const issues = [
-    { severity: 'error',   sku: 'HOODIE-BLK-L',  error: 'Missing GTIN — Amazon',       fix: 'Enter 13-digit UPC' },
-    { severity: 'warning', sku: 'CANDLE-FIG-04', error: 'Banned word "free" — TikTok', fix: 'Suggest: "complimentary"' },
-    { severity: 'ok',      sku: 'SOAP-LVND-200', error: '12 checks passed',            fix: 'Ready to push' },
-  ]
+  // 7-second loop: error appears → validator catches it → auto-fix applied.
+  // Shows the core product working live, not a static screenshot.
+  const [phase, setPhase] = useState<'error' | 'fixing' | 'fixed'>('error')
+  useEffect(() => {
+    let t1: ReturnType<typeof setTimeout>
+    let t2: ReturnType<typeof setTimeout>
+    let t3: ReturnType<typeof setTimeout>
+    const loop = () => {
+      setPhase('error')
+      t1 = setTimeout(() => setPhase('fixing'), 2200)
+      t2 = setTimeout(() => setPhase('fixed'), 3800)
+      t3 = setTimeout(loop, 6500)
+    }
+    loop()
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+  }, [])
+
+  const topRow =
+    phase === 'error'  ? { sev: 'error',   dot: C.red,     msg: 'Missing GTIN — Amazon',     fix: 'Enter 13-digit UPC' } :
+    phase === 'fixing' ? { sev: 'fixing',  dot: C.amber,   msg: 'Suggesting GTIN from UPC-A', fix: 'Validating…' } :
+                          { sev: 'ok',     dot: C.emerald, msg: '5041234567890 · validated', fix: 'Fixed · pushed' }
+
   return (
     <div style={{ background: C.inkSoft, padding: 24 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
-          <div style={{ fontFamily: mono, fontSize: 10.5, color: C.textFaint, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>Feed validator · eBay</div>
-          <div style={{ fontFamily: sans, fontSize: 16, color: C.text, fontWeight: 500 }}>3 listings · 1 error caught</div>
+          <div style={{ fontFamily: mono, fontSize: 10.5, color: C.textFaint, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>Feed validator · live</div>
+          <div style={{ fontFamily: sans, fontSize: 16, color: C.text, fontWeight: 500 }}>
+            {phase === 'fixed' ? '3 listings · all green' : phase === 'fixing' ? '3 listings · catching error' : '3 listings · 1 error caught'}
+          </div>
         </div>
-        <span style={{ fontFamily: mono, fontSize: 10, color: C.emerald, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 8px', borderRadius: 4, background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)' }}>Live</span>
+        <span style={{
+          fontFamily: mono, fontSize: 10, color: phase === 'fixed' ? C.emerald : phase === 'fixing' ? C.amber : C.red,
+          letterSpacing: '0.08em', textTransform: 'uppercase',
+          padding: '4px 8px', borderRadius: 4,
+          background: phase === 'fixed' ? 'rgba(52,211,153,0.1)' : phase === 'fixing' ? 'rgba(245,158,11,0.1)' : 'rgba(248,113,113,0.1)',
+          border: `1px solid ${phase === 'fixed' ? 'rgba(52,211,153,0.25)' : phase === 'fixing' ? 'rgba(245,158,11,0.25)' : 'rgba(248,113,113,0.25)'}`,
+          transition: 'all 0.4s',
+        }}>
+          {phase === 'fixed' ? 'Resolved' : phase === 'fixing' ? 'Fixing' : 'Error'}
+        </span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {issues.map((i, idx) => {
-          const dot = i.severity === 'error' ? C.red : i.severity === 'warning' ? C.amber : C.emerald
-          return (
-            <div key={idx} style={{ background: C.inkRaised, border: `1px solid ${C.border}`, borderRadius: 8, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ width: 6, height: 6, borderRadius: 3, background: dot, boxShadow: i.severity !== 'ok' ? `0 0 6px ${dot}` : 'none', flexShrink: 0 }} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: mono, fontSize: 11, color: C.text, letterSpacing: '0.02em' }}>{i.sku}</div>
-                <div style={{ fontFamily: sans, fontSize: 12.5, color: C.textMuted, marginTop: 3 }}>{i.error}</div>
-              </div>
-              <div style={{ fontFamily: mono, fontSize: 10.5, color: dot, whiteSpace: 'nowrap' }}>{i.fix}</div>
-            </div>
-          )
-        })}
+        {/* Top row — animated across the 3 phases */}
+        <div style={{
+          background: C.inkRaised,
+          border: `1px solid ${phase === 'error' ? 'rgba(248,113,113,0.5)' : phase === 'fixing' ? 'rgba(245,158,11,0.5)' : 'rgba(52,211,153,0.3)'}`,
+          borderRadius: 8, padding: '12px 14px',
+          display: 'flex', alignItems: 'center', gap: 12,
+          boxShadow: phase === 'error' ? `0 0 20px rgba(248,113,113,0.15)` : phase === 'fixing' ? `0 0 20px rgba(245,158,11,0.15)` : 'none',
+          transition: 'border-color 0.5s, box-shadow 0.5s',
+        }}>
+          <span style={{
+            width: 6, height: 6, borderRadius: 3,
+            background: topRow.dot,
+            boxShadow: `0 0 ${phase === 'fixed' ? 0 : 8}px ${topRow.dot}`,
+            flexShrink: 0,
+            animation: phase === 'error' ? 'v9pulse 1.4s ease-in-out infinite' : 'none',
+          }} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: mono, fontSize: 11, color: C.text, letterSpacing: '0.02em' }}>HOODIE-BLK-L</div>
+            <div style={{ fontFamily: sans, fontSize: 12.5, color: C.textMuted, marginTop: 3, transition: 'color 0.3s' }}>{topRow.msg}</div>
+          </div>
+          <div style={{ fontFamily: mono, fontSize: 10.5, color: topRow.dot, whiteSpace: 'nowrap', transition: 'color 0.3s' }}>
+            {phase === 'fixing' && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 4, border: `1.5px solid ${C.amber}`, borderTopColor: 'transparent', marginRight: 6, verticalAlign: 'middle', animation: 'v9spin 0.8s linear infinite' }} />}
+            {topRow.fix}
+          </div>
+        </div>
+
+        {/* Other two rows — static, always green */}
+        <div style={{ background: C.inkRaised, border: `1px solid ${C.border}`, borderRadius: 8, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ width: 6, height: 6, borderRadius: 3, background: C.emerald, flexShrink: 0 }} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: mono, fontSize: 11, color: C.text, letterSpacing: '0.02em' }}>CANDLE-FIG-04</div>
+            <div style={{ fontFamily: sans, fontSize: 12.5, color: C.textMuted, marginTop: 3 }}>12 checks passed</div>
+          </div>
+          <div style={{ fontFamily: mono, fontSize: 10.5, color: C.emerald, whiteSpace: 'nowrap' }}>Ready to push</div>
+        </div>
+        <div style={{ background: C.inkRaised, border: `1px solid ${C.border}`, borderRadius: 8, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ width: 6, height: 6, borderRadius: 3, background: C.emerald, flexShrink: 0 }} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: mono, fontSize: 11, color: C.text, letterSpacing: '0.02em' }}>SOAP-LVND-200</div>
+            <div style={{ fontFamily: sans, fontSize: 12.5, color: C.textMuted, marginTop: 3 }}>14 checks passed</div>
+          </div>
+          <div style={{ fontFamily: mono, fontSize: 10.5, color: C.emerald, whiteSpace: 'nowrap' }}>Synced · 0:02</div>
+        </div>
       </div>
     </div>
   )
 }
 
 function PnlPanel() {
-  const rows = [
-    { ch: 'Shopify',         rev: '12,440', fees: '361', margin: '96.4%', trend: 'up' },
-    { ch: 'eBay',            rev: '3,210',  fees: '419', margin: '86.9%', trend: 'flat' },
-    { ch: 'Google Shopping', rev: '8,820',  fees: '231', margin: '97.4%', trend: 'up' },
-  ]
+  // Live-ticking revenue — numbers increment every 3.5s to feel alive without
+  // being distracting. Values are illustrative (the hero map label already
+  // calls this a preview).
+  const [rows, setRows] = useState([
+    { ch: 'Shopify',         rev: 12440, fees: 361, margin: '96.4%', trend: 'up' as const },
+    { ch: 'eBay',            rev:  3210, fees: 419, margin: '86.9%', trend: 'flat' as const },
+    { ch: 'Google Shopping', rev:  8820, fees: 231, margin: '97.4%', trend: 'up' as const },
+  ])
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRows(prev => prev.map(r => ({ ...r, rev: r.rev + Math.floor(4 + Math.random() * 26) })))
+    }, 3500)
+    return () => clearInterval(id)
+  }, [])
   return (
     <div style={{ background: C.inkSoft, padding: 24 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -286,9 +353,9 @@ function PnlPanel() {
       {rows.map((r, i) => (
         <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.9fr 0.7fr 0.8fr 0.4fr', alignItems: 'center', padding: '10px 0', borderBottom: i < rows.length - 1 ? `1px solid ${C.border}` : 'none' }}>
           <span style={{ fontFamily: sans, fontSize: 13, color: C.text, fontWeight: 500 }}>{r.ch}</span>
-          <span style={{ fontFamily: mono, fontSize: 12.5, color: C.text, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>${r.rev}</span>
+          <span style={{ fontFamily: mono, fontSize: 12.5, color: C.text, textAlign: 'right', fontVariantNumeric: 'tabular-nums', transition: 'color 0.6s' }}>${r.rev.toLocaleString()}</span>
           <span style={{ fontFamily: mono, fontSize: 12.5, color: C.textMuted, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>${r.fees}</span>
-          <span style={{ fontFamily: mono, fontSize: 12.5, color: r.margin > '90%' ? C.emerald : C.amber, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{r.margin}</span>
+          <span style={{ fontFamily: mono, fontSize: 12.5, color: parseFloat(r.margin) > 90 ? C.emerald : C.amber, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{r.margin}</span>
           <span style={{ fontFamily: mono, fontSize: 13, textAlign: 'right', color: r.trend === 'up' ? C.emerald : C.textMuted }}>{r.trend === 'up' ? '↑' : '→'}</span>
         </div>
       ))}
@@ -315,24 +382,47 @@ function PnlPanel() {
 
 // ── 02 Install timeline ──────────────────────────────────────────────────────
 function InstallTimeline() {
-  const r = useReveal<HTMLDivElement>(0)
   const steps = [
-    { t: '0:00', title: 'Install from Shopify App Store',          body: 'One click from the admin. No API keys to paste.' },
-    { t: '0:45', title: 'OAuth two-way sync',                       body: 'Products, inventory, orders flow both directions from the first handshake.' },
-    { t: '2:30', title: 'Catalogue imports',                        body: 'Up to 10,000 SKUs in under two minutes. Errors surfaced at ingest, not after push.' },
-    { t: '6:15', title: 'First listing pushed to eBay',             body: 'Category suggested, item specifics auto-completed, pre-flight validator green.' },
-    { t: '9:00', title: 'Live. First order flows back.',            body: 'Shopify gets the channel-tagged order. Contribution margin updates per SKU.' },
+    { t: '0:00', title: 'Install from Shopify App Store' },
+    { t: '0:45', title: 'OAuth two-way sync' },
+    { t: '2:30', title: 'Catalogue imports' },
+    { t: '6:15', title: 'First listing pushed to eBay' },
+    { t: '9:00', title: 'Live. First order flows back.' },
   ]
+
+  // Scroll-triggered playhead: sweeps 0→100% over 5s, pausing briefly on each step.
+  const [pct, setPct] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      obs.disconnect()
+      const start = performance.now()
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - start) / 5000)
+        setPct(p * 100)
+        if (p < 1) requestAnimationFrame(tick)
+      }
+      requestAnimationFrame(tick)
+    }, { threshold: 0.3 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <section id="install" style={{ padding: '120px 32px', background: C.ink, borderTop: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 1120, margin: '0 auto' }}>
-        <SectionHead eyebrow="§ 02 · Install" title={<>Live on your <span style={{ color: C.cobalt }}>first marketplace</span> in under ten minutes.</>} sub="Measured across 38 test installs. No sales call, no solutions architect, no 30-day kickoff." />
+        <SectionHead eyebrow="§ 02 · Install" title={<>Live in <span style={{ color: C.cobalt }}>under ten minutes.</span></>} />
 
-        <div ref={r.ref} style={{ ...r.style, position: 'relative', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
-          {/* Vertical rule */}
-          <div style={{ position: 'absolute', left: 78, top: 8, bottom: 8, width: 1, background: C.border }} />
+        <div ref={ref} style={{ position: 'relative', maxWidth: 680, marginLeft: 'auto', marginRight: 'auto' }}>
+          {/* Rail — full height, muted */}
+          <div style={{ position: 'absolute', left: 78, top: 16, bottom: 16, width: 2, background: C.border, borderRadius: 1 }} />
+          {/* Playhead — cobalt progress rail */}
+          <div style={{ position: 'absolute', left: 78, top: 16, width: 2, height: `calc(${pct}% - 32px)`, background: `linear-gradient(180deg, ${C.cobalt} 0%, ${C.cobalt} 100%)`, boxShadow: `0 0 12px ${C.cobaltGlow}`, borderRadius: 1, transition: 'height 0.04s linear' }} />
+
           {steps.map((s, i) => (
-            <TimelineStep key={i} step={s} index={i} />
+            <TimelineStep key={i} step={s} index={i} total={steps.length} pct={pct} />
           ))}
         </div>
       </div>
@@ -340,15 +430,36 @@ function InstallTimeline() {
   )
 }
 
-function TimelineStep({ step, index }: { step: { t: string; title: string; body: string }; index: number }) {
-  const r = useReveal<HTMLDivElement>(index * 80)
+function TimelineStep({ step, index, total, pct }: { step: { t: string; title: string }; index: number; total: number; pct: number }) {
+  const threshold = ((index + 0.5) / total) * 100
+  const active = pct >= threshold
   return (
-    <div ref={r.ref} style={{ ...r.style, display: 'grid', gridTemplateColumns: '64px 28px 1fr', gap: 14, alignItems: 'flex-start', padding: '18px 0', position: 'relative' }}>
-      <span style={{ fontFamily: mono, fontSize: 13, color: C.textMuted, letterSpacing: '0.02em', paddingTop: 4, textAlign: 'right' }}>{step.t}</span>
-      <span style={{ width: 12, height: 12, borderRadius: 6, background: C.cobalt, boxShadow: `0 0 12px ${C.cobaltGlow}`, marginTop: 8, marginLeft: 8, position: 'relative', zIndex: 1 }} />
-      <div style={{ paddingBottom: 8 }}>
-        <div style={{ fontFamily: sans, fontSize: 17, color: C.text, fontWeight: 500, letterSpacing: '-0.01em' }}>{step.title}</div>
-        <div style={{ fontFamily: sans, fontSize: 14.5, color: C.textMuted, marginTop: 6, lineHeight: 1.55 }}>{step.body}</div>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '64px 28px 1fr',
+      gap: 14,
+      alignItems: 'center',
+      padding: '22px 0',
+      position: 'relative',
+      opacity: active ? 1 : 0.45,
+      transform: active ? 'translateX(0)' : 'translateX(-4px)',
+      transition: 'opacity 0.4s, transform 0.4s',
+    }}>
+      <span style={{ fontFamily: mono, fontSize: 13, color: active ? C.text : C.textFaint, letterSpacing: '0.02em', textAlign: 'right', transition: 'color 0.3s' }}>{step.t}</span>
+      <span style={{
+        width: active ? 14 : 10,
+        height: active ? 14 : 10,
+        borderRadius: 8,
+        background: active ? C.cobalt : C.inkRaised,
+        border: active ? 'none' : `1.5px solid ${C.border}`,
+        boxShadow: active ? `0 0 16px ${C.cobalt}, 0 0 0 3px rgba(10,10,18,0.8)` : 'none',
+        marginLeft: active ? 7 : 9,
+        position: 'relative',
+        zIndex: 1,
+        transition: 'all 0.4s cubic-bezier(.2,.7,.2,1)',
+      }} />
+      <div style={{ fontFamily: sans, fontSize: 17, color: active ? C.text : C.textMuted, fontWeight: 500, letterSpacing: '-0.01em', transition: 'color 0.3s' }}>
+        {step.title}
       </div>
     </div>
   )
@@ -356,58 +467,42 @@ function TimelineStep({ step, index }: { step: { t: string; title: string; body:
 
 // ── 03 Before / After ────────────────────────────────────────────────────────
 function BeforeAfter() {
-  const before = [
-    { title: 'Amazon listing gets suppressed',   body: 'For a GTIN that was off by a digit. Revenue drops 22% on the ASIN before anyone notices.' },
-    { title: 'Pricing rule not enforced',        body: 'Same price everywhere. Amazon SKU contributes 38% less per unit than Shopify — and nobody in the business knows.' },
-    { title: 'P&L in three spreadsheet tabs',    body: 'Which channel was profitable last month? Half a Sunday in Sheets to answer it.' },
-    { title: 'TikTok Shop changes its schema',   body: 'New beauty-category fields in February. Half the integrations on the market broke silently.' },
-  ]
-  const after = [
-    { title: 'Caught at ingest, before submit',  body: 'Per-channel validator checks GTIN format, image pixel floor, banned words, category attributes. You see the error and the exact fix before anything hits the marketplace.' },
-    { title: 'Per-channel floors, set once',     body: 'Target net margin per channel. Pricing engine backs out the list price that hits it. Amazon vs Shopify vs eBay — same margin, different list.' },
-    { title: 'One screen. All channels.',        body: 'Line-item fee attribution reconciled into contribution margin per SKU per channel. The pivot-table question becomes redundant.' },
-    { title: 'Schemas tracked on our side',      body: 'Named engineer reads the policy notes weekly. When TikTok changes, your feed already matches the new shape before you list a new product.' },
+  const pairs = [
+    { before: 'Amazon listing suppressed · GTIN off by one digit',         after: 'Caught at ingest · 5041234567890 suggested' },
+    { before: 'Same price on every channel · losing 38% margin on Amazon', after: 'Per-channel floor enforced at sync' },
+    { before: 'P&L in three spreadsheet tabs',                              after: 'One screen · per SKU · per channel' },
+    { before: "TikTok's schema changed · integrations broke silently",     after: 'Schema diff tracked on our side · auto-migrated' },
   ]
   return (
     <section id="product" style={{ padding: '120px 32px', background: C.inkSoft, borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <SectionHead eyebrow="§ 03 · Product" title={<>What <span style={{ color: C.red, textDecoration: 'line-through', textDecorationColor: 'rgba(248,113,113,0.4)' }}>breaks today</span> — and what Palvento catches.</>} sub="These are real failure modes from real Shopify operators we've interviewed. Every one maps to a product surface we've shipped." />
+      <div style={{ maxWidth: 1120, margin: '0 auto' }}>
+        <SectionHead eyebrow="§ 03 · Product" title={<>What <span style={{ color: C.red, textDecoration: 'line-through', textDecorationColor: 'rgba(248,113,113,0.4)' }}>breaks</span> — and what <span style={{ color: C.cobalt }}>Palvento catches.</span></>} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'start' }} className="v9-ba-grid">
-          <Column title="Today. Without Palvento." accent={C.red} items={before} direction="left" />
-          <Column title="With Palvento." accent={C.cobalt} items={after} direction="right" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
+          {pairs.map((p, i) => <BeforeAfterRow key={i} pair={p} index={i} />)}
         </div>
       </div>
     </section>
   )
 }
 
-function Column({ title, accent, items, direction }: { title: string; accent: string; items: { title: string; body: string }[]; direction: 'left' | 'right' }) {
+function BeforeAfterRow({ pair, index }: { pair: { before: string; after: string }; index: number }) {
+  const r = useReveal<HTMLDivElement>(index * 80)
   return (
-    <div>
-      <div style={{ fontFamily: mono, fontSize: 11, color: accent, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 600 }}>
-        <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: 3, background: accent, marginRight: 10, verticalAlign: 'middle' }} />
-        {title}
+    <div ref={r.ref} style={{ ...r.style, display: 'grid', gridTemplateColumns: '1fr 32px 1fr', gap: 0, alignItems: 'stretch' }} className="v9-ba-row">
+      {/* Before */}
+      <div style={{ background: C.ink, border: `1px solid ${C.border}`, borderRight: 'none', borderRadius: '10px 0 0 10px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <span style={{ width: 8, height: 8, borderRadius: 4, background: C.red, boxShadow: `0 0 10px rgba(248,113,113,0.5)`, flexShrink: 0 }} />
+        <span style={{ fontFamily: sans, fontSize: 14.5, color: C.textMuted, lineHeight: 1.5 }}>{pair.before}</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, border: `1px solid ${C.border}`, background: C.ink, borderRadius: 12, overflow: 'hidden' }}>
-        {items.map((it, i) => <BeforeAfterCard key={i} item={it} accent={accent} index={i} direction={direction} last={i === items.length - 1} />)}
+      {/* Arrow */}
+      <div style={{ background: C.inkRaised, border: `1px solid ${C.border}`, borderLeft: 'none', borderRight: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: mono, fontSize: 13, color: C.cobalt }}>
+        →
       </div>
-    </div>
-  )
-}
-
-function BeforeAfterCard({ item, accent, index, direction, last }: { item: { title: string; body: string }; accent: string; index: number; direction: 'left' | 'right'; last: boolean }) {
-  const r = useReveal<HTMLDivElement>(index * 60)
-  return (
-    <div ref={r.ref} style={{ ...r.style, padding: '20px 22px', borderBottom: last ? 'none' : `1px solid ${C.border}` }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-        <span style={{ fontFamily: mono, fontSize: 10.5, color: accent, letterSpacing: '0.04em', paddingTop: 3, minWidth: 24 }}>
-          {String(index + 1).padStart(2, '0')}
-        </span>
-        <div>
-          <div style={{ fontFamily: sans, fontSize: 15.5, color: C.text, fontWeight: 500, marginBottom: 5, letterSpacing: '-0.005em' }}>{item.title}</div>
-          <div style={{ fontFamily: sans, fontSize: 13.5, color: C.textMuted, lineHeight: 1.55 }}>{item.body}</div>
-        </div>
+      {/* After */}
+      <div style={{ background: `linear-gradient(90deg, ${C.ink} 0%, ${C.cobaltSoft} 100%)`, border: `1px solid ${C.border}`, borderLeft: 'none', borderRadius: '0 10px 10px 0', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <span style={{ width: 8, height: 8, borderRadius: 4, background: C.cobalt, boxShadow: `0 0 10px ${C.cobaltGlow}`, flexShrink: 0 }} />
+        <span style={{ fontFamily: sans, fontSize: 14.5, color: C.text, lineHeight: 1.5, fontWeight: 500 }}>{pair.after}</span>
       </div>
     </div>
   )
@@ -418,19 +513,50 @@ function DashboardShowcase() {
   return (
     <section style={{ padding: '120px 32px', background: C.ink, borderTop: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 1120, margin: '0 auto' }}>
-        <SectionHead eyebrow="§ 04 · P&L" title={<>Which channel was <span style={{ color: C.cobalt }}>actually profitable</span> last month?</>} sub="Line-item fee attribution — FBA removal, eBay insertion, TikTok Shop commission — reconciled into contribution margin. Per SKU. Per channel. One screen." />
+        <SectionHead eyebrow="§ 04 · P&L" title={<>Which channel was <span style={{ color: C.cobalt }}>actually profitable</span>?</>} />
         <DashboardMock />
       </div>
     </section>
   )
 }
 
+// Animated mini sparkline — draws its path on scroll-into-view.
+function Sparkline({ points, color, width = 84, height = 22 }: { points: number[]; color: string; width?: number; height?: number }) {
+  const max = Math.max(...points)
+  const min = Math.min(...points)
+  const range = max - min || 1
+  const step = width / (points.length - 1)
+  const d = points.map((v, i) => `${i === 0 ? 'M' : 'L'} ${(i * step).toFixed(1)} ${(height - ((v - min) / range) * height).toFixed(1)}`).join(' ')
+  const ref = useRef<SVGPathElement>(null)
+  const [drawn, setDrawn] = useState(false)
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    const len = el.getTotalLength()
+    el.style.strokeDasharray = `${len}`
+    el.style.strokeDashoffset = `${len}`
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      obs.disconnect()
+      el.style.transition = 'stroke-dashoffset 1200ms cubic-bezier(.2,.7,.2,1)'
+      el.style.strokeDashoffset = '0'
+      setDrawn(true)
+    }, { threshold: 0.2 })
+    obs.observe(el); return () => obs.disconnect()
+  }, [d])
+  return (
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block' }}>
+      <path ref={ref} d={d} fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+      {drawn && <circle cx={(points.length - 1) * step} cy={height - ((points[points.length - 1] - min) / range) * height} r={2.5} fill={color} />}
+    </svg>
+  )
+}
+
 function DashboardMock() {
   const r = useReveal<HTMLDivElement>(0)
   const rows = [
-    { ch: 'Shopify',         rev: 124400, fees: 3610, margin: 96.4, units: 842 },
-    { ch: 'eBay',            rev:  32100, fees: 4190, margin: 86.9, units: 289 },
-    { ch: 'Google Shopping', rev:  88200, fees: 2310, margin: 97.4, units: 612 },
+    { ch: 'Shopify',         rev: 124400, fees: 3610, margin: 96.4, units: 842, spark: [52,58,61,60,65,72,78,74,82,88,92,98] },
+    { ch: 'eBay',            rev:  32100, fees: 4190, margin: 86.9, units: 289, spark: [40,44,41,48,45,50,47,52,55,58,56,61] },
+    { ch: 'Google Shopping', rev:  88200, fees: 2310, margin: 97.4, units: 612, spark: [30,35,42,48,55,58,62,68,72,78,82,88] },
   ]
   return (
     <div ref={r.ref} style={{ ...r.style, background: C.inkSoft, border: `1px solid ${C.border}`, borderRadius: 14, padding: 28, marginTop: 48 }}>
@@ -450,28 +576,30 @@ function DashboardMock() {
       </div>
 
       {/* Table head */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 0.9fr 0.9fr 0.8fr 0.7fr 0.7fr', padding: '10px 4px', fontFamily: mono, fontSize: 10, color: C.textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 0.9fr 0.8fr 0.7fr 0.6fr 1fr', padding: '10px 4px', fontFamily: mono, fontSize: 10, color: C.textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
         <span>Channel</span>
         <span style={{ textAlign: 'right' }}>Revenue</span>
-        <span style={{ textAlign: 'right' }}>Fees</span>
         <span style={{ textAlign: 'right' }}>Net</span>
         <span style={{ textAlign: 'right' }}>Margin</span>
         <span style={{ textAlign: 'right' }}>Units</span>
+        <span style={{ textAlign: 'right', paddingRight: 4 }}>30-day trend</span>
       </div>
 
       {rows.map((r, i) => {
         const net = r.rev - r.fees
         return (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.4fr 0.9fr 0.9fr 0.8fr 0.7fr 0.7fr', padding: '14px 4px', alignItems: 'center', borderTop: `1px solid ${C.border}` }}>
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.4fr 0.9fr 0.8fr 0.7fr 0.6fr 1fr', padding: '16px 4px', alignItems: 'center', borderTop: `1px solid ${C.border}` }}>
             <span style={{ fontFamily: sans, fontSize: 14, color: C.text, fontWeight: 500 }}>
               <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: 3, background: C.cobalt, marginRight: 10, verticalAlign: 'middle' }} />
               {r.ch}
             </span>
             <span style={{ fontFamily: mono, fontSize: 13, color: C.text, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>${r.rev.toLocaleString()}</span>
-            <span style={{ fontFamily: mono, fontSize: 13, color: C.textMuted, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>${r.fees.toLocaleString()}</span>
             <span style={{ fontFamily: mono, fontSize: 13, color: C.text, textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>${net.toLocaleString()}</span>
             <span style={{ fontFamily: mono, fontSize: 13, color: r.margin > 90 ? C.emerald : C.amber, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{r.margin.toFixed(1)}%</span>
             <span style={{ fontFamily: mono, fontSize: 13, color: C.textMuted, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{r.units}</span>
+            <span style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 4 }}>
+              <Sparkline points={r.spark} color={r.margin > 90 ? C.emerald : C.amber} />
+            </span>
           </div>
         )
       })}
@@ -649,13 +777,13 @@ function Footer() {
 }
 
 // ── Section head helper ──────────────────────────────────────────────────────
-function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: React.ReactNode; sub: string }) {
+function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: React.ReactNode; sub?: string }) {
   const r = useReveal<HTMLDivElement>(0)
   return (
-    <div ref={r.ref} style={{ ...r.style, maxWidth: 760, marginBottom: 48 }}>
+    <div ref={r.ref} style={{ ...r.style, maxWidth: 760, marginBottom: sub ? 48 : 40 }}>
       <div style={{ fontFamily: mono, fontSize: 11, color: C.cobalt, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 500 }}>{eyebrow}</div>
-      <h2 style={{ fontFamily: sans, fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.08, margin: '0 0 14px', color: C.text }}>{title}</h2>
-      <p style={{ fontFamily: sans, fontSize: 16, lineHeight: 1.55, color: C.textMuted, margin: 0, maxWidth: 600 }}>{sub}</p>
+      <h2 style={{ fontFamily: sans, fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.08, margin: sub ? '0 0 14px' : 0, color: C.text }}>{title}</h2>
+      {sub && <p style={{ fontFamily: sans, fontSize: 16, lineHeight: 1.55, color: C.textMuted, margin: 0, maxWidth: 600 }}>{sub}</p>}
     </div>
   )
 }
@@ -676,13 +804,20 @@ export default function LandingV9() {
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: ${C.ink}; color: ${C.text}; }
+        @keyframes v9pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+        @keyframes v9spin  { to { transform: rotate(360deg); } }
 
         @media (max-width: 1024px) {
           .v9-nav-links { display: none !important; }
           .v9-pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .v9-footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
           .v9-footer-grid > div:first-child { grid-column: 1 / -1; }
-          .v9-ba-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+        }
+        @media (max-width: 720px) {
+          .v9-ba-row { grid-template-columns: 1fr !important; gap: 6px !important; }
+          .v9-ba-row > div:nth-child(1) { border-radius: 10px !important; border-right: 1px solid ${C.border} !important; }
+          .v9-ba-row > div:nth-child(2) { display: none !important; }
+          .v9-ba-row > div:nth-child(3) { border-radius: 10px !important; border-left: 1px solid ${C.border} !important; }
         }
         @media (max-width: 640px) {
           .v9-pricing-grid { grid-template-columns: 1fr !important; }
