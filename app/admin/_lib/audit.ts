@@ -1,7 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { logAudit } from '@/app/lib/audit'
 
-// Writes a row into public.audit_log describing an admin mutation.
-// Swallows errors (logging only) so a failed audit write never blocks the primary update.
+// Admin-specific wrapper around the generic logAudit writer in app/lib/audit.ts.
+// Kept for backward compat with existing admin routes that import { logAdmin }.
+// New code (admin or user-side) should call logAudit directly — it handles both.
 export async function logAdmin(
   admin: SupabaseClient,
   opts: {
@@ -14,20 +16,13 @@ export async function logAdmin(
     after: Record<string, unknown>
   },
 ) {
-  try {
-    const { error } = await admin.from('audit_log').insert({
-      user_id: opts.actorId,
-      action: opts.action,
-      resource: opts.resource,
-      resource_id: opts.resourceId,
-      metadata: {
-        actor_email: opts.actorEmail ?? null,
-        before: opts.before,
-        after: opts.after,
-      },
-    })
-    if (error) console.warn('[admin:audit] failed', error.message)
-  } catch (e) {
-    console.warn('[admin:audit] threw', (e as Error).message)
-  }
+  return logAudit(admin, {
+    actorId:     opts.actorId,
+    actorEmail:  opts.actorEmail ?? null,
+    action:      opts.action,
+    resource:    opts.resource,
+    resourceId:  opts.resourceId,
+    before:      opts.before,
+    after:       opts.after,
+  })
 }

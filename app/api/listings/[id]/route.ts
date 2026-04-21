@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { logAuditFromRequest } from '@/app/lib/audit'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -88,18 +89,31 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       }
     }
 
+    // SOC 2 audit trail — every user-side mutation lands in audit_log.
+    void logAuditFromRequest(supabase, request, user, {
+      action:      'listing.update',
+      resource:    'listings',
+      resourceId:  id,
+      before:      before ?? null,
+      after:       data as unknown as Record<string, unknown>,
+    })
+
     return NextResponse.json({ listing: data })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }
 
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const supabase = await getSupabase()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    // Snapshot before delete for the audit trail.
+    const { data: before } = await supabase
+      .from('listings').select('*').eq('id', id).eq('user_id', user.id).single()
 
     const { error } = await supabase
       .from('listings')
@@ -108,6 +122,15 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
       .eq('user_id', user.id)
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    void logAuditFromRequest(supabase, request, user, {
+      action:      'listing.delete',
+      resource:    'listings',
+      resourceId:  id,
+      before:      before ?? null,
+      after:       null,
+    })
+
     return NextResponse.json({ success: true })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })

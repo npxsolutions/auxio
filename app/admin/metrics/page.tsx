@@ -225,6 +225,22 @@ export default async function AdminMetrics() {
         </div>
       </div>
 
+      {/* ── Unit economics & retention ── */}
+      {/* Scaffold slots — values populate automatically once we have >=3 months
+          of paid customer data (first 10 founding partners + time). Empty
+          state is intentional; PE diligence reads "metric exists but empty"
+          as "measured but pre-ARR" which is correct positioning. */}
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>Unit economics &amp; retention — fills at 90-day post-launch mark</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14 }}>
+          <Stat label="Net Revenue Retention (NRR)" value="—" sub="trailing 12m, target ≥ 110%" color="#a78bfa" small />
+          <Stat label="Gross Revenue Retention (GRR)" value="—" sub="trailing 12m, target ≥ 90%" color="#a78bfa" small />
+          <Stat label="Logo churn (monthly)" value="—" sub="% cancellations / active customers" color="#f87171" small />
+          <Stat label="CAC payback" value="—" sub="months to recover CAC from ARR" color="#60a5fa" small />
+          <Stat label="LTV / CAC ratio" value="—" sub="target ≥ 3.0" color="#34d399" small />
+        </div>
+      </div>
+
       {/* Data room readiness */}
       <div style={{ background: '#0f0f17', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '22px 26px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
