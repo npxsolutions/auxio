@@ -21,7 +21,7 @@ I&apos;ve been building Palvento for the last two years because the multichannel
 
 If you run a Shopify store and want to add Amazon, eBay, and TikTok Shop, your options are: (a) Shopify Marketplace Connect — free, covers three channels, no real feed optimisation; or (b) Feedonomics — $2,500+/mo, 30–90 day onboarding, managed services retainer. Nothing in between for the Shopify merchant doing $25k–$500k/mo who wants clean feeds on a Tuesday afternoon.
 
-Palvento is self-serve multichannel feed management. Install from the Shopify App Store, connect your channels, first feed live in under ten minutes. Real feed rules engine. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you know which marketplace is actually profitable after fees. $149/mo for one channel, $349 for five, $799 for unlimited — published pricing, no percentage of revenue, no sales call.
+Palvento is self-serve multichannel feed management. Sign up at palvento.com, connect Shopify via direct OAuth, first feed live in under ten minutes. Real feed rules engine. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you know which marketplace is actually profitable after fees. $149/mo for one channel, $349 for five, $799 for unlimited — published pricing, no percentage of revenue, no sales call.
 
 Demo: [https://palvento-lkqv.vercel.app/demo](https://palvento-lkqv.vercel.app/demo). You can be live with your first channel connected in about ten minutes.
 

@@ -3,7 +3,7 @@
 client_id = "0e17c1f8cd98ae071d13fa0003e6d2e1"
 name = "palvento"
 application_url = "https://palvento.com"
-embedded = true
+embedded = false
 handle = "palvento-multichannel"
 
 [build]

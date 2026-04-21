@@ -9,7 +9,7 @@
 ## Tier 1 — Shopify-led Starter
 **"Shopify + 1–2 additional channels · $10k–$100k/mo GMV · solo operator"**
 
-**Psychographic.** Founder-operator, often still working a day job or running the store as a primary income. Shopify native — installed from the App Store, stayed on Shopify by default. First marketplace attempt was usually Etsy or eBay via a free connector; considering Amazon next. Reads *2PM*, *Lenny*, *Trung Phan*, occasional *Shopify Masters*. Values transparency, speed, and a product that doesn't try to eat their entire Tuesday to set up.
+**Psychographic.** Founder-operator, often still working a day job or running the store as a primary income. Shopify native — built on Shopify from day one, stayed on Shopify by default. First marketplace attempt was usually Etsy or eBay via a free connector; considering Amazon next. Reads *2PM*, *Lenny*, *Trung Phan*, occasional *Shopify Masters*. Values transparency, speed, and a product that doesn't try to eat their entire Tuesday to set up.
 
 **Current toolset.** Shopify Admin. Shopify Marketplace Connect (free tier, 50 orders/mo cap), or a single-channel app per marketplace. A2X for accounting on the Shopify side. Google Sheets for reconciling payouts. No dedicated feed tool.
 
@@ -20,9 +20,9 @@
 
 **Willingness to pay.** $49–$79/mo. Credit card, 14-day trial, no sales call. Will not fill in a form. Documentation, a Loom demo, and a working install inside 10 minutes are the entire deal.
 
-**Acquisition.** Shopify App Store (primary). r/shopify, r/ecommerce, Indie Hackers, *My First Million*. SEO on "Shopify TikTok Shop integration", "Shopify Amazon connector", "Shopify eBay sync".
+**Acquisition.** Capterra / G2 / GetApp organic listings (primary). SEO on "Shopify TikTok Shop integration", "Shopify Amazon connector", "Shopify eBay sync". Indie Hackers, *My First Million*.
 
-**How they buy.** Pure self-serve via Shopify App Store install → OAuth → trial → auto-convert. If we make them book a demo we lose them.
+**How they buy.** Pure self-serve via palvento.com signup → OAuth → trial → auto-convert. If we make them book a demo we lose them.
 
 ---
 
@@ -40,7 +40,7 @@
 
 **Willingness to pay.** $149–$799/mo. Will pay $349/mo cheerfully if it replaces Marketplace Connect + a per-channel app + a feed-optimisation spreadsheet. Annual contracts viable after 60 days. Expansion revenue is real — they add channels, SKUs, and (in year 2) users.
 
-**Acquisition.** Shopify App Store (primary). `/vs/feedonomics` and `/vs/linnworks` SEO. Agency partnerships (Eastside Co, Underwaterpistol, Swanky, Blend). *Ecommerce Fuel* forum word-of-mouth.
+**Acquisition.** Capterra / G2 organic (primary). `/vs/feedonomics` and `/vs/linnworks` SEO. Agency partnerships (Eastside Co, Underwaterpistol, Swanky, Blend). *Ecommerce Fuel* forum word-of-mouth. LinkedIn founder content.
 
 **How they buy.** Self-serve trial, expect a sales-assisted onboarding call within the first 7 days. Evaluate 2–3 tools in parallel. Comparison content and `/vs/*` pages convert them. A peer reference in an ops Slack is the final gate.
 
@@ -79,6 +79,6 @@
 
 - Pure DTC single-channel Shopify stores under $10k/mo — Shopify + a CSV is fine for them.
 - Big-box retailers with EDI-first supplier relationships — we don't do EDI well yet.
-- Non-Shopify-led multichannel sellers (BigCommerce-native, WooCommerce-native, Magento) — we support them, but the Shopify App Store motion is the primary acquisition channel and the product is tuned for it.
+- Non-Shopify-led multichannel sellers (BigCommerce-native, WooCommerce-native, Magento) — we support them, but the Shopify direct-install motion is the primary acquisition channel and the product is tuned for it.
 - Pure B2B wholesale with no marketplace exposure — the feed loop we close doesn't apply.
 - Agencies reselling white-label — future partner motion, not an ICP.

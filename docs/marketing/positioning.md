@@ -28,10 +28,10 @@ What customers compare us to when they are shopping. Ordered by share-of-conside
 
 Five things we have that the alternatives — specifically Feedonomics — do not.
 
-1. **Self-serve signup from a Shopify App Store install.** First channel live, first feed syndicated, first error surfaced — all inside ten minutes, no sales call. Feedonomics, Rithum, Linnworks, and Brightpearl all require a demo before you see a price.
+1. **Self-serve signup direct from palvento.com.** First channel live, first feed syndicated, first error surfaced — all inside ten minutes of landing on the site, no sales call. Feedonomics, Rithum, Linnworks, and Brightpearl all require a demo before you see a price.
 2. **Published pricing in five currencies.** $149 / $349 / $799 / Enterprise from $2,000, toggleable between USD, GBP, EUR, AUD and CAD. Nobody in the quote-only tier does this. Sellbrite, Baselinker and Veeqo publish but only in USD / EUR.
 3. **Feed optimisation and P&L in one product.** Feedonomics does feeds. A2X does P&L. Shopify Marketplace Connect does neither well. Palvento closes that loop for the Shopify-led operator — the same product that normalises the feed also tells you which SKU on which channel is profitable.
-4. **Shopify-native install and sync.** OAuth via the App Store, two-way sync, sub-minute latency, no middleware. Not a connector bolted onto a generic platform — the Shopify install is the primary install path.
+4. **Shopify-native install and sync.** Direct OAuth from palvento.com, two-way sync, sub-minute latency, no middleware. Not a connector bolted onto a generic platform — Shopify is the primary install path.
 5. **Channel breadth at this price band.** Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce, WooCommerce. Sellbrite and Shopify Marketplace Connect cap out at a narrower set; Baselinker's breadth is EU-skewed.
 
 ---
@@ -56,7 +56,7 @@ The Shopify-led multichannel operator at $10k–$500k/mo GMV, running Shopify pl
 
 **Self-serve multichannel feed management.**
 
-Not "operating system for commerce." Not "commerce operations platform." The category is narrower and more legible than either of those, and — critically — it is the category the primary acquisition channel (Shopify App Store) already indexes against.
+Not "operating system for commerce." Not "commerce operations platform." The category is narrower and more legible than either of those, and — critically — it is the category that directory platforms (Capterra, G2, GetApp) already index against.
 
 Use this phrase verbatim in copy. Avoid: "commerce OS", "operating system for global commerce", "multichannel ERP", "listing tool", "repricer". The first two overclaim; the last three undersell.
 
@@ -66,7 +66,7 @@ The Enterprise tier still serves sellers who grow into SSO / SLA / data-residenc
 
 ## 6. Trends we leverage
 
-- **The Shopify App Store is where merchants shop for ops tooling.** Not Google Search, not G2. Ranking well in the App Store is the single highest-leverage channel for the wedge.
+- **Shopify merchants research ops tooling on Capterra, G2, and /vs/ pages before committing.** Publicly displayed pricing + a populated Capterra profile is the single highest-leverage organic channel for the wedge — zero feed-management vendors currently do this.
 - **Feedonomics' acquisition by BigCommerce in 2022 left a gap.** Shopify-led merchants are structurally the wrong buyer for Feedonomics' motion. That gap has not been filled at a self-serve price point.
 - **Multi-marketplace as default.** Shopify-only sellers are now the exception above $25k/mo. Amazon + eBay + TikTok Shop + Shopify is the baseline stack. The feed is the bottleneck.
 - **AI-drafted listings are table stakes, not a differentiator.** Every vendor has one. The value is in the rules engine that stops the AI draft from getting your listing suppressed on Amazon.
@@ -89,6 +89,6 @@ The Enterprise tier still serves sellers who grow into SSO / SLA / data-residenc
 >
 > On the other side: Feedonomics and Rithum. Enterprise feed management, $2,500 a month before you see a demo, managed-services retainers, thirty-to-ninety day onboarding. Powerful, and completely the wrong shape for a Shopify merchant doing a quarter-million a year.
 >
-> Palvento sits in the gap. Self-serve from the Shopify App Store, up in under ten minutes, covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce and WooCommerce. Real feed rules. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you actually know which marketplace is making money after fees. $149 a month for one channel, $349 for five, $799 for unlimited, published in five currencies, flat, no percentage of revenue.
+> Palvento sits in the gap. Self-serve from palvento.com — install link, OAuth, first channel live in under ten minutes — covering Amazon, eBay, TikTok Shop, Etsy, Walmart, OnBuy, BigCommerce and WooCommerce. Real feed rules. Error hub that catches GTIN mismatches and banned words before they hit the marketplace. Per-channel P&L so you actually know which marketplace is making money after fees. $149 a month for one channel, $349 for five, $799 for unlimited, published in five currencies, flat, no percentage of revenue.
 >
 > Enterprise sales is still available for sellers doing multi-region, ten-plus channels, SSO, SLA, data residency — but it's a separate path for the top tier, not the whole pitch. The whole pitch is: you're a Shopify founder, you want to be on every marketplace that matters, and you want the feed to be clean. That's the job.

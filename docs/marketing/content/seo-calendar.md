@@ -60,10 +60,10 @@ Columns: **KW** = primary keyword. **Vol.** = est. monthly US+UK search volume. 
 - Links: `/blog/how-to-calculate-true-profit-ecommerce`
 
 ## Week 6
-**Pillar (MI).** *Shopify App Store installs vs headless commerce: when each wins.*
-- KW: "shopify app store vs headless" · Vol est. ~200 · KD est. 18
-- Intent: I · CTA: Read developer docs · WC: 1,500 · Day: Tuesday
-- Links: `/developers`, `/vs/brightpearl`
+**Pillar (MI).** *Installed vs native: when a multichannel tool should live inside Shopify Admin, and when it shouldn't.*
+- KW: "multichannel tools shopify" · Vol est. ~300 · KD est. 14
+- Intent: I · CTA: Read the integration guide · WC: 1,500 · Day: Tuesday
+- Links: `/integrations`, `/vs/brightpearl`
 
 **Supporting (MO).** *Inventory sync latency: why seconds matter for multichannel sellers.*
 - KW: "inventory sync latency" · Vol est. ~180 · KD est. 12

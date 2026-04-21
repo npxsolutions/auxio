@@ -33,7 +33,7 @@ Assumes Tier 0 still running. These are the paid additions.
 |---|---|---|---|
 | Contract writer (supporting posts, $400 × 12) | $4,800 | 12 supporting SEO posts shipped | Week 6: none ranking top 30 |
 | Newsletter sponsor slots (2 × $800) | $1,600 | 150 click-throughs, 6 trials, 1 paid | Slot 1 < 40 click-throughs |
-| Shopify App Store listing polish (design + video) | $1,200 | Install conversion 8% | 30 days post-go-live: <3% |
+| Capterra / G2 listing production (video, screenshots, profile fill) | $1,200 | 4 listings live + ≥10 reviews in 90 days | 30 days post-go-live: < 3 reviews |
 | Cold email tooling (Smartlead/Instantly + list enrichment) | $600 | 1,200 prospects/quarter at 3% reply | Week 4: < 1% reply |
 | Webinar production (Streamyard, editing, ads for reg) | $800 | 200+ attendees Webinar 1, 400+ Webinar 2 | Webinar 1 < 80 attendees |
 | Influencer test (1 YouTube placement) | $600 | 1k views, 4 trials | Week 2 post-ship: < 200 views |
@@ -54,7 +54,7 @@ Adds paid search and more structured partner motion.
 | Newsletter sponsorships (6 × $800) | $4,800 | 10% | 10 paid customers | Avg slot < 3 trials |
 | Webinar production + paid reg ads | $3,000 | 6% | 2 webinars/qtr, 500 attendees each | < 250 attendees/webinar |
 | Performance marketer retainer | $4,500 | 9% | Manages paid, reports weekly | < 80% budget executed |
-| Shopify App Store video + review incentives | $2,200 | 4% | 40 installs/mo by Day 60 | Day 60: < 15 installs |
+| Capterra / G2 review incentives + listing refresh | $2,200 | 4% | 25 Capterra reviews + 15 G2 reviews by Day 180 | Day 60: < 8 reviews total |
 | Conference lobby presence (1 event, no booth) | $3,500 | 7% | 10 Scale Operator convos, 2 closed | Event: < 5 real convos |
 | Tooling (PostHog growth, Attio, Clay, Clearbit) | $2,000 | 4% | Attribution & outbound tooling | n/a |
 

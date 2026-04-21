@@ -100,7 +100,7 @@
 
 76. The real competitor in this category isn't a SaaS product. / It's the Google Sheet.
 77. Everyone is talking about AI-drafted listings. / The real 2026 bottleneck is not drafting. It is validating.
-78. Shopify App Store is the single highest-leverage acquisition channel for multichannel tools in 2026. / Most vendors are underinvesting in it.
+78. Capterra is where Shopify operators actually compare multichannel tools before installing — not the Shopify App Store. / Most vendors underinvest in the Capterra listing the same way they underinvested in G2 in 2018.
 79. TikTok Shop's policy updates in Q1 2026 broke half the feed integrations in the market. / This is why the validator matters.
 80. The feed-management category is quietly splitting. / Enterprise managed-service on one side. Self-serve on the other. The middle is hollowing out.
 81. The Shopify operator doing 200k a month is the single most under-served buyer in ecommerce tooling today. / Every vendor is either below them or above them.
@@ -120,7 +120,7 @@
 92. If you're a Shopify operator running three-plus channels and tired of the spreadsheet — this is the week to try us. / 14 days free. No card.
 93. 37 sellers in the beta. Four bugs in the first 48 hours. / Here is what we shipped to fix them.
 94. We just crossed a hundred paying customers. / Here is what changed about the product. Here is what stayed the same.
-95. The thing I learned shipping a Shopify App Store listing that I didn't expect. / Install-to-review conversion is mostly about the first screen.
+95. The thing I learned shipping a self-serve Shopify install flow that I didn't expect. / Install-to-first-value conversion is mostly about the first screen after OAuth.
 96. Free trial starts the clock. Day one is the most important day. / Here is the 12-minute onboarding we shipped because of that.
 97. If you're running a multichannel stack and renewal is up this quarter — DM me. / Even if you don't switch, I'd love to hear why not.
 98. If Shopify Marketplace Connect feels thin and you're looking next — we cover the gap for 59 a month. / That is the whole pitch.

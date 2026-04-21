@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const SCOPES = 'read_orders,read_products,read_inventory,read_analytics'
+const SCOPES = 'read_content,read_inventory,read_locations,read_orders,read_price_rules,read_products,read_publications,write_inventory,write_price_rules,write_products,write_publications'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)

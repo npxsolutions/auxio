@@ -4,6 +4,17 @@ Three posts per week. Cadence: Tuesday, Thursday, Friday. Times tuned for UK ope
 Voice rules: no exclamation marks, no emoji, no "game-changing" / "supercharge" / "10x" / "the future of".
 Founder voice, first person. Specific numbers. Labelled composites when a customer story appears.
 
+> **⚠️ 2026-04-21 — REWRITE PENDING.** App Store distribution is closed (decision: direct install via palvento.com). Do **NOT publish** the following without rewriting first:
+>
+> - **Post #3** (line ~86) — references "App Store ranking" as the go-forward business. Swap to "Capterra ranking + direct-install motion".
+> - **Post #11** (line ~169) — "Self-serve install from the Shopify App Store" in the product pitch. Swap to "Self-serve install direct from palvento.com".
+> - **Post #21** (line ~584) — whole post is *"App Store is the primary acquisition channel"*. Entire post needs retargeting to *"Capterra is the primary acquisition channel"* or *"Direct install is the primary channel"*. See `task-breakdown.md` Play 3 for the new framing.
+> - **Post #23** (line ~646) — "Shopify App Store install" in the product description. Swap to "Direct Shopify OAuth from palvento.com".
+> - **Post cadence table** (line ~705) — Week 7 Friday is listed as "POV — App Store". Retarget to "POV — why direct install beats App Store for a bootstrapped wedge" or similar.
+> - **Post #24** (line ~677) — "Shopify App Store install to a live marketplace listing" in the final retro post. Swap to "palvento.com signup to a live marketplace listing".
+>
+> Rival-name sweep for Posts 2–24 is also still pending per `project_current_state.md`. Bundle both sweeps into one pass.
+
 Legend on the content mix:
 
 - **Narrative** (8) — founder thesis, decisions, lessons

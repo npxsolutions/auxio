@@ -31,10 +31,10 @@ Measurement sources:
 - **Target.** 15 booked / 35 booked / 70 booked, 65% show rate (Day 30) rising to 75% (Day 90).
 - **Classification.** Leading.
 
-### Inbound from marketplaces
-- **Definition.** New trials attributed to Shopify App Store, BigCommerce, TikTok Shop.
-- **Source.** PH (install_source property).
-- **Target.** 0 / 25 / 80 cumulative installs (Shopify App Store goes live Week 6).
+### Inbound from Capterra / G2 / directories
+- **Definition.** New trials attributed to Capterra, G2, GetApp, Software Advice (tracked via `src=capterra` etc. links on outbound listings).
+- **Source.** PH (`install_source` property).
+- **Target.** 0 / 8 / 30 cumulative trials from directories (first reviews seed in Week 3–4; category placement approvals land Week 6–8).
 - **Classification.** Leading.
 
 ---

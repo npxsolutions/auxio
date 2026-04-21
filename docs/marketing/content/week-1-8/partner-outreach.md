@@ -19,7 +19,7 @@ I'm Nick, founder of Palvento. We make self-serve multichannel feed management f
 
 I'm reaching out because {{agencyName}} serves exactly the kind of operator who hits this wall: Shopify merchants doing $10k–$500k/mo who want to add Amazon, eBay, TikTok Shop, or Etsy, and find that Marketplace Connect's three-channel ceiling isn't enough, but Feedonomics' price and onboarding timeline are wrong.
 
-Palvento installs from the Shopify App Store, first feed live in under ten minutes, $149/mo for one channel, $349 for five, $799 for unlimited. Feed rules engine, error hub, per-channel P&L.
+Palvento installs directly from palvento.com — OAuth into Shopify, first feed live in under ten minutes, $149/mo for one channel, $349 for five, $799 for unlimited. Feed rules engine, error hub, per-channel P&L.
 
 I'd like to explore whether a partnership makes sense — revenue share on referrals, co-marketing, or just an introduction to your clients who are in this gap. Would a 20-minute call this week or next work?
 
@@ -78,7 +78,7 @@ I'm writing because your work advising sellers on marketplace expansion is exact
 - Error hub: catches feed rejections before they hit the marketplace.
 - Per-channel P&L: true margin after fees, shipping, returns, and FX.
 
-$149/mo for one channel, $349 for five, $799 for unlimited. Self-serve from the Shopify App Store.
+$149/mo for one channel, $349 for five, $799 for unlimited. Self-serve from palvento.com — direct Shopify OAuth, no App Store middleman.
 
 I'd like to explore a referral or co-delivery arrangement — your strategy, our tool. Would 20 minutes this week work?
 

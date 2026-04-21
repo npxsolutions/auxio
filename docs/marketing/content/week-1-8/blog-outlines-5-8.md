@@ -65,7 +65,7 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
    - **Dedicated feed management (Palvento).** $149/mo. Feed rules, title/description optimisation per channel, GTIN validation, error hub, per-channel P&L. (~400 words)
 
 3. **Step-by-step with Palvento** — Walkthrough:
-   - Step 1: Install from Shopify App Store (OAuth, 2 minutes)
+   - Step 1: Sign up on palvento.com and connect Shopify (OAuth, 2 minutes)
    - Step 2: Connect eBay seller account (OAuth, 2 minutes)
    - Step 3: Map categories (Palvento auto-suggests, review and confirm, 3 minutes)
    - Step 4: Configure feed rules (title length, GTIN requirements, item specifics, 3 minutes)
@@ -162,13 +162,13 @@ Four SEO-targeted pillar posts. Each outline includes the primary keyword, searc
 4. **What Palvento does differently** — Direct comparison, feature by feature:
    | Feature | Feedonomics | Palvento |
    |---|---|---|
-   | Signup | Demo required | Self-serve from Shopify App Store |
+   | Signup | Demo required | Self-serve from palvento.com |
    | Time to first feed | 30+ days | Under 10 minutes |
    | Pricing | Quote-only (~$2,500+/mo) | Published: $149 / $349 / $799 / $2,000+/mo |
    | Feed rules | Managed by feed specialist | Self-serve rules engine |
    | Error handling | Managed | Error hub with pre-submission validation |
    | Per-channel P&L | No | Yes |
-   | Shopify integration | Connector | Native App Store install |
+   | Shopify integration | Connector | Direct OAuth from palvento.com |
    (~300 words)
 
 5. **Who should still use Feedonomics** — Be direct. If you need managed services, 200+ channels, or Google Shopping feed management at enterprise scale, Feedonomics is the right tool. Palvento is not trying to replace Feedonomics for enterprise. We're filling the gap below it. (~150 words)

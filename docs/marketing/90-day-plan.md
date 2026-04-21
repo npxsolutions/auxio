@@ -35,7 +35,6 @@ KPIs reference `kpis.md`.
 - One supporting post (see `content/seo-calendar.md`).
 - Founder LinkedIn post 2.
 - Two Twitter threads from the bank.
-- Shopify App Store listing submitted for review.
 **KPIs.** 3,000 weekly organic pageviews. 60 new trial starts.
 **Owner.** C writes supporting; F writes pillar + LinkedIn.
 
@@ -62,16 +61,16 @@ KPIs reference `kpis.md`.
 **KPIs.** 5 signed partner agreements. First partner-sourced trial.
 **Owner.** F owns partner calls.
 
-## Week 6 — Shopify App Store goes live
-**Theme.** Exploit the new channel while it's ranking fresh.
+## Week 6 — Agency partner push
+**Theme.** Lock in the first four signed agency agreements (per `gtm-12-month-plan.md` Play 7).
 **Deliverables.**
-- App Store listing live — seed 15 reviews from existing customers in 72h.
-- Post recap: "We launched on Shopify App Store — here's what we learned" (LinkedIn + Indie Hackers).
+- 4 signed partner agreements (Eastside Co, Underwaterpistol, Swanky, Blend priority).
+- Partner-dashboard MVP shipped in-app.
 - Founder LinkedIn post 3.
 - Two Twitter threads.
 - Cold outreach batch 2 (100 new prospects).
-**KPIs.** 15 installs in Week 1. 12+ five-star reviews. 80 new trial starts this week (cumulative: 300+).
-**Owner.** F + Eng (for listing-specific feature gates).
+**KPIs.** 4 partner agreements signed. 80 new trial starts this week (cumulative: 300+).
+**Owner.** F + Eng (for partner dashboard).
 
 ## Week 7 — Retention focus
 **Theme.** Funnel is filling, cohort is thinning. Plug leaks.

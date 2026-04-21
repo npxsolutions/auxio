@@ -14,7 +14,7 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 - **Weekly cadence.** 2 posts/week (1 pillar + 1 supporting). See `content/seo-calendar.md`.
 - **Owner.** Founder writes the opinionated pieces. Contract writer (Upwork, ~$400/post) drafts supporting posts, founder edits.
 
-## 2. Partnerships (agencies, 3PLs, app-store co-marketing) — **second highest leverage**
+## 2. Partnerships (agencies, 3PLs) — **second highest leverage**
 - **CAC estimate.** $200–$400 (mostly rev-share, not cash).
 - **Time to first customer.** 4–8 weeks per partner.
 - **What works.** Agencies that already serve Tier 2 operators (Eastside Co, Underwaterpistol, Swanky, Blend, Glow). 3PLs looking for value-add (ShipBob, ShipHero's partner ecosystem). Warm intros — no cold partner outreach.
@@ -22,13 +22,13 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 - **Weekly cadence.** 2 partner conversations/week, 1 co-marketing asset/month (joint webinar, guest post, listing).
 - **Owner.** Founder. Non-delegable for first 20 partners.
 
-## 3. Marketplace listings (Shopify App Store, BigCommerce, TikTok Shop) — **high leverage, slow approval**
-- **CAC estimate.** $0 at the margin, but 3–6 weeks of build + review time per marketplace.
-- **Time to first customer.** 10–14 weeks (approval + rank).
-- **What works.** Shopify App Store is the single biggest channel for Tier 2 self-serve. Video demo, 5-star seeding from existing customers, weekly iteration on listing copy.
-- **What doesn't.** Listing once and forgetting. Shopify's algorithm rewards recency and review velocity.
-- **Weekly cadence.** One listing asset update/week (screenshot, changelog, review request).
-- **Owner.** Founder + designer.
+## 3. Review platforms & directories (Capterra, G2, GetApp, Software Advice) — **high leverage, review-velocity gated**
+- **CAC estimate.** $0 at the margin. Capterra PPC deliberately skipped — organic listing earned via reviews.
+- **Time to first customer.** 6–10 weeks from first review (category placements open once 5+ reviews are live).
+- **What works.** Fully populated profiles (the 40% of fields most vendors skip), **publicly displayed pricing on Capterra** — zero feed-management vendors do this, which auto-includes us in pricing-transparent filtered searches. Systematic review-request email at Day 45 post-install. Video demo embedded. Feature-taxonomy tagging to 80+ features to surface in category searches.
+- **What doesn't.** Paid "featured listing" tiers before reviews are in. Buying reviews. Listing once and forgetting.
+- **Weekly cadence.** One listing update/week (screenshot rotation, changelog entry, review monitoring). Review requests sent as customers cross the 45-day mark.
+- **Owner.** Founder for first 30 reviews, then handed to content lead for the ongoing ritual.
 
 ## 4. Cold outreach — **high leverage early, diminishing returns fast**
 - **CAC estimate.** $150–$300 at 1% reply-to-close.
@@ -102,7 +102,7 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 |---|---|---|---|
 | 1 | SEO / content | All tiers | 6–9 months |
 | 2 | Partnerships | Tier 2 + 3 | 3–4 months |
-| 3 | Marketplace listings | Tier 1 + 2 | 4–6 months |
+| 3 | Review platforms & directories | Tier 1 + 2 | 4–6 months |
 | 4 | Cold outreach | Tier 2 + 3 | 2–3 months |
 | 5 | Communities | Tier 1 + 2 | 4–6 months |
 | 6 | PH + HN launch | All tiers | Immediate spike, long tail |
@@ -114,4 +114,4 @@ Ownership notes assume a team of 2 (founder + part-time content lead) until Day 
 
 ## Explicitly not pursuing in first 90 days
 
-TV, podcast ads (until there's a working paid funnel), TikTok creator marketing, SEO agencies, LinkedIn ads, outbound-as-a-service firms, Capterra/G2 reviews farming, "AI-generated SEO content at scale".
+TV, podcast ads (until there's a working paid funnel), TikTok creator marketing, SEO agencies, LinkedIn ads, outbound-as-a-service firms, Capterra/G2 paid "featured listing" tiers (organic reviews only), buying reviews, "AI-generated SEO content at scale", and the **Shopify App Store** (direct-install distribution only — decision locked 2026-04-21).

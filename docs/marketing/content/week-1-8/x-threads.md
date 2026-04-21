@@ -4,6 +4,11 @@ One thread per week. Five to seven tweets each. Published Tuesday or Wednesday, 
 
 Each thread maps to that week's LinkedIn topic for cross-channel reinforcement.
 
+> **⚠️ 2026-04-21 — REWRITE PENDING.** App Store distribution is closed (direct-install via palvento.com). Do **NOT publish** the following without rewriting first:
+>
+> - **Thread 6** (line ~91) — entire thread is *"What the Shopify App Store actually rewards"*. Retarget to *"What Capterra actually rewards"* or *"What a direct-install growth motion rewards"*. Same structure works with substituted specifics.
+> - **Thread 8** (line ~127) — launch retro lists "Shopify App Store listing live" as a shipped outcome and names App Store as the top-performing channel. Remove that outcome and re-rank channels (Capterra + LinkedIn + agency partners are now the top three).
+
 ---
 
 ## Thread 1 — Week 1 · The gap in the market
