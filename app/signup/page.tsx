@@ -1,100 +1,124 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+/**
+ * Palvento signup — minimal email + password only. The rest of the data
+ * capture (business, store, GMV, channels, attribution) lives in the
+ * post-email-verify /onboarding wizard. Keeping the signup form to 2
+ * fields is deliberate: every extra field on this page drops conversion
+ * ~7% (see Stripe / Linear benchmarks). The ICP-qualification data we
+ * need for sales triage and product gating is strictly better captured
+ * after the user has committed to creating an account.
+ *
+ * Brand rules applied: cream (#f3f0ea) background, Instrument Serif
+ * italic for display, Geist for UI, cobalt (#1d5fdb) accent, Palvento
+ * chevron mark. Matches the homepage / vs-pages / pricing typography
+ * unification pass (commit d6a2d48).
+ */
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase-client'
 
-const INDIGO = '#5b52f5'
-const INDIGO_HOVER = '#4a42e5'
-const DARK = '#0f1117'
+const C = {
+  bg:      '#f3f0ea',
+  surface: '#ffffff',
+  ink:     '#0b0f1a',
+  mutedDk: '#2c3142',
+  muted:   '#5a6171',
+  rule:    'rgba(11,15,26,0.10)',
+  cobalt:  '#1d5fdb',
+  cobaltDk:'#1647a8',
+  cobaltSft: 'rgba(29,95,219,0.10)',
+  emerald: '#0e7c5a',
+}
 
-const features = [
-  'True profit tracking across every channel',
-  'AI that reprices and acts for you',
-  'One listing → published everywhere',
-  'Real-time error detection and fixes',
+const display = 'var(--font-display), Georgia, serif'
+const sans    = 'var(--font-geist), -apple-system, system-ui, sans-serif'
+const mono    = 'var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace'
+
+// Three honest product anchors. No repricing claim (killed from roadmap per
+// Post 20). No customer testimonial (no paying customers as of 2026-04-21).
+const PRODUCT_ANCHORS = [
+  { title: 'Install in under ten minutes.', body: 'Shopify App Store OAuth, two-way sync from the first click. No sales call, no 30-day onboarding.' },
+  { title: 'Feed errors caught at ingest.',  body: "Missing GTINs, oversized images, banned words, category gaps — before the marketplace suppresses the listing." },
+  { title: 'Per-channel P&L in one screen.',  body: 'Line-item fee attribution reconciled into contribution margin per SKU per channel.' },
 ]
 
 export default function SignupPage() {
-  const router = useRouter()
-  const [name, setName]         = useState('')
-  const [email, setEmail]       = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError]       = useState<string | null>(null)
-  const [success, setSuccess]   = useState(false)
-  const [loading, setLoading]   = useState(false)
-
-  const [nameFocus, setNameFocus]         = useState(false)
-  const [emailFocus, setEmailFocus]       = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [emailFocus, setEmailFocus] = useState(false)
   const [passwordFocus, setPasswordFocus] = useState(false)
-  const [btnHover, setBtnHover]           = useState(false)
+  const [btnHover, setBtnHover] = useState(false)
+
+  // Capture UTM params + referrer at signup and stash in localStorage for
+  // the onboarding wizard to attach to the profile. localStorage survives
+  // the email-verify round trip without needing a DB table.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const url = new URL(window.location.href)
+    const utm = {
+      utm_source:   url.searchParams.get('utm_source'),
+      utm_medium:   url.searchParams.get('utm_medium'),
+      utm_campaign: url.searchParams.get('utm_campaign'),
+      referrer:     document.referrer || null,
+    }
+    if (utm.utm_source || utm.utm_medium || utm.utm_campaign || utm.referrer) {
+      try { localStorage.setItem('palvento_signup_attribution', JSON.stringify(utm)) } catch {}
+    }
+  }, [])
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError(null)
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { error: err } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding` },
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/welcome` },
     })
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-      return
-    }
+    if (err) { setError(err.message); setLoading(false); return }
     setSuccess(true)
     setLoading(false)
   }
 
-  const inputStyle = (focused: boolean): React.CSSProperties => ({
+  const input = (focused: boolean): React.CSSProperties => ({
     width: '100%',
-    padding: '11px 14px',
-    border: `1px solid ${focused ? INDIGO : '#e8e5df'}`,
+    padding: '12px 14px',
+    border: `1px solid ${focused ? C.cobalt : C.rule}`,
     borderRadius: 8,
     fontSize: 14,
-    fontFamily: 'inherit',
-    color: '#1a1b22',
+    fontFamily: sans,
+    color: C.ink,
     outline: 'none',
     boxSizing: 'border-box',
-    background: 'white',
-    boxShadow: focused ? '0 0 0 3px rgba(91,82,245,0.1)' : 'none',
+    background: C.surface,
+    boxShadow: focused ? `0 0 0 3px ${C.cobaltSft}` : 'none',
     transition: 'border-color 0.15s, box-shadow 0.15s',
   })
 
+  // ── Success state — email verification sent ───────────────────────────────
   if (success) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        background: '#f5f3ef',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Inter, -apple-system, sans-serif',
-        padding: 24,
-      }}>
-        <div style={{ textAlign: 'center', maxWidth: 400 }}>
-          <div style={{
-            width: 56,
-            height: 56,
-            background: 'rgba(91,82,245,0.1)',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 20px',
-            fontSize: 24,
-          }}>📧</div>
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1a1b22', marginBottom: 10, letterSpacing: '-0.02em' }}>
-            Check your email
+      <div style={{ minHeight: '100vh', background: C.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: sans, padding: 24 }}>
+        <div style={{ textAlign: 'center', maxWidth: 440 }}>
+          <div style={{ width: 56, height: 56, margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink}/>
+              <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt}/>
+            </svg>
+          </div>
+          <h2 style={{ fontFamily: display, fontStyle: 'italic', fontSize: 40, fontWeight: 400, color: C.ink, letterSpacing: '-0.025em', lineHeight: 1.05, margin: '0 0 16px' }}>
+            Check your email.
           </h2>
-          <p style={{ fontSize: 15, color: '#6b6e87', lineHeight: 1.6, marginBottom: 24 }}>
-            We sent a confirmation link to{' '}
-            <strong style={{ color: '#1a1b22' }}>{email}</strong>
+          <p style={{ fontSize: 15, color: C.mutedDk, lineHeight: 1.6, marginBottom: 24 }}>
+            We sent a confirmation link to <strong style={{ color: C.ink }}>{email}</strong>. Click it and we'll pick up with a quick onboarding.
           </p>
-          <Link href="/login" style={{ fontSize: 14, color: INDIGO, textDecoration: 'none', fontWeight: 500 }}>
+          <Link href="/login" style={{ fontFamily: mono, fontSize: 12, color: C.cobalt, textDecoration: 'none', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
             ← Back to sign in
           </Link>
         </div>
@@ -102,212 +126,101 @@ export default function SignupPage() {
     )
   }
 
+  // ── Main signup layout — split: brand panel left, form right ──────────────
   return (
-    <div style={{
-      display: 'flex',
-      minHeight: '100vh',
-      fontFamily: 'Inter, -apple-system, sans-serif',
-      WebkitFontSmoothing: 'antialiased' as any,
-    }}>
+    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: sans, WebkitFontSmoothing: 'antialiased' as any, background: C.bg }}>
 
-      {/* LEFT PANEL */}
-      <div style={{
-        width: '40%',
-        background: DARK,
-        padding: 48,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        flexShrink: 0,
-      }}>
-        {/* Subtle radial glow */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(ellipse at 30% 70%, rgba(91,82,245,0.12) 0%, transparent 60%)',
-          pointerEvents: 'none',
-        }} />
+      {/* LEFT PANEL — brand + product anchors */}
+      <div style={{ width: '42%', padding: 56, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0, borderRight: `1px solid ${C.rule}` }}>
+        <div>
+          {/* Wordmark */}
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: C.ink, marginBottom: 56 }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill={C.ink}/>
+              <rect x="9.2" y="17" width="5.6" height="2.2" fill={C.cobalt}/>
+            </svg>
+            <span style={{ fontFamily: display, fontSize: 26, letterSpacing: '-0.015em' }}>Palvento</span>
+          </Link>
 
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 48 }}>
-            <div style={{
-              width: 34,
-              height: 34,
-              background: 'linear-gradient(135deg, #5b52f5 0%, #7c75f8 100%)',
-              borderRadius: 9,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontSize: 16,
-              fontWeight: 800,
-              letterSpacing: '-0.02em',
-            }}>A</div>
-            <span style={{ fontSize: 18, fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>Palvento</span>
-          </div>
+          {/* Editorial headline */}
+          <h1 style={{ fontFamily: display, fontStyle: 'italic', fontSize: 'clamp(40px, 4vw, 56px)', fontWeight: 400, color: C.ink, letterSpacing: '-0.025em', lineHeight: 1.05, margin: '0 0 20px' }}>
+            Every channel. <em style={{ color: C.cobalt, fontStyle: 'italic' }}>One clean feed.</em>
+          </h1>
+          <p style={{ fontSize: 16, color: C.mutedDk, lineHeight: 1.5, maxWidth: 420, marginBottom: 48 }}>
+            Self-serve multichannel feed management for Shopify-led sellers. 14 days free, no card required.
+          </p>
 
-          {/* Headline */}
-          <h2 style={{
-            fontSize: 28,
-            fontWeight: 700,
-            color: 'white',
-            lineHeight: 1.25,
-            letterSpacing: '-0.03em',
-            marginBottom: 32,
-          }}>
-            Your eCommerce<br />command centre
-          </h2>
-
-          {/* Feature bullets */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 48 }}>
-            {features.map(f => (
-              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                <div style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: '50%',
-                  background: 'rgba(91,82,245,0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  marginTop: 1,
-                }}>
-                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                    <path d="M1 4l2.5 2.5L9 1" stroke={INDIGO} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+          {/* Product anchors — not testimonials */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+            {PRODUCT_ANCHORS.map((a, i) => (
+              <div key={i} style={{ display: 'flex', gap: 14 }}>
+                <div style={{ flexShrink: 0, paddingTop: 3 }}>
+                  <span style={{ fontFamily: mono, fontSize: 11, color: C.cobalt, letterSpacing: '0.1em', fontWeight: 600 }}>§ 0{i+1}</span>
                 </div>
-                <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>{f}</span>
+                <div>
+                  <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: 20, color: C.ink, letterSpacing: '-0.015em', lineHeight: 1.2, marginBottom: 4 }}>{a.title}</div>
+                  <div style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.55 }}>{a.body}</div>
+                </div>
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Founding member badge */}
-          <div style={{
-            background: 'rgba(91,82,245,0.12)',
-            border: '1px solid rgba(91,82,245,0.25)',
-            borderRadius: 10,
-            padding: '14px 16px',
-            marginBottom: 28,
-          }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: INDIGO, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
-              Founding member offer
-            </div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', lineHeight: 1.5 }}>
-              Lock in our lowest price — forever — by joining during beta.
-            </div>
-          </div>
-
-          {/* Testimonial */}
-          <div style={{
-            borderTop: '1px solid rgba(255,255,255,0.08)',
-            paddingTop: 28,
-          }}>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 14 }}>
-              "I relisted my entire back catalogue in a weekend."
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{
-                width: 30,
-                height: 30,
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #5b52f5 0%, #7c75f8 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: 11,
-                fontWeight: 700,
-              }}>ST</div>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>Sarah T.</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>Clothing reseller · Growth plan</div>
-              </div>
-            </div>
-          </div>
+        {/* Founding-partner strip */}
+        <div style={{ borderTop: `1px solid ${C.rule}`, paddingTop: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ width: 6, height: 6, borderRadius: 3, background: C.cobalt }} />
+          <span style={{ fontFamily: mono, fontSize: 11, color: C.mutedDk, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            10 founding-partner spots · 40% off for life
+          </span>
         </div>
       </div>
 
-      {/* RIGHT PANEL */}
-      <div style={{
-        flex: 1,
-        background: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 48,
-      }}>
-        <div style={{ width: '100%', maxWidth: 400 }}>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#1a1b22', marginBottom: 6, letterSpacing: '-0.02em' }}>
-            Start your free trial
-          </h1>
-          <p style={{ fontSize: 14, color: '#6b6e87', marginBottom: 32 }}>
-            14 days free. No credit card required.
+      {/* RIGHT PANEL — the actual form */}
+      <div style={{ flex: 1, background: C.surface, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 48 }}>
+        <div style={{ width: '100%', maxWidth: 420 }}>
+          <h2 style={{ fontFamily: display, fontStyle: 'italic', fontSize: 'clamp(32px, 3.2vw, 44px)', fontWeight: 400, color: C.ink, letterSpacing: '-0.025em', lineHeight: 1.05, margin: '0 0 10px' }}>
+            Start your free trial.
+          </h2>
+          <p style={{ fontSize: 14, color: C.muted, marginBottom: 32 }}>
+            14 days free · No card required · Cancel any time.
           </p>
 
           <form onSubmit={handleSignup}>
-            <div style={{ marginBottom: 18 }}>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#1a1b22', marginBottom: 6 }}>
-                Full name
-              </label>
+            <div style={{ marginBottom: 16 }}>
+              <label htmlFor="email" style={{ display: 'block', fontFamily: mono, fontSize: 11, fontWeight: 600, color: C.muted, marginBottom: 7, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Work email</label>
               <input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-                placeholder="Jane Smith"
-                style={inputStyle(nameFocus)}
-                onFocus={() => setNameFocus(true)}
-                onBlur={() => setNameFocus(false)}
-              />
-            </div>
-
-            <div style={{ marginBottom: 18 }}>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#1a1b22', marginBottom: 6 }}>
-                Email address
-              </label>
-              <input
+                id="email"
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                placeholder="you@example.com"
-                style={inputStyle(emailFocus)}
+                autoComplete="email"
+                placeholder="you@yourstore.com"
+                style={input(emailFocus)}
                 onFocus={() => setEmailFocus(true)}
                 onBlur={() => setEmailFocus(false)}
               />
             </div>
 
             <div style={{ marginBottom: 24 }}>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#1a1b22', marginBottom: 6 }}>
-                Password
-              </label>
+              <label htmlFor="password" style={{ display: 'block', fontFamily: mono, fontSize: 11, fontWeight: 600, color: C.muted, marginBottom: 7, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Password</label>
               <input
+                id="password"
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
+                autoComplete="new-password"
                 minLength={8}
-                placeholder="Min 8 characters"
-                style={inputStyle(passwordFocus)}
+                placeholder="8+ characters"
+                style={input(passwordFocus)}
                 onFocus={() => setPasswordFocus(true)}
                 onBlur={() => setPasswordFocus(false)}
               />
             </div>
 
             {error && (
-              <div style={{
-                fontSize: 13,
-                color: '#dc2626',
-                background: '#fef2f2',
-                border: '1px solid #fecaca',
-                borderRadius: 8,
-                padding: 12,
-                marginBottom: 20,
-              }}>
+              <div role="alert" style={{ fontSize: 13, color: '#b32718', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: 12, marginBottom: 18 }}>
                 {error}
               </div>
             )}
@@ -319,35 +232,33 @@ export default function SignupPage() {
               onMouseLeave={() => setBtnHover(false)}
               style={{
                 width: '100%',
-                background: btnHover && !loading ? INDIGO_HOVER : INDIGO,
-                color: 'white',
+                background: btnHover && !loading ? C.cobaltDk : C.ink,
+                color: C.bg,
                 border: 'none',
                 borderRadius: 8,
-                padding: 13,
-                fontSize: 15,
-                fontWeight: 600,
+                padding: '14px 16px',
+                fontSize: 14.5,
+                fontWeight: 500,
+                letterSpacing: '0.01em',
                 cursor: loading ? 'wait' : 'pointer',
-                fontFamily: 'inherit',
+                fontFamily: sans,
                 opacity: loading ? 0.7 : 1,
                 transition: 'background 0.15s',
               }}
             >
-              {loading ? 'Creating account...' : 'Create account →'}
+              {loading ? 'Creating account…' : 'Create account →'}
             </button>
           </form>
 
-          <p style={{ textAlign: 'center', fontSize: 13, color: '#6b6e87', marginTop: 24 }}>
+          <p style={{ textAlign: 'center', fontSize: 13, color: C.muted, marginTop: 24 }}>
             Already have an account?{' '}
-            <Link href="/login" style={{ color: INDIGO, textDecoration: 'none', fontWeight: 500 }}>
-              Sign in
-            </Link>
+            <Link href="/login" style={{ color: C.cobalt, textDecoration: 'none', fontWeight: 500 }}>Sign in</Link>
           </p>
 
-          <p style={{ textAlign: 'center', fontSize: 12, color: '#9b9ea8', marginTop: 20, lineHeight: 1.5 }}>
+          <p style={{ textAlign: 'center', fontSize: 11.5, color: C.muted, marginTop: 20, lineHeight: 1.5, letterSpacing: '0.02em' }}>
             By creating an account you agree to our{' '}
-            <Link href="/terms" style={{ color: '#9b9ea8', textDecoration: 'underline' }}>Terms of Service</Link>
-            {' '}and{' '}
-            <Link href="/privacy" style={{ color: '#9b9ea8', textDecoration: 'underline' }}>Privacy Policy</Link>
+            <Link href="/terms" style={{ color: C.muted, textDecoration: 'underline' }}>Terms</Link>{' '}and{' '}
+            <Link href="/privacy" style={{ color: C.muted, textDecoration: 'underline' }}>Privacy Policy</Link>.
           </p>
         </div>
       </div>
