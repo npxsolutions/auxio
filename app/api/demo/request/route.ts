@@ -20,7 +20,7 @@ type DemoPayload = {
 
 function confirmationHtml(name: string): string {
   const first = name ? name.split(' ')[0] : 'there'
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f3f0ea;font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;color:#0b0f1a;">
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f8f4ec;font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;color:#0b0f1a;">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;"><tr><td align="center">
 <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid rgba(11,15,26,0.08);border-radius:14px;padding:36px 40px;">
 <tr><td>

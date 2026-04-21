@@ -198,13 +198,13 @@ export default function SettingsPage() {
   }
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f8f4ec', fontFamily: 'Inter, sans-serif' }}>
       <div style={{ fontSize: '14px', color: '#787774' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -352,7 +352,7 @@ export default function SettingsPage() {
             {mappingsLoading ? (
               <div style={{ fontSize: '13px', color: '#787774' }}>Loading…</div>
             ) : mappings.length === 0 ? (
-              <div style={{ fontSize: '13px', color: '#9b9b98', padding: '16px', background: '#f5f3ef', borderRadius: '8px', textAlign: 'center' }}>
+              <div style={{ fontSize: '13px', color: '#9b9b98', padding: '16px', background: '#f8f4ec', borderRadius: '8px', textAlign: 'center' }}>
                 No mappings yet — they appear here after your first publish with a category selected.
               </div>
             ) : (
@@ -380,7 +380,7 @@ export default function SettingsPage() {
           <section id="privacy" style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: '10px', padding: '24px', marginTop: '32px' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '4px' }}>Privacy &amp; data</div>
             <div style={{ fontSize: '13px', color: '#787774', marginBottom: '16px' }}>
-              Exercise your GDPR rights in one click. <a href="/security" style={{ color: '#1d5fdb', textDecoration: 'none' }}>Security overview →</a>
+              Exercise your GDPR rights in one click. <a href="/security" style={{ color: '#e8863f', textDecoration: 'none' }}>Security overview →</a>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px' }}>

@@ -69,7 +69,7 @@ export default function FinancialsPage() {
   const maxRev = Math.max(...monthly.map(m => m.revenue), 1)
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
       <TourTrigger tourId="profit" userId={tourUserId} />
 
@@ -83,7 +83,7 @@ export default function FinancialsPage() {
             {[{ id: 'pnl', label: 'P&L Statement' }, { id: 'cashflow', label: 'Cash Flow' }].map(tab => (
               <button key={tab.id} onClick={() => setView(tab.id as any)} style={{
                 padding: '6px 14px', borderRadius: 8, border: 'none',
-                background: view === tab.id ? '#5b52f5' : 'transparent',
+                background: view === tab.id ? '#e8863f' : 'transparent',
                 color: view === tab.id ? 'white' : '#6b6e87',
                 fontSize: 12, fontWeight: view === tab.id ? 600 : 400, cursor: 'pointer', fontFamily: 'inherit',
               }}>{tab.label}</button>
@@ -118,17 +118,17 @@ export default function FinancialsPage() {
           <div data-tour="profit-flags" style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
             <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22', marginBottom: 14 }}>Working Capital</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-              <div style={{ background: '#f5f3ef', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ background: '#f8f4ec', borderRadius: 10, padding: '14px 16px' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Open PO commitments</div>
                 <div style={{ fontSize: 20, fontWeight: 700, color: '#d97706' }}>{fmtGBP(wc.openPoCommitments)}</div>
                 <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>Stock yet to be received</div>
               </div>
-              <div style={{ background: '#f5f3ef', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ background: '#f8f4ec', borderRadius: 10, padding: '14px 16px' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Last 30d revenue</div>
                 <div style={{ fontSize: 20, fontWeight: 700, color: '#059669' }}>{fmtGBP(wc.last30Revenue)}</div>
                 <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>Trailing cash generation</div>
               </div>
-              <div style={{ background: '#f5f3ef', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ background: '#f8f4ec', borderRadius: 10, padding: '14px 16px' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Monthly platform fee</div>
                 <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1b22' }}>{fmtGBP(wc.platformFee, 2)}</div>
                 <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>Palvento subscription</div>
@@ -152,7 +152,7 @@ export default function FinancialsPage() {
                 {monthly.map(m => (
                   <div key={m.month} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'relative' }}>
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'stretch', gap: 1 }}>
-                      <div style={{ background: '#5b52f5', opacity: 0.7, height: Math.round((m.revenue / maxRev) * 80), borderRadius: '3px 3px 0 0', minHeight: 2 }} title={`Revenue: ${fmtGBP(m.revenue)}`} />
+                      <div style={{ background: '#e8863f', opacity: 0.7, height: Math.round((m.revenue / maxRev) * 80), borderRadius: '3px 3px 0 0', minHeight: 2 }} title={`Revenue: ${fmtGBP(m.revenue)}`} />
                       <div style={{ background: '#059669', height: Math.round((m.net_profit / maxRev) * 80), borderRadius: '3px 3px 0 0', minHeight: m.net_profit > 0 ? 2 : 0 }} title={`Profit: ${fmtGBP(m.net_profit)}`} />
                     </div>
                   </div>
@@ -164,7 +164,7 @@ export default function FinancialsPage() {
                 ))}
               </div>
               <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}><div style={{ width: 10, height: 10, borderRadius: 2, background: '#5b52f5', opacity: 0.7 }}/>Revenue</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}><div style={{ width: 10, height: 10, borderRadius: 2, background: '#e8863f', opacity: 0.7 }}/>Revenue</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}><div style={{ width: 10, height: 10, borderRadius: 2, background: '#059669' }}/>Net profit</div>
               </div>
             </div>

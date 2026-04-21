@@ -8,12 +8,12 @@ import { createClient as createAdminClient } from '@supabase/supabase-js'
 import CopyButton from './CopyButton'
 
 const C = {
-  bg:      '#f3f0ea',
+  bg:      '#f8f4ec',
   ink:     '#0b0f1a',
   mutedDk: '#2c3142',
   muted:   '#5a6171',
   rule:    'rgba(11,15,26,0.10)',
-  cobalt:  '#1d5fdb',
+  cobalt:  '#e8863f',
   surface: '#ffffff',
 }
 

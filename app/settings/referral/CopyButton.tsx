@@ -21,7 +21,7 @@ export default function CopyButton({ text }: { text: string }) {
         letterSpacing: '0.04em',
         padding: '12px 18px',
         background: '#0b0f1a',
-        color: '#f3f0ea',
+        color: '#f8f4ec',
         border: 'none',
         cursor: 'pointer',
         textTransform: 'uppercase',

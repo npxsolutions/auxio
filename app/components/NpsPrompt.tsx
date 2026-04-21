@@ -6,9 +6,9 @@ import { createClient } from '../lib/supabase-client'
 
 const TAG = '[component:NpsPrompt]'
 
-const CREAM = '#f3f0ea'
+const CREAM = '#f8f4ec'
 const INK = '#0b0f1a'
-const COBALT = '#1d5fdb'
+const COBALT = '#e8863f'
 const BORDER = '#e4dfd4'
 
 const PUBLIC_PATHS = ['/', '/login', '/signup', '/pricing', '/about', '/contact', '/privacy', '/terms']

@@ -126,7 +126,7 @@ export default function DeveloperPage() {
   const inputStyle: React.CSSProperties = { padding: '8px 10px', border: '1px solid #e8e8e5', borderRadius: 7, fontSize: 13, fontFamily: 'inherit', outline: 'none', color: '#1a1b22' }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       {toast && <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#191919', color: 'white', padding: '12px 18px', borderRadius: 8, fontSize: 13, fontWeight: 500, zIndex: 300 }}>{toast}</div>}
@@ -144,7 +144,7 @@ export default function DeveloperPage() {
             </div>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button onClick={() => { navigator.clipboard.writeText(newKeyRaw); showToast('Copied!') }}
-                style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
                 Copy key
               </button>
               <button onClick={() => setNewKeyRaw(null)}
@@ -171,8 +171,8 @@ export default function DeveloperPage() {
                 {ALL_SCOPES.map(s => (
                   <button key={s} onClick={() => toggleScope(s)} style={{
                     padding: '5px 12px', borderRadius: 8,
-                    border: `1px solid ${keyForm.scopes.includes(s) ? '#5b52f5' : '#e8e8e5'}`,
-                    background: keyForm.scopes.includes(s) ? '#5b52f5' : 'white',
+                    border: `1px solid ${keyForm.scopes.includes(s) ? '#e8863f' : '#e8e8e5'}`,
+                    background: keyForm.scopes.includes(s) ? '#e8863f' : 'white',
                     color: keyForm.scopes.includes(s) ? 'white' : '#6b6e87',
                     fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', fontWeight: keyForm.scopes.includes(s) ? 600 : 400,
                   }}>{s}</button>
@@ -185,7 +185,7 @@ export default function DeveloperPage() {
             </div>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button onClick={() => setKeyModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e8e8e5', background: 'white', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={createKey} disabled={saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 0.6 : 1 }}>
+              <button onClick={createKey} disabled={saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 0.6 : 1 }}>
                 {saving ? 'Generating…' : 'Generate key'}
               </button>
             </div>
@@ -208,8 +208,8 @@ export default function DeveloperPage() {
                 {ALL_EVENTS.map(e => (
                   <button key={e} onClick={() => toggleEvent(e)} style={{
                     padding: '5px 12px', borderRadius: 8,
-                    border: `1px solid ${hookForm.events.includes(e) ? '#5b52f5' : '#e8e8e5'}`,
-                    background: hookForm.events.includes(e) ? '#5b52f5' : 'white',
+                    border: `1px solid ${hookForm.events.includes(e) ? '#e8863f' : '#e8e8e5'}`,
+                    background: hookForm.events.includes(e) ? '#e8863f' : 'white',
                     color: hookForm.events.includes(e) ? 'white' : '#6b6e87',
                     fontSize: 11, cursor: 'pointer', fontFamily: 'monospace', fontWeight: hookForm.events.includes(e) ? 600 : 400,
                   }}>{e}</button>
@@ -218,7 +218,7 @@ export default function DeveloperPage() {
             </div>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button onClick={() => setHookModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e8e8e5', background: 'white', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={createWebhook} disabled={saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 0.6 : 1 }}>
+              <button onClick={createWebhook} disabled={saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 0.6 : 1 }}>
                 {saving ? 'Creating…' : 'Create webhook'}
               </button>
             </div>
@@ -239,7 +239,7 @@ export default function DeveloperPage() {
               <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22' }}>API Keys</div>
               <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Use these to authenticate requests to the Palvento API</div>
             </div>
-            <button onClick={() => setKeyModal(true)} style={{ padding: '7px 14px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Generate key</button>
+            <button onClick={() => setKeyModal(true)} style={{ padding: '7px 14px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Generate key</button>
           </div>
           {loading ? (
             <div style={{ padding: '24px', color: '#9496b0', fontSize: 13 }}>Loading…</div>
@@ -262,7 +262,7 @@ export default function DeveloperPage() {
                     <td style={{ padding: '12px 16px' }}>
                       <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                         {k.scopes.map(s => (
-                          <span key={s} style={{ background: '#f5f3ef', color: '#6b6e87', borderRadius: 4, fontSize: 10, fontWeight: 600, padding: '1px 6px', fontFamily: 'monospace' }}>{s}</span>
+                          <span key={s} style={{ background: '#f8f4ec', color: '#6b6e87', borderRadius: 4, fontSize: 10, fontWeight: 600, padding: '1px 6px', fontFamily: 'monospace' }}>{s}</span>
                         ))}
                       </div>
                     </td>
@@ -290,7 +290,7 @@ export default function DeveloperPage() {
               <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1b22' }}>Webhooks</div>
               <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 2 }}>Receive real-time events when things happen in Palvento</div>
             </div>
-            <button onClick={() => setHookModal(true)} style={{ padding: '7px 14px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Add webhook</button>
+            <button onClick={() => setHookModal(true)} style={{ padding: '7px 14px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Add webhook</button>
           </div>
           {loading ? (
             <div style={{ padding: '24px', color: '#9496b0', fontSize: 13 }}>Loading…</div>

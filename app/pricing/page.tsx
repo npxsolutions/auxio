@@ -73,7 +73,7 @@ const PLANS: {
       CAD: { monthly: 469, annual: 375, founding: 339 },
     },
     desc: 'Shopify-led operators at $100k–$500k/mo GMV running 3–5 marketplaces.',
-    color: '#5b52f5',
+    color: '#e8863f',
     features: [
       '3 sales channels',
       'Unlimited listings',
@@ -194,12 +194,12 @@ export default function PricingPage() {
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
-            <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: n.href === '/pricing' ? '#5b52f5' : '#64748b', textDecoration: 'none', fontWeight: n.href === '/pricing' ? 500 : 400 }}>{n.label}</Link>
+            <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: n.href === '/pricing' ? '#e8863f' : '#64748b', textDecoration: 'none', fontWeight: n.href === '/pricing' ? 500 : 400 }}>{n.label}</Link>
           ))}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -217,7 +217,7 @@ export default function PricingPage() {
         </div>
 
         <h1 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(48px, 6vw, 88px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.02, margin: '0 0 24px', color: '#0f172a' }}>
-          Self-serve feed management. <em style={{ fontStyle: 'italic', color: '#1d5fdb' }}>From $149/mo.</em>
+          Self-serve feed management. <em style={{ fontStyle: 'italic', color: '#e8863f' }}>From $149/mo.</em>
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
           Shopify-led multichannel without the $2,500/mo enterprise floor or the 30-day onboarding call. Published in five currencies. Flat monthly, never a cut of revenue.
@@ -263,7 +263,7 @@ export default function PricingPage() {
             borderRadius: '16px',
             padding: '28px',
             position: 'relative',
-            boxShadow: plan.popular ? `0 8px 40px rgba(91,82,245,0.15)` : 'none',
+            boxShadow: plan.popular ? `0 8px 40px rgba(232,134,63,$1)` : 'none',
           }}>
             {plan.popular && (
               <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: plan.color, color: 'white', fontSize: '11px', fontWeight: 700, padding: '4px 12px', borderRadius: '20px', whiteSpace: 'nowrap' }}>
@@ -297,7 +297,7 @@ export default function PricingPage() {
                 display: 'block', textAlign: 'center', padding: '11px',
                 borderRadius: '8px', fontSize: '13px', fontWeight: 600,
                 textDecoration: 'none', marginBottom: '24px', marginTop: '16px',
-                background: plan.popular ? `linear-gradient(135deg, #5b52f5, #7c6af7)` : 'transparent',
+                background: plan.popular ? `linear-gradient(135deg, #e8863f, #e8863f)` : 'transparent',
                 color: plan.popular ? 'white' : '#0f172a',
                 border: plan.popular ? 'none' : '1px solid #e2e8f0',
               }}
@@ -331,7 +331,7 @@ export default function PricingPage() {
       {/* Comparison table */}
       <div style={{ background: '#fafafa', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '8px', textAlign: 'center' }}>How we <em style={{ fontStyle: 'italic', color: '#1d5fdb' }}>compare.</em></h2>
+          <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '8px', textAlign: 'center' }}>How we <em style={{ fontStyle: 'italic', color: '#e8863f' }}>compare.</em></h2>
           <p style={{ fontSize: '16px', color: '#64748b', textAlign: 'center', marginBottom: '48px' }}>See why sellers choose Palvento over the enterprise alternatives.</p>
 
           <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e8e8e5', overflow: 'hidden' }}>
@@ -339,8 +339,8 @@ export default function PricingPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: '2px solid #f1f5f9' }}>
               <div style={{ padding: '16px 20px' }} />
               {['Palvento', 'Brightpearl', 'Linnworks', 'Feedonomics'].map((name, i) => (
-                <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(91,82,245,0.05)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#5b52f5' : '#0f172a' }}>{name}</div>
+                <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(232,134,63,$1)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#e8863f' : '#0f172a' }}>{name}</div>
                 </div>
               ))}
             </div>
@@ -349,8 +349,8 @@ export default function PricingPage() {
               <div key={row.feature} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: i < COMPARE.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
                 <div style={{ padding: '14px 20px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
                 {[row.palvento, row.brightpearl, row.linnworks, row.feedonomics].map((val, j) => (
-                  <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(91,82,245,0.03)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 600, color: j === 0 ? '#5b52f5' : val === '✗' ? '#94a3b8' : '#374151' }}>{val}</span>
+                  <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(232,134,63,$1)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 600, color: j === 0 ? '#e8863f' : val === '✗' ? '#94a3b8' : '#374151' }}>{val}</span>
                   </div>
                 ))}
               </div>
@@ -361,7 +361,7 @@ export default function PricingPage() {
 
       {/* FAQ */}
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '48px', textAlign: 'center' }}>Frequently <em style={{ fontStyle: 'italic', color: '#1d5fdb' }}>asked.</em></h2>
+        <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '48px', textAlign: 'center' }}>Frequently <em style={{ fontStyle: 'italic', color: '#e8863f' }}>asked.</em></h2>
         {FAQ.map((item, i) => (
           <div key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
             <button
@@ -385,7 +385,7 @@ export default function PricingPage() {
         <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, color: 'white', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '16px' }}>Start your <em style={{ fontStyle: 'italic', color: '#7BB7FF' }}>free trial today.</em></h2>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>14 days free. No credit card required. Cancel any time.</p>
         <p style={{ fontSize: '14px', color: '#d97706', fontWeight: 600, marginBottom: '32px' }}>{remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life.</p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '10px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '16px', fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 24px rgba(91,82,245,0.4)' }}>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '16px', fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,$1)' }}>
           Claim your founding rate →
         </Link>
       </div>

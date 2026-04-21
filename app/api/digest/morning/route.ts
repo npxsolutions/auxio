@@ -181,8 +181,8 @@ function buildDigestEmail(d: DigestData): string {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Your Palvento Daily Digest</title>
 </head>
-<body style="margin:0;padding:0;background:#f5f3ef;font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;-webkit-font-smoothing:antialiased;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ef;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#f8f4ec;font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;-webkit-font-smoothing:antialiased;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f4ec;padding:32px 16px;">
 <tr><td align="center">
 <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
@@ -192,7 +192,7 @@ function buildDigestEmail(d: DigestData): string {
     <tr>
       <td>
         <div style="display:inline-flex;align-items:center;gap:8px;">
-          <div style="width:28px;height:28px;background:linear-gradient(135deg,#5b52f5,#7c6af7);border-radius:7px;display:inline-block;"></div>
+          <div style="width:28px;height:28px;background:linear-gradient(135deg,#e8863f,#e8863f);border-radius:7px;display:inline-block;"></div>
           <span style="font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-0.01em;">Palvento</span>
         </div>
       </td>

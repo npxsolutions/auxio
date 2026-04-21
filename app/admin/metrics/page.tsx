@@ -91,7 +91,7 @@ async function getMetrics() {
   }
 }
 
-function Stat({ label, value, sub, color = '#7c6af7', small = false }: { label: string; value: string; sub?: string; color?: string; small?: boolean }) {
+function Stat({ label, value, sub, color = '#e8863f', small = false }: { label: string; value: string; sub?: string; color?: string; small?: boolean }) {
   return (
     <div style={{ background: '#0f0f17', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: small ? '16px 20px' : '22px 26px' }}>
       <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
@@ -182,7 +182,7 @@ export default async function AdminMetrics() {
             {m.months.map(({ label, count }) => (
               <div key={label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{count}</div>
-                <div style={{ width: '100%', background: '#7c6af7', borderRadius: '4px 4px 0 0', height: `${Math.max(4, (count / maxMonthCount) * 80)}px`, transition: 'height 0.4s ease' }} />
+                <div style={{ width: '100%', background: '#e8863f', borderRadius: '4px 4px 0 0', height: `${Math.max(4, (count / maxMonthCount) * 80)}px`, transition: 'height 0.4s ease' }} />
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', textAlign: 'center' }}>{label}</div>
               </div>
             ))}

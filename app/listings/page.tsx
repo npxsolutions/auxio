@@ -1796,7 +1796,7 @@ export default function ListingsPage() {
                       background: P.surface,
                       cursor: 'pointer',
                     }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(29,95,219,0.04)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(232,134,63,$1)' }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = P.surface }}
                   >
                     <div />
@@ -1902,7 +1902,7 @@ export default function ListingsPage() {
                       cursor: 'pointer',
                       transition: 'background 0.1s',
                     }}
-                    onMouseEnter={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = 'rgba(29,95,219,0.04)' }}
+                    onMouseEnter={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = 'rgba(232,134,63,$1)' }}
                     onMouseLeave={e => { if (!isSelected && selectedListing?.id !== listing.id) (e.currentTarget as HTMLDivElement).style.background = P.surface }}
                   >
                     {/* Checkbox */}
@@ -2237,7 +2237,7 @@ export default function ListingsPage() {
 
           <button
             onClick={openEnrichBulk}
-            style={{ padding: '6px 12px', background: 'rgba(29,95,219,0.25)', color: '#c5d5f5', border: '1px solid rgba(29,95,219,0.4)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ padding: '6px 12px', background: 'rgba(232,134,63,$1)', color: '#c5d5f5', border: '1px solid rgba(232,134,63,$1)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
           >
             Enrich with AI
           </button>
@@ -2253,7 +2253,7 @@ export default function ListingsPage() {
             <button
               onClick={() => setBulkPublishMenuOpen(v => !v)}
               disabled={bulkPublishing}
-              style={{ padding: '6px 12px', background: 'rgba(29,95,219,0.25)', color: '#c5d5f5', border: '1px solid rgba(29,95,219,0.4)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: bulkPublishing ? 'wait' : 'pointer', fontFamily: 'inherit' }}
+              style={{ padding: '6px 12px', background: 'rgba(232,134,63,$1)', color: '#c5d5f5', border: '1px solid rgba(232,134,63,$1)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, cursor: bulkPublishing ? 'wait' : 'pointer', fontFamily: 'inherit' }}
             >
               {bulkPublishing ? 'Publishing…' : `Publish to channels ▾`}
             </button>

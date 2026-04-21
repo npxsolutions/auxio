@@ -13,15 +13,15 @@
   --sidebar-section-label: #3a3d52;
 
   /* App shell */
-  --app-bg: #f5f3ef;
+  --app-bg: #f8f4ec;
   --card-bg: #ffffff;
   --card-border: #e8e5df;
   --card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04);
   --card-shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
 
   /* Accent */
-  --accent: #5b52f5;
-  --accent-hover: #4a42e5;
+  --accent: #e8863f;
+  --accent-hover: #c46f2a;
   --accent-subtle: #eeecff;
 
   /* Text */
@@ -107,7 +107,7 @@ aside::-webkit-scrollbar-thumb:hover {
    SELECTION
 ───────────────────────────────────────── */
 ::selection {
-  background: rgba(91,82,245,0.15);
+  background: rgba(232,134,63,$1);
   color: var(--accent);
 }
 

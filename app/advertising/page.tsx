@@ -35,7 +35,7 @@ interface Summary {
 const STATUS_STYLE: Record<string, { bg: string; color: string }> = {
   active: { bg: '#f0fdf4', color: '#15803d' },
   paused: { bg: '#fffbeb', color: '#d97706' },
-  ended:  { bg: '#f5f3ef', color: '#6b6e87' },
+  ended:  { bg: '#f8f4ec', color: '#6b6e87' },
 }
 
 const CHANNEL_PILL: Record<string, { bg: string; color: string; border: string }> = {
@@ -122,7 +122,7 @@ export default function AdvertisingPage() {
   const inputStyle: React.CSSProperties = { padding: '8px 10px', border: '1px solid #e8e8e5', borderRadius: 7, fontSize: 12, fontFamily: 'inherit', outline: 'none', color: '#1a1b22' }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       {toast && <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#191919', color: 'white', padding: '12px 18px', borderRadius: 8, fontSize: 13, fontWeight: 500, zIndex: 300 }}>{toast}</div>}
@@ -164,7 +164,7 @@ export default function AdvertisingPage() {
             </div>
 
             {form.spend > 0 && form.revenue > 0 && (
-              <div style={{ background: '#f5f3ef', borderRadius: 8, padding: '10px 14px', marginTop: 16, fontSize: 12, color: '#6b6e87' }}>
+              <div style={{ background: '#f8f4ec', borderRadius: 8, padding: '10px 14px', marginTop: 16, fontSize: 12, color: '#6b6e87' }}>
                 Computed ACOS: <strong style={{ color: '#1a1b22' }}>{((form.spend / form.revenue) * 100).toFixed(1)}%</strong>
                 &nbsp;·&nbsp; ROAS: <strong style={{ color: '#1a1b22' }}>{(form.revenue / form.spend).toFixed(2)}x</strong>
               </div>
@@ -172,7 +172,7 @@ export default function AdvertisingPage() {
 
             <div style={{ display: 'flex', gap: 8, marginTop: 22, justifyContent: 'flex-end' }}>
               <button onClick={() => setModal(null)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e8e8e5', background: 'white', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={save} disabled={!form.campaign_name || saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: !form.campaign_name || saving ? 0.6 : 1 }}>
+              <button onClick={save} disabled={!form.campaign_name || saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: !form.campaign_name || saving ? 0.6 : 1 }}>
                 {saving ? 'Saving…' : 'Save campaign'}
               </button>
             </div>
@@ -186,7 +186,7 @@ export default function AdvertisingPage() {
             <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1b22', margin: 0, letterSpacing: '-0.02em' }}>Advertising & PPC</h1>
             <p style={{ fontSize: 13, color: '#6b6e87', margin: '4px 0 0' }}>Track spend, ACOS, and ROAS across all ad channels</p>
           </div>
-          <button onClick={() => { setForm(EMPTY_FORM); setModal('create') }} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button onClick={() => { setForm(EMPTY_FORM); setModal('create') }} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
             + Add campaign
           </button>
         </div>
@@ -214,8 +214,8 @@ export default function AdvertisingPage() {
           {['all', 'active', 'paused', 'ended'].map(s => (
             <button key={s} onClick={() => setStatusFilter(s)} style={{
               padding: '6px 12px', borderRadius: 8, border: '1px solid',
-              borderColor: statusFilter === s ? '#5b52f5' : '#e8e5df',
-              background: statusFilter === s ? '#5b52f5' : 'white',
+              borderColor: statusFilter === s ? '#e8863f' : '#e8e5df',
+              background: statusFilter === s ? '#e8863f' : 'white',
               color: statusFilter === s ? 'white' : '#6b6e87',
               fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', fontWeight: statusFilter === s ? 600 : 400,
             }}>{s.charAt(0).toUpperCase() + s.slice(1)}</button>
@@ -227,7 +227,7 @@ export default function AdvertisingPage() {
         ) : filtered.length === 0 ? (
           <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: 48, textAlign: 'center' }}>
             <div style={{ fontSize: 14, color: '#6b6e87', marginBottom: 12 }}>No campaigns yet — add your first to start tracking ad spend and ACOS.</div>
-            <button onClick={() => { setForm(EMPTY_FORM); setModal('create') }} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Add campaign</button>
+            <button onClick={() => { setForm(EMPTY_FORM); setModal('create') }} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Add campaign</button>
           </div>
         ) : (
           <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>
@@ -242,7 +242,7 @@ export default function AdvertisingPage() {
               <tbody>
                 {filtered.map((c, idx) => {
                   const st = STATUS_STYLE[c.status] || STATUS_STYLE.ended
-                  const pill = CHANNEL_PILL[c.channel.toLowerCase()] || { bg: '#f5f3ef', color: '#6b6e87', border: '#e8e5df' }
+                  const pill = CHANNEL_PILL[c.channel.toLowerCase()] || { bg: '#f8f4ec', color: '#6b6e87', border: '#e8e5df' }
                   return (
                     <tr key={c.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f0ede8' : 'none', background: c.over_acos ? '#fffafa' : 'white' }}>
                       <td style={{ padding: '12px 14px' }}>

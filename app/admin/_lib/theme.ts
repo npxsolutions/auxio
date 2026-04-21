@@ -1,13 +1,13 @@
 // Editorial v8 palette shared across the admin panel.
 export const theme = {
-  cream: '#f3f0ea',
-  creamSoft: '#ebe6dc',
+  cream: '#f8f4ec',
+  creamSoft: '#fdfaf2',
   ink: '#0b0f1a',
   inkSoft: 'rgba(11,15,26,0.62)',
   inkMuted: 'rgba(11,15,26,0.42)',
   inkFaint: 'rgba(11,15,26,0.14)',
-  cobalt: '#1d5fdb',
-  cobaltSoft: 'rgba(29,95,219,0.10)',
+  cobalt: '#e8863f',
+  cobaltSoft: 'rgba(232,134,63,$1)',
   danger: '#b4321f',
   success: '#1f7a4a',
   serif: "'Instrument Serif', 'Times New Roman', serif",

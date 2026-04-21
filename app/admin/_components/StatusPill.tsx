@@ -1,7 +1,7 @@
 import { theme } from '../_lib/theme'
 
 const COLORS: Record<string, { bg: string; fg: string }> = {
-  new:        { bg: 'rgba(29,95,219,0.12)',  fg: theme.cobalt },
+  new:        { bg: 'rgba(232,134,63,$1)',  fg: theme.cobalt },
   reviewing:  { bg: 'rgba(180,120,20,0.12)', fg: '#8a5a10' },
   approved:   { bg: 'rgba(31,122,74,0.14)',  fg: theme.success },
   scheduled:  { bg: 'rgba(31,122,74,0.14)',  fg: theme.success },

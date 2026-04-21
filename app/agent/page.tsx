@@ -17,19 +17,19 @@ interface PendingAction {
 }
 
 const ACTION_GRADIENTS: Record<string, { gradient: string; icon: string }> = {
-  reprice:          { gradient: 'linear-gradient(135deg, #5b52f5 0%, #7c75f7 100%)', icon: '💰' },
+  reprice:          { gradient: 'linear-gradient(135deg, #e8863f 0%, #7c75f7 100%)', icon: '💰' },
   negative_keyword: { gradient: 'linear-gradient(135deg, #6b6e87 0%, #9496b0 100%)', icon: '🚫' },
   pause_campaign:   { gradient: 'linear-gradient(135deg, #d97706 0%, #f59e0b 100%)', icon: '⏸' },
   reorder:          { gradient: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', icon: '📦' },
   bid_adjustment:   { gradient: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', icon: '📈' },
-  default:          { gradient: 'linear-gradient(135deg, #5b52f5 0%, #7c75f7 100%)', icon: '⚡' },
+  default:          { gradient: 'linear-gradient(135deg, #e8863f 0%, #7c75f7 100%)', icon: '⚡' },
 }
 
 const URGENCY_META: Record<string, { bg: string; color: string; border: string; cardBorder: string }> = {
   critical: { bg: '#fef2f2', color: '#dc2626', border: '#fecaca', cardBorder: '3px solid #dc2626' },
   high:     { bg: '#fffbeb', color: '#d97706', border: '#fde68a', cardBorder: '3px solid #d97706' },
-  medium:   { bg: '#eff6ff', color: '#2563eb', border: '#bfdbfe', cardBorder: '3px solid #5b52f5' },
-  low:      { bg: '#f5f3ef', color: '#6b6e87', border: '#e8e5df', cardBorder: 'none' },
+  medium:   { bg: '#eff6ff', color: '#2563eb', border: '#bfdbfe', cardBorder: '3px solid #e8863f' },
+  low:      { bg: '#f8f4ec', color: '#6b6e87', border: '#e8e5df', cardBorder: 'none' },
 }
 
 export default function AgentPage() {
@@ -109,13 +109,13 @@ export default function AgentPage() {
   const totalImpact = actions.reduce((sum, a) => sum + (a.profit_impact || 0), 0)
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'inherit' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f8f4ec', fontFamily: 'inherit' }}>
       <div style={{ fontSize: 14, color: '#6b6e87' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -151,7 +151,7 @@ export default function AgentPage() {
             <div style={{
               background: 'white',
               border: '1px solid #e8e5df',
-              borderLeft: '3px solid #5b52f5',
+              borderLeft: '3px solid #e8863f',
               borderRadius: 12,
               padding: '20px 24px',
               marginBottom: 24,
@@ -264,7 +264,7 @@ export default function AgentPage() {
                           onClick={() => approve(action.id)}
                           disabled={isActing}
                           style={{
-                            background: '#5b52f5', color: 'white',
+                            background: '#e8863f', color: 'white',
                             border: 'none',
                             borderRadius: 8, padding: '7px 14px',
                             fontSize: 12, fontWeight: 600,

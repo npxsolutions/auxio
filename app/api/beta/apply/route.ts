@@ -52,8 +52,8 @@ palvento.com`
 <meta name="color-scheme" content="light">
 <title>Palvento</title>
 </head>
-<body style="margin:0;padding:0;background-color:#f3f0ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0b0f1a;-webkit-font-smoothing:antialiased;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f3f0ea;">
+<body style="margin:0;padding:0;background-color:#f8f4ec;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0b0f1a;-webkit-font-smoothing:antialiased;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f4ec;">
 <tr><td align="center" style="padding:40px 16px;">
 
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">

@@ -27,9 +27,9 @@ const LINE_HEIGHT = 80
 const CHAR_W = 0.42 * FONT_SIZE        // calibrated for Instrument Serif italic
 const MAX_CHARS = Math.floor(CONTENT_W / CHAR_W)
 
-const CREAM = '#f3f0ea'
+const CREAM = '#f8f4ec'
 const INK = '#0b0f1a'
-const COBALT = '#1d5fdb'
+const COBALT = '#e8863f'
 const MUTED = '#5a6171'
 
 function wrap(line: string, maxChars: number): string[] {

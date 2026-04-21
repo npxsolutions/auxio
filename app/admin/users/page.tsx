@@ -64,7 +64,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
             placeholder="Search by email or name…"
             style={{ background: '#0f0f17', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '9px 14px', color: '#fff', fontSize: 13, width: 280, outline: 'none' }}
           />
-          <button type="submit" style={{ background: '#7c6af7', border: 'none', borderRadius: 8, padding: '9px 18px', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          <button type="submit" style={{ background: '#e8863f', border: 'none', borderRadius: 8, padding: '9px 18px', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
             Search
           </button>
           {q && (
@@ -122,7 +122,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
                     {new Date(u.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' })}
                   </td>
                   <td style={{ padding: '13px 20px' }}>
-                    <Link href={`/admin/users/${u.id}`} style={{ fontSize: 12, color: '#7c6af7', textDecoration: 'none', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                    <Link href={`/admin/users/${u.id}`} style={{ fontSize: 12, color: '#e8863f', textDecoration: 'none', fontWeight: 500, whiteSpace: 'nowrap' }}>
                       View →
                     </Link>
                   </td>
@@ -147,7 +147,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
             <Link
               key={p}
               href={`/admin/users?${q ? `q=${encodeURIComponent(q)}&` : ''}page=${p}`}
-              style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 8, background: p === pageNum ? '#7c6af7' : '#0f0f17', border: '1px solid rgba(255,255,255,0.07)', color: p === pageNum ? '#fff' : 'rgba(255,255,255,0.4)', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}
+              style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 8, background: p === pageNum ? '#e8863f' : '#0f0f17', border: '1px solid rgba(255,255,255,0.07)', color: p === pageNum ? '#fff' : 'rgba(255,255,255,0.4)', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}
             >
               {p}
             </Link>

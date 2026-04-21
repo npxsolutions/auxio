@@ -63,8 +63,8 @@ function shell(inner: string): string {
   img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
 </style>
 </head>
-<body style="margin:0;padding:0;background-color:#f3f0ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0b0f1a;-webkit-font-smoothing:antialiased;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f3f0ea;">
+<body style="margin:0;padding:0;background-color:#f8f4ec;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0b0f1a;-webkit-font-smoothing:antialiased;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f4ec;">
 <tr><td align="center" style="padding:40px 16px;">
 
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
@@ -108,11 +108,11 @@ function btn(href: string, label: string): string {
   <!--[if mso]>
   <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${href}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="14%" strokecolor="#0b0f1a" fillcolor="#0b0f1a">
   <w:anchorlock/>
-  <center style="color:#f3f0ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;font-weight:500;">${label}</center>
+  <center style="color:#f8f4ec;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;font-weight:500;">${label}</center>
   </v:roundrect>
   <![endif]-->
   <!--[if !mso]><!-->
-  <a href="${href}" style="display:inline-block;background-color:#0b0f1a;color:#f3f0ea;text-decoration:none;border-radius:6px;padding:12px 24px;font-size:14px;font-weight:500;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1;">${label}</a>
+  <a href="${href}" style="display:inline-block;background-color:#0b0f1a;color:#f8f4ec;text-decoration:none;border-radius:6px;padding:12px 24px;font-size:14px;font-weight:500;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1;">${label}</a>
   <!--<![endif]-->
 </td></tr>
 </table>`
@@ -130,7 +130,7 @@ function muted(text: string): string {
 
 /** Inline monospace span — for codes, SKU refs, numbers */
 function mono(text: string): string {
-  return `<code style="font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;background-color:#f3f0ea;padding:2px 6px;border-radius:3px;color:#0b0f1a;">${text}</code>`
+  return `<code style="font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;background-color:#f8f4ec;padding:2px 6px;border-radius:3px;color:#0b0f1a;">${text}</code>`
 }
 
 /** Horizontal divider */
@@ -156,8 +156,8 @@ function metric(items: Array<{ value: string; label: string }>): string {
 function dataRow(label: string, value: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 <tr>
-  <td style="padding:10px 0;font-size:14px;color:#5a6171;border-bottom:1px solid #f3f0ea;">${label}</td>
-  <td style="padding:10px 0;font-size:14px;color:#0b0f1a;text-align:right;border-bottom:1px solid #f3f0ea;font-weight:500;">${value}</td>
+  <td style="padding:10px 0;font-size:14px;color:#5a6171;border-bottom:1px solid #f8f4ec;">${label}</td>
+  <td style="padding:10px 0;font-size:14px;color:#0b0f1a;text-align:right;border-bottom:1px solid #f8f4ec;font-weight:500;">${value}</td>
 </tr></table>`
 }
 
@@ -255,7 +255,7 @@ export function day7ActiveEmail(user: LifecycleUser, ctx: LifecycleContext = {})
     ${p('<strong>Feed rules.</strong> Set pricing floors, margin targets, and inventory thresholds. Palvento adjusts your listings automatically across channels.')}
     ${p('<strong>Team access.</strong> Invite your ops team so they see the same numbers, scoped to the channels and SKUs you choose.')}
     ${btn(`${BASE_URL}/feeds`, 'Set up feed rules')}
-    <p style="margin:16px 0 0;"><a href="${BASE_URL}/settings/team" style="color:#1d5fdb;text-decoration:none;font-size:14px;">Invite your team</a></p>
+    <p style="margin:16px 0 0;"><a href="${BASE_URL}/settings/team" style="color:#e8863f;text-decoration:none;font-size:14px;">Invite your team</a></p>
   `)
   const text = `Your first week in review.
 

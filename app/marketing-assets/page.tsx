@@ -19,7 +19,7 @@ const ASSETS = [
 function HeroStatCard() {
   return (
     <div style={{ width: '1200px', height: '628px', background: '#09090b', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', fontFamily: "'Inter', system-ui, sans-serif" }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(91,82,245,0.25) 0%, transparent 70%)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(232,134,63,$1) 0%, transparent 70%)' }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '9999px', background: 'rgba(163,230,53,0.1)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '14px', color: '#a3e635', fontWeight: 700, marginBottom: '28px' }}>
@@ -44,7 +44,7 @@ function HeroStatCard() {
         </div>
       </div>
       <div style={{ position: 'absolute', bottom: '28px', right: '40px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
+        <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.io</span>
       </div>
     </div>
@@ -77,8 +77,8 @@ function ComparisonCard() {
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', borderBottom: i < rows.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
               <div style={{ padding: '11px 16px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
               {[row.palvento, row.feed, row.rithum].map((val, j) => (
-                <div key={j} style={{ padding: '11px 16px', textAlign: 'center', background: j === 0 ? 'rgba(91,82,245,0.04)' : 'transparent' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: j === 0 ? '#5b52f5' : val === '✗' || val.includes('Months') || val.includes('Weeks') || val.includes('$2,000') || val.includes('Custom') || val === 'Managed' ? '#cbd5e1' : '#94a3b8' }}>{val}</span>
+                <div key={j} style={{ padding: '11px 16px', textAlign: 'center', background: j === 0 ? 'rgba(232,134,63,$1)' : 'transparent' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: j === 0 ? '#e8863f' : val === '✗' || val.includes('Months') || val.includes('Weeks') || val.includes('$2,000') || val.includes('Custom') || val === 'Managed' ? '#cbd5e1' : '#94a3b8' }}>{val}</span>
                 </div>
               ))}
             </div>
@@ -119,7 +119,7 @@ function FeatureCard() {
         </div>
         <div style={{ textAlign: 'center', marginTop: '48px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
+            <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
             <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.io</span>
           </div>
         </div>
@@ -137,7 +137,7 @@ function TestimonialCard() {
           &ldquo;We were spending 3 hours a day managing listings across eBay and Amazon. Palvento cut that to under 20 minutes.&rdquo;
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
-          <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: 700 }}>S</div>
+          <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #e8863f, #e8863f)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: 700 }}>S</div>
           <div style={{ textAlign: 'left' }}>
             <div style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a' }}>Sarah M.</div>
             <div style={{ fontSize: '13px', color: '#64748b' }}>eBay & Amazon seller · 800 SKUs</div>
@@ -178,7 +178,7 @@ function FoundingCard() {
           ))}
         </div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '22px', height: '22px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '11px', fontWeight: 800 }}>A</div>
+          <div style={{ width: '22px', height: '22px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '11px', fontWeight: 800 }}>A</div>
           <span style={{ fontSize: '16px', color: 'rgba(255,255,255,0.35)', fontWeight: 700 }}>palvento.io/signup</span>
         </div>
       </div>
@@ -208,7 +208,7 @@ function VsFeedonomicsCard() {
             <div style={{ fontSize: '28px', fontWeight: 800, color: 'rgba(255,255,255,0.15)', letterSpacing: '-0.02em' }}>vs</div>
           </div>
           {/* Palvento */}
-          <div style={{ border: '1px solid rgba(91,82,245,0.4)', borderRadius: '16px', padding: '32px', textAlign: 'center', background: 'rgba(91,82,245,0.08)' }}>
+          <div style={{ border: '1px solid rgba(232,134,63,$1)', borderRadius: '16px', padding: '32px', textAlign: 'center', background: 'rgba(232,134,63,$1)' }}>
             <div style={{ fontSize: '20px', fontWeight: 700, color: '#a3e635', marginBottom: '16px' }}>Palvento</div>
             {[['£49/mo', 'Starting price'], ['< 10 min', 'To go live'], ['Self-serve', 'Setup'], ['Yes', 'Profit tracking']].map(([v, l]) => (
               <div key={l} style={{ marginBottom: '12px' }}>
@@ -255,7 +255,7 @@ export default function MarketingAssetsPage() {
         <div style={{ width: '260px', borderRight: '1px solid rgba(255,255,255,0.07)', padding: '20px', flexShrink: 0 }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>Assets</div>
           {ASSETS.map(a => (
-            <button key={a.id} onClick={() => setActive(a.id)} style={{ width: '100%', display: 'block', textAlign: 'left', padding: '10px 12px', borderRadius: '8px', border: 'none', background: active === a.id ? 'rgba(91,82,245,0.15)' : 'transparent', color: active === a.id ? '#a89ef8' : 'rgba(255,255,255,0.45)', fontSize: '13px', fontWeight: active === a.id ? 600 : 400, cursor: 'pointer', marginBottom: '2px', fontFamily: 'inherit' }}>
+            <button key={a.id} onClick={() => setActive(a.id)} style={{ width: '100%', display: 'block', textAlign: 'left', padding: '10px 12px', borderRadius: '8px', border: 'none', background: active === a.id ? 'rgba(232,134,63,$1)' : 'transparent', color: active === a.id ? '#a89ef8' : 'rgba(255,255,255,0.45)', fontSize: '13px', fontWeight: active === a.id ? 600 : 400, cursor: 'pointer', marginBottom: '2px', fontFamily: 'inherit' }}>
               {a.label}
             </button>
           ))}

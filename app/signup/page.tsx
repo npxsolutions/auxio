@@ -9,8 +9,8 @@
  * need for sales triage and product gating is strictly better captured
  * after the user has committed to creating an account.
  *
- * Brand rules applied: cream (#f3f0ea) background, Instrument Serif
- * italic for display, Geist for UI, cobalt (#1d5fdb) accent, Palvento
+ * Brand rules applied: cream (#f8f4ec) background, Instrument Serif
+ * italic for display, Geist for UI, cobalt (#e8863f) accent, Palvento
  * chevron mark. Matches the homepage / vs-pages / pricing typography
  * unification pass (commit d6a2d48).
  */
@@ -20,15 +20,15 @@ import Link from 'next/link'
 import { createClient } from '../lib/supabase-client'
 
 const C = {
-  bg:      '#f3f0ea',
+  bg:      '#f8f4ec',
   surface: '#ffffff',
   ink:     '#0b0f1a',
   mutedDk: '#2c3142',
   muted:   '#5a6171',
   rule:    'rgba(11,15,26,0.10)',
-  cobalt:  '#1d5fdb',
-  cobaltDk:'#1647a8',
-  cobaltSft: 'rgba(29,95,219,0.10)',
+  cobalt:  '#e8863f',
+  cobaltDk:'#c46f2a',
+  cobaltSft: 'rgba(232,134,63,$1)',
   emerald: '#0e7c5a',
 }
 

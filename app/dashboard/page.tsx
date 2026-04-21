@@ -782,7 +782,7 @@ function StatCard({ label, value, sub, href, accent, router }: {
   const isAlert = label === 'Active Alerts'
   const isProfit = label === 'True Profit Today'
 
-  const accentColor = accent === '#059669' ? P.emerald : accent === '#dc2626' ? P.oxblood : accent === '#5b52f5' ? P.cobalt : accent
+  const accentColor = accent === '#059669' ? P.emerald : accent === '#dc2626' ? P.oxblood : accent === '#e8863f' ? P.cobalt : accent
 
   return (
     <div

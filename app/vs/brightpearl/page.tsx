@@ -55,7 +55,7 @@ export default function VsBrightpearlPage() {
         <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none', letterSpacing: '-0.02em' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/pricing" style={{ padding: '7px 16px', borderRadius: '7px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#64748b', textDecoration: 'none', fontWeight: 500 }}>See pricing</Link>
-          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -66,13 +66,13 @@ export default function VsBrightpearlPage() {
         </div>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
           Everything Brightpearl does —<br />
-          <span style={{ color: '#5b52f5' }}>live in 10 minutes, from $149/mo.</span>
+          <span style={{ color: '#e8863f' }}>live in 10 minutes, from $149/mo.</span>
         </h1>
         <p style={{ fontSize: '18px', color: '#475569', lineHeight: 1.7, marginBottom: '36px' }}>
           Brightpearl is a powerful retail operating system. But it requires a custom quote, a weeks-long implementation project, and an annual contract. Palvento gives multichannel sellers worldwide the same depth — inventory, procurement, forecasting, P&amp;L — with self-serve setup and transparent pricing.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <Link href="/signup" style={{ padding: '13px 28px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/signup" style={{ padding: '13px 28px', borderRadius: '8px', background: '#e8863f', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
             Start free — no card needed
           </Link>
           <Link href="/contact" style={{ padding: '13px 28px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
@@ -86,12 +86,12 @@ export default function VsBrightpearlPage() {
         <h2 style={{ fontSize: '22px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '24px', textAlign: 'center' }}>Side-by-side comparison</h2>
         <div style={{ border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '12px 20px', fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', gap: '8px' }}>
-            <span>Feature</span><span style={{ textAlign: 'center', color: '#5b52f5' }}>Palvento</span><span style={{ textAlign: 'center' }}>Brightpearl</span>
+            <span>Feature</span><span style={{ textAlign: 'center', color: '#e8863f' }}>Palvento</span><span style={{ textAlign: 'center' }}>Brightpearl</span>
           </div>
           {COMPARISON.map((row, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '12px 20px', borderBottom: i < COMPARISON.length - 1 ? '1px solid #f1f5f9' : 'none', background: row.highlight ? '#fafaf8' : 'white', gap: '8px', alignItems: 'center' }}>
               <span style={{ fontSize: '14px', color: '#334155', fontWeight: row.highlight ? 600 : 400 }}>{row.feature}</span>
-              <span style={{ fontSize: '13px', textAlign: 'center', color: typeof row.palvento === 'boolean' ? (row.palvento ? '#059669' : '#dc2626') : '#5b52f5', fontWeight: 600 }}>
+              <span style={{ fontSize: '13px', textAlign: 'center', color: typeof row.palvento === 'boolean' ? (row.palvento ? '#059669' : '#dc2626') : '#e8863f', fontWeight: 600 }}>
                 {typeof row.palvento === 'boolean' ? (row.palvento ? '✓' : '✗') : row.palvento}
               </span>
               <span style={{ fontSize: '13px', textAlign: 'center', color: typeof row.bp === 'boolean' ? (row.bp ? '#059669' : '#dc2626') : '#64748b' }}>
@@ -111,7 +111,7 @@ export default function VsBrightpearlPage() {
           <div style={{ display: 'grid', gap: '32px' }}>
             {REASONS.map((r, i) => (
               <div key={i} style={{ display: 'flex', gap: '20px' }}>
-                <div style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: '#ede9fe', color: '#5b52f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '14px', marginTop: '2px' }}>{i + 1}</div>
+                <div style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: '#ede9fe', color: '#e8863f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '14px', marginTop: '2px' }}>{i + 1}</div>
                 <div>
                   <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '8px', letterSpacing: '-0.01em' }}>{r.heading}</h3>
                   <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.7, margin: 0 }}>{r.body}</p>
@@ -131,7 +131,7 @@ export default function VsBrightpearlPage() {
           Join multichannel sellers who made the switch. No implementation project, no annual contract. Start a free 14-day trial — your first channel is live in under 10 minutes.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <Link href="/signup" style={{ padding: '14px 32px', borderRadius: '8px', background: '#5b52f5', color: '#fff', fontSize: '15px', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/signup" style={{ padding: '14px 32px', borderRadius: '8px', background: '#e8863f', color: '#fff', fontSize: '15px', fontWeight: 600, textDecoration: 'none' }}>
             Start your free trial →
           </Link>
           <Link href="/vs/linnworks" style={{ padding: '14px 24px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>

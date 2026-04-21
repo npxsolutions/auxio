@@ -60,7 +60,7 @@ export function AnnualUpsell() {
   return (
     <div style={{
       background: '#0b0f1a',
-      color: '#f3f0ea',
+      color: '#f8f4ec',
       borderRadius: 12,
       padding: '18px 22px',
       marginBottom: 20,
@@ -86,7 +86,7 @@ export function AnnualUpsell() {
           onClick={switchNow}
           disabled={pending}
           style={{
-            background: '#1d5fdb',
+            background: '#e8863f',
             color: 'white',
             border: 'none',
             borderRadius: 8,

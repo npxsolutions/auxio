@@ -12,10 +12,10 @@ import { useMemo, useState } from 'react'
 const display = Instrument_Serif({ subsets: ['latin'], weight: ['400'], style: ['normal', 'italic'], display: 'swap' })
 
 const C = {
-  bg: '#f3f0ea', surface: '#ffffff', raised: '#ebe6dc',
+  bg: '#f8f4ec', surface: '#ffffff', raised: '#fdfaf2',
   ink: '#0b0f1a', inkSoft: '#1c2233',
   rule: 'rgba(11,15,26,0.10)', ruleSoft: 'rgba(11,15,26,0.06)',
-  muted: '#5a6171', cobalt: '#1d5fdb',
+  muted: '#5a6171', cobalt: '#e8863f',
   emerald: '#0e7c5a', oxblood: '#7d2a1a',
 }
 
@@ -29,7 +29,7 @@ const NAV = [
 
 type Tag = 'feature' | 'improvement' | 'fix' | 'breaking' | 'api'
 const TAGS: Record<Tag, { label: string; color: string; bg: string }> = {
-  feature:     { label: 'Feature',     color: '#1d5fdb', bg: 'rgba(29,95,219,0.10)' },
+  feature:     { label: 'Feature',     color: '#e8863f', bg: 'rgba(232,134,63,$1)' },
   improvement: { label: 'Improvement', color: '#0e7c5a', bg: 'rgba(14,124,90,0.10)' },
   fix:         { label: 'Fix',         color: '#7d2a1a', bg: 'rgba(125,42,26,0.10)' },
   breaking:    { label: 'Breaking',    color: '#a56a0b', bg: 'rgba(165,106,11,0.12)' },

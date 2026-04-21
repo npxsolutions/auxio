@@ -3,7 +3,7 @@
 // V2 — Editorial / Stripe-narrative scrollytelling
 // Influences: stripe.com (long-form narrative, weight-300 display), vercel.com (restraint),
 // linear.app (precision), editorial magazines (pull-quotes, alternating rhythm).
-// Warm white #fafaf8, single accent purple #5b52f5, alternating dark/light sections.
+// Warm white #fafaf8, single accent purple #e8863f, alternating dark/light sections.
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -17,9 +17,9 @@ const C = {
   muteSoft:    '#9a968f',
   rule:        'rgba(15,14,19,0.08)',
   ruleDark:    'rgba(255,255,255,0.08)',
-  purple:      '#5b52f5',
-  purpleSoft:  '#7c6af7',
-  purpleTint:  'rgba(91,82,245,0.08)',
+  purple:      '#e8863f',
+  purpleSoft:  '#e8863f',
+  purpleTint:  'rgba(232,134,63,$1)',
   cream:       '#f5f0e8',
   text50:      'rgba(255,255,255,0.55)',
   text30:      'rgba(255,255,255,0.32)',
@@ -490,7 +490,7 @@ export default function LandingV2() {
                 background: '#fff', borderRadius: 16,
                 border: p.highlight ? `1.5px solid ${C.purple}` : `1px solid ${C.rule}`,
                 padding: 36, position: 'relative',
-                boxShadow: p.highlight ? '0 20px 50px rgba(91,82,245,0.14)' : '0 6px 20px rgba(15,14,19,0.04)',
+                boxShadow: p.highlight ? '0 20px 50px rgba(232,134,63,$1)' : '0 6px 20px rgba(15,14,19,0.04)',
               }}>
                 {p.highlight && (
                   <div style={{ position: 'absolute', top: -11, left: 36, background: C.purple, color: '#fff', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 999, letterSpacing: '0.06em' }}>

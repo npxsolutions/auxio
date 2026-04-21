@@ -18,9 +18,9 @@ type HealthRow = {
   last_validated_at: string | null
 }
 
-const CREAM = '#f3f0ea'
+const CREAM = '#f8f4ec'
 const INK = '#0b0f1a'
-const COBALT = '#1d5fdb'
+const COBALT = '#e8863f'
 const EMERALD = '#0f8a5b'
 const AMBER = '#b88404'
 const OXBLOOD = '#a4243b'

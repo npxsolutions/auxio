@@ -88,7 +88,7 @@ export function CookieConsent() {
             padding: '8px 16px',
             borderRadius: 8,
             border: 'none',
-            background: '#5b52f5',
+            background: '#e8863f',
             color: 'white',
             fontSize: 12,
             fontWeight: 600,

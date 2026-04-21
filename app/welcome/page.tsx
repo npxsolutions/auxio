@@ -35,16 +35,16 @@ import {
 } from '../lib/onboarding-constants'
 
 const C = {
-  bg:      '#f3f0ea',
+  bg:      '#f8f4ec',
   surface: '#ffffff',
   ink:     '#0b0f1a',
   mutedDk: '#2c3142',
   muted:   '#5a6171',
   rule:    'rgba(11,15,26,0.10)',
   ruleSoft:'rgba(11,15,26,0.06)',
-  cobalt:  '#1d5fdb',
-  cobaltDk:'#1647a8',
-  cobaltSft:'rgba(29,95,219,0.10)',
+  cobalt:  '#e8863f',
+  cobaltDk:'#c46f2a',
+  cobaltSft:'rgba(232,134,63,$1)',
 }
 
 const display = 'var(--font-display), Georgia, serif'

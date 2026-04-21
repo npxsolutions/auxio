@@ -226,7 +226,7 @@ export default function ReturnsPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {/* Toast */}
@@ -257,7 +257,7 @@ export default function ReturnsPage() {
             <button
               onClick={() => setShowForm(v => !v)}
               style={{
-                background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8,
+                background: '#e8863f', color: 'white', border: 'none', borderRadius: 8,
                 padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 7,
               }}
@@ -269,7 +269,7 @@ export default function ReturnsPage() {
           {/* ── KPI Strip ── */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
             {[
-              { label: 'Returns this month', value: '14',       sub: 'April 2026',       accent: '#5b52f5' },
+              { label: 'Returns this month', value: '14',       sub: 'April 2026',       accent: '#e8863f' },
               { label: 'Return rate',         value: '3.2%',    sub: 'vs 2.9% last month', accent: '#d97706' },
               { label: 'Revenue lost',        value: '£1,840',  sub: 'from refunds',     accent: '#dc2626', valueColor: '#dc2626' },
               { label: 'Restocked & resold',  value: '8 items', sub: 'back in stock',    accent: '#059669', valueColor: '#059669' },
@@ -377,7 +377,7 @@ export default function ReturnsPage() {
                   <button
                     type="submit"
                     style={{
-                      background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8,
+                      background: '#e8863f', color: 'white', border: 'none', borderRadius: 8,
                       padding: '10px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                     }}
                   >
@@ -412,8 +412,8 @@ export default function ReturnsPage() {
                     style={{
                       background: 'none', border: 'none', cursor: 'pointer',
                       padding: '14px 16px', fontSize: 13, fontWeight: active ? 700 : 500,
-                      color: active ? '#5b52f5' : '#6b6e87',
-                      borderBottom: active ? '2px solid #5b52f5' : '2px solid transparent',
+                      color: active ? '#e8863f' : '#6b6e87',
+                      borderBottom: active ? '2px solid #e8863f' : '2px solid transparent',
                       marginBottom: -1, whiteSpace: 'nowrap', fontFamily: 'inherit',
                       transition: 'color 0.15s',
                     }}
@@ -422,8 +422,8 @@ export default function ReturnsPage() {
                     {tab !== 'All Returns' && (
                       <span style={{
                         marginLeft: 7, fontSize: 10, fontWeight: 700,
-                        background: active ? '#ede9fe' : '#f5f3ef',
-                        color: active ? '#5b52f5' : '#9496b0',
+                        background: active ? '#ede9fe' : '#f8f4ec',
+                        color: active ? '#e8863f' : '#9496b0',
                         borderRadius: 10, padding: '2px 6px',
                       }}>
                         {MOCK_RETURNS.filter(r => r.status === tab).length}
@@ -473,7 +473,7 @@ export default function ReturnsPage() {
                       transition: 'background 0.1s',
                     }}
                   >
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#5b52f5', fontFamily: 'ui-monospace, monospace' }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#e8863f', fontFamily: 'ui-monospace, monospace' }}>
                       {r.id}
                     </div>
                     <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1b22', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', paddingRight: 12 }}>
@@ -532,7 +532,7 @@ export default function ReturnsPage() {
                       <div style={{
                         height: '100%',
                         width: `${item.pct}%`,
-                        background: item.pct >= 30 ? '#5b52f5' : item.pct >= 20 ? '#7c6af7' : item.pct >= 15 ? '#a89ef8' : '#c4bffb',
+                        background: item.pct >= 30 ? '#e8863f' : item.pct >= 20 ? '#e8863f' : item.pct >= 15 ? '#a89ef8' : '#c4bffb',
                         borderRadius: 4,
                         transition: 'width 0.6s ease',
                       }} />

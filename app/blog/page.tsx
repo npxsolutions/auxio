@@ -115,7 +115,7 @@ export default function BlogPage() {
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
@@ -129,7 +129,7 @@ export default function BlogPage() {
 
       {/* Header */}
       <div style={{ paddingTop: '100px', paddingBottom: '48px', maxWidth: '1100px', margin: '0 auto', padding: '100px 48px 48px' }}>
-        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(91,82,245,0.08)', border: '1px solid rgba(91,82,245,0.15)', fontSize: '12px', color: '#5b52f5', fontWeight: 600, marginBottom: '16px' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '16px' }}>
           THE BLOG
         </div>
         <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', marginBottom: '12px' }}>
@@ -154,7 +154,7 @@ export default function BlogPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
           {featured.map(post => (
             <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block', padding: '32px', background: '#09090b', borderRadius: '16px', color: 'white' }}>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>{post.category}</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>{post.category}</div>
               <h2 style={{ fontSize: '22px', fontWeight: 800, color: 'white', lineHeight: 1.3, letterSpacing: '-0.01em', marginBottom: '12px' }}>{post.title}</h2>
               <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, marginBottom: '20px' }}>{post.excerpt}</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -174,7 +174,7 @@ export default function BlogPage() {
               onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = 'white'}
             >
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>{post.category}</div>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>{post.category}</div>
                 <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, marginBottom: '4px' }}>{post.title}</h3>
                 <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5 }}>{post.excerpt}</p>
               </div>
@@ -208,7 +208,7 @@ export default function BlogPage() {
         </div>
       </footer>
 
-      <style>{`* { box-sizing: border-box; margin: 0; padding: 0; } a:hover h3 { color: #5b52f5; }`}</style>
+      <style>{`* { box-sizing: border-box; margin: 0; padding: 0; } a:hover h3 { color: #e8863f; }`}</style>
     </div>
   )
 }

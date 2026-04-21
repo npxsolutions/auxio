@@ -22,18 +22,18 @@ export const metadata: Metadata = {
 }
 
 const C = {
-  bg:        '#f3f0ea',
+  bg:        '#f8f4ec',
   surface:   '#ffffff',
-  raised:    '#ebe6dc',
+  raised:    '#fdfaf2',
   ink:       '#0b0f1a',
   inkSoft:   '#1c2233',
   rule:      'rgba(11,15,26,0.10)',
   ruleSoft:  'rgba(11,15,26,0.06)',
   muted:     '#5a6171',
   mutedDk:   '#2c3142',
-  cobalt:    '#1d5fdb',
-  cobaltDk:  '#1647a8',
-  cobaltSft: 'rgba(29,95,219,0.10)',
+  cobalt:    '#e8863f',
+  cobaltDk:  '#c46f2a',
+  cobaltSft: 'rgba(232,134,63,$1)',
   emerald:   '#0e7c5a',
   amber:     '#b5651d',
   oxblood:   '#7d2a1a',

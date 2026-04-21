@@ -49,7 +49,7 @@ const CHANNEL_PILL: Record<string, { bg: string; color: string; border: string }
 }
 
 function channelPill(ch: string) {
-  return CHANNEL_PILL[ch.toLowerCase()] || { bg: '#f5f3ef', color: '#6b6e87', border: '#e8e5df' }
+  return CHANNEL_PILL[ch.toLowerCase()] || { bg: '#f8f4ec', color: '#6b6e87', border: '#e8e5df' }
 }
 
 // Simple sparkline SVG from time-series data
@@ -116,7 +116,7 @@ export default function AnalyticsPage() {
   const sparkProfit  = (data?.timeSeries || []).map(d => d.profit)
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px', minWidth: 0 }}>
@@ -148,7 +148,7 @@ export default function AnalyticsPage() {
                   style={{
                     padding: '6px 12px', borderRadius: 8, border: 'none',
                     fontSize: 13, fontWeight: period === p ? 600 : 400,
-                    background: period === p ? '#5b52f5' : 'transparent',
+                    background: period === p ? '#e8863f' : 'transparent',
                     color: period === p ? 'white' : '#6b6e87',
                     cursor: 'pointer', transition: 'all 0.15s',
                   }}
@@ -177,7 +177,7 @@ export default function AnalyticsPage() {
             {/* ── KPI cards ── */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
               {[
-                { label: 'Revenue',      value: fmtGBP(data.totals.revenue), change: data.comparison.revenueChange, spark: sparkRevenue, sparkColor: '#5b52f5' },
+                { label: 'Revenue',      value: fmtGBP(data.totals.revenue), change: data.comparison.revenueChange, spark: sparkRevenue, sparkColor: '#e8863f' },
                 { label: 'Net Profit',   value: fmtGBP(data.totals.profit),  change: data.comparison.profitChange,  spark: sparkProfit,  sparkColor: '#059669' },
                 { label: 'Orders',       value: String(data.totals.orders),   change: data.comparison.ordersChange,  spark: null, sparkColor: '' },
                 { label: 'Avg Margin',   value: `${data.totals.margin.toFixed(1)}%`, change: null, spark: null, sparkColor: '' },
@@ -259,10 +259,10 @@ export default function AnalyticsPage() {
                             <span style={{ fontSize: 13, fontWeight: 700, color: '#1a1b22' }}>{fmtGBP(ch.revenue)}</span>
                           </div>
                         </div>
-                        <div style={{ background: '#f5f3ef', borderRadius: 6, height: 8, overflow: 'hidden' }}>
+                        <div style={{ background: '#f8f4ec', borderRadius: 6, height: 8, overflow: 'hidden' }}>
                           <div style={{
                             width: `${widthPct}%`, height: '100%',
-                            background: 'linear-gradient(90deg, #5b52f5, #7c6af7)',
+                            background: 'linear-gradient(90deg, #e8863f, #e8863f)',
                             borderRadius: 6, transition: 'width 0.4s ease',
                           }}/>
                         </div>
@@ -336,7 +336,7 @@ export default function AnalyticsPage() {
                   {[
                     { label: 'Published',    value: data.listingHealth.published, color: '#059669', bg: '#ecfdf5' },
                     { label: 'Partial',      value: data.listingHealth.partial,   color: '#d97706', bg: '#fffbeb' },
-                    { label: 'Draft',        value: data.listingHealth.draft,     color: '#9496b0', bg: '#f5f3ef' },
+                    { label: 'Draft',        value: data.listingHealth.draft,     color: '#9496b0', bg: '#f8f4ec' },
                   ].map(item => {
                     const pct = data.listingHealth.total > 0 ? (item.value / data.listingHealth.total) * 100 : 0
                     return (
@@ -345,7 +345,7 @@ export default function AnalyticsPage() {
                           <span style={{ color: '#6b6e87' }}>{item.label}</span>
                           <span style={{ fontWeight: 600, color: '#1a1b22' }}>{item.value} <span style={{ fontWeight: 400, color: '#9496b0' }}>({pct.toFixed(0)}%)</span></span>
                         </div>
-                        <div style={{ background: '#f5f3ef', borderRadius: 4, height: 6 }}>
+                        <div style={{ background: '#f8f4ec', borderRadius: 4, height: 6 }}>
                           <div style={{ width: `${pct}%`, height: '100%', background: item.color, borderRadius: 4 }}/>
                         </div>
                       </div>
@@ -364,7 +364,7 @@ export default function AnalyticsPage() {
                       { label: 'Active Channels', value: data.platformStats.channels },
                       { label: 'Active Rules',    value: `${data.platformStats.rules}/${data.platformStats.totalRules}` },
                     ].map(stat => (
-                      <div key={stat.label} style={{ background: '#f5f3ef', borderRadius: 8, padding: '12px 14px' }}>
+                      <div key={stat.label} style={{ background: '#f8f4ec', borderRadius: 8, padding: '12px 14px' }}>
                         <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1b22', letterSpacing: '-0.02em' }}>{stat.value}</div>
                         <div style={{ fontSize: 11, color: '#9496b0', marginTop: 2 }}>{stat.label}</div>
                       </div>
@@ -401,7 +401,7 @@ export default function AnalyticsPage() {
                               <rect
                                 x={x} y={H - barH}
                                 width={barW} height={barH}
-                                fill="#5b52f5" opacity="0.7" rx="2"
+                                fill="#e8863f" opacity="0.7" rx="2"
                               />
                               <rect
                                 x={x} y={H - (maxRev > 0 ? (d.profit / maxRev) * H : 0)}
@@ -418,7 +418,7 @@ export default function AnalyticsPage() {
 
                 <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}>
-                    <div style={{ width: 10, height: 10, borderRadius: 2, background: '#5b52f5', opacity: 0.7 }}/>
+                    <div style={{ width: 10, height: 10, borderRadius: 2, background: '#e8863f', opacity: 0.7 }}/>
                     Revenue
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6b6e87' }}>

@@ -136,7 +136,7 @@ export default function CostsPage() {
   })()
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif', WebkitFontSmoothing: 'antialiased' as any }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif', WebkitFontSmoothing: 'antialiased' as any }}>
       <AppSidebar />
 
       {toast && (
@@ -205,7 +205,7 @@ export default function CostsPage() {
                   onClick={applyDefault}
                   disabled={applyingDefault}
                   style={{
-                    background: '#5b52f5', color: 'white', border: 'none',
+                    background: '#e8863f', color: 'white', border: 'none',
                     borderRadius: 8, padding: '8px 16px', fontSize: 13, fontWeight: 600,
                     cursor: applyingDefault ? 'wait' : 'pointer', opacity: applyingDefault ? 0.7 : 1,
                   }}
@@ -284,7 +284,7 @@ export default function CostsPage() {
                   style={{
                     padding: '8px 14px', border: 'none', borderRight: f.id !== 'low' ? '1px solid #e8e5df' : 'none',
                     background: filter === f.id ? '#f0effd' : 'transparent',
-                    color: filter === f.id ? '#5b52f5' : '#6b6e87',
+                    color: filter === f.id ? '#e8863f' : '#6b6e87',
                     fontSize: 12, fontWeight: filter === f.id ? 600 : 400,
                     cursor: 'pointer', fontFamily: 'inherit',
                   }}
@@ -335,7 +335,7 @@ export default function CostsPage() {
                   const isSaving = saving === listing.id
 
                   return (
-                    <tr key={listing.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f0ede8' : 'none', background: hasEdit ? 'rgba(91,82,245,0.02)' : 'white' }}>
+                    <tr key={listing.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f0ede8' : 'none', background: hasEdit ? 'rgba(232,134,63,$1)' : 'white' }}>
 
                       {/* Title */}
                       <td style={{ padding: '12px 16px', maxWidth: 280 }}>
@@ -372,10 +372,10 @@ export default function CostsPage() {
                             onBlur={() => hasEdit && saveCost(listing.id)}
                             style={{
                               width: 90, padding: '5px 8px',
-                              border: `1px solid ${hasEdit ? '#5b52f5' : listing.cost_price === null ? '#fde68a' : '#e8e5df'}`,
+                              border: `1px solid ${hasEdit ? '#e8863f' : listing.cost_price === null ? '#fde68a' : '#e8e5df'}`,
                               borderRadius: 6, fontSize: 13, outline: 'none',
                               fontFamily: 'inherit', background: 'white',
-                              boxShadow: hasEdit ? '0 0 0 2px rgba(91,82,245,0.12)' : 'none',
+                              boxShadow: hasEdit ? '0 0 0 2px rgba(232,134,63,$1)' : 'none',
                             }}
                           />
                         </div>
@@ -385,7 +385,7 @@ export default function CostsPage() {
                       <td style={{ padding: '12px 16px' }}>
                         <span style={{
                           fontSize: 13, fontWeight: 600, color: mColor,
-                          background: m === null ? '#f5f3ef' : m < 0 ? '#fef2f2' : m < 10 ? '#fffbeb' : '#ecfdf5',
+                          background: m === null ? '#f8f4ec' : m < 0 ? '#fef2f2' : m < 10 ? '#fffbeb' : '#ecfdf5',
                           padding: '3px 8px', borderRadius: 6,
                         }}>
                           {marginLabel(m)}
@@ -399,7 +399,7 @@ export default function CostsPage() {
                             onClick={() => saveCost(listing.id)}
                             disabled={isSaving}
                             style={{
-                              background: '#5b52f5', color: 'white', border: 'none',
+                              background: '#e8863f', color: 'white', border: 'none',
                               borderRadius: 6, padding: '5px 12px', fontSize: 12,
                               fontWeight: 600, cursor: isSaving ? 'wait' : 'pointer',
                               opacity: isSaving ? 0.7 : 1, fontFamily: 'inherit',
@@ -418,7 +418,7 @@ export default function CostsPage() {
 
           <p style={{ fontSize: 12, color: '#9496b0', marginTop: 16, lineHeight: 1.6 }}>
             Cost price = what you paid for the stock. Margin = (selling price − cost) ÷ selling price.
-            Channel fees and shipping are applied from your <a href="/settings" style={{ color: '#5b52f5' }}>Settings</a>.
+            Channel fees and shipping are applied from your <a href="/settings" style={{ color: '#e8863f' }}>Settings</a>.
           </p>
         </div>
       </main>

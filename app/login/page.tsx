@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase-client'
 
-const INDIGO = '#5b52f5'
-const INDIGO_HOVER = '#4a42e5'
+const INDIGO = '#e8863f'
+const INDIGO_HOVER = '#c46f2a'
 const DARK = '#0f1117'
 
 const features = [
@@ -52,7 +52,7 @@ export default function LoginPage() {
     outline: 'none',
     boxSizing: 'border-box',
     background: hasError ? '#fef2f2' : 'white',
-    boxShadow: focused && !hasError ? '0 0 0 3px rgba(91,82,245,0.1)' : 'none',
+    boxShadow: focused && !hasError ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
     transition: 'border-color 0.15s, box-shadow 0.15s',
   })
 
@@ -75,7 +75,7 @@ export default function LoginPage() {
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse at 30% 70%, rgba(91,82,245,0.12) 0%, transparent 60%)',
+          background: 'radial-gradient(ellipse at 30% 70%, rgba(232,134,63,$1) 0%, transparent 60%)',
           pointerEvents: 'none',
         }} />
 
@@ -85,7 +85,7 @@ export default function LoginPage() {
             <div style={{
               width: 34,
               height: 34,
-              background: 'linear-gradient(135deg, #5b52f5 0%, #7c75f8 100%)',
+              background: 'linear-gradient(135deg, #e8863f 0%, #7c75f8 100%)',
               borderRadius: 9,
               display: 'flex',
               alignItems: 'center',
@@ -118,7 +118,7 @@ export default function LoginPage() {
                   width: 18,
                   height: 18,
                   borderRadius: '50%',
-                  background: 'rgba(91,82,245,0.2)',
+                  background: 'rgba(232,134,63,$1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -147,7 +147,7 @@ export default function LoginPage() {
                 width: 30,
                 height: 30,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #5b52f5 0%, #7c75f8 100%)',
+                background: 'linear-gradient(135deg, #e8863f 0%, #7c75f8 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

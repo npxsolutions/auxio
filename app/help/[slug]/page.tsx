@@ -14,14 +14,14 @@ const display = Instrument_Serif({
 })
 
 const C = {
-  bg:       '#f3f0ea',
+  bg:       '#f8f4ec',
   surface:  '#ffffff',
   ink:      '#0b0f1a',
   inkSoft:  '#1c2233',
   rule:     'rgba(11,15,26,0.10)',
   ruleSoft: 'rgba(11,15,26,0.06)',
   muted:    '#5a6171',
-  cobalt:   '#1d5fdb',
+  cobalt:   '#e8863f',
 }
 
 function slugify(s: string): string {

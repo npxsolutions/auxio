@@ -2,14 +2,14 @@
 
 // [onboarding:client] — 5-step onboarding UI with sidebar progress + skip affordance.
 // Server derives the true step; this component lets users revisit completed steps
-// via the sidebar. Palette: v8 cream (#f5f3ef), ink (#191919), cobalt (#5b52f5).
+// via the sidebar. Palette: v8 cream (#f8f4ec), ink (#191919), cobalt (#e8863f).
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const CREAM  = '#f5f3ef'
+const CREAM  = '#f8f4ec'
 const INK    = '#191919'
-const COBALT = '#5b52f5'
+const COBALT = '#e8863f'
 const MUTE   = '#787774'
 const LINE   = '#e8e8e5'
 const SERIF  = "'Instrument Serif', 'Iowan Old Style', Georgia, serif"
@@ -104,7 +104,7 @@ export default function OnboardingClient({
                     border: 'none',
                     borderRadius: 8,
                     textAlign: 'left',
-                    background: active ? 'rgba(91,82,245,0.08)' : 'transparent',
+                    background: active ? 'rgba(232,134,63,$1)' : 'transparent',
                     cursor: clickable ? 'pointer' : 'default',
                     fontFamily: SANS,
                     color: INK,
@@ -166,7 +166,7 @@ function Step1Connect() {
             }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLAnchorElement).style.borderColor = COBALT
-              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 3px rgba(91,82,245,0.08)'
+              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 3px rgba(232,134,63,$1)'
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLAnchorElement).style.borderColor = LINE

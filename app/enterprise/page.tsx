@@ -8,13 +8,13 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 const C = {
-  cream: '#f3f0ea',
-  creamSoft: '#ebe6dc',
+  cream: '#f8f4ec',
+  creamSoft: '#fdfaf2',
   ink: '#0b0f1a',
   inkSoft: 'rgba(11,15,26,0.62)',
   inkMuted: 'rgba(11,15,26,0.42)',
   inkFaint: 'rgba(11,15,26,0.14)',
-  cobalt: '#1d5fdb',
+  cobalt: '#e8863f',
   rule: 'rgba(11,15,26,0.10)',
 }
 

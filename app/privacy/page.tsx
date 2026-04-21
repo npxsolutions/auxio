@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -117,7 +117,7 @@ export default function PrivacyPolicy() {
         <p>
           NPX Solutions<br />
           United Kingdom<br />
-          <a href="mailto:info@npx-solutions.com" style={{ color: '#5b52f5', textDecoration: 'none' }}>info@npx-solutions.com</a>
+          <a href="mailto:info@npx-solutions.com" style={{ color: '#e8863f', textDecoration: 'none' }}>info@npx-solutions.com</a>
         </p>
       </Section>
     </div>

@@ -174,7 +174,7 @@ export default function ShippingPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {/* Toast */}
@@ -278,7 +278,7 @@ export default function ShippingPage() {
                           <button
                             onClick={() => saveCarrier(carrier.id)}
                             style={{
-                              background: '#5b52f5', color: 'white', border: 'none', borderRadius: 7,
+                              background: '#e8863f', color: 'white', border: 'none', borderRadius: 7,
                               padding: '8px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                             }}
                           >
@@ -300,7 +300,7 @@ export default function ShippingPage() {
                     <button
                       onClick={() => isSaved ? undefined : toggleCarrierForm(carrier.id)}
                       style={{
-                        background: isSaved ? '#f5f3ef' : '#5b52f5',
+                        background: isSaved ? '#f8f4ec' : '#e8863f',
                         color: isSaved ? '#9496b0' : 'white',
                         border: isSaved ? '1px solid #e8e5df' : 'none',
                         borderRadius: 7, padding: '8px 14px',
@@ -331,7 +331,7 @@ export default function ShippingPage() {
               <button
                 onClick={() => showToast('Printing all labels…')}
                 style={{
-                  background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8,
+                  background: '#e8863f', color: 'white', border: 'none', borderRadius: 8,
                   padding: '9px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 7,
                 }}
@@ -375,7 +375,7 @@ export default function ShippingPage() {
                     transition: 'background 0.1s',
                   }}
                 >
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#5b52f5', fontFamily: 'ui-monospace, monospace' }}>{order.orderNum}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#e8863f', fontFamily: 'ui-monospace, monospace' }}>{order.orderNum}</div>
                   <div style={{ fontSize: 13, color: '#1a1b22', fontWeight: 500 }}>{order.customer}</div>
                   <div style={{ fontSize: 13, color: '#6b6e87' }}>{order.items}</div>
                   <div style={{ fontSize: 13, color: '#6b6e87', fontFamily: 'ui-monospace, monospace' }}>{order.weight}</div>
@@ -385,8 +385,8 @@ export default function ShippingPage() {
                     <button
                       onClick={() => showToast(`Printing label for ${order.orderNum}…`)}
                       style={{
-                        background: 'white', color: '#5b52f5',
-                        border: '1px solid #5b52f5', borderRadius: 7,
+                        background: 'white', color: '#e8863f',
+                        border: '1px solid #e8863f', borderRadius: 7,
                         padding: '7px 12px', fontSize: 12, fontWeight: 600,
                         cursor: 'pointer', fontFamily: 'inherit',
                         display: 'inline-flex', alignItems: 'center', gap: 5,
@@ -445,7 +445,7 @@ export default function ShippingPage() {
                     transition: 'background 0.1s',
                   }}
                 >
-                  <div style={{ fontSize: 11, fontWeight: 600, color: '#5b52f5', fontFamily: 'ui-monospace, monospace', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#e8863f', fontFamily: 'ui-monospace, monospace', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {s.tracking}
                   </div>
                   <div style={{ fontSize: 12, color: '#6b6e87', fontWeight: 500 }}>{s.carrier}</div>
@@ -475,7 +475,7 @@ export default function ShippingPage() {
               <button
                 onClick={() => showToast('Rule builder coming soon')}
                 style={{
-                  background: 'white', color: '#5b52f5', border: '1px solid #5b52f5',
+                  background: 'white', color: '#e8863f', border: '1px solid #e8863f',
                   borderRadius: 8, padding: '9px 16px', fontSize: 13, fontWeight: 600,
                   cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 6,
                 }}
@@ -513,12 +513,12 @@ export default function ShippingPage() {
                         {rule.description}
                       </div>
                       <div style={{ fontSize: 12, color: '#6b6e87' }}>
-                        Route to: <span style={{ fontWeight: 600, color: '#5b52f5' }}>{rule.carrier}</span>
+                        Route to: <span style={{ fontWeight: 600, color: '#e8863f' }}>{rule.carrier}</span>
                       </div>
                     </div>
 
                     <span style={{
-                      background: isActive ? '#ecfdf5' : '#f5f3ef',
+                      background: isActive ? '#ecfdf5' : '#f8f4ec',
                       color: isActive ? '#059669' : '#9496b0',
                       border: `1px solid ${isActive ? '#a7f3d0' : '#e8e5df'}`,
                       borderRadius: 100, fontSize: 11, fontWeight: 700, padding: '3px 9px',

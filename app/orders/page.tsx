@@ -104,7 +104,7 @@ export default function OrdersPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -137,7 +137,7 @@ export default function OrdersPage() {
               onClick={syncOrders}
               disabled={syncing}
               style={{
-                background: '#5b52f5', color: 'white', border: 'none',
+                background: '#e8863f', color: 'white', border: 'none',
                 borderRadius: 8, padding: '10px 18px',
                 fontSize: 13, fontWeight: 600, cursor: syncing ? 'wait' : 'pointer',
                 fontFamily: 'inherit', opacity: syncing ? 0.7 : 1,
@@ -155,7 +155,7 @@ export default function OrdersPage() {
                   label: 'Total revenue',
                   value: fmt(stats.totalRevenue),
                   sub: `last ${days} days`,
-                  accent: '#5b52f5',
+                  accent: '#e8863f',
                 },
                 {
                   label: 'True profit',
@@ -197,7 +197,7 @@ export default function OrdersPage() {
           {stats && Object.keys(stats.byChannel).length > 0 && (
             <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
               {Object.entries(stats.byChannel).map(([ch, s]) => {
-                const meta = CHANNEL_META[ch] || { icon: '🏪', color: '#9496b0', bg: '#f5f3ef', name: ch, pill: '#f5f3ef' }
+                const meta = CHANNEL_META[ch] || { icon: '🏪', color: '#9496b0', bg: '#f8f4ec', name: ch, pill: '#f8f4ec' }
                 const isActive = channel === ch
                 return (
                   <div key={ch}
@@ -234,9 +234,9 @@ export default function OrdersPage() {
               {DAY_OPTIONS.map(d => (
                 <button key={d} onClick={() => { setDays(d); setPage(1) }}
                   style={{
-                    background: days === d ? '#5b52f5' : 'white',
+                    background: days === d ? '#e8863f' : 'white',
                     color: days === d ? 'white' : '#6b6e87',
-                    border: `1px solid ${days === d ? '#5b52f5' : '#e8e5df'}`,
+                    border: `1px solid ${days === d ? '#e8863f' : '#e8e5df'}`,
                     borderRadius: 20,
                     padding: '6px 14px',
                     fontSize: 12,
@@ -272,11 +272,11 @@ export default function OrdersPage() {
               <div style={{ padding: '48px', textAlign: 'center', color: '#6b6e87', fontSize: 14 }}>Loading orders…</div>
             ) : orders.length === 0 ? (
               <div style={{ padding: '56px 24px', textAlign: 'center' }}>
-                <div style={{ width: 56, height: 56, background: '#f5f3ef', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>📭</div>
+                <div style={{ width: 56, height: 56, background: '#f8f4ec', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>📭</div>
                 <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1b22', marginBottom: 6 }}>No orders yet</div>
                 <div style={{ fontSize: 13, color: '#6b6e87', marginBottom: 24, maxWidth: 320, margin: '0 auto 24px' }}>Connect a channel and sync to see your orders here.</div>
                 <button onClick={syncOrders} style={{
-                  background: '#5b52f5', color: 'white', border: 'none',
+                  background: '#e8863f', color: 'white', border: 'none',
                   borderRadius: 8, padding: '10px 18px',
                   fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                 }}>

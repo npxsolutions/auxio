@@ -15,13 +15,13 @@ export default function BlogPostPage() {
         <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
-          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
         </div>
       </nav>
 
       <article style={{ maxWidth: '760px', margin: '0 auto', padding: '64px 48px 96px' }}>
         <div style={{ marginBottom: '32px' }}>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Explainer · 2026</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Explainer · 2026</span>
           <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginTop: '12px', marginBottom: '20px' }}>
             Multi-currency P&amp;L for ecommerce — why your dashboard is lying to you
           </h1>
@@ -62,10 +62,10 @@ export default function BlogPostPage() {
                 const y = 20 + i * 50
                 return (
                   <g key={label}>
-                    <rect x="240" y={y} width="140" height="38" rx="4" stroke="#5b52f5" />
-                    <text x="310" y={y + 18} textAnchor="middle" fontSize="12" stroke="none" fill="#5b52f5">{label}</text>
+                    <rect x="240" y={y} width="140" height="38" rx="4" stroke="#e8863f" />
+                    <text x="310" y={y + 18} textAnchor="middle" fontSize="12" stroke="none" fill="#e8863f">{label}</text>
                     <text x="310" y={y + 31} textAnchor="middle" fontSize="11" stroke="none" fill="#475569">{val}</text>
-                    <path d={`M 160 60 L 240 ${y + 19}`} stroke="#5b52f5" strokeWidth="1" />
+                    <path d={`M 160 60 L 240 ${y + 19}`} stroke="#e8863f" strokeWidth="1" />
                   </g>
                 )
               })}
@@ -134,15 +134,15 @@ export default function BlogPostPage() {
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
           <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Palvento shows settled and invoice-rate P&amp;L side by side</strong>
           <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Across every channel and every currency. FX spread broken out as a first-class line. Priced in USD, GBP, EUR, AUD, or CAD. From $149/mo.</p>
-          <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
+          <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#e8863f', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 
         <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '32px' }}>
           <strong style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '12px' }}>Related guides</strong>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Link href="/blog/how-to-calculate-true-profit-ecommerce" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>How to calculate true profit in ecommerce →</Link>
-            <Link href="/blog/the-true-cost-of-multichannel-spreadsheets" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>The true cost of multichannel spreadsheets →</Link>
-            <Link href="/blog/pricing-floors-by-channel" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Setting price floors by channel →</Link>
+            <Link href="/blog/how-to-calculate-true-profit-ecommerce" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none' }}>How to calculate true profit in ecommerce →</Link>
+            <Link href="/blog/the-true-cost-of-multichannel-spreadsheets" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none' }}>The true cost of multichannel spreadsheets →</Link>
+            <Link href="/blog/pricing-floors-by-channel" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none' }}>Setting price floors by channel →</Link>
           </div>
         </div>
       </article>

@@ -136,7 +136,7 @@ function BillingContent() {
   }
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f8f4ec' }}>
       <div style={{ fontSize: 14, color: '#6b6e87', fontFamily: 'inherit' }}>Loading...</div>
     </div>
   )
@@ -144,7 +144,7 @@ function BillingContent() {
   const hasPaidPlan = currentPlan && currentPlan !== 'free'
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <CancelSurveyModal
         open={cancelModalOpen}
@@ -195,7 +195,7 @@ function BillingContent() {
             <div style={{
               background: 'white',
               border: '1px solid #e8e5df',
-              borderLeft: '3px solid #1d5fdb',
+              borderLeft: '3px solid #e8863f',
               borderRadius: 12,
               padding: '16px 20px',
               marginBottom: 20,
@@ -209,7 +209,7 @@ function BillingContent() {
                 <strong style={{ color: '#0b0f1a' }}>${(unappliedCents / 100).toFixed(0)} in credits available.</strong>
                 <span style={{ marginLeft: 6, color: '#5a6171' }}>Credits apply to your next invoice.</span>
               </div>
-              <a href="/settings/referral" style={{ fontSize: 12, color: '#1d5fdb', textDecoration: 'none', fontWeight: 600 }}>Refer more →</a>
+              <a href="/settings/referral" style={{ fontSize: 12, color: '#e8863f', textDecoration: 'none', fontWeight: 600 }}>Refer more →</a>
             </div>
           )}
 
@@ -218,7 +218,7 @@ function BillingContent() {
             <div style={{
               background: 'white',
               border: '1px solid #e8e5df',
-              borderLeft: '3px solid #5b52f5',
+              borderLeft: '3px solid #e8863f',
               borderRadius: 12,
               padding: '20px 24px',
               marginBottom: 28,
@@ -239,7 +239,7 @@ function BillingContent() {
                   onClick={openPortal}
                   disabled={portalLoading}
                   style={{
-                    background: '#5b52f5', color: 'white',
+                    background: '#e8863f', color: 'white',
                     border: 'none', borderRadius: 8,
                     padding: '10px 18px',
                     fontSize: 13, fontWeight: 600,
@@ -280,7 +280,7 @@ function BillingContent() {
                   style={{
                     background: isDark ? '#0f1117' : 'white',
                     border: isCurrent
-                      ? '2px solid #5b52f5'
+                      ? '2px solid #e8863f'
                       : isDark
                         ? '1px solid #1e2130'
                         : '1px solid #e8e5df',
@@ -290,7 +290,7 @@ function BillingContent() {
                     display: 'flex',
                     flexDirection: 'column',
                     boxShadow: isCurrent
-                      ? '0 0 0 4px rgba(91,82,245,0.12)'
+                      ? '0 0 0 4px rgba(232,134,63,$1)'
                       : isDark
                         ? '0 4px 16px rgba(0,0,0,0.2)'
                         : '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
@@ -300,7 +300,7 @@ function BillingContent() {
                   {isCurrent && (
                     <div style={{
                       position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)',
-                      background: '#5b52f5', color: 'white',
+                      background: '#e8863f', color: 'white',
                       fontSize: 10, fontWeight: 700,
                       padding: '3px 12px', borderRadius: 100,
                       whiteSpace: 'nowrap', letterSpacing: '0.04em',
@@ -311,7 +311,7 @@ function BillingContent() {
                   {plan.popular && !isCurrent && (
                     <div style={{
                       position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)',
-                      background: 'linear-gradient(135deg, #5b52f5 0%, #7c75f7 100%)', color: 'white',
+                      background: 'linear-gradient(135deg, #e8863f 0%, #7c75f7 100%)', color: 'white',
                       fontSize: 10, fontWeight: 700,
                       padding: '3px 12px', borderRadius: 100,
                       whiteSpace: 'nowrap', letterSpacing: '0.04em',
@@ -323,8 +323,8 @@ function BillingContent() {
                   {/* Plan name badge */}
                   <div style={{ marginBottom: 16 }}>
                     <span style={{
-                      background: isDark ? 'rgba(91,82,245,0.2)' : isCurrent ? 'rgba(91,82,245,0.1)' : '#f5f3ef',
-                      color: isDark ? '#a5a0fb' : isCurrent ? '#5b52f5' : '#6b6e87',
+                      background: isDark ? 'rgba(232,134,63,$1)' : isCurrent ? 'rgba(232,134,63,$1)' : '#f8f4ec',
+                      color: isDark ? '#a5a0fb' : isCurrent ? '#e8863f' : '#6b6e87',
                       fontSize: 11, fontWeight: 700,
                       padding: '3px 9px', borderRadius: 6,
                       letterSpacing: '0.04em',
@@ -372,16 +372,16 @@ function BillingContent() {
                       width: '100%',
                       padding: '10px',
                       borderRadius: 8,
-                      border: isCurrent ? '2px solid #5b52f5' : 'none',
+                      border: isCurrent ? '2px solid #e8863f' : 'none',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: isCurrent ? 'default' : isLoading ? 'wait' : 'pointer',
                       background: isCurrent
                         ? 'transparent'
                         : isDark
-                          ? '#5b52f5'
-                          : '#5b52f5',
-                      color: isCurrent ? '#5b52f5' : 'white',
+                          ? '#e8863f'
+                          : '#e8863f',
+                      color: isCurrent ? '#e8863f' : 'white',
                       opacity: isLoading ? 0.7 : 1,
                       fontFamily: 'inherit',
                       transition: 'opacity 0.15s',

@@ -509,12 +509,12 @@ function RuleRow({ rule, idx, onEdit, onDelete, onToggle }: {
       <td style={{ padding: '14px 16px' }}><PhaseBadge phase={rule.rule_phase ?? 'business'} /></td>
       <td style={{ padding: '14px 16px' }}><ChannelBadge channel={rule.channel} /></td>
       <td style={{ padding: '14px 16px' }}>
-        <span style={{ fontSize: 12, color: '#787774', background: '#f5f3ef', padding: '3px 8px', borderRadius: 5 }}>
+        <span style={{ fontSize: 12, color: '#787774', background: '#f8f4ec', padding: '3px 8px', borderRadius: 5 }}>
           {rule.conditions.length === 0 ? 'Always' : `${rule.conditions.length} cond. (${rule.combinator ?? 'AND'})`}
         </span>
       </td>
       <td style={{ padding: '14px 16px' }}>
-        <span style={{ fontSize: 12, color: '#787774', background: '#f5f3ef', padding: '3px 8px', borderRadius: 5 }}>
+        <span style={{ fontSize: 12, color: '#787774', background: '#f8f4ec', padding: '3px 8px', borderRadius: 5 }}>
           {rule.actions.length} action{rule.actions.length !== 1 ? 's' : ''}
         </span>
       </td>
@@ -573,7 +573,7 @@ function PreviewPanel({ conditions, actions, combinator }: {
 
   return (
     <div style={{ marginTop: 24, border: '1px solid #e8e8e5', borderRadius: 10, overflow: 'hidden', background: 'white' }}>
-      <div style={{ padding: '12px 16px', background: '#f5f3ef', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '12px 16px', background: '#f8f4ec', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontSize: 11, fontWeight: 700, color: '#787774', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Live Preview — Sample Product</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: conditionMatches ? '#0f7b6c' : '#e3b341', flexShrink: 0 }} />
@@ -666,7 +666,7 @@ function RuleEditor({
   return (
     <div style={{ background: 'white', border: '1px solid #e8e8e5', borderRadius: 12, marginBottom: 28, overflow: 'hidden' }}>
       {/* Top bar */}
-      <div style={{ padding: '14px 20px', background: '#f5f3ef', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '14px 20px', background: '#f8f4ec', borderBottom: '1px solid #e8e8e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: '#787774' }}>{editId ? 'Edit Rule' : 'New Rule'}</span>
           <PhaseBadge phase={phase} />

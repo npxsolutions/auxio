@@ -60,9 +60,9 @@ export function LifetimeOffer() {
 
   return (
     <div style={{
-      background: '#f3f0ea',
+      background: '#f8f4ec',
       border: '1px solid rgba(11,15,26,0.14)',
-      borderLeft: '3px solid #1d5fdb',
+      borderLeft: '3px solid #e8863f',
       borderRadius: 12,
       padding: '20px 24px',
       marginBottom: 20,
@@ -86,7 +86,7 @@ export function LifetimeOffer() {
         disabled={pending}
         style={{
           background: '#0b0f1a',
-          color: '#f3f0ea',
+          color: '#f8f4ec',
           border: 'none',
           borderRadius: 8,
           padding: '12px 20px',

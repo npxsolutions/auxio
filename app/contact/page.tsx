@@ -31,7 +31,7 @@ export default function ContactPage() {
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
@@ -49,7 +49,7 @@ export default function ContactPage() {
 
         {/* Left: Info */}
         <div>
-          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(91,82,245,0.08)', border: '1px solid rgba(91,82,245,0.15)', fontSize: '12px', color: '#5b52f5', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
+          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
             GET IN TOUCH
           </div>
           <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
@@ -69,7 +69,7 @@ export default function ContactPage() {
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>{c.icon}</div>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a', marginBottom: '2px' }}>{c.title}</div>
-                  <div style={{ fontSize: '13px', color: '#5b52f5' }}>{c.desc}</div>
+                  <div style={{ fontSize: '13px', color: '#e8863f' }}>{c.desc}</div>
                 </div>
               </div>
             ))}
@@ -89,14 +89,14 @@ export default function ContactPage() {
               <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
               <h3 style={{ fontSize: '22px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>Message received</h3>
               <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.6 }}>We'll be in touch within one business day. In the meantime, feel free to start your free trial.</p>
-              <Link href="/signup" style={{ display: 'inline-block', marginTop: '24px', padding: '12px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
+              <Link href="/signup" style={{ display: 'inline-block', marginTop: '24px', padding: '12px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
             </div>
           ) : (
             <form onSubmit={submit}>
               {/* Type toggle */}
               <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
                 {[['demo', 'Book a demo'], ['question', 'Ask a question'], ['enterprise', 'Enterprise']].map(([v, l]) => (
-                  <button key={v} type="button" onClick={() => setForm(f => ({ ...f, type: v }))} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${form.type === v ? '#5b52f5' : '#e2e8f0'}`, background: form.type === v ? 'rgba(91,82,245,0.08)' : 'white', color: form.type === v ? '#5b52f5' : '#64748b', fontSize: '13px', fontWeight: form.type === v ? 600 : 400, cursor: 'pointer', flex: 1 }}>
+                  <button key={v} type="button" onClick={() => setForm(f => ({ ...f, type: v }))} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${form.type === v ? '#e8863f' : '#e2e8f0'}`, background: form.type === v ? 'rgba(232,134,63,$1)' : 'white', color: form.type === v ? '#e8863f' : '#64748b', fontSize: '13px', fontWeight: form.type === v ? 600 : 400, cursor: 'pointer', flex: 1 }}>
                     {l}
                   </button>
                 ))}
@@ -155,7 +155,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={sending}
-                style={{ width: '100%', padding: '14px', borderRadius: '8px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '15px', fontWeight: 600, border: 'none', cursor: sending ? 'wait' : 'pointer', opacity: sending ? 0.7 : 1 }}
+                style={{ width: '100%', padding: '14px', borderRadius: '8px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, border: 'none', cursor: sending ? 'wait' : 'pointer', opacity: sending ? 0.7 : 1 }}
               >
                 {sending ? 'Sending…' : form.type === 'demo' ? 'Book demo →' : 'Send message →'}
               </button>
@@ -179,7 +179,7 @@ export default function ContactPage() {
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         input::placeholder, textarea::placeholder { color: #94a3b8; }
-        input:focus, textarea:focus { border-color: #5b52f5 !important; box-shadow: 0 0 0 3px rgba(91,82,245,0.1); }
+        input:focus, textarea:focus { border-color: #e8863f !important; box-shadow: 0 0 0 3px rgba(232,134,63,$1); }
       `}</style>
     </div>
   )

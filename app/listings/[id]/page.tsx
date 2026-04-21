@@ -490,7 +490,7 @@ export default function ListingDetailPage() {
   const existingAttributeKeys = new Set(Object.keys(listing.attributes || {}))
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
         <div style={{ maxWidth: '960px' }}>
@@ -809,7 +809,7 @@ export default function ListingDetailPage() {
               )}
 
               {publishResult && (
-                <div style={{ background: '#f5f3ef', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '12px', marginBottom: '12px' }}>
+                <div style={{ background: '#f8f4ec', border: '1px solid #e8e8e5', borderRadius: '7px', padding: '12px', marginBottom: '12px' }}>
                   {Object.entries(publishResult).map(([ch, r]: any) => (
                     <div key={ch} style={{ marginBottom: '8px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: r.status === 'published' ? '#0f7b6c' : '#c9372c' }}>

@@ -43,7 +43,7 @@ export default function EbayIntegrationPage() {
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
@@ -83,7 +83,7 @@ export default function EbayIntegrationPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
             {STEPS.map(s => (
               <div key={s.n} style={{ textAlign: 'center' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontWeight: 800, fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>{s.n}</div>
+                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontWeight: 800, fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>{s.n}</div>
                 <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>{s.title}</h3>
                 <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6 }}>{s.desc}</p>
               </div>
@@ -166,9 +166,9 @@ export default function EbayIntegrationPage() {
             </table>
           </div>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '32px' }}>
-            <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Palvento vs Linnworks →</Link>
+            <Link href="/vs/linnworks" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none', fontWeight: 500 }}>Palvento vs Linnworks →</Link>
             <span style={{ color: '#e2e8f0' }}>|</span>
-            <Link href="/vs/channelAdvisor" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none', fontWeight: 500 }}>Palvento vs ChannelAdvisor →</Link>
+            <Link href="/vs/channelAdvisor" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none', fontWeight: 500 }}>Palvento vs ChannelAdvisor →</Link>
           </div>
         </div>
       </div>
@@ -187,10 +187,10 @@ export default function EbayIntegrationPage() {
       </div>
 
       {/* CTA */}
-      <div style={{ background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', padding: '80px 48px', textAlign: 'center' }}>
+      <div style={{ background: 'linear-gradient(135deg, #e8863f, #e8863f)', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Start selling smarter on eBay</h2>
         <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.75)', marginBottom: '32px' }}>14 days free. Connect your eBay store in 60 seconds.</p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: 'white', color: '#5b52f5', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Get started free →</Link>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: 'white', color: '#e8863f', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Get started free →</Link>
       </div>
 
       <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

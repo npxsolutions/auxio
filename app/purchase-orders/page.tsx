@@ -24,7 +24,7 @@ interface POItem { sku: string; description: string; quantity_ordered: number; u
 interface Supplier { id: string; name: string; lead_time_days: number }
 
 const STATUS_STYLE: Record<string, { bg: string; color: string; label: string }> = {
-  draft:               { bg: '#f5f3ef', color: '#6b6e87', label: 'Draft' },
+  draft:               { bg: '#f8f4ec', color: '#6b6e87', label: 'Draft' },
   sent:                { bg: '#eff6ff', color: '#2563eb', label: 'Sent' },
   confirmed:           { bg: '#fffbeb', color: '#d97706', label: 'Confirmed' },
   partially_received:  { bg: '#f0fdf4', color: '#15803d', label: 'Part. received' },
@@ -144,7 +144,7 @@ export default function PurchaseOrdersPage() {
   const inputStyle: React.CSSProperties = { padding: '7px 9px', border: '1px solid #e8e8e5', borderRadius: 7, fontSize: 12, fontFamily: 'inherit', outline: 'none', color: '#1a1b22' }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       {toast && (
@@ -179,7 +179,7 @@ export default function PurchaseOrdersPage() {
             <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 10 }}>Line items</div>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, marginBottom: 10 }}>
               <thead>
-                <tr style={{ background: '#f5f3ef' }}>
+                <tr style={{ background: '#f8f4ec' }}>
                   {['SKU', 'Description', 'Qty', 'Unit cost', 'Line total', ''].map(h => (
                     <th key={h} style={{ padding: '6px 8px', textAlign: 'left', fontSize: 10, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
                   ))}
@@ -202,10 +202,10 @@ export default function PurchaseOrdersPage() {
                 ))}
               </tbody>
             </table>
-            <button onClick={addItem} style={{ fontSize: 12, color: '#5b52f5', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600, marginBottom: 18 }}>+ Add line item</button>
+            <button onClick={addItem} style={{ fontSize: 12, color: '#e8863f', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600, marginBottom: 18 }}>+ Add line item</button>
 
             {/* Totals */}
-            <div style={{ background: '#f5f3ef', borderRadius: 8, padding: '12px 16px', marginBottom: 18, display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', fontSize: 13 }}>
+            <div style={{ background: '#f8f4ec', borderRadius: 8, padding: '12px 16px', marginBottom: 18, display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', fontSize: 13 }}>
               <div style={{ color: '#6b6e87' }}>Subtotal: <strong style={{ color: '#1a1b22' }}>{fmtGBP(subtotal)}</strong></div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6b6e87' }}>
                 Shipping:
@@ -226,7 +226,7 @@ export default function PurchaseOrdersPage() {
 
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button onClick={() => setModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e8e8e5', background: 'white', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={createPO} disabled={saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 0.6 : 1 }}>
+              <button onClick={createPO} disabled={saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 0.6 : 1 }}>
                 {saving ? 'Creating…' : 'Create PO'}
               </button>
             </div>
@@ -240,7 +240,7 @@ export default function PurchaseOrdersPage() {
             <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1b22', margin: 0, letterSpacing: '-0.02em' }}>Purchase Orders</h1>
             <p style={{ fontSize: 13, color: '#6b6e87', margin: '4px 0 0' }}>Track supplier orders and stock replenishment</p>
           </div>
-          <button onClick={() => setModal(true)} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button onClick={() => setModal(true)} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
             + New PO
           </button>
         </div>
@@ -265,8 +265,8 @@ export default function PurchaseOrdersPage() {
           {['all', 'draft', 'sent', 'confirmed', 'partially_received', 'received', 'cancelled'].map(s => (
             <button key={s} onClick={() => setStatusFilter(s)} style={{
               padding: '6px 12px', borderRadius: 8, border: '1px solid',
-              borderColor: statusFilter === s ? '#5b52f5' : '#e8e5df',
-              background: statusFilter === s ? '#5b52f5' : 'white',
+              borderColor: statusFilter === s ? '#e8863f' : '#e8e5df',
+              background: statusFilter === s ? '#e8863f' : 'white',
               color: statusFilter === s ? 'white' : '#6b6e87',
               fontSize: 12, fontWeight: statusFilter === s ? 600 : 400, cursor: 'pointer', fontFamily: 'inherit',
             }}>
@@ -280,7 +280,7 @@ export default function PurchaseOrdersPage() {
         ) : filtered.length === 0 ? (
           <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: 48, textAlign: 'center' }}>
             <div style={{ fontSize: 14, color: '#6b6e87', marginBottom: 12 }}>{orders.length === 0 ? 'No purchase orders yet' : 'No orders in this status'}</div>
-            {orders.length === 0 && <button onClick={() => setModal(true)} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Create first PO</button>}
+            {orders.length === 0 && <button onClick={() => setModal(true)} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Create first PO</button>}
           </div>
         ) : (
           <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, overflow: 'hidden' }}>

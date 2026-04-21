@@ -86,7 +86,7 @@ const STRATEGY_DESCRIPTIONS: Record<Strategy, string> = {
 }
 
 const CHANNEL_COLORS: Record<Channel, { bg: string; color: string; border: string }> = {
-  'All Channels': { bg: '#f0effd', color: '#5b52f5', border: '#c7c3fb' },
+  'All Channels': { bg: '#f0effd', color: '#e8863f', border: '#c7c3fb' },
   'eBay':         { bg: '#fff3f3', color: '#c0392b', border: '#fecaca' },
   'Amazon':       { bg: '#fffbf0', color: '#b45309', border: '#fde68a' },
   'Shopify':      { bg: '#f0fdf4', color: '#15803d', border: '#a7f3d0' },
@@ -289,7 +289,7 @@ export default function RepricingPage() {
   const totalAffected = rules.reduce((s, r) => s + r.listingsAffected, 0)
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
       <TourTrigger tourId="repricing" userId={tourUserId} />
 
@@ -342,7 +342,7 @@ export default function RepricingPage() {
               onClick={handleRunNow}
               disabled={running}
               style={{
-                background: running ? '#8a84f8' : '#5b52f5', color: 'white',
+                background: running ? '#8a84f8' : '#e8863f', color: 'white',
                 border: 'none', borderRadius: 8, padding: '8px 16px',
                 fontSize: 13, fontWeight: 600, cursor: running ? 'not-allowed' : 'pointer',
                 display: 'flex', alignItems: 'center', gap: 8,
@@ -428,7 +428,7 @@ export default function RepricingPage() {
                       title={rule.status === 'active' ? 'Pause rule' : 'Activate rule'}
                       style={{
                         width: 36, height: 20, borderRadius: 10,
-                        background: rule.status === 'active' ? '#5b52f5' : '#e5e7eb',
+                        background: rule.status === 'active' ? '#e8863f' : '#e5e7eb',
                         border: 'none', cursor: 'pointer', padding: 0,
                         position: 'relative', flexShrink: 0, marginTop: 2,
                         transition: 'background 0.2s',
@@ -483,7 +483,7 @@ export default function RepricingPage() {
                           style={{
                             background: 'transparent', border: '1px solid #e8e5df',
                             borderRadius: 6, padding: '4px 10px', fontSize: 12,
-                            color: '#5b52f5', cursor: 'pointer', fontWeight: 500,
+                            color: '#e8863f', cursor: 'pointer', fontWeight: 500,
                           }}>
                           Run now
                         </button>
@@ -564,7 +564,7 @@ export default function RepricingPage() {
                     <label key={s} style={{
                       display: 'flex', gap: 10, cursor: 'pointer',
                       padding: '10px 12px', borderRadius: 8,
-                      border: `1px solid ${newStrategy === s ? '#5b52f5' : '#e8e5df'}`,
+                      border: `1px solid ${newStrategy === s ? '#e8863f' : '#e8e5df'}`,
                       background: newStrategy === s ? '#f0effd' : 'white',
                     }}>
                       <input
@@ -573,7 +573,7 @@ export default function RepricingPage() {
                         value={s}
                         checked={newStrategy === s}
                         onChange={() => setNewStrategy(s)}
-                        style={{ marginTop: 1, accentColor: '#5b52f5' }}
+                        style={{ marginTop: 1, accentColor: '#e8863f' }}
                       />
                       <div>
                         <div style={{ fontSize: 12, fontWeight: 600, color: '#1a1b22' }}>{STRATEGY_LABELS[s]}</div>
@@ -634,7 +634,7 @@ export default function RepricingPage() {
                   onClick={() => setNewActive(p => !p)}
                   style={{
                     width: 40, height: 22, borderRadius: 11,
-                    background: newActive ? '#5b52f5' : '#e5e7eb',
+                    background: newActive ? '#e8863f' : '#e5e7eb',
                     border: 'none', cursor: 'pointer', padding: 0,
                     position: 'relative', flexShrink: 0,
                     transition: 'background 0.2s',
@@ -656,7 +656,7 @@ export default function RepricingPage() {
                 disabled={!newRuleName.trim() || saving}
                 style={{
                   width: '100%',
-                  background: newRuleName.trim() && !saving ? '#5b52f5' : '#c7c3fb',
+                  background: newRuleName.trim() && !saving ? '#e8863f' : '#c7c3fb',
                   color: 'white', border: 'none', borderRadius: 8,
                   padding: '10px', fontSize: 13, fontWeight: 600,
                   cursor: newRuleName.trim() && !saving ? 'pointer' : 'not-allowed',

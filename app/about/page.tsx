@@ -48,12 +48,12 @@ export default function AboutPage() {
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
-            <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: n.href === '/about' ? '#5b52f5' : '#64748b', textDecoration: 'none', fontWeight: n.href === '/about' ? 500 : 400 }}>{n.label}</Link>
+            <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: n.href === '/about' ? '#e8863f' : '#64748b', textDecoration: 'none', fontWeight: n.href === '/about' ? 500 : 400 }}>{n.label}</Link>
           ))}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -64,7 +64,7 @@ export default function AboutPage() {
 
       {/* Hero */}
       <div style={{ paddingTop: '140px', paddingBottom: '80px', maxWidth: '800px', margin: '0 auto', padding: '140px 48px 80px' }}>
-        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(91,82,245,0.08)', border: '1px solid rgba(91,82,245,0.15)', fontSize: '12px', color: '#5b52f5', fontWeight: 600, marginBottom: '24px', letterSpacing: '0.02em' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '24px', letterSpacing: '0.02em' }}>
           OUR STORY
         </div>
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '28px', color: '#0f172a' }}>
@@ -110,9 +110,9 @@ export default function AboutPage() {
             <div style={{ position: 'absolute', left: '15px', top: '8px', bottom: '8px', width: '1px', background: '#e2e8f0' }} />
             {TIMELINE.map((t, i) => (
               <div key={i} style={{ display: 'flex', gap: '24px', marginBottom: '32px', paddingLeft: '8px' }}>
-                <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: i === TIMELINE.length - 1 ? '#5b52f5' : 'white', border: `2px solid ${i === TIMELINE.length - 1 ? '#5b52f5' : '#e2e8f0'}`, flexShrink: 0, marginTop: '2px', position: 'relative', zIndex: 1 }} />
+                <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: i === TIMELINE.length - 1 ? '#e8863f' : 'white', border: `2px solid ${i === TIMELINE.length - 1 ? '#e8863f' : '#e2e8f0'}`, flexShrink: 0, marginTop: '2px', position: 'relative', zIndex: 1 }} />
                 <div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>{t.date}</div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>{t.date}</div>
                   <div style={{ fontSize: '15px', color: '#374151', lineHeight: 1.6 }}>{t.event}</div>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export default function AboutPage() {
           We're opening to founding members now. 50 spots at up to 40% off — for people who want to grow with us and help shape the product.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(91,82,245,0.35)' }}>Claim founding rate →</Link>
+          <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,$1)' }}>Claim founding rate →</Link>
           <Link href="/contact" style={{ padding: '14px 28px', borderRadius: '10px', border: '1px solid #e2e8f0', color: '#374151', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>Get in touch</Link>
         </div>
       </div>

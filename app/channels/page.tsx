@@ -269,7 +269,7 @@ const CHANNELS: ChannelDef[] = [
   {
     id: 'squarespace', name: 'Squarespace', category: 'Store Platforms',
     description: 'Bridge your Squarespace Commerce store with all your sales channels.',
-    color: '#f5f3ef', accent: '#1a1b22', textColor: '#fff', status: 'soon',
+    color: '#f8f4ec', accent: '#1a1b22', textColor: '#fff', status: 'soon',
     logo: 'squarespace',
   },
 ]
@@ -386,7 +386,7 @@ function ChannelInitial({ name, accent }: { name: string; accent: string }) {
 const STATUS_META = {
   live:  { label: 'Live',         bg: '#ecfdf5', color: '#059669', border: '#a7f3d0' },
   beta:  { label: 'Beta',         bg: '#eff6ff', color: '#2563eb', border: '#bfdbfe' },
-  soon:  { label: 'Coming soon',  bg: '#f5f3ef', color: '#9496b0', border: '#e8e5df' },
+  soon:  { label: 'Coming soon',  bg: '#f8f4ec', color: '#9496b0', border: '#e8e5df' },
 }
 
 // ── Connection metadata ────────────────────────────────────────────────────────
@@ -641,13 +641,13 @@ export default function ChannelsPage() {
   const connectedChannelDefs = CHANNELS.filter(ch => connectedTypes.has(ch.id))
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'inherit' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f8f4ec', fontFamily: 'inherit' }}>
       <div style={{ fontSize: 14, color: '#6b6e87' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <TourTrigger tourId="channels" userId={tourUserId} />
 
@@ -727,7 +727,7 @@ export default function ChannelsPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {channels.map(ch => {
                 const def = CHANNELS.find(c => c.id === ch.type) || {
-                  name: ch.type, color: '#f5f3ef', accent: '#5b52f5', textColor: '#fff', logo: ch.type
+                  name: ch.type, color: '#f8f4ec', accent: '#e8863f', textColor: '#fff', logo: ch.type
                 } as any
                 const logo = <ChannelLogo id={def.logo || ch.type} size={22} />
                 return (
@@ -738,7 +738,7 @@ export default function ChannelsPage() {
                     boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                   }}>
                     <div style={{
-                      width: 38, height: 38, background: def.color || '#f5f3ef',
+                      width: 38, height: 38, background: def.color || '#f8f4ec',
                       border: '1px solid #e8e5df', borderRadius: 9,
                       display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                     }}>
@@ -817,10 +817,10 @@ export default function ChannelsPage() {
               onBlur={() => setFocusedInput(null)}
               style={{
                 width: '100%', padding: '9px 12px 9px 32px',
-                border: `1px solid ${focusedInput === 'search' ? '#5b52f5' : '#e8e5df'}`,
+                border: `1px solid ${focusedInput === 'search' ? '#e8863f' : '#e8e5df'}`,
                 borderRadius: 8, fontSize: 13, fontFamily: 'inherit',
                 color: '#1a1b22', outline: 'none', boxSizing: 'border-box',
-                boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(91,82,245,0.1)' : 'none',
+                boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
                 background: 'white',
               }}
             />
@@ -833,9 +833,9 @@ export default function ChannelsPage() {
                 style={{
                   padding: '7px 13px', borderRadius: 7, fontSize: 12, fontWeight: 500,
                   cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s',
-                  background: activeCategory === cat ? '#5b52f5' : 'white',
+                  background: activeCategory === cat ? '#e8863f' : 'white',
                   color: activeCategory === cat ? 'white' : '#6b6e87',
-                  border: activeCategory === cat ? '1px solid #5b52f5' : '1px solid #e8e5df',
+                  border: activeCategory === cat ? '1px solid #e8863f' : '1px solid #e8e5df',
                 }}
               >
                 {cat}
@@ -911,7 +911,7 @@ export default function ChannelsPage() {
                               <button
                                 onClick={() => handleConnect(ch)}
                                 style={{
-                                  background: 'white', color: '#5b52f5',
+                                  background: 'white', color: '#e8863f',
                                   border: '1px solid #c7c3fb', borderRadius: 7,
                                   padding: '8px 14px', fontSize: 12, fontWeight: 600,
                                   cursor: 'pointer', fontFamily: 'inherit', width: '100%',
@@ -924,7 +924,7 @@ export default function ChannelsPage() {
                               <button
                                 disabled
                                 style={{
-                                  background: '#f5f3ef', color: '#9496b0',
+                                  background: '#f8f4ec', color: '#9496b0',
                                   border: '1px solid #e8e5df', borderRadius: 7,
                                   padding: '8px 14px', fontSize: 12, fontWeight: 500,
                                   cursor: 'not-allowed', fontFamily: 'inherit', width: '100%',
@@ -942,10 +942,10 @@ export default function ChannelsPage() {
                         const meta = CHANNEL_META[ch.id]
                         const inputStyle = (key: string): React.CSSProperties => ({
                           width: '100%', padding: '8px 11px', marginBottom: 8,
-                          border: `1px solid ${focusedInput === key ? '#5b52f5' : '#e8e5df'}`,
+                          border: `1px solid ${focusedInput === key ? '#e8863f' : '#e8e5df'}`,
                           borderRadius: 7, fontSize: 13, fontFamily: 'inherit',
                           color: '#1a1b22', outline: 'none', boxSizing: 'border-box',
-                          boxShadow: focusedInput === key ? '0 0 0 3px rgba(91,82,245,0.1)' : 'none',
+                          boxShadow: focusedInput === key ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
                         })
 
                         return (
@@ -978,7 +978,7 @@ export default function ChannelsPage() {
                                       href={meta.devLink}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      style={{ marginLeft: 'auto', color: '#5b52f5', textDecoration: 'none', fontWeight: 600, fontSize: 11 }}
+                                      style={{ marginLeft: 'auto', color: '#e8863f', textDecoration: 'none', fontWeight: 600, fontSize: 11 }}
                                     >
                                       Developer docs →
                                     </a>
@@ -1085,7 +1085,7 @@ export default function ChannelsPage() {
                                   </div>
                                   <button
                                     onClick={() => requestBeta(ch.id, ch.name)}
-                                    style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 7, padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}
+                                    style={{ background: '#e8863f', color: 'white', border: 'none', borderRadius: 7, padding: '9px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}
                                   >
                                     Request access to {ch.name} →
                                   </button>
@@ -1107,7 +1107,7 @@ export default function ChannelsPage() {
         <div data-tour="channels-soon" style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid #e8e5df', textAlign: 'center' }}>
           <div style={{ fontSize: 12, color: '#9496b0' }}>
             Don't see a channel you need?{' '}
-            <span style={{ color: '#5b52f5', fontWeight: 500, cursor: 'pointer' }}>
+            <span style={{ color: '#e8863f', fontWeight: 500, cursor: 'pointer' }}>
               Request an integration →
             </span>
           </div>

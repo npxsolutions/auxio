@@ -94,7 +94,7 @@ const MOCK_GROUPS: ProductGroup[] = [
 function statusPill(status: string) {
   const map: Record<string, { bg: string; color: string; border: string }> = {
     published: { bg: '#ecfdf5', color: '#059669', border: '#a7f3d0' },
-    draft:     { bg: '#f5f3ef', color: '#9496b0', border: '#e8e5df' },
+    draft:     { bg: '#f8f4ec', color: '#9496b0', border: '#e8e5df' },
     failed:    { bg: '#fef2f2', color: '#dc2626', border: '#fecaca' },
   }
   const m = map[status] || map.draft
@@ -189,7 +189,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -217,7 +217,7 @@ export default function ProductsPage() {
             </div>
             <button
               onClick={() => setShowCreate(v => !v)}
-              style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8, padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ background: '#e8863f', color: 'white', border: 'none', borderRadius: 8, padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
             >
               + New Product Group
             </button>
@@ -226,7 +226,7 @@ export default function ProductsPage() {
           {/* KPIs */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
             {[
-              { label: 'Product Groups',    value: groups.length,    color: '#5b52f5' },
+              { label: 'Product Groups',    value: groups.length,    color: '#e8863f' },
               { label: 'Total Variants',    value: totalVariants,    color: '#2563eb' },
               { label: 'Published Variants',value: totalPublished,   color: '#059669' },
               { label: 'Out of Stock',      value: outOfStock,       color: outOfStock > 0 ? '#dc2626' : '#059669' },
@@ -263,7 +263,7 @@ export default function ProductsPage() {
                 <input value={newAttributes} onChange={e => setNewAttributes(e.target.value)} placeholder="Size, Colour" style={{ ...inputBase, maxWidth: 320 }} />
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={createGroup} style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                <button onClick={createGroup} style={{ background: '#e8863f', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
                   Create product group
                 </button>
                 <button onClick={() => setShowCreate(false)} style={{ background: 'white', color: '#6b6e87', border: '1px solid #e8e5df', borderRadius: 8, padding: '9px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -308,7 +308,7 @@ export default function ProductsPage() {
                     style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}
                   >
                     {/* Thumbnail placeholder */}
-                    <div style={{ width: 44, height: 44, background: '#f5f3ef', border: '1px solid #e8e5df', borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: 44, height: 44, background: '#f8f4ec', border: '1px solid #e8e5df', borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <svg width="16" height="16" viewBox="0 0 15 15" fill="none" stroke="#9496b0" strokeWidth="1.2">
                         <path d="M7.5 1.5L13 4.5v6L7.5 13.5 2 10.5v-6L7.5 1.5Z"/><path d="M7.5 13.5V7.5"/><path d="M13 4.5L7.5 7.5 2 4.5"/>
                       </svg>
@@ -318,7 +318,7 @@ export default function ProductsPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                         <span style={{ fontSize: 14, fontWeight: 700, color: '#1a1b22' }}>{group.title}</span>
                         {group.brand && <span style={{ fontSize: 11, color: '#9496b0' }}>{group.brand}</span>}
-                        <span style={{ fontSize: 11, color: '#9496b0', background: '#f5f3ef', border: '1px solid #e8e5df', padding: '1px 7px', borderRadius: 4 }}>{group.category}</span>
+                        <span style={{ fontSize: 11, color: '#9496b0', background: '#f8f4ec', border: '1px solid #e8e5df', padding: '1px 7px', borderRadius: 4 }}>{group.category}</span>
                       </div>
                       <div style={{ fontSize: 12, color: '#6b6e87', marginTop: 3, display: 'flex', gap: 14 }}>
                         <span>{group.variants.length} variants</span>
@@ -333,7 +333,7 @@ export default function ProductsPage() {
                       <span style={{ fontSize: 12, color: '#9496b0', fontFamily: 'monospace' }}>{totalQty} units</span>
                       <button
                         onClick={e => { e.stopPropagation(); router.push('/listings/new') }}
-                        style={{ fontSize: 11, padding: '4px 10px', background: 'white', color: '#5b52f5', border: '1px solid #c7c3fb', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
+                        style={{ fontSize: 11, padding: '4px 10px', background: 'white', color: '#e8863f', border: '1px solid #c7c3fb', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
                       >
                         + Add variant
                       </button>
@@ -362,7 +362,7 @@ export default function ProductsPage() {
                             </div>
                             <div style={{ display: 'flex', gap: 4, marginTop: 3 }}>
                               {Object.entries(v.attributes).map(([k, val]) => (
-                                <span key={k} style={{ fontSize: 10, color: '#6b6e87', background: '#f5f3ef', padding: '1px 6px', borderRadius: 3 }}>{k}: {val}</span>
+                                <span key={k} style={{ fontSize: 10, color: '#6b6e87', background: '#f8f4ec', padding: '1px 6px', borderRadius: 3 }}>{k}: {val}</span>
                               ))}
                             </div>
                           </div>
@@ -374,7 +374,7 @@ export default function ProductsPage() {
                           <div>
                             <button
                               onClick={() => router.push(`/listings`)}
-                              style={{ fontSize: 11, color: '#5b52f5', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, padding: 0 }}
+                              style={{ fontSize: 11, color: '#e8863f', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, padding: 0 }}
                             >
                               Edit →
                             </button>
@@ -389,7 +389,7 @@ export default function ProductsPage() {
                       <div style={{ fontSize: 13, color: '#6b6e87', marginBottom: 12 }}>No variants yet. Add the first variant for this product.</div>
                       <button
                         onClick={() => router.push('/listings/new')}
-                        style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+                        style={{ background: '#e8863f', color: 'white', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
                       >
                         + Add first variant
                       </button>

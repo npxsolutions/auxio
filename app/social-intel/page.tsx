@@ -309,8 +309,8 @@ export default function SocialIntelPage() {
             disabled={!keyword.trim()}
             style={{
               padding: '10px 20px', borderRadius: '8px',
-              background: 'rgba(91,82,245,0.15)',
-              border: '1px solid rgba(91,82,245,0.3)',
+              background: 'rgba(232,134,63,$1)',
+              border: '1px solid rgba(232,134,63,$1)',
               color: '#a89ef8', fontSize: '13px', fontWeight: 500,
               cursor: keyword.trim() ? 'pointer' : 'not-allowed',
               opacity: keyword.trim() ? 1 : 0.4,
@@ -323,7 +323,7 @@ export default function SocialIntelPage() {
             disabled={ingesting || !keyword.trim()}
             style={{
               padding: '10px 20px', borderRadius: '8px',
-              background: ingesting ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, #5b52f5, #7c6af7)',
+              background: ingesting ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, #e8863f, #e8863f)',
               border: 'none',
               color: ingesting ? 'rgba(255,255,255,0.4)' : 'white',
               fontSize: '13px', fontWeight: 500,
@@ -381,7 +381,7 @@ export default function SocialIntelPage() {
                     color: tab === t.id ? '#f0f0f8' : 'rgba(255,255,255,0.4)',
                     fontSize: '13px', fontWeight: tab === t.id ? 500 : 400,
                     cursor: 'pointer',
-                    borderBottom: tab === t.id ? '2px solid #5b52f5' : '2px solid transparent',
+                    borderBottom: tab === t.id ? '2px solid #e8863f' : '2px solid transparent',
                     marginBottom: '-1px',
                     transition: 'color 0.15s',
                   }}
@@ -430,7 +430,7 @@ export default function SocialIntelPage() {
                           label={p.charAt(0).toUpperCase() + p.slice(1)}
                           value={count}
                           max={Math.max(...Object.values(overview.platform_breakdown))}
-                          color={PLATFORM_COLORS[p] || '#5b52f5'}
+                          color={PLATFORM_COLORS[p] || '#e8863f'}
                           sub={`${count} posts`}
                         />
                       ))}
@@ -570,7 +570,7 @@ export default function SocialIntelPage() {
                               </span>
                               <span style={{
                                 fontSize: '11px', padding: '2px 8px', borderRadius: '4px',
-                                background: `${PLATFORM_COLORS[p.platform] || '#5b52f5'}20`,
+                                background: `${PLATFORM_COLORS[p.platform] || '#e8863f'}20`,
                                 color: PLATFORM_COLORS[p.platform] || '#a89ef8',
                                 fontWeight: 500,
                               }}>
@@ -593,7 +593,7 @@ export default function SocialIntelPage() {
                             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>{fmt(p.views || 0, 0)} views</div>
                             {p.url && (
                               <a href={p.url} target="_blank" rel="noopener noreferrer" style={{
-                                fontSize: '11px', color: '#5b52f5', textDecoration: 'none',
+                                fontSize: '11px', color: '#e8863f', textDecoration: 'none',
                                 marginTop: '4px', display: 'block',
                               }}>
                                 View →
@@ -627,7 +627,7 @@ export default function SocialIntelPage() {
                         label={f.format.replace(/_/g, ' ')}
                         value={f.avg_engagement}
                         max={contentData.format_performance[0].avg_engagement}
-                        color={['#5b52f5','#7c6af7','#a78bfa','#60a5fa','#34d399'][i % 5]}
+                        color={['#e8863f','#e8863f','#a78bfa','#60a5fa','#34d399'][i % 5]}
                         sub={`${pct(f.avg_engagement)} · ${f.count} posts`}
                       />
                     ))
@@ -672,7 +672,7 @@ export default function SocialIntelPage() {
                         border: '1px solid rgba(255,255,255,0.06)',
                         borderRadius: '8px', padding: '14px 8px',
                       }}>
-                        <div style={{ fontSize: '18px', fontWeight: 700, color: ['#5b52f5','#7c6af7','#34d399','#fbbf24','#f87171'][i], marginBottom: '4px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 700, color: ['#e8863f','#e8863f','#34d399','#fbbf24','#f87171'][i], marginBottom: '4px' }}>
                           {pct(d.avg_engagement)}
                         </div>
                         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', marginBottom: '2px' }}>{d.range}</div>
@@ -748,7 +748,7 @@ export default function SocialIntelPage() {
                                 label={k.replace('_', ' ')}
                                 value={v}
                                 max={Math.max(...Object.values(data))}
-                                color={['#5b52f5','#34d399','#fbbf24','#f87171','#60a5fa','#a78bfa'][i % 6]}
+                                color={['#e8863f','#34d399','#fbbf24','#f87171','#60a5fa','#a78bfa'][i % 6]}
                                 sub={`${v}`}
                               />
                             ))}
@@ -779,7 +779,7 @@ export default function SocialIntelPage() {
                       }}>
                         <div style={{
                           width: '32px', height: '32px', flexShrink: 0,
-                          background: ['rgba(91,82,245,0.2)','rgba(52,211,153,0.2)','rgba(251,191,36,0.2)','rgba(248,113,113,0.2)','rgba(96,165,250,0.2)'][i % 5],
+                          background: ['rgba(232,134,63,$1)','rgba(52,211,153,0.2)','rgba(251,191,36,0.2)','rgba(248,113,113,0.2)','rgba(96,165,250,0.2)'][i % 5],
                           borderRadius: '8px',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           fontSize: '14px',
@@ -791,7 +791,7 @@ export default function SocialIntelPage() {
                             <span style={{
                               fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em',
                               padding: '2px 8px', borderRadius: '4px',
-                              background: 'rgba(91,82,245,0.15)', color: '#a89ef8',
+                              background: 'rgba(232,134,63,$1)', color: '#a89ef8',
                             }}>
                               {r.type}
                             </span>
@@ -807,7 +807,7 @@ export default function SocialIntelPage() {
                               fontSize: '12px', color: 'rgba(255,255,255,0.55)',
                               background: 'rgba(255,255,255,0.04)',
                               padding: '8px 12px', borderRadius: '6px',
-                              borderLeft: '3px solid #5b52f5',
+                              borderLeft: '3px solid #e8863f',
                               fontStyle: 'italic',
                             }}>
                               {r.example}
@@ -843,7 +843,7 @@ export default function SocialIntelPage() {
         @keyframes spin { to { transform: rotate(360deg); } }
         * { box-sizing: border-box; }
         input::placeholder { color: rgba(255,255,255,0.2); }
-        input:focus { border-color: rgba(91,82,245,0.5) !important; }
+        input:focus { border-color: rgba(232,134,63,$1) !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }

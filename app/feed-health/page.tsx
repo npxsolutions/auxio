@@ -127,9 +127,9 @@ type PatternData = {
 
 // ── Styles ──
 
-const CREAM = '#f5f3ef'
+const CREAM = '#f8f4ec'
 const INK = '#0b0f1a'
-const COBALT = '#1d5fdb'
+const COBALT = '#e8863f'
 const EMERALD = '#059669'
 const AMBER = '#d97706'
 const OXBLOOD = '#dc2626'

@@ -5,20 +5,24 @@
    ───────────────────────────────────────────────────────────────────────────── */
 import React from 'react'
 
-/* ── Palette ── */
+/* ── Palette ── Ramp-style warm cream + orange (2026-04-21 pivot) ─────────
+ * Single-accent brand. Variable name `cobalt` retained for backward compat
+ * with existing importers; value is now a warm burnished orange.
+ */
 export const P = {
-  bg:         '#f3f0ea',
-  surface:    '#ffffff',
-  raised:     '#ebe6dc',
-  ink:        '#0b0f1a',
-  inkSoft:    '#1c2233',
+  bg:         '#f8f4ec',   // warm cream page bg
+  surface:    '#ffffff',   // pure white cards
+  raised:     '#fdfaf2',   // elevated warm-white
+  ink:        '#0b0f1a',   // near-black text
+  inkSoft:    '#1c2233',   // darker text variant
   rule:       'rgba(11,15,26,0.10)',
   ruleSoft:   'rgba(11,15,26,0.06)',
   muted:      '#5a6171',
   mutedDk:    '#2c3142',
-  cobalt:     '#1d5fdb',
-  cobaltDk:   '#1647a8',
-  cobaltSft:  'rgba(29,95,219,0.10)',
+  cobalt:     '#e8863f',   // accent — warm burnished orange (was #1d5fdb)
+  cobaltDk:   '#c46f2a',   // darker orange for hover states
+  cobaltSft:  'rgba(232,134,63,0.12)',
+  cobaltGlow: 'rgba(232,134,63,0.35)',
   emerald:    '#0e7c5a',
   emeraldSft: 'rgba(14,124,90,0.10)',
   oxblood:    '#7d2a1a',
@@ -60,32 +64,143 @@ export const NUMBER: React.CSSProperties = {
   fontVariantNumeric: 'tabular-nums',
 }
 
-/* ── Primary button: ink bg + cream text ── */
+/* ── Primary button — orange accent fill, white text, glow + inset highlight.
+ * Ramp / Mercury / Stripe-level treatment: tight padding, 8px radius, medium
+ * weight, tight letter-spacing, accent-glow shadow, contact shadow for depth,
+ * subtle top highlight. Use the <Button> component for hover + active + focus
+ * states; the style object is for plain anchors / links that can't use it.
+ */
 export const BTN_PRIMARY: React.CSSProperties = {
-  background: P.ink,
-  color: P.bg,
+  background: P.cobalt,
+  color: '#ffffff',
   border: 'none',
-  borderRadius: '2px',
-  padding: '8px 16px',
-  fontSize: '12px',
-  fontWeight: 600,
+  borderRadius: '8px',
+  padding: '11px 20px',
+  fontSize: '14px',
+  fontWeight: 500,
   cursor: 'pointer',
   fontFamily: 'inherit',
-  letterSpacing: '0.02em',
+  letterSpacing: '-0.005em',
+  boxShadow: `inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 2px rgba(11,15,26,0.08), 0 6px 18px -6px ${P.cobaltGlow}`,
+  textDecoration: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  transition: 'transform 140ms cubic-bezier(.2,.7,.2,1), background 140ms, box-shadow 140ms',
 }
 
-/* ── Secondary button: transparent + rule border ── */
+/* ── Secondary button — white surface, thin border, subtle contact shadow. */
 export const BTN_SECONDARY: React.CSSProperties = {
-  background: 'transparent',
+  background: P.surface,
   color: P.ink,
-  border: `1px solid ${P.rule}`,
-  borderRadius: '2px',
-  padding: '8px 16px',
-  fontSize: '12px',
-  fontWeight: 600,
+  border: `1px solid rgba(11,15,26,0.14)`,
+  borderRadius: '8px',
+  padding: '11px 20px',
+  fontSize: '14px',
+  fontWeight: 500,
   cursor: 'pointer',
   fontFamily: 'inherit',
-  letterSpacing: '0.02em',
+  letterSpacing: '-0.005em',
+  boxShadow: '0 1px 2px rgba(11,15,26,0.05)',
+  textDecoration: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  transition: 'background 140ms, border-color 140ms, box-shadow 140ms',
+}
+
+/* ── Dark button — ink fill, cream text. Used for "Start free" nav-slot where
+ * a strong visual anchor matters but orange would over-compete with the hero. */
+export const BTN_DARK: React.CSSProperties = {
+  ...BTN_PRIMARY,
+  background: P.ink,
+  color: P.bg,
+  boxShadow: `inset 0 1px 0 rgba(255,255,255,0.10), 0 1px 2px rgba(11,15,26,0.15), 0 6px 18px -8px rgba(11,15,26,0.22)`,
+}
+
+/* ── Tertiary — text-only with a chevron. */
+export const BTN_TEXT: React.CSSProperties = {
+  background: 'transparent',
+  color: P.ink,
+  border: 'none',
+  padding: '8px 4px',
+  fontSize: '14px',
+  fontWeight: 500,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  letterSpacing: '-0.005em',
+  textDecoration: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+}
+
+/* ── <Button> — React component variant of the above. Handles hover, active,
+ * and focus-visible states automatically. Use this for any new button. */
+export type ButtonProps = {
+  variant?: 'primary' | 'secondary' | 'dark' | 'text'
+  href?: string
+  onClick?: () => void
+  disabled?: boolean
+  children: React.ReactNode
+  style?: React.CSSProperties
+  type?: 'button' | 'submit' | 'reset'
+  arrow?: boolean
+}
+
+export function Button({ variant = 'primary', href, onClick, disabled, children, style, type = 'button', arrow }: ButtonProps) {
+  const [hover, setHover] = React.useState(false)
+  const [active, setActive] = React.useState(false)
+
+  const base =
+    variant === 'secondary' ? BTN_SECONDARY :
+    variant === 'dark'      ? BTN_DARK      :
+    variant === 'text'      ? BTN_TEXT      :
+                              BTN_PRIMARY
+
+  const resolved: React.CSSProperties = {
+    ...base,
+    ...(hover && !disabled && variant === 'primary' ? {
+      background: P.cobaltDk,
+      boxShadow: `inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 4px rgba(11,15,26,0.10), 0 10px 28px -8px ${P.cobaltGlow}`,
+      transform: 'translateY(-1px)',
+    } : {}),
+    ...(hover && !disabled && variant === 'secondary' ? {
+      background: P.raised,
+      borderColor: 'rgba(11,15,26,0.28)',
+      boxShadow: '0 1px 3px rgba(11,15,26,0.08)',
+    } : {}),
+    ...(hover && !disabled && variant === 'dark' ? {
+      background: P.inkSoft,
+      transform: 'translateY(-1px)',
+    } : {}),
+    ...(active && !disabled ? { transform: 'translateY(0) scale(0.985)' } : {}),
+    ...(disabled ? { opacity: 0.55, cursor: 'not-allowed', transform: 'none' } : {}),
+    ...style,
+  }
+
+  const content = (
+    <>
+      {children}
+      {arrow && <span style={{ fontFamily: 'var(--font-mono), monospace', opacity: 0.85 }}>→</span>}
+    </>
+  )
+
+  const handlers = {
+    onMouseEnter: () => !disabled && setHover(true),
+    onMouseLeave: () => { setHover(false); setActive(false) },
+    onMouseDown: () => !disabled && setActive(true),
+    onMouseUp: () => setActive(false),
+  }
+
+  if (href && !disabled) {
+    return <a href={href} style={resolved} {...handlers}>{content}</a>
+  }
+  return (
+    <button type={type} disabled={disabled} onClick={onClick} style={resolved} {...handlers}>
+      {content}
+    </button>
+  )
 }
 
 /* ── Section header: cobalt tag ── */

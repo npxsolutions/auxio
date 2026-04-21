@@ -142,13 +142,13 @@ export default function InventoryPage() {
   )
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f3ef', fontFamily: 'inherit' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f8f4ec', fontFamily: 'inherit' }}>
       <div style={{ fontSize: 14, color: '#6b6e87' }}>Loading...</div>
     </div>
   )
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -184,14 +184,14 @@ export default function InventoryPage() {
                 placeholder="Search SKU or title…"
                 style={{
                   padding: '9px 12px',
-                  border: `1px solid ${focusedInput === 'search' ? '#5b52f5' : '#e8e5df'}`,
+                  border: `1px solid ${focusedInput === 'search' ? '#e8863f' : '#e8e5df'}`,
                   borderRadius: 8,
                   fontSize: 13,
                   fontFamily: 'inherit',
                   color: '#1a1b22',
                   outline: 'none',
                   width: 200,
-                  boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                  boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
                   transition: 'border-color 0.15s, box-shadow 0.15s',
                 }}
                 onFocus={() => setFocusedInput('search')}
@@ -215,11 +215,11 @@ export default function InventoryPage() {
 
           {items.length === 0 ? (
             <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: '56px 24px', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <div style={{ width: 56, height: 56, background: '#f5f3ef', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>📦</div>
+              <div style={{ width: 56, height: 56, background: '#f8f4ec', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>📦</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1b22', marginBottom: 6 }}>No inventory yet</div>
               <div style={{ fontSize: 13, color: '#6b6e87', marginBottom: 24 }}>Import a CSV or sync a channel to populate your inventory.</div>
               <button onClick={() => fileRef.current?.click()} style={{
-                background: '#5b52f5', color: 'white', border: 'none',
+                background: '#e8863f', color: 'white', border: 'none',
                 borderRadius: 8, padding: '10px 20px',
                 fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
               }}>
@@ -258,8 +258,8 @@ export default function InventoryPage() {
                             style={{
                               ...inputStyle,
                               width: 64,
-                              border: `1px solid ${focusedInput === `${item.id}-stock` ? '#5b52f5' : '#e8e5df'}`,
-                              boxShadow: focusedInput === `${item.id}-stock` ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                              border: `1px solid ${focusedInput === `${item.id}-stock` ? '#e8863f' : '#e8e5df'}`,
+                              boxShadow: focusedInput === `${item.id}-stock` ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
                             }}
                           />
                         </td>
@@ -275,8 +275,8 @@ export default function InventoryPage() {
                               style={{
                                 ...inputStyle,
                                 width: 52,
-                                border: `1px solid ${focusedInput === `${item.id}-lead` ? '#5b52f5' : '#e8e5df'}`,
-                                boxShadow: focusedInput === `${item.id}-lead` ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                                border: `1px solid ${focusedInput === `${item.id}-lead` ? '#e8863f' : '#e8e5df'}`,
+                                boxShadow: focusedInput === `${item.id}-lead` ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
                               }}
                             />
                             <span style={{ fontSize: 11, color: '#9496b0' }}>d</span>
@@ -294,8 +294,8 @@ export default function InventoryPage() {
                               style={{
                                 ...inputStyle,
                                 width: 52,
-                                border: `1px solid ${focusedInput === `${item.id}-safety` ? '#5b52f5' : '#e8e5df'}`,
-                                boxShadow: focusedInput === `${item.id}-safety` ? '0 0 0 3px rgba(91,82,245,0.12)' : 'none',
+                                border: `1px solid ${focusedInput === `${item.id}-safety` ? '#e8863f' : '#e8e5df'}`,
+                                boxShadow: focusedInput === `${item.id}-safety` ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
                               }}
                             />
                             <span style={{ fontSize: 11, color: '#9496b0' }}>d</span>
@@ -322,7 +322,7 @@ export default function InventoryPage() {
                               onClick={() => saveRow(item)}
                               disabled={saving === item.id}
                               style={{
-                                background: '#5b52f5', color: 'white',
+                                background: '#e8863f', color: 'white',
                                 border: 'none', borderRadius: 6,
                                 padding: '5px 12px',
                                 fontSize: 11, fontWeight: 600,

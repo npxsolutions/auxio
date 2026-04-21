@@ -49,7 +49,7 @@ export function UsageCard() {
         </div>
         {m.included !== null && (
           <div style={{ height: 6, background: 'rgba(11,15,26,0.08)', borderRadius: 3, overflow: 'hidden' }}>
-            <div style={{ width: `${pct}%`, height: '100%', background: hot ? '#b4321f' : '#1d5fdb', transition: 'width 200ms' }} />
+            <div style={{ width: `${pct}%`, height: '100%', background: hot ? '#b4321f' : '#e8863f', transition: 'width 200ms' }} />
           </div>
         )}
         {m.overage > 0 && (

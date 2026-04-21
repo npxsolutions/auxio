@@ -12,15 +12,15 @@ const display = Instrument_Serif({
 })
 
 const C = {
-  bg:        '#f3f0ea',
+  bg:        '#f8f4ec',
   surface:   '#ffffff',
-  raised:    '#ebe6dc',
+  raised:    '#fdfaf2',
   ink:       '#0b0f1a',
   inkSoft:   '#1c2233',
   rule:      'rgba(11,15,26,0.10)',
   ruleSoft:  'rgba(11,15,26,0.06)',
   muted:     '#5a6171',
-  cobalt:    '#1d5fdb',
+  cobalt:    '#e8863f',
 }
 
 const NAV = [
@@ -249,7 +249,7 @@ export default function DemoPage() {
 
       <style>{`
         input::placeholder, textarea::placeholder { color: #94a3b8; }
-        input:focus, textarea:focus, select:focus { border-color: ${C.cobalt} !important; box-shadow: 0 0 0 3px rgba(29,95,219,0.12); }
+        input:focus, textarea:focus, select:focus { border-color: ${C.cobalt} !important; box-shadow: 0 0 0 3px rgba(232,134,63,$1); }
       `}</style>
     </div>
   )

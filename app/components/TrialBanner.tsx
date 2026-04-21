@@ -7,7 +7,7 @@ import { createClient } from '../lib/supabase-client'
 
 const TAG = '[component:TrialBanner]'
 
-const COBALT = '#1d5fdb'
+const COBALT = '#e8863f'
 const INK = '#0b0f1a'
 const BORDER = '#e4dfd4'
 

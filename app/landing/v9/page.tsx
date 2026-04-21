@@ -102,6 +102,78 @@ function Counter({ to, prefix = '', suffix = '', decimals = 0 }: { to: number; p
   return <span ref={ref} style={{ fontVariantNumeric: 'tabular-nums' }}>{prefix}{formatted}{suffix}</span>
 }
 
+// ── Buttons — premium treatment with inset highlight, accent glow, hover lift,
+// active depression. Same pattern Ramp/Mercury/Stripe use. Hover + active
+// states handled inline so no component-scope re-renders.
+function PrimaryCta({ href, children, large = false }: { href: string; children: React.ReactNode; large?: boolean }) {
+  const [hover, setHover] = useState(false)
+  const [active, setActive] = useState(false)
+  const pad = large ? '15px 26px' : '12px 22px'
+  const fs  = large ? 15 : 14
+  return (
+    <Link href={href}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => { setHover(false); setActive(false) }}
+      onMouseDown={() => setActive(true)}
+      onMouseUp={() => setActive(false)}
+      style={{
+        background: hover ? '#c46f2a' : C.cobalt,
+        color: '#ffffff',
+        padding: pad,
+        fontSize: fs,
+        fontWeight: 500,
+        letterSpacing: '-0.005em',
+        borderRadius: 8,
+        border: 'none',
+        textDecoration: 'none',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        boxShadow: hover
+          ? `inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 4px rgba(11,15,26,0.10), 0 12px 30px -8px rgba(232,134,63,0.55)`
+          : `inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 2px rgba(11,15,26,0.08), 0 6px 18px -6px ${C.cobaltGlow}`,
+        transform: active ? 'translateY(0) scale(0.985)' : hover ? 'translateY(-1px)' : 'translateY(0)',
+        transition: 'transform 140ms cubic-bezier(.2,.7,.2,1), background 140ms, box-shadow 140ms',
+      }}
+    >
+      {children}
+      <span style={{ fontFamily: mono, opacity: 0.9 }}>→</span>
+    </Link>
+  )
+}
+
+function SecondaryCta({ href, children, large = false }: { href: string; children: React.ReactNode; large?: boolean }) {
+  const [hover, setHover] = useState(false)
+  const pad = large ? '15px 26px' : '12px 22px'
+  const fs  = large ? 15 : 14
+  return (
+    <Link href={href}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: hover ? C.inkRaised : C.inkSoft,
+        color: C.text,
+        padding: pad,
+        fontSize: fs,
+        fontWeight: 500,
+        letterSpacing: '-0.005em',
+        borderRadius: 8,
+        border: `1px solid ${hover ? 'rgba(11,15,26,0.28)' : 'rgba(11,15,26,0.14)'}`,
+        textDecoration: 'none',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        boxShadow: hover
+          ? '0 1px 3px rgba(11,15,26,0.08), 0 4px 12px -4px rgba(11,15,26,0.10)'
+          : '0 1px 2px rgba(11,15,26,0.05)',
+        transition: 'background 140ms, border-color 140ms, box-shadow 140ms',
+      }}
+    >
+      {children}
+    </Link>
+  )
+}
+
 // ── Nav ──────────────────────────────────────────────────────────────────────
 function Nav() {
   return (
@@ -124,7 +196,18 @@ function Nav() {
         </nav>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <Link href="/login" style={{ fontSize: 13, color: C.textMuted, textDecoration: 'none', padding: '8px 4px' }}>Sign in</Link>
-          <Link href="/signup" style={{ fontSize: 13, color: C.ink, background: C.text, padding: '9px 16px', textDecoration: 'none', fontWeight: 500, borderRadius: 6, letterSpacing: '0.01em' }}>
+          <Link href="/signup" style={{
+            fontSize: 13, color: '#ffffff',
+            background: C.cobalt,
+            padding: '9px 16px',
+            textDecoration: 'none', fontWeight: 500,
+            borderRadius: 6, letterSpacing: '-0.005em',
+            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(11,15,26,0.08), 0 4px 12px -4px ${C.cobaltGlow}`,
+            transition: 'background 140ms, box-shadow 140ms, transform 140ms',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#c46f2a'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = C.cobalt; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
+          >
             Start free
           </Link>
         </div>
@@ -164,14 +247,8 @@ function Hero() {
 
           {/* CTAs */}
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
-            <Link href="/signup" style={{ background: C.cobalt, color: C.text, padding: '14px 22px', textDecoration: 'none', fontSize: 14.5, fontWeight: 500, borderRadius: 8, letterSpacing: '0.01em', display: 'inline-flex', alignItems: 'center', gap: 8, boxShadow: `0 8px 24px -8px ${C.cobaltGlow}`, transition: 'transform 0.15s' }}
-                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'}
-                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'}>
-              Start free trial <span style={{ fontFamily: mono }}>→</span>
-            </Link>
-            <Link href="/enterprise" style={{ background: 'transparent', color: C.text, padding: '14px 22px', textDecoration: 'none', fontSize: 14.5, fontWeight: 500, border: `1px solid ${C.borderBright}`, borderRadius: 8, letterSpacing: '0.01em' }}>
-              Talk to sales
-            </Link>
+            <PrimaryCta href="/signup">Start free trial</PrimaryCta>
+            <SecondaryCta href="/enterprise">Talk to sales</SecondaryCta>
             <span style={{ fontFamily: mono, fontSize: 12, color: C.textFaint, letterSpacing: '0.04em', marginLeft: 8 }}>
               No card required · 14-day trial
             </span>
@@ -500,8 +577,8 @@ function BeforeAfterRow({ pair, index }: { pair: { before: string; after: string
   return (
     <div ref={r.ref} style={{ ...r.style, display: 'grid', gridTemplateColumns: '1fr 32px 1fr', gap: 0, alignItems: 'stretch' }} className="v9-ba-row">
       {/* Before */}
-      <div style={{ background: C.ink, border: `1px solid ${C.border}`, borderRight: 'none', borderRadius: '10px 0 0 10px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
-        <span style={{ width: 8, height: 8, borderRadius: 4, background: C.red, boxShadow: `0 0 10px rgba(248,113,113,0.5)`, flexShrink: 0 }} />
+      <div style={{ background: C.inkSoft, border: `1px solid ${C.border}`, borderRight: 'none', borderRadius: '10px 0 0 10px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <span style={{ width: 8, height: 8, borderRadius: 4, background: C.red, boxShadow: `0 0 10px rgba(179,39,24,0.35)`, flexShrink: 0 }} />
         <span style={{ fontFamily: sans, fontSize: 14.5, color: C.textMuted, lineHeight: 1.5 }}>{pair.before}</span>
       </div>
       {/* Arrow */}
@@ -509,7 +586,7 @@ function BeforeAfterRow({ pair, index }: { pair: { before: string; after: string
         →
       </div>
       {/* After */}
-      <div style={{ background: `linear-gradient(90deg, ${C.ink} 0%, ${C.cobaltSoft} 100%)`, border: `1px solid ${C.border}`, borderLeft: 'none', borderRadius: '0 10px 10px 0', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+      <div style={{ background: `linear-gradient(90deg, ${C.inkSoft} 0%, ${C.cobaltSoft} 100%)`, border: `1px solid ${C.border}`, borderLeft: 'none', borderRadius: '0 10px 10px 0', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
         <span style={{ width: 8, height: 8, borderRadius: 4, background: C.cobalt, boxShadow: `0 0 10px ${C.cobaltGlow}`, flexShrink: 0 }} />
         <span style={{ fontFamily: sans, fontSize: 14.5, color: C.text, lineHeight: 1.5, fontWeight: 500 }}>{pair.after}</span>
       </div>
@@ -657,12 +734,15 @@ function PriceCard({ t, index }: { t: { name: string; price: number; tag: string
   return (
     <div ref={r.ref} style={{
       ...r.style,
-      background: t.popular ? `linear-gradient(180deg, ${C.cobaltSoft} 0%, ${C.inkSoft} 60%)` : C.ink,
+      background: t.popular ? `linear-gradient(180deg, ${C.cobaltSoft} 0%, ${C.inkSoft} 55%)` : C.inkSoft,
       border: `1px solid ${t.popular ? 'rgba(232,134,63,0.45)' : C.border}`,
       borderRadius: 14,
       padding: '28px 24px',
       position: 'relative',
-      transition: 'transform 0.2s cubic-bezier(.2,.7,.2,1), border-color 0.2s',
+      boxShadow: t.popular
+        ? `0 1px 2px rgba(11,15,26,0.06), 0 12px 32px -12px rgba(232,134,63,0.30)`
+        : '0 1px 2px rgba(11,15,26,0.04), 0 4px 16px -6px rgba(11,15,26,0.06)',
+      transition: 'transform 0.2s cubic-bezier(.2,.7,.2,1), border-color 0.2s, box-shadow 0.2s',
     }}
     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)' }}
     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)' }}
@@ -681,21 +761,26 @@ function PriceCard({ t, index }: { t: { name: string; price: number; tag: string
 
       <Link href={t.cta === 'Talk to sales' ? '/enterprise' : '/signup'}
         style={{
-          display: 'block',
-          textAlign: 'center',
-          background: t.popular ? C.cobalt : 'transparent',
-          color: t.popular ? C.text : C.text,
-          border: t.popular ? 'none' : `1px solid ${C.borderBright}`,
-          padding: '11px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 6,
+          background: t.popular ? C.cobalt : C.inkSoft,
+          color: t.popular ? '#ffffff' : C.text,
+          border: t.popular ? 'none' : `1px solid rgba(11,15,26,0.14)`,
+          padding: '12px 16px',
           borderRadius: 8,
           textDecoration: 'none',
-          fontSize: 13.5,
+          fontSize: 14,
           fontWeight: 500,
           marginBottom: 20,
-          letterSpacing: '0.01em',
-          boxShadow: t.popular ? `0 8px 20px -8px ${C.cobaltGlow}` : 'none',
+          letterSpacing: '-0.005em',
+          boxShadow: t.popular
+            ? `inset 0 1px 0 rgba(255,255,255,0.20), 0 1px 2px rgba(11,15,26,0.08), 0 8px 22px -8px ${C.cobaltGlow}`
+            : '0 1px 2px rgba(11,15,26,0.05)',
+          transition: 'transform 140ms, background 140ms, box-shadow 140ms',
         }}
-      >{t.cta} →</Link>
+      >{t.cta} <span style={{ fontFamily: mono, opacity: 0.9 }}>→</span></Link>
 
       <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
         {t.features.map(f => (
@@ -730,12 +815,8 @@ function FinalCta() {
           Founding-partner pricing locked in for the first 10 Shopify operators. 40% off for life.
         </p>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/signup" style={{ background: C.cobalt, color: C.text, padding: '16px 28px', textDecoration: 'none', fontSize: 15, fontWeight: 500, borderRadius: 8, letterSpacing: '0.01em', boxShadow: `0 12px 32px -12px ${C.cobaltGlow}` }}>
-            Start free trial →
-          </Link>
-          <Link href="/enterprise" style={{ background: 'transparent', color: C.text, padding: '16px 28px', textDecoration: 'none', fontSize: 15, fontWeight: 500, border: `1px solid ${C.borderBright}`, borderRadius: 8, letterSpacing: '0.01em' }}>
-            Talk to sales
-          </Link>
+          <PrimaryCta href="/signup" large>Start free trial</PrimaryCta>
+          <SecondaryCta href="/enterprise" large>Talk to sales</SecondaryCta>
         </div>
       </div>
     </section>

@@ -30,7 +30,7 @@ const MOCK_BUFFERS: BufferRule[] = [
 ]
 
 const CHANNEL_META: Record<string, { label: string; color: string; bg: string }> = {
-  all:     { label: 'All Channels', color: '#5b52f5', bg: '#ede9fe' },
+  all:     { label: 'All Channels', color: '#e8863f', bg: '#ede9fe' },
   ebay:    { label: 'eBay',         color: '#b91c1c', bg: '#fee2e2' },
   amazon:  { label: 'Amazon',       color: '#b45309', bg: '#fef3c7' },
   shopify: { label: 'Shopify',      color: '#166534', bg: '#dcfce7' },
@@ -122,7 +122,7 @@ export default function InventoryBuffersPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'inherit', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -160,7 +160,7 @@ export default function InventoryBuffersPage() {
             </div>
             <button
               onClick={() => setShowAdd(v => !v)}
-              style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8, padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ background: '#e8863f', color: 'white', border: 'none', borderRadius: 8, padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
             >
               + Add Buffer Rule
             </button>
@@ -169,7 +169,7 @@ export default function InventoryBuffersPage() {
           {/* KPI cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
             {[
-              { label: 'Active Rules',       value: activeRules,                   sub: 'protecting stock',     color: '#5b52f5' },
+              { label: 'Active Rules',       value: activeRules,                   sub: 'protecting stock',     color: '#e8863f' },
               { label: 'Units Reserved',     value: totalReserved,                 sub: 'across all channels',  color: '#d97706' },
               { label: 'Available to Sell',  value: totalAts,                      sub: 'net of all buffers',   color: '#059669' },
               { label: 'Oversell Risk',      value: buffers.filter(b => !b.enabled && b.total_stock > 0).length, sub: 'rules paused', color: '#dc2626' },
@@ -231,7 +231,7 @@ export default function InventoryBuffersPage() {
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={addRule} style={{ background: '#5b52f5', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Save rule</button>
+                <button onClick={addRule} style={{ background: '#e8863f', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Save rule</button>
                 <button onClick={() => setShowAdd(false)} style={{ background: 'white', color: '#6b6e87', border: '1px solid #e8e5df', borderRadius: 8, padding: '9px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
               </div>
             </div>
@@ -291,7 +291,7 @@ export default function InventoryBuffersPage() {
                   <div>
                     <span style={{
                       fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100,
-                      background: rule.enabled ? '#ecfdf5' : '#f5f3ef',
+                      background: rule.enabled ? '#ecfdf5' : '#f8f4ec',
                       color: rule.enabled ? '#059669' : '#9496b0',
                       border: `1px solid ${rule.enabled ? '#a7f3d0' : '#e8e5df'}`,
                       textTransform: 'uppercase' as const, letterSpacing: '0.05em',
@@ -350,7 +350,7 @@ export default function InventoryBuffersPage() {
                     <span>Reserved (buffer)</span><span style={{ fontFamily: 'monospace', color: '#d97706', fontWeight: 600 }}>{c.reserved}</span>
                   </div>
                   <div style={{ height: 4, background: '#f0ede8', borderRadius: 2, marginBottom: 8 }}>
-                    <div style={{ height: '100%', width: `${(c.ats / c.total) * 100}%`, background: '#5b52f5', borderRadius: 2 }} />
+                    <div style={{ height: '100%', width: `${(c.ats / c.total) * 100}%`, background: '#e8863f', borderRadius: 2 }} />
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#6b6e87' }}>
                     <span>Available to sell</span><span style={{ fontFamily: 'monospace', color: '#059669', fontWeight: 700 }}>{c.ats}</span>

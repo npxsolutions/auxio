@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 const TAG = '[component:PageFeedback]'
 
 const INK = '#0b0f1a'
-const COBALT = '#1d5fdb'
+const COBALT = '#e8863f'
 const BORDER = '#e4dfd4'
 const MUTED = '#6a6558'
 
@@ -56,7 +56,7 @@ export function PageFeedback() {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
     width: 30, height: 30, borderRadius: 8,
     border: `1px solid ${active ? COBALT : BORDER}`,
-    background: active ? 'rgba(29,95,219,0.08)' : 'transparent',
+    background: active ? 'rgba(232,134,63,$1)' : 'transparent',
     color: active ? COBALT : INK,
     cursor: 'pointer', padding: 0,
     transition: 'color 0.12s, border-color 0.12s, background 0.12s',

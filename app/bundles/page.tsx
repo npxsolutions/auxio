@@ -99,7 +99,7 @@ export default function BundlesPage() {
   const inputStyle: React.CSSProperties = { padding: '8px 10px', border: '1px solid #e8e8e5', borderRadius: 7, fontSize: 12, fontFamily: 'inherit', outline: 'none', color: '#1a1b22' }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       {toast && <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#191919', color: 'white', padding: '12px 18px', borderRadius: 8, fontSize: 13, fontWeight: 500, zIndex: 300 }}>{toast}</div>}
@@ -132,7 +132,7 @@ export default function BundlesPage() {
             <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1b22', marginBottom: 10 }}>Component items</div>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, marginBottom: 8 }}>
               <thead>
-                <tr style={{ background: '#f5f3ef' }}>
+                <tr style={{ background: '#f8f4ec' }}>
                   {['SKU', 'Description', 'Qty', 'Unit cost', ''].map(h => (
                     <th key={h} style={{ padding: '6px 8px', textAlign: 'left', fontSize: 10, fontWeight: 700, color: '#9496b0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
                   ))}
@@ -150,10 +150,10 @@ export default function BundlesPage() {
                 ))}
               </tbody>
             </table>
-            <button onClick={() => setItems(p => [...p, { component_sku: '', title: '', quantity: 1, unit_cost: 0 }])} style={{ fontSize: 12, color: '#5b52f5', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0, marginBottom: 16 }}>+ Add component</button>
+            <button onClick={() => setItems(p => [...p, { component_sku: '', title: '', quantity: 1, unit_cost: 0 }])} style={{ fontSize: 12, color: '#e8863f', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0, marginBottom: 16 }}>+ Add component</button>
 
             {/* Margin preview */}
-            <div style={{ background: '#f5f3ef', borderRadius: 8, padding: '12px 14px', marginBottom: 20, fontSize: 12, display: 'flex', gap: 20 }}>
+            <div style={{ background: '#f8f4ec', borderRadius: 8, padding: '12px 14px', marginBottom: 20, fontSize: 12, display: 'flex', gap: 20 }}>
               <span style={{ color: '#6b6e87' }}>Total COGS: <strong style={{ color: '#1a1b22' }}>{fmtGBP(totalCost)}</strong></span>
               {price > 0 && <span style={{ color: '#6b6e87' }}>Sell price: <strong style={{ color: '#1a1b22' }}>{fmtGBP(price)}</strong></span>}
               {margin !== null && <span style={{ color: '#6b6e87' }}>Margin: <strong style={{ color: margin >= 20 ? '#059669' : margin >= 10 ? '#d97706' : '#dc2626' }}>{margin.toFixed(1)}%</strong></span>}
@@ -161,7 +161,7 @@ export default function BundlesPage() {
 
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button onClick={() => setModal(null)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e8e8e5', background: 'white', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={save} disabled={saving || !form.sku || !form.title} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: !form.sku || !form.title || saving ? 0.6 : 1 }}>
+              <button onClick={save} disabled={saving || !form.sku || !form.title} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: !form.sku || !form.title || saving ? 0.6 : 1 }}>
                 {saving ? 'Saving…' : modal === 'create' ? 'Create bundle' : 'Save changes'}
               </button>
             </div>
@@ -175,7 +175,7 @@ export default function BundlesPage() {
             <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1b22', margin: 0, letterSpacing: '-0.02em' }}>Bundles & Kitting</h1>
             <p style={{ fontSize: 13, color: '#6b6e87', margin: '4px 0 0' }}>Group component SKUs into sellable bundles with margin calculations</p>
           </div>
-          <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>+ Create bundle</button>
+          <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>+ Create bundle</button>
         </div>
 
         {/* Stats */}
@@ -197,7 +197,7 @@ export default function BundlesPage() {
         ) : bundles.length === 0 ? (
           <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: 48, textAlign: 'center' }}>
             <div style={{ fontSize: 14, color: '#6b6e87', marginBottom: 12 }}>No bundles yet — create your first kit or bundle set</div>
-            <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Create bundle</button>
+            <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Create bundle</button>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

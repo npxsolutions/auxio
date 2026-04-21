@@ -95,7 +95,7 @@ export default function NewListingPage() {
   const labelStyle = { fontSize: '12px', fontWeight: 600, color: '#191919', display: 'block', marginBottom: '5px' } as const
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
       <main style={{ marginLeft: '220px', flex: 1, padding: '32px 40px', minWidth: 0 }}>
       <div style={{ maxWidth: '680px' }}>

@@ -37,7 +37,7 @@ export default function AmazonIntegrationPage() {
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
           <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
@@ -113,10 +113,10 @@ export default function AmazonIntegrationPage() {
       </div>
 
       {/* CTA */}
-      <div style={{ background: 'linear-gradient(135deg, #5b52f5, #7c6af7)', padding: '80px 48px', textAlign: 'center' }}>
+      <div style={{ background: 'linear-gradient(135deg, #e8863f, #e8863f)', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Connect Amazon and eBay today</h2>
         <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.75)', marginBottom: '32px' }}>14 days free. No credit card. Cancel any time.</p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: 'white', color: '#5b52f5', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Get started free →</Link>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: 'white', color: '#e8863f', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Get started free →</Link>
       </div>
 
       <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

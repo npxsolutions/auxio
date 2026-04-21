@@ -15,13 +15,13 @@ export default function BlogPostPage() {
         <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
-          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
         </div>
       </nav>
 
       <article style={{ maxWidth: '760px', margin: '0 auto', padding: '64px 48px 96px' }}>
         <div style={{ marginBottom: '32px' }}>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Guide · 2026</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Guide · 2026</span>
           <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginTop: '12px', marginBottom: '20px' }}>
             The Best Linnworks Alternative for Global Sellers in 2026
           </h1>
@@ -77,8 +77,8 @@ export default function BlogPostPage() {
           <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Switch from Linnworks in a day</strong>
           <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>14-day free trial. No credit card. Live in under 10 minutes — not 40 days.</p>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
-            <Link href="/vs/linnworks" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: 'white', color: '#5b52f5', fontSize: '14px', fontWeight: 600, textDecoration: 'none', border: '1px solid #c4b5fd' }}>Full comparison →</Link>
+            <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#e8863f', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
+            <Link href="/vs/linnworks" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: 'white', color: '#e8863f', fontSize: '14px', fontWeight: 600, textDecoration: 'none', border: '1px solid #c4b5fd' }}>Full comparison →</Link>
           </div>
         </div>
       </article>

@@ -124,7 +124,7 @@ export default function LookupTablesPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f5f3ef', WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', minHeight: '100vh', background: '#f8f4ec', WebkitFontSmoothing: 'antialiased' }}>
       <AppSidebar />
 
       {toast && (
@@ -180,8 +180,8 @@ export default function LookupTablesPage() {
               tables.map((t, i) => (
                 <div key={t.id} onClick={() => selectTable(t)} style={{
                   padding: '12px 16px', cursor: 'pointer',
-                  background: selected?.id === t.id ? '#f5f3ef' : 'white',
-                  borderBottom: i < tables.length - 1 ? '1px solid #f5f3ef' : 'none',
+                  background: selected?.id === t.id ? '#f8f4ec' : 'white',
+                  borderBottom: i < tables.length - 1 ? '1px solid #f8f4ec' : 'none',
                   transition: 'background 0.1s',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -210,7 +210,7 @@ export default function LookupTablesPage() {
                   {selected.description && <div style={{ fontSize: 12, color: '#9b9b98', marginTop: 2 }}>{selected.description}</div>}
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button onClick={() => { setShowPaste(!showPaste); setShowAddRow(false) }} style={{ background: '#f5f3ef', color: '#191919', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif' }}>
+                  <button onClick={() => { setShowPaste(!showPaste); setShowAddRow(false) }} style={{ background: '#f8f4ec', color: '#191919', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif' }}>
                     Import (paste)
                   </button>
                   <button onClick={() => { setShowAddRow(!showAddRow); setShowPaste(false) }} style={{ background: '#191919', color: 'white', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, -apple-system, sans-serif' }}>
@@ -266,7 +266,7 @@ export default function LookupTablesPage() {
                   </div>
                   <div style={{ maxHeight: 480, overflowY: 'auto' }}>
                     {rows.map((row, i) => (
-                      <div key={row.id} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', borderBottom: i < rows.length - 1 ? '1px solid #f5f3ef' : 'none' }}>
+                      <div key={row.id} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', borderBottom: i < rows.length - 1 ? '1px solid #f8f4ec' : 'none' }}>
                         {editRow?.id === row.id ? (
                           <>
                             <div style={{ padding: '8px 12px' }}>

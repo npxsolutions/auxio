@@ -101,7 +101,7 @@ export default function ForecastingPage() {
     .filter(f => !search || f.sku.toLowerCase().includes(search.toLowerCase()) || f.title.toLowerCase().includes(search.toLowerCase()))
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       {toast && (
@@ -150,8 +150,8 @@ export default function ForecastingPage() {
             {(['all', 'critical', 'low', 'ok'] as const).map(r => (
               <button key={r} onClick={() => setRiskFilter(r)} style={{
                 padding: '6px 12px', borderRadius: 8, border: '1px solid',
-                borderColor: riskFilter === r ? '#5b52f5' : '#e8e5df',
-                background: riskFilter === r ? '#5b52f5' : 'white',
+                borderColor: riskFilter === r ? '#e8863f' : '#e8e5df',
+                background: riskFilter === r ? '#e8863f' : 'white',
                 color: riskFilter === r ? 'white' : '#6b6e87',
                 fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', fontWeight: riskFilter === r ? 600 : 400,
               }}>
@@ -213,7 +213,7 @@ export default function ForecastingPage() {
                           <button
                             onClick={() => createQuickPO(f)}
                             disabled={creatingPO === f.sku}
-                            style={{ padding: '5px 12px', borderRadius: 7, border: 'none', background: '#5b52f5', color: 'white', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: creatingPO === f.sku ? 0.6 : 1, whiteSpace: 'nowrap' }}
+                            style={{ padding: '5px 12px', borderRadius: 7, border: 'none', background: '#e8863f', color: 'white', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: creatingPO === f.sku ? 0.6 : 1, whiteSpace: 'nowrap' }}
                           >
                             {creatingPO === f.sku ? '…' : '+ Quick PO'}
                           </button>

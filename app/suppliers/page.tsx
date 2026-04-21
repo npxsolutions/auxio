@@ -104,7 +104,7 @@ export default function SuppliersPage() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f3ef', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f4ec', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <AppSidebar />
 
       {toast && (
@@ -166,7 +166,7 @@ export default function SuppliersPage() {
               <button onClick={() => setModal(null)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e8e8e5', background: 'white', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
                 Cancel
               </button>
-              <button onClick={save} disabled={!form.name || saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: !form.name || saving ? 0.6 : 1 }}>
+              <button onClick={save} disabled={!form.name || saving} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', opacity: !form.name || saving ? 0.6 : 1 }}>
                 {saving ? 'Saving…' : modal === 'create' ? 'Add supplier' : 'Save changes'}
               </button>
             </div>
@@ -181,7 +181,7 @@ export default function SuppliersPage() {
             <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1b22', margin: 0, letterSpacing: '-0.02em' }}>Suppliers</h1>
             <p style={{ fontSize: 13, color: '#6b6e87', margin: '4px 0 0' }}>{suppliers.length} suppliers · manage contacts, lead times and spend</p>
           </div>
-          <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
             + Add supplier
           </button>
         </div>
@@ -216,7 +216,7 @@ export default function SuppliersPage() {
         ) : filtered.length === 0 ? (
           <div style={{ background: 'white', border: '1px solid #e8e5df', borderRadius: 12, padding: 48, textAlign: 'center' }}>
             <div style={{ fontSize: 14, color: '#6b6e87', marginBottom: 12 }}>No suppliers yet</div>
-            <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#5b52f5', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button onClick={openCreate} style={{ padding: '9px 18px', borderRadius: 8, border: 'none', background: '#e8863f', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
               Add your first supplier
             </button>
           </div>

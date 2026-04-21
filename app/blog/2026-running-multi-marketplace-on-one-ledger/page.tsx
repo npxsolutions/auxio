@@ -15,13 +15,13 @@ export default function BlogPostPage() {
         <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
-          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#5b52f5', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
         </div>
       </nav>
 
       <article style={{ maxWidth: '760px', margin: '0 auto', padding: '64px 48px 96px' }}>
         <div style={{ marginBottom: '32px' }}>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: '#5b52f5', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Playbook · 2026</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Playbook · 2026</span>
           <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginTop: '12px', marginBottom: '20px' }}>
             Running 5+ marketplaces on one ledger
           </h1>
@@ -65,13 +65,13 @@ export default function BlogPostPage() {
                   <g key={label}>
                     <rect x="20" y={y} width="140" height="32" rx="4" />
                     <text x="90" y={y + 21} textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#0f172a" stroke="none">{label}</text>
-                    <path d={`M 160 ${y + 16} L 250 130`} stroke="#5b52f5" />
+                    <path d={`M 160 ${y + 16} L 250 130`} stroke="#e8863f" />
                   </g>
                 )
               })}
-              <rect x="250" y="104" width="120" height="52" rx="4" stroke="#5b52f5" strokeWidth="1.5" />
-              <text x="310" y="128" textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#5b52f5" stroke="none" fontWeight="600">One ledger</text>
-              <text x="310" y="146" textAnchor="middle" fontSize="11" fontFamily="Inter, system-ui" fill="#5b52f5" stroke="none">single schema</text>
+              <rect x="250" y="104" width="120" height="52" rx="4" stroke="#e8863f" strokeWidth="1.5" />
+              <text x="310" y="128" textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#e8863f" stroke="none" fontWeight="600">One ledger</text>
+              <text x="310" y="146" textAnchor="middle" fontSize="11" fontFamily="Inter, system-ui" fill="#e8863f" stroke="none">single schema</text>
 
               {['True net P&L', 'Demand forecast', 'Auto purchase orders'].map((label, i) => {
                 const y = 44 + i * 60
@@ -114,7 +114,7 @@ export default function BlogPostPage() {
             <strong>The ERP pattern.</strong> Implement NetSuite or Brightpearl, run it for ninety days, realise the channel integrations are weak, hire a consultancy to patch them, and end up paying $6k/mo for a system that still requires a weekly spreadsheet to answer the hero-SKU question. This is the dominant pattern for sellers over $5M/yr because it&apos;s the default advice from accounting firms. It works, slowly, expensively.
           </p>
           <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, margin: '0 0 14px' }}>
-            <strong>The Commerce Operations Platform pattern.</strong> Pick a platform whose entire purpose is to be the ledger — not a channel manager, not an ERP, not an accounting tool. The category is new enough that most operators don&apos;t know it exists yet. It&apos;s the subject of our <Link href="/blog/what-is-a-commerce-operations-platform" style={{ color: '#5b52f5' }}>category explainer</Link>. The short version: it replaces the middle three tools in the stack and leaves Shopify and your accounting package untouched.
+            <strong>The Commerce Operations Platform pattern.</strong> Pick a platform whose entire purpose is to be the ledger — not a channel manager, not an ERP, not an accounting tool. The category is new enough that most operators don&apos;t know it exists yet. It&apos;s the subject of our <Link href="/blog/what-is-a-commerce-operations-platform" style={{ color: '#e8863f' }}>category explainer</Link>. The short version: it replaces the middle three tools in the stack and leaves Shopify and your accounting package untouched.
           </p>
         </div>
 
@@ -158,15 +158,15 @@ export default function BlogPostPage() {
         <div style={{ background: '#ede9fe', borderRadius: '10px', padding: '24px', marginTop: '40px', marginBottom: '48px' }}>
           <strong style={{ display: 'block', marginBottom: '8px', fontSize: '16px' }}>Run your 5+ marketplaces on one ledger with Palvento</strong>
           <p style={{ fontSize: '14px', color: '#4c1d95', margin: '0 0 16px', lineHeight: 1.6 }}>Inventory, orders, forecasting, procurement, and true multi-currency P&amp;L in one place. Connect in ten minutes. From $149/mo, order-volume pricing, never a percentage of revenue.</p>
-          <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#5b52f5', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
+          <Link href="/signup" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '7px', background: '#e8863f', color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
         </div>
 
         <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '32px' }}>
           <strong style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '12px' }}>Related guides</strong>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Link href="/blog/what-is-a-commerce-operations-platform" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>What is a Commerce Operations Platform? →</Link>
-            <Link href="/blog/the-true-cost-of-multichannel-spreadsheets" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>The true cost of multichannel spreadsheets →</Link>
-            <Link href="/blog/multi-currency-pnl-explained" style={{ fontSize: '14px', color: '#5b52f5', textDecoration: 'none' }}>Multi-currency P&amp;L — why your dashboard is lying to you →</Link>
+            <Link href="/blog/what-is-a-commerce-operations-platform" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none' }}>What is a Commerce Operations Platform? →</Link>
+            <Link href="/blog/the-true-cost-of-multichannel-spreadsheets" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none' }}>The true cost of multichannel spreadsheets →</Link>
+            <Link href="/blog/multi-currency-pnl-explained" style={{ fontSize: '14px', color: '#e8863f', textDecoration: 'none' }}>Multi-currency P&amp;L — why your dashboard is lying to you →</Link>
           </div>
         </div>
       </article>
