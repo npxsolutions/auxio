@@ -1,23 +1,42 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+# Keep this file in sync with the Partners dashboard values. When they drift,
+# `shopify app config use palvento.app.toml` in CLI fails silently.
 
 client_id = "0e17c1f8cd98ae071d13fa0003e6d2e1"
-name = "auxio_v2"
-application_url = "https://auxio-lkqv.vercel.app"
+name = "palvento"
+handle = "palvento"
+application_url = "https://palvento.com"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
 
 [webhooks]
-api_version = "2024-01"
+api_version = "2024-10"
 
   [[webhooks.subscriptions]]
   topics = ["app/uninstalled"]
   uri = "/api/shopify/webhooks/app-uninstalled"
 
+  # GDPR-mandatory webhooks — Shopify App Store review auto-rejects without all three.
+  [[webhooks.subscriptions]]
+  topics = ["customers/data_request"]
+  uri = "/api/shopify/webhooks/customers-data-request"
+
+  [[webhooks.subscriptions]]
+  topics = ["customers/redact"]
+  uri = "/api/shopify/webhooks/customers-redact"
+
+  [[webhooks.subscriptions]]
+  topics = ["shop/redact"]
+  uri = "/api/shopify/webhooks/shop-redact"
+
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_orders,read_products,read_inventory,write_products"
+scopes = "read_orders,read_products,write_products,read_inventory,write_inventory,read_content,read_locations,read_price_rules,write_price_rules,read_publications,write_publications"
 
 [auth]
-redirect_urls = [ "https://auxio-lkqv.vercel.app/api/shopify/callback" ]
+redirect_urls = [
+  "https://palvento.com/api/shopify/callback",
+  "https://auxio-lkqv.vercel.app/api/shopify/callback"
+]
