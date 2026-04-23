@@ -158,14 +158,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Invalid fields: ${invalidFields.join(', ')}` }, { status: 400 })
     }
 
-    // Check plan quota
-    const { data: userRow } = await supabase
-      .from('users')
+    // Check plan quota (reads from the active org)
+    const { data: orgRow } = await supabase
+      .from('organizations')
       .select('plan')
-      .eq('id', ctx.user.id)
+      .eq('id', ctx.id)
       .maybeSingle()
 
-    const plan = (userRow?.plan ?? 'free') as Plan
+    const plan = (orgRow?.plan ?? 'free') as Plan
     const quota = ENRICHMENT_QUOTAS[plan] ?? 0
 
     if (quota === 0) {
@@ -317,13 +317,13 @@ export async function GET(request: Request) {
     const url = new URL(request.url)
     const listingId = url.searchParams.get('listingId')
 
-    const { data: userRow } = await supabase
-      .from('users')
+    const { data: orgRow } = await supabase
+      .from('organizations')
       .select('plan')
-      .eq('id', ctx.user.id)
+      .eq('id', ctx.id)
       .maybeSingle()
 
-    const plan = (userRow?.plan ?? 'free') as Plan
+    const plan = (orgRow?.plan ?? 'free') as Plan
     const quota = ENRICHMENT_QUOTAS[plan] ?? 0
 
     const now = new Date()

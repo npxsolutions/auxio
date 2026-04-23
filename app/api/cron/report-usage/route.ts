@@ -1,18 +1,13 @@
 // [api/cron/report-usage] — daily 04:00 UTC sweep.
-// For each active-subscription user: compute this period's orders + listings,
-// record overage to Stripe via usage records (metered prices), and persist a
-// row to public.usage_reports. Unique(user_id, period_end) makes retries safe.
-//
-// TODO Stage C.4 (Stripe rewrite): migrate subscription state from `users` to
-// `organizations`. This route should then iterate organizations with active
-// subscriptions, compute per-org usage, and write usage_reports with
-// organization_id. Today the per-user path still works because service-role
-// bypasses RLS and user_id is 1:1 with personal_org via Stage A backfill.
+// Iterates organizations on a paid plan, computes this period's orders +
+// listings, reports overage to Stripe via metered Billing Meter events, and
+// persists a row to public.usage_reports. Unique(organization_id, period_end)
+// makes retries safe.
 
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { computeOverageCharges, currentPeriod, getMonthlyUsage, getPlanLimits } from '../../../lib/billing/usage'
+import { computeOverageCharges, currentPeriod, getMonthlyOrgUsage, getPlanLimits } from '../../../lib/billing/usage'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 const getSupabase = () => createClient(
@@ -33,63 +28,57 @@ export async function GET(request: Request) {
   const db = getSupabase()
   const stripe = getStripe()
 
-  // Pull all users on a paid plan with an active subscription.
-  const { data: users, error } = await db
-    .from('users')
-    .select('id, plan, subscription_status, stripe_subscription_id, stripe_customer_id, billing_interval')
+  // Pull all orgs on a paid plan with an active subscription.
+  const { data: orgs, error } = await db
+    .from('organizations')
+    .select('id, owner_user_id, plan, subscription_status, stripe_subscription_id, stripe_customer_id, billing_interval')
     .in('plan', ['starter', 'growth', 'scale'])
     .in('subscription_status', ['active', 'trialing', 'past_due'])
     .limit(10_000)
 
   if (error) {
-    console.error('[api/cron/report-usage:GET] user select failed', error.message)
+    console.error('[api/cron/report-usage:GET] org select failed', error.message)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
   const { start, end } = currentPeriod()
   const priceOrders   = process.env.STRIPE_PRICE_ORDERS_METERED
   const priceListings = process.env.STRIPE_PRICE_LISTINGS_METERED
-  // Stripe Billing Meter event names — set these to the `event_name` on the
-  // meters backing the metered prices above.
   const meterOrders   = process.env.STRIPE_METER_EVENT_ORDERS   || 'orders_overage'
   const meterListings = process.env.STRIPE_METER_EVENT_LISTINGS || 'listings_overage'
 
   let reported = 0
   let skipped = 0
-  const failures: Array<{ userId: string; err: string }> = []
+  const failures: Array<{ organizationId: string; err: string }> = []
 
-  for (const u of users || []) {
+  for (const o of orgs || []) {
     try {
-      // Idempotency: if a row already exists for this user+period_end, skip.
+      // Idempotency: if a row already exists for this org+period_end, skip.
       const { data: existing } = await db
         .from('usage_reports')
         .select('id')
-        .eq('user_id', u.id)
+        .eq('organization_id', o.id)
         .eq('period_end', end.toISOString())
         .maybeSingle()
       if (existing) { skipped++; continue }
 
-      const usage = await getMonthlyUsage(db, u.id)
-      const overage = computeOverageCharges(u.plan, usage)
-      const limits = getPlanLimits(u.plan)
+      const usage = await getMonthlyOrgUsage(db, o.id as string, o.owner_user_id as string)
+      const overage = computeOverageCharges(o.plan, usage)
+      const limits = getPlanLimits(o.plan)
 
       let ordersUsageRecordId: string | null = null
       let listingsUsageRecordId: string | null = null
 
-      // Report to Stripe only when: we have a subscription, we have metered
-      // price env vars, and there's overage to record. We look up the
-      // subscription item that matches the metered price.
-      if (u.stripe_customer_id && (overage.ordersOverage > 0 || overage.listingsOverage > 0)) {
+      if (o.stripe_customer_id && (overage.ordersOverage > 0 || overage.listingsOverage > 0)) {
         try {
           if (overage.ordersOverage > 0 && priceOrders) {
             const ev = await stripe.billing.meterEvents.create({
               event_name: meterOrders,
               payload: {
-                stripe_customer_id: u.stripe_customer_id,
+                stripe_customer_id: o.stripe_customer_id as string,
                 value: String(overage.ordersOverage),
               },
-              // Idempotency via deterministic identifier per user+period.
-              identifier: `usage-orders-${u.id}-${end.toISOString()}`,
+              identifier: `usage-orders-${o.id}-${end.toISOString()}`,
             })
             ordersUsageRecordId = (ev as any).identifier || null
           }
@@ -98,42 +87,42 @@ export async function GET(request: Request) {
             const ev = await stripe.billing.meterEvents.create({
               event_name: meterListings,
               payload: {
-                stripe_customer_id: u.stripe_customer_id,
+                stripe_customer_id: o.stripe_customer_id as string,
                 value: String(overage.listingsOverage),
               },
-              identifier: `usage-listings-${u.id}-${end.toISOString()}`,
+              identifier: `usage-listings-${o.id}-${end.toISOString()}`,
             })
             listingsUsageRecordId = (ev as any).identifier || null
           }
         } catch (stripeErr: any) {
-          console.error('[api/cron/report-usage:GET] stripe meter event failed for', u.id, stripeErr.message)
+          console.error('[api/cron/report-usage:GET] stripe meter event failed for', o.id, stripeErr.message)
           // Fall through — still write the usage_reports row so we have a record.
         }
       }
 
       const { error: insErr } = await db.from('usage_reports').insert({
-        user_id: u.id,
-        period_start: start.toISOString(),
-        period_end:   end.toISOString(),
-        orders_count:   usage.orders,
-        listings_count: usage.listings,
-        orders_overage:   overage.ordersOverage,
+        organization_id: o.id,
+        user_id:         o.owner_user_id,
+        period_start:    start.toISOString(),
+        period_end:      end.toISOString(),
+        orders_count:    usage.orders,
+        listings_count:  usage.listings,
+        orders_overage:  overage.ordersOverage,
         listings_overage: overage.listingsOverage,
         overage_cents: overage.totalCents,
-        plan: u.plan,
+        plan: o.plan,
         stripe_orders_usage_record_id:   ordersUsageRecordId,
         stripe_listings_usage_record_id: listingsUsageRecordId,
       })
 
       if (insErr) {
-        // 23505 == unique_violation — raced with another run, treat as skip.
         if ((insErr as any).code === '23505') { skipped++; continue }
         throw new Error(insErr.message)
       }
       reported++
     } catch (err: any) {
-      console.error('[api/cron/report-usage:GET] failed for', u.id, err)
-      failures.push({ userId: u.id, err: err.message || String(err) })
+      console.error('[api/cron/report-usage:GET] failed for', o.id, err)
+      failures.push({ organizationId: o.id as string, err: err.message || String(err) })
     }
   }
 

@@ -15,21 +15,18 @@ export function LifetimeOffer() {
 
   useEffect(() => {
     (async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      const { data: row } = await supabase
-        .from('users')
-        .select('plan, billing_interval')
-        .eq('id', user.id)
-        .maybeSingle()
-      if (!row) return
-      if (row.billing_interval === 'lifetime' || row.plan === 'lifetime_scale') return
+      const res = await fetch('/api/org/list')
+      if (!res.ok) return
+      const json = await res.json()
+      const billing = json.billing as null | { plan: string | null; billing_interval: string | null }
+      if (!billing) return
+      if (billing.billing_interval === 'lifetime' || billing.plan === 'lifetime_scale') return
 
-      // Count distinct YYYY-MM buckets on user's transactions — 6+ unlocks the offer.
+      // Count distinct YYYY-MM buckets on the org's transactions — 6+ unlocks the offer.
+      // RLS scopes transactions to the active org.
       const { data: tx } = await supabase
         .from('transactions')
         .select('order_date')
-        .eq('user_id', user.id)
         .limit(2000)
 
       const months = new Set<string>()

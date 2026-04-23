@@ -171,15 +171,9 @@ export default function AppSidebar() {
       if (!user) return
       setUser(user)
 
-      const [userRow, pendingRow] = await Promise.all([
-        supabase.from('users').select('plan').eq('id', user.id).single(),
-        supabase.from('agent_pending_actions')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .eq('status', 'pending'),
-      ])
-
-      if (userRow.data?.plan) setPlan(userRow.data.plan)
+      const pendingRow = await supabase.from('agent_pending_actions')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'pending')
       setPendingCount(pendingRow.count || 0)
 
       try {
@@ -196,6 +190,7 @@ export default function AppSidebar() {
           const orgJson = await orgRes.json()
           setOrgs(orgJson.orgs ?? [])
           setActiveOrgId(orgJson.activeOrgId ?? null)
+          if (orgJson.billing?.plan) setPlan(orgJson.billing.plan)
         }
       } catch { /* silent */ }
     }

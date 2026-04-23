@@ -23,9 +23,9 @@ export async function GET(request: Request) {
         .gte('executed_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
 
       const { data: userPlan } = await supabase
-        .from('users')
+        .from('organizations')
         .select('plan')
-        .eq('id', ctx.user.id)
+        .eq('id', ctx.id)
         .single()
 
       const planCost = { starter: 79.99, growth: 199, scale: 599, enterprise: 1500 }

@@ -40,19 +40,19 @@ export function TrialBanner() {
     let cancelled = false
     ;(async () => {
       try {
-        const supabase = createClient()
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user || cancelled) return
-        const { data: row } = await supabase
-          .from('users')
-          .select('subscription_status, trial_ends_at, stripe_customer_id')
-          .eq('id', user.id)
-          .single()
-        if (cancelled || !row) return
+        const res = await fetch('/api/org/list')
+        if (!res.ok || cancelled) return
+        const json = await res.json()
+        const billing = json.billing as null | {
+          subscription_status: string | null
+          trial_ends_at: string | null
+          stripe_customer_id: string | null
+        }
+        if (!billing || cancelled) return
 
-        const status = (row.subscription_status || 'trialing') as string
-        const trialEnds = row.trial_ends_at ? new Date(row.trial_ends_at as unknown as string) : null
-        const hasPayment = !!row.stripe_customer_id
+        const status = (billing.subscription_status || 'trialing') as string
+        const trialEnds = billing.trial_ends_at ? new Date(billing.trial_ends_at) : null
+        const hasPayment = !!billing.stripe_customer_id
 
         // Active paid subscription: hide
         if (status === 'active') {

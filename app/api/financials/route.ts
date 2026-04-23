@@ -36,9 +36,9 @@ export async function GET() {
       supabase.from('purchase_orders')
         .select('order_date, total_cost, status')
         .gte('order_date', since12m.toISOString().slice(0, 10)),
-      supabase.from('users')
+      supabase.from('organizations')
         .select('plan')
-        .eq('id', ctx.user.id)
+        .eq('id', ctx.id)
         .single(),
     ])
 

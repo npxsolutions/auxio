@@ -191,14 +191,14 @@ export async function POST(request: Request) {
       )
     }
 
-    // Check plan quota
-    const { data: userRow } = await supabase
-      .from('users')
+    // Check plan quota (reads from the active org)
+    const { data: orgRow } = await supabase
+      .from('organizations')
       .select('plan')
-      .eq('id', ctx.user.id)
+      .eq('id', ctx.id)
       .maybeSingle()
 
-    const plan = (userRow?.plan ?? 'free') as Plan
+    const plan = (orgRow?.plan ?? 'free') as Plan
     const imageQuota = IMAGE_ANALYSIS_QUOTAS[plan] ?? 0
 
     if (plan === 'free') {

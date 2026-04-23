@@ -17,26 +17,23 @@ export function AnnualUpsell() {
 
   useEffect(() => {
     (async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      const { data: row } = await supabase
-        .from('users')
-        .select('plan, billing_interval')
-        .eq('id', user.id)
-        .maybeSingle()
-      if (!row) return
-      const eligiblePlan = ['starter', 'growth', 'scale'].includes(row.plan)
+      const res = await fetch('/api/org/list')
+      if (!res.ok) return
+      const json = await res.json()
+      const billing = json.billing as null | { plan: string | null; billing_interval: string | null }
+      if (!billing) return
+      const eligiblePlan = ['starter', 'growth', 'scale'].includes(billing.plan ?? '')
       if (!eligiblePlan) return
-      if ((row.billing_interval || 'month') !== 'month') return
+      if ((billing.billing_interval || 'month') !== 'month') return
 
       // Require ≥1 paid invoice before upselling, so we don't pester brand-new signups.
+      // RLS scopes transactions to the active org.
       const { count } = await supabase
         .from('transactions')
         .select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id)
       if ((count ?? 0) < 1) return
 
-      setPlan(row.plan)
+      setPlan(billing.plan ?? '')
       setVisible(true)
     })()
   }, [])

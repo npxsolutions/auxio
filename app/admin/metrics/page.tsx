@@ -14,30 +14,30 @@ const PLAN_MRR: Record<string, number> = {
 async function getMetrics() {
   const admin = getSupabaseAdmin()
 
-  const [authRes, usersRes, channelsRes, listingsRes, txnsRes] = await Promise.all([
+  const [authRes, orgsRes, channelsRes, listingsRes, txnsRes] = await Promise.all([
     admin.auth.admin.listUsers({ perPage: 1000 }),
-    admin.from('users').select('id, plan, subscription_status, created_at, updated_at'),
+    admin.from('organizations').select('id, plan, subscription_status, created_at, updated_at'),
     admin.from('channels').select('user_id, type, active, connected_at'),
     admin.from('listings').select('user_id, status, created_at'),
     admin.from('transactions').select('user_id, true_profit, gross_revenue, created_at'),
   ])
 
   const authUsers  = authRes.data?.users ?? []
-  const users      = usersRes.data  ?? []
+  const orgs       = orgsRes.data  ?? []
   const channels   = channelsRes.data ?? []
   const listings   = listingsRes.data  ?? []
   const txns       = txnsRes.data      ?? []
 
-  // ── MRR ──────────────────────────────────────────────────────────────────
-  const active   = users.filter(u => u.subscription_status === 'active' && u.plan && u.plan !== 'free')
-  const pastDue  = users.filter(u => u.subscription_status === 'past_due')
-  const churned  = users.filter(u => u.subscription_status === 'cancelled')
+  // ── MRR (aggregated per organization) ────────────────────────────────────
+  const active   = orgs.filter(o => o.subscription_status === 'active' && o.plan && o.plan !== 'free')
+  const pastDue  = orgs.filter(o => o.subscription_status === 'past_due')
+  const churned  = orgs.filter(o => o.subscription_status === 'cancelled')
 
-  const mrr = active.reduce((sum, u) => sum + (PLAN_MRR[u.plan] ?? 0), 0)
+  const mrr = active.reduce((sum, o) => sum + (PLAN_MRR[o.plan] ?? 0), 0)
   const arr = mrr * 12
 
   const planCounts: Record<string, number> = {}
-  for (const u of active) planCounts[u.plan] = (planCounts[u.plan] ?? 0) + 1
+  for (const o of active) planCounts[o.plan] = (planCounts[o.plan] ?? 0) + 1
 
   // ── User growth ───────────────────────────────────────────────────────────
   const now = new Date()

@@ -82,14 +82,16 @@ function BillingContent() {
     if (!user) { router.push('/login'); return }
     setUser(user)
 
-    const { data } = await supabase
-      .from('users')
-      .select('plan, subscription_status')
-      .eq('id', user.id)
-      .single()
-
-    setCurrentPlan(data?.plan || 'free')
-    setSubscriptionStatus(data?.subscription_status || '')
+    // Read billing state from /api/org/list which returns the active org.
+    try {
+      const res = await fetch('/api/org/list')
+      if (res.ok) {
+        const json = await res.json()
+        const billing = json.billing as null | { plan: string | null; subscription_status: string | null }
+        setCurrentPlan(billing?.plan || 'free')
+        setSubscriptionStatus(billing?.subscription_status || '')
+      }
+    } catch { /* silent */ }
 
     // Load unapplied credits total.
     const { data: credits } = await supabase

@@ -14,11 +14,11 @@ export async function POST(request: Request) {
 
     const supabase = await createClient()
 
-    // Get user's agent mode
+    // Get active org's plan (agent mode currently derives from plan)
     const { data: userData } = await supabase
-      .from('users')
+      .from('organizations')
       .select('plan')
-      .eq('id', ctx.user.id)
+      .eq('id', ctx.id)
       .single()
 
     const mode = 'copilot' // default safe mode
