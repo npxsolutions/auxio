@@ -11,6 +11,7 @@ import { extractAspects, aspectMapToPayload } from '@/app/lib/feed/aspects'
 import { ensureEbayPolicies, EbayPolicyError, type EbayPolicySet } from '@/app/lib/ebay/policies'
 import { planVariantGroup, upsertInventoryItemGroup, upsertGroupOffer, type ShopifyProduct } from '@/app/lib/ebay/variants'
 import { publishToGoogle, type GooglePushListing, type GooglePushChannel } from '@/app/lib/google/products'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -401,11 +402,11 @@ async function publishToAmazon(listing: any, channel: any): Promise<{ id: string
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase      = await getSupabase()
     const adminSupabase = getAdminSupabase()
-
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body: {
       channels: string[]
@@ -417,10 +418,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       return NextResponse.json({ error: 'Specify at least one channel' }, { status: 400 })
     }
 
-    // Load listing
+    // Load listing — RLS scopes by org
     const { data: listing } = await supabase
       .from('listings').select('*')
-      .eq('id', id).eq('user_id', user.id).single()
+      .eq('id', id).single()
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
 
     // Load connected channels + existing publish state + saved category mappings + feed rules + field mappings
@@ -431,15 +432,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       { data: feedRules },
       { data: fieldMappings },
     ] = await Promise.all([
-      supabase.from('channels').select('*').eq('user_id', user.id).eq('active', true).in('type', requestedChannels),
+      supabase.from('channels').select('*').eq('active', true).in('type', requestedChannels),
       supabase.from('listing_channels').select('*').eq('listing_id', id),
       listing.category
-        ? supabase.from('category_mappings').select('*').eq('user_id', user.id).eq('source_category', listing.category)
+        ? supabase.from('category_mappings').select('*').eq('source_category', listing.category)
         : Promise.resolve({ data: [] }),
       supabase.from('feed_rules').select('id,name,channel,conditions,actions,active,priority')
-        .eq('user_id', user.id).eq('active', true).order('priority', { ascending: true }),
-      supabase.from('field_mappings').select('source_field,target_field,transform,template')
-        .eq('user_id', user.id),
+        .eq('active', true).order('priority', { ascending: true }),
+      supabase.from('field_mappings').select('source_field,target_field,transform,template'),
     ])
 
     // Merge caller-supplied category selections with saved mappings (caller wins)
@@ -455,8 +455,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     for (const [ch, sel] of Object.entries(categorySelections)) {
       if (sel && listing.category) {
         await adminSupabase.from('category_mappings').upsert({
-          user_id: user.id, source_category: listing.category, channel_type: ch,
-          channel_cat_id: sel.id, channel_cat_name: sel.name,
+          organization_id: ctx.id,
+          user_id: ctx.user.id,
+          source_category: listing.category,
+          channel_type: ch,
+          channel_cat_id: sel.id,
+          channel_cat_name: sel.name,
         }, { onConflict: 'user_id,source_category,channel_type' }).then(() => {}, () => {})
       }
     }
@@ -510,11 +514,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             console.warn(`[api/listings/publish] blocked_preflight listing=${id} channel=ebay errors=${errMsgs.length}`)
             results[channelType] = { status: 'failed', validation_errors: errMsgs, error: errMsgs[0] || 'pre-flight failed' }
             await adminSupabase.from('listing_channels').upsert({
-              listing_id: id, user_id: user.id, channel_type: channelType,
+              organization_id: ctx.id, listing_id: id, user_id: ctx.user.id, channel_type: channelType,
               status: 'failed', error_message: `Validation: ${errMsgs.join('; ')}`,
             }, { onConflict: 'listing_id,channel_type' })
             await adminSupabase.from('sync_log').insert({
-              user_id: user.id, channel: 'ebay', listing_id: id,
+              organization_id: ctx.id, user_id: ctx.user.id, channel: 'ebay', listing_id: id,
               level: 'blocked_preflight',
               message: `pre-flight blocked: ${errMsgs.join('; ')}`,
               metadata: { validation: preflight },
@@ -526,7 +530,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           if (validationErrors.length) {
             results[channelType] = { status: 'failed', validation_errors: validationErrors, error: validationErrors[0] }
             await adminSupabase.from('listing_channels').upsert({
-              listing_id: id, user_id: user.id, channel_type: channelType,
+              organization_id: ctx.id, listing_id: id, user_id: ctx.user.id, channel_type: channelType,
               status: 'failed', error_message: `Validation: ${validationErrors.join('; ')}`,
             }, { onConflict: 'listing_id,channel_type' })
             return
@@ -560,7 +564,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
                 if (aspectValues[k] == null) aspectValues[k] = v
               }
               await adminSupabase.from('listing_channel_aspects').upsert({
-                user_id: user.id, listing_id: id, channel: 'ebay',
+                organization_id: ctx.id, user_id: ctx.user.id, listing_id: id, channel: 'ebay',
                 aspects: enriched as unknown as object,
                 category_id: String(ebayCategoryIdForAspects),
                 last_enriched_at: new Date().toISOString(),
@@ -576,7 +580,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         if (!channel) {
           results[channelType] = { status: 'failed', error: `${channelType} not connected` }
           await adminSupabase.from('listing_channels').upsert({
-            listing_id: id, user_id: user.id, channel_type: channelType,
+            organization_id: ctx.id, listing_id: id, user_id: ctx.user.id, channel_type: channelType,
             status: 'failed', error_message: `${channelType} not connected`,
           }, { onConflict: 'listing_id,channel_type' })
           return
@@ -620,7 +624,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
                 url: `https://www.ebay.com/itm/${groupExternalId || variantPlan.groupSku}`,
               }
               await adminSupabase.from('listing_channel_groups').upsert({
-                user_id: user.id,
+                organization_id: ctx.id,
+                user_id: ctx.user.id,
                 listing_id: id,
                 channel: 'ebay',
                 group_sku: variantPlan.groupSku,
@@ -631,7 +636,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
               }, { onConflict: 'user_id,listing_id,channel,group_sku' })
               // Mark listing_channel row as group-type downstream
               await adminSupabase.from('listing_channels').upsert({
-                listing_id: id, user_id: user.id, channel_type: 'ebay',
+                organization_id: ctx.id, listing_id: id, user_id: ctx.user.id, channel_type: 'ebay',
                 channel_listing_id: published.id, channel_url: published.url,
                 status: 'published', published_at: new Date().toISOString(),
                 external_type: 'group', external_group_id: variantPlan.groupSku,
@@ -682,7 +687,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           // Update listing_channels and sync state in parallel
           await Promise.all([
             adminSupabase.from('listing_channels').upsert({
-              listing_id: id, user_id: user.id, channel_type: channelType,
+              organization_id: ctx.id, listing_id: id, user_id: ctx.user.id, channel_type: channelType,
               channel_listing_id: published.id, channel_url: published.url,
               status: 'published', published_at: new Date().toISOString(),
               ...(categorySelections[channelType] ? {
@@ -692,8 +697,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             }, { onConflict: 'listing_id,channel_type' }),
 
             adminSupabase.from('channel_sync_state').upsert({
+              organization_id:          ctx.id,
               listing_id:               id,
-              user_id:                  user.id,
+              user_id:                  ctx.user.id,
               channel_type:             channelType,
               last_synced_at:           new Date().toISOString(),
               last_synced_price:        listing.price,
@@ -715,7 +721,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             } else {
               console.warn(`[api/listings/publish] unknown_ebay_error listing=${id} raw=${parsed.raw.slice(0, 200)}`)
               await adminSupabase.from('sync_log').insert({
-                user_id: user.id, channel: 'ebay', listing_id: id,
+                organization_id: ctx.id, user_id: ctx.user.id, channel: 'ebay', listing_id: id,
                 level: 'unknown_ebay_error',
                 message: parsed.raw.slice(0, 1000),
                 metadata: { errorId: parsed.errorId },
@@ -729,7 +735,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             } else {
               console.warn(`[api/listings/publish] unknown_google_error listing=${id} raw=${parsed.raw.slice(0, 200)}`)
               await adminSupabase.from('sync_log').insert({
-                user_id: user.id, channel: 'google', listing_id: id,
+                organization_id: ctx.id, user_id: ctx.user.id, channel: 'google', listing_id: id,
                 level: 'unknown_google_error',
                 message: parsed.raw.slice(0, 1000),
                 metadata: { reason: parsed.googleReason },
@@ -738,16 +744,17 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           }
           results[channelType] = { status: 'failed', error: surfaced }
           await adminSupabase.from('listing_channels').upsert({
-            listing_id: id, user_id: user.id, channel_type: channelType,
+            organization_id: ctx.id, listing_id: id, user_id: ctx.user.id, channel_type: channelType,
             status: 'failed', error_message: surfaced,
           }, { onConflict: 'listing_id,channel_type' })
 
           await adminSupabase.from('channel_sync_state').upsert({
-            listing_id:    id,
-            user_id:       user.id,
-            channel_type:  channelType,
-            last_error:    err.message,
-            sync_attempts: (existingCL ? 1 : 0) + 1,
+            organization_id: ctx.id,
+            listing_id:      id,
+            user_id:         ctx.user.id,
+            channel_type:    channelType,
+            last_error:      err.message,
+            sync_attempts:   (existingCL ? 1 : 0) + 1,
           }, { onConflict: 'listing_id,channel_type' })
         }
       })

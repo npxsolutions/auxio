@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,20 +33,14 @@ async function testShopifyToken(shopDomain: string, accessToken: string): Promis
 
 export async function GET() {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
+    // Service role read → RLS does NOT apply. Explicit organization_id filter required.
     const { data: channels } = await getAdmin()
       .from('channels')
       .select('id, type, access_token, shop_domain, last_synced_at')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('active', true)
 
     const results: Record<string, { valid: boolean; stale: boolean; lastSync: string | null }> = {}

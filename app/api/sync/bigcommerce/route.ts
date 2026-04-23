@@ -45,7 +45,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels, error } = await supabase
     .from('channels')
-    .select('user_id, shop_domain, access_token, last_synced_at, metadata')
+    .select('user_id, organization_id, shop_domain, access_token, last_synced_at, metadata')
     .eq('type', 'bigcommerce')
     .eq('active', true)
 
@@ -70,6 +70,7 @@ export async function GET(request: Request) {
       ((ch.metadata as Record<string, unknown> | null)?.store_hash as string | undefined) ||
       ''
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const token = ch.access_token as string
     if (!storeHash || !token) continue
 
@@ -119,6 +120,7 @@ export async function GET(request: Request) {
             const refunded = Number(o.refunded_amount ?? 0)
             await supabase.from('transactions').upsert(
               {
+                organization_id: orgId,
                 user_id: userId,
                 channel: 'bigcommerce',
                 external_id: String(o.id),
@@ -170,13 +172,14 @@ export async function GET(request: Request) {
             const { data: lc } = await supabase
               .from('listing_channels')
               .select('listing_id')
-              .eq('user_id', userId)
+              .eq('organization_id', orgId)
               .eq('channel_type', 'bigcommerce')
               .eq('channel_listing_id', externalId)
               .maybeSingle()
 
             let listingId = lc?.listing_id as string | undefined
             const listingPayload = {
+              organization_id: orgId,
               user_id: userId,
               title: p.name ?? 'Untitled',
               description: p.description ?? '',
@@ -201,6 +204,7 @@ export async function GET(request: Request) {
               await supabase.from('listing_channels').upsert(
                 {
                   listing_id: listingId,
+                  organization_id: orgId,
                   user_id: userId,
                   channel_type: 'bigcommerce',
                   channel_listing_id: externalId,
@@ -231,7 +235,7 @@ export async function GET(request: Request) {
             products_last_synced_at: now,
           },
         })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'bigcommerce')
 
       if (jobId) await markCompleted(jobId, orderCount + productCount)

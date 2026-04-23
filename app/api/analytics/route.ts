@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,10 +14,10 @@ const getSupabase = async () => {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const period = request.nextUrl.searchParams.get('period') || '30d'
     const now    = new Date()
     let   since  = new Date()
@@ -29,18 +30,11 @@ export async function GET(request: NextRequest) {
     const [txRes, listingsRes, channelsRes, rulesRes] = await Promise.all([
       supabase.from('transactions')
         .select('channel, sale_price, true_profit, true_margin, order_date, sku, title, supplier_cost, channel_fee')
-        .eq('user_id', user.id)
         .gte('order_date', since.toISOString())
         .order('order_date', { ascending: true }),
-      supabase.from('listings')
-        .select('id, status')
-        .eq('user_id', user.id),
-      supabase.from('channels')
-        .select('type, active')
-        .eq('user_id', user.id),
-      supabase.from('feed_rules')
-        .select('id, active')
-        .eq('user_id', user.id),
+      supabase.from('listings').select('id, status'),
+      supabase.from('channels').select('type, active'),
+      supabase.from('feed_rules').select('id, active'),
     ])
 
     const txs = txRes.data || []
@@ -123,7 +117,6 @@ export async function GET(request: NextRequest) {
     const prevSince  = new Date(since.getTime() - durationMs)
     const { data: prevTxs } = await supabase.from('transactions')
       .select('sale_price, true_profit')
-      .eq('user_id', user.id)
       .gte('order_date', prevSince.toISOString())
       .lt('order_date', since.toISOString())
 

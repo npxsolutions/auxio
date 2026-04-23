@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '../../lib/supabase-server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import Anthropic from '@anthropic-ai/sdk'
 
 const getAnthropic = () => new Anthropic({
@@ -8,25 +9,23 @@ const getAnthropic = () => new Anthropic({
 
 export async function GET(request: Request) {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await createClient()
     const { searchParams } = new URL(request.url)
     const layer = searchParams.get('layer') || 'all'
 
     if (layer === 'leverage') {
-      // Calculate leverage ratio from real data
       const { data: actions } = await supabase
         .from('agent_action_log')
         .select('profit_impact')
-        .eq('user_id', user.id)
         .gte('executed_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
 
       const { data: userPlan } = await supabase
         .from('users')
         .select('plan')
-        .eq('id', user.id)
+        .eq('id', ctx.user.id)
         .single()
 
       const planCost = { starter: 79.99, growth: 199, scale: 599, enterprise: 1500 }

@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,19 +14,21 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
+    // ORG CONTEXT — every scoped fetch below is filtered by RLS via the active
+    // org membership. No .eq('user_id', ...) needed on any of these queries.
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const now       = new Date()
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-    const sevenDaysAgo  = new Date(Date.now() -  7 * 24 * 60 * 60 * 1000).toISOString()
     const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString()
     const prevMonthEnd   = new Date(now.getFullYear(), now.getMonth(), 0).toISOString()
 
-    // Parallel fetch all transaction windows
+    // Parallel fetch all transaction windows — RLS scopes each by active org
     const [
       { data: txnsToday },
       { data: txnsMonth },
@@ -36,19 +39,17 @@ export async function GET() {
       { data: pendingActions },
     ] = await Promise.all([
       supabase.from('transactions').select('gross_revenue, true_profit, channel')
-        .eq('user_id', user.id).gte('order_date', todayStart),
+        .gte('order_date', todayStart),
       supabase.from('transactions').select('gross_revenue, true_profit, channel')
-        .eq('user_id', user.id).gte('order_date', monthStart),
+        .gte('order_date', monthStart),
       supabase.from('transactions').select('gross_revenue, true_profit, advertising_cost, channel, sku, title, order_date')
-        .eq('user_id', user.id).gte('order_date', thirtyDaysAgo),
+        .gte('order_date', thirtyDaysAgo),
       supabase.from('transactions').select('gross_revenue, true_profit')
-        .eq('user_id', user.id).gte('order_date', prevMonthStart).lte('order_date', prevMonthEnd),
-      supabase.from('listings').select('id, status, listing_channels(status)')
-        .eq('user_id', user.id),
-      supabase.from('channels').select('type, active, last_synced_at')
-        .eq('user_id', user.id).eq('active', true),
+        .gte('order_date', prevMonthStart).lte('order_date', prevMonthEnd),
+      supabase.from('listings').select('id, status, listing_channels(status)'),
+      supabase.from('channels').select('type, active, last_synced_at').eq('active', true),
       supabase.from('agent_pending_actions').select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id).eq('status', 'pending'),
+        .eq('status', 'pending'),
     ])
 
     // ── Today ──

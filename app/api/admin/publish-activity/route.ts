@@ -29,24 +29,27 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url)
   const targetUserId = url.searchParams.get('user_id')
+  const targetOrgId  = url.searchParams.get('organization_id')
 
   const admin = getAdmin()
   let q = admin
     .from('listing_channels')
-    .select('user_id, listing_id, channel_type, status, channel_url, error_message, published_at, updated_at')
+    .select('user_id, organization_id, listing_id, channel_type, status, channel_url, error_message, published_at, updated_at')
     .order('updated_at', { ascending: false })
     .limit(100)
+  if (targetOrgId)  q = q.eq('organization_id', targetOrgId)
   if (targetUserId) q = q.eq('user_id', targetUserId)
   const { data: attempts, error } = await q
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Pull recent sync_log entries scoped to publish events for the same user.
+  // Pull recent sync_log entries scoped to publish events for the same org/user.
   let logsQ = admin
     .from('sync_log')
-    .select('user_id, channel, listing_id, level, message, metadata, created_at')
+    .select('user_id, organization_id, channel, listing_id, level, message, metadata, created_at')
     .in('level', ['blocked_preflight', 'unknown_ebay_error'])
     .order('created_at', { ascending: false })
     .limit(100)
+  if (targetOrgId)  logsQ = logsQ.eq('organization_id', targetOrgId)
   if (targetUserId) logsQ = logsQ.eq('user_id', targetUserId)
   const { data: logs } = await logsQ
 

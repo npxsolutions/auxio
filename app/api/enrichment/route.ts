@@ -11,6 +11,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import type { Plan } from '@/app/lib/billing/usage'
 
 export const runtime = 'nodejs'
@@ -136,10 +137,10 @@ export function computeEnrichmentScore(listing: Record<string, unknown>): number
 
 export async function POST(request: Request) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const body = await request.json()
     const { listingId, fields, channel = 'amazon' } = body as {
       listingId: string
@@ -161,7 +162,7 @@ export async function POST(request: Request) {
     const { data: userRow } = await supabase
       .from('users')
       .select('plan')
-      .eq('id', user.id)
+      .eq('id', ctx.user.id)
       .maybeSingle()
 
     const plan = (userRow?.plan ?? 'free') as Plan
@@ -181,7 +182,6 @@ export async function POST(request: Request) {
     const { count: usedCount } = await supabase
       .from('enrichment_usage')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
       .gte('created_at', periodStart)
       .lt('created_at', periodEnd)
 
@@ -194,12 +194,11 @@ export async function POST(request: Request) {
       }, { status: 429 })
     }
 
-    // Fetch listing
+    // Fetch listing (RLS handles scoping)
     const { data: listing, error: listingError } = await supabase
       .from('listings')
       .select('*')
       .eq('id', listingId)
-      .eq('user_id', user.id)
       .single()
 
     if (listingError || !listing) {
@@ -262,9 +261,9 @@ export async function POST(request: Request) {
     // Compute enrichment score
     const enrichmentScore = computeEnrichmentScore(listing)
 
-    // Track usage
     await supabase.from('enrichment_usage').insert({
-      user_id: user.id,
+      organization_id: ctx.id,
+      user_id: ctx.user.id,
       listing_id: listingId,
       channel,
       fields_requested: fields,
@@ -311,18 +310,17 @@ export async function POST(request: Request) {
 // GET: Return enrichment score + quota info for a listing
 export async function GET(request: Request) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const url = new URL(request.url)
     const listingId = url.searchParams.get('listingId')
 
-    // Get plan + quota
     const { data: userRow } = await supabase
       .from('users')
       .select('plan')
-      .eq('id', user.id)
+      .eq('id', ctx.user.id)
       .maybeSingle()
 
     const plan = (userRow?.plan ?? 'free') as Plan
@@ -335,7 +333,6 @@ export async function GET(request: Request) {
     const { count: usedCount } = await supabase
       .from('enrichment_usage')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
       .gte('created_at', periodStart)
       .lt('created_at', periodEnd)
 
@@ -350,13 +347,12 @@ export async function GET(request: Request) {
       },
     }
 
-    // If listing specified, compute its enrichment score
+    // If listing specified, compute its enrichment score (RLS scopes)
     if (listingId) {
       const { data: listing } = await supabase
         .from('listings')
         .select('*')
         .eq('id', listingId)
-        .eq('user_id', user.id)
         .single()
 
       if (listing) {

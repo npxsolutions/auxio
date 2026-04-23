@@ -36,15 +36,17 @@ export async function POST(request: Request) {
   const siteUrl = source.replace(/\/$/, '')
   let secret = process.env.WOOCOMMERCE_WEBHOOK_SECRET || ''
   let channelUserId: string | null = null
+  let channelOrgId: string | null = null
   if (siteUrl) {
     const { data: ch } = await supabase
       .from('channels')
-      .select('user_id, metadata')
+      .select('user_id, organization_id, metadata')
       .eq('type', 'woocommerce')
       .eq('shop_domain', siteUrl)
       .maybeSingle()
     if (ch) {
       channelUserId = ch.user_id as string
+      channelOrgId = ch.organization_id as string
       const meta = (ch.metadata ?? {}) as { webhook_secret?: string }
       if (meta.webhook_secret) secret = meta.webhook_secret
     }
@@ -81,6 +83,7 @@ export async function POST(request: Request) {
   const gross = Number(order.total ?? 0)
   const firstItem = order.line_items?.[0]
   const row = {
+    organization_id: channelOrgId,
     user_id: channelUserId,
     channel: 'woocommerce',
     external_id: String(order.id),

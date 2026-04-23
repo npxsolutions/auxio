@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -14,14 +15,13 @@ const getSupabase = async () => {
 // GET — list all listings with cost data
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { data, error } = await supabase
       .from('listings')
       .select('id, title, sku, price, cost_price, category, status')
-      .eq('user_id', user.id)
       .order('title', { ascending: true })
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -34,10 +34,10 @@ export async function GET() {
 // PATCH — update cost_price for one or many listings
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const body = await request.json()
 
     // Single update: { id, cost_price }
@@ -46,7 +46,6 @@ export async function PATCH(request: NextRequest) {
         .from('listings')
         .update({ cost_price: body.cost_price, updated_at: new Date().toISOString() })
         .eq('id', body.id)
-        .eq('user_id', user.id)
         .select('id, cost_price')
         .single()
 
@@ -62,7 +61,6 @@ export async function PATCH(request: NextRequest) {
             .from('listings')
             .update({ cost_price, updated_at: new Date().toISOString() })
             .eq('id', id)
-            .eq('user_id', user.id)
         )
       )
       const failed = results.filter(r => r.status === 'rejected').length
@@ -75,7 +73,6 @@ export async function PATCH(request: NextRequest) {
       const { data: listings } = await supabase
         .from('listings')
         .select('id, price')
-        .eq('user_id', user.id)
         .is('cost_price', null)
 
       if (listings && listings.length > 0) {
@@ -85,7 +82,7 @@ export async function PATCH(request: NextRequest) {
         }))
         await Promise.all(
           updates.map(u =>
-            supabase.from('listings').update({ cost_price: u.cost_price }).eq('id', u.id).eq('user_id', user.id)
+            supabase.from('listings').update({ cost_price: u.cost_price }).eq('id', u.id)
           )
         )
         return NextResponse.json({ applied: updates.length })

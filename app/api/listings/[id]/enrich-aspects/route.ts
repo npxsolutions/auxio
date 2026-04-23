@@ -12,6 +12,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { extractAspects } from '@/app/lib/feed/aspects'
 import { validateForChannel } from '@/app/lib/feed/validator'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -19,17 +20,18 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     const url = new URL(req.url)
     const channel = (url.searchParams.get('channel') ?? 'ebay') as 'ebay'
 
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
     )
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).eq('user_id', user.id).maybeSingle()
+      .from('listings').select('*').eq('id', id).maybeSingle()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const { data: lc } = await supabase
@@ -59,7 +61,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       { auth: { autoRefreshToken: false, persistSession: false } },
     )
     await admin.from('listing_channel_aspects').upsert({
-      user_id: user.id,
+      organization_id: ctx.id,
+      user_id: ctx.user.id,
       listing_id: id,
       channel,
       aspects: aspects as unknown as object,

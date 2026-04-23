@@ -29,6 +29,7 @@ const DEFAULT_DAILY_CAP = 20
 type WatchRow = {
   id: string
   user_id: string
+  organization_id: string
   keyword: string
   platforms: string[]
   max_items: number
@@ -53,7 +54,7 @@ export async function GET(request: Request) {
   // by last_run_at nulls first and filter in-code.
   const { data: candidates, error: fetchErr } = await admin
     .from('si_watchlist')
-    .select('id, user_id, keyword, platforms, max_items, frequency_minutes, consecutive_failures, last_run_at')
+    .select('id, user_id, organization_id, keyword, platforms, max_items, frequency_minutes, consecutive_failures, last_run_at')
     .eq('active', true)
     .order('last_run_at', { ascending: true, nullsFirst: true })
     .order('created_at', { ascending: true })
@@ -92,12 +93,12 @@ export async function GET(request: Request) {
       continue
     }
 
-    // 2) Daily per-user cap gate — soft cost control.
+    // 2) Daily per-org cap gate — soft cost control.
     const since24h = new Date(Date.now() - 24 * 3600_000).toISOString()
     const { count: jobCount } = await admin
       .from('si_jobs')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', row.user_id)
+      .eq('organization_id', row.organization_id)
       .gte('created_at', since24h)
       .in('status', ['running', 'completed', 'processing', 'done'])
 
@@ -114,6 +115,7 @@ export async function GET(request: Request) {
     const { data: job, error: jobErr } = await admin
       .from('si_jobs')
       .insert({
+        organization_id: row.organization_id,
         user_id: row.user_id,
         keyword: row.keyword,
         platforms: row.platforms,
@@ -141,22 +143,22 @@ export async function GET(request: Request) {
           const { runId, items } = await runActor('tiktok', tiktokInput(row.keyword, row.max_items), 180)
           apifyRuns.tiktok = runId
           const posts = items.map(i => normaliseTikTok(i as Record<string, unknown> as Record<string, any>))
-          postsIngested += await storePosts(admin, row.user_id, posts, row.keyword)
+          postsIngested += await storePosts(admin, row.organization_id, row.user_id, posts, row.keyword)
         } else if (platform === 'instagram') {
           const { runId, items } = await runActor('instagram', instagramInput(row.keyword, row.max_items), 180)
           apifyRuns.instagram = runId
           const posts = items.map(i => normaliseInstagram(i as Record<string, any>))
-          postsIngested += await storePosts(admin, row.user_id, posts, row.keyword)
+          postsIngested += await storePosts(admin, row.organization_id, row.user_id, posts, row.keyword)
         } else if (platform === 'facebook_ads') {
           const { runId, items } = await runActor('facebook_ads', facebookAdsInput(row.keyword, row.max_items), 180)
           apifyRuns.facebook_ads = runId
           const ads = items.map(i => normaliseFacebookAd(i as Record<string, any>))
-          adsIngested += await storeAds(admin, row.user_id, ads, row.keyword)
+          adsIngested += await storeAds(admin, row.organization_id, row.user_id, ads, row.keyword)
         } else if (platform === 'youtube') {
           const { runId, items } = await runActor('youtube', youtubeInput(row.keyword, row.max_items), 180)
           apifyRuns.youtube = runId
           const posts = items.map(i => normaliseYouTube(i as Record<string, any>))
-          postsIngested += await storePosts(admin, row.user_id, posts, row.keyword)
+          postsIngested += await storePosts(admin, row.organization_id, row.user_id, posts, row.keyword)
         }
       } catch (err: unknown) {
         const msg = (err as Error)?.message || String(err)
@@ -211,7 +213,7 @@ export async function GET(request: Request) {
           'Content-Type': 'application/json',
           'x-cron-secret': process.env.CRON_SECRET || '',
         },
-        body: JSON.stringify({ jobId, userId: row.user_id, keyword: row.keyword }),
+        body: JSON.stringify({ jobId, userId: row.user_id, orgId: row.organization_id, keyword: row.keyword }),
       }).catch(e => console.error('[sync:social-intel:process-trigger]', e))
     } catch (err: unknown) {
       console.error('[sync:social-intel:process-trigger]', err)
@@ -254,6 +256,7 @@ async function bumpFailure(admin: SupabaseClient, row: WatchRow, errorMessage: s
 
 async function storePosts(
   admin: SupabaseClient,
+  orgId: string,
   userId: string,
   posts: NormalisedPost[],
   keyword: string,
@@ -264,23 +267,24 @@ async function storePosts(
   const { data: existing } = await admin
     .from('si_posts')
     .select('id')
-    .eq('user_id', userId)
+    .eq('organization_id', orgId)
     .in('id', ids)
   const existingIds = new Set((existing || []).map((r: { id: string }) => r.id))
   const newPosts = posts.filter(p => !existingIds.has(p.id))
   if (!newPosts.length) return 0
 
   const postRows = newPosts.map(p => ({
-    id:           p.id,
-    user_id:      userId,
-    platform:     p.platform,
-    caption:      p.caption?.slice(0, 2000),
-    url:          p.url,
-    posted_at:    p.posted_at,
-    duration_sec: p.duration_sec,
+    id:              p.id,
+    organization_id: orgId,
+    user_id:         userId,
+    platform:        p.platform,
+    caption:         p.caption?.slice(0, 2000),
+    url:             p.url,
+    posted_at:       p.posted_at,
+    duration_sec:    p.duration_sec,
     keyword,
-    raw_data:     p.raw_data,
-    processed:    false,
+    raw_data:        p.raw_data,
+    processed:       false,
   }))
 
   const engRows = newPosts.map(p => {
@@ -288,6 +292,7 @@ async function storePosts(
     const views = p.views || 1
     return {
       post_id:         p.id,
+      organization_id: orgId,
       user_id:         userId,
       likes:           p.likes,
       shares:          p.shares,
@@ -312,6 +317,7 @@ async function storePosts(
 
 async function storeAds(
   admin: SupabaseClient,
+  orgId: string,
   userId: string,
   ads: NormalisedAd[],
   keyword: string,
@@ -320,6 +326,7 @@ async function storeAds(
 
   const adRows = ads.map(a => ({
     id:              a.id,
+    organization_id: orgId,
     user_id:         userId,
     platform:        a.platform,
     advertiser:      a.advertiser?.slice(0, 200),

@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels } = await supabase
     .from('channels')
-    .select('user_id, access_token, refresh_token, metadata')
+    .select('user_id, organization_id, access_token, refresh_token, metadata')
     .eq('type', 'ebay')
     .eq('active', true)
 
@@ -32,6 +32,7 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
     const lastSync = (metadata.orders_last_synced_at as string | undefined) ?? null
 
@@ -88,6 +89,7 @@ export async function GET(request: Request) {
           const status = String((o as { orderFulfillmentStatus?: string }).orderFulfillmentStatus ?? 'pending').toLowerCase()
           await supabase.from('transactions').upsert(
             {
+              organization_id: orgId,
               user_id: userId,
               channel: 'ebay',
               external_id: orderId,
@@ -115,7 +117,7 @@ export async function GET(request: Request) {
           metadata: { ...metadata, orders_last_synced_at: now },
           last_synced_at: now,
         })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'ebay')
 
       if (jobId) await markCompleted(jobId, orderCount)

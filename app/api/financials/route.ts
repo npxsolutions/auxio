@@ -1,6 +1,14 @@
+/**
+ * Financials API (12-month P&L + working capital).
+ *
+ * `transactions` is org-scoped (Stage A). `purchase_orders` is Stage A.1
+ * follow-up — still user-scoped. `users.plan` still lives on the users row
+ * for Phase 1; moves to `organizations` during Stripe rewrite (C.4).
+ */
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,26 +21,24 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const since12m = new Date()
     since12m.setMonth(since12m.getMonth() - 12)
 
     const [txRes, poRes, userRes] = await Promise.all([
       supabase.from('transactions')
         .select('order_date, sale_price, true_profit, supplier_cost, channel_fee, channel')
-        .eq('user_id', user.id)
         .gte('order_date', since12m.toISOString())
         .order('order_date', { ascending: true }),
       supabase.from('purchase_orders')
         .select('order_date, total_cost, status')
-        .eq('user_id', user.id)
         .gte('order_date', since12m.toISOString().slice(0, 10)),
       supabase.from('users')
         .select('plan')
-        .eq('id', user.id)
+        .eq('id', ctx.user.id)
         .single(),
     ])
 

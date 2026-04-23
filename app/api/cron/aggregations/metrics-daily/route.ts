@@ -5,6 +5,9 @@ import { NextResponse } from 'next/server'
 // Keyed on (user_id, product_id, date) where product_id = transactions.sku
 // (fallback 'unknown' when sku is null/empty). Revenue uses gross_revenue,
 // falling back to sale_price. Idempotent via ON CONFLICT DO UPDATE.
+//
+// TODO Stage A.1: update `aggregate_metrics_daily` SQL function to key on
+// organization_id instead of user_id, so multi-tenant data aggregates correctly.
 
 const getAdmin = () =>
   createClient(

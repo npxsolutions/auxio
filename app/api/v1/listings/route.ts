@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireApiAuth } from '../lib/auth'
+import { requireApiAuthWithOrg } from '../lib/auth'
 import { checkApiRateLimit } from '../../../lib/rate-limit/api-public'
 
 export async function GET(request: NextRequest) {
   try {
-    const { user, error, supabase } = await requireApiAuth(request)
+    const { userId, organizationId, error, supabase } = await requireApiAuthWithOrg(request)
     if (error) return error
 
     const rl = await checkApiRateLimit(request)
@@ -16,14 +16,11 @@ export async function GET(request: NextRequest) {
     const limit   = Math.min(parseInt(sp.get('limit') ?? '50'), 200)
     const offset  = parseInt(sp.get('offset') ?? '0')
 
-    // NOTE: `public.listings` does not have `channel` or `stock_quantity` columns.
-    // The real columns are `category` and `quantity`. The channel relationship
-    // lives in `public.listing_channels` — filter via that join when a channel
-    // query-param is provided.
+    // listings is org-scoped (Stage A). Service-role client — must filter explicitly.
     let query = supabase!
       .from('listings')
       .select('id, title, status, category, price, quantity, sku, created_at, updated_at')
-      .eq('user_id', user!.id)
+      .eq('organization_id', organizationId!)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
 
@@ -34,6 +31,7 @@ export async function GET(request: NextRequest) {
       const { data: ids, error: idErr } = await supabase!
         .from('listing_channels')
         .select('listing_id')
+        .eq('organization_id', organizationId!)
         .eq('channel_type', channel)
       if (idErr) {
         console.error('[api/v1/listings] listing_channels lookup error', idErr)
@@ -53,9 +51,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: dbError.message }, { status: 500 })
     }
 
-    // Maintain a stable API shape: expose `category` as `channel` would be
-    // misleading, so we expose real names. `stock_quantity` is aliased to
-    // `quantity` in the response for consumers that relied on the old name.
     const transformed = (data ?? []).map((r) => ({
       id:             r.id,
       title:          r.title,
@@ -71,7 +66,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       data: transformed,
-      meta: { count: transformed.length, offset, limit },
+      meta: { count: transformed.length, offset, limit, organization_id: organizationId },
     })
   } catch (err) {
     console.error('[api/v1/listings] error', err)

@@ -11,6 +11,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
+    "test:rls": "vitest run --config vitest.integration.config.ts",
+    "test:rls:seed": "tsx scripts/test/seed-two-orgs.ts",
     "capture": "tsx scripts/capture-assets.ts",
     "prospect:enrich": "tsx scripts/prospect-enrichment.ts"
   },

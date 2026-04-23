@@ -9,6 +9,11 @@ import { recordDeadLetter } from '../../lib/sync/jobs'
 // aggregation job (rollup of orders -> daily revenue/orders per product_id) is
 // still needed. Candidate home: new app/api/metrics/aggregate/route.ts running
 // nightly under CRON_SECRET, grouped by user_id + product_id + date.
+//
+// TODO Stage C.3: the call to /api/listings/[id]/publish uses cookie-based
+// requireActiveOrg() — server-to-server invocation without cookies will fail.
+// Add an x-sync-secret fast path in publish that loads the listing's org by
+// listing_id and skips the cookie check.
 
 const getAdminSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

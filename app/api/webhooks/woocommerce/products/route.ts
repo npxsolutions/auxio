@@ -35,15 +35,17 @@ export async function POST(request: Request) {
 
   let secret = process.env.WOOCOMMERCE_WEBHOOK_SECRET || ''
   let channelUserId: string | null = null
+  let channelOrgId: string | null = null
   if (siteUrl) {
     const { data: ch } = await supabase
       .from('channels')
-      .select('user_id, metadata')
+      .select('user_id, organization_id, metadata')
       .eq('type', 'woocommerce')
       .eq('shop_domain', siteUrl)
       .maybeSingle()
     if (ch) {
       channelUserId = ch.user_id as string
+      channelOrgId = ch.organization_id as string
       const meta = (ch.metadata ?? {}) as { webhook_secret?: string }
       if (meta.webhook_secret) secret = meta.webhook_secret
     }
@@ -103,6 +105,7 @@ export async function POST(request: Request) {
 
   let listingId = existingLc?.listing_id as string | undefined
   const listingPayload = {
+    organization_id: channelOrgId,
     user_id: channelUserId,
     title: product.name ?? 'Untitled',
     description: product.description ?? '',
@@ -133,6 +136,7 @@ export async function POST(request: Request) {
   await supabase.from('listing_channels').upsert(
     {
       listing_id: listingId,
+      organization_id: channelOrgId,
       user_id: channelUserId,
       channel_type: 'woocommerce',
       channel_listing_id: externalId,

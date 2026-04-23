@@ -5,8 +5,8 @@
 // never touches secret env.
 
 import { NextResponse } from 'next/server'
-import { createClient } from '../../../lib/supabase-server'
 import { getSupabaseAdmin } from '../../../lib/supabase-admin'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -45,15 +45,13 @@ const USER_TABLES: Array<{ table: string; userCol: string }> = [
 ]
 
 export async function POST() {
-  const supabase = await createClient()
-  const { data: { user }, error: authErr } = await supabase.auth.getUser()
-  if (authErr || !user) {
-    return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
-  }
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
 
   const admin = getSupabaseAdmin()
-  const userId = user.id
+  const userId = ctx.user.id
 
+  // TODO Stage C.3: also dump org-scoped data for orgs the user owns.
   // Profile row.
   const { data: profile } = await admin.from('users').select('*').eq('id', userId).maybeSingle()
 
@@ -77,7 +75,7 @@ export async function POST() {
       format: 'palvento.dsar.v1',
       exported_at: new Date().toISOString(),
       user_id: userId,
-      user_email: user.email,
+      user_email: ctx.user.email,
       counts,
       notice:
         'This archive contains all personal and operational data Palvento holds about you under GDPR Art. 15 (right of access) and Art. 20 (right to portability). Questions: security@palvento.com.',

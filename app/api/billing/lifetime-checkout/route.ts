@@ -1,44 +1,48 @@
 // [api/billing/lifetime-checkout] — start a one-time Stripe Checkout for the
 // Lifetime Scale offer. Successful completion is observed in the webhook,
-// which sets users.plan='lifetime_scale' and billing_interval='lifetime'.
+// which sets org.plan='lifetime_scale' and billing_interval='lifetime'.
 
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { createClient } from '@supabase/supabase-js'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
+const getAdmin = () =>
+  createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
-  )
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   const priceId = process.env.STRIPE_PRICE_LIFETIME_SCALE
   if (!priceId) return NextResponse.json({ error: 'lifetime price not configured' }, { status: 400 })
 
-  const { data: row } = await supabase
-    .from('users')
+  const admin = getAdmin()
+  const { data: org } = await admin
+    .from('organizations')
     .select('stripe_customer_id')
-    .eq('id', user.id)
+    .eq('id', ctx.id)
     .maybeSingle()
 
   const stripe = getStripe()
 
-  let customerId = row?.stripe_customer_id as string | undefined
+  let customerId = org?.stripe_customer_id as string | undefined
   if (!customerId) {
     const customer = await stripe.customers.create({
-      email: user.email,
-      metadata: { supabase_user_id: user.id },
+      email: ctx.user.email ?? undefined,
+      metadata: {
+        organization_id: ctx.id,
+        supabase_user_id: ctx.user.id,
+      },
     })
     customerId = customer.id
-    await supabase.from('users').upsert({ id: user.id, stripe_customer_id: customerId })
+    await admin
+      .from('organizations')
+      .update({ stripe_customer_id: customerId })
+      .eq('id', ctx.id)
   }
 
   const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
@@ -51,7 +55,11 @@ export async function POST(request: Request) {
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${origin}/billing?lifetime=success`,
       cancel_url:  `${origin}/billing?lifetime=cancelled`,
-      metadata: { supabase_user_id: user.id, offer: 'lifetime_scale' },
+      metadata: {
+        organization_id: ctx.id,
+        supabase_user_id: ctx.user.id,
+        offer: 'lifetime_scale',
+      },
     })
     return NextResponse.json({ url: session.url })
   } catch (err: any) {

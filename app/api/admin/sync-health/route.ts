@@ -34,16 +34,16 @@ export async function GET() {
   const since24h = new Date(Date.now() - 24 * 3600_000).toISOString()
 
   const [channelsRes, jobsRes, failuresRes, syncStateRes] = await Promise.all([
-    admin.from('channels').select('user_id, type, last_synced_at'),
+    admin.from('channels').select('user_id, organization_id, type, last_synced_at'),
     admin
       .from('sync_jobs')
-      .select('user_id, channel_type, status, started_at, completed_at, error_message')
+      .select('user_id, organization_id, channel_type, status, started_at, completed_at, error_message')
       .gte('started_at', since24h),
     admin
       .from('sync_failures')
-      .select('user_id, channel_type, job_type, attempts, last_failed_at, resolved_at')
+      .select('user_id, organization_id, channel_type, job_type, attempts, last_failed_at, resolved_at')
       .is('resolved_at', null),
-    admin.from('channel_sync_state').select('user_id, channel_type, sync_attempts, last_error'),
+    admin.from('channel_sync_state').select('user_id, organization_id, channel_type, sync_attempts, last_error'),
   ])
 
   const channels = channelsRes.data ?? []
@@ -60,12 +60,15 @@ export async function GET() {
     dead_letter: number
   }
 
-  const buckets: Record<string, Stats> = {}
-  const keyFor = (userId: string, ch: string) => `${userId}::${ch}`
+  const buckets: Record<string, Stats & { organization_id: string | null; user_id: string }> = {}
+  // Key by org+channel so one user's multiple orgs show as distinct rows.
+  const keyFor = (orgId: string | null, ch: string) => `${orgId ?? 'no-org'}::${ch}`
 
   for (const c of channels) {
-    const k = keyFor(c.user_id as string, c.type as string)
+    const k = keyFor(c.organization_id as string | null, c.type as string)
     buckets[k] = {
+      organization_id: (c.organization_id as string | null) ?? null,
+      user_id: c.user_id as string,
       last_successful_sync: (c.last_synced_at as string | null) ?? null,
       error_rate_24h: 0,
       rate_limit_hits_24h: 0,
@@ -78,9 +81,11 @@ export async function GET() {
   const jobsByKey: Record<string, { total: number; errors: number }> = {}
   for (const j of jobs) {
     const ch = (j.channel_type as string | null) ?? 'unknown'
-    const k = keyFor(j.user_id as string, ch)
+    const k = keyFor(j.organization_id as string | null, ch)
     if (!buckets[k]) {
       buckets[k] = {
+        organization_id: (j.organization_id as string | null) ?? null,
+        user_id: j.user_id as string,
         last_successful_sync: null,
         error_rate_24h: 0,
         rate_limit_hits_24h: 0,
@@ -105,9 +110,11 @@ export async function GET() {
   }
 
   for (const f of failures) {
-    const k = keyFor(f.user_id as string, f.channel_type as string)
+    const k = keyFor(f.organization_id as string | null, f.channel_type as string)
     if (!buckets[k]) {
       buckets[k] = {
+        organization_id: (f.organization_id as string | null) ?? null,
+        user_id: f.user_id as string,
         last_successful_sync: null,
         error_rate_24h: 0,
         rate_limit_hits_24h: 0,
@@ -142,8 +149,8 @@ export async function GET() {
     known_channels: KNOWN_CHANNELS,
     per_channel: Object.fromEntries(
       Object.entries(buckets).map(([k, v]) => {
-        const [userId, channel] = k.split('::')
-        return [k, { user_id: userId, channel, ...v }]
+        const [_orgId, channel] = k.split('::')
+        return [k, { channel, ...v }]
       }),
     ),
     social_intel: {

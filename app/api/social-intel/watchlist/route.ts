@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -15,14 +16,13 @@ async function getSupabase() {
 const ALLOWED_PLATFORMS = new Set(['tiktok', 'instagram', 'youtube', 'facebook_ads'])
 
 export async function GET() {
-  const supabase = await getSupabase()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('si_watchlist')
     .select('*')
-    .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -33,9 +33,10 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const supabase = await getSupabase()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   let body: {
     keyword?: string
@@ -67,7 +68,8 @@ export async function POST(request: Request) {
     .from('si_watchlist')
     .upsert(
       {
-        user_id: user.id,
+        organization_id: ctx.id,
+        user_id: ctx.user.id,
         keyword,
         platforms,
         frequency_minutes,
@@ -87,9 +89,10 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const supabase = await getSupabase()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
@@ -99,7 +102,6 @@ export async function DELETE(request: Request) {
     .from('si_watchlist')
     .delete()
     .eq('id', id)
-    .eq('user_id', user.id)
 
   if (error) {
     console.error('[social-intel:watchlist:DELETE]', error)

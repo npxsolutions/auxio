@@ -1,19 +1,21 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import { generateRecommendations } from '../../../lib/nlp'
 
 // GET /api/social-intel/query?keyword=ecom+ads&view=overview|hooks|content|audience|recommendations
 
 export async function GET(request: Request) {
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
   )
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const keyword = searchParams.get('keyword')
@@ -24,9 +26,9 @@ export async function GET(request: Request) {
   // ── Overview ───────────────────────────────────────────────────────────────
   if (view === 'overview') {
     const [postsRes, adsRes, jobRes] = await Promise.all([
-      supabase.from('si_posts').select('id, platform', { count: 'exact' }).eq('user_id', user.id).eq('keyword', keyword),
-      supabase.from('si_ads').select('id', { count: 'exact' }).eq('user_id', user.id).eq('keyword', keyword),
-      supabase.from('si_jobs').select('*').eq('user_id', user.id).eq('keyword', keyword).order('started_at', { ascending: false }).limit(1).single(),
+      supabase.from('si_posts').select('id, platform', { count: 'exact' })/* RLS scopes by org */.eq('keyword', keyword),
+      supabase.from('si_ads').select('id', { count: 'exact' })/* RLS scopes by org */.eq('keyword', keyword),
+      supabase.from('si_jobs').select('*')/* RLS scopes by org */.eq('keyword', keyword).order('started_at', { ascending: false }).limit(1).single(),
     ])
 
     // Platform breakdown
@@ -39,7 +41,7 @@ export async function GET(request: Request) {
     const { data: engData } = await supabase
       .from('si_engagements')
       .select('engagement_rate, share_rate, save_rate')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .in('post_id', (postsRes.data || []).map((p: any) => p.id))
 
     const avgEng = engData?.length
@@ -61,7 +63,7 @@ export async function GET(request: Request) {
     const { data: patterns } = await supabase
       .from('si_hook_patterns')
       .select('*')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .eq('keyword', keyword)
       .order('avg_engagement', { ascending: false })
 
@@ -69,7 +71,7 @@ export async function GET(request: Request) {
     const { data: topPosts } = await supabase
       .from('si_posts')
       .select('id, hook, hook_category, caption, url, platform')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .eq('keyword', keyword)
       .not('hook', 'is', null)
       .limit(50)
@@ -79,7 +81,7 @@ export async function GET(request: Request) {
       .from('si_engagements')
       .select('post_id, engagement_rate, share_rate, save_rate, views')
       .in('post_id', postIds)
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
 
     const engMap = new Map((engagements || []).map((e: any) => [e.post_id, e]))
 
@@ -96,7 +98,7 @@ export async function GET(request: Request) {
     const { data: posts } = await supabase
       .from('si_posts')
       .select('id, content_type, format, duration_sec, platform, posted_at')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .eq('keyword', keyword)
       .not('content_type', 'is', null)
 
@@ -105,7 +107,7 @@ export async function GET(request: Request) {
       .from('si_engagements')
       .select('post_id, engagement_rate, share_rate, save_rate, views')
       .in('post_id', postIds)
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
 
     const engMap = new Map((engagements || []).map((e: any) => [e.post_id, e]))
 
@@ -161,8 +163,8 @@ export async function GET(request: Request) {
   // ── Audience Insights ──────────────────────────────────────────────────────
   if (view === 'audience') {
     const [insightsRes, commentsRes] = await Promise.all([
-      supabase.from('si_insights').select('*').eq('user_id', user.id).eq('keyword', keyword).order('evidence_count', { ascending: false }),
-      supabase.from('si_comments').select('intent, sentiment').eq('user_id', user.id).limit(500),
+      supabase.from('si_insights').select('*')/* RLS scopes by org */.eq('keyword', keyword).order('evidence_count', { ascending: false }),
+      supabase.from('si_comments').select('intent, sentiment')/* RLS scopes by org */.limit(500),
     ])
 
     // Intent distribution
@@ -187,7 +189,7 @@ export async function GET(request: Request) {
     const { data: hookPatterns } = await supabase
       .from('si_hook_patterns')
       .select('hook_category, example_hook, avg_engagement')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .eq('keyword', keyword)
       .order('avg_engagement', { ascending: false })
       .limit(5)
@@ -196,7 +198,7 @@ export async function GET(request: Request) {
     const { data: posts } = await supabase
       .from('si_posts')
       .select('id, format, content_type')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .eq('keyword', keyword)
       .not('format', 'is', null)
 
@@ -205,7 +207,7 @@ export async function GET(request: Request) {
       .from('si_engagements')
       .select('post_id, engagement_rate')
       .in('post_id', postIds)
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
 
     const engMap = new Map((engs || []).map((e: any) => [e.post_id, e.engagement_rate || 0]))
     const fmtMap: Record<string, number[]> = {}
@@ -225,7 +227,7 @@ export async function GET(request: Request) {
     const { data: insights } = await supabase
       .from('si_insights')
       .select('insight_type, insight_text')
-      .eq('user_id', user.id)
+      /* RLS scopes by org */
       .eq('keyword', keyword)
 
     const audienceWants     = (insights || []).filter((i: any) => i.insight_type === 'desire').map((i: any) => i.insight_text)

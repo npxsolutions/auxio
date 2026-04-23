@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
   const { data: channel } = await supabase
     .from('channels')
-    .select('user_id')
+    .select('user_id, organization_id')
     .eq('shop_domain', shopDomain)
     .eq('type', 'shopify')
     .maybeSingle()
@@ -75,6 +75,7 @@ export async function POST(request: Request) {
   }
 
   const userId = channel.user_id as string
+  const orgId = channel.organization_id as string
   const externalId = String(product.id)
   const firstVariant = product.variants?.[0]
   const price = firstVariant?.price ? parseFloat(firstVariant.price) : 0
@@ -108,6 +109,7 @@ export async function POST(request: Request) {
   let listingId = existingLc?.listing_id as string | undefined
 
   const listingPayload = {
+    organization_id: orgId,
     user_id: userId,
     title: product.title ?? 'Untitled',
     description: product.body_html ?? '',
@@ -142,6 +144,7 @@ export async function POST(request: Request) {
   await supabase.from('listing_channels').upsert(
     {
       listing_id: listingId,
+      organization_id: orgId,
       user_id: userId,
       channel_type: 'shopify',
       channel_listing_id: externalId,
@@ -153,6 +156,7 @@ export async function POST(request: Request) {
 
   await supabase.from('channel_sync_state').upsert(
     {
+      organization_id: orgId,
       listing_id: listingId,
       user_id: userId,
       channel_type: 'shopify',

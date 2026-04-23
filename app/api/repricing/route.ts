@@ -1,6 +1,10 @@
+/**
+ * Repricing rules API. Org-scoped (Stage A.1).
+ */
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,14 +17,13 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { data, error } = await supabase
       .from('repricing_rules')
       .select('*')
-      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -32,10 +35,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const body = await request.json()
     const { name, channel, strategy, strategy_param, floor_price, ceiling_price, min_margin_pct, active } = body
 
@@ -45,8 +48,9 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase
       .from('repricing_rules')
       .insert({
-        user_id:        user.id,
-        name:           name.trim(),
+        organization_id: ctx.id,
+        user_id:         ctx.user.id,
+        name:            name.trim(),
         channel:        channel || 'all',
         strategy,
         strategy_param: strategy_param || 0,
@@ -67,10 +71,10 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const body = await request.json()
     const { id, ...updates } = body
     if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
@@ -79,7 +83,6 @@ export async function PATCH(request: NextRequest) {
       .from('repricing_rules')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
-      .eq('user_id', user.id)
       .select()
       .single()
 
@@ -92,10 +95,10 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { id } = await request.json()
     if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
 
@@ -103,7 +106,6 @@ export async function DELETE(request: NextRequest) {
       .from('repricing_rules')
       .delete()
       .eq('id', id)
-      .eq('user_id', user.id)
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })

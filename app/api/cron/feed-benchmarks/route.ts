@@ -12,6 +12,11 @@ import {
 // Computes anonymised (channel, category_bucket, gmv_band) rollups from
 // listing_health + listing_channels + transactions for the trailing 7 days.
 // Only tuples with >= PRIVACY_FLOOR_K distinct contributing users are persisted.
+//
+// TODO Stage A.1: switch the anonymity-floor key from user_id to
+// organization_id. Today one user contributes once per bucket regardless of
+// how many orgs they belong to, which understates the k-count. Each org is
+// the business unit — that's what should be counted.
 
 export const maxDuration = 300
 

@@ -1,36 +1,37 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { createClient } from '@supabase/supabase-js'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
 
+const getAdmin = () =>
+  createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
+
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    const { data: userData } = await supabase
-      .from('users')
+    const { data: org } = await getAdmin()
+      .from('organizations')
       .select('stripe_customer_id')
-      .eq('id', user.id)
+      .eq('id', ctx.id)
       .single()
 
-    if (!userData?.stripe_customer_id) {
-      return NextResponse.json({ error: 'No billing account found. Subscribe to a plan first.' }, { status: 400 })
+    if (!org?.stripe_customer_id) {
+      return NextResponse.json(
+        { error: 'No billing account found for this organization. Subscribe to a plan first.' },
+        { status: 400 },
+      )
     }
 
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
 
     const session = await getStripe().billingPortal.sessions.create({
-      customer: userData.stripe_customer_id,
+      customer: org.stripe_customer_id as string,
       return_url: `${origin}/billing`,
     })
 

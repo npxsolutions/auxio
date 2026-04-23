@@ -31,7 +31,7 @@ export async function GET() {
   const admin = getAdmin()
   const { data, error } = await admin
     .from('channels')
-    .select('id, user_id, access_token, metadata, created_at')
+    .select('id, user_id, organization_id, access_token, metadata, created_at')
     .eq('type', 'ebay')
     .order('created_at', { ascending: false })
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -47,6 +47,7 @@ export async function GET() {
     return {
       channel_id: c.id,
       user_id: c.user_id,
+      organization_id: c.organization_id,
       marketplace: (meta.ebay_marketplace as string) ?? 'EBAY_US',
       status,
       payment_policy_id: pay ?? null,

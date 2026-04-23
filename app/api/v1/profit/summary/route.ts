@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireApiAuth } from '../../lib/auth'
+import { requireApiAuthWithOrg } from '../../lib/auth'
 import { checkApiRateLimit } from '../../../../lib/rate-limit/api-public'
 
 export async function GET(request: NextRequest) {
   try {
-    const { user, error, supabase } = await requireApiAuth(request)
+    const { organizationId, error, supabase } = await requireApiAuthWithOrg(request)
     if (error) return error
 
     const rl = await checkApiRateLimit(request)
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     let query = supabase!
       .from('transactions')
       .select('gross_revenue, true_profit, channel, advertising_cost, created_at')
-      .eq('user_id', user!.id)
+      .eq('organization_id', organizationId!)
       .gte('created_at', since)
 
     if (channel) query = query.eq('channel', channel)

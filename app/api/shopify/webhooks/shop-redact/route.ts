@@ -28,20 +28,23 @@ export async function POST(request: Request) {
 
   const supabase = getSupabase()
 
-  // Find the channel for this shop to get the user_id
+  // Find the channel for this shop to get the organization_id
   const { data: channel } = await supabase
     .from('channels')
-    .select('id, user_id')
+    .select('id, user_id, organization_id')
     .eq('shop_domain', shop_domain)
     .eq('type', 'shopify')
     .single()
 
   if (channel) {
-    // Delete all Shopify transactions for this shop's user
+    const orgId = channel.organization_id as string
+
+    // Delete all Shopify transactions for this org (safer — only this org's data
+    // even if the user owns multiple orgs)
     await supabase
       .from('transactions')
       .delete()
-      .eq('user_id', channel.user_id)
+      .eq('organization_id', orgId)
       .eq('channel', 'shopify')
 
     // Delete the channel record itself

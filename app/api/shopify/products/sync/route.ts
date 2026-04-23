@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,20 +9,14 @@ const getAdmin = () => createClient(
 
 export async function POST() {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
+    // service-role — must filter explicitly
     const { data: channel } = await getAdmin()
       .from('channels')
       .select('access_token, shop_domain, shop_name')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('type', 'shopify')
       .eq('active', true)
       .single()
@@ -38,7 +31,7 @@ export async function POST() {
     const { data: existingChannels } = await getAdmin()
       .from('listing_channels')
       .select('channel_listing_id')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('channel_type', 'shopify')
       .not('channel_listing_id', 'is', null)
 
@@ -81,7 +74,8 @@ export async function POST() {
           const images = (product.images || []).map((img: any) => img.src).filter(Boolean).slice(0, 8)
 
           const { data: newListing, error } = await getAdmin().from('listings').insert({
-            user_id:     user.id,
+            organization_id: ctx.id,
+            user_id:         ctx.user.id,
             title,
             description: product.body_html || '',
             price:       parseFloat(variant.price || '0'),
@@ -103,8 +97,9 @@ export async function POST() {
 
           if (!error && newListing) {
             await getAdmin().from('listing_channels').insert({
+              organization_id:    ctx.id,
               listing_id:         newListing.id,
-              user_id:            user.id,
+              user_id:            ctx.user.id,
               channel_type:       'shopify',
               channel_listing_id: listingId,
               channel_url:        `https://${shop_domain}/products/${product.handle}`,
@@ -133,10 +128,10 @@ export async function POST() {
     await getAdmin()
       .from('channels')
       .update({ last_synced_at: new Date().toISOString() })
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('type', 'shopify')
 
-    console.log(`[shopify:products:sync] user=${user.id} imported=${imported} skipped=${skipped}`)
+    console.log(`[shopify:products:sync] org=${ctx.id} imported=${imported} skipped=${skipped}`)
 
     return NextResponse.json({
       imported,

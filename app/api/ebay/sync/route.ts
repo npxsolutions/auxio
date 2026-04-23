@@ -1,9 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { XMLParser } from 'fast-xml-parser'
 import { getEbayAccessToken } from '../../../lib/ebay/auth'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,20 +16,14 @@ function parseItemId(raw: string): string {
 
 export async function POST() {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
+    // service-role — must filter explicitly
     const { data: channel } = await getAdmin()
       .from('channels')
       .select('access_token, refresh_token, shop_name, metadata')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('type', 'ebay')
       .eq('active', true)
       .single()
@@ -41,7 +34,7 @@ export async function POST() {
 
     const tokenResult = await getEbayAccessToken(
       {
-        user_id: user.id,
+        user_id: ctx.user.id,
         access_token: channel.access_token as string | null,
         refresh_token: (channel.refresh_token as string | null) ?? null,
         metadata: (channel.metadata as Record<string, unknown> | null) ?? {},
@@ -56,7 +49,7 @@ export async function POST() {
     const { data: existingChannels } = await getAdmin()
       .from('listing_channels')
       .select('channel_listing_id')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('channel_type', 'ebay')
       .not('channel_listing_id', 'is', null)
 
@@ -71,16 +64,15 @@ export async function POST() {
       const { data: fresh } = await getAdmin()
         .from('channels')
         .select('access_token, refresh_token, metadata')
-        .eq('user_id', user.id)
+        .eq('organization_id', ctx.id)
         .eq('type', 'ebay')
         .single()
       if (!fresh) return null
-      // Invalidate cache so getEbayAccessToken refreshes
       const meta = (fresh.metadata as Record<string, unknown> | null) ?? {}
       const invalid = { ...meta, ebay_token_expires_at: 0 }
       const r = await getEbayAccessToken(
         {
-          user_id: user.id,
+          user_id: ctx.user.id,
           access_token: fresh.access_token as string | null,
           refresh_token: (fresh.refresh_token as string | null) ?? null,
           metadata: invalid,
@@ -150,23 +142,25 @@ export async function POST() {
       const avail   = item.availability?.shipToLocationAvailability || {}
 
       const { data: newListing, error } = await getAdmin().from('listings').insert({
-        user_id:     user.id,
-        title:       product.title || item.sku || 'Untitled',
-        description: product.description || '',
-        price:       parseFloat(offer?.pricingSummary?.price?.value || '0'),
-        sku:         item.sku,
-        brand:       product.brand || '',
-        condition:   (item.condition || '').toLowerCase().includes('new') ? 'new' : 'used',
-        quantity:    avail.quantity ?? 0,
-        images:      (product.imageUrls || []).slice(0, 8),
-        attributes:  product.aspects || {},
-        status:      offer?.status === 'PUBLISHED' ? 'published' : 'draft',
+        organization_id: ctx.id,
+        user_id:         ctx.user.id,
+        title:           product.title || item.sku || 'Untitled',
+        description:     product.description || '',
+        price:           parseFloat(offer?.pricingSummary?.price?.value || '0'),
+        sku:             item.sku,
+        brand:           product.brand || '',
+        condition:       (item.condition || '').toLowerCase().includes('new') ? 'new' : 'used',
+        quantity:        avail.quantity ?? 0,
+        images:          (product.imageUrls || []).slice(0, 8),
+        attributes:      product.aspects || {},
+        status:          offer?.status === 'PUBLISHED' ? 'published' : 'draft',
       }).select('id').single()
 
       if (!error && newListing) {
         await getAdmin().from('listing_channels').insert({
+          organization_id:    ctx.id,
           listing_id:         newListing.id,
-          user_id:            user.id,
+          user_id:            ctx.user.id,
           channel_type:       'ebay',
           channel_listing_id: ebayItemId || null,
           channel_url:        ebayItemId ? `https://www.ebay.co.uk/itm/${ebayItemId}` : null,
@@ -247,18 +241,19 @@ export async function POST() {
           const condition = (item.ConditionDisplayName || item.ConditionID || '').toString().toLowerCase()
 
           const { data: newListing, error: insertErr } = await getAdmin().from('listings').insert({
-            user_id:     user.id,
-            title:       item.Title || 'Untitled',
-            description: '',
-            price:       isNaN(price) ? 0 : price,
-            sku:         item.SKU || '',
-            brand:       '',
-            category:    item.PrimaryCategory?.CategoryName || '',
-            condition:   condition.includes('new') ? 'new' : 'used',
-            quantity:    parseInt(item.QuantityAvailable ?? item.Quantity ?? '1', 10),
-            images:      gallery ? [gallery] : [],
-            attributes:  {},
-            status:      'published',
+            organization_id: ctx.id,
+            user_id:         ctx.user.id,
+            title:           item.Title || 'Untitled',
+            description:     '',
+            price:           isNaN(price) ? 0 : price,
+            sku:             item.SKU || '',
+            brand:           '',
+            category:        item.PrimaryCategory?.CategoryName || '',
+            condition:       condition.includes('new') ? 'new' : 'used',
+            quantity:        parseInt(item.QuantityAvailable ?? item.Quantity ?? '1', 10),
+            images:          gallery ? [gallery] : [],
+            attributes:      {},
+            status:          'published',
           }).select('id').single()
 
           if (insertErr) {
@@ -268,8 +263,9 @@ export async function POST() {
 
           if (newListing) {
             await getAdmin().from('listing_channels').insert({
+              organization_id:    ctx.id,
               listing_id:         newListing.id,
-              user_id:            user.id,
+              user_id:            ctx.user.id,
               channel_type:       'ebay',
               channel_listing_id: ebayItemId,
               channel_url:        item.ListingDetails?.ViewItemURL || `https://www.ebay.co.uk/itm/${ebayItemId}`,
@@ -293,7 +289,7 @@ export async function POST() {
     await getAdmin()
       .from('channels')
       .update({ last_synced_at: new Date().toISOString() })
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('type', 'ebay')
 
     return NextResponse.json({

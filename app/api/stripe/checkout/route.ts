@@ -1,9 +1,15 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { createClient } from '@supabase/supabase-js'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
+
+// Service role for reading/writing org billing columns — bypasses RLS.
+const getAdmin = () =>
+  createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
 
 const PRICE_IDS: Record<string, string> = {
   starter:    process.env.STRIPE_PRICE_STARTER    || '',
@@ -14,54 +20,55 @@ const PRICE_IDS: Record<string, string> = {
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
-
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { plan } = await request.json()
     const priceId = PRICE_IDS[plan]
     if (!priceId) return NextResponse.json({ error: `No price ID configured for plan: ${plan}` }, { status: 400 })
 
-    // Get or look up existing Stripe customer
-    const { data: userData } = await supabase
-      .from('users')
+    const admin = getAdmin()
+
+    // Resolve the org's Stripe customer — creating one if this is the first checkout.
+    const { data: org } = await admin
+      .from('organizations')
       .select('stripe_customer_id')
-      .eq('id', user.id)
+      .eq('id', ctx.id)
       .single()
 
-    let customerId = userData?.stripe_customer_id as string | undefined
+    let customerId = org?.stripe_customer_id as string | undefined
 
     if (!customerId) {
       const customer = await getStripe().customers.create({
-        email: user.email,
-        metadata: { supabase_user_id: user.id },
+        email: ctx.user.email ?? undefined,
+        metadata: {
+          organization_id: ctx.id,
+          supabase_user_id: ctx.user.id, // transition-period compat
+        },
       })
       customerId = customer.id
-      await supabase.from('users').upsert({ id: user.id, stripe_customer_id: customerId })
+      await admin
+        .from('organizations')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', ctx.id)
     }
 
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'
 
     // Referred-friend discount: if user has a pending referral, apply the coupon.
+    // NOTE: referrals stays user-scoped (Stage A.1 follow-up).
     let discounts: Stripe.Checkout.SessionCreateParams.Discount[] | undefined
     try {
-      const { data: pendingRef } = await supabase
+      const { data: pendingRef } = await admin
         .from('referrals')
         .select('id, status, discount_applied')
-        .eq('referred_user_id', user.id)
+        .eq('referred_user_id', ctx.user.id)
         .in('status', ['pending', 'signed_up'])
         .maybeSingle()
       if (pendingRef && !pendingRef.discount_applied) {
         const couponId = process.env.STRIPE_COUPON_REFERRED_FRIEND || 'REFERRED_FRIEND_10'
         discounts = [{ coupon: couponId }]
-        // Mark discount as applied so we don't double-apply on retry.
-        await supabase.from('referrals').update({ discount_applied: couponId }).eq('id', pendingRef.id)
+        await admin.from('referrals').update({ discount_applied: couponId }).eq('id', pendingRef.id)
       }
     } catch (err) {
       console.error('[api/stripe/checkout:POST] referral discount lookup failed', err)
@@ -74,8 +81,18 @@ export async function POST(request: Request) {
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${origin}/billing?success=true`,
       cancel_url:  `${origin}/billing?cancelled=true`,
-      metadata: { supabase_user_id: user.id, plan },
-      subscription_data: { metadata: { supabase_user_id: user.id, plan } },
+      metadata: {
+        organization_id: ctx.id,
+        supabase_user_id: ctx.user.id,
+        plan,
+      },
+      subscription_data: {
+        metadata: {
+          organization_id: ctx.id,
+          supabase_user_id: ctx.user.id,
+          plan,
+        },
+      },
       ...(discounts ? { discounts } : { allow_promotion_codes: true }),
     })
 

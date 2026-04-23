@@ -10,6 +10,9 @@
  * (/api/cron/feed-patterns) but can be called on any schedule.
  *
  * Auth: CRON_SECRET bearer token (same pattern as all other crons).
+ *
+ * TODO Stage A.1: switch anonymity-floor key from user_id to organization_id
+ * (same rationale as feed-benchmarks + feed-patterns).
  */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'

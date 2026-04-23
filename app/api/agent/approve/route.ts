@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,6 +11,9 @@ const getAdmin = () => createClient(
 
 export async function POST(request: Request) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,18 +21,14 @@ export async function POST(request: Request) {
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
     const { actionId } = await request.json()
     if (!actionId) return NextResponse.json({ error: 'Missing actionId' }, { status: 400 })
 
-    // Fetch the action to validate ownership + get data
+    // agent_pending_actions is org-scoped — RLS handles isolation
     const { data: action } = await supabase
       .from('agent_pending_actions')
       .select('*')
       .eq('id', actionId)
-      .eq('user_id', user.id)
       .eq('status', 'pending')
       .single()
 
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     const { data: userSettings } = await getAdmin()
       .from('users')
       .select('min_margin, max_acos, agent_mode')
-      .eq('id', user.id)
+      .eq('id', ctx.user.id)
       .single()
 
     if (userSettings && action.action_type === 'reprice' && action.metadata?.new_margin != null) {
@@ -69,13 +69,14 @@ export async function POST(request: Request) {
 
     // Log to action log
     await supabase.from('agent_action_log').insert({
-      user_id:      user.id,
-      action_type:  action.action_type,
-      title:        action.title,
-      description:  action.description,
-      profit_impact: action.profit_impact,
-      executed_at:  new Date().toISOString(),
-      mode:         'copilot',
+      organization_id: ctx.id,
+      user_id:         ctx.user.id,
+      action_type:     action.action_type,
+      title:           action.title,
+      description:     action.description,
+      profit_impact:   action.profit_impact,
+      executed_at:     new Date().toISOString(),
+      mode:            'copilot',
     })
 
     return NextResponse.json({ success: true, action })

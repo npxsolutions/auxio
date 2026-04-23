@@ -14,7 +14,8 @@ export async function GET(request: Request) {
         'GET /api/v1/channels':       'List your connected channels',
         'GET /api/v1/inventory':      'Current inventory levels',
       },
-      auth:       'Authorization: Bearer <supabase-access-token>',
+      auth:       'Authorization: Bearer <supabase-access-token | api-key>',
+      organization: 'Optional X-Organization-Id header selects which org to query; defaults to your personal org.',
       rate_limit: '1000 requests / hour',
     })
   } catch (err) {

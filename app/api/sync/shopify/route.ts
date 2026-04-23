@@ -22,7 +22,7 @@ export async function GET(request: Request) {
 
   const { data: channels, error } = await supabase
     .from('channels')
-    .select('user_id, shop_domain, access_token, last_synced_at, metadata')
+    .select('user_id, organization_id, shop_domain, access_token, last_synced_at, metadata')
     .eq('type', 'shopify')
     .eq('active', true)
 
@@ -40,6 +40,7 @@ export async function GET(request: Request) {
   for (const ch of channels) {
     const shop = ch.shop_domain as string
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const token = ch.access_token as string
     if (!shop || !token) continue
 
@@ -78,6 +79,7 @@ export async function GET(request: Request) {
           const tax = Number((o as { total_tax?: string }).total_tax ?? 0)
           await supabase.from('transactions').upsert(
             {
+              organization_id: orgId,
               user_id: userId,
               channel: 'shopify',
               external_id: String((o as { id?: string | number }).id ?? ''),
@@ -127,13 +129,14 @@ export async function GET(request: Request) {
           const { data: lc } = await supabase
             .from('listing_channels')
             .select('listing_id')
-            .eq('user_id', userId)
+            .eq('organization_id', orgId)
             .eq('channel_type', 'shopify')
             .eq('channel_listing_id', externalId)
             .maybeSingle()
 
           let listingId = lc?.listing_id as string | undefined
           const listingPayload = {
+            organization_id: orgId,
             user_id: userId,
             title: p.title ?? 'Untitled',
             description: p.body_html ?? '',
@@ -157,6 +160,7 @@ export async function GET(request: Request) {
           if (listingId) {
             await supabase.from('listing_channels').upsert(
               {
+                organization_id: orgId,
                 listing_id: listingId,
                 user_id: userId,
                 channel_type: 'shopify',
@@ -174,7 +178,7 @@ export async function GET(request: Request) {
       await supabase
         .from('channels')
         .update({ last_synced_at: new Date().toISOString() })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'shopify')
 
       if (jobId) await markCompleted(jobId, orderCount + productCount)

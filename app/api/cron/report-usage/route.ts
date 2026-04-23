@@ -2,6 +2,12 @@
 // For each active-subscription user: compute this period's orders + listings,
 // record overage to Stripe via usage records (metered prices), and persist a
 // row to public.usage_reports. Unique(user_id, period_end) makes retries safe.
+//
+// TODO Stage C.4 (Stripe rewrite): migrate subscription state from `users` to
+// `organizations`. This route should then iterate organizations with active
+// subscriptions, compute per-org usage, and write usage_reports with
+// organization_id. Today the per-user path still works because service-role
+// bypasses RLS and user_id is 1:1 with personal_org via Stage A backfill.
 
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'

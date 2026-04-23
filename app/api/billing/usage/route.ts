@@ -1,40 +1,40 @@
-// [api/billing/usage] — returns this period's counts + overage for the signed-in user.
+// [api/billing/usage] — returns this period's counts + overage for the active org.
 // Powers the "This period" panel on /billing.
 
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { computeOverageCharges, getMonthlyUsage, getPlanLimits } from '../../../lib/billing/usage'
+import { createClient } from '@supabase/supabase-js'
+import { computeOverageCharges, getMonthlyOrgUsage, getPlanLimits } from '../../../lib/billing/usage'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 export const runtime = 'nodejs'
 
+const getAdmin = () =>
+  createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
+
 export async function GET() {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
-  )
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-
-  const { data: row } = await supabase
-    .from('users')
-    .select('plan, billing_interval')
-    .eq('id', user.id)
+  const admin = getAdmin()
+  const { data: org } = await admin
+    .from('organizations')
+    .select('plan, billing_interval, owner_user_id')
+    .eq('id', ctx.id)
     .maybeSingle()
 
-  const plan = row?.plan ?? 'free'
+  const plan = org?.plan ?? 'free'
   const limits = getPlanLimits(plan)
 
   try {
-    const usage = await getMonthlyUsage(supabase as any, user.id)
+    const usage = await getMonthlyOrgUsage(admin, ctx.id, (org?.owner_user_id as string) ?? ctx.user.id)
     const overage = computeOverageCharges(plan, usage)
 
     return NextResponse.json({
+      organization_id: ctx.id,
       plan,
-      billing_interval: row?.billing_interval ?? 'month',
+      billing_interval: org?.billing_interval ?? 'month',
       period_start: usage.periodStart.toISOString(),
       period_end:   usage.periodEnd.toISOString(),
       orders: {

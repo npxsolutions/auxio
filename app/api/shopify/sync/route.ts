@@ -1,8 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { getProfitSettings } from '@/app/lib/profit-settings'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,21 +10,14 @@ const getAdmin = () => createClient(
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    // Get Shopify channel credentials
+    // Get Shopify channel credentials (service role — must filter explicitly)
     const { data: channel } = await getAdmin()
       .from('channels')
       .select('access_token, shop_domain')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('type', 'shopify')
       .single()
 
@@ -50,13 +42,13 @@ export async function POST(request: Request) {
     let synced = 0
 
     // Load user profit settings (fee rates, shipping defaults, fallback COGS%)
-    const profitSettings = await getProfitSettings(user.id)
+    const profitSettings = await getProfitSettings(ctx.user.id)
 
-    // Pre-load cost_price map from listings table (SKU → cost)
+    // Pre-load cost_price map from listings table (service role — filter by org)
     const { data: costRows } = await getAdmin()
       .from('listings')
       .select('sku, cost_price')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .not('sku', 'is', null)
       .not('cost_price', 'is', null)
     const costBySku: Record<string, number> = {}
@@ -77,7 +69,8 @@ export async function POST(request: Request) {
         const trueProfit   = salePrice - supplierCost - channelFee - shippingCost
 
         await getAdmin().from('transactions').upsert({
-          user_id:          user.id,
+          organization_id:  ctx.id,
+          user_id:          ctx.user.id,
           channel:          'shopify',
           external_id:      `${order.id}-${item.id}`,
           sku,
@@ -102,11 +95,12 @@ export async function POST(request: Request) {
 
     // Log the sync
     await getAdmin().from('sync_jobs').insert({
-      user_id:       user.id,
-      job_type:      'shopify_manual_sync',
-      status:        'completed',
-      rows_processed: synced,
-      completed_at:  new Date().toISOString(),
+      organization_id: ctx.id,
+      user_id:         ctx.user.id,
+      job_type:        'shopify_manual_sync',
+      status:          'completed',
+      rows_processed:  synced,
+      completed_at:    new Date().toISOString(),
     })
 
     return NextResponse.json({ synced, message: `Synced ${synced} line items from ${orders?.length || 0} orders` })

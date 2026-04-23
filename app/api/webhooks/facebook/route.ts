@@ -97,7 +97,7 @@ export async function POST(request: Request) {
     // Resolve channel by catalog_id in metadata.
     const { data: channel } = await supabase
       .from('channels')
-      .select('user_id, metadata')
+      .select('user_id, organization_id, metadata')
       .eq('type', 'facebook')
       .contains('metadata', { catalog_id: catalogId })
       .maybeSingle()
@@ -106,6 +106,9 @@ export async function POST(request: Request) {
       continue
     }
     const userId = channel.user_id as string
+    // orgId available if we need to add it to future INSERTs; facebook webhook
+    // currently only UPDATEs existing listing_channels rows (no INSERTs).
+    void (channel.organization_id as string)
 
     for (const change of entry.changes ?? []) {
       const value = change.value ?? {}

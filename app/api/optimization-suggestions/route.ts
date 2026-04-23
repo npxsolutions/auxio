@@ -10,6 +10,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -241,20 +242,18 @@ function analyseListingForChannel(
 
 export async function GET(request: Request) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const url = new URL(request.url)
     const channelFilter = url.searchParams.get('channel') as ChannelKey | null
     const listingId = url.searchParams.get('listing_id')
     const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '200'), 500)
 
-    // Fetch listings with channel mappings
     let query = supabase
       .from('listings')
       .select('id, title, description, price, compare_price, condition, quantity, images, brand, vendor, barcode, weight_grams, listing_channels(channel_type, status)')
-      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(limit)
 

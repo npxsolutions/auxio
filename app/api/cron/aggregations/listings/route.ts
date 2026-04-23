@@ -12,6 +12,10 @@ import { NextResponse } from 'next/server'
 //
 // Heavy lifting runs in a single SECURITY DEFINER SQL function so the whole
 // update happens in one round-trip and is idempotent.
+//
+// TODO Stage A.1: review `aggregate_listings_v2()` SQL function to ensure it
+// joins on organization_id as well as user_id, so cross-tenant data can never
+// leak via SKU collisions once users have multiple orgs.
 
 const getAdmin = () =>
   createClient(

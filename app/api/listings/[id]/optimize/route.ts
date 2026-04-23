@@ -2,12 +2,16 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAnthropic = () => new Anthropic({ apiKey: process.env.NEXT_ANTHROPIC_API_KEY! })
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,14 +19,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
     const { channels }: { channels: string[] } = await request.json()
     if (!channels?.length) return NextResponse.json({ error: 'Specify channels to optimise for' }, { status: 400 })
 
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).eq('user_id', user.id).single()
+      .from('listings').select('*').eq('id', id).single()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const channelGuidelines: Record<string, string> = {

@@ -1,24 +1,27 @@
+/**
+ * Social intel processing pipeline.
+ *
+ * Called by ingest route internally via service-role (no session). All tables
+ * are org-scoped (Stage A) but service role bypasses RLS, so explicit
+ * organization_id filters are mandatory on every query.
+ */
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { extractPostFeatures, analyseComments, generateAudienceInsights, generateRecommendations } from '../../../lib/nlp'
 
-// POST /api/social-intel/process
-// Processes unprocessed posts and comments for a given job, then aggregates insights.
-
 const SUPABASE_URL     = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_SERVICE = process.env.SUPABASE_SERVICE_KEY!
 
 export async function POST(request: Request) {
-  // Accept calls from ingest pipeline (no auth cookie) OR authenticated users
   const cookieStore = await cookies()
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_SERVICE || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} },
   })
 
-  const { jobId, userId, keyword } = await request.json()
-  if (!jobId || !userId || !keyword) {
-    return NextResponse.json({ error: 'jobId, userId, keyword required' }, { status: 400 })
+  const { jobId, userId, orgId, keyword } = await request.json()
+  if (!jobId || !userId || !orgId || !keyword) {
+    return NextResponse.json({ error: 'jobId, userId, orgId, keyword required' }, { status: 400 })
   }
 
   try {
@@ -26,13 +29,12 @@ export async function POST(request: Request) {
     const { data: rawPosts } = await supabase
       .from('si_posts')
       .select('id, caption, duration_sec')
-      .eq('user_id', userId)
+      .eq('organization_id', orgId)
       .eq('keyword', keyword)
       .eq('processed', false)
       .limit(100)
 
     if (rawPosts && rawPosts.length > 0) {
-      // Batch in groups of 20 (Claude context limit)
       for (let i = 0; i < rawPosts.length; i += 20) {
         const batch = rawPosts.slice(i, i + 20)
         const features = await extractPostFeatures(batch)
@@ -44,7 +46,7 @@ export async function POST(request: Request) {
             content_type:  feat.content_type,
             format:        feat.format,
             processed:     true,
-          }).eq('id', postId).eq('user_id', userId)
+          }).eq('id', postId).eq('organization_id', orgId)
         }
       }
     }
@@ -53,7 +55,7 @@ export async function POST(request: Request) {
     const { data: rawComments } = await supabase
       .from('si_comments')
       .select('id, comment_text')
-      .eq('user_id', userId)
+      .eq('organization_id', orgId)
       .eq('processed', false)
       .limit(200)
 
@@ -73,7 +75,7 @@ export async function POST(request: Request) {
             intent:    analysis.intent,
             desire:    analysis.desire,
             processed: true,
-          }).eq('id', commentId).eq('user_id', userId)
+          }).eq('id', commentId).eq('organization_id', orgId)
 
           if (analysis.intent === 'buying_intent' || analysis.intent === 'praise') desires.push(analysis.desire)
           if (analysis.intent === 'objection')  objections.push(analysis.desire)
@@ -88,7 +90,7 @@ export async function POST(request: Request) {
     const { data: processedPosts } = await supabase
       .from('si_posts')
       .select('id, hook, hook_category')
-      .eq('user_id', userId)
+      .eq('organization_id', orgId)
       .eq('keyword', keyword)
       .not('hook_category', 'is', null)
 
@@ -98,11 +100,10 @@ export async function POST(request: Request) {
         .from('si_engagements')
         .select('post_id, engagement_rate, share_rate, save_rate')
         .in('post_id', postIds)
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
 
       const engMap = new Map((engagements || []).map((e: any) => [e.post_id, e]))
 
-      // Group by hook_category
       const categoryMap: Record<string, {
         engagements: number[]; shares: number[]; saves: number[]
         examples: string[]; postIds: string[]
@@ -121,20 +122,20 @@ export async function POST(request: Request) {
         categoryMap[cat].postIds.push(post.id)
       }
 
-      // Upsert hook pattern summaries
       for (const [cat, data] of Object.entries(categoryMap)) {
         const avg = (arr: number[]) => arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : 0
         await supabase.from('si_hook_patterns').upsert({
-          user_id:        userId,
+          organization_id: orgId,
+          user_id:         userId,
           keyword,
-          hook_category:  cat,
-          post_count:     data.postIds.length,
-          avg_engagement: avg(data.engagements),
-          avg_share_rate: avg(data.shares),
-          avg_save_rate:  avg(data.saves),
-          example_hook:   data.examples[0] || null,
-          top_post_id:    data.postIds[0] || null,
-          computed_at:    new Date().toISOString(),
+          hook_category:   cat,
+          post_count:      data.postIds.length,
+          avg_engagement:  avg(data.engagements),
+          avg_share_rate:  avg(data.shares),
+          avg_save_rate:   avg(data.saves),
+          example_hook:    data.examples[0] || null,
+          top_post_id:     data.postIds[0] || null,
+          computed_at:     new Date().toISOString(),
         }, { onConflict: 'user_id,keyword,hook_category' })
       }
     }
@@ -145,19 +146,19 @@ export async function POST(request: Request) {
         desires, objections, questions, topComments,
       })
 
-      // Store insights (replace old ones for this keyword)
-      await supabase.from('si_insights').delete().eq('user_id', userId).eq('keyword', keyword)
+      await supabase.from('si_insights').delete().eq('organization_id', orgId).eq('keyword', keyword)
 
       if (insights.length > 0) {
         await supabase.from('si_insights').insert(
           insights.map(ins => ({
-            user_id:        userId,
+            organization_id: orgId,
+            user_id:         userId,
             keyword,
-            insight_type:   ins.type,
-            insight_text:   ins.insight,
-            evidence_count: ins.count,
+            insight_type:    ins.type,
+            insight_text:    ins.insight,
+            evidence_count:  ins.count,
             example_comment: ins.evidence,
-            computed_at:    new Date().toISOString(),
+            computed_at:     new Date().toISOString(),
           }))
         )
       }

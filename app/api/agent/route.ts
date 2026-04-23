@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '../../lib/supabase-server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import Anthropic from '@anthropic-ai/sdk'
 
 const getAnthropic = () => new Anthropic({
@@ -8,24 +9,24 @@ const getAnthropic = () => new Anthropic({
 
 export async function POST(request: Request) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     // Get user's agent mode
     const { data: userData } = await supabase
       .from('users')
       .select('plan')
-      .eq('id', user.id)
+      .eq('id', ctx.user.id)
       .single()
 
     const mode = 'copilot' // default safe mode
 
-    // Pull all intelligence needed
     const [products, ppc, inventory] = await Promise.all([
-      supabase.from('product_intelligence').select('*').eq('user_id', user.id),
-      supabase.from('ppc_keyword_performance').select('*').eq('user_id', user.id).gte('recorded_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
-      supabase.from('inventory').select('*').eq('user_id', user.id),
+      supabase.from('product_intelligence').select('*'),
+      supabase.from('ppc_keyword_performance').select('*').gte('recorded_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
+      supabase.from('inventory').select('*'),
     ])
 
     const pendingActions: any[] = []
@@ -34,7 +35,8 @@ export async function POST(request: Request) {
     for (const product of products.data || []) {
       if (product.reorder_urgency === 'critical' || product.reorder_urgency === 'high') {
         pendingActions.push({
-          user_id: user.id,
+          organization_id: ctx.id,
+          user_id: ctx.user.id,
           action_type: 'restock_alert',
           title: `Restock ${product.sku}`,
           description: `${product.days_until_stockout?.toFixed(1)} days until stockout at current velocity`,
@@ -53,7 +55,8 @@ export async function POST(request: Request) {
 
     for (const kw of wastedKeywords) {
       pendingActions.push({
-        user_id: user.id,
+        organization_id: ctx.id,
+        user_id: ctx.user.id,
         action_type: 'negative_keyword',
         title: `Negative: "${kw.keyword_text}"`,
         description: `${kw.clicks} clicks, 0 conversions — wasting £${kw.spend?.toFixed(2)}`,
@@ -67,7 +70,8 @@ export async function POST(request: Request) {
     // CHECK 3: Margin alerts
     for (const product of (products.data || []).filter((p: any) => p.avg_margin_90d < 10)) {
       pendingActions.push({
-        user_id: user.id,
+        organization_id: ctx.id,
+        user_id: ctx.user.id,
         action_type: 'margin_alert',
         title: `Low margin: ${product.sku}`,
         description: `${product.avg_margin_90d?.toFixed(1)}% margin — below 10% minimum`,
@@ -80,15 +84,12 @@ export async function POST(request: Request) {
 
     // Store pending actions
     if (pendingActions.length > 0) {
-      // Clear old pending actions first
       await supabase
         .from('agent_pending_actions')
         .update({ status: 'expired' })
-        .eq('user_id', user.id)
         .eq('status', 'pending')
         .lt('created_at', new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString())
 
-      // Insert new ones
       await supabase.from('agent_pending_actions').insert(
         pendingActions.map(a => ({ ...a, created_at: new Date().toISOString() }))
       )
@@ -108,7 +109,8 @@ export async function POST(request: Request) {
 
     // Log agent run
     await supabase.from('sync_jobs').insert({
-      user_id: user.id,
+      organization_id: ctx.id,
+      user_id: ctx.user.id,
       job_type: 'agent_run',
       status: 'completed',
       rows_processed: pendingActions.length,

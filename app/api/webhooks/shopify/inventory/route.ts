@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
   const { data: channel } = await supabase
     .from('channels')
-    .select('user_id, access_token')
+    .select('user_id, organization_id, access_token')
     .eq('shop_domain', shopDomain)
     .eq('type', 'shopify')
     .maybeSingle()
@@ -59,6 +59,7 @@ export async function POST(request: Request) {
   }
 
   const userId = channel.user_id as string
+  const orgId = channel.organization_id as string
   const newQty = level.available ?? 0
 
   // Resolve inventory_item_id -> variant -> product via Shopify REST.
@@ -103,6 +104,7 @@ export async function POST(request: Request) {
 
   await supabase.from('channel_sync_state').upsert(
     {
+      organization_id: orgId,
       listing_id: listingId,
       user_id: userId,
       channel_type: 'shopify',

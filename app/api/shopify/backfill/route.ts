@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 // Lazy module-level clients (per repo rule)
 const getAdminSupabase = () =>
@@ -57,22 +58,15 @@ function parseNextLink(linkHeader: string | null): string | null {
 }
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  )
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   const admin = getAdminSupabase()
+  // service-role — must filter explicitly
   const { data: channel, error: chErr } = await admin
     .from('channels')
     .select('shop_domain, access_token')
-    .eq('user_id', user.id)
+    .eq('organization_id', ctx.id)
     .eq('type', 'shopify')
     .eq('active', true)
     .maybeSingle()
@@ -114,7 +108,8 @@ export async function POST(request: Request) {
             : 'partially_refunded'
           : order.financial_status || 'pending'
       return {
-        user_id: user.id,
+        organization_id: ctx.id,
+        user_id: ctx.user.id,
         channel: 'shopify',
         external_id: String(order.id),
         shop_domain: channel.shop_domain,

@@ -1,6 +1,10 @@
+/**
+ * Bundles API. Org-scoped (Stage A.1).
+ */
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,13 +17,14 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const [bundlesRes, itemsRes] = await Promise.all([
-      supabase.from('bundles').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
-      supabase.from('bundle_items').select('*').eq('user_id', user.id),
+      supabase.from('bundles').select('*').order('created_at', { ascending: false }),
+      supabase.from('bundle_items').select('*'),
     ])
 
     const bundles = (bundlesRes.data || []).map(b => ({
@@ -38,22 +43,28 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { items, ...bundleData } = await request.json()
 
     const { data: bundle, error } = await supabase
       .from('bundles')
-      .insert({ user_id: user.id, ...bundleData })
+      .insert({ organization_id: ctx.id, user_id: ctx.user.id, ...bundleData })
       .select().single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
     if (items?.length) {
       await supabase.from('bundle_items').insert(
-        items.map((i: any) => ({ ...i, bundle_id: bundle.id, user_id: user.id }))
+        items.map((i: any) => ({
+          ...i,
+          bundle_id: bundle.id,
+          organization_id: ctx.id,
+          user_id: ctx.user.id,
+        }))
       )
     }
 
@@ -65,9 +76,10 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { id, items, ...updates } = await request.json()
     if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
@@ -75,16 +87,21 @@ export async function PATCH(request: NextRequest) {
     const { data, error } = await supabase
       .from('bundles')
       .update({ ...updates, updated_at: new Date().toISOString() })
-      .eq('id', id).eq('user_id', user.id)
+      .eq('id', id)
       .select().single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
     if (items) {
-      await supabase.from('bundle_items').delete().eq('bundle_id', id).eq('user_id', user.id)
+      await supabase.from('bundle_items').delete().eq('bundle_id', id)
       if (items.length) {
         await supabase.from('bundle_items').insert(
-          items.map((i: any) => ({ ...i, bundle_id: id, user_id: user.id }))
+          items.map((i: any) => ({
+            ...i,
+            bundle_id: id,
+            organization_id: ctx.id,
+            user_id: ctx.user.id,
+          }))
         )
       }
     }
@@ -97,12 +114,13 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { id } = await request.json()
-    const { error } = await supabase.from('bundles').delete().eq('id', id).eq('user_id', user.id)
+    const { error } = await supabase.from('bundles').delete().eq('id', id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })
   } catch (err: any) {

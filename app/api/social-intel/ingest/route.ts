@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import {
   runActor, tiktokInput, instagramInput, facebookAdsInput, youtubeInput,
   normaliseTikTok, normaliseInstagram, normaliseFacebookAd, normaliseYouTube,
@@ -22,9 +23,10 @@ async function getSupabase() {
 }
 
 export async function POST(request: Request) {
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const supabase = await getSupabase()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { keyword, platforms = ['tiktok', 'instagram', 'youtube'], maxItems = 50 } = await request.json()
   if (!keyword?.trim()) return NextResponse.json({ error: 'keyword required' }, { status: 400 })
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
   // Create job record
   const { data: job, error: jobErr } = await supabase
     .from('si_jobs')
-    .insert({ user_id: user.id, keyword: kw, platforms, status: 'running' })
+    .insert({ organization_id: ctx.id, user_id: ctx.user.id, keyword: kw, platforms, status: 'running' })
     .select()
     .single()
 
@@ -43,7 +45,7 @@ export async function POST(request: Request) {
   }
 
   // Run ingestion in background (don't await — return jobId immediately)
-  runIngestion(supabase, job.id, user.id, kw, platforms, maxItems).catch(err => {
+  runIngestion(supabase, job.id, ctx.id, ctx.user.id, kw, platforms, maxItems).catch(err => {
     console.error('[social-intel/ingest] background error:', err)
     supabase.from('si_jobs').update({ status: 'error', error: err.message }).eq('id', job.id)
   })
@@ -54,6 +56,7 @@ export async function POST(request: Request) {
 async function runIngestion(
   supabase: any,
   jobId: string,
+  orgId: string,
   userId: string,
   keyword: string,
   platforms: string[],
@@ -72,33 +75,31 @@ async function runIngestion(
         ({ runId, items } = await runActor('tiktok', tiktokInput(keyword, maxItems), 180))
         apifyRuns.tiktok = runId
         const posts = items.map(i => normaliseTikTok(i as any))
-        postsIngested += await storePosts(supabase, userId, posts, keyword)
+        postsIngested += await storePosts(supabase, orgId, userId, posts, keyword)
 
       } else if (platform === 'instagram') {
         ({ runId, items } = await runActor('instagram', instagramInput(keyword, maxItems), 180))
         apifyRuns.instagram = runId
         const posts = items.map(i => normaliseInstagram(i as any))
-        postsIngested += await storePosts(supabase, userId, posts, keyword)
+        postsIngested += await storePosts(supabase, orgId, userId, posts, keyword)
 
       } else if (platform === 'facebook_ads') {
         ({ runId, items } = await runActor('facebook_ads', facebookAdsInput(keyword, maxItems), 180))
         apifyRuns.facebook_ads = runId
         const ads = items.map(i => normaliseFacebookAd(i as any))
-        adsIngested += await storeAds(supabase, userId, ads, keyword)
+        adsIngested += await storeAds(supabase, orgId, userId, ads, keyword)
 
       } else if (platform === 'youtube') {
         ({ runId, items } = await runActor('youtube', youtubeInput(keyword, maxItems), 180))
         apifyRuns.youtube = runId
         const posts = items.map(i => normaliseYouTube(i as any))
-        postsIngested += await storePosts(supabase, userId, posts, keyword)
+        postsIngested += await storePosts(supabase, orgId, userId, posts, keyword)
       }
     } catch (err: any) {
       console.error(`[ingest] ${platform} failed:`, err.message)
-      // Continue with other platforms
     }
   }
 
-  // Mark job done
   await supabase.from('si_jobs').update({
     status:         'processing',
     apify_runs:     apifyRuns,
@@ -106,27 +107,25 @@ async function runIngestion(
     ads_ingested:   adsIngested,
   }).eq('id', jobId)
 
-  // Trigger processing pipeline
   try {
     await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://palvento-lkqv.vercel.app'}/api/social-intel/process`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-cron-secret': process.env.CRON_SECRET! },
-      body: JSON.stringify({ jobId, userId, keyword }),
+      body: JSON.stringify({ jobId, userId, orgId, keyword }),
     })
   } catch (err: any) {
     console.error('[ingest] process trigger failed:', err.message)
   }
 }
 
-async function storePosts(supabase: any, userId: string, posts: NormalisedPost[], keyword: string): Promise<number> {
+async function storePosts(supabase: any, orgId: string, userId: string, posts: NormalisedPost[], keyword: string): Promise<number> {
   if (!posts.length) return 0
 
-  // Deduplication: only insert IDs not already stored for this user
+  // Deduplication: RLS scopes by org
   const ids = posts.map(p => p.id)
   const { data: existing } = await supabase
     .from('si_posts')
     .select('id')
-    .eq('user_id', userId)
     .in('id', ids)
 
   const existingIds = new Set((existing || []).map((r: any) => r.id))
@@ -135,16 +134,17 @@ async function storePosts(supabase: any, userId: string, posts: NormalisedPost[]
   if (!newPosts.length) return 0
 
   const postRows = newPosts.map(p => ({
-    id:           p.id,
-    user_id:      userId,
-    platform:     p.platform,
-    caption:      p.caption?.slice(0, 2000),
-    url:          p.url,
-    posted_at:    p.posted_at,
-    duration_sec: p.duration_sec,
+    id:              p.id,
+    organization_id: orgId,
+    user_id:         userId,
+    platform:        p.platform,
+    caption:         p.caption?.slice(0, 2000),
+    url:             p.url,
+    posted_at:       p.posted_at,
+    duration_sec:    p.duration_sec,
     keyword,
-    raw_data:     p.raw_data,
-    processed:    false,
+    raw_data:        p.raw_data,
+    processed:       false,
   }))
 
   const engRows = newPosts.map(p => {
@@ -152,6 +152,7 @@ async function storePosts(supabase: any, userId: string, posts: NormalisedPost[]
     const views  = p.views || 1
     return {
       post_id:         p.id,
+      organization_id: orgId,
       user_id:         userId,
       likes:           p.likes,
       shares:          p.shares,
@@ -174,11 +175,12 @@ async function storePosts(supabase: any, userId: string, posts: NormalisedPost[]
   return newPosts.length
 }
 
-async function storeAds(supabase: any, userId: string, ads: NormalisedAd[], keyword: string): Promise<number> {
+async function storeAds(supabase: any, orgId: string, userId: string, ads: NormalisedAd[], keyword: string): Promise<number> {
   if (!ads.length) return 0
 
   const adRows = ads.map(a => ({
     id:              a.id,
+    organization_id: orgId,
     user_id:         userId,
     platform:        a.platform,
     advertiser:      a.advertiser?.slice(0, 200),
@@ -203,9 +205,10 @@ async function storeAds(supabase: any, userId: string, ads: NormalisedAd[], keyw
 
 // GET /api/social-intel/ingest?jobId=xxx — poll job status
 export async function GET(request: Request) {
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const supabase = await getSupabase()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const jobId = searchParams.get('jobId')
@@ -215,7 +218,6 @@ export async function GET(request: Request) {
     .from('si_jobs')
     .select('*')
     .eq('id', jobId)
-    .eq('user_id', user.id)
     .single()
 
   return NextResponse.json(job || { error: 'Job not found' })

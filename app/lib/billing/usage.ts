@@ -85,6 +85,43 @@ export async function getMonthlyUsage(
   }
 }
 
+/**
+ * Org-scoped usage. Listings is already org-scoped (Stage A); orders is still
+ * user-scoped (Stage A.1) so we fall back to the owner user's orders count.
+ */
+export async function getMonthlyOrgUsage(
+  db: SupabaseClient,
+  orgId: string,
+  ownerUserId: string,
+  at: Date = new Date(),
+): Promise<MonthlyUsage> {
+  const { start, end } = currentPeriod(at)
+
+  const ordersRes = await db
+    .from('orders')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', orgId)
+    .gte('order_date', start.toISOString())
+    .lt('order_date', end.toISOString())
+
+  const listingsRes = await db
+    .from('listings')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', orgId)
+    .gte('created_at', start.toISOString())
+    .lt('created_at', end.toISOString())
+
+  if (ordersRes.error)   console.error('[lib/billing/usage:getMonthlyOrgUsage] orders count failed', ordersRes.error.message)
+  if (listingsRes.error) console.error('[lib/billing/usage:getMonthlyOrgUsage] listings count failed', listingsRes.error.message)
+
+  return {
+    periodStart: start,
+    periodEnd: end,
+    orders:   ordersRes.count   ?? 0,
+    listings: listingsRes.count ?? 0,
+  }
+}
+
 export interface OverageBreakdown {
   ordersOverage: number
   listingsOverage: number

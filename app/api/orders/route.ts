@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,9 +14,11 @@ const getSupabase = async () => {
 
 export async function GET(request: NextRequest) {
   try {
+    // ORG CONTEXT — RLS scopes rows; no explicit user_id filter needed
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { searchParams } = request.nextUrl
     const channel  = searchParams.get('channel')   // 'shopify' | 'ebay' | 'amazon' | null
@@ -28,7 +31,6 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('transactions')
       .select('*', { count: 'exact' })
-      .eq('user_id', user.id)
       .gte('order_date', since)
       .order('order_date', { ascending: false })
       .range((page - 1) * pageSize, page * pageSize - 1)
@@ -42,7 +44,6 @@ export async function GET(request: NextRequest) {
     const { data: summary, error: summaryError } = await supabase
       .from('transactions')
       .select('channel, gross_revenue, true_profit')
-      .eq('user_id', user.id)
       .gte('order_date', since)
 
     if (summaryError) console.error('[orders] summary error:', summaryError.message)
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest) {
       stats.byChannel[ch].orders  += 1
     }
 
-    console.log(`[orders] user=${user.id} days=${days} channel=${channel || 'all'} total=${count}`)
+    console.log(`[orders] org=${ctx.id} days=${days} channel=${channel || 'all'} total=${count}`)
     return NextResponse.json({ orders: data, stats, total: count, page, pageSize })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })

@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   // Resolve channel
   const { data: channel } = await supabase
     .from('channels')
-    .select('user_id, access_token')
+    .select('user_id, organization_id, access_token')
     .eq('type', 'bigcommerce')
     .eq('shop_domain', storeHash)
     .maybeSingle()
@@ -70,6 +70,7 @@ export async function POST(request: Request) {
   }
 
   const userId = channel.user_id as string
+  const orgId = channel.organization_id as string
   const token = channel.access_token as string
   const clientId = process.env.BIGCOMMERCE_CLIENT_ID!
   if (!token || !clientId) {
@@ -105,6 +106,7 @@ export async function POST(request: Request) {
   const gross = Number(order.total_inc_tax ?? 0)
   const refunded = Number(order.refunded_amount ?? 0)
   const row = {
+    organization_id: orgId,
     user_id: userId,
     channel: 'bigcommerce',
     external_id: String(order.id),

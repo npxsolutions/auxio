@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,14 +14,14 @@ const getSupabase = async () => {
 
 export async function GET(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     let query = supabase
       .from('feed_rules')
       .select('*')
-      .eq('user_id', user.id)
       .order('priority', { ascending: true })
 
     const channel = request.nextUrl.searchParams.get('channel')
@@ -39,27 +40,28 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body = await request.json()
     const { name, channel, conditions, actions, active } = body
 
     if (!name?.trim()) return NextResponse.json({ error: 'Rule name is required' }, { status: 400 })
 
-    // Get next priority
+    // Get next priority — org-scoped via RLS
     const { count } = await supabase
       .from('feed_rules')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
 
     const { rule_phase, combinator, valid_from, valid_to } = body
 
     const { data, error } = await supabase
       .from('feed_rules')
       .insert({
-        user_id:    user.id,
+        organization_id: ctx.id,
+        user_id:    ctx.user.id,
         name:       name.trim(),
         channel:    channel || 'all',
         rule_phase: rule_phase || 'business',
@@ -83,9 +85,10 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body = await request.json()
     const { id, ...updates } = body
@@ -95,7 +98,6 @@ export async function PATCH(request: NextRequest) {
       .from('feed_rules')
       .update(updates)
       .eq('id', id)
-      .eq('user_id', user.id)
       .select()
       .single()
 
@@ -108,9 +110,10 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { id } = await request.json()
     if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
@@ -119,7 +122,6 @@ export async function DELETE(request: NextRequest) {
       .from('feed_rules')
       .delete()
       .eq('id', id)
-      .eq('user_id', user.id)
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })

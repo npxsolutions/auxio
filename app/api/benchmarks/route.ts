@@ -17,6 +17,7 @@ import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextRequest } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import {
   aggregateRollups,
   countErrorPatterns,
@@ -46,12 +47,10 @@ async function getUserSupabase() {
 
 export async function GET(request: NextRequest) {
   try {
-    // Auth — benchmarks require a logged-in user.
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return Response.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getUserSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
-    }
 
     const channelFilter = request.nextUrl.searchParams.get('channel')
     const categoryFilter = request.nextUrl.searchParams.get('category')

@@ -55,7 +55,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels } = await supabase
     .from('channels')
-    .select('user_id, access_token, metadata')
+    .select('user_id, organization_id, access_token, metadata')
     .eq('type', 'google')
     .eq('active', true)
 
@@ -66,6 +66,7 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
     const merchantId = metadata.merchant_id as string | undefined
 
@@ -126,7 +127,7 @@ export async function GET(request: Request) {
           const { data: lc } = await supabase
             .from('listing_channels')
             .select('listing_id')
-            .eq('user_id', userId)
+            .eq('organization_id', orgId)
             .eq('channel_type', 'google')
             .eq('channel_listing_id', externalId)
             .maybeSingle()
@@ -136,13 +137,14 @@ export async function GET(request: Request) {
             const { data: bySku } = await supabase
               .from('listings')
               .select('id')
-              .eq('user_id', userId)
+              .eq('organization_id', orgId)
               .eq('sku', sku)
               .maybeSingle()
             listingId = bySku?.id as string | undefined
           }
 
           const listingPayload = {
+            organization_id: orgId,
             user_id: userId,
             title,
             description: item.description ?? '',
@@ -170,6 +172,7 @@ export async function GET(request: Request) {
             await supabase.from('listing_channels').upsert(
               {
                 listing_id: listingId,
+                organization_id: orgId,
                 user_id: userId,
                 channel_type: 'google',
                 channel_listing_id: externalId,
@@ -195,7 +198,7 @@ export async function GET(request: Request) {
         .update({
           metadata: { ...metadata, products_last_synced_at: new Date().toISOString() },
         })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'google')
 
       if (jobId) await markCompleted(jobId, listingCount)

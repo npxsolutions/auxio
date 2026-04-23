@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,19 +14,18 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const now = Date.now()
     const d37 = new Date(now - 37 * 86_400_000).toISOString()
 
-    // Pull last 37 days of transactions with SKU
-    // (37 = 30d stats window + 7d sparkline buffer)
+    // Pull last 37 days of transactions with SKU — RLS scopes by org
     const { data: rows, error } = await supabase
       .from('transactions')
       .select('sku, gross_revenue, true_profit, order_date, channel')
-      .eq('user_id', user.id)
       .gte('order_date', d37)
 
     if (error) throw error

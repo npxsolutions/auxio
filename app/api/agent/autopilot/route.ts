@@ -4,6 +4,12 @@
  * while enforcing their safety rail thresholds.
  *
  * Protected by CRON_SECRET header (same secret used by vercel.json crons).
+ *
+ * TODO Phase 1 / Stage C.3: migrate from per-user loop to per-org loop (read
+ * `organizations.agent_mode` once that column is added). Today this iterates
+ * `users.agent_mode` and writes to `agent_pending_actions` (org-scoped) +
+ * `agent_action_log` (still user-scoped, Stage A.1). Service-role path so RLS
+ * is bypassed — conversion is C.3 scope.
  */
 
 import { createClient } from '@supabase/supabase-js'

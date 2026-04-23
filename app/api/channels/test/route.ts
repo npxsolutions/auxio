@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 // POST /api/channels/test
 // Body: { type: 'ebay' | 'amazon' | 'shopify' | 'etsy' | ... }
@@ -109,23 +110,23 @@ const CHANNEL_TESTS: Record<string, (token: string, domain: string) => Promise<{
 }
 
 export async function POST(request: Request) {
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
   )
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { type } = await request.json()
   if (!type) return NextResponse.json({ error: 'type required' }, { status: 400 })
 
-  // Load stored credentials
+  // Load stored credentials (channels is org-scoped; RLS scopes)
   const { data: channel } = await supabase
     .from('channels')
     .select('access_token, shop_domain')
-    .eq('user_id', user.id)
     .eq('type', type)
     .eq('active', true)
     .single()
@@ -142,12 +143,11 @@ export async function POST(request: Request) {
   try {
     const result = await tester(channel.access_token, channel.shop_domain || '')
 
-    // Update last_synced_at on success
+    // Update last_synced_at on success (RLS scopes)
     if (result.ok) {
       await supabase
         .from('channels')
         .update({ last_synced_at: new Date().toISOString() })
-        .eq('user_id', user.id)
         .eq('type', type)
     }
 

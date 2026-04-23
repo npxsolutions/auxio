@@ -60,7 +60,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels, error } = await supabase
     .from('channels')
-    .select('user_id, shop_domain, access_token, last_synced_at, metadata')
+    .select('user_id, organization_id, shop_domain, access_token, last_synced_at, metadata')
     .eq('type', 'woocommerce')
     .eq('active', true)
 
@@ -76,6 +76,7 @@ export async function GET(request: Request) {
   for (const ch of channels) {
     const siteUrl = ch.shop_domain as string
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const token = ch.access_token as string
     if (!siteUrl || !token) continue
     const siteHost = hostOf(siteUrl)
@@ -121,6 +122,7 @@ export async function GET(request: Request) {
             const firstItem = o.line_items?.[0]
             await supabase.from('transactions').upsert(
               {
+                organization_id: orgId,
                 user_id: userId,
                 channel: 'woocommerce',
                 external_id: String(o.id),
@@ -174,13 +176,14 @@ export async function GET(request: Request) {
             const { data: lc } = await supabase
               .from('listing_channels')
               .select('listing_id')
-              .eq('user_id', userId)
+              .eq('organization_id', orgId)
               .eq('channel_type', 'woocommerce')
               .eq('channel_listing_id', externalId)
               .maybeSingle()
 
             let listingId = lc?.listing_id as string | undefined
             const listingPayload = {
+              organization_id: orgId,
               user_id: userId,
               title: p.name ?? 'Untitled',
               description: p.description ?? '',
@@ -207,6 +210,7 @@ export async function GET(request: Request) {
               await supabase.from('listing_channels').upsert(
                 {
                   listing_id: listingId,
+                  organization_id: orgId,
                   user_id: userId,
                   channel_type: 'woocommerce',
                   channel_listing_id: externalId,
@@ -235,7 +239,7 @@ export async function GET(request: Request) {
             products_last_synced_at: now,
           },
         })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'woocommerce')
 
       if (jobId) await markCompleted(jobId, orderCount + productCount)

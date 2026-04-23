@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels } = await supabase
     .from('channels')
-    .select('user_id, access_token, refresh_token, shop_domain, metadata')
+    .select('user_id, organization_id, access_token, refresh_token, shop_domain, metadata')
     .eq('type', 'etsy')
     .eq('active', true)
 
@@ -41,6 +41,7 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
     const shopId = (metadata.etsy_shop_id as string | undefined) ?? (ch.shop_domain as string | null)
     const etsyUserId = (metadata.etsy_user_id as string | undefined) ?? null
@@ -123,6 +124,7 @@ export async function GET(request: Request) {
 
           await supabase.from('transactions').upsert(
             {
+              organization_id: orgId,
               user_id: userId,
               channel: 'etsy',
               external_id: receiptId,
@@ -149,7 +151,7 @@ export async function GET(request: Request) {
           last_synced_at: new Date().toISOString(),
           metadata: { ...metadata, orders_last_synced_at: nowEpoch },
         })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'etsy')
 
       if (jobId) await markCompleted(jobId, orderCount)

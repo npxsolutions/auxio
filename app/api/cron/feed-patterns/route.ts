@@ -10,6 +10,9 @@ import {
 // correlates with the highest publish_success_rate per
 // (channel, category_bucket, pattern_kind). Starts with only two kinds —
 // title_length and image_count — so the loop proves itself before we fan out.
+//
+// TODO Stage A.1: switch anonymity-floor key from user_id to organization_id
+// (same rationale as feed-benchmarks).
 
 export const maxDuration = 300
 

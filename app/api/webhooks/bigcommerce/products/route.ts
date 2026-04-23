@@ -63,13 +63,14 @@ export async function POST(request: Request) {
 
   const { data: channel } = await supabase
     .from('channels')
-    .select('user_id, access_token')
+    .select('user_id, organization_id, access_token')
     .eq('type', 'bigcommerce')
     .eq('shop_domain', storeHash)
     .maybeSingle()
   if (!channel) return NextResponse.json({ ok: true, skipped: 'unknown_store' })
 
   const userId = channel.user_id as string
+  const orgId = channel.organization_id as string
   const token = channel.access_token as string
   const clientId = process.env.BIGCOMMERCE_CLIENT_ID!
   if (!token || !clientId) return NextResponse.json({ ok: true, skipped: 'missing_creds' })
@@ -119,6 +120,7 @@ export async function POST(request: Request) {
 
   let listingId = existingLc?.listing_id as string | undefined
   const listingPayload = {
+    organization_id: orgId,
     user_id: userId,
     title: p.name ?? 'Untitled',
     description: p.description ?? '',
@@ -148,6 +150,7 @@ export async function POST(request: Request) {
   await supabase.from('listing_channels').upsert(
     {
       listing_id: listingId,
+      organization_id: orgId,
       user_id: userId,
       channel_type: 'bigcommerce',
       channel_listing_id: externalId,

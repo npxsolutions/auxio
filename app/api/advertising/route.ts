@@ -1,6 +1,10 @@
+/**
+ * Advertising (ad_campaigns) API. Org-scoped (Stage A.1).
+ */
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,14 +17,13 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { data, error } = await supabase
       .from('ad_campaigns')
       .select('*')
-      .eq('user_id', user.id)
       .order('updated_at', { ascending: false })
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -54,14 +57,14 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const body = await request.json()
     const { data, error } = await supabase
       .from('ad_campaigns')
-      .insert({ user_id: user.id, ...body })
+      .insert({ organization_id: ctx.id, user_id: ctx.user.id, ...body })
       .select().single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -73,10 +76,10 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { id, ...updates } = await request.json()
     if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
 
@@ -89,7 +92,7 @@ export async function PATCH(request: NextRequest) {
     const { data, error } = await supabase
       .from('ad_campaigns')
       .update({ ...updates, updated_at: new Date().toISOString() })
-      .eq('id', id).eq('user_id', user.id)
+      .eq('id', id)
       .select().single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -101,12 +104,12 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { id } = await request.json()
-    const { error } = await supabase.from('ad_campaigns').delete().eq('id', id).eq('user_id', user.id)
+    const { error } = await supabase.from('ad_campaigns').delete().eq('id', id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })
   } catch (err: any) {

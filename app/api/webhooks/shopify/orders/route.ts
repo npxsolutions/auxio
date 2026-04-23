@@ -83,10 +83,10 @@ export async function POST(request: Request) {
     // fall through — best effort
   }
 
-  // Resolve channel -> user
+  // Resolve channel -> user + org
   const { data: channel, error: chErr } = await supabase
     .from('channels')
-    .select('user_id')
+    .select('user_id, organization_id')
     .eq('shop_domain', shopDomain)
     .eq('type', 'shopify')
     .maybeSingle()
@@ -98,6 +98,7 @@ export async function POST(request: Request) {
   }
 
   const userId = channel.user_id as string
+  const orgId  = channel.organization_id as string
   const externalId = String(order.id)
 
   // Compute economics
@@ -119,6 +120,7 @@ export async function POST(request: Request) {
         : order.financial_status || 'pending'
 
   const row = {
+    organization_id: orgId,
     user_id: userId,
     channel: 'shopify',
     external_id: externalId,

@@ -1,6 +1,10 @@
+/**
+ * Forecasting API. Org-scoped.
+ */
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,22 +17,20 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const since90 = new Date()
     since90.setDate(since90.getDate() - 90)
 
     const [txRes, invRes] = await Promise.all([
       supabase.from('transactions')
         .select('sku, title, order_date, sale_price, supplier_cost')
-        .eq('user_id', user.id)
         .gte('order_date', since90.toISOString())
         .order('order_date', { ascending: true }),
       supabase.from('inventory')
-        .select('sku, stock_level, reorder_point, reorder_qty')
-        .eq('user_id', user.id),
+        .select('sku, stock_level, reorder_point, reorder_qty'),
     ])
 
     const txs = txRes.data || []

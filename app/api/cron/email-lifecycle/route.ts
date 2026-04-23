@@ -1,3 +1,11 @@
+/**
+ * Day-1/3/7 lifecycle email cron.
+ *
+ * TODO Stage C.4: once onboarding creates one org per new user (Stage A
+ * already backfilled personal orgs), replace per-user channel/txn lookups
+ * with per-org queries scoped to the user's personal org. Today service-role
+ * bypasses RLS so user_id-based filters still work correctly.
+ */
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '../../../lib/supabase-admin'
 import { sendLifecycleEmail } from '../../../lib/email/send-lifecycle'

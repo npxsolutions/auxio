@@ -1,9 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { getProfitSettings } from '@/app/lib/profit-settings'
 import { getEbayAccessToken } from '@/app/lib/ebay/auth'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,20 +11,14 @@ const getAdmin = () => createClient(
 
 export async function POST() {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-    )
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
+    // service-role — must filter explicitly
     const { data: channel } = await getAdmin()
       .from('channels')
       .select('access_token, refresh_token, metadata')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .eq('type', 'ebay')
       .eq('active', true)
       .single()
@@ -36,7 +29,7 @@ export async function POST() {
 
     const tokenResult = await getEbayAccessToken(
       {
-        user_id: user.id,
+        user_id: ctx.user.id,
         access_token: channel.access_token as string | null,
         refresh_token: (channel.refresh_token as string | null) ?? null,
         metadata: (channel.metadata as Record<string, unknown> | null) ?? {},
@@ -51,13 +44,13 @@ export async function POST() {
     let cursor: string | null = null
 
     // Load user profit settings
-    const profitSettings = await getProfitSettings(user.id)
+    const profitSettings = await getProfitSettings(ctx.user.id)
 
-    // Pre-load cost_price map from listings table (SKU → cost)
+    // Pre-load cost_price map from listings table (service role — filter by org)
     const { data: costRows } = await getAdmin()
       .from('listings')
       .select('sku, cost_price')
-      .eq('user_id', user.id)
+      .eq('organization_id', ctx.id)
       .not('sku', 'is', null)
       .not('cost_price', 'is', null)
     const costBySku: Record<string, number> = {}
@@ -83,14 +76,14 @@ export async function POST() {
         const { data: fresh } = await getAdmin()
           .from('channels')
           .select('access_token, refresh_token, metadata')
-          .eq('user_id', user.id)
+          .eq('organization_id', ctx.id)
           .eq('type', 'ebay')
           .single()
         if (fresh) {
           const meta = (fresh.metadata as Record<string, unknown> | null) ?? {}
           const r = await getEbayAccessToken(
             {
-              user_id: user.id,
+              user_id: ctx.user.id,
               access_token: fresh.access_token as string | null,
               refresh_token: (fresh.refresh_token as string | null) ?? null,
               metadata: { ...meta, ebay_token_expires_at: 0 },
@@ -129,7 +122,8 @@ export async function POST() {
           const trueProfit   = salePrice - supplierCost - channelFee - shippingCost
 
           await getAdmin().from('transactions').upsert({
-            user_id:          user.id,
+            organization_id:  ctx.id,
+            user_id:          ctx.user.id,
             channel:          'ebay',
             external_id:      `ebay-${order.orderId}-${item.lineItemId}`,
             sku,
@@ -160,7 +154,7 @@ export async function POST() {
       if (!cursor) break
     }
 
-    console.log(`[ebay:orders:sync] user=${user.id} synced=${synced}`)
+    console.log(`[ebay:orders:sync] org=${ctx.id} synced=${synced}`)
 
     return NextResponse.json({
       synced,

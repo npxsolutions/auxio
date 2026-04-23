@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireApiAuth } from '../lib/auth'
+import { requireApiAuthWithOrg } from '../lib/auth'
 import { checkApiRateLimit } from '../../../lib/rate-limit/api-public'
 
 export async function GET(request: NextRequest) {
   try {
-    const { user, error, supabase } = await requireApiAuth(request)
+    const { organizationId, error, supabase } = await requireApiAuthWithOrg(request)
     if (error) return error
 
     const rl = await checkApiRateLimit(request)
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const { data, error: dbError } = await supabase!
       .from('channels')
       .select('id, type, shop_name, active, connected_at, last_synced_at')
-      .eq('user_id', user!.id)
+      .eq('organization_id', organizationId!)
       .order('connected_at', { ascending: false })
 
     if (dbError) {
@@ -21,7 +21,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: dbError.message }, { status: 500 })
     }
 
-    return NextResponse.json({ data, meta: { count: data?.length ?? 0 } })
+    return NextResponse.json({
+      data,
+      meta: { count: data?.length ?? 0, organization_id: organizationId },
+    })
   } catch (err) {
     console.error('[api/v1/channels] error', err)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

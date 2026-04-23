@@ -19,7 +19,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels } = await supabase
     .from('channels')
-    .select('user_id, access_token, refresh_token, metadata')
+    .select('user_id, organization_id, access_token, refresh_token, metadata')
     .eq('type', 'ebay')
     .eq('active', true)
 
@@ -30,6 +30,7 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
 
     const tokenResult = await getEbayAccessToken(
@@ -90,11 +91,12 @@ export async function GET(request: Request) {
           const { data: existing } = await supabase
             .from('listings')
             .select('id')
-            .eq('user_id', userId)
+            .eq('organization_id', orgId)
             .eq('sku', item.sku)
             .maybeSingle()
 
           const listingPayload = {
+            organization_id: orgId,
             user_id: userId,
             title,
             description: desc,
@@ -120,6 +122,7 @@ export async function GET(request: Request) {
           if (listingId) {
             await supabase.from('channel_sync_state').upsert(
               {
+                organization_id: orgId,
                 listing_id: listingId,
                 user_id: userId,
                 channel_type: 'ebay',
@@ -144,7 +147,7 @@ export async function GET(request: Request) {
       await supabase
         .from('channels')
         .update({ metadata: { ...metadata, listings_last_synced_at: now } })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'ebay')
 
       if (jobId) await markCompleted(jobId, listingCount)

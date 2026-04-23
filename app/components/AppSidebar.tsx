@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '../lib/supabase-client'
 import { P, MONO } from '../lib/design'
+import OrgSwitcher, { type OrgRow } from './OrgSwitcher'
 
 /* ─────────────────────────────────────────
    SVG ICON SET  (15 × 15, stroke-based)
@@ -160,6 +161,8 @@ export default function AppSidebar() {
   const [plan, setPlan] = useState('growth')
   const [pendingCount, setPendingCount] = useState(0)
   const [errorCount, setErrorCount] = useState(0)
+  const [orgs, setOrgs] = useState<OrgRow[]>([])
+  const [activeOrgId, setActiveOrgId] = useState<string | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -184,6 +187,15 @@ export default function AppSidebar() {
         if (errRes.ok) {
           const errJson = await errRes.json()
           setErrorCount(errJson.total || 0)
+        }
+      } catch { /* silent */ }
+
+      try {
+        const orgRes = await fetch('/api/org/list')
+        if (orgRes.ok) {
+          const orgJson = await orgRes.json()
+          setOrgs(orgJson.orgs ?? [])
+          setActiveOrgId(orgJson.activeOrgId ?? null)
         }
       } catch { /* silent */ }
     }
@@ -291,6 +303,13 @@ export default function AppSidebar() {
           Palvento
         </span>
       </div>
+
+      {/* ── Org switcher ── */}
+      {orgs.length > 0 && (
+        <div style={{ padding: '10px 8px 0' }}>
+          <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} />
+        </div>
+      )}
 
       {/* ── Navigation ── */}
       <nav style={{ padding: '10px 8px', flex: 1, overflowY: 'auto' }}>

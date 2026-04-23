@@ -4,18 +4,15 @@
 // and processed out-of-band behind an admin gate within the 30-day SLA.
 
 import { NextResponse } from 'next/server'
-import { createClient } from '../../../lib/supabase-server'
 import { getSupabaseAdmin } from '../../../lib/supabase-admin'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
-  const supabase = await createClient()
-  const { data: { user }, error: authErr } = await supabase.auth.getUser()
-  if (authErr || !user) {
-    return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
-  }
+  const ctx = await requireActiveOrg().catch(() => null)
+  if (!ctx) return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
 
   let body: { confirm?: boolean } = {}
   try { body = await req.json() } catch { /* no-op */ }
@@ -28,11 +25,11 @@ export async function POST(req: Request) {
 
   const admin = getSupabaseAdmin()
 
-  // Is there already a pending request? Idempotent.
+  // deletion_requests is personal (user-scoped) — DSAR targets the user, not their orgs
   const { data: existing } = await admin
     .from('deletion_requests')
     .select('id, status, requested_at')
-    .eq('user_id', user.id)
+    .eq('user_id', ctx.user.id)
     .in('status', ['pending', 'processing'])
     .maybeSingle()
 
@@ -48,7 +45,7 @@ export async function POST(req: Request) {
 
   const { data, error } = await admin
     .from('deletion_requests')
-    .insert({ user_id: user.id, status: 'pending' })
+    .insert({ user_id: ctx.user.id, status: 'pending' })
     .select('id, requested_at, status')
     .single()
 
@@ -58,7 +55,7 @@ export async function POST(req: Request) {
 
   // Audit trail — best-effort.
   await admin.from('audit_log').insert({
-    user_id: user.id,
+    user_id: ctx.user.id,
     action: 'dsar.deletion_requested',
     metadata: { request_id: data.id },
   }).then(() => {}, () => {})

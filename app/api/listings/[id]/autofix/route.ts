@@ -14,20 +14,22 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { validateForChannel } from '@/app/lib/feed/validator'
 import { suggestEbayCategory } from '@/app/lib/feed/category-suggester'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const SUPPORTED = new Set(['EBAY_GTIN_REQUIRED', 'EBAY_CONDITION_SET', 'EBAY_CATEGORY_MAPPED'])
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
     )
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body: { rule?: string } = await req.json().catch(() => ({}))
     const rule = body.rule
@@ -36,7 +38,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
 
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).eq('user_id', user.id).maybeSingle()
+      .from('listings').select('*').eq('id', id).maybeSingle()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const admin = createClient(
@@ -83,14 +85,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       if (top && top.confidence >= 0.8) {
         await admin.from('listing_channels').upsert({
           listing_id: id,
-          user_id: user.id,
+          organization_id: ctx.id,
+          user_id: ctx.user.id,
           channel_type: 'ebay',
           external_category_id: top.ebayCategoryId,
           category_id: top.ebayCategoryId,
           category_name: top.ebayCategoryPath,
         }, { onConflict: 'listing_id,channel_type' })
         await admin.from('listing_channel_aspects').upsert({
-          user_id: user.id,
+          organization_id: ctx.id,
+          user_id: ctx.user.id,
           listing_id: id,
           channel: 'ebay',
           aspects: {},

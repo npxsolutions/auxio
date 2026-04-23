@@ -1,6 +1,11 @@
 // [api/cron/revalidate-listings] — nightly revalidation sweep.
 // For each user, picks listings whose health row is older than 24h (or missing)
 // and runs the eBay validator framework. Idempotent — same input ⇒ same output.
+//
+// listing_channels and listing_health are org-scoped (Stage A), but this runs
+// under service role so RLS is bypassed. The per-listing work is scoped by
+// listing_id alone; no cross-tenant risk since validateForChannel only reads/
+// writes rows for the given listing_id.
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { validateForChannel } from '@/app/lib/feed/validator'

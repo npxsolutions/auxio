@@ -6,6 +6,17 @@ export type AuthResult =
   | { user: null; error: NextResponse; supabase?: undefined; source?: undefined; userId?: undefined }
   | { user: { id: string }; userId: string; source: 'jwt' | 'api_key'; error: null; supabase: SupabaseClient }
 
+export type AuthWithOrgResult =
+  | { user: null; error: NextResponse; supabase?: undefined; source?: undefined; userId?: undefined; organizationId?: undefined }
+  | {
+      user: { id: string }
+      userId: string
+      organizationId: string
+      source: 'jwt' | 'api_key'
+      error: null
+      supabase: SupabaseClient
+    }
+
 // Validate Bearer token and return the authenticated user.
 // Tries Supabase JWT first (cheap), then falls back to public.api_keys lookup.
 // Returns { user, userId, source, error, supabase } — if error is set, return the error response immediately.
@@ -87,6 +98,91 @@ export async function requireApiAuth(request: NextRequest): Promise<AuthResult> 
     user: { id: keyRow.user_id },
     userId: keyRow.user_id,
     source: 'api_key',
+    error: null,
+    supabase: adminClient,
+  }
+}
+
+/**
+ * Like `requireApiAuth`, but also resolves the caller's active organization.
+ *
+ * Resolution strategy:
+ *   1. If `X-Organization-Id` header is set AND the user is a member, use it.
+ *   2. Otherwise default to the user's owned org (most callers only have one).
+ *
+ * Today `api_keys` does not carry an `organization_id` column — Stage A.1
+ * follow-up. When that column lands, prefer the key's bound org over the
+ * header.
+ *
+ * Callers MUST filter scoped queries by `organizationId` explicitly because
+ * the resolved client is service-role (RLS bypassed) for the api_key path.
+ */
+export async function requireApiAuthWithOrg(request: NextRequest): Promise<AuthWithOrgResult> {
+  const base = await requireApiAuth(request)
+  if (base.error) {
+    return { user: null, error: base.error }
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+  const supabaseAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  const adminKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_KEY ||
+    supabaseAnon
+  const adminClient = createClient(supabaseUrl, adminKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+
+  const headerOrg = request.headers.get('x-organization-id')
+
+  if (headerOrg) {
+    const { data: membership } = await adminClient
+      .from('organization_members')
+      .select('organization_id')
+      .eq('user_id', base.userId)
+      .eq('organization_id', headerOrg)
+      .maybeSingle()
+    if (!membership) {
+      return {
+        user: null,
+        error: NextResponse.json(
+          { error: 'Not a member of the requested organization' },
+          { status: 403 }
+        ),
+      }
+    }
+    return {
+      user: base.user,
+      userId: base.userId,
+      organizationId: membership.organization_id as string,
+      source: base.source,
+      error: null,
+      supabase: adminClient,
+    }
+  }
+
+  // No header — pick owner org (typically the user's personal org).
+  const { data: owned } = await adminClient
+    .from('organization_members')
+    .select('organization_id, role, joined_at')
+    .eq('user_id', base.userId)
+    .eq('role', 'owner')
+    .order('joined_at', { ascending: true })
+    .limit(1)
+    .maybeSingle()
+
+  if (!owned) {
+    return {
+      user: null,
+      error: NextResponse.json({ error: 'No organization membership' }, { status: 403 }),
+    }
+  }
+
+  return {
+    user: base.user,
+    userId: base.userId,
+    organizationId: owned.organization_id as string,
+    source: base.source,
     error: null,
     supabase: adminClient,
   }

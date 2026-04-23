@@ -11,6 +11,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { requireActiveOrg } from '@/app/lib/org/context'
 import type { Plan } from '@/app/lib/billing/usage'
 import {
   validateImages,
@@ -174,15 +175,13 @@ Return valid JSON only, no markdown fences.`,
 
 export async function POST(request: Request) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (!user)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     // Rate limit
-    if (!checkRateLimit(user.id)) {
+    if (!checkRateLimit(ctx.user.id)) {
       return NextResponse.json(
         {
           error:
@@ -196,7 +195,7 @@ export async function POST(request: Request) {
     const { data: userRow } = await supabase
       .from('users')
       .select('plan')
-      .eq('id', user.id)
+      .eq('id', ctx.user.id)
       .maybeSingle()
 
     const plan = (userRow?.plan ?? 'free') as Plan
@@ -234,7 +233,6 @@ export async function POST(request: Request) {
     const { count: usedCount } = await supabase
       .from('enrichment_usage')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
       .eq('fields_requested', '{image_analysis}')
       .gte('created_at', periodStart)
       .lt('created_at', periodEnd)
@@ -269,12 +267,11 @@ export async function POST(request: Request) {
     let listingData: Record<string, unknown> | null = null
 
     if (listingId) {
-      // Fetch listing images
+      // Fetch listing images (RLS scopes)
       const { data: listing, error: listingError } = await supabase
         .from('listings')
         .select('*')
         .eq('id', listingId)
-        .eq('user_id', user.id)
         .single()
 
       if (listingError || !listing) {
@@ -340,9 +337,9 @@ export async function POST(request: Request) {
       }
     }
 
-    // Track usage
     await supabase.from('enrichment_usage').insert({
-      user_id: user.id,
+      organization_id: ctx.id,
+      user_id: ctx.user.id,
       listing_id: listingId || null,
       channel,
       fields_requested: ['image_analysis'],

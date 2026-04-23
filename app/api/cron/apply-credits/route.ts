@@ -1,4 +1,8 @@
 // [api/cron/apply-credits] — daily sweep: apply unapplied credits to Stripe customer balances.
+//
+// TODO Stage C.4: move stripe_customer_id + credits from `users`/`user_credits`
+// to `organizations`/org_credits. Today service-role bypasses RLS so user-scoped
+// reads still work; billing rewrite will restructure.
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
@@ -38,8 +42,14 @@ export async function GET(request: Request) {
 
   for (const c of (credits || [])) {
     try {
-      const { data: u } = await db.from('users').select('stripe_customer_id').eq('id', c.user_id).maybeSingle()
-      const customerId = u?.stripe_customer_id
+      // Credits belong to the user's personal org (billing unit).
+      const { data: org } = await db
+        .from('organizations')
+        .select('stripe_customer_id')
+        .eq('owner_user_id', c.user_id)
+        .like('slug', 'u-%')
+        .maybeSingle()
+      const customerId = org?.stripe_customer_id
       if (!customerId) { skipped++; continue }
 
       await stripe.customers.createBalanceTransaction(customerId, {

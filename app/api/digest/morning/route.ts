@@ -1,3 +1,11 @@
+/**
+ * Morning digest cron — service-role, no user session.
+ *
+ * TODO Phase 1 / Stage C.3: convert from per-user loop to per-org loop
+ * (query `organizations` rows and read `email_alerts` from the org or its
+ * owner). Today service-role bypasses RLS so the user_id-based filter still
+ * works; conversion is a C.3 cleanup.
+ */
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'

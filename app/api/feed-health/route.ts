@@ -10,6 +10,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -70,15 +71,13 @@ type HealthDistribution = {
 
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    // Fetch all health rows for this user
+    const supabase = await getSupabase()
     const { data: healthRows, error } = await supabase
       .from('listing_health')
       .select('listing_id, channel, health_score, errors_count, warnings_count, issues, last_validated_at')
-      .eq('user_id', user.id)
 
     if (error) {
       console.error('[feed-health] query error:', error)
@@ -87,11 +86,9 @@ export async function GET() {
 
     const rows = (healthRows ?? []) as HealthRow[]
 
-    // Fetch total listing count for coverage calculation
     const { count: totalListings } = await supabase
       .from('listings')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
 
     // ── Overall health score (weighted average across all channel/listing pairs) ──
     const overallScore = rows.length > 0

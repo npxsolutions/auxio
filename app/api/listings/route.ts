@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const getSupabase = async () => {
   const cookieStore = await cookies()
@@ -13,14 +14,14 @@ const getSupabase = async () => {
 
 export async function GET() {
   try {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // ORG CONTEXT — RLS handles row scoping; no explicit user_id/org_id filter needed on read
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const supabase = await getSupabase()
     const { data, error } = await supabase
       .from('listings')
       .select(`*, listing_channels(*)`)
-      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -32,9 +33,10 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body = await request.json()
     const { title, description, price, compare_price, sku, barcode, brand, category, condition, quantity, weight_grams, images, attributes } = body
@@ -44,7 +46,8 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from('listings')
       .insert({
-        user_id: user.id,
+        organization_id: ctx.id,
+        user_id: ctx.user.id, // creator attribution within the org
         title,
         description,
         price: price ?? 0,

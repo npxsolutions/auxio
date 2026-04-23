@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { validateForChannel as preflightValidate } from '@/app/lib/feed/validator'
 import type { ChannelKey } from '@/app/lib/rate-limit/channel'
+import { requireActiveOrg } from '@/app/lib/org/context'
 
 const CHANNELS = ['shopify', 'ebay', 'amazon'] as const
 
@@ -82,6 +83,9 @@ function scoreChannel(listing: any, template: any, channel: string): {
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -89,15 +93,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    // Get listing
+    // Get listing — RLS scopes by org
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).eq('user_id', user.id).single()
+      .from('listings').select('*').eq('id', id).single()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-    // Get templates for this listing's category
+    // Get templates for this listing's category (channel_templates is global config)
     const { data: templates } = await supabase
       .from('channel_templates')
       .select('*')
@@ -120,7 +121,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     for (const channel of CHANNELS) {
       const scored = scoreChannel(listing, templateMap[channel], channel)
       results[channel] = scored
-      upserts.push({ listing_id: id, user_id: user.id, channel_type: channel, ...scored, computed_at: new Date().toISOString() })
+      // feed_health does not yet have organization_id — Stage A.1 follow-up.
+      upserts.push({ listing_id: id, user_id: ctx.user.id, channel_type: channel, ...scored, computed_at: new Date().toISOString() })
     }
 
     // Cache scores
@@ -137,14 +139,15 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const ctx = await requireActiveOrg().catch(() => null)
+    if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
     )
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     let channel: ChannelKey = 'ebay'
     try {
@@ -153,7 +156,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     } catch { /* default */ }
 
     const { data: ownerCheck } = await supabase
-      .from('listings').select('id').eq('id', id).eq('user_id', user.id).maybeSingle()
+      .from('listings').select('id').eq('id', id).maybeSingle()
     if (!ownerCheck) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const validation = await preflightValidate(id, channel)

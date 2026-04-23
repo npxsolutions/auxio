@@ -41,7 +41,7 @@ export async function GET(request: Request) {
   const supabase = getAdmin()
   const { data: channels } = await supabase
     .from('channels')
-    .select('user_id, access_token, refresh_token, shop_domain, metadata')
+    .select('user_id, organization_id, access_token, refresh_token, shop_domain, metadata')
     .eq('type', 'etsy')
     .eq('active', true)
 
@@ -52,6 +52,7 @@ export async function GET(request: Request) {
 
   for (const ch of channels) {
     const userId = ch.user_id as string
+    const orgId  = ch.organization_id as string
     const metadata = (ch.metadata as Record<string, unknown> | null) ?? {}
     const shopId = (metadata.etsy_shop_id as string | undefined) ?? (ch.shop_domain as string | null)
     const etsyUserId = (metadata.etsy_user_id as string | undefined) ?? null
@@ -126,7 +127,7 @@ export async function GET(request: Request) {
           const { data: lc } = await supabase
             .from('listing_channels')
             .select('listing_id')
-            .eq('user_id', userId)
+            .eq('organization_id', orgId)
             .eq('channel_type', 'etsy')
             .eq('channel_listing_id', externalId)
             .maybeSingle()
@@ -136,13 +137,14 @@ export async function GET(request: Request) {
             const { data: bySku } = await supabase
               .from('listings')
               .select('id')
-              .eq('user_id', userId)
+              .eq('organization_id', orgId)
               .eq('sku', sku)
               .maybeSingle()
             listingId = bySku?.id as string | undefined
           }
 
           const listingPayload = {
+            organization_id: orgId,
             user_id: userId,
             title,
             description: desc,
@@ -169,6 +171,7 @@ export async function GET(request: Request) {
             await supabase.from('listing_channels').upsert(
               {
                 listing_id: listingId,
+                organization_id: orgId,
                 user_id: userId,
                 channel_type: 'etsy',
                 channel_listing_id: externalId,
@@ -191,7 +194,7 @@ export async function GET(request: Request) {
       await supabase
         .from('channels')
         .update({ metadata: { ...metadata, listings_last_synced_at: Math.floor(Date.now() / 1000) } })
-        .eq('user_id', userId)
+        .eq('organization_id', orgId)
         .eq('type', 'etsy')
 
       if (jobId) await markCompleted(jobId, listingCount)
