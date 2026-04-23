@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '../lib/supabase-client'
 import { P, MONO } from '../lib/design'
 import OrgSwitcher, { type OrgRow } from './OrgSwitcher'
+import NotificationBell from './NotificationBell'
 
 /* ─────────────────────────────────────────
    SVG ICON SET  (15 × 15, stroke-based)
@@ -397,10 +398,13 @@ export default function AppSidebar() {
         padding: '10px 8px 12px',
         borderTop: `1px solid ${P.rule}`,
       }}>
-        <div style={{ padding: '0 4px 8px', display: 'flex', gap: '10px' }}>
-          <Link href="/security" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Security</Link>
-          <Link href="/privacy" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Privacy</Link>
-          <Link href="/settings#privacy" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Your data</Link>
+        <div style={{ padding: '4px 4px 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <Link href="/security" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Security</Link>
+            <Link href="/privacy" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Privacy</Link>
+            <Link href="/settings#privacy" style={{ ...MONO, fontSize: '9px', color: P.muted, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Your data</Link>
+          </div>
+          <NotificationBell />
         </div>
         <div style={{ padding: '0 4px 8px' }}>
           <span style={{
