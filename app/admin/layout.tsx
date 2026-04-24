@@ -66,15 +66,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   const navItems = [
-    { href: '/admin',             label: 'Overview' },
-    { href: '/admin/partners',    label: 'Partners' },
-    { href: '/admin/affiliates',  label: 'Affiliates' },
-    { href: '/admin/demos',       label: 'Demos' },
-    { href: '/admin/api-keys',    label: 'API keys' },
-    { href: '/admin/sync-health', label: 'Sync health' },
+    { href: '/admin',               label: 'Overview' },
+    { href: '/admin/cms/pages',     label: 'CMS pages' },
+    { href: '/admin/partners',      label: 'Partners' },
+    { href: '/admin/affiliates',    label: 'Affiliates' },
+    { href: '/admin/demos',         label: 'Demos' },
+    { href: '/admin/api-keys',      label: 'API keys' },
+    { href: '/admin/sync-health',   label: 'Sync health' },
     { href: '/admin/ebay-policies', label: 'eBay policies' },
-    { href: '/admin/users',       label: 'Users' },
-    { href: '/admin/metrics',     label: 'Metrics' },
+    { href: '/admin/users',         label: 'Users' },
+    { href: '/admin/metrics',       label: 'Metrics' },
   ]
 
   return (
