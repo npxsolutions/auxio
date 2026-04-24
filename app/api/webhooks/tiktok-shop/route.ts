@@ -2,17 +2,19 @@
  * TikTok Shop webhook endpoint.
  *
  * Receives push notifications for order events (ORDER_STATUS_CHANGE, etc.)
- * per https://partner.tiktokshop.com/docv2/page/6507c1a645b1dc02dfa3b195
+ * per https://partner.tiktokshop.com/docv2/page/tts-webhooks-overview
  *
- * Auth: TikTok signs each payload with HMAC-SHA256 using the app secret.
- * Header: Authorization = SHA256 base64 of (secret + payload).
+ * Signature verification (SHA-256 plain, NOT HMAC — different from our API
+ * request signing, which IS HMAC):
+ *   header `Authorization` = sha256_hex(app_secret + raw_request_body)
  *
- * Gated on TikTok Partner approval.
+ * TikTok requires 200 OK within 5s or the event is retried for up to 72h.
+ * Dedupe on `tts_notification_id` — at-least-once delivery.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { createHmac } from 'crypto'
+import { createHash } from 'crypto'
 import { isTiktokShopConfigured } from '@/app/lib/tiktok-shop/client'
 
 export const runtime = 'nodejs'
@@ -27,8 +29,10 @@ function verifyTikTokSignature(rawBody: string, headerSig: string | null): boole
   if (!headerSig) return false
   const secret = process.env.TIKTOK_SHOP_APP_SECRET
   if (!secret) return false
-  const computed = createHmac('sha256', secret).update(rawBody).digest('base64')
-  // Constant-time compare
+
+  // sha256_hex(app_secret + raw_body) — plain SHA-256, not HMAC.
+  const computed = createHash('sha256').update(secret + rawBody).digest('hex')
+
   if (computed.length !== headerSig.length) return false
   let diff = 0
   for (let i = 0; i < computed.length; i++) diff |= computed.charCodeAt(i) ^ headerSig.charCodeAt(i)
@@ -47,8 +51,9 @@ export async function POST(request: NextRequest) {
   }
 
   let event: {
-    type: number              // 1 = ORDER_STATUS_CHANGE, etc.
+    type: number              // 1 = ORDER_STATUS_CHANGE, 5 = PRODUCT_STATUS_CHANGE, 8 = SELLER_DEAUTHORIZE, ...
     shop_id?: string
+    timestamp?: number        // unix seconds
     data?: Record<string, unknown>
     tts_notification_id?: string
   }
@@ -60,7 +65,6 @@ export async function POST(request: NextRequest) {
 
   const admin = getAdmin()
 
-  // Find the org for this shop_id (identifies which tenant)
   const shopId = event.shop_id
   if (!shopId) return NextResponse.json({ ok: true, skipped: 'no shop_id' })
 
@@ -77,9 +81,12 @@ export async function POST(request: NextRequest) {
   }
 
   // For MVP: just log the event. A follow-up will add an org-scoped
-  // `tiktok_events` table and per-event handlers (order → transactions,
-  // product → listings sync).
-  console.log(`[tiktok/webhook] type=${event.type} shop=${shopId} org=${channel.organization_id}`)
+  // `tiktok_events` table (dedupe on tts_notification_id) and per-event
+  // handlers (order → transactions, product → listings sync,
+  // deauth → channels.active = false).
+  console.log(
+    `[tiktok/webhook] type=${event.type} shop=${shopId} org=${channel.organization_id} notif=${event.tts_notification_id ?? 'n/a'}`,
+  )
 
   return NextResponse.json({ ok: true })
 }

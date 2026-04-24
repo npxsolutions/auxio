@@ -1,20 +1,25 @@
 /**
  * TikTok Shop OAuth callback.
  *
- * Seller authorizes the app in TikTok Shop Partner Center, lands here with:
- *   ?code=<auth_code>
- *   &state=<ctx.id from redirect>
+ * Seller authorizes in TikTok Shop Partner Center, lands here with:
+ *   ?code=<auth_code>&state=<ctx.id>
  *
- * We exchange the code for tokens, look up seller + shop info, and persist a
- * `channels` row for this org with type='tiktok_shop'.
+ * Flow:
+ *   1. Exchange code → tokens
+ *   2. Fetch authorized shops → shop_cipher (required on 202309+ API calls)
+ *   3. Persist one channels row per shop (a cross-border seller may have multiple)
  *
- * Gated on TikTok Partner approval. If env not set, 503.
+ * Gated on TikTok Partner approval. If env not set, redirects with error.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { requireActiveOrg } from '@/app/lib/org/context'
-import { exchangeCode, isTiktokShopConfigured } from '@/app/lib/tiktok-shop/client'
+import {
+  exchangeCode,
+  getAuthorizedShops,
+  isTiktokShopConfigured,
+} from '@/app/lib/tiktok-shop/client'
 
 export const runtime = 'nodejs'
 
@@ -41,8 +46,25 @@ export async function GET(request: NextRequest) {
 
   try {
     const tokens = await exchangeCode(code)
+    const shops  = await getAuthorizedShops(tokens.access_token)
+
+    if (shops.length === 0) {
+      return NextResponse.redirect(new URL('/channels?error=tiktok_no_shops', request.url))
+    }
 
     const admin = getAdmin()
+
+    // `access_token_expire_in` / `refresh_token_expire_in` are ABSOLUTE epoch
+    // seconds despite the misleading name — store as-is.
+    const accessExpires  = new Date(tokens.access_token_expire_in  * 1000).toISOString()
+    const refreshExpires = new Date(tokens.refresh_token_expire_in * 1000).toISOString()
+
+    // TODO: cross-border sellers can have multiple shops on one token; our
+    // current channels schema uniqueness is (organization_id, type), so we
+    // persist the primary shop and stash the rest in metadata.shops[] for
+    // later when we add per-shop rows (needs a unique (org_id,type,shop_domain)
+    // constraint migration).
+    const primary = shops[0]
     const { error } = await admin.from('channels').upsert(
       {
         organization_id: ctx.id,
@@ -51,15 +73,20 @@ export async function GET(request: NextRequest) {
         active:          true,
         access_token:    tokens.access_token,
         refresh_token:   tokens.refresh_token,
-        shop_name:       tokens.seller_name || tokens.shop_id,
-        shop_domain:     tokens.shop_id,
+        shop_name:       primary.name || tokens.seller_name || primary.id,
+        shop_domain:     primary.id,
         connected_at:    new Date().toISOString(),
         metadata: {
-          open_id: tokens.open_id,
-          shop_id: tokens.shop_id,
-          region:  tokens.region,
-          access_token_expires_at: new Date(Date.now() + tokens.access_token_expire_in * 1000).toISOString(),
-          refresh_token_expires_at: new Date(Date.now() + tokens.refresh_token_expire_in * 1000).toISOString(),
+          open_id:      tokens.open_id,
+          shop_id:      primary.id,
+          shop_cipher:  primary.cipher,
+          region:       primary.region,
+          seller_type:  primary.seller_type,
+          seller_base_region: tokens.seller_base_region,
+          granted_scopes:     tokens.granted_scopes,
+          access_token_expires_at:  accessExpires,
+          refresh_token_expires_at: refreshExpires,
+          shops: shops.map(s => ({ id: s.id, cipher: s.cipher, region: s.region, name: s.name })),
         },
       },
       { onConflict: 'organization_id,type' },
