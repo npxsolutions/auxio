@@ -60,8 +60,90 @@ export type CtaSection = {
   }
 }
 
+export type StepFlowSection = {
+  type: 'step_flow'
+  props: {
+    eyebrow?: string
+    title?: string
+    subtitle?: string
+    steps: Array<{ label: string; description?: string; duration?: string }>
+  }
+}
+
+export type IntegrationGridSection = {
+  type: 'integration_grid'
+  props: {
+    eyebrow?: string
+    title?: string
+    columns?: 3 | 4 | 5 | 6
+    /** Each integration: name + 1-2 bullets, optionally a status badge. */
+    integrations: Array<{
+      name: string
+      description?: string
+      status?: 'live' | 'beta' | 'coming_soon'
+    }>
+  }
+}
+
+export type TestimonialSection = {
+  type: 'testimonial'
+  props: {
+    quote: string
+    /** Name of the author. */
+    author: string
+    /** Title + company. */
+    role?: string
+    /** Optional company logo alt. */
+    company?: string
+  }
+}
+
+export type PricingTableSection = {
+  type: 'pricing_table'
+  props: {
+    eyebrow?: string
+    title?: string
+    tiers: Array<{
+      name: string
+      price: string       // already-formatted, e.g. '$79' or 'Custom'
+      cadence?: string    // '/month', '/year', 'one-time'
+      features: string[]
+      ctaLabel: string
+      ctaHref: string
+      highlight?: boolean
+    }>
+  }
+}
+
+export type FaqSection = {
+  type: 'faq'
+  props: {
+    eyebrow?: string
+    title?: string
+    items: Array<{ question: string; answer: string }>
+  }
+}
+
+export type LogoWallSection = {
+  type: 'logo_wall'
+  props: {
+    eyebrow?: string
+    /** Each logo: 1-3 word name, no image needed for this MVP variant. */
+    logos: Array<{ name: string }>
+  }
+}
+
 /** Discriminated union of every section kind the registry knows how to render. */
-export type Section = HeroSection | FeatureGridSection | CtaSection
+export type Section =
+  | HeroSection
+  | FeatureGridSection
+  | CtaSection
+  | StepFlowSection
+  | IntegrationGridSection
+  | TestimonialSection
+  | PricingTableSection
+  | FaqSection
+  | LogoWallSection
 
 /** The keys of the Section union — i.e. allowed values of `section.type`. */
 export type SectionType = Section['type']

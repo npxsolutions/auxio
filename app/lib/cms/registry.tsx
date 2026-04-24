@@ -14,6 +14,12 @@ import type { Section, SectionType, RawSectionRow } from './types'
 import { HeroSection } from './sections/hero'
 import { FeatureGridSection } from './sections/feature-grid'
 import { CtaSection } from './sections/cta'
+import { StepFlowSection } from './sections/step-flow'
+import { IntegrationGridSection } from './sections/integration-grid'
+import { TestimonialSection } from './sections/testimonial'
+import { PricingTableSection } from './sections/pricing-table'
+import { FaqSection } from './sections/faq'
+import { LogoWallSection } from './sections/logo-wall'
 
 type SectionComponent<T extends Section> = (props: T['props']) => ReactElement
 
@@ -28,6 +34,12 @@ const SectionRegistry: {
   hero: HeroSection,
   feature_grid: FeatureGridSection,
   cta: CtaSection,
+  step_flow: StepFlowSection,
+  integration_grid: IntegrationGridSection,
+  testimonial: TestimonialSection,
+  pricing_table: PricingTableSection,
+  faq: FaqSection,
+  logo_wall: LogoWallSection,
 }
 
 /**
