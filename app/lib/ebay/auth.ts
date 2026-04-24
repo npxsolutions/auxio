@@ -88,10 +88,22 @@ export async function getEbayAccessToken(
     throw new Error('[ebay-auth:refresh] EBAY_CLIENT_ID / EBAY_CLIENT_SECRET env missing')
   }
 
-  const scope = (metadata.ebay_scope as string | undefined) ?? EBAY_DEFAULT_SCOPES
+  // eBay refresh spec: if you omit `scope`, the server returns a token with
+  // the same scope originally granted. Passing a hardcoded default scope set
+  // that's broader than what the user consented to fails with invalid_scope.
+  //
+  // Only send `scope` if we explicitly persisted one at connect time — that
+  // means we know it matches the grant. Otherwise omit.
+  const storedScope = metadata.ebay_scope as string | undefined
   const basic = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
 
-  console.log(`[ebay-auth:refresh] refreshing token user=${channel.user_id}`)
+  const refreshBody: Record<string, string> = {
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+  }
+  if (storedScope) refreshBody.scope = storedScope
+
+  console.log(`[ebay-auth:refresh] refreshing token user=${channel.user_id} scope=${storedScope ? 'stored' : 'omitted'}`)
   let res: Response
   try {
     res = await syncFetch(EBAY_TOKEN_URL, {
@@ -101,11 +113,7 @@ export async function getEbayAccessToken(
         Accept: 'application/json',
         Authorization: `Basic ${basic}`,
       },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-        scope,
-      }).toString(),
+      body: new URLSearchParams(refreshBody).toString(),
       label: 'ebay.token.refresh',
     })
   } catch (err) {
@@ -145,7 +153,9 @@ export async function getEbayAccessToken(
   delete (newMeta as Record<string, unknown>).ebay_auth_error_at
   ;(newMeta as Record<string, unknown>).ebay_access_token = token
   ;(newMeta as Record<string, unknown>).ebay_token_expires_at = expiresAt
-  if (!metadata.ebay_scope) (newMeta as Record<string, unknown>).ebay_scope = scope
+  // Intentionally do NOT write ebay_scope here — if it was missing, keep it
+  // missing so subsequent refreshes also omit `scope` (which succeeds).
+  // scope is only set at connect time where we know what the user granted.
 
   await supabase
     .from('channels')

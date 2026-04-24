@@ -133,7 +133,11 @@ export async function GET(request: Request) {
       metadata: {
         ebay_access_token: access_token,
         ebay_token_expires_at: ebayExpiresAt,
-        ebay_scope: EBAY_DEFAULT_SCOPES,
+        // NOTE: deliberately not storing `ebay_scope`. eBay's refresh
+        // endpoint returns a token with the originally granted scope when
+        // `scope` is omitted from the refresh body. Storing the requested
+        // scope set here caused `invalid_scope` on refresh when the user
+        // had granted a subset of what we ask for.
       },
     }, { onConflict: 'user_id,type' })
 
