@@ -20,7 +20,7 @@ export async function GET() {
 
     const supabase = await getSupabase()
     const { data, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('id, title, sku, price, cost_price, category, status')
       .order('title', { ascending: true })
 
@@ -43,7 +43,7 @@ export async function PATCH(request: NextRequest) {
     // Single update: { id, cost_price }
     if (body.id) {
       const { data, error } = await supabase
-        .from('listings')
+        .from('channel_listings')
         .update({ cost_price: body.cost_price, updated_at: new Date().toISOString() })
         .eq('id', body.id)
         .select('id, cost_price')
@@ -58,7 +58,7 @@ export async function PATCH(request: NextRequest) {
       const results = await Promise.allSettled(
         body.updates.map(({ id, cost_price }: { id: string; cost_price: number }) =>
           supabase
-            .from('listings')
+            .from('channel_listings')
             .update({ cost_price, updated_at: new Date().toISOString() })
             .eq('id', id)
         )
@@ -71,7 +71,7 @@ export async function PATCH(request: NextRequest) {
     if (body.apply_default_pct) {
       const pct = body.apply_default_pct / 100
       const { data: listings } = await supabase
-        .from('listings')
+        .from('channel_listings')
         .select('id, price')
         .is('cost_price', null)
 
@@ -82,7 +82,7 @@ export async function PATCH(request: NextRequest) {
         }))
         await Promise.all(
           updates.map(u =>
-            supabase.from('listings').update({ cost_price: u.cost_price }).eq('id', u.id)
+            supabase.from('channel_listings').update({ cost_price: u.cost_price }).eq('id', u.id)
           )
         )
         return NextResponse.json({ applied: updates.length })

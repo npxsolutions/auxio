@@ -116,7 +116,7 @@ export async function GET(request: Request) {
 
           if (!listingId && sku) {
             const { data: bySku } = await supabase
-              .from('listings')
+              .from('channel_listings')
               .select('id')
               .eq('organization_id', orgId)
               .eq('sku', sku)
@@ -136,10 +136,10 @@ export async function GET(request: Request) {
           }
 
           if (listingId) {
-            await supabase.from('listings').update(listingPayload).eq('id', listingId)
+            await supabase.from('channel_listings').update(listingPayload).eq('id', listingId)
           } else {
             const { data: created } = await supabase
-              .from('listings')
+              .from('channel_listings')
               .insert(listingPayload)
               .select('id')
               .single()

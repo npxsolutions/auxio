@@ -252,7 +252,7 @@ export async function GET(request: Request) {
     const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '200'), 500)
 
     let query = supabase
-      .from('listings')
+      .from('channel_listings')
       .select('id, title, description, price, compare_price, condition, quantity, images, brand, vendor, barcode, weight_grams, listing_channels(channel_type, status)')
       .order('created_at', { ascending: false })
       .limit(limit)

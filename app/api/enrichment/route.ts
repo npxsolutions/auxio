@@ -196,7 +196,7 @@ export async function POST(request: Request) {
 
     // Fetch listing (RLS handles scoping)
     const { data: listing, error: listingError } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('*')
       .eq('id', listingId)
       .single()
@@ -350,7 +350,7 @@ export async function GET(request: Request) {
     // If listing specified, compute its enrichment score (RLS scopes)
     if (listingId) {
       const { data: listing } = await supabase
-        .from('listings')
+        .from('channel_listings')
         .select('*')
         .eq('id', listingId)
         .single()

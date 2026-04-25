@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
     // Count channel listings per product
     const { data: channelCounts } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('product_id')
 
     const listingsByProduct = new Map<string, number>()

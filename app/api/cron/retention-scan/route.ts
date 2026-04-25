@@ -35,7 +35,7 @@ async function scanOrg(admin: ReturnType<typeof getAdmin>, orgId: string): Promi
 
   // ── 1. Stockout risk ────────────────────────────────────────────────────────
   const { data: atRisk } = await admin
-    .from('listings')
+    .from('channel_listings')
     .select('id, title, sku, quantity, reorder_point')
     .eq('organization_id', orgId)
     .not('reorder_point', 'is', null)

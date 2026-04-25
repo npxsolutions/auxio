@@ -46,7 +46,7 @@ export async function GET() {
         .gte('order_date', thirtyDaysAgo),
       supabase.from('transactions').select('gross_revenue, true_profit')
         .gte('order_date', prevMonthStart).lte('order_date', prevMonthEnd),
-      supabase.from('listings').select('id, status, listing_channels(status)'),
+      supabase.from('channel_listings').select('id, status, listing_channels(status)'),
       supabase.from('channels').select('type, active, last_synced_at').eq('active', true),
       supabase.from('agent_pending_actions').select('id', { count: 'exact', head: true })
         .eq('status', 'pending'),

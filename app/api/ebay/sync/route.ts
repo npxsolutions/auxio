@@ -141,7 +141,7 @@ export async function POST() {
       const product = item.product || {}
       const avail   = item.availability?.shipToLocationAvailability || {}
 
-      const { data: newListing, error } = await getAdmin().from('listings').insert({
+      const { data: newListing, error } = await getAdmin().from('channel_listings').insert({
         organization_id: ctx.id,
         user_id:         ctx.user.id,
         title:           product.title || item.sku || 'Untitled',
@@ -240,7 +240,7 @@ export async function POST() {
           const gallery   = item.PictureDetails?.GalleryURL || ''
           const condition = (item.ConditionDisplayName || item.ConditionID || '').toString().toLowerCase()
 
-          const { data: newListing, error: insertErr } = await getAdmin().from('listings').insert({
+          const { data: newListing, error: insertErr } = await getAdmin().from('channel_listings').insert({
             organization_id: ctx.id,
             user_id:         ctx.user.id,
             title:           item.Title || 'Untitled',

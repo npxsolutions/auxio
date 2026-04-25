@@ -12,7 +12,7 @@ async function getUserDetail(id: string) {
   // Fetch all related data in parallel
   const [channelsRes, listingsRes, transactionsRes, settingsRes, ordersRes] = await Promise.all([
     supabaseAdmin.from('channels').select('*').eq('user_id', id),
-    supabaseAdmin.from('listings').select('id, title, status, channel, created_at').eq('user_id', id).order('created_at', { ascending: false }).limit(20),
+    supabaseAdmin.from('channel_listings').select('id, title, status, channel, created_at').eq('user_id', id).order('created_at', { ascending: false }).limit(20),
     supabaseAdmin.from('transactions').select('id, sale_price, true_profit, channel, created_at').eq('user_id', id).order('created_at', { ascending: false }).limit(5),
     supabaseAdmin.from('user_settings').select('*').eq('user_id', id).single(),
     supabaseAdmin.from('orders').select('id, status, total, channel, created_at').eq('user_id', id).order('created_at', { ascending: false }).limit(10),

@@ -174,7 +174,7 @@ export async function POST(request: Request) {
 
     const [listingsRes, channelsRes] = await Promise.all([
       supabase
-        .from('listings')
+        .from('channel_listings')
         .select('id, user_id, title, brand, condition, barcode, images, image_count, category')
         .in('id', listingIds),
       supabase
@@ -287,7 +287,7 @@ export async function POST(request: Request) {
 
     if (patListingIds.length > 0) {
       const { data: patListings, error: plErr } = await supabase
-        .from('listings')
+        .from('channel_listings')
         .select('id, title, images, category, image_count')
         .in('id', patListingIds)
       if (plErr) throw plErr

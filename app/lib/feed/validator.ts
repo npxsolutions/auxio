@@ -757,7 +757,7 @@ export async function validateForChannel(
 
   const admin = getAdmin()
   const [{ data: listing }, { data: lc }] = await Promise.all([
-    admin.from('listings').select('*').eq('id', listingId).single(),
+    admin.from('channel_listings').select('*').eq('id', listingId).single(),
     admin.from('listing_channels').select('*').eq('listing_id', listingId).eq('channel_type', channel).maybeSingle(),
   ])
 

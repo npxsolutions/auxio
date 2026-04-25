@@ -23,7 +23,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     if (!channels?.length) return NextResponse.json({ error: 'Specify channels to optimise for' }, { status: 400 })
 
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).single()
+      .from('channel_listings').select('*').eq('id', id).single()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const channelGuidelines: Record<string, string> = {

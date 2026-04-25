@@ -141,7 +141,7 @@ export async function POST(request: Request) {
       }
 
       if (toInsert.length > 0) {
-        const { error } = await supabase.from('listings').insert(toInsert)
+        const { error } = await supabase.from('channel_listings').insert(toInsert)
         if (error) {
           errors.push({ batch: i, error: error.message })
           failed_rows += toInsert.length

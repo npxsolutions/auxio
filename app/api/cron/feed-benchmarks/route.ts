@@ -147,7 +147,7 @@ export async function POST(request: Request) {
     }
 
     const { data: listings, error: listingsErr } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('id, user_id, brand, condition, barcode, images, category')
       .in('id', listingIds)
     if (listingsErr) throw listingsErr

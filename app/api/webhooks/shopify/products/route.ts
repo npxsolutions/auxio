@@ -126,11 +126,11 @@ export async function POST(request: Request) {
   }
 
   if (listingId) {
-    const { error } = await supabase.from('listings').update(listingPayload).eq('id', listingId)
+    const { error } = await supabase.from('channel_listings').update(listingPayload).eq('id', listingId)
     if (error) console.error('[shopify:products-webhook] listing update:', error)
   } else {
     const { data: created, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .insert(listingPayload)
       .select('id')
       .single()

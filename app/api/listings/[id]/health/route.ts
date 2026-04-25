@@ -95,7 +95,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 
     // Get listing — RLS scopes by org
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).single()
+      .from('channel_listings').select('*').eq('id', id).single()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     // Get templates for this listing's category (channel_templates is global config)
@@ -156,7 +156,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     } catch { /* default */ }
 
     const { data: ownerCheck } = await supabase
-      .from('listings').select('id').eq('id', id).maybeSingle()
+      .from('channel_listings').select('id').eq('id', id).maybeSingle()
     if (!ownerCheck) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const validation = await preflightValidate(id, channel)

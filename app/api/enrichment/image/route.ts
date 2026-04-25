@@ -269,7 +269,7 @@ export async function POST(request: Request) {
     if (listingId) {
       // Fetch listing images (RLS scopes)
       const { data: listing, error: listingError } = await supabase
-        .from('listings')
+        .from('channel_listings')
         .select('*')
         .eq('id', listingId)
         .single()

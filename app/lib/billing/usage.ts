@@ -68,7 +68,7 @@ export async function getMonthlyUsage(
 
   // Listings: use created_at — "listings added this period".
   const listingsRes = await db
-    .from('listings')
+    .from('channel_listings')
     .select('id', { count: 'exact', head: true })
     .eq('user_id', userId)
     .gte('created_at', start.toISOString())
@@ -105,7 +105,7 @@ export async function getMonthlyOrgUsage(
     .lt('order_date', end.toISOString())
 
   const listingsRes = await db
-    .from('listings')
+    .from('channel_listings')
     .select('id', { count: 'exact', head: true })
     .eq('organization_id', orgId)
     .gte('created_at', start.toISOString())

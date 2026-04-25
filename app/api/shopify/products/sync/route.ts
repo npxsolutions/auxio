@@ -73,7 +73,7 @@ export async function POST() {
           // Images: product-level + first available
           const images = (product.images || []).map((img: any) => img.src).filter(Boolean).slice(0, 8)
 
-          const { data: newListing, error } = await getAdmin().from('listings').insert({
+          const { data: newListing, error } = await getAdmin().from('channel_listings').insert({
             organization_id: ctx.id,
             user_id:         ctx.user.id,
             title,

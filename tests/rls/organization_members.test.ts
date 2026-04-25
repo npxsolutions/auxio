@@ -15,7 +15,7 @@ describe('organization_members — access flows with membership', () => {
 
   it('user A initially cannot see org B listings', async () => {
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
-    const { data } = await sb.from('listings').select('id').eq('organization_id', fixture.orgB.id)
+    const { data } = await sb.from('channel_listings').select('id').eq('organization_id', fixture.orgB.id)
     expect(data ?? []).toHaveLength(0)
   })
 
@@ -32,7 +32,7 @@ describe('organization_members — access flows with membership', () => {
     )
 
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
-    const { data } = await sb.from('listings').select('id').eq('organization_id', fixture.orgB.id)
+    const { data } = await sb.from('channel_listings').select('id').eq('organization_id', fixture.orgB.id)
     expect((data ?? []).length).toBeGreaterThanOrEqual(1)
   })
 
@@ -45,7 +45,7 @@ describe('organization_members — access flows with membership', () => {
       .eq('user_id', fixture.userA.id)
 
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
-    const { data } = await sb.from('listings').select('id').eq('organization_id', fixture.orgB.id)
+    const { data } = await sb.from('channel_listings').select('id').eq('organization_id', fixture.orgB.id)
     expect(data ?? []).toHaveLength(0)
   })
 })

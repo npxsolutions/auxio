@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 
     // Pre-load cost_price map from listings table (service role — filter by org)
     const { data: costRows } = await getAdmin()
-      .from('listings')
+      .from('channel_listings')
       .select('sku, cost_price')
       .eq('organization_id', ctx.id)
       .not('sku', 'is', null)

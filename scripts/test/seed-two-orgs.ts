@@ -104,7 +104,7 @@ async function ensureMembership(orgId: string, userId: string, role: 'owner' | '
 
 async function ensureListing(orgId: string, userId: string, title: string): Promise<string> {
   const { data: existing } = await admin
-    .from('listings')
+    .from('channel_listings')
     .select('id')
     .eq('organization_id', orgId)
     .eq('title', title)
@@ -112,7 +112,7 @@ async function ensureListing(orgId: string, userId: string, title: string): Prom
   if (existing) return existing.id as string
 
   const { data, error } = await admin
-    .from('listings')
+    .from('channel_listings')
     .insert({
       organization_id: orgId,
       user_id: userId,

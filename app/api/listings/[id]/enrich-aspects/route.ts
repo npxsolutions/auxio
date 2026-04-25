@@ -31,7 +31,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     )
 
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).maybeSingle()
+      .from('channel_listings').select('*').eq('id', id).maybeSingle()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const { data: lc } = await supabase

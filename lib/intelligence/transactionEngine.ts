@@ -1161,7 +1161,7 @@ export class PalventoAgent {
   private async executeReprice(userId: string, sku: string, newPrice: number): Promise<void> {
     // Get channel for this SKU
     const { data: listing } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('channel_id, channel_listing_id, channels(type, access_token)')
       .eq('user_id', userId)
       .eq('sku', sku)

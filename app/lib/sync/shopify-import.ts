@@ -133,12 +133,12 @@ export async function importShopifyProduct(
   if (listingId) {
     if (!opts.forceUpdate) return 'skipped'
     // Update existing listing
-    const { error } = await supabase.from('listings').update(listingPayload).eq('id', listingId)
+    const { error } = await supabase.from('channel_listings').update(listingPayload).eq('id', listingId)
     if (error) throw new Error(`listing update failed: ${error.message}`)
   } else {
     // Insert new listing
     const { data: created, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .insert(listingPayload)
       .select('id')
       .single()

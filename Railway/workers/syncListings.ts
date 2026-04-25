@@ -260,7 +260,7 @@ export async function syncAllListings() {
 
   // Load all published listings with their channels
   const { data: listings } = await supabase
-    .from('listings')
+    .from('channel_listings')
     .select('id, user_id, price, quantity, sku, condition, title, description, images')
     .in('status', ['published', 'partially_published'])
 

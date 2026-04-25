@@ -71,7 +71,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     // 2. Find every listing already linked to this product
     const { data: linkedListings, error: lErr } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('id, sku')
       .eq('product_id', productId)
 
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     let listingsUpdated = 0
     for (const listing of linkedListings ?? []) {
       const { error: upErr } = await supabase
-        .from('listings')
+        .from('channel_listings')
         .update(masterPatch)
         .eq('id', listing.id)
       if (!upErr) listingsUpdated++

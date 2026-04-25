@@ -87,7 +87,7 @@ export async function GET() {
     const rows = (healthRows ?? []) as HealthRow[]
 
     const { count: totalListings } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('id', { count: 'exact', head: true })
 
     // ── Overall health score (weighted average across all channel/listing pairs) ──

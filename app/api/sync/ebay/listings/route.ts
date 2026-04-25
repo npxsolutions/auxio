@@ -89,7 +89,7 @@ export async function GET(request: Request) {
           const desc = item.product?.description ?? ''
 
           const { data: existing } = await supabase
-            .from('listings')
+            .from('channel_listings')
             .select('id')
             .eq('organization_id', orgId)
             .eq('sku', item.sku)
@@ -109,10 +109,10 @@ export async function GET(request: Request) {
 
           let listingId = existing?.id as string | undefined
           if (listingId) {
-            await supabase.from('listings').update(listingPayload).eq('id', listingId)
+            await supabase.from('channel_listings').update(listingPayload).eq('id', listingId)
           } else {
             const { data: created } = await supabase
-              .from('listings')
+              .from('channel_listings')
               .insert(listingPayload)
               .select('id')
               .single()

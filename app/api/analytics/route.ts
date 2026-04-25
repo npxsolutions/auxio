@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
         .select('channel, sale_price, true_profit, true_margin, order_date, sku, title, supplier_cost, channel_fee')
         .gte('order_date', since.toISOString())
         .order('order_date', { ascending: true }),
-      supabase.from('listings').select('id, status'),
+      supabase.from('channel_listings').select('id, status'),
       supabase.from('channels').select('type, active'),
       supabase.from('feed_rules').select('id, active'),
     ])

@@ -38,7 +38,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
 
   // Get listing counts
   const { data: listings } = await supabaseAdmin
-    .from('listings')
+    .from('channel_listings')
     .select('user_id')
 
   const listingsByUser: Record<string, number> = {}

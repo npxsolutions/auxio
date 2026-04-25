@@ -169,7 +169,7 @@ export async function POST(request: Request) {
 
     // Fetch all listings in batch (RLS scopes)
     const { data: listings, error: listingsError } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('*')
       .in('id', idsToProcess)
 

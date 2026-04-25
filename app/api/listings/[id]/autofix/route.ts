@@ -38,7 +38,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
 
     const { data: listing } = await supabase
-      .from('listings').select('*').eq('id', id).maybeSingle()
+      .from('channel_listings').select('*').eq('id', id).maybeSingle()
     if (!listing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     const admin = createClient(
@@ -64,7 +64,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     if (rule === 'EBAY_CONDITION_SET') {
       if (!listing.condition) {
-        await admin.from('listings').update({ condition: 'new' }).eq('id', id)
+        await admin.from('channel_listings').update({ condition: 'new' }).eq('id', id)
         applied = true
         detail = 'Set condition to "new"'
       } else {

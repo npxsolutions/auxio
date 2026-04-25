@@ -28,7 +28,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     const supabase = await getSupabase()
     // Org scoping via RLS — no explicit user_id/organization_id filter needed
     const { data, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select(`*, listing_channels(*)`)
       .eq('id', id)
       .single()
@@ -54,7 +54,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     let patch = body
     if (body.attributes && Object.keys(body).length === 1) {
       const { data: existing } = await supabase
-        .from('listings').select('attributes').eq('id', id).single()
+        .from('channel_listings').select('attributes').eq('id', id).single()
       patch = { attributes: { ...(existing?.attributes || {}), ...body.attributes } }
     }
 
@@ -65,10 +65,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
     // Snapshot current state before update (for version history)
     const { data: before } = await supabase
-      .from('listings').select('*').eq('id', id).single()
+      .from('channel_listings').select('*').eq('id', id).single()
 
     const { data, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .update(patch)
       .eq('id', id)
       .select(`*, listing_channels(*)`)
@@ -116,10 +116,10 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     // Snapshot before delete for the audit trail.
     const { data: before } = await supabase
-      .from('listings').select('*').eq('id', id).single()
+      .from('channel_listings').select('*').eq('id', id).single()
 
     const { error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .delete()
       .eq('id', id)
 

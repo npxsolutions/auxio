@@ -18,7 +18,7 @@ async function getMetrics() {
     admin.auth.admin.listUsers({ perPage: 1000 }),
     admin.from('organizations').select('id, plan, subscription_status, created_at, updated_at'),
     admin.from('channels').select('user_id, type, active, connected_at'),
-    admin.from('listings').select('user_id, status, created_at'),
+    admin.from('channel_listings').select('user_id, status, created_at'),
     admin.from('transactions').select('user_id, true_profit, gross_revenue, created_at'),
   ])
 

@@ -17,20 +17,20 @@ describe('listings org-scoped RLS', () => {
 
   it('user A can read their own listing', async () => {
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
-    const { data, error } = await sb.from('listings').select('id').eq('id', fixture.listingAId)
+    const { data, error } = await sb.from('channel_listings').select('id').eq('id', fixture.listingAId)
     expect(error).toBeNull()
     expect(data).toHaveLength(1)
   })
 
   it('user A cannot read user B listings', async () => {
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
-    const { data } = await sb.from('listings').select('id').eq('id', fixture.listingBId)
+    const { data } = await sb.from('channel_listings').select('id').eq('id', fixture.listingBId)
     expect(data ?? []).toHaveLength(0) // RLS filters — no error, just empty rows
   })
 
   it('user A cannot INSERT a listing targeting org B', async () => {
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
-    const { error } = await sb.from('listings').insert({
+    const { error } = await sb.from('channel_listings').insert({
       organization_id: fixture.orgB.id,
       user_id: fixture.userA.id,
       title: 'RLS violation attempt',
@@ -46,7 +46,7 @@ describe('listings org-scoped RLS', () => {
   it('UPDATE cannot move a listing to org B', async () => {
     const sb = await withUserClient(fixture.userA.email, fixture.userA.password)
     const { error } = await sb
-      .from('listings')
+      .from('channel_listings')
       .update({ organization_id: fixture.orgB.id })
       .eq('id', fixture.listingAId)
     // Either blocked at WITH CHECK or the row becomes invisible after the move.

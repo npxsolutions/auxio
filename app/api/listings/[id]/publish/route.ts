@@ -420,7 +420,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     // Load listing — RLS scopes by org
     const { data: listing } = await supabase
-      .from('listings').select('*')
+      .from('channel_listings').select('*')
       .eq('id', id).single()
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
 
@@ -764,7 +764,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     const allPublished  = requestedChannels.every(c => results[c]?.status === 'published')
     const anyPublished  = requestedChannels.some(c => results[c]?.status === 'published')
     const listingStatus = allPublished ? 'published' : anyPublished ? 'partially_published' : 'draft'
-    await supabase.from('listings').update({ status: listingStatus }).eq('id', id)
+    await supabase.from('channel_listings').update({ status: listingStatus }).eq('id', id)
 
     return NextResponse.json({ results })
   } catch (err: any) {

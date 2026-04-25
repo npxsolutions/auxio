@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
   // Find listing by sku for this user
   const { data: listing } = await supabase
-    .from('listings')
+    .from('channel_listings')
     .select('id')
     .eq('user_id', userId)
     .eq('sku', sku)
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
   const listingId = listing.id as string
 
   await supabase
-    .from('listings')
+    .from('channel_listings')
     .update({ quantity: newQty, updated_at: new Date().toISOString() })
     .eq('id', listingId)
 

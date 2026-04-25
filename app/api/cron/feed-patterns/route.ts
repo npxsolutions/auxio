@@ -92,7 +92,7 @@ export async function POST(request: Request) {
     }
 
     const { data: listings, error: lErr } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select('id, title, images, category, image_count')
       .in('id', listingIds)
     if (lErr) throw lErr

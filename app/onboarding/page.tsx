@@ -32,8 +32,8 @@ async function deriveState(): Promise<{ userId: string; state: DerivedState; ste
 
     const [channelsRes, listingsRes, costRes, rulesRes, teamRes] = await Promise.all([
       supabase.from('channels').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
-      supabase.from('listings').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
-      supabase.from('listings').select('id', { count: 'exact', head: true }).eq('user_id', user.id).not('cost_price', 'is', null),
+      supabase.from('channel_listings').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
+      supabase.from('channel_listings').select('id', { count: 'exact', head: true }).eq('user_id', user.id).not('cost_price', 'is', null),
       supabase.from('repricing_rules').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
       // workspace_members is workspace-scoped; we read count where user_id = current user
       supabase.from('workspace_members').select('id', { count: 'exact', head: true }).eq('user_id', user.id),

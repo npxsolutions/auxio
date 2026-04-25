@@ -20,7 +20,7 @@ export async function GET() {
 
     const supabase = await getSupabase()
     const { data, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .select(`*, listing_channels(*)`)
       .order('created_at', { ascending: false })
 
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     if (!title) return NextResponse.json({ error: 'Title is required' }, { status: 400 })
 
     const { data, error } = await supabase
-      .from('listings')
+      .from('channel_listings')
       .insert({
         organization_id: ctx.id,
         user_id: ctx.user.id, // creator attribution within the org

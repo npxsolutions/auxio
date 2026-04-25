@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     // listings is org-scoped (Stage A). Service-role client — must filter explicitly.
     let query = supabase!
-      .from('listings')
+      .from('channel_listings')
       .select('id, title, status, category, price, quantity, sku, created_at, updated_at')
       .eq('organization_id', organizationId!)
       .order('created_at', { ascending: false })

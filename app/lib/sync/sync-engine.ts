@@ -216,7 +216,7 @@ export async function syncSingleListing(opts: {
 
   // Load the listing
   const { data: listing } = await supabase
-    .from('listings')
+    .from('channel_listings')
     .select('*')
     .eq('id', opts.listingId)
     .single()
