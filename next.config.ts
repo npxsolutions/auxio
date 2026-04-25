@@ -2,7 +2,13 @@ import type { NextConfig } from 'next'
 import { withSentryConfig } from '@sentry/nextjs'
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return Array.from({ length: 8 }, (_, i) => i + 1).map((n) => ({
+      source: `/li-w${n}`,
+      destination: `/founding-partners?utm_source=linkedin&utm_medium=organic&utm_campaign=launch-wk${n}`,
+      permanent: false,
+    }))
+  },
 }
 
 export default withSentryConfig(nextConfig, {
