@@ -133,6 +133,51 @@ export type LogoWallSection = {
   }
 }
 
+export type StatCardSection = {
+  type: 'stat_card'
+  props: {
+    eyebrow?: string
+    title?: string
+    columns?: 2 | 3 | 4
+    stats: Array<{
+      /** Pre-formatted display value, e.g. "98%", "$2.1M", "12k+". */
+      value: string
+      label: string
+      /** Optional delta line, e.g. "+18% MoM". */
+      delta?: string
+    }>
+  }
+}
+
+export type VideoEmbedSection = {
+  type: 'video_embed'
+  props: {
+    eyebrow?: string
+    title?: string
+    subtitle?: string
+    /** Full iframe-embed URL (e.g. https://www.youtube.com/embed/<id>). */
+    src: string
+    /** 16:9 by default; override for square/portrait. */
+    aspectRatio?: '16:9' | '4:3' | '1:1' | '9:16'
+  }
+}
+
+export type ProductPreviewSection = {
+  type: 'product_preview'
+  props: {
+    eyebrow?: string
+    title: string
+    description?: string
+    /** Public image URL — screenshot, mock, or product photography. */
+    imageUrl: string
+    imageAlt?: string
+    /** Image position relative to copy. Defaults to 'right'. */
+    imagePosition?: 'left' | 'right'
+    ctaLabel?: string
+    ctaHref?: string
+  }
+}
+
 /** Discriminated union of every section kind the registry knows how to render. */
 export type Section =
   | HeroSection
@@ -144,6 +189,9 @@ export type Section =
   | PricingTableSection
   | FaqSection
   | LogoWallSection
+  | StatCardSection
+  | VideoEmbedSection
+  | ProductPreviewSection
 
 /** The keys of the Section union — i.e. allowed values of `section.type`. */
 export type SectionType = Section['type']

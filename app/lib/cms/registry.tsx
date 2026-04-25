@@ -20,6 +20,9 @@ import { TestimonialSection } from './sections/testimonial'
 import { PricingTableSection } from './sections/pricing-table'
 import { FaqSection } from './sections/faq'
 import { LogoWallSection } from './sections/logo-wall'
+import { StatCardSection } from './sections/stat-card'
+import { VideoEmbedSection } from './sections/video-embed'
+import { ProductPreviewSection } from './sections/product-preview'
 
 type SectionComponent<T extends Section> = (props: T['props']) => ReactElement
 
@@ -40,6 +43,9 @@ const SectionRegistry: {
   pricing_table: PricingTableSection,
   faq: FaqSection,
   logo_wall: LogoWallSection,
+  stat_card: StatCardSection,
+  video_embed: VideoEmbedSection,
+  product_preview: ProductPreviewSection,
 }
 
 /**
