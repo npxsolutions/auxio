@@ -54,6 +54,19 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Palvento",
+  url: "https://palvento.com",
+  logo: "https://palvento.com/logo.svg",
+  description: "Commerce Operations Platform for multichannel sellers — inventory, orders, procurement, forecasting, P&L, and AI unified across every marketplace, currency, and region.",
+  sameAs: [
+    "https://www.linkedin.com/company/palvento",
+    "https://twitter.com/palventohq",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -62,6 +75,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geist.className} ${geistMono.variable} ${instrumentSerif.variable}`} style={{ fontFamily: 'var(--font-geist), -apple-system, sans-serif' }}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <PostHogProvider>
           <TrialBanner />
           {children}
