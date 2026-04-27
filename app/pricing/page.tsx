@@ -189,13 +189,16 @@ export default function PricingPage() {
   const COMPARE = buildCompare(currency)
 
   return (
-    <div style={{ fontFamily: 'var(--font-geist), -apple-system, system-ui, sans-serif', background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: 'var(--font-geist), -apple-system, system-ui, sans-serif', background: '#f8f4ec', color: '#0b0f1a' }}>
 
       {/* Nav */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(248,244,236,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(11,15,26,0.10)', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M2 22 L12 2 L22 22 L17.5 22 L12 11 L6.5 22 Z" fill="#0b0f1a"/>
+            <rect x="9.2" y="17" width="5.6" height="2.2" fill="#e8863f"/>
+          </svg>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -204,7 +207,7 @@ export default function PricingPage() {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -216,7 +219,7 @@ export default function PricingPage() {
           {remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life
         </div>
 
-        <h1 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(48px, 6vw, 88px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.02, margin: '0 0 24px', color: '#0f172a' }}>
+        <h1 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(48px, 6vw, 88px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.02, margin: '0 0 24px', color: '#0b0f1a' }}>
           Self-serve feed management. <em style={{ fontStyle: 'italic', color: '#e8863f' }}>From $149/mo.</em>
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
@@ -226,8 +229,8 @@ export default function PricingPage() {
         {/* Toggles: billing + currency */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '4px', background: '#f1f5f9', borderRadius: '10px' }}>
-            <button onClick={() => setAnnual(false)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: !annual ? 'white' : 'transparent', color: !annual ? '#0f172a' : '#64748b', boxShadow: !annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>Monthly</button>
-            <button onClick={() => setAnnual(true)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: annual ? 'white' : 'transparent', color: annual ? '#0f172a' : '#64748b', boxShadow: annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button onClick={() => setAnnual(false)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: !annual ? 'white' : 'transparent', color: !annual ? '#0b0f1a' : '#64748b', boxShadow: !annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>Monthly</button>
+            <button onClick={() => setAnnual(true)} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: annual ? 'white' : 'transparent', color: annual ? '#0b0f1a' : '#64748b', boxShadow: annual ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s', display: 'flex', alignItems: 'center', gap: '6px' }}>
               Annual
               <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', background: '#dcfce7', color: '#16a34a', fontWeight: 700 }}>Save 20%</span>
             </button>
@@ -242,7 +245,7 @@ export default function PricingPage() {
                   padding: '8px 14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
                   fontSize: '13px', fontWeight: 600,
                   background: currency === c.code ? 'white' : 'transparent',
-                  color: currency === c.code ? '#0f172a' : '#64748b',
+                  color: currency === c.code ? '#0b0f1a' : '#64748b',
                   boxShadow: currency === c.code ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                   transition: 'all 0.15s',
                 }}
@@ -271,13 +274,13 @@ export default function PricingPage() {
               </div>
             )}
 
-            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px' }}>{plan.name}</div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0b0f1a', marginBottom: '6px' }}>{plan.name}</div>
             <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '20px', lineHeight: 1.5 }}>{plan.desc}</div>
 
             {plan.prices ? (
               <div style={{ marginBottom: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                  <span style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+                  <span style={{ fontSize: '36px', fontWeight: 800, color: '#0b0f1a', letterSpacing: '-0.03em' }}>
                     {currencySymbol}{plan.prices[currency].founding}
                   </span>
                   <span style={{ fontSize: '13px', color: '#64748b' }}>/mo</span>
@@ -288,7 +291,7 @@ export default function PricingPage() {
                 <div style={{ fontSize: '11px', color: '#d97706', fontWeight: 600, marginTop: '2px' }}>Founding member rate · billed in {currency}</div>
               </div>
             ) : (
-              <div style={{ fontSize: '28px', fontWeight: 800, color: '#0f172a', marginBottom: '20px', letterSpacing: '-0.02em' }}>Custom</div>
+              <div style={{ fontSize: '28px', fontWeight: 800, color: '#0b0f1a', marginBottom: '20px', letterSpacing: '-0.02em' }}>Custom</div>
             )}
 
             <Link
@@ -298,7 +301,7 @@ export default function PricingPage() {
                 borderRadius: '8px', fontSize: '13px', fontWeight: 600,
                 textDecoration: 'none', marginBottom: '24px', marginTop: '16px',
                 background: plan.popular ? `linear-gradient(135deg, #e8863f, #e8863f)` : 'transparent',
-                color: plan.popular ? 'white' : '#0f172a',
+                color: plan.popular ? 'white' : '#0b0f1a',
                 border: plan.popular ? 'none' : '1px solid #e2e8f0',
               }}
             >
@@ -331,7 +334,7 @@ export default function PricingPage() {
       {/* Comparison table */}
       <div style={{ background: '#fafafa', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '8px', textAlign: 'center' }}>How we <em style={{ fontStyle: 'italic', color: '#e8863f' }}>compare.</em></h2>
+          <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0b0f1a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '8px', textAlign: 'center' }}>How we <em style={{ fontStyle: 'italic', color: '#e8863f' }}>compare.</em></h2>
           <p style={{ fontSize: '16px', color: '#64748b', textAlign: 'center', marginBottom: '48px' }}>See why sellers choose Palvento over the enterprise alternatives.</p>
 
           <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e8e8e5', overflow: 'hidden' }}>
@@ -340,7 +343,7 @@ export default function PricingPage() {
               <div style={{ padding: '16px 20px' }} />
               {['Palvento', 'Brightpearl', 'Linnworks', 'Feedonomics'].map((name, i) => (
                 <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(232,134,63,0.10)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#e8863f' : '#0f172a' }}>{name}</div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#e8863f' : '#0b0f1a' }}>{name}</div>
                 </div>
               ))}
             </div>
@@ -361,14 +364,14 @@ export default function PricingPage() {
 
       {/* FAQ */}
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0f172a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '48px', textAlign: 'center' }}>Frequently <em style={{ fontStyle: 'italic', color: '#e8863f' }}>asked.</em></h2>
+        <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(36px, 4.5vw, 56px)', fontWeight: 400, color: '#0b0f1a', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '48px', textAlign: 'center' }}>Frequently <em style={{ fontStyle: 'italic', color: '#e8863f' }}>asked.</em></h2>
         {FAQ.map((item, i) => (
           <div key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
             <button
               onClick={() => setOpenFaq(openFaq === i ? null : i)}
               style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', gap: '16px' }}
             >
-              <span style={{ fontSize: '15px', fontWeight: 600, color: '#0f172a' }}>{item.q}</span>
+              <span style={{ fontSize: '15px', fontWeight: 600, color: '#0b0f1a' }}>{item.q}</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }}>
                 <path d="M4 6l4 4 4-4" stroke="#64748b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -381,7 +384,7 @@ export default function PricingPage() {
       </div>
 
       {/* CTA */}
-      <div style={{ background: '#0f172a', padding: '80px 48px', textAlign: 'center' }}>
+      <div style={{ background: '#0b0f1a', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, color: 'white', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '16px' }}>Start your <em style={{ fontStyle: 'italic', color: '#7BB7FF' }}>free trial today.</em></h2>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>14 days free. No credit card required. Cancel any time.</p>
         <p style={{ fontSize: '14px', color: '#d97706', fontWeight: 600, marginBottom: '32px' }}>{remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life.</p>
@@ -391,7 +394,7 @@ export default function PricingPage() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Integrations', '/integrations'], ['Login', '/login']].map(([l, h]) => (
