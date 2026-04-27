@@ -12,7 +12,7 @@ const getSupabase = () =>
     auth: { persistSession: false, autoRefreshToken: false },
   })
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://palvento.io'
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://palvento.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
