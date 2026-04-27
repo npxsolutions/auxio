@@ -321,7 +321,7 @@ Occasionally you'll have an order with unusual economics — a wholesale discoun
     summary: 'Palvento\'s read/write API, authentication, and rate limits.',
     lastUpdated: '2026-04-06',
     group: 'API & developer',
-    body: `The Palvento API is a RESTful HTTPS service at api.palvento.app/v1. Everything you can do in the dashboard — read orders, pull profit reports, trigger repricing — is available programmatically.
+    body: `The Palvento API is a RESTful HTTPS service at api.palvento.com/v1. Everything you can do in the dashboard — read orders, pull profit reports, trigger repricing — is available programmatically.
 
 ## Authentication
 Bearer tokens. Generate one from Settings → API → New token. Scope each token to the minimum required (read-only tokens are the default). Tokens can be revoked instantly and are never shown again after creation — store them securely.

@@ -31,8 +31,8 @@ type SystemState = 'operational' | 'degraded' | 'outage'
 type System = { name: string; group: string; state: SystemState; latency: string; uptime: string; note?: string }
 
 const SYSTEMS: System[] = [
-  { name: 'API (api.palvento.io)',                group: 'Core',         state: 'operational', latency: '142 ms', uptime: '99.99%' },
-  { name: 'Dashboard (app.palvento.io)',          group: 'Core',         state: 'operational', latency: '210 ms', uptime: '99.98%' },
+  { name: 'API (api.palvento.com)',                group: 'Core',         state: 'operational', latency: '142 ms', uptime: '99.99%' },
+  { name: 'Dashboard (app.palvento.com)',          group: 'Core',         state: 'operational', latency: '210 ms', uptime: '99.98%' },
   { name: 'Auth (sessions, OAuth, SSO)',       group: 'Core',         state: 'operational', latency: '88 ms',  uptime: '99.99%' },
   { name: 'Webhooks',                          group: 'Core',         state: 'operational', latency: '320 ms', uptime: '99.97%' },
   { name: 'Background sync (cron)',            group: 'Core',         state: 'operational', latency: '— ',     uptime: '99.96%' },
@@ -46,7 +46,7 @@ const SYSTEMS: System[] = [
 
   { name: 'Stripe billing',                    group: 'Platform',     state: 'operational', latency: '180 ms', uptime: '99.99%' },
   { name: 'Email delivery (Resend)',           group: 'Platform',     state: 'operational', latency: '240 ms', uptime: '99.98%' },
-  { name: 'Marketing site (palvento.io)',         group: 'Platform',     state: 'operational', latency: '92 ms',  uptime: '100.00%' },
+  { name: 'Marketing site (palvento.com)',         group: 'Platform',     state: 'operational', latency: '92 ms',  uptime: '100.00%' },
 ]
 
 const STATE_COPY: Record<SystemState, { label: string; color: string }> = {
@@ -110,7 +110,7 @@ export default function StatusPage() {
           Last checked {lastChecked}. Probe interval: 60 seconds. Subscribe for incident notifications by email.
         </p>
         <div style={{ marginTop: 24, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <a href="mailto:status@palvento.io?subject=Subscribe%20to%20status%20updates" style={btnPrimary}>Subscribe by email</a>
+          <a href="mailto:status@palvento.com?subject=Subscribe%20to%20status%20updates" style={btnPrimary}>Subscribe by email</a>
           <a href="/rss/status.xml" style={btnGhost}>RSS</a>
         </div>
 

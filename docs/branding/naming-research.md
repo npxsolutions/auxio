@@ -261,7 +261,7 @@ Verdict: **RED** — `.com/.io/.ai` all taken by active businesses; two TM holde
 
 ### Palvento
 .com:    **Available** — DNS resolution failed (NXDOMAIN on palvento.com per Firecrawl).
-.io:     Not needed (.com available). Confirmed 404 on palvento.io earlier.
+.io:     Not needed (.com available). Confirmed 404 on palvento.com earlier.
 .ai:     Not needed. (Active business Palvento Ltd operates on palvento.co — UK consultancy / agentic-AI reporting platform for advisory firms, not commerce.)
 SERP:    (1) Palvento.co — AI consultancy reporting platform (adjacent SaaS but not commerce), (2) Palventon Software (CAD/SaaS, different word), (3) Palventon Capital M&A (different word). **No direct commerce SaaS collision on exact name.**
 USPTO:   Multiple live MERIDIA marks via Justia: MERIDIA (74697373) Photo Communications — audience response services; MERIDIA (88055971) Photo Communications — audience/student response software + hardware (Class 9/42 education-adjacent); MERIDIA (86568206) American Generic Labs — dietary supplements; MERIDIA (88944706) Kovalenko — wine openers; MERIDIA (74568949, 75134969) Abbott/Boots — pharma (sibutramine, withdrawn); MERIDIA CAPITAL PARTNERS — real-estate finance. **One software mark (education-audience-response) is the closest collision; no direct ecommerce/commerce SaaS mark.**

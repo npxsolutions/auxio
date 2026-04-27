@@ -1,7 +1,7 @@
 # Zapier — Palvento integration brief
 
 **Status:** Submission-ready. Awaiting partner-account approval from Zapier.
-**Submission contact:** developers@palvento.io
+**Submission contact:** developers@palvento.com
 **Internal owner:** Platform team
 
 ## Integration name
@@ -12,7 +12,7 @@ Trigger Zaps from any Palvento event — new orders, listing changes, low stock,
 
 ## Authentication
 - Type: **API Key (Bearer token)**
-- Endpoint: `https://api.palvento.io/v1`
+- Endpoint: `https://api.palvento.com/v1`
 - Test endpoint: `GET /v1/me`
 - Scopes requested: `read`, `webhooks:write`
 
@@ -39,6 +39,6 @@ Trigger Zaps from any Palvento event — new orders, listing changes, low stock,
 - Listing error on Etsy → Linear ticket → assigned to the merchandising lead.
 
 ## Submission notes
-- Test account credentials provisioned on `sandbox.palvento.io`.
+- Test account credentials provisioned on `sandbox.palvento.com`.
 - Demo video walkthrough at `/marketing/marketplace-listings/zapier-demo.mp4` (TODO — record).
 - Categories: **Commerce · eCommerce**.

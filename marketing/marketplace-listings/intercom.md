@@ -1,7 +1,7 @@
 # Intercom App Store — Palvento integration brief
 
 **Status:** Concept; submission post-Shopify approval.
-**Submission contact:** developers@palvento.io
+**Submission contact:** developers@palvento.com
 **Internal owner:** Platform + Support team
 
 ## App name

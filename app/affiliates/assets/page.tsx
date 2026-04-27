@@ -35,7 +35,7 @@ export default function AssetsPage() {
           Everything you need to <em style={{ fontStyle: 'italic', color: C.cobalt }}>recommend Palvento</em>.
         </h1>
         <p style={{ fontSize: 16, color: C.muted, lineHeight: 1.6, marginTop: 16, maxWidth: 580 }}>
-          Approved affiliates can download from the partner dashboard. Anyone can request a pack at <a href="mailto:brand@palvento.io" style={{ color: C.cobalt }}>brand@palvento.io</a>.
+          Approved affiliates can download from the partner dashboard. Anyone can request a pack at <a href="mailto:brand@palvento.com" style={{ color: C.cobalt }}>brand@palvento.com</a>.
         </p>
       </header>
 
@@ -50,7 +50,7 @@ export default function AssetsPage() {
               </div>
               <div>
                 {p.status === 'ready' ? (
-                  <a href={`mailto:brand@palvento.io?subject=Asset%20pack%3A%20${encodeURIComponent(p.name)}`} style={btnGhost}>Request</a>
+                  <a href={`mailto:brand@palvento.com?subject=Asset%20pack%3A%20${encodeURIComponent(p.name)}`} style={btnGhost}>Request</a>
                 ) : (
                   <span style={{ fontSize: 12, color: C.muted, padding: '6px 12px', border: `1px dashed ${C.rule}`, borderRadius: 999 }}>Coming soon</span>
                 )}

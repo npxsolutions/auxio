@@ -45,7 +45,7 @@ function HeroStatCard() {
       </div>
       <div style={{ position: 'absolute', bottom: '28px', right: '40px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
-        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.io</span>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.com</span>
       </div>
     </div>
   )
@@ -84,7 +84,7 @@ function ComparisonCard() {
             </div>
           ))}
         </div>
-        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: '#94a3b8' }}>palvento.io · Start free — no credit card required</p>
+        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: '#94a3b8' }}>palvento.com · Start free — no credit card required</p>
       </div>
     </div>
   )
@@ -120,7 +120,7 @@ function FeatureCard() {
         <div style={{ textAlign: 'center', marginTop: '48px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '10px', fontWeight: 800 }}>A</div>
-            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.io</span>
+            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>palvento.com</span>
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@ function TestimonialCard() {
             <div style={{ fontSize: '13px', color: '#64748b' }}>eBay & Amazon seller · 800 SKUs</div>
           </div>
         </div>
-        <p style={{ marginTop: '32px', fontSize: '14px', color: '#94a3b8' }}>palvento.io · Start free — no credit card required</p>
+        <p style={{ marginTop: '32px', fontSize: '14px', color: '#94a3b8' }}>palvento.com · Start free — no credit card required</p>
       </div>
     </div>
   )
@@ -179,7 +179,7 @@ function FoundingCard() {
         </div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ width: '22px', height: '22px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '11px', fontWeight: 800 }}>A</div>
-          <span style={{ fontSize: '16px', color: 'rgba(255,255,255,0.35)', fontWeight: 700 }}>palvento.io/signup</span>
+          <span style={{ fontSize: '16px', color: 'rgba(255,255,255,0.35)', fontWeight: 700 }}>palvento.com/signup</span>
         </div>
       </div>
     </div>
@@ -218,7 +218,7 @@ function VsFeedonomicsCard() {
             ))}
           </div>
         </div>
-        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.2)' }}>palvento.io · Start free, no credit card required</p>
+        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.2)' }}>palvento.com · Start free, no credit card required</p>
       </div>
     </div>
   )

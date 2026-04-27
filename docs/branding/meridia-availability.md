@@ -35,9 +35,9 @@ Verified via Firecrawl fetches on 2026-04-13. All verdicts come from real fetche
 |---|---|---|---|
 | palvento.com | TAKEN (blue-chip holder) | Abbott Laboratories, registered 1996-01-26, exp 2027, CSC Corporate Domains. Former weight-loss drug brand. | Effectively unobtainable; do not pursue |
 | palvento.co | TAKEN (active competitor) | Real site live — "Palvento" agentic-AI consultancy workflow platform. Registered 2023-06-06, GoDaddy/Cloudflare, locked. Direct category overlap. | Hard blocker; consider acquisition only via outbound offer |
-| palvento.io | TAKEN (parked/unused) | Registered 2023-01-10 via GoDaddy, Domains By Proxy. Site returns 404. No visible brand. | Broker outreach via Sedo/GoDaddy (mid-tier price likely) |
+| palvento.com | TAKEN (parked/unused) | Registered 2023-01-10 via GoDaddy, Domains By Proxy. Site returns 404. No visible brand. | Broker outreach via Sedo/GoDaddy (mid-tier price likely) |
 | palvento.ai | TAKEN (redirects to palvento.co) | Registered 2024-07-01, GoDaddy. Content served = palvento.co consultancy. Same owner holds it defensively. | Would need to buy from palvento.co |
-| palvento.app | TAKEN (active unrelated co) | Palvento voting/elections company. Registered 2018-08-02, Squarespace Domains. | Outbound offer only; unrelated category so owner may sell |
+| palvento.com | TAKEN (active unrelated co) | Palvento voting/elections company. Registered 2018-08-02, Squarespace Domains. | Outbound offer only; unrelated category so owner may sell |
 | palvento.dev | TAKEN (active indie project) | "Palvento" AI coding assistant on Vercel by GitHub user ridit-jangra. Registered 2025-08-11, GoDaddy. | Outbound offer; small indie — potentially acquirable |
 | palvento.xyz | TAKEN | Registered 2024-10-28, OVH, by "Poleis Società Cooperativa a r.l." (IT). | Outbound offer |
 | palvento.so | AVAILABLE | whois.com confirms "palvento.so is available!" | Register immediately |
@@ -59,9 +59,9 @@ Verified via Firecrawl fetches on 2026-04-13. All verdicts come from real fetche
 6. `youtube.com/@trypalvento` — align with the chosen `.com`
 
 ### Consider acquiring
-- `palvento.io` — parked / no site; broker purchase viable and it's a recognizable SaaS TLD
+- `palvento.com` — parked / no site; broker purchase viable and it's a recognizable SaaS TLD
 - `palvento.dev` — single-dev indie project; low-cost buyout may work
-- `palvento.app` — active but unrelated (voting software); only if `.app` is strategic
+- `palvento.com` — active but unrelated (voting software); only if `.app` is strategic
 - `youtube.com/@palventohq` — dormant empty channel; could file a username-release claim if you hold the trademark
 
 ### Skip / use fallback (blocked by active parties)

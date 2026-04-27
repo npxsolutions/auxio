@@ -16,7 +16,7 @@ const C = {
 
 type Surface = { name: string; what: string; href?: string; soon?: boolean; cta: string }
 const SURFACES: Surface[] = [
-  { name: 'Slack',     what: 'Operator-only Slack. Real-time peer help on repricing, multichannel ops, and integration debugging.',                cta: 'Request invite',  href: 'mailto:community@palvento.io?subject=Slack%20invite' },
+  { name: 'Slack',     what: 'Operator-only Slack. Real-time peer help on repricing, multichannel ops, and integration debugging.',                cta: 'Request invite',  href: 'mailto:community@palvento.com?subject=Slack%20invite' },
   { name: 'Discord',   what: 'Casual lounge for builders, agencies, and the curious. Office hours every Thursday.',                                  cta: 'Join Discord',    soon: true },
   { name: 'X / Twitter', what: 'Product nudges, ship notes, the occasional spicy graph.',                                                            cta: '@palvento',          href: 'https://twitter.com/palvento' },
   { name: 'LinkedIn',  what: 'Long-form posts on commerce ops, hiring updates, and customer wins.',                                                  cta: 'Follow',          href: 'https://www.linkedin.com/company/palvento' },
@@ -93,7 +93,7 @@ export default function CommunityPage() {
             We sponsor small, invite-only dinners for ecommerce operators in London, NYC, LA, Berlin, Singapore, and Sydney. Twelve people, one table, no slides.
           </p>
           <div style={{ marginTop: 18 }}>
-            <a href="mailto:community@palvento.io?subject=Operator%20dinner" style={{ ...btnPrimary, background: C.bg, color: C.ink }}>community@palvento.io</a>
+            <a href="mailto:community@palvento.com?subject=Operator%20dinner" style={{ ...btnPrimary, background: C.bg, color: C.ink }}>community@palvento.com</a>
           </div>
         </div>
       </section>

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/dashboard', '/api/', '/onboarding', '/billing', '/settings'],
     },
-    sitemap: 'https://palvento.io/sitemap.xml',
+    sitemap: 'https://palvento.com/sitemap.xml',
   }
 }

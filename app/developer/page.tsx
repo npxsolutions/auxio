@@ -328,7 +328,7 @@ export default function DeveloperPage() {
         <div style={{ background: '#0f1117', border: '1px solid #1e2130', borderRadius: 12, padding: '20px 24px', marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: '#f0f0f8', marginBottom: 4 }}>API Documentation</div>
-            <div style={{ fontSize: 12, color: '#6b7280' }}>Base URL: <code style={{ fontFamily: 'monospace', color: '#a5a0fb' }}>https://palvento.io/api/v1</code> · Authentication: Bearer token</div>
+            <div style={{ fontSize: 12, color: '#6b7280' }}>Base URL: <code style={{ fontFamily: 'monospace', color: '#a5a0fb' }}>https://palvento.com/api/v1</code> · Authentication: Bearer token</div>
           </div>
           <a href="/api-docs" style={{ padding: '8px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)', color: '#f0f0f8', fontSize: 12, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit' }}>
             View docs →

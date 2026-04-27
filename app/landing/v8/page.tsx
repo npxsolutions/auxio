@@ -450,7 +450,7 @@ function LedgerSurface() {
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'transparent', border: `1.5px solid ${C.ink}`, opacity: 0.5 }} />
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'transparent', border: `1.5px solid ${C.ink}`, opacity: 0.5 }} />
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'transparent', border: `1.5px solid ${C.ink}`, opacity: 0.5 }} />
-        <span style={{ marginLeft: 14, fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.mutedDk, letterSpacing: '0.06em' }}>palvento.app / ledger / revenue</span>
+        <span style={{ marginLeft: 14, fontFamily: 'var(--font-mono), monospace', fontSize: 10.5, color: C.mutedDk, letterSpacing: '0.06em' }}>palvento.com / ledger / revenue</span>
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: C.cobalt }} />
           Synced · 2s ago

@@ -137,7 +137,7 @@ export async function POST(request: Request) {
       })
 
       await resend.emails.send({
-        from: 'Palvento <digest@palvento.app>',
+        from: 'Palvento <digest@palvento.com>',
         to: email,
         subject: orders > 0
           ? `Your ${dateLabel} digest — £${profit.toFixed(0)} profit from ${orders} order${orders !== 1 ? 's' : ''}`

@@ -40,9 +40,9 @@ export async function sendLifecycleEmail(
     const rendered = LIFECYCLE_TEMPLATES[template](user, ctx)
     const resend = getResend()
     await resend.emails.send({
-      from: 'Palvento <hello@palvento.app>',
+      from: 'Palvento <hello@palvento.com>',
       to: user.email,
-      replyTo: 'hello@palvento.app',
+      replyTo: 'hello@palvento.com',
       subject: rendered.subject,
       html: rendered.html,
       text: rendered.text,

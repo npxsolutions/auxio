@@ -24,7 +24,7 @@ Palvento installs directly from palvento.com — OAuth into Shopify, first feed 
 I'd like to explore whether a partnership makes sense — revenue share on referrals, co-marketing, or just an introduction to your clients who are in this gap. Would a 20-minute call this week or next work?
 
 — Nick
-nick@palvento.io · palvento-lkqv.vercel.app
+nick@palvento.com · palvento-lkqv.vercel.app
 
 ### Email 2 — Follow-up (Day 5, if no reply)
 
@@ -83,7 +83,7 @@ $149/mo for one channel, $349 for five, $799 for unlimited. Self-serve from palv
 I'd like to explore a referral or co-delivery arrangement — your strategy, our tool. Would 20 minutes this week work?
 
 — Nick
-nick@palvento.io · palvento-lkqv.vercel.app
+nick@palvento.com · palvento-lkqv.vercel.app
 
 ### Email 2 — Follow-up (Day 5)
 
@@ -104,7 +104,7 @@ If that's useful for your practice, I'll do a 20-minute walkthrough against samp
 
 Hi {{firstName}},
 
-Last note. If a self-serve feed management tool for your marketplace clients is ever relevant, I'm at nick@palvento.io. Partner details at palvento-lkqv.vercel.app/partners.
+Last note. If a self-serve feed management tool for your marketplace clients is ever relevant, I'm at nick@palvento.com. Partner details at palvento-lkqv.vercel.app/partners.
 
 — Nick
 
@@ -136,7 +136,7 @@ I'd like to explore whether a co-build or co-marketing arrangement makes sense. 
 20 minutes this week?
 
 — Nick
-nick@palvento.io · palvento-lkqv.vercel.app/developers
+nick@palvento.com · palvento-lkqv.vercel.app/developers
 
 ### Email 2 — Follow-up (Day 7)
 
@@ -157,7 +157,7 @@ If a call is more useful, I'm flexible this week and next. If the timing is wron
 
 Hi {{firstName}},
 
-Last note. If a Palvento integration is ever on your roadmap, I'm at nick@palvento.io. API docs at palvento-lkqv.vercel.app/developers.
+Last note. If a Palvento integration is ever on your roadmap, I'm at nick@palvento.com. API docs at palvento-lkqv.vercel.app/developers.
 
 — Nick
 

@@ -39,7 +39,7 @@ const QUICKSTARTS: { title: string; blurb: string; lang: string; code: string }[
     title: '01 · Authenticate',
     blurb: 'Bearer tokens, scoped per integration. Generate keys in the developer dashboard.',
     lang: 'bash',
-    code: `curl https://api.palvento.io/v1 \\
+    code: `curl https://api.palvento.com/v1 \\
   -H "Authorization: Bearer sk_live_a3f2..." \\
   -H "Accept: application/json"`,
   },
@@ -47,14 +47,14 @@ const QUICKSTARTS: { title: string; blurb: string; lang: string; code: string }[
     title: '02 · List products',
     blurb: 'Unified listings across every connected channel. Filter by SKU, channel, or status.',
     lang: 'bash',
-    code: `curl "https://api.palvento.io/v1/listings?channel=amazon_uk&status=live" \\
+    code: `curl "https://api.palvento.com/v1/listings?channel=amazon_uk&status=live" \\
   -H "Authorization: Bearer sk_live_a3f2..."`,
   },
   {
     title: '03 · Manage orders',
     blurb: 'Pull orders from any channel; mark fulfilled; trigger refunds; attach tracking.',
     lang: 'bash',
-    code: `curl -X POST https://api.palvento.io/v1/orders/ord_8821/fulfill \\
+    code: `curl -X POST https://api.palvento.com/v1/orders/ord_8821/fulfill \\
   -H "Authorization: Bearer sk_live_a3f2..." \\
   -H "Content-Type: application/json" \\
   -d '{ "carrier": "royal_mail", "tracking": "AB123456789GB" }'`,
@@ -63,7 +63,7 @@ const QUICKSTARTS: { title: string; blurb: string; lang: string; code: string }[
     title: '04 · Receive webhooks',
     blurb: 'Subscribe once, receive every event. Verify signatures, replay any missed delivery.',
     lang: 'bash',
-    code: `curl -X POST https://api.palvento.io/v1/webhooks \\
+    code: `curl -X POST https://api.palvento.com/v1/webhooks \\
   -H "Authorization: Bearer sk_live_a3f2..." \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -221,7 +221,7 @@ export default function DevelopersPage() {
           </p>
           <div style={{ marginTop: 24, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Link href="/developer" style={{ ...btnPrimary, background: C.bg, color: C.ink }}>Get an API key</Link>
-            <a href="mailto:developers@palvento.io" style={{ ...btnGhost, color: C.bg, borderColor: 'rgba(243,240,234,0.25)' }}>Email the platform team</a>
+            <a href="mailto:developers@palvento.com" style={{ ...btnGhost, color: C.bg, borderColor: 'rgba(243,240,234,0.25)' }}>Email the platform team</a>
           </div>
         </div>
       </section>

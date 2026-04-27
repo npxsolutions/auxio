@@ -1,7 +1,7 @@
 # Vercel Integrations Marketplace — Palvento brief
 
 **Status:** Concept; submission Q3 2026.
-**Submission contact:** developers@palvento.io
+**Submission contact:** developers@palvento.com
 **Internal owner:** Platform team
 
 ## Integration name

@@ -1,7 +1,7 @@
 # G2 / Capterra / GetApp — Palvento listing copy
 
 **Status:** Submitted to G2; Capterra/GetApp pending Gartner editorial review.
-**Submission contact:** distribution@palvento.io
+**Submission contact:** distribution@palvento.com
 **Internal owner:** Marketing
 
 ## Vendor name
@@ -71,4 +71,4 @@ From $149/mo (Starter). Growth $349/mo. Scale $799/mo. Enterprise from $2,000/mo
 ## Notes for editorial reviewers
 - Live demo: book at /contact.
 - Sandbox account available on request.
-- Press kit and logo files: brand@palvento.io.
+- Press kit and logo files: brand@palvento.com.

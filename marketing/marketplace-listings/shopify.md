@@ -1,7 +1,7 @@
 # Shopify App Store — Palvento listing
 
 **Status:** Draft, ready for partner-account upload.
-**Submission contact:** distribution@palvento.io
+**Submission contact:** distribution@palvento.com
 **App URL:** https://apps.shopify.com/palvento (pending approval)
 
 ## App name
@@ -48,7 +48,7 @@ Free 14-day trial · Starter $149/mo · Growth $349/mo · Scale $799/mo · Prici
 60-second walkthrough from `/affiliates/assets`. Shopify-first cut required for review.
 
 ## Support contact
-support@palvento.io · in-app chat · 4-hour response on UK business hours.
+support@palvento.com · in-app chat · 4-hour response on UK business hours.
 
 ## Privacy & data handling
 GDPR-compliant. We store only the order, listing, and inventory data needed to operate the integration. Full DPA available on request.

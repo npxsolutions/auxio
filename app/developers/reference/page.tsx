@@ -38,12 +38,12 @@ export default function ReferencePage() {
           <p style={{ fontSize: 15, color: C.inkSoft, lineHeight: 1.65, marginTop: 12 }}>
             Hit <code style={{ fontFamily: "'Geist Mono', ui-monospace, monospace", background: C.raised, padding: '2px 8px', borderRadius: 6, fontSize: 13 }}>GET /api/v1</code> for a live index of every current endpoint, with descriptions, scopes, and rate limits.
           </p>
-          <pre style={{ marginTop: 16, background: C.ink, color: '#e4e9f2', padding: '16px 20px', fontSize: 13, lineHeight: 1.6, fontFamily: "'Geist Mono', ui-monospace, monospace", borderRadius: 10, overflowX: 'auto' }}>{`curl https://api.palvento.io/v1 \\
+          <pre style={{ marginTop: 16, background: C.ink, color: '#e4e9f2', padding: '16px 20px', fontSize: 13, lineHeight: 1.6, fontFamily: "'Geist Mono', ui-monospace, monospace", borderRadius: 10, overflowX: 'auto' }}>{`curl https://api.palvento.com/v1 \\
   -H "Accept: application/json"`}</pre>
         </div>
 
         <div style={{ marginTop: 24, padding: 24, border: `1px dashed ${C.rule}`, borderRadius: 14, fontSize: 13, color: C.muted, lineHeight: 1.65 }}>
-          Want early access to the spec, the Postman collection, or a typed SDK? Email <a href="mailto:developers@palvento.io" style={{ color: C.cobalt }}>developers@palvento.io</a>.
+          Want early access to the spec, the Postman collection, or a typed SDK? Email <a href="mailto:developers@palvento.com" style={{ color: C.cobalt }}>developers@palvento.com</a>.
         </div>
 
         <div style={{ marginTop: 32 }}>

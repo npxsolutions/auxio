@@ -180,9 +180,9 @@ export async function POST(request: Request) {
     const confirmationEmail = applicantEmail(name)
     emailPromises.push(
       resend.emails.send({
-        from: 'Palvento <hello@palvento.app>',
+        from: 'Palvento <hello@palvento.com>',
         to: email,
-        replyTo: 'hello@palvento.app',
+        replyTo: 'hello@palvento.com',
         subject: confirmationEmail.subject,
         html: confirmationEmail.html,
         text: confirmationEmail.text,
@@ -193,7 +193,7 @@ export async function POST(request: Request) {
     const adminEmail = adminNotification(body)
     emailPromises.push(
       resend.emails.send({
-        from: 'Palvento <hello@palvento.app>',
+        from: 'Palvento <hello@palvento.com>',
         to: ADMIN_EMAIL,
         subject: adminEmail.subject,
         html: adminEmail.html,

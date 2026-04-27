@@ -28,7 +28,7 @@ const FAQS = [
   { q: 'Can I import my existing Amazon catalogue?', a: 'Yes. When you connect Amazon, Palvento imports your existing ASINs, listings, and inventory levels. Nothing is overwritten until you tell us to.' },
   { q: 'What Amazon fees does profit tracking include?', a: 'Referral fees, FBA fulfilment fees (if applicable), and advertising spend you log manually or via the Ads API connection. We are working on Ads API auto-import.' },
   { q: 'Is there a risk to my Amazon account?', a: 'No. Palvento uses Amazon\'s official Selling Partner API (SP-API) with authorised credentials. We operate within Amazon\'s terms of service.' },
-  { q: 'What\'s the price?', a: 'Plans start at $149/month including Amazon, eBay, and Shopify. Billing available in USD, GBP, EUR, AUD or CAD. See full pricing at palvento.io/pricing. 14-day free trial, no card required.' },
+  { q: 'What\'s the price?', a: 'Plans start at $149/month including Amazon, eBay, and Shopify. Billing available in USD, GBP, EUR, AUD or CAD. See full pricing at palvento.com/pricing. 14-day free trial, no card required.' },
 ]
 
 export default function AmazonIntegrationPage() {

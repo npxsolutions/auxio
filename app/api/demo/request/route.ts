@@ -74,9 +74,9 @@ export async function POST(request: Request) {
   try {
     const resend = getResend()
     await resend.emails.send({
-      from: 'Palvento <hello@palvento.app>',
+      from: 'Palvento <hello@palvento.com>',
       to: email,
-      replyTo: 'hello@palvento.app',
+      replyTo: 'hello@palvento.com',
       subject: 'We received your demo request.',
       html: confirmationHtml(body.name || ''),
     })

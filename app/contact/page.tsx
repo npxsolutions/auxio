@@ -61,9 +61,9 @@ export default function ContactPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {[
-              { icon: '📩', title: 'General enquiries', desc: 'hello@palvento.io' },
-              { icon: '🏢', title: 'Enterprise sales', desc: 'enterprise@palvento.io' },
-              { icon: '🛠️', title: 'Technical support', desc: 'support@palvento.io' },
+              { icon: '📩', title: 'General enquiries', desc: 'hello@palvento.com' },
+              { icon: '🏢', title: 'Enterprise sales', desc: 'enterprise@palvento.com' },
+              { icon: '🛠️', title: 'Technical support', desc: 'support@palvento.com' },
             ].map(c => (
               <div key={c.title} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>{c.icon}</div>

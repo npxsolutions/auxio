@@ -71,7 +71,7 @@ export default function DirectoriesPage() {
             Forward us a screenshot of your published review and we&rsquo;ll send you swag, a one-month credit, and an early-access pass to the next major release.
           </p>
           <div style={{ marginTop: 18 }}>
-            <a href="mailto:reviews@palvento.io" style={{ ...btnPrimary, background: C.bg, color: C.ink }}>reviews@palvento.io</a>
+            <a href="mailto:reviews@palvento.com" style={{ ...btnPrimary, background: C.bg, color: C.ink }}>reviews@palvento.com</a>
           </div>
         </div>
       </section>

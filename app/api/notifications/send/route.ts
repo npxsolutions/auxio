@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     }
 
     const result = await getResend().emails.send({
-      from: 'Palvento <alerts@palvento.app>',
+      from: 'Palvento <alerts@palvento.com>',
       to: email,
       subject,
       html,
@@ -76,10 +76,10 @@ function criticalAlertEmail({ title, description, profit_impact }: { title: stri
           <div style="font-size:22px;font-weight:700;color:#191919;letter-spacing:-0.02em;margin-bottom:8px;">⚠️ ${title}</div>
           <div style="font-size:14px;color:#787774;line-height:1.6;margin-bottom:24px;">${description}</div>
           ${profit_impact ? `<div style="background:#e8f5f3;border-radius:8px;padding:16px;margin-bottom:24px;"><div style="font-size:12px;color:#0f7b6c;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Potential impact</div><div style="font-size:24px;font-weight:700;color:#0f7b6c;">+£${profit_impact.toFixed(2)}</div></div>` : ''}
-          <a href="https://palvento.app/agent" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Review in Palvento →</a>
+          <a href="https://palvento.com/agent" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Review in Palvento →</a>
         </td></tr>
         <tr><td style="padding:20px 40px;border-top:1px solid #f1f1ef;background:#fafafa;">
-          <div style="font-size:12px;color:#9b9b98;">You're receiving this because critical alerts are enabled in your Palvento settings. <a href="https://palvento.app/settings" style="color:#787774;">Manage preferences</a></div>
+          <div style="font-size:12px;color:#9b9b98;">You're receiving this because critical alerts are enabled in your Palvento settings. <a href="https://palvento.com/settings" style="color:#787774;">Manage preferences</a></div>
         </td></tr>
       </table>
     </td></tr>
@@ -99,10 +99,10 @@ function welcomeEmail({ email }: { email: string }) {
         <tr><td style="padding:32px 40px;">
           <div style="font-size:22px;font-weight:700;color:#191919;letter-spacing:-0.02em;margin-bottom:8px;">Welcome to Palvento</div>
           <div style="font-size:14px;color:#787774;line-height:1.6;margin-bottom:24px;">Your AI profit engine is ready. Connect your first selling channel and Palvento will start monitoring your margins, spotting wasted ad spend, and surfacing actions that move your profit.</div>
-          <a href="https://palvento.app/onboarding" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Connect your first channel →</a>
+          <a href="https://palvento.com/onboarding" style="display:inline-block;background:#191919;color:white;text-decoration:none;border-radius:8px;padding:12px 24px;font-size:13px;font-weight:600;">Connect your first channel →</a>
         </td></tr>
         <tr><td style="padding:20px 40px;border-top:1px solid #f1f1ef;background:#fafafa;">
-          <div style="font-size:12px;color:#9b9b98;">Sent to ${email} · <a href="https://palvento.app/settings" style="color:#787774;">Manage preferences</a></div>
+          <div style="font-size:12px;color:#9b9b98;">Sent to ${email} · <a href="https://palvento.com/settings" style="color:#787774;">Manage preferences</a></div>
         </td></tr>
       </table>
     </td></tr>

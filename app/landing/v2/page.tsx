@@ -105,7 +105,7 @@ function DashboardMock() {
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} />
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
-        <span style={{ marginLeft: 16, color: C.mute, fontSize: 12 }}>palvento.app / operations</span>
+        <span style={{ marginLeft: 16, color: C.mute, fontSize: 12 }}>palvento.com / operations</span>
       </div>
       {/* body */}
       <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', minHeight: 420 }}>
