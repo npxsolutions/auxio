@@ -10,11 +10,16 @@
  */
 
 import { retentionScanCronFn, retentionScanOrgFn } from './fn-retention-scan'
-import { accountHealthRefreshFn, accountHealthStatusChangedFn } from './fn-account-health'
+import {
+  accountHealthRefreshFn,
+  accountHealthStatusChangedFn,
+  accountHealthScheduleFn,
+} from './fn-account-health'
 
 export const FUNCTIONS = [
   retentionScanCronFn,
   retentionScanOrgFn,
+  accountHealthScheduleFn,
   accountHealthRefreshFn,
   accountHealthStatusChangedFn,
 ]

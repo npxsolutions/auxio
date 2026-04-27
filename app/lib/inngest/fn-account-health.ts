@@ -29,6 +29,49 @@ const ADAPTERS: Record<string, ChannelAdapter> = {
   ebay: fetchEbayAccountHealth,
 }
 
+/** Channels with a registered ingestion adapter — used by the scheduler. */
+const SUPPORTED_CHANNELS = Object.keys(ADAPTERS)
+
+/**
+ * Daily 06:00 UTC: enumerate every (org, channel) with an active connection
+ * and an adapter, then fan out one refresh event per pair. Runs ahead of the
+ * 09:00 retention scan so the scan picks up fresh status changes.
+ */
+export const accountHealthScheduleFn = inngest.createFunction(
+  {
+    id: 'account-health-schedule',
+    triggers: [{ cron: '0 6 * * *' }],
+  },
+  async ({ step }) => {
+    const admin = getAdmin()
+
+    const pairs = await step.run('list-active-connections', async () => {
+      const { data, error } = await admin
+        .from('channels')
+        .select('organization_id, type')
+        .eq('active', true)
+        .in('type', SUPPORTED_CHANNELS)
+        .not('organization_id', 'is', null)
+      if (error) throw new Error(`list-active-connections failed: ${error.message}`)
+      return (data ?? []).map((r: { organization_id: string; type: string }) => ({
+        organization_id: r.organization_id,
+        channel:         r.type,
+      }))
+    })
+
+    if (pairs.length === 0) return { dispatched: 0 }
+
+    await step.sendEvent(
+      'fan-out-refreshes',
+      pairs.map((p) => ({
+        name: 'account-health/refresh.requested',
+        data: p,
+      })),
+    )
+    return { dispatched: pairs.length }
+  },
+)
+
 export const accountHealthRefreshFn = inngest.createFunction(
   {
     id: 'account-health-refresh',
