@@ -169,7 +169,7 @@ export default function CostsPage() {
             <button
               onClick={() => setShowDefaultPanel(p => !p)}
               style={{
-                background: '#0f172a', color: 'white', border: 'none',
+                background: '#0b0f1a', color: 'white', border: 'none',
                 borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 600,
                 cursor: 'pointer',
               }}

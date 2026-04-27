@@ -33,19 +33,19 @@ const FAQS = [
 
 export default function AmazonIntegrationPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>{n.label}</Link>)}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -63,7 +63,7 @@ export default function AmazonIntegrationPage() {
             Stop switching between Seller Central and eBay. Manage every channel, see true profit on every order, and let AI optimise your listings — all from Palvento.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '8px', background: '#a3e635', color: '#0f172a', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>Start free — no card needed →</Link>
+            <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '8px', background: '#a3e635', color: '#0b0f1a', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>Start free — no card needed →</Link>
             <Link href="/contact" style={{ padding: '14px 28px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>Book a demo</Link>
           </div>
           <p style={{ marginTop: '16px', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>14-day free trial · No credit card · Official Amazon SP-API</p>
@@ -72,13 +72,13 @@ export default function AmazonIntegrationPage() {
 
       {/* Features */}
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '12px', color: '#0f172a' }}>Everything Amazon sellers need</h2>
+        <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '12px', color: '#0b0f1a' }}>Everything Amazon sellers need</h2>
         <p style={{ textAlign: 'center', color: '#64748b', fontSize: '16px', marginBottom: '48px' }}>Connect Amazon once. Then never think about switching tabs again.</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
           {FEATURES.map(f => (
             <div key={f.title} style={{ padding: '28px', border: '1px solid #e8e8e5', borderRadius: '14px' }}>
               <div style={{ fontSize: '28px', marginBottom: '12px' }}>{f.icon}</div>
-              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>{f.title}</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0b0f1a', marginBottom: '8px' }}>{f.title}</h3>
               <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6 }}>{f.desc}</p>
             </div>
           ))}
@@ -101,11 +101,11 @@ export default function AmazonIntegrationPage() {
 
       {/* FAQ */}
       <div style={{ maxWidth: '720px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '48px', color: '#0f172a' }}>Frequently asked questions</h2>
+        <h2 style={{ fontSize: '32px', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '48px', color: '#0b0f1a' }}>Frequently asked questions</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#f1f1ef', borderRadius: '14px', overflow: 'hidden' }}>
           {FAQS.map(f => (
             <div key={f.q} style={{ background: 'white', padding: '24px 28px' }}>
-              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>{f.q}</h3>
+              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#0b0f1a', marginBottom: '8px' }}>{f.q}</h3>
               <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.7, margin: 0 }}>{f.a}</p>
             </div>
           ))}
@@ -119,7 +119,7 @@ export default function AmazonIntegrationPage() {
         <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: 'white', color: '#e8863f', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Get started free →</Link>
       </div>
 
-      <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Integrations', '/integrations'], ['Pricing', '/pricing'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (

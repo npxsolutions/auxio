@@ -43,7 +43,7 @@ export function CookieConsent() {
         right: 24,
         maxWidth: 480,
         zIndex: 9999,
-        background: '#0f172a',
+        background: '#0b0f1a',
         border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: 12,
         padding: '20px 24px',

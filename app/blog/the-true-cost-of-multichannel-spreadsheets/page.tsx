@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function BlogPostPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0b0f1a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -71,7 +71,7 @@ export default function BlogPostPage() {
 
         <div style={{ margin: '40px auto 44px', display: 'flex', justifyContent: 'center' }}>
           <svg width="620" height="300" viewBox="0 0 620 300" style={{ maxWidth: '100%', height: 'auto' }} aria-label="Bar chart showing annualized hidden cost of spreadsheet ops across six categories">
-            <g fontFamily="Inter, system-ui" fontSize="12" fill="#0f172a">
+            <g fontFamily="Inter, system-ui" fontSize="12" fill="#0b0f1a">
               {[
                 { label: 'Oversells', val: 14400, x: 0 },
                 { label: 'Reconciliation', val: 18200, x: 1 },
@@ -84,13 +84,13 @@ export default function BlogPostPage() {
                 const cx = 40 + x * 95
                 return (
                   <g key={label}>
-                    <rect x={cx} y={220 - barH} width="60" height={barH} fill="#e8863f" stroke="#0f172a" strokeWidth="1.5" />
+                    <rect x={cx} y={220 - barH} width="60" height={barH} fill="#e8863f" stroke="#0b0f1a" strokeWidth="1.5" />
                     <text x={cx + 30} y={238} textAnchor="middle" fontSize="10" fill="#475569">{label}</text>
-                    <text x={cx + 30} y={214 - barH} textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="600">${(val / 1000).toFixed(1)}k</text>
+                    <text x={cx + 30} y={214 - barH} textAnchor="middle" fontSize="11" fill="#0b0f1a" fontWeight="600">${(val / 1000).toFixed(1)}k</text>
                   </g>
                 )
               })}
-              <line x1="30" y1="220" x2="600" y2="220" stroke="#0f172a" strokeWidth="1.5" />
+              <line x1="30" y1="220" x2="600" y2="220" stroke="#0b0f1a" strokeWidth="1.5" />
               <text x="30" y="270" fontSize="11" fill="#64748b">Annualized hidden cost — representative $180k/mo multichannel operator (est.)</text>
             </g>
           </svg>

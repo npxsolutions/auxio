@@ -27,16 +27,16 @@ const COMPARISON = [
 
 export default function VsLinnworksPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -46,7 +46,7 @@ export default function VsLinnworksPage() {
           <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px' }}>
             COMPARISON
           </div>
-          <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
+          <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0b0f1a' }}>
             Palvento vs Linnworks
           </h1>
           <p style={{ fontSize: '18px', color: '#64748b', lineHeight: 1.7, marginBottom: '16px' }}>
@@ -68,7 +68,7 @@ export default function VsLinnworksPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', background: '#fafaf9', border: '1px solid #f1f1ef', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
           <div>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Palvento Starter</div>
-            <div style={{ fontSize: '56px', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.03em', lineHeight: 1 }}>$149</div>
+            <div style={{ fontSize: '56px', fontWeight: 900, color: '#0b0f1a', letterSpacing: '-0.03em', lineHeight: 1 }}>$149</div>
             <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px' }}>per month · all channels · no contract · billed in USD / GBP / EUR / AUD / CAD</div>
             <div style={{ fontSize: '13px', color: '#e8863f', marginTop: '8px', fontWeight: 500 }}>Founding rate available →</div>
           </div>
@@ -83,11 +83,11 @@ export default function VsLinnworksPage() {
 
       {/* Comparison table */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '64px 48px' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0f172a' }}>Feature by feature</h2>
+        <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0b0f1a' }}>Feature by feature</h2>
         <div style={{ border: '1px solid #e8e8e5', borderRadius: '14px', overflow: 'hidden' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
             <thead>
-              <tr style={{ background: '#0f172a' }}>
+              <tr style={{ background: '#0b0f1a' }}>
                 <th style={{ padding: '14px 20px', textAlign: 'left', fontWeight: 600, color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Feature</th>
                 <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635', fontSize: '13px' }}>Palvento</th>
                 <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>Linnworks</th>
@@ -100,7 +100,7 @@ export default function VsLinnworksPage() {
                   <td style={{ padding: '13px 20px', textAlign: 'center' }}>
                     {row.palvento === true ? <span style={{ color: '#16a34a', fontWeight: 700 }}>✓</span>
                       : row.palvento === false ? <span style={{ color: '#dc2626' }}>✗</span>
-                      : <span style={{ color: '#0f172a', fontWeight: row.highlight ? 700 : 400 }}>{row.palvento}</span>}
+                      : <span style={{ color: '#0b0f1a', fontWeight: row.highlight ? 700 : 400 }}>{row.palvento}</span>}
                   </td>
                   <td style={{ padding: '13px 20px', textAlign: 'center' }}>
                     {row.lw === true ? <span style={{ color: '#16a34a', fontWeight: 700 }}>✓</span>
@@ -117,7 +117,7 @@ export default function VsLinnworksPage() {
       {/* Who should use what */}
       <div style={{ background: '#fafaf9', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0f172a' }}>Who is each platform for?</h2>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0b0f1a' }}>Who is each platform for?</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
             <div style={{ padding: '28px', background: 'white', border: '2px solid #e8863f', borderRadius: '14px' }}>
               <div style={{ fontSize: '13px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Palvento is for you if…</div>
@@ -157,7 +157,7 @@ export default function VsLinnworksPage() {
       <div style={{ maxWidth: '720px', margin: '0 auto', padding: '64px 48px' }}>
         <div style={{ padding: '32px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', borderRadius: '14px', textAlign: 'center' }}>
           <div style={{ fontSize: '32px', marginBottom: '12px' }}>🔄</div>
-          <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', marginBottom: '10px' }}>Moving from Linnworks?</h3>
+          <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#0b0f1a', marginBottom: '10px' }}>Moving from Linnworks?</h3>
           <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.7, marginBottom: '20px' }}>
             Most sellers migrate in an afternoon. Connect your channels, import your product catalogue, and set your profit thresholds. We'll handle the rest. If you need help, our team will guide you through it at no extra charge.
           </p>
@@ -171,10 +171,10 @@ export default function VsLinnworksPage() {
           Get the capabilities. Not the enterprise price.
         </h2>
         <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.55)', marginBottom: '32px' }}>Start free for 14 days. No card, no contract, no onboarding call required.</p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: '#a3e635', color: '#0f172a', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Start your free trial →</Link>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: '#a3e635', color: '#0b0f1a', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Start your free trial →</Link>
       </div>
 
-      <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Pricing', '/pricing'], ['vs Baselinker', '/vs/baselinker'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (

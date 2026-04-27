@@ -2,22 +2,22 @@ import Link from 'next/link'
 
 export default function PrivacyPolicy() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '100px 48px 80px' }}>
-      <h1 style={{ fontSize: '36px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '8px', color: '#0f172a' }}>Privacy Policy</h1>
+      <h1 style={{ fontSize: '36px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '8px', color: '#0b0f1a' }}>Privacy Policy</h1>
       <p style={{ color: '#64748b', marginBottom: '48px', fontSize: '14px' }}>Last updated: 1 April 2026</p>
 
       <p style={{ marginBottom: '32px' }}>
@@ -26,14 +26,14 @@ export default function PrivacyPolicy() {
 
       {/* Your rights — surfaces DSAR endpoints + security page for GDPR fulfilment. */}
       <section style={{ marginBottom: '40px', padding: '20px 22px', background: '#f8f7f3', border: '1px solid #e8e8e5', borderRadius: '10px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: 0, marginBottom: '8px', letterSpacing: '-0.01em' }}>Your rights</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0b0f1a', margin: 0, marginBottom: '8px', letterSpacing: '-0.01em' }}>Your rights</h2>
         <p style={{ fontSize: '14px', color: '#374151', lineHeight: 1.7, margin: 0, marginBottom: '14px' }}>
           Exercise your GDPR rights in one click. No forms, no waiting.
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          <Link href="/settings#privacy" style={{ fontSize: '13px', padding: '8px 14px', background: '#0f172a', color: 'white', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Export my data →</Link>
-          <Link href="/settings#privacy" style={{ fontSize: '13px', padding: '8px 14px', background: 'white', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Delete my account →</Link>
-          <Link href="/security" style={{ fontSize: '13px', padding: '8px 14px', background: 'white', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Security overview →</Link>
+          <Link href="/settings#privacy" style={{ fontSize: '13px', padding: '8px 14px', background: '#0b0f1a', color: 'white', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Export my data →</Link>
+          <Link href="/settings#privacy" style={{ fontSize: '13px', padding: '8px 14px', background: 'white', color: '#0b0f1a', border: '1px solid #e2e8f0', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Delete my account →</Link>
+          <Link href="/security" style={{ fontSize: '13px', padding: '8px 14px', background: 'white', color: '#0b0f1a', border: '1px solid #e2e8f0', borderRadius: '7px', textDecoration: 'none', fontWeight: 500 }}>Security overview →</Link>
         </div>
       </section>
 
@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
       </Section>
     </div>
 
-      <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Pricing', '/pricing']].map(([l, h]) => (
@@ -139,7 +139,7 @@ export default function PrivacyPolicy() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section style={{ marginBottom: '40px' }}>
-      <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', marginTop: 0, letterSpacing: '-0.01em' }}>{title}</h2>
+      <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#0b0f1a', marginBottom: '12px', marginTop: 0, letterSpacing: '-0.01em' }}>{title}</h2>
       <div style={{ fontSize: '15px', color: '#374151', lineHeight: 1.8 }}>{children}</div>
     </section>
   )

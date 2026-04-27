@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function BlogPostPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0b0f1a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -58,13 +58,13 @@ export default function BlogPostPage() {
 
         <div style={{ margin: '40px auto 44px', display: 'flex', justifyContent: 'center' }}>
           <svg width="620" height="260" viewBox="0 0 620 260" style={{ maxWidth: '100%', height: 'auto' }} aria-label="Diagram: five channels flowing into one ledger, which flows out to P&L, forecasting and purchase orders">
-            <g fill="none" stroke="#0f172a" strokeWidth="1.5">
+            <g fill="none" stroke="#0b0f1a" strokeWidth="1.5">
               {['Shopify', 'Amazon', 'eBay', 'TikTok Shop', 'Etsy'].map((label, i) => {
                 const y = 20 + i * 44
                 return (
                   <g key={label}>
                     <rect x="20" y={y} width="140" height="32" rx="4" />
-                    <text x="90" y={y + 21} textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#0f172a" stroke="none">{label}</text>
+                    <text x="90" y={y + 21} textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#0b0f1a" stroke="none">{label}</text>
                     <path d={`M 160 ${y + 16} L 250 130`} stroke="#e8863f" />
                   </g>
                 )
@@ -77,9 +77,9 @@ export default function BlogPostPage() {
                 const y = 44 + i * 60
                 return (
                   <g key={label}>
-                    <path d={`M 370 130 L 460 ${y + 16}`} stroke="#0f172a" />
+                    <path d={`M 370 130 L 460 ${y + 16}`} stroke="#0b0f1a" />
                     <rect x="460" y={y} width="140" height="32" rx="4" />
-                    <text x="530" y={y + 21} textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#0f172a" stroke="none">{label}</text>
+                    <text x="530" y={y + 21} textAnchor="middle" fontSize="13" fontFamily="Inter, system-ui" fill="#0b0f1a" stroke="none">{label}</text>
                   </g>
                 )
               })}

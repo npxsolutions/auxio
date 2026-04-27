@@ -201,7 +201,7 @@ function buildDigestEmail(d: DigestData): string {
       <td>
         <div style="display:inline-flex;align-items:center;gap:8px;">
           <div style="width:28px;height:28px;background:linear-gradient(135deg,#e8863f,#e8863f);border-radius:7px;display:inline-block;"></div>
-          <span style="font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-0.01em;">Palvento</span>
+          <span style="font-size:15px;font-weight:700;color:#0b0f1a;letter-spacing:-0.01em;">Palvento</span>
         </div>
       </td>
       <td align="right" style="font-size:12px;color:#9b9ea8;">${d.dateLabel}</td>
@@ -213,7 +213,7 @@ function buildDigestEmail(d: DigestData): string {
   <tr><td style="background:white;border-radius:16px;border:1px solid #e8e5df;overflow:hidden;">
 
     <!-- Top strip -->
-    <tr><td style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:32px 36px;">
+    <tr><td style="background:linear-gradient(135deg,#0b0f1a 0%,#1e293b 100%);padding:32px 36px;">
       <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Yesterday's summary</div>
       ${d.noData ? `
       <div style="font-size:22px;font-weight:700;color:white;letter-spacing:-0.02em;">No sales recorded</div>
@@ -289,7 +289,7 @@ function buildDigestEmail(d: DigestData): string {
       <table width="100%" cellpadding="0" cellspacing="0">
       <tr>
         <td>
-          <a href="https://palvento-lkqv.vercel.app/dashboard" style="display:inline-block;background:#0f172a;color:white;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">Open dashboard →</a>
+          <a href="https://palvento-lkqv.vercel.app/dashboard" style="display:inline-block;background:#0b0f1a;color:white;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">Open dashboard →</a>
         </td>
         <td align="right">
           <a href="https://palvento-lkqv.vercel.app/agent" style="display:inline-block;border:1px solid #e8e5df;color:#1a1b22;text-decoration:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;">AI insights →</a>

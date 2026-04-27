@@ -227,13 +227,13 @@ const VISUAL_MOCKUPS: Record<string, React.ReactNode> = {
 
 export default function FeaturesPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -242,7 +242,7 @@ export default function FeaturesPage() {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -251,7 +251,7 @@ export default function FeaturesPage() {
         <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
           PRODUCT FEATURES
         </div>
-        <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
+        <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0b0f1a' }}>
           Everything you need to<br />sell smarter, not harder
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
@@ -268,7 +268,7 @@ export default function FeaturesPage() {
           <div key={f.tag} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', marginBottom: i < FEATURES.length - 1 ? '120px' : 0, direction: f.flip ? 'rtl' : 'ltr' }}>
             <div style={{ direction: 'ltr' }}>
               <div style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '6px', background: 'rgba(232,134,63,0.10)', fontSize: '11px', fontWeight: 700, color: '#e8863f', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '16px' }}>{f.tag}</div>
-              <h2 style={{ fontSize: '32px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0f172a', marginBottom: '16px', lineHeight: 1.2 }}>{f.headline}</h2>
+              <h2 style={{ fontSize: '32px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0b0f1a', marginBottom: '16px', lineHeight: 1.2 }}>{f.headline}</h2>
               <p style={{ fontSize: '16px', color: '#64748b', lineHeight: 1.7, marginBottom: '24px' }}>{f.body}</p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {f.bullets.map(b => (
@@ -289,7 +289,7 @@ export default function FeaturesPage() {
       </div>
 
       {/* CTA */}
-      <div style={{ background: '#0f172a', padding: '80px 48px', textAlign: 'center' }}>
+      <div style={{ background: '#0b0f1a', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '40px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Ready to simplify your multichannel selling?</h2>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '32px' }}>Join sellers already using Palvento to list faster, profit clearly, and grow without the chaos.</p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
@@ -299,7 +299,7 @@ export default function FeaturesPage() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Pricing', '/pricing'], ['Login', '/login']].map(([l, h]) => (

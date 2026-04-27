@@ -63,10 +63,10 @@ function ComparisonCard() {
   return (
     <div style={{ width: '1200px', height: '628px', background: '#f7f3eb', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', system-ui, sans-serif", padding: '60px' }}>
       <div style={{ width: '100%' }}>
-        <h2 style={{ fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', textAlign: 'center', marginBottom: '8px' }}>Why sellers switch to Palvento</h2>
+        <h2 style={{ fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0b0f1a', textAlign: 'center', marginBottom: '8px' }}>Why sellers switch to Palvento</h2>
         <p style={{ textAlign: 'center', fontSize: '16px', color: '#64748b', marginBottom: '36px' }}>Powerful like Feedonomics. Affordable like Baselinker. Faster than both.</p>
         <div style={{ background: 'white', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: '#0f172a' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: '#0b0f1a' }}>
             {['', 'Palvento', 'Feedonomics', 'Rithum'].map((h, i) => (
               <div key={i} style={{ padding: '12px 16px', textAlign: i > 0 ? 'center' : 'left' }}>
                 <span style={{ fontSize: '13px', fontWeight: 700, color: i === 1 ? '#a3e635' : 'rgba(255,255,255,0.4)' }}>{h}</span>
@@ -133,13 +133,13 @@ function TestimonialCard() {
     <div style={{ width: '1200px', height: '628px', background: '#f7f3eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', system-ui, sans-serif", padding: '80px' }}>
       <div style={{ maxWidth: '800px', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', padding: '8px 20px', borderRadius: '9999px', background: 'rgba(163,230,53,0.15)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '15px', fontWeight: 700, color: '#4d7c0f', marginBottom: '32px' }}>87% time saved</div>
-        <p style={{ fontSize: '32px', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, letterSpacing: '-0.02em', marginBottom: '32px', fontStyle: 'italic' }}>
+        <p style={{ fontSize: '32px', fontWeight: 700, color: '#0b0f1a', lineHeight: 1.4, letterSpacing: '-0.02em', marginBottom: '32px', fontStyle: 'italic' }}>
           &ldquo;We were spending 3 hours a day managing listings across eBay and Amazon. Palvento cut that to under 20 minutes.&rdquo;
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
           <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #e8863f, #e8863f)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: 700 }}>S</div>
           <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a' }}>Sarah M.</div>
+            <div style={{ fontSize: '15px', fontWeight: 700, color: '#0b0f1a' }}>Sarah M.</div>
             <div style={{ fontSize: '13px', color: '#64748b' }}>eBay & Amazon seller · 800 SKUs</div>
           </div>
         </div>

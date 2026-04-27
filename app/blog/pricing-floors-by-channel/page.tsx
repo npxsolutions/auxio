@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function BlogPostPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0b0f1a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -59,20 +59,20 @@ export default function BlogPostPage() {
               {[
                 { label: 'Amazon FBA', floor: 27.40, color: '#e8863f' },
                 { label: 'Amazon FBM', floor: 23.80, color: '#e8863f' },
-                { label: 'eBay', floor: 22.10, color: '#0f172a' },
-                { label: 'Shopify', floor: 19.20, color: '#0f172a' },
+                { label: 'eBay', floor: 22.10, color: '#0b0f1a' },
+                { label: 'Shopify', floor: 19.20, color: '#0b0f1a' },
               ].map(({ label, floor, color }, i) => {
                 const barH = (floor / 30) * 170
                 const cx = 90 + i * 120
                 return (
                   <g key={label}>
-                    <rect x={cx} y={200 - barH} width="70" height={barH} fill={color} stroke="#0f172a" strokeWidth="1.5" />
+                    <rect x={cx} y={200 - barH} width="70" height={barH} fill={color} stroke="#0b0f1a" strokeWidth="1.5" />
                     <text x={cx + 35} y={218} textAnchor="middle" fontSize="12" fill="#475569">{label}</text>
-                    <text x={cx + 35} y={194 - barH} textAnchor="middle" fontSize="12" fill="#0f172a" fontWeight="600">£{floor.toFixed(2)}</text>
+                    <text x={cx + 35} y={194 - barH} textAnchor="middle" fontSize="12" fill="#0b0f1a" fontWeight="600">£{floor.toFixed(2)}</text>
                   </g>
                 )
               })}
-              <line x1="70" y1="200" x2="580" y2="200" stroke="#0f172a" strokeWidth="1.5" />
+              <line x1="70" y1="200" x2="580" y2="200" stroke="#0b0f1a" strokeWidth="1.5" />
               <text x="70" y="250" fontSize="11" fill="#64748b">Same SKU, same COGS, different channel floors — £12 landed COGS, £3 target contribution.</text>
             </g>
           </svg>

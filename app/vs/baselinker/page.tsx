@@ -44,16 +44,16 @@ const REASONS = [
 
 export default function VsBaselinkerPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -63,7 +63,7 @@ export default function VsBaselinkerPage() {
           <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px' }}>
             COMPARISON
           </div>
-          <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
+          <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0b0f1a' }}>
             Palvento vs Baselinker
           </h1>
           <p style={{ fontSize: '18px', color: '#64748b', lineHeight: 1.7, marginBottom: '32px' }}>
@@ -102,11 +102,11 @@ export default function VsBaselinkerPage() {
 
       {/* Comparison table */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '64px 48px' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0f172a' }}>Feature comparison</h2>
+        <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '32px', color: '#0b0f1a' }}>Feature comparison</h2>
         <div style={{ border: '1px solid #e8e8e5', borderRadius: '14px', overflow: 'hidden' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
             <thead>
-              <tr style={{ background: '#0f172a' }}>
+              <tr style={{ background: '#0b0f1a' }}>
                 <th style={{ padding: '14px 20px', textAlign: 'left', fontWeight: 600, color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Feature</th>
                 <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 700, color: '#a3e635', fontSize: '13px' }}>Palvento</th>
                 <th style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 600, color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>Baselinker</th>
@@ -139,11 +139,11 @@ export default function VsBaselinkerPage() {
       {/* Reasons to switch */}
       <div style={{ background: '#fafaf9', borderTop: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '40px', color: '#0f172a' }}>Why multichannel sellers switch from Baselinker to Palvento</h2>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '40px', color: '#0b0f1a' }}>Why multichannel sellers switch from Baselinker to Palvento</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
             {REASONS.map(r => (
               <div key={r.title} style={{ padding: '28px', background: 'white', border: '1px solid #e8e8e5', borderRadius: '14px' }}>
-                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '10px' }}>{r.title}</h3>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0b0f1a', marginBottom: '10px' }}>{r.title}</h3>
                 <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.7 }}>{r.desc}</p>
               </div>
             ))}
@@ -153,14 +153,14 @@ export default function VsBaselinkerPage() {
 
       {/* Pricing comparison */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px', color: '#0f172a' }}>Pricing</h2>
+        <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px', color: '#0b0f1a' }}>Pricing</h2>
         <p style={{ fontSize: '15px', color: '#64748b', marginBottom: '32px', lineHeight: 1.6 }}>
           Baselinker prices by orders processed, which can get expensive as you scale. Palvento prices by plan — predictable monthly cost, no surprise bills when you have a good month.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
           <div style={{ padding: '28px', border: '2px solid #e8863f', borderRadius: '14px', background: 'rgba(232,134,63,0.10)' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#e8863f', marginBottom: '8px' }}>Palvento</div>
-            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>$149<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0b0f1a', marginBottom: '4px' }}>$149<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>Starter — all channels included</div>
             {['All channels included', 'True profit tracking', 'AI listing writer', 'Global support', '14-day free trial'].map(f => (
               <div key={f} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
@@ -172,7 +172,7 @@ export default function VsBaselinkerPage() {
           </div>
           <div style={{ padding: '28px', border: '1px solid #e8e8e5', borderRadius: '14px', background: '#fafaf9' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#64748b', marginBottom: '8px' }}>Baselinker</div>
-            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>~$45<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#0b0f1a', marginBottom: '4px' }}>~$45<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>For up to 3,000 orders/month</div>
             {['Order management', 'Basic automation', 'Courier integrations', 'No profit tracking', 'Scales by order volume'].map((f, i) => (
               <div key={f} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
@@ -188,11 +188,11 @@ export default function VsBaselinkerPage() {
       <div style={{ background: '#09090b', padding: '80px 48px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: '16px' }}>Ready to try the global alternative?</h2>
         <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.55)', marginBottom: '32px' }}>14-day free trial. No card. Migrate from Baselinker in an afternoon.</p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: '#a3e635', color: '#0f172a', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Start free trial →</Link>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '8px', background: '#a3e635', color: '#0b0f1a', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>Start free trial →</Link>
         <p style={{ marginTop: '16px', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>Questions? <Link href="/contact" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'underline' }}>Talk to us</Link></p>
       </div>
 
-      <footer style={{ background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Pricing', '/pricing'], ['vs Linnworks', '/vs/linnworks'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (

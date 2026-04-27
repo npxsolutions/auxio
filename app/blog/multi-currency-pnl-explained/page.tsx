@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function BlogPostPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#fff', color: '#0b0f1a' }}>
 
       <nav style={{ borderBottom: '1px solid #e2e8f0', padding: '0 48px', height: '58px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', textDecoration: 'none' }}>Palvento</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', textDecoration: 'none' }}>Palvento</Link>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link href="/blog" style={{ fontSize: '13px', color: '#64748b', textDecoration: 'none', padding: '7px 14px' }}>← All guides</Link>
           <Link href="/signup" style={{ padding: '7px 16px', borderRadius: '7px', background: '#e8863f', fontSize: '13px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start free →</Link>
@@ -48,9 +48,9 @@ export default function BlogPostPage() {
 
         <div style={{ margin: '40px auto 44px', display: 'flex', justifyContent: 'center' }}>
           <svg width="620" height="260" viewBox="0 0 620 260" style={{ maxWidth: '100%', height: 'auto' }} aria-label="Diagram showing invoice-rate revenue flowing through fees and FX to produce settled revenue">
-            <g fill="none" stroke="#0f172a" strokeWidth="1.5" fontFamily="Inter, system-ui">
+            <g fill="none" stroke="#0b0f1a" strokeWidth="1.5" fontFamily="Inter, system-ui">
               <rect x="20" y="30" width="140" height="60" rx="4" />
-              <text x="90" y="58" textAnchor="middle" fontSize="13" stroke="none" fill="#0f172a" fontWeight="600">Invoice rate</text>
+              <text x="90" y="58" textAnchor="middle" fontSize="13" stroke="none" fill="#0b0f1a" fontWeight="600">Invoice rate</text>
               <text x="90" y="76" textAnchor="middle" fontSize="12" stroke="none" fill="#475569">£31.50</text>
 
               {[
@@ -70,10 +70,10 @@ export default function BlogPostPage() {
                 )
               })}
 
-              <rect x="460" y="95" width="140" height="60" rx="4" stroke="#0f172a" strokeWidth="2" />
-              <text x="530" y="122" textAnchor="middle" fontSize="13" stroke="none" fill="#0f172a" fontWeight="600">Settled</text>
+              <rect x="460" y="95" width="140" height="60" rx="4" stroke="#0b0f1a" strokeWidth="2" />
+              <text x="530" y="122" textAnchor="middle" fontSize="13" stroke="none" fill="#0b0f1a" fontWeight="600">Settled</text>
               <text x="530" y="140" textAnchor="middle" fontSize="12" stroke="none" fill="#475569">£26.80</text>
-              <path d="M 380 125 L 460 125" stroke="#0f172a" strokeWidth="1.5" />
+              <path d="M 380 125 L 460 125" stroke="#0b0f1a" strokeWidth="1.5" />
             </g>
           </svg>
         </div>

@@ -111,19 +111,19 @@ export default function BlogPage() {
   const [featured, rest] = [POSTS.filter(p => p.featured), POSTS.filter(p => !p.featured)]
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => <Link key={n.href} href={n.href} style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>{n.label}</Link>)}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -132,7 +132,7 @@ export default function BlogPage() {
         <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '16px' }}>
           THE BLOG
         </div>
-        <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', marginBottom: '12px' }}>
+        <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0b0f1a', marginBottom: '12px' }}>
           Sell smarter. Keep more.
         </h1>
         <p style={{ fontSize: '17px', color: '#64748b', lineHeight: 1.7, maxWidth: '600px' }}>
@@ -144,7 +144,7 @@ export default function BlogPage() {
       <div style={{ borderTop: '1px solid #f1f1ef', borderBottom: '1px solid #f1f1ef', padding: '0 48px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', gap: '8px', padding: '12px 0', overflowX: 'auto' }}>
           {CATEGORIES.map((c, i) => (
-            <div key={c} style={{ padding: '6px 14px', borderRadius: '20px', background: i === 0 ? '#0f172a' : 'transparent', border: i === 0 ? 'none' : '1px solid #e8e8e5', fontSize: '13px', color: i === 0 ? 'white' : '#64748b', fontWeight: i === 0 ? 600 : 400, cursor: 'pointer', flexShrink: 0 }}>{c}</div>
+            <div key={c} style={{ padding: '6px 14px', borderRadius: '20px', background: i === 0 ? '#0b0f1a' : 'transparent', border: i === 0 ? 'none' : '1px solid #e8e8e5', fontSize: '13px', color: i === 0 ? 'white' : '#64748b', fontWeight: i === 0 ? 600 : 400, cursor: 'pointer', flexShrink: 0 }}>{c}</div>
           ))}
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function BlogPage() {
             >
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: '11px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>{post.category}</div>
-                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, marginBottom: '4px' }}>{post.title}</h3>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0b0f1a', lineHeight: 1.4, marginBottom: '4px' }}>{post.title}</h3>
                 <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5 }}>{post.excerpt}</p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', flexShrink: 0 }}>
@@ -190,16 +190,16 @@ export default function BlogPage() {
       {/* Email signup */}
       <div style={{ background: '#f7f3eb', borderTop: '1px solid #ede9e0', padding: '64px 48px', textAlign: 'center' }}>
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0f172a', marginBottom: '10px' }}>Selling tips, every two weeks</h2>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0b0f1a', marginBottom: '10px' }}>Selling tips, every two weeks</h2>
           <p style={{ fontSize: '15px', color: '#64748b', marginBottom: '24px', lineHeight: 1.6 }}>Practical guides for multichannel sellers. No fluff, no sales pitch. Unsubscribe any time.</p>
           <div style={{ display: 'flex', gap: '10px' }}>
             <input type="email" placeholder="your@email.com" style={{ flex: 1, padding: '11px 14px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} />
-            <button style={{ padding: '11px 20px', borderRadius: '8px', background: '#0f172a', color: 'white', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Subscribe →</button>
+            <button style={{ padding: '11px 20px', borderRadius: '8px', background: '#0b0f1a', color: 'white', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Subscribe →</button>
           </div>
         </div>
       </div>
 
-      <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Features', '/features'], ['Pricing', '/pricing'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, h]) => (

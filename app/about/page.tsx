@@ -43,13 +43,13 @@ const TIMELINE = [
 
 export default function AboutPage() {
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -58,7 +58,7 @@ export default function AboutPage() {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -67,7 +67,7 @@ export default function AboutPage() {
         <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '24px', letterSpacing: '0.02em' }}>
           OUR STORY
         </div>
-        <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '28px', color: '#0f172a' }}>
+        <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '28px', color: '#0b0f1a' }}>
           We built the tool<br />we wished existed
         </h1>
         <p style={{ fontSize: '20px', color: '#64748b', lineHeight: 1.7, marginBottom: '20px' }}>
@@ -79,7 +79,7 @@ export default function AboutPage() {
       </div>
 
       {/* Mission */}
-      <div style={{ background: '#0f172a', padding: '80px 48px' }}>
+      <div style={{ background: '#0b0f1a', padding: '80px 48px' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600, marginBottom: '20px' }}>OUR MISSION</div>
           <blockquote style={{ fontSize: '32px', fontWeight: 800, color: 'white', lineHeight: 1.3, letterSpacing: '-0.02em', fontStyle: 'normal', margin: 0 }}>
@@ -90,12 +90,12 @@ export default function AboutPage() {
 
       {/* Values */}
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
-        <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>What we believe</h2>
+        <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0b0f1a', letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>What we believe</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
           {VALUES.map(v => (
             <div key={v.title} style={{ padding: '32px', border: '1px solid #e8e8e5', borderRadius: '16px' }}>
               <div style={{ fontSize: '32px', marginBottom: '16px' }}>{v.icon}</div>
-              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', marginBottom: '10px', letterSpacing: '-0.01em' }}>{v.title}</h3>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#0b0f1a', marginBottom: '10px', letterSpacing: '-0.01em' }}>{v.title}</h3>
               <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.7 }}>{v.desc}</p>
             </div>
           ))}
@@ -105,7 +105,7 @@ export default function AboutPage() {
       {/* Timeline */}
       <div style={{ background: '#fafafa', borderTop: '1px solid #f1f1ef', borderBottom: '1px solid #f1f1ef', padding: '80px 48px' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>How we got here</h2>
+          <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0b0f1a', letterSpacing: '-0.02em', marginBottom: '48px', textAlign: 'center' }}>How we got here</h2>
           <div style={{ position: 'relative' }}>
             <div style={{ position: 'absolute', left: '15px', top: '8px', bottom: '8px', width: '1px', background: '#e2e8f0' }} />
             {TIMELINE.map((t, i) => (
@@ -123,7 +123,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 48px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '16px' }}>Want to be part of it?</h2>
+        <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#0b0f1a', letterSpacing: '-0.02em', marginBottom: '16px' }}>Want to be part of it?</h2>
         <p style={{ fontSize: '16px', color: '#64748b', marginBottom: '32px', lineHeight: 1.7 }}>
           We're opening to founding members now. 50 spots at up to 40% off — for people who want to grow with us and help shape the product.
         </p>
@@ -134,7 +134,7 @@ export default function AboutPage() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Pricing', '/pricing'], ['Login', '/login']].map(([l, h]) => (

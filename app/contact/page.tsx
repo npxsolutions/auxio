@@ -26,13 +26,13 @@ export default function ContactPage() {
   }
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0f172a' }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
 
       {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '13px' }}>A</div>
-          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0f172a', letterSpacing: '-0.01em' }}>Palvento</span>
+          <span style={{ fontWeight: 700, fontSize: '15px', color: '#0b0f1a', letterSpacing: '-0.01em' }}>Palvento</span>
         </Link>
         <div style={{ display: 'flex', gap: '32px' }}>
           {NAV.map(n => (
@@ -41,7 +41,7 @@ export default function ContactPage() {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Log in</Link>
-          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0f172a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
+          <Link href="/signup" style={{ padding: '8px 16px', borderRadius: '8px', background: '#0b0f1a', fontSize: '13px', color: 'white', textDecoration: 'none', fontWeight: 500 }}>Start free →</Link>
         </div>
       </nav>
 
@@ -52,7 +52,7 @@ export default function ContactPage() {
           <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
             GET IN TOUCH
           </div>
-          <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
+          <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0b0f1a' }}>
             Let's talk about your operation
           </h1>
           <p style={{ fontSize: '16px', color: '#64748b', lineHeight: 1.7, marginBottom: '40px' }}>
@@ -68,7 +68,7 @@ export default function ContactPage() {
               <div key={c.title} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>{c.icon}</div>
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a', marginBottom: '2px' }}>{c.title}</div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#0b0f1a', marginBottom: '2px' }}>{c.title}</div>
                   <div style={{ fontSize: '13px', color: '#e8863f' }}>{c.desc}</div>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function ContactPage() {
           {sent ? (
             <div style={{ textAlign: 'center', padding: '40px 0' }}>
               <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
-              <h3 style={{ fontSize: '22px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>Message received</h3>
+              <h3 style={{ fontSize: '22px', fontWeight: 700, color: '#0b0f1a', marginBottom: '8px' }}>Message received</h3>
               <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.6 }}>We'll be in touch within one business day. In the meantime, feel free to start your free trial.</p>
               <Link href="/signup" style={{ display: 'inline-block', marginTop: '24px', padding: '12px 24px', borderRadius: '8px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Start free trial →</Link>
             </div>
@@ -112,7 +112,7 @@ export default function ContactPage() {
                       placeholder={ph}
                       value={(form as any)[field]}
                       onChange={e => setForm(f => ({ ...f, [field]: e.target.value }))}
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0f172a', outline: 'none', background: 'white' }}
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0b0f1a', outline: 'none', background: 'white' }}
                     />
                   </div>
                 ))}
@@ -125,7 +125,7 @@ export default function ContactPage() {
                   placeholder="Your business name"
                   value={form.company}
                   onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0f172a', outline: 'none' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0b0f1a', outline: 'none' }}
                 />
               </div>
 
@@ -136,7 +136,7 @@ export default function ContactPage() {
                   placeholder="e.g. eBay, Amazon, Shopify"
                   value={form.channels}
                   onChange={e => setForm(f => ({ ...f, channels: e.target.value }))}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0f172a', outline: 'none' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0b0f1a', outline: 'none' }}
                 />
               </div>
 
@@ -148,7 +148,7 @@ export default function ContactPage() {
                   placeholder={form.type === 'demo' ? "Tell us about your current setup and what you're looking to improve…" : form.type === 'enterprise' ? "Tell us about your catalogue size, channel count, and any specific requirements…" : "What would you like to know?"}
                   value={form.message}
                   onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0f172a', outline: 'none', resize: 'vertical', fontFamily: 'inherit' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '14px', color: '#0b0f1a', outline: 'none', resize: 'vertical', fontFamily: 'inherit' }}
                 />
               </div>
 
@@ -167,7 +167,7 @@ export default function ContactPage() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: '#0f172a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ background: '#0b0f1a', padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>© 2026 Palvento. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '24px' }}>
           {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Features', '/features'], ['Pricing', '/pricing'], ['Login', '/login']].map(([l, h]) => (
