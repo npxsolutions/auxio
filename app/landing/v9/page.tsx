@@ -236,13 +236,13 @@ function Hero() {
 
           {/* H1 */}
           <h1 style={{ fontFamily: sans, fontSize: 'clamp(48px, 6.5vw, 88px)', fontWeight: 600, letterSpacing: '-0.035em', lineHeight: 1.02, margin: '0 0 22px', color: C.text }}>
-            Every marketplace. <br />
-            <span style={{ color: C.cobalt }}>One clean feed.</span>
+            Know which channel <br />
+            <span style={{ color: C.cobalt }}>is actually making you money.</span>
           </h1>
 
           {/* Sub */}
-          <p style={{ fontFamily: sans, fontSize: 19, lineHeight: 1.5, color: C.textMuted, margin: '0 0 36px', maxWidth: 560, fontWeight: 400 }}>
-            Self-serve multichannel feed management for Shopify-led sellers. Live in under ten minutes.
+          <p style={{ fontFamily: sans, fontSize: 19, lineHeight: 1.5, color: C.textMuted, margin: '0 0 36px', maxWidth: 600, fontWeight: 400 }}>
+            Per-channel P&amp;L for multichannel sellers — fees, fulfilment, returns and ad spend reconciled to the SKU. Linnworks tells you what sold; Palvento tells you what made you money.
           </p>
 
           {/* CTAs */}
@@ -257,9 +257,9 @@ function Hero() {
           {/* Proof strip */}
           <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap', paddingTop: 32, borderTop: `1px solid ${C.border}` }}>
             {[
-              { v: 3, suffix: '',     label: 'Channels live today' },
-              { v: 5, suffix: '',     label: 'Currencies published' },
-              { v: 10, suffix: ' min', label: 'To first listing live' },
+              { v: 7, suffix: '',     label: 'Marketplaces in one ledger' },
+              { v: 5, suffix: '',     label: 'Currencies, native FX' },
+              { v: 10, suffix: ' min', label: 'To your first reconciled P&L' },
               { v: 149, prefix: '$',  label: 'From per month' },
             ].map((m, i) => (
               <div key={i}>

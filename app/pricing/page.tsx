@@ -220,10 +220,10 @@ export default function PricingPage() {
         </div>
 
         <h1 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(48px, 6vw, 88px)', fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1.02, margin: '0 0 24px', color: '#0b0f1a' }}>
-          Self-serve feed management. <em style={{ fontStyle: 'italic', color: '#e8863f' }}>From $149/mo.</em>
+          Per-channel P&amp;L. <em style={{ fontStyle: 'italic', color: '#e8863f' }}>From $149/mo.</em>
         </h1>
-        <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-          Shopify-led multichannel without the $2,500/mo enterprise floor or the 30-day onboarding call. Published in five currencies. Flat monthly, never a cut of revenue.
+        <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '600px', margin: '0 auto 32px', lineHeight: 1.6 }}>
+          Multichannel listing + the only operations layer that reconciles fees, returns and ad spend to the SKU. Five currencies, native FX. No enterprise floor. No 30-day onboarding.
         </p>
 
         {/* Toggles: billing + currency */}
