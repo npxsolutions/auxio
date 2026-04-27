@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * /admin/cms/pages/[id]/edit — editor for a single marketing page.
  *

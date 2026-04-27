@@ -112,6 +112,7 @@ export default function BlogPage() {
 
   return (
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#ffffff', color: '#0b0f1a' }}>
+      <style>{`.blog-row { transition: background 0.12s; } .blog-row:hover { background: #fafaf9 !important; }`}</style>
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e5', padding: '0 48px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
@@ -169,10 +170,7 @@ export default function BlogPage() {
         {/* Rest of posts */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#f1f1ef', borderRadius: '14px', overflow: 'hidden', marginBottom: '80px' }}>
           {rest.map(post => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 28px', background: 'white', gap: '24px' }}
-              onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = '#fafaf9'}
-              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = 'white'}
-            >
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-row" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 28px', background: 'white', gap: '24px' }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: '11px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>{post.category}</div>
                 <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0b0f1a', lineHeight: 1.4, marginBottom: '4px' }}>{post.title}</h3>

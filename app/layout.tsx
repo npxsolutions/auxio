@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-
-export const dynamic = 'force-dynamic';
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "./components/PostHogProvider";

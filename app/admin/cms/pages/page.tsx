@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * /admin/cms/pages — list of every marketing page.
  * Create a new draft, toggle draft/published, edit sections.

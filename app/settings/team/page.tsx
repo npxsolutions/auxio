@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * /settings/team — team roster + pending invitations.
  *

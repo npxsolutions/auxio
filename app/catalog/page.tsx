@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * /catalog — master SKU view (Phase 2).
  *
