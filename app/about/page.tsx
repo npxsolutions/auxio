@@ -64,7 +64,7 @@ export default function AboutPage() {
 
       {/* Hero */}
       <div style={{ paddingTop: '140px', paddingBottom: '80px', maxWidth: '800px', margin: '0 auto', padding: '140px 48px 80px' }}>
-        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '24px', letterSpacing: '0.02em' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '24px', letterSpacing: '0.02em' }}>
           OUR STORY
         </div>
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '28px', color: '#0f172a' }}>
@@ -128,7 +128,7 @@ export default function AboutPage() {
           We're opening to founding members now. 50 spots at up to 40% off — for people who want to grow with us and help shape the product.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,$1)' }}>Claim founding rate →</Link>
+          <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,0.10)' }}>Claim founding rate →</Link>
           <Link href="/contact" style={{ padding: '14px 28px', borderRadius: '10px', border: '1px solid #e2e8f0', color: '#374151', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>Get in touch</Link>
         </div>
       </div>

@@ -43,7 +43,7 @@ export default function VsLinnworksPage() {
       {/* Hero */}
       <div style={{ paddingTop: '100px', paddingBottom: '64px', background: '#fafaf9', borderBottom: '1px solid #f1f1ef' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 48px', textAlign: 'center' }}>
-          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px' }}>
+          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px' }}>
             COMPARISON
           </div>
           <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
@@ -95,7 +95,7 @@ export default function VsLinnworksPage() {
             </thead>
             <tbody>
               {COMPARISON.map((row, i) => (
-                <tr key={row.feature} style={{ borderTop: '1px solid #f1f1ef', background: row.highlight ? 'rgba(232,134,63,$1)' : i % 2 === 0 ? 'white' : '#fafaf9' }}>
+                <tr key={row.feature} style={{ borderTop: '1px solid #f1f1ef', background: row.highlight ? 'rgba(232,134,63,0.10)' : i % 2 === 0 ? 'white' : '#fafaf9' }}>
                   <td style={{ padding: '13px 20px', color: '#374151', fontWeight: row.highlight ? 700 : 500 }}>{row.feature}</td>
                   <td style={{ padding: '13px 20px', textAlign: 'center' }}>
                     {row.palvento === true ? <span style={{ color: '#16a34a', fontWeight: 700 }}>✓</span>
@@ -155,7 +155,7 @@ export default function VsLinnworksPage() {
 
       {/* Migration note */}
       <div style={{ maxWidth: '720px', margin: '0 auto', padding: '64px 48px' }}>
-        <div style={{ padding: '32px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', borderRadius: '14px', textAlign: 'center' }}>
+        <div style={{ padding: '32px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', borderRadius: '14px', textAlign: 'center' }}>
           <div style={{ fontSize: '32px', marginBottom: '12px' }}>🔄</div>
           <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', marginBottom: '10px' }}>Moving from Linnworks?</h3>
           <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.7, marginBottom: '20px' }}>

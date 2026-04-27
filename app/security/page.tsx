@@ -33,7 +33,7 @@ const C = {
   mutedDk:   '#2c3142',
   cobalt:    '#e8863f',
   cobaltDk:  '#c46f2a',
-  cobaltSft: 'rgba(232,134,63,$1)',
+  cobaltSft: 'rgba(232,134,63,0.10)',
   emerald:   '#0e7c5a',
   amber:     '#b5651d',
   oxblood:   '#7d2a1a',

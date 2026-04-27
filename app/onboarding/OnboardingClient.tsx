@@ -104,7 +104,7 @@ export default function OnboardingClient({
                     border: 'none',
                     borderRadius: 8,
                     textAlign: 'left',
-                    background: active ? 'rgba(232,134,63,$1)' : 'transparent',
+                    background: active ? 'rgba(232,134,63,0.10)' : 'transparent',
                     cursor: clickable ? 'pointer' : 'default',
                     fontFamily: SANS,
                     color: INK,
@@ -166,7 +166,7 @@ function Step1Connect() {
             }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLAnchorElement).style.borderColor = COBALT
-              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 3px rgba(232,134,63,$1)'
+              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 3px rgba(232,134,63,0.10)'
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLAnchorElement).style.borderColor = LINE

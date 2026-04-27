@@ -56,7 +56,7 @@ export function PageFeedback() {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
     width: 30, height: 30, borderRadius: 8,
     border: `1px solid ${active ? COBALT : BORDER}`,
-    background: active ? 'rgba(232,134,63,$1)' : 'transparent',
+    background: active ? 'rgba(232,134,63,0.10)' : 'transparent',
     color: active ? COBALT : INK,
     cursor: 'pointer', padding: 0,
     transition: 'color 0.12s, border-color 0.12s, background 0.12s',

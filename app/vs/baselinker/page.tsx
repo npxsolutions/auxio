@@ -60,7 +60,7 @@ export default function VsBaselinkerPage() {
       {/* Hero */}
       <div style={{ paddingTop: '100px', paddingBottom: '64px', background: '#fafaf9', borderBottom: '1px solid #f1f1ef' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 48px', textAlign: 'center' }}>
-          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px' }}>
+          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px' }}>
             COMPARISON
           </div>
           <h1 style={{ fontSize: '48px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
@@ -79,7 +79,7 @@ export default function VsBaselinkerPage() {
       {/* Quick verdict */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '64px 48px 0' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-          <div style={{ padding: '28px', background: 'rgba(232,134,63,$1)', border: '2px solid #e8863f', borderRadius: '14px' }}>
+          <div style={{ padding: '28px', background: 'rgba(232,134,63,0.10)', border: '2px solid #e8863f', borderRadius: '14px' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#e8863f', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Choose Palvento if…</div>
             {['You want to track true profit, not just revenue', 'You sell globally across Amazon, eBay, Shopify, OnBuy and TikTok Shop', 'You want AI that writes listings and surfaces insights daily', 'You\'re tired of tools that require a spreadsheet to run'].map(r => (
               <div key={r} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'flex-start' }}>
@@ -158,7 +158,7 @@ export default function VsBaselinkerPage() {
           Baselinker prices by orders processed, which can get expensive as you scale. Palvento prices by plan — predictable monthly cost, no surprise bills when you have a good month.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-          <div style={{ padding: '28px', border: '2px solid #e8863f', borderRadius: '14px', background: 'rgba(232,134,63,$1)' }}>
+          <div style={{ padding: '28px', border: '2px solid #e8863f', borderRadius: '14px', background: 'rgba(232,134,63,0.10)' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#e8863f', marginBottom: '8px' }}>Palvento</div>
             <div style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>$149<span style={{ fontSize: '16px', fontWeight: 400, color: '#64748b' }}>/mo</span></div>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>Starter — all channels included</div>

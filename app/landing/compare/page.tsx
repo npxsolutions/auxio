@@ -33,7 +33,7 @@ const C = {
   borderSoft: 'rgba(0,0,0,0.05)',
   muted: '#6b6e87',
   purple: '#e8863f',
-  purpleSoft: 'rgba(232,134,63,$1)',
+  purpleSoft: 'rgba(232,134,63,0.10)',
   green: '#0f9b6e',
   amber: '#d97706',
   card: '#ffffff',

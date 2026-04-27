@@ -129,7 +129,7 @@ export default function BlogPage() {
 
       {/* Header */}
       <div style={{ paddingTop: '100px', paddingBottom: '48px', maxWidth: '1100px', margin: '0 auto', padding: '100px 48px 48px' }}>
-        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '16px' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '16px' }}>
           THE BLOG
         </div>
         <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', color: '#0f172a', marginBottom: '12px' }}>

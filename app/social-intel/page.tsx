@@ -309,8 +309,8 @@ export default function SocialIntelPage() {
             disabled={!keyword.trim()}
             style={{
               padding: '10px 20px', borderRadius: '8px',
-              background: 'rgba(232,134,63,$1)',
-              border: '1px solid rgba(232,134,63,$1)',
+              background: 'rgba(232,134,63,0.10)',
+              border: '1px solid rgba(232,134,63,0.10)',
               color: '#a89ef8', fontSize: '13px', fontWeight: 500,
               cursor: keyword.trim() ? 'pointer' : 'not-allowed',
               opacity: keyword.trim() ? 1 : 0.4,
@@ -779,7 +779,7 @@ export default function SocialIntelPage() {
                       }}>
                         <div style={{
                           width: '32px', height: '32px', flexShrink: 0,
-                          background: ['rgba(232,134,63,$1)','rgba(52,211,153,0.2)','rgba(251,191,36,0.2)','rgba(248,113,113,0.2)','rgba(96,165,250,0.2)'][i % 5],
+                          background: ['rgba(232,134,63,0.10)','rgba(52,211,153,0.2)','rgba(251,191,36,0.2)','rgba(248,113,113,0.2)','rgba(96,165,250,0.2)'][i % 5],
                           borderRadius: '8px',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           fontSize: '14px',
@@ -791,7 +791,7 @@ export default function SocialIntelPage() {
                             <span style={{
                               fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em',
                               padding: '2px 8px', borderRadius: '4px',
-                              background: 'rgba(232,134,63,$1)', color: '#a89ef8',
+                              background: 'rgba(232,134,63,0.10)', color: '#a89ef8',
                             }}>
                               {r.type}
                             </span>
@@ -843,7 +843,7 @@ export default function SocialIntelPage() {
         @keyframes spin { to { transform: rotate(360deg); } }
         * { box-sizing: border-box; }
         input::placeholder { color: rgba(255,255,255,0.2); }
-        input:focus { border-color: rgba(232,134,63,$1) !important; }
+        input:focus { border-color: rgba(232,134,63,0.10) !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }

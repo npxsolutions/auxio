@@ -127,7 +127,7 @@ const VISUAL_MOCKUPS: Record<string, React.ReactNode> = {
   ai: (
     <div style={{ background: '#0f1117', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.08)' }}>
       <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '12px' }}>AI Agent · Generating eBay title…</div>
-      <div style={{ background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', borderRadius: '8px', padding: '12px', marginBottom: '8px' }}>
+      <div style={{ background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', borderRadius: '8px', padding: '12px', marginBottom: '8px' }}>
         <div style={{ fontSize: '11px', color: '#a89ef8', marginBottom: '4px' }}>eBay Title (79/80 chars)</div>
         <div style={{ fontSize: '12px', color: '#f0f0f8', lineHeight: 1.5 }}>Nike Air Max 90 Triple White US 10 Mens Trainers Sneakers 2024 Brand New OG</div>
       </div>
@@ -248,7 +248,7 @@ export default function FeaturesPage() {
 
       {/* Hero */}
       <div style={{ paddingTop: '120px', paddingBottom: '80px', textAlign: 'center', background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)', borderBottom: '1px solid #f1f1ef' }}>
-        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
           PRODUCT FEATURES
         </div>
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
@@ -257,7 +257,7 @@ export default function FeaturesPage() {
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.6 }}>
           From first listing to every marketplace — Palvento handles the complexity so you can focus on finding product.
         </p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,$1)' }}>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,0.10)' }}>
           Start free — no card required →
         </Link>
       </div>
@@ -267,7 +267,7 @@ export default function FeaturesPage() {
         {FEATURES.map((f, i) => (
           <div key={f.tag} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', marginBottom: i < FEATURES.length - 1 ? '120px' : 0, direction: f.flip ? 'rtl' : 'ltr' }}>
             <div style={{ direction: 'ltr' }}>
-              <div style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '6px', background: 'rgba(232,134,63,$1)', fontSize: '11px', fontWeight: 700, color: '#e8863f', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '16px' }}>{f.tag}</div>
+              <div style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '6px', background: 'rgba(232,134,63,0.10)', fontSize: '11px', fontWeight: 700, color: '#e8863f', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '16px' }}>{f.tag}</div>
               <h2 style={{ fontSize: '32px', fontWeight: 800, letterSpacing: '-0.02em', color: '#0f172a', marginBottom: '16px', lineHeight: 1.2 }}>{f.headline}</h2>
               <p style={{ fontSize: '16px', color: '#64748b', lineHeight: 1.7, marginBottom: '24px' }}>{f.body}</p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>

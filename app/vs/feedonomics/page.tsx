@@ -129,7 +129,7 @@ export default function VsFeedonomicsPage() {
               <div style={{ padding: '16px 20px', fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: C.mutedDk, letterSpacing: '0.02em', fontWeight: 600 }}>Feedonomics</div>
             </div>
             {ROWS.map((r, i) => (
-              <div key={r.feature} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1.4fr 1.4fr', borderBottom: i < ROWS.length - 1 ? `1px solid ${C.ruleSoft}` : 'none', background: r.highlight ? 'rgba(232,134,63,$1)' : C.surface }}>
+              <div key={r.feature} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1.4fr 1.4fr', borderBottom: i < ROWS.length - 1 ? `1px solid ${C.ruleSoft}` : 'none', background: r.highlight ? 'rgba(232,134,63,0.10)' : C.surface }}>
                 <div style={{ padding: '18px 20px', fontSize: 13, color: C.ink, fontWeight: r.highlight ? 600 : 500, borderRight: `1px solid ${C.ruleSoft}` }}>{r.feature}</div>
                 <div style={{ padding: '18px 20px', fontSize: 13.5, color: C.ink, lineHeight: 1.45, borderRight: `1px solid ${C.ruleSoft}` }}>{r.palvento}</div>
                 <div style={{ padding: '18px 20px', fontSize: 13.5, color: C.mutedDk, lineHeight: 1.45 }}>{r.feedonomics}</div>
@@ -175,7 +175,7 @@ export default function VsFeedonomicsPage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: `1px solid rgba(243,240,234,0.18)`, borderLeft: `1px solid rgba(243,240,234,0.18)` }}>
             {MERIDIA_RIGHT.map((s, i) => (
-              <article key={i} style={{ borderRight: `1px solid rgba(243,240,234,0.18)`, borderBottom: `1px solid rgba(243,240,234,0.18)`, padding: '32px 32px 28px', background: 'rgba(232,134,63,$1)' }}>
+              <article key={i} style={{ borderRight: `1px solid rgba(243,240,234,0.18)`, borderBottom: `1px solid rgba(243,240,234,0.18)`, padding: '32px 32px 28px', background: 'rgba(232,134,63,0.10)' }}>
                 <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'rgba(243,240,234,0.5)', letterSpacing: '0.18em', fontWeight: 600, marginBottom: 14 }}>§ 0{i + 1}</div>
                 <h3 style={{ fontFamily: 'var(--font-display-vs), Georgia, serif', fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.15, color: C.bg, margin: '0 0 14px' }}>{s.h}</h3>
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(243,240,234,0.75)', margin: 0 }}>{s.b}</p>

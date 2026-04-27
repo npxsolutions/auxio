@@ -335,7 +335,7 @@ export default function CostsPage() {
                   const isSaving = saving === listing.id
 
                   return (
-                    <tr key={listing.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f0ede8' : 'none', background: hasEdit ? 'rgba(232,134,63,$1)' : 'white' }}>
+                    <tr key={listing.id} style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f0ede8' : 'none', background: hasEdit ? 'rgba(232,134,63,0.10)' : 'white' }}>
 
                       {/* Title */}
                       <td style={{ padding: '12px 16px', maxWidth: 280 }}>
@@ -375,7 +375,7 @@ export default function CostsPage() {
                               border: `1px solid ${hasEdit ? '#e8863f' : listing.cost_price === null ? '#fde68a' : '#e8e5df'}`,
                               borderRadius: 6, fontSize: 13, outline: 'none',
                               fontFamily: 'inherit', background: 'white',
-                              boxShadow: hasEdit ? '0 0 0 2px rgba(232,134,63,$1)' : 'none',
+                              boxShadow: hasEdit ? '0 0 0 2px rgba(232,134,63,0.10)' : 'none',
                             }}
                           />
                         </div>

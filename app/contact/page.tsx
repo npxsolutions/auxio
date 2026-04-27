@@ -49,7 +49,7 @@ export default function ContactPage() {
 
         {/* Left: Info */}
         <div>
-          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
+          <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
             GET IN TOUCH
           </div>
           <h1 style={{ fontSize: '44px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px', color: '#0f172a' }}>
@@ -96,7 +96,7 @@ export default function ContactPage() {
               {/* Type toggle */}
               <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
                 {[['demo', 'Book a demo'], ['question', 'Ask a question'], ['enterprise', 'Enterprise']].map(([v, l]) => (
-                  <button key={v} type="button" onClick={() => setForm(f => ({ ...f, type: v }))} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${form.type === v ? '#e8863f' : '#e2e8f0'}`, background: form.type === v ? 'rgba(232,134,63,$1)' : 'white', color: form.type === v ? '#e8863f' : '#64748b', fontSize: '13px', fontWeight: form.type === v ? 600 : 400, cursor: 'pointer', flex: 1 }}>
+                  <button key={v} type="button" onClick={() => setForm(f => ({ ...f, type: v }))} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${form.type === v ? '#e8863f' : '#e2e8f0'}`, background: form.type === v ? 'rgba(232,134,63,0.10)' : 'white', color: form.type === v ? '#e8863f' : '#64748b', fontSize: '13px', fontWeight: form.type === v ? 600 : 400, cursor: 'pointer', flex: 1 }}>
                     {l}
                   </button>
                 ))}
@@ -179,7 +179,7 @@ export default function ContactPage() {
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         input::placeholder, textarea::placeholder { color: #94a3b8; }
-        input:focus, textarea:focus { border-color: #e8863f !important; box-shadow: 0 0 0 3px rgba(232,134,63,$1); }
+        input:focus, textarea:focus { border-color: #e8863f !important; box-shadow: 0 0 0 3px rgba(232,134,63,0.10); }
       `}</style>
     </div>
   )

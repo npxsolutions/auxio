@@ -142,7 +142,7 @@ export default function HelpIndex() {
         </div>
       </footer>
 
-      <style>{`input:focus { border-color: ${C.cobalt} !important; box-shadow: 0 0 0 3px rgba(232,134,63,$1); }`}</style>
+      <style>{`input:focus { border-color: ${C.cobalt} !important; box-shadow: 0 0 0 3px rgba(232,134,63,0.10); }`}</style>
     </div>
   )
 }

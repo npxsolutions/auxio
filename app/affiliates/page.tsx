@@ -21,7 +21,7 @@ const C = {
   ruleSoft:  'rgba(11,15,26,0.06)',
   muted:     '#5a6171',
   cobalt:    '#e8863f',
-  cobaltSft: 'rgba(232,134,63,$1)',
+  cobaltSft: 'rgba(232,134,63,0.10)',
   emerald:   '#0e7c5a',
   oxblood:   '#7d2a1a',
 }

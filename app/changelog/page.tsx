@@ -29,7 +29,7 @@ const NAV = [
 
 type Tag = 'feature' | 'improvement' | 'fix' | 'breaking' | 'api'
 const TAGS: Record<Tag, { label: string; color: string; bg: string }> = {
-  feature:     { label: 'Feature',     color: '#e8863f', bg: 'rgba(232,134,63,$1)' },
+  feature:     { label: 'Feature',     color: '#e8863f', bg: 'rgba(232,134,63,0.10)' },
   improvement: { label: 'Improvement', color: '#0e7c5a', bg: 'rgba(14,124,90,0.10)' },
   fix:         { label: 'Fix',         color: '#7d2a1a', bg: 'rgba(125,42,26,0.10)' },
   breaking:    { label: 'Breaking',    color: '#a56a0b', bg: 'rgba(165,106,11,0.12)' },

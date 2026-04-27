@@ -29,7 +29,7 @@ const C = {
   muted:     '#5a6171',
   cobalt:    '#e8863f',
   cobaltDk:  '#c46f2a',
-  cobaltSft: 'rgba(232,134,63,$1)',
+  cobaltSft: 'rgba(232,134,63,0.10)',
 }
 
 const NAV = [

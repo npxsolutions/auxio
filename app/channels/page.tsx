@@ -820,7 +820,7 @@ export default function ChannelsPage() {
                 border: `1px solid ${focusedInput === 'search' ? '#e8863f' : '#e8e5df'}`,
                 borderRadius: 8, fontSize: 13, fontFamily: 'inherit',
                 color: '#1a1b22', outline: 'none', boxSizing: 'border-box',
-                boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
+                boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(232,134,63,0.10)' : 'none',
                 background: 'white',
               }}
             />
@@ -945,7 +945,7 @@ export default function ChannelsPage() {
                           border: `1px solid ${focusedInput === key ? '#e8863f' : '#e8e5df'}`,
                           borderRadius: 7, fontSize: 13, fontFamily: 'inherit',
                           color: '#1a1b22', outline: 'none', boxSizing: 'border-box',
-                          boxShadow: focusedInput === key ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
+                          boxShadow: focusedInput === key ? '0 0 0 3px rgba(232,134,63,0.10)' : 'none',
                         })
 
                         return (

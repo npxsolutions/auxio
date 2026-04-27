@@ -19,7 +19,7 @@ const ASSETS = [
 function HeroStatCard() {
   return (
     <div style={{ width: '1200px', height: '628px', background: '#09090b', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', fontFamily: "'Inter', system-ui, sans-serif" }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(232,134,63,$1) 0%, transparent 70%)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(232,134,63,0.10) 0%, transparent 70%)' }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '9999px', background: 'rgba(163,230,53,0.1)', border: '1px solid rgba(163,230,53,0.3)', fontSize: '14px', color: '#a3e635', fontWeight: 700, marginBottom: '28px' }}>
@@ -77,7 +77,7 @@ function ComparisonCard() {
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', borderBottom: i < rows.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
               <div style={{ padding: '11px 16px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
               {[row.palvento, row.feed, row.rithum].map((val, j) => (
-                <div key={j} style={{ padding: '11px 16px', textAlign: 'center', background: j === 0 ? 'rgba(232,134,63,$1)' : 'transparent' }}>
+                <div key={j} style={{ padding: '11px 16px', textAlign: 'center', background: j === 0 ? 'rgba(232,134,63,0.10)' : 'transparent' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: j === 0 ? '#e8863f' : val === '✗' || val.includes('Months') || val.includes('Weeks') || val.includes('$2,000') || val.includes('Custom') || val === 'Managed' ? '#cbd5e1' : '#94a3b8' }}>{val}</span>
                 </div>
               ))}
@@ -208,7 +208,7 @@ function VsFeedonomicsCard() {
             <div style={{ fontSize: '28px', fontWeight: 800, color: 'rgba(255,255,255,0.15)', letterSpacing: '-0.02em' }}>vs</div>
           </div>
           {/* Palvento */}
-          <div style={{ border: '1px solid rgba(232,134,63,$1)', borderRadius: '16px', padding: '32px', textAlign: 'center', background: 'rgba(232,134,63,$1)' }}>
+          <div style={{ border: '1px solid rgba(232,134,63,0.10)', borderRadius: '16px', padding: '32px', textAlign: 'center', background: 'rgba(232,134,63,0.10)' }}>
             <div style={{ fontSize: '20px', fontWeight: 700, color: '#a3e635', marginBottom: '16px' }}>Palvento</div>
             {[['£49/mo', 'Starting price'], ['< 10 min', 'To go live'], ['Self-serve', 'Setup'], ['Yes', 'Profit tracking']].map(([v, l]) => (
               <div key={l} style={{ marginBottom: '12px' }}>
@@ -255,7 +255,7 @@ export default function MarketingAssetsPage() {
         <div style={{ width: '260px', borderRight: '1px solid rgba(255,255,255,0.07)', padding: '20px', flexShrink: 0 }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>Assets</div>
           {ASSETS.map(a => (
-            <button key={a.id} onClick={() => setActive(a.id)} style={{ width: '100%', display: 'block', textAlign: 'left', padding: '10px 12px', borderRadius: '8px', border: 'none', background: active === a.id ? 'rgba(232,134,63,$1)' : 'transparent', color: active === a.id ? '#a89ef8' : 'rgba(255,255,255,0.45)', fontSize: '13px', fontWeight: active === a.id ? 600 : 400, cursor: 'pointer', marginBottom: '2px', fontFamily: 'inherit' }}>
+            <button key={a.id} onClick={() => setActive(a.id)} style={{ width: '100%', display: 'block', textAlign: 'left', padding: '10px 12px', borderRadius: '8px', border: 'none', background: active === a.id ? 'rgba(232,134,63,0.10)' : 'transparent', color: active === a.id ? '#a89ef8' : 'rgba(255,255,255,0.45)', fontSize: '13px', fontWeight: active === a.id ? 600 : 400, cursor: 'pointer', marginBottom: '2px', fontFamily: 'inherit' }}>
               {a.label}
             </button>
           ))}

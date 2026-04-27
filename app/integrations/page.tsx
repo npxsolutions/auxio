@@ -78,7 +78,7 @@ export default function IntegrationsPage() {
 
       {/* Hero */}
       <div style={{ paddingTop: '120px', paddingBottom: '80px', textAlign: 'center', background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)', borderBottom: '1px solid #f1f1ef' }}>
-        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,$1)', border: '1px solid rgba(232,134,63,$1)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
+        <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', background: 'rgba(232,134,63,0.10)', border: '1px solid rgba(232,134,63,0.10)', fontSize: '12px', color: '#e8863f', fontWeight: 600, marginBottom: '20px', letterSpacing: '0.02em' }}>
           INTEGRATIONS
         </div>
         <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 20px', color: '#0f172a' }}>
@@ -88,7 +88,7 @@ export default function IntegrationsPage() {
           Palvento integrates with the marketplaces, stores, and ad platforms where your customers are. One platform, every channel.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,$1)' }}>Start connecting →</Link>
+          <Link href="/signup" style={{ padding: '14px 28px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '15px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,0.10)' }}>Start connecting →</Link>
           <Link href="/contact" style={{ padding: '14px 28px', borderRadius: '10px', border: '1px solid #e2e8f0', color: '#374151', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>Request an integration</Link>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default function IntegrationsPage() {
         ))}
 
         {/* Request integration */}
-        <div style={{ background: 'linear-gradient(135deg, rgba(232,134,63,$1), rgba(124,106,247,0.06))', border: '1px solid rgba(232,134,63,$1)', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
+        <div style={{ background: 'linear-gradient(135deg, rgba(232,134,63,0.10), rgba(124,106,247,0.06))', border: '1px solid rgba(232,134,63,0.10)', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
           <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#0f172a', marginBottom: '12px' }}>Don't see your platform?</h3>
           <p style={{ fontSize: '15px', color: '#64748b', marginBottom: '24px' }}>We add new integrations every month. Tell us what you need and we'll prioritise it.</p>
           <Link href="/contact" style={{ display: 'inline-block', padding: '12px 24px', borderRadius: '8px', background: '#0f172a', color: 'white', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>Request integration →</Link>

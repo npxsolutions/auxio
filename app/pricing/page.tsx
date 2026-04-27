@@ -263,7 +263,7 @@ export default function PricingPage() {
             borderRadius: '16px',
             padding: '28px',
             position: 'relative',
-            boxShadow: plan.popular ? `0 8px 40px rgba(232,134,63,$1)` : 'none',
+            boxShadow: plan.popular ? `0 8px 40px rgba(232,134,63,0.10)` : 'none',
           }}>
             {plan.popular && (
               <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: plan.color, color: 'white', fontSize: '11px', fontWeight: 700, padding: '4px 12px', borderRadius: '20px', whiteSpace: 'nowrap' }}>
@@ -339,7 +339,7 @@ export default function PricingPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: '2px solid #f1f5f9' }}>
               <div style={{ padding: '16px 20px' }} />
               {['Palvento', 'Brightpearl', 'Linnworks', 'Feedonomics'].map((name, i) => (
-                <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(232,134,63,$1)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
+                <div key={name} style={{ padding: '16px 12px', textAlign: 'center', background: i === 0 ? 'rgba(232,134,63,0.10)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? '#e8863f' : '#0f172a' }}>{name}</div>
                 </div>
               ))}
@@ -349,7 +349,7 @@ export default function PricingPage() {
               <div key={row.feature} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', borderBottom: i < COMPARE.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
                 <div style={{ padding: '14px 20px', fontSize: '13px', color: '#374151', fontWeight: 500 }}>{row.feature}</div>
                 {[row.palvento, row.brightpearl, row.linnworks, row.feedonomics].map((val, j) => (
-                  <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(232,134,63,$1)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
+                  <div key={j} style={{ padding: '14px 12px', textAlign: 'center', background: j === 0 ? 'rgba(232,134,63,0.10)' : 'transparent', borderLeft: '1px solid #f1f5f9' }}>
                     <span style={{ fontSize: '12px', fontWeight: 600, color: j === 0 ? '#e8863f' : val === '✗' ? '#94a3b8' : '#374151' }}>{val}</span>
                   </div>
                 ))}
@@ -385,7 +385,7 @@ export default function PricingPage() {
         <h2 style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 400, color: 'white', letterSpacing: '-0.025em', lineHeight: 1.05, marginBottom: '16px' }}>Start your <em style={{ fontStyle: 'italic', color: '#7BB7FF' }}>free trial today.</em></h2>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>14 days free. No credit card required. Cancel any time.</p>
         <p style={{ fontSize: '14px', color: '#d97706', fontWeight: 600, marginBottom: '32px' }}>{remaining} of {FOUNDING_TOTAL} founding-partner spots open — up to 40% off for life.</p>
-        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '16px', fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,$1)' }}>
+        <Link href="/signup" style={{ display: 'inline-block', padding: '16px 32px', borderRadius: '10px', background: 'linear-gradient(135deg, #e8863f, #e8863f)', color: 'white', fontSize: '16px', fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 24px rgba(232,134,63,0.10)' }}>
           Claim your founding rate →
         </Link>
       </div>

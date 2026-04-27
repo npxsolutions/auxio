@@ -249,7 +249,7 @@ export default function DemoPage() {
 
       <style>{`
         input::placeholder, textarea::placeholder { color: #94a3b8; }
-        input:focus, textarea:focus, select:focus { border-color: ${C.cobalt} !important; box-shadow: 0 0 0 3px rgba(232,134,63,$1); }
+        input:focus, textarea:focus, select:focus { border-color: ${C.cobalt} !important; box-shadow: 0 0 0 3px rgba(232,134,63,0.10); }
       `}</style>
     </div>
   )

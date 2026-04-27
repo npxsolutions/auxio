@@ -7,7 +7,7 @@ export const theme = {
   inkMuted: 'rgba(11,15,26,0.42)',
   inkFaint: 'rgba(11,15,26,0.14)',
   cobalt: '#e8863f',
-  cobaltSoft: 'rgba(232,134,63,$1)',
+  cobaltSoft: 'rgba(232,134,63,0.10)',
   danger: '#b4321f',
   success: '#1f7a4a',
   serif: "'Instrument Serif', 'Times New Roman', serif",

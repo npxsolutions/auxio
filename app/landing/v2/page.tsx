@@ -19,7 +19,7 @@ const C = {
   ruleDark:    'rgba(255,255,255,0.08)',
   purple:      '#e8863f',
   purpleSoft:  '#e8863f',
-  purpleTint:  'rgba(232,134,63,$1)',
+  purpleTint:  'rgba(232,134,63,0.10)',
   cream:       '#f5f0e8',
   text50:      'rgba(255,255,255,0.55)',
   text30:      'rgba(255,255,255,0.32)',
@@ -490,7 +490,7 @@ export default function LandingV2() {
                 background: '#fff', borderRadius: 16,
                 border: p.highlight ? `1.5px solid ${C.purple}` : `1px solid ${C.rule}`,
                 padding: 36, position: 'relative',
-                boxShadow: p.highlight ? '0 20px 50px rgba(232,134,63,$1)' : '0 6px 20px rgba(15,14,19,0.04)',
+                boxShadow: p.highlight ? '0 20px 50px rgba(232,134,63,0.10)' : '0 6px 20px rgba(15,14,19,0.04)',
               }}>
                 {p.highlight && (
                   <div style={{ position: 'absolute', top: -11, left: 36, background: C.purple, color: '#fff', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 999, letterSpacing: '0.06em' }}>

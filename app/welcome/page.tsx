@@ -44,7 +44,7 @@ const C = {
   ruleSoft:'rgba(11,15,26,0.06)',
   cobalt:  '#e8863f',
   cobaltDk:'#c46f2a',
-  cobaltSft:'rgba(232,134,63,$1)',
+  cobaltSft:'rgba(232,134,63,0.10)',
 }
 
 const display = 'var(--font-display), Georgia, serif'

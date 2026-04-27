@@ -292,7 +292,7 @@ function BillingContent() {
                     display: 'flex',
                     flexDirection: 'column',
                     boxShadow: isCurrent
-                      ? '0 0 0 4px rgba(232,134,63,$1)'
+                      ? '0 0 0 4px rgba(232,134,63,0.10)'
                       : isDark
                         ? '0 4px 16px rgba(0,0,0,0.2)'
                         : '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04)',
@@ -325,7 +325,7 @@ function BillingContent() {
                   {/* Plan name badge */}
                   <div style={{ marginBottom: 16 }}>
                     <span style={{
-                      background: isDark ? 'rgba(232,134,63,$1)' : isCurrent ? 'rgba(232,134,63,$1)' : '#f8f4ec',
+                      background: isDark ? 'rgba(232,134,63,0.10)' : isCurrent ? 'rgba(232,134,63,0.10)' : '#f8f4ec',
                       color: isDark ? '#a5a0fb' : isCurrent ? '#e8863f' : '#6b6e87',
                       fontSize: 11, fontWeight: 700,
                       padding: '3px 9px', borderRadius: 6,

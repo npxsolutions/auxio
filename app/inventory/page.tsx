@@ -191,7 +191,7 @@ export default function InventoryPage() {
                   color: '#1a1b22',
                   outline: 'none',
                   width: 200,
-                  boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
+                  boxShadow: focusedInput === 'search' ? '0 0 0 3px rgba(232,134,63,0.10)' : 'none',
                   transition: 'border-color 0.15s, box-shadow 0.15s',
                 }}
                 onFocus={() => setFocusedInput('search')}
@@ -259,7 +259,7 @@ export default function InventoryPage() {
                               ...inputStyle,
                               width: 64,
                               border: `1px solid ${focusedInput === `${item.id}-stock` ? '#e8863f' : '#e8e5df'}`,
-                              boxShadow: focusedInput === `${item.id}-stock` ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
+                              boxShadow: focusedInput === `${item.id}-stock` ? '0 0 0 3px rgba(232,134,63,0.10)' : 'none',
                             }}
                           />
                         </td>
@@ -276,7 +276,7 @@ export default function InventoryPage() {
                                 ...inputStyle,
                                 width: 52,
                                 border: `1px solid ${focusedInput === `${item.id}-lead` ? '#e8863f' : '#e8e5df'}`,
-                                boxShadow: focusedInput === `${item.id}-lead` ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
+                                boxShadow: focusedInput === `${item.id}-lead` ? '0 0 0 3px rgba(232,134,63,0.10)' : 'none',
                               }}
                             />
                             <span style={{ fontSize: 11, color: '#9496b0' }}>d</span>
@@ -295,7 +295,7 @@ export default function InventoryPage() {
                                 ...inputStyle,
                                 width: 52,
                                 border: `1px solid ${focusedInput === `${item.id}-safety` ? '#e8863f' : '#e8e5df'}`,
-                                boxShadow: focusedInput === `${item.id}-safety` ? '0 0 0 3px rgba(232,134,63,$1)' : 'none',
+                                boxShadow: focusedInput === `${item.id}-safety` ? '0 0 0 3px rgba(232,134,63,0.10)' : 'none',
                               }}
                             />
                             <span style={{ fontSize: 11, color: '#9496b0' }}>d</span>
