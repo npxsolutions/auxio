@@ -2,8 +2,11 @@
  * Daily retention scan (Phase 4).
  *
  * Iterates per-org and writes `notifications` rows for:
- *   1. stockout_risk   — listings with quantity <= reorder_point
+ *   1. stockout_risk   — listings with days_of_cover <= 7 (per v2 plan)
  *   2. feed_rejection  — listings with health.errors_count > 0
+ *
+ * days_of_cover is materialised nightly by aggregate_listings_v2() from
+ * sold_30d ÷ 30 days. NULL means no recent sales, so no stockout risk.
  *
  * Idempotent via dedupe_key — re-running the cron within the same day is a
  * no-op (unique partial index on notifications).
@@ -34,24 +37,28 @@ async function scanOrg(admin: ReturnType<typeof getAdmin>, orgId: string): Promi
   const today = new Date().toISOString().slice(0, 10) // dedupe by day
 
   // ── 1. Stockout risk ────────────────────────────────────────────────────────
+  // days_of_cover <= 7 means this SKU runs out within a week at current sales rate.
+  // Plan reference: v2-phased-plan.md → Phase 4 → "Stock-out risk (7 days of cover remaining)".
   const { data: atRisk } = await admin
     .from('channel_listings')
-    .select('id, title, sku, quantity, reorder_point')
+    .select('id, title, sku, quantity, days_of_cover')
     .eq('organization_id', orgId)
-    .not('reorder_point', 'is', null)
-    .filter('quantity', 'lte', 'reorder_point')
+    .not('days_of_cover', 'is', null)
+    .lte('days_of_cover', 7)
+    .order('days_of_cover', { ascending: true })
     .limit(100)
 
   let stockout = 0
   for (const l of atRisk ?? []) {
+    const cover = l.days_of_cover as number
     const { error } = await admin.from('notifications').insert({
       organization_id: orgId,
       kind:            'stockout_risk',
-      severity:        'warn',
+      severity:        cover <= 2 ? 'error' : 'warn',
       title:           `Low stock: ${l.title ?? l.sku ?? 'untitled'}`,
-      body:            `Only ${l.quantity} left (reorder at ${l.reorder_point}). Raise a PO or pause ads.`,
+      body:            `${l.quantity ?? 0} units left — ${cover} day${cover === 1 ? '' : 's'} of cover at current sell-through. Raise a PO or pause ads.`,
       action_url:      `/listings/${l.id}`,
-      data:            { listing_id: l.id, sku: l.sku, quantity: l.quantity, reorder_point: l.reorder_point },
+      data:            { listing_id: l.id, sku: l.sku, quantity: l.quantity, days_of_cover: cover },
       dedupe_key:      `stockout:${l.id}:${today}`,
     })
     if (!error) stockout++
