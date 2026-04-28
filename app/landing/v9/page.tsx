@@ -242,7 +242,7 @@ function Hero() {
 
           {/* Sub */}
           <p style={{ fontFamily: sans, fontSize: 19, lineHeight: 1.5, color: C.textMuted, margin: '0 0 36px', maxWidth: 600, fontWeight: 400 }}>
-            Per-channel P&amp;L for multichannel sellers — fees, fulfilment, returns and ad spend reconciled to the SKU. Linnworks tells you what sold; Palvento tells you what made you money.
+            The first per-channel P&amp;L that reconciles real marketplace fees, not rate-card estimates. Live on eBay, Shopify and Etsy today. Linnworks tells you what sold; Palvento tells you what made you money.
           </p>
 
           {/* CTAs */}

@@ -47,6 +47,7 @@ type Mode = 'magic' | 'password'
 
 export default function SignupPage() {
   const [mode, setMode] = useState<Mode>('magic')
+  const [isFounding, setIsFounding] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -64,10 +65,15 @@ export default function SignupPage() {
       utm_medium:   url.searchParams.get('utm_medium'),
       utm_campaign: url.searchParams.get('utm_campaign'),
       referrer:     document.referrer || null,
+      // Founding-partner intent — set when arriving from /founding-partners
+      // CTA. The /welcome wizard reads this to surface the founding-partner
+      // checkout path instead of the standard pricing flow.
+      founding:     url.searchParams.get('founding') === '1',
     }
-    if (utm.utm_source || utm.utm_medium || utm.utm_campaign || utm.referrer) {
+    if (utm.utm_source || utm.utm_medium || utm.utm_campaign || utm.referrer || utm.founding) {
       try { localStorage.setItem('palvento_signup_attribution', JSON.stringify(utm)) } catch {}
     }
+    if (utm.founding) setIsFounding(true)
   }, [])
 
   async function handleGoogle() {
@@ -181,16 +187,28 @@ export default function SignupPage() {
         padding: '40px 32px',
         boxShadow: '0 1px 2px rgba(11,15,26,0.04), 0 8px 24px rgba(11,15,26,0.06)',
       }}>
+        {isFounding && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '8px 12px', marginBottom: 18,
+            background: C.cobaltSft, border: `1px solid ${C.cobalt}`, borderRadius: 8,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: 3, background: C.cobalt, flexShrink: 0 }} />
+            <span style={{ fontFamily: mono, fontSize: 11, fontWeight: 600, color: C.cobaltDk, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              Founding partner · 40% off for life
+            </span>
+          </div>
+        )}
         <h1 style={{
           fontFamily: display, fontStyle: 'italic',
           fontSize: 'clamp(30px, 3.4vw, 40px)', fontWeight: 400,
           color: C.ink, letterSpacing: '-0.025em', lineHeight: 1.05,
           margin: '0 0 8px', textAlign: 'center',
         }}>
-          Start your free trial.
+          {isFounding ? 'Claim your founding spot.' : 'Start your free trial.'}
         </h1>
         <p style={{ fontSize: 14, color: C.muted, textAlign: 'center', margin: '0 0 28px' }}>
-          14 days free · No card required
+          {isFounding ? '10 spots, 0 claimed · No card required to start' : '14 days free · No card required'}
         </p>
 
         {GOOGLE_ENABLED && (

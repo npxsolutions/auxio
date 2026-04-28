@@ -218,7 +218,7 @@ export default function PricingPage() {
           Per-channel P&amp;L. <em style={{ fontStyle: 'italic', color: '#e8863f' }}>From $149/mo.</em>
         </h1>
         <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '600px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-          Multichannel listing + the only operations layer that reconciles fees, returns and ad spend to the SKU. Five currencies, native FX. No enterprise floor. No 30-day onboarding.
+          Multichannel listing + the only operations layer that reconciles real marketplace fees to the SKU. Live on eBay, Shopify and Etsy. Five currencies, native FX. No enterprise floor. No 30-day onboarding.
         </p>
 
         {/* Toggles: billing + currency */}
