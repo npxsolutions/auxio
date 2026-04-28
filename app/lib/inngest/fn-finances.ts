@@ -17,12 +17,14 @@ import { inngest } from './client'
 import type { EventDataMap } from './client'
 import { getAdmin } from '../retention/scan'
 import { fetchEbayFinances, reconcileEbayFees, upsertEbayPayouts } from '../channels/ebay/finances'
+import { fetchShopifyFinances, reconcileShopifyFees } from '../channels/shopify/finances'
+import { fetchEtsyFinances, reconcileEtsyFees } from '../channels/etsy/finances'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 type FinancesAdapter = (
   admin: SupabaseClient,
   organizationId: string,
-) => Promise<{ reconciled: number; payouts: number; status: 'ok' | 'needs_reauth' | 'not_connected' | 'unknown' }>
+) => Promise<{ reconciled: number; payouts: number; status: 'ok' | 'needs_reauth' | 'not_connected' | 'unauthorized' | 'unknown' }>
 
 const adaptEbay: FinancesAdapter = async (admin, organizationId) => {
   const result = await fetchEbayFinances(admin, organizationId, 30)
@@ -34,8 +36,28 @@ const adaptEbay: FinancesAdapter = async (admin, organizationId) => {
   return { reconciled, payouts, status: 'ok' }
 }
 
+const adaptShopify: FinancesAdapter = async (admin, organizationId) => {
+  const result = await fetchShopifyFinances(admin, organizationId, 30)
+  if (!result.ok) {
+    return { reconciled: 0, payouts: 0, status: result.reason }
+  }
+  const { reconciled } = await reconcileShopifyFees(admin, organizationId, result.orders)
+  return { reconciled, payouts: 0, status: 'ok' }
+}
+
+const adaptEtsy: FinancesAdapter = async (admin, organizationId) => {
+  const result = await fetchEtsyFinances(admin, organizationId, 30)
+  if (!result.ok) {
+    return { reconciled: 0, payouts: 0, status: result.reason }
+  }
+  const { reconciled } = await reconcileEtsyFees(admin, organizationId, result.entries)
+  return { reconciled, payouts: 0, status: 'ok' }
+}
+
 const ADAPTERS: Record<string, FinancesAdapter> = {
-  ebay: adaptEbay,
+  ebay:    adaptEbay,
+  shopify: adaptShopify,
+  etsy:    adaptEtsy,
 }
 
 const SUPPORTED_CHANNELS = Object.keys(ADAPTERS)
