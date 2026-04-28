@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { Instrument_Serif } from 'next/font/google'
 import { P, CARD, MONO, LABEL, HEADING, SECTION_HEADER, NUMBER, Button } from '../lib/design-system'
@@ -83,6 +83,28 @@ const FAQ: { q: string; a: string }[] = [
 export default function FoundingPartnersPage() {
   const [currency, setCurrency] = useState<Currency>('USD')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  // Capture incoming UTMs from /li-wN redirects so the /signup CTA preserves
+  // attribution. Without this, LinkedIn campaign tracking dies at the click.
+  const [incomingQuery, setIncomingQuery] = useState('')
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const forward = new URLSearchParams()
+    for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']) {
+      const v = params.get(k)
+      if (v) forward.set(k, v)
+    }
+    setIncomingQuery(forward.toString())
+  }, [])
+
+  // Build a /signup URL that carries founding=1, optional plan, and any UTMs.
+  const signupHref = useMemo(() => (plan?: string) => {
+    const q = new URLSearchParams(incomingQuery)
+    q.set('founding', '1')
+    if (plan) q.set('plan', plan)
+    return `/signup?${q.toString()}`
+  }, [incomingQuery])
 
   const remaining = FOUNDING_TOTAL - FOUNDING_CLAIMED
   const currencySymbol = CURRENCIES.find(c => c.code === currency)!.symbol
@@ -179,7 +201,7 @@ export default function FoundingPartnersPage() {
                   ))}
                 </ul>
 
-                <Button href={`/signup?plan=${tier.name.toLowerCase()}&founding=1`} variant="primary" arrow>
+                <Button href={signupHref(tier.name.toLowerCase())} variant="primary" arrow>
                   Claim {tier.name} founding
                 </Button>
               </div>
@@ -238,7 +260,7 @@ export default function FoundingPartnersPage() {
           <p style={{ fontSize: '15px', color: P.mutedDk, lineHeight: 1.6, margin: '0 auto 24px', maxWidth: 520 }}>
             Shopify OAuth, first channel live in ten minutes, founding rate locked for life.
           </p>
-          <Button href="/signup?founding=1" variant="primary" arrow>
+          <Button href={signupHref()} variant="primary" arrow>
             Claim your spot
           </Button>
         </section>
