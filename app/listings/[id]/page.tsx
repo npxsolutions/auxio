@@ -51,11 +51,35 @@ type TemplateField = {
   type?: string
 }
 
-const CHANNELS = [
-  { id: 'shopify', icon: '🛍️', name: 'Shopify',         colour: '#96BF48' },
-  { id: 'ebay',    icon: '🛒', name: 'eBay',            colour: '#E53238' },
-  { id: 'google',  icon: '🔍', name: 'Google Shopping', colour: '#4285F4' },
-  { id: 'amazon',  icon: '📦', name: 'Amazon',          colour: '#FF9900', stub: true },
+type Channel = {
+  id: string
+  name: string
+  icon: string
+  colour: string
+  /** Channels with a real publish pipeline. Others render as "Coming soon". */
+  publish: boolean
+  category: 'marketplace' | 'storefront' | 'feed'
+  connected?: boolean
+  shop_domain?: string | null
+  last_synced_at?: string | null
+  /** legacy back-compat — older sections of this page check ch.stub. */
+  stub?: boolean
+}
+
+// Static fallback used until /api/channels resolves. Mirrors the publish
+// catalogue so the page renders the right pill set on first paint.
+const FALLBACK_CHANNELS: Channel[] = [
+  { id: 'shopify',     name: 'Shopify',         icon: '🛍️', colour: '#96BF48', publish: true,  category: 'storefront' },
+  { id: 'ebay',        name: 'eBay',            icon: '🛒', colour: '#E53238', publish: true,  category: 'marketplace' },
+  { id: 'amazon',      name: 'Amazon',          icon: '📦', colour: '#FF9900', publish: false, category: 'marketplace', stub: true },
+  { id: 'tiktok_shop', name: 'TikTok Shop',     icon: '🎵', colour: '#000000', publish: false, category: 'marketplace', stub: true },
+  { id: 'etsy',        name: 'Etsy',            icon: '🧶', colour: '#F1641E', publish: false, category: 'marketplace', stub: true },
+  { id: 'walmart',     name: 'Walmart',         icon: '🏪', colour: '#0071CE', publish: false, category: 'marketplace', stub: true },
+  { id: 'onbuy',       name: 'OnBuy',           icon: '🛍️', colour: '#FF5C00', publish: false, category: 'marketplace', stub: true },
+  { id: 'google',      name: 'Google Shopping', icon: '🔍', colour: '#4285F4', publish: true,  category: 'feed' },
+  { id: 'facebook',    name: 'Meta / Facebook', icon: '📘', colour: '#1877F2', publish: true,  category: 'feed' },
+  { id: 'woocommerce', name: 'WooCommerce',     icon: '🟣', colour: '#96588A', publish: true,  category: 'storefront' },
+  { id: 'bigcommerce', name: 'BigCommerce',     icon: '🔷', colour: '#34313F', publish: true,  category: 'storefront' },
 ]
 
 const CHANNEL_ICONS: Record<string, string> = { shopify: '🛍️', amazon: '📦', ebay: '🛒', google: '🔍' }
@@ -263,6 +287,7 @@ export default function ListingDetailPage() {
 
   const [listing, setListing]             = useState<Listing | null>(null)
   const [loading, setLoading]             = useState(true)
+  const [channels, setChannels]           = useState<Channel[]>(FALLBACK_CHANNELS)
   const [selected, setSelected]           = useState<string[]>([])
   const [publishing, setPublishing]       = useState(false)
   const [publishResult, setPublishResult] = useState<Record<string, any> | null>(null)
@@ -294,6 +319,17 @@ export default function ListingDetailPage() {
       setLoading(false)
     })
   }, [id])
+
+  // Load the org's connected channels so the publish panel reflects what
+  // the seller actually has wired, not a hardcoded list.
+  useEffect(() => {
+    fetch('/api/channels')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.channels) setChannels(d.channels as Channel[])
+      })
+      .catch(() => { /* keep fallback */ })
+  }, [])
 
   // Load channel templates whenever category changes
   useEffect(() => {
@@ -626,7 +662,7 @@ export default function ListingDetailPage() {
                 {/* Channel status */}
                 <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e8e8e5', padding: '24px' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: '#191919', marginBottom: '16px' }}>Channel status</div>
-                  {CHANNELS.map(ch => {
+                  {channels.map(ch => {
                     const cs = listing.listing_channels?.find(lc => lc.channel_type === ch.id)
                     return (
                       <div key={ch.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: '1px solid #f1f1ef' }}>
@@ -657,7 +693,7 @@ export default function ListingDetailPage() {
                   ) : health ? (
                     <>
                       <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
-                        {CHANNELS.map(ch => {
+                        {channels.map(ch => {
                           const h = health[ch.id]
                           if (!h) return null
                           return (
@@ -669,7 +705,7 @@ export default function ListingDetailPage() {
                         })}
                       </div>
 
-                      {CHANNELS.map(ch => {
+                      {channels.map(ch => {
                         const h = health[ch.id]
                         if (!h) return null
                         const allClear = h.missing_required.length === 0 && h.missing_optional.length === 0 && h.warnings.length === 0
@@ -759,7 +795,7 @@ export default function ListingDetailPage() {
                     </button>
                   </div>
 
-                  {optimised && CHANNELS.map(ch => {
+                  {optimised && channels.map(ch => {
                     const o = optimised[ch.id]
                     if (!o) return null
                     const applied = appliedOpt.has(ch.id)
@@ -834,7 +870,7 @@ export default function ListingDetailPage() {
               )}
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-                {CHANNELS.map(ch => {
+                {channels.map(ch => {
                   const cs        = listing.listing_channels?.find(lc => lc.channel_type === ch.id)
                   const isPublished = cs?.status === 'published'
                   const isChecked   = selected.includes(ch.id)
@@ -973,7 +1009,7 @@ export default function ListingDetailPage() {
               {health && (
                 <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #f1f1ef' }}>
                   <div style={{ fontSize: '11px', fontWeight: 700, color: '#9b9b98', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Feed health</div>
-                  {CHANNELS.map(ch => {
+                  {channels.map(ch => {
                     const h = health[ch.id]
                     if (!h) return null
                     const c = scoreColour(h.score)
