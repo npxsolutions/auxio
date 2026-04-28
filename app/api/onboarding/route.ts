@@ -28,6 +28,7 @@ const PATCHABLE_FIELDS = new Set<keyof UserProfile>([
   'acquisition_source',
   'onboarding_step',
   'utm_source', 'utm_medium', 'utm_campaign', 'referrer',
+  'is_founding_partner',
 ])
 
 export async function GET() {

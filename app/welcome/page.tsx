@@ -88,6 +88,10 @@ export default function WelcomePage() {
               utm_medium:   prev.utm_medium   ?? att.utm_medium   ?? null,
               utm_campaign: prev.utm_campaign ?? att.utm_campaign ?? null,
               referrer:     prev.referrer     ?? att.referrer     ?? null,
+              // Founding-partner intent — only set true if the localStorage
+              // attribution captured it. Don't overwrite an existing true
+              // value with false from a later visit.
+              is_founding_partner: prev.is_founding_partner || !!att.founding,
             }))
           }
         } catch {}

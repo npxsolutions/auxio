@@ -238,6 +238,7 @@ export interface UserProfile {
   utm_campaign: string | null
   referrer: string | null
   signup_ip: string | null
+  is_founding_partner: boolean
   created_at: string
   updated_at: string
 }
