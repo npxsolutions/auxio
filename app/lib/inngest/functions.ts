@@ -15,6 +15,7 @@ import {
   accountHealthStatusChangedFn,
   accountHealthScheduleFn,
 } from './fn-account-health'
+import { financesScheduleFn, financesReconcileFn } from './fn-finances'
 
 export const FUNCTIONS = [
   retentionScanCronFn,
@@ -22,4 +23,6 @@ export const FUNCTIONS = [
   accountHealthScheduleFn,
   accountHealthRefreshFn,
   accountHealthStatusChangedFn,
+  financesScheduleFn,
+  financesReconcileFn,
 ]

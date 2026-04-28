@@ -42,6 +42,13 @@ export type EventDataMap = {
     previous_score: number | null
     current_score: number
   }
+  /** Triggers a per-channel finances/payout reconciliation for one org. */
+  'finances/reconcile.requested': {
+    organization_id: string
+    channel: string
+    /** How many days back to scan. Defaults to 30 in the handler. */
+    window_days?: number
+  }
 }
 
 export type EventName = keyof EventDataMap
