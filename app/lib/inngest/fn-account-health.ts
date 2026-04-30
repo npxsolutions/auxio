@@ -76,7 +76,7 @@ export const accountHealthRefreshFn = inngest.createFunction(
   {
     id: 'account-health-refresh',
     triggers: [{ event: 'account-health/refresh.requested' }],
-    concurrency: { limit: 10 },
+    concurrency: { limit: 5 },  // Inngest free-tier plan limit; bump on upgrade
     retries: 3,
   },
   async ({ event, step }) => {

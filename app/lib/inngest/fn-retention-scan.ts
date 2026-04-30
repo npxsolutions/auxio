@@ -51,9 +51,9 @@ export const retentionScanOrgFn = inngest.createFunction(
   {
     id: 'retention-scan-org',
     triggers: [{ event: 'retention/org.scan' }],
-    // Cap concurrent per-org scans so a 1000-tenant fan-out doesn't melt
-    // Supabase. 25 is conservative; raise once we see real usage.
-    concurrency: { limit: 25 },
+    // Cap concurrent per-org scans so a fan-out doesn't melt Supabase.
+    // 5 matches Inngest free-tier plan limit. Bump when upgrading plan.
+    concurrency: { limit: 5 },
     // One scan per org per day is enough — retries within the same hour
     // dedupe at the notification level via dedupe_key, but skip duplicate
     // events early to save the round-trips.

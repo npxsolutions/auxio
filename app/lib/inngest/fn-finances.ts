@@ -106,7 +106,7 @@ export const financesReconcileFn = inngest.createFunction(
   {
     id: 'finances-reconcile',
     triggers: [{ event: 'finances/reconcile.requested' }],
-    concurrency: { limit: 10 },
+    concurrency: { limit: 5 },  // Inngest free-tier plan limit; bump on upgrade
     retries: 3,
     // Skip duplicate events for the same (org, channel) within a 6-hour
     // window — the daily cron + any manual triggers shouldn't double-pull.
